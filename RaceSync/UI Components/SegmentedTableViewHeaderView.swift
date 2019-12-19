@@ -1,0 +1,69 @@
+//
+//  SegmentedTableViewHeaderView.swift
+//  RaceSync
+//
+//  Created by Ignacio Romero Zurbuchen on 2019-11-21.
+//  Copyright © 2019 MultiGP Inc. All rights reserved.
+//
+
+import UIKit
+import SnapKit
+
+class SegmentedTableViewHeaderView: UITableViewHeaderFooterView {
+
+    static var identifier: String = "SegmentedTableViewHeaderView"
+
+    static var headerHeight: CGFloat {
+        return Constants.height
+    }
+
+    lazy var segmentedControl: UISegmentedControl = {
+        let items = ["Item 1", "Item 2"]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.selectedSegmentIndex = 0
+        segmentedControl.tintColor = Color.blue
+        return segmentedControl
+    }()
+
+    // MARK: - Private Variables
+
+    fileprivate enum Constants {
+        static let padding: CGFloat = UniversalConstants.padding
+        static let height: CGFloat = 29 + padding*2
+    }
+
+    // MARK: - Initializers
+
+    override init(reuseIdentifier: String?) {
+        super.init(reuseIdentifier: reuseIdentifier)
+        setupLayout()
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    // MARK: - Layout
+
+    func setupLayout() {
+        backgroundView = UIView()
+        backgroundView?.backgroundColor = Color.navigationBarColor
+
+        addSubview(segmentedControl)
+        segmentedControl.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(Constants.padding)
+            $0.leading.equalToSuperview().offset(Constants.padding)
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
+            $0.bottom.equalTo(self.snp.bottom).offset(-Constants.padding)
+        }
+
+        let separatorLine = UIView()
+        separatorLine.backgroundColor = Color.gray100
+        addSubview(separatorLine)
+        separatorLine.snp.makeConstraints {
+            $0.height.equalTo(0.5)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(self.snp.bottom)
+        }
+    }
+}

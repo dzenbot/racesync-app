@@ -1,0 +1,6 @@
+framework module Pods_RaceSyncAPI {
+  umbrella header "Pods-RaceSyncAPI-umbrella.h"
+
+  export *
+  module * { export * }
+}

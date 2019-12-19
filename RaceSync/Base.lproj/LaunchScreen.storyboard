@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="01J-lp-oVM">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="EHf-IW-A2E">
+            <objects>
+                <viewController id="01J-lp-oVM" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Ze5-6b-2t3">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MultiGP_Logo_Splash" translatesAutoresizingMaskIntoConstraints="NO" id="vTT-rp-wMx">
+                                <rect key="frame" x="141" y="761" width="132" height="101"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="101" id="MLI-wI-1z0"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POWERED BY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zbk-nJ-yB8">
+                                <rect key="frame" x="168" y="736" width="78" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Racesync_Logo_Splash" translatesAutoresizingMaskIntoConstraints="NO" id="pjL-zg-3Xr">
+                                <rect key="frame" x="27" y="352" width="360" height="87"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="87" id="rq7-TJ-BTB"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="vTT-rp-wMx" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="141" id="2uz-TR-eJF"/>
+                            <constraint firstItem="pjL-zg-3Xr" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="308" id="VtH-Yq-ORu"/>
+                            <constraint firstItem="Zbk-nJ-yB8" firstAttribute="centerX" secondItem="vTT-rp-wMx" secondAttribute="centerX" id="WCs-QQ-Fem"/>
+                            <constraint firstItem="vTT-rp-wMx" firstAttribute="top" secondItem="Zbk-nJ-yB8" secondAttribute="bottom" constant="10" id="Weq-eE-jZM"/>
+                            <constraint firstItem="vTT-rp-wMx" firstAttribute="bottom" secondItem="6Tk-OE-BBY" secondAttribute="bottom" id="YlS-RA-D5R"/>
+                            <constraint firstItem="pjL-zg-3Xr" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="cfh-t6-VEJ"/>
+                            <constraint firstItem="pjL-zg-3Xr" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="27" id="nKo-Yy-KRn"/>
+                            <constraint firstItem="pjL-zg-3Xr" firstAttribute="centerX" secondItem="Zbk-nJ-yB8" secondAttribute="centerX" id="vsh-dG-EJX"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="iYj-Kq-Ea1" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="52.173913043478265" y="375"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="MultiGP_Logo_Splash" width="220" height="190"/>
+        <image name="Racesync_Logo_Splash" width="360" height="86"/>
+    </resources>
+</document>

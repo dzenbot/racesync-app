@@ -1,0 +1,77 @@
+PODS:
+  - Alamofire (4.8.2)
+  - AlamofireImage (3.5.2):
+    - Alamofire (~> 4.8)
+  - AlamofireNetworkActivityIndicator (2.4.0):
+    - Alamofire (~> 4.8)
+  - AlamofireObjectMapper (5.2.0):
+    - Alamofire (~> 4.7)
+    - ObjectMapper (~> 3.4)
+  - Crashlytics (3.14.0):
+    - Fabric (~> 1.10.2)
+  - Fabric (1.10.2)
+  - ObjectMapper (3.4.2)
+  - Presentr (1.9)
+  - QRCode (2.0)
+  - SnapKit (5.0.0)
+  - SwiftLint (0.32.0)
+  - SwiftValidators (9.0.1)
+  - SwiftyJSON (5.0.0)
+
+DEPENDENCIES:
+  - Alamofire
+  - AlamofireImage
+  - AlamofireNetworkActivityIndicator
+  - AlamofireObjectMapper
+  - Crashlytics
+  - Fabric
+  - ObjectMapper
+  - Presentr
+  - QRCode (from `https://github.com/andrewcampoli/QRCode.git`)
+  - SnapKit
+  - SwiftLint
+  - SwiftValidators
+  - SwiftyJSON
+
+SPEC REPOS:
+  https://github.com/cocoapods/specs.git:
+    - Alamofire
+    - AlamofireImage
+    - AlamofireNetworkActivityIndicator
+    - AlamofireObjectMapper
+    - Crashlytics
+    - Fabric
+    - ObjectMapper
+    - Presentr
+    - SnapKit
+    - SwiftLint
+    - SwiftValidators
+    - SwiftyJSON
+
+EXTERNAL SOURCES:
+  QRCode:
+    :git: https://github.com/andrewcampoli/QRCode.git
+
+CHECKOUT OPTIONS:
+  QRCode:
+    :commit: db3c291b4458d6938d517314be10e0c58c90bc45
+    :git: https://github.com/andrewcampoli/QRCode.git
+
+SPEC CHECKSUMS:
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  AlamofireImage: 63cfe3baf1370be6c498149687cf6db3e3b00999
+  AlamofireNetworkActivityIndicator: 9acc3de3ca6645bf0efed462396b0df13dd3e7b8
+  AlamofireObjectMapper: 92b6ce2423a9d159e686f6a1d514a009bf903ddc
+  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
+  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
+  Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
+  QRCode: 282441d0cfe8c4c1766b7578361fe93f72757685
+  SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
+  SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
+  SwiftValidators: 8389e5dd12516d228f9648c20501a23e63a5252a
+  SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+
+PODFILE CHECKSUM: 5859364a26d8bd776c7b30572cb749fd75d3fedf
+
+COCOAPODS: 1.5.3

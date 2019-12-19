@@ -1,0 +1,46 @@
+//
+//  RSAPIServices.swift
+//  RaceSyncAPI
+//
+//  Created by Ignacio Romero Zurbuchen on 2019-10-27.
+//  Copyright © 2019 MultiGP Inc. All rights reserved.
+//
+
+import Foundation
+import AlamofireNetworkActivityIndicator
+
+public class APIServices {
+
+    // MARK: - Public Variables
+
+    public static let shared = APIServices()
+    public let environment: APIEnvironment
+
+    public var myUser: User? {
+        didSet {
+            print("Did set my User with id: \(String(describing: myUser?.id))")
+        }
+    }
+
+    public var hasValidSession: Bool {
+        get {
+            return APISessionManager.retrieveSessionId() != nil
+        }
+    }
+
+    public var isDev: Bool {
+        return ProcessInfo.processInfo.environment["api-environment"] == "dev"
+    }
+
+    // MARK: - Initialization
+
+    public init() {
+        if ProcessInfo.processInfo.environment["api-environment"] == "dev" {
+            self.environment = DevEnvironment()
+        } else {
+            self.environment = ProdEnvironment()
+        }
+
+        NetworkActivityIndicatorManager.shared.isEnabled = true
+    }
+}

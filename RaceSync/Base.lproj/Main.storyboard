@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xl9-lg-qP6">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Login View Controller-->
+        <scene sceneID="7YS-7x-vFg">
+            <objects>
+                <viewController id="xl9-lg-qP6" customClass="LoginViewController" customModule="RaceSync" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="H1y-xF-zMX">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MultiGP_Logo_Splash" translatesAutoresizingMaskIntoConstraints="NO" id="f4o-uc-HAl">
+                                <rect key="frame" x="141" y="761" width="132" height="101"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="101" id="gJP-Ax-u2j"/>
+                                </constraints>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POWERED BY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FDW-Yv-sbc">
+                                <rect key="frame" x="168" y="736" width="78" height="15"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="12"/>
+                                <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Racesync_Logo_Splash" translatesAutoresizingMaskIntoConstraints="NO" id="HUg-Wc-UcN">
+                                <rect key="frame" x="27" y="352" width="360" height="87"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="87" id="FVy-Do-BIx"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="f4o-uc-HAl" firstAttribute="bottom" secondItem="IAM-58-XBf" secondAttribute="bottom" id="EpD-MK-TQF"/>
+                            <constraint firstItem="f4o-uc-HAl" firstAttribute="top" secondItem="FDW-Yv-sbc" secondAttribute="bottom" constant="10" id="Wgp-Cu-WAb"/>
+                            <constraint firstItem="HUg-Wc-UcN" firstAttribute="leading" secondItem="IAM-58-XBf" secondAttribute="leading" constant="27" id="XDS-ct-j20"/>
+                            <constraint firstItem="HUg-Wc-UcN" firstAttribute="top" secondItem="IAM-58-XBf" secondAttribute="top" constant="308" id="hDm-1O-Dgg"/>
+                            <constraint firstItem="f4o-uc-HAl" firstAttribute="leading" secondItem="IAM-58-XBf" secondAttribute="leading" constant="141" id="nvR-Fi-m98"/>
+                            <constraint firstItem="HUg-Wc-UcN" firstAttribute="centerX" secondItem="H1y-xF-zMX" secondAttribute="centerX" id="t5f-9S-VNv"/>
+                            <constraint firstItem="FDW-Yv-sbc" firstAttribute="centerX" secondItem="f4o-uc-HAl" secondAttribute="centerX" id="wHJ-Tp-doC"/>
+                            <constraint firstItem="HUg-Wc-UcN" firstAttribute="centerX" secondItem="FDW-Yv-sbc" secondAttribute="centerX" id="xyA-79-Hc8"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="IAM-58-XBf"/>
+                    </view>
+                    <connections>
+                        <outlet property="mgpLogoLabel" destination="FDW-Yv-sbc" id="dlA-3d-kBd"/>
+                        <outlet property="mgpLogoView" destination="f4o-uc-HAl" id="V7l-ds-az0"/>
+                        <outlet property="racesyncLogoView" destination="HUg-Wc-UcN" id="TuW-EV-5fr"/>
+                        <outlet property="racesyncLogoViewHeight" destination="FVy-Do-BIx" id="q0O-zU-4n2"/>
+                        <outlet property="racesyncLogoViewOriginY" destination="hDm-1O-Dgg" id="Kae-8q-Ftj"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="k5F-hT-IR3" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="823" y="85"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="MultiGP_Logo_Splash" width="220" height="190"/>
+        <image name="Racesync_Logo_Splash" width="700" height="160"/>
+    </resources>
+</document>
