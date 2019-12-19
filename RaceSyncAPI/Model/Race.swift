@@ -20,6 +20,7 @@ public class Race: Mappable, Descriptable {
     public var isJoined: Bool = false
     public var type: String = ""
     public var raceType: RaceType = .normal
+    public var url: String = ""
     public var urlName: String = ""
     public var description: String = ""
     public var content: String = ""
@@ -52,7 +53,7 @@ public class Race: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    // Some APIs do not provide the id attribute. Skipping for now.
+    // Some APIs does not always provide the id attribute. Skipping for now.
     // https://github.com/dzenbot/RaceSync/issues/36
     fileprivate static let requiredProperties = [/*"id",*/ "name", "chapterId", "ownerId"]
 
@@ -77,6 +78,7 @@ public class Race: Mappable, Descriptable {
         officialStatus <- map["officialStatus"]
         type <- map["type"]
         raceType <- map["raceType"]
+        url = "https://www.multigp.com/races/view/?race=\(id)/"
         urlName <- map["urlName"]
         description <- map["description"]
         content <- map["content"]
@@ -132,37 +134,3 @@ public class RaceLite: Mappable, Descriptable {
         name <- map["name"]
     }
 }
-
-//"type": "0",
-//"scoringFormat": "0",
-
-//"nextRaceId": null,
-//"nextRaceCopyPilotsType": null,
-//"nextRaceCopyPilotsValue": null,
-//"nextRaceCopyPilotScores": null,
-//"nextRaceCopyPilotTimes": null,
-//"startDate": "2027-07-28 10:00 AM",
-//"typeRestriction": null,
-//"sizeRestriction": null,
-//"batteryRestriction": null,
-//"propellerSizeRestriction": null,
-//"videoTransmitterRestriction": null,
-//"scoringDisabled": false,
-//"captureTimeEnabled": "0",
-//"cycleCount": "5",
-//"maxBatteriesForQualifying": null,
-//"currentCycle": null,
-//"currentHeat": null,
-//"targetTime": null,
-//"slotLayout": "15",
-//"slotAssignment": "1",
-//"disabledSlots": "",
-//"antennaPolarization": null,
-//"autofillSlotChangeBetweenCycles": "0",
-//"disableSlotAutoPopulation": "0",
-//"races": [
-//{
-//"id": "9586",
-//"name": "Test Race 1 - 4\" Quad"
-//}
-//]

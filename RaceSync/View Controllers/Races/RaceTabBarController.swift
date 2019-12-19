@@ -101,7 +101,12 @@ class RaceTabBarController: UITabBarController {
     }
 
     @objc func shareRace(_ sender: UIBarButtonItem) {
-        print("shareRace")
+        // TODO: Should use self.race but sometimes id is nil. Related to https://github.com/dzenbot/RaceSync/issues/36
+        guard let raceUrl = URL(string: raceViewModel.race.url) else { return }
+
+        let items = [raceUrl]
+        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        present(activityVC, animated: true)
     }
 }
 
