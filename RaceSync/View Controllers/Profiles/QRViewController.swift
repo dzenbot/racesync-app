@@ -156,6 +156,15 @@ class QRViewController: UIViewController {
     }
 
     @objc func didTapPhotosButton() {
-        print("didTapPhotosButton")
+        guard let image = qrImageView.image else { return }
+        UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
+    }
+
+    @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
+        if let error = error {
+            AlertUtil.presentErrorMessage(error.localizedDescription, title: "Save error")
+        } else {
+            AlertUtil.presentAlertMessage("Your MultiGP QR has been saved to your Camera Roll.", title: "Saved!")
+        }
     }
 }
