@@ -17,9 +17,9 @@ class QRViewController: UIViewController {
 
     lazy var qrImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = .white
+        imageView.backgroundColor = Color.white
         imageView.contentMode = .center
-        imageView.layer.cornerRadius = 8
+        imageView.layer.cornerRadius = Constants.cornerRadius
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImageView)))
 
@@ -41,12 +41,41 @@ class QRViewController: UIViewController {
         return label
     }()
 
+    lazy var walletButton: UIButton = {
+        let image = UIImage(named: "icn_apple_wallet")?.withRenderingMode(.alwaysOriginal)
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.setTitle("Add To Apple Wallet", for: .normal)
+        button.addTarget(self, action: #selector(didTapWalletButton), for: .touchUpInside)
+        button.backgroundColor = Color.white
+        button.tintColor = Color.blue
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Constants.padding)
+        button.layer.cornerRadius = Constants.cornerRadius/2
+        return button
+    }()
+
+    lazy var photosButton: UIButton = {
+        let image = UIImage(named: "icn_apple_photos")?.withRenderingMode(.alwaysOriginal)
+        let button = UIButton(type: .system)
+        button.setImage(image, for: .normal)
+        button.setTitle("Save to Camera Roll", for: .normal)
+        button.addTarget(self, action: #selector(didTapPhotosButton), for: .touchUpInside)
+        button.backgroundColor = Color.white
+        button.tintColor = Color.blue
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Constants.padding)
+        button.layer.cornerRadius = Constants.cornerRadius/2
+        return button
+    }()
+
     fileprivate let userId: String
 
     fileprivate enum Constants {
-        static let qrSize = CGSize(width: 270, height: 270)
-        static let imageSize = CGSize(width: 320, height: 320)
         static let padding: CGFloat = UniversalConstants.padding
+        static let qrSize: CGSize = CGSize(width: 270, height: 270)
+        static let imageSize: CGSize = CGSize(width: 320, height: 320)
+        static let cornerRadius: CGFloat = 10
     }
 
     // MARK: - Initialization
@@ -94,6 +123,22 @@ class QRViewController: UIViewController {
             $0.centerX.centerY.equalToSuperview()
             $0.size.equalTo(Constants.imageSize)
         }
+
+        view.addSubview(walletButton)
+        walletButton.snp.makeConstraints {
+            $0.top.equalTo(qrImageView.snp.bottom).offset(Constants.padding*3)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(qrImageView.snp.width).offset(-Constants.padding*4)
+            $0.height.equalTo(50)
+        }
+
+        view.addSubview(photosButton)
+        photosButton.snp.makeConstraints {
+            $0.top.equalTo(walletButton.snp.bottom).offset(Constants.padding)
+            $0.centerX.equalToSuperview()
+            $0.width.equalTo(qrImageView.snp.width).offset(-Constants.padding*4)
+            $0.height.equalTo(50)
+        }
     }
 
     // MARK: - Actions
@@ -103,7 +148,14 @@ class QRViewController: UIViewController {
     }
 
     @objc func didTapImageView() {
-        //
+        print("didTapImageView")
     }
 
+    @objc func didTapWalletButton() {
+        print("didTapWalletButton")
+    }
+
+    @objc func didTapPhotosButton() {
+        print("didTapPhotosButton")
+    }
 }
