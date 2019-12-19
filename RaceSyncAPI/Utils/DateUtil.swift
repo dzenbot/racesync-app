@@ -10,29 +10,7 @@ import Foundation
 
 public class DateUtil {
 
-    fileprivate static let standardFormat: String = "yyyy-MM-dd h:mm a"
-
-    fileprivate static let displayFullDateTimeFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM dd @ h:mm a"
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
-        return formatter
-    }()
-
-    fileprivate static let displayDateTimeFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "EE MMM dd @ h:mm a"
-        formatter.amSymbol = "AM"
-        formatter.pmSymbol = "PM"
-        return formatter
-    }()
-
-    fileprivate static let displayDateFormatter: DateFormatter = {
-        let formatter = DateFormatter()
-        formatter.dateFormat = "MMM dd, yyyy"
-        return formatter
-    }()
+    public static let standardFormat: String = "yyyy-MM-dd h:mm a"
 
     public static func deserializeJSONDate(_ jsonDate: String) -> Date? {
         let dateFor: DateFormatter = DateFormatter()
@@ -52,4 +30,29 @@ public class DateUtil {
             return displayDateFormatter.string(from: date)
         }
     }
+}
+
+fileprivate extension DateUtil {
+
+    static let displayFullDateTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMMM dd @ h:mm a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        return formatter
+    }()
+
+    static let displayDateTimeFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EE MMM dd @ h:mm a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        return formatter
+    }()
+
+    static let displayDateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMM dd, yyyy"
+        return formatter
+    }()
 }

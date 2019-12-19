@@ -18,10 +18,10 @@ class MyRacesListViewController: UIViewController, Joinable {
 
     // MARK: - Private Variables
 
-    fileprivate var initialSelectedListType: RaceListType = .upcoming
+    fileprivate var initialSelectedListType: RaceListType = .joined
 
     fileprivate lazy var segmentedControl: UISegmentedControl = {
-        let items = [RaceListType.upcoming.title, RaceListType.nearby.title]
+        let items = [RaceListType.joined.title, RaceListType.nearby.title]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = initialSelectedListType.rawValue
@@ -218,9 +218,19 @@ fileprivate extension MyRacesListViewController {
     }
 
     func fetchRaces(_ filtering: RaceListFiltering, completion: VoidCompletionBlock? = nil) {
+
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = DateUtil.standardFormat
+
         raceApi.getMyRaces(filtering: filtering) { (races, error) in
-            if let races = races {
-                self.raceList[filtering.rawValue] = RaceViewModel.viewModels(with: races)
+
+            if let upcomingRaces = races?.filter({ (race) -> Bool in
+                guard let startDate = race.startDate else { return false }
+                return startDate.timeIntervalSinceNow.sign == .plus
+            }) {
+                let filteredRaces = upcomingRaces.sorted(by: { $0.startDate?.compare($1.startDate ?? Date()) == .orderedAscending })
+
+                self.raceList[filtering.rawValue] = RaceViewModel.viewModels(with: filteredRaces)
                 self.tableView.reloadData()
             } else {
                 print("getMyRaces error : \(error.debugDescription)")
@@ -236,7 +246,7 @@ fileprivate extension MyRacesListViewController {
 
     func selectedRaceListFiltering() -> RaceListFiltering {
         switch selectedRaceListType() {
-        case RaceListType.upcoming:
+        case RaceListType.joined:
             return .upcoming
         case RaceListType.nearby:
             return .nearby
@@ -307,18 +317,18 @@ extension MyRacesListViewController: UITableViewDataSource {
 }
 
 fileprivate enum RaceListType: Int {
-    case upcoming, nearby
+    case joined, nearby
 
     init(index: Int) {
         switch index {
         case 1 : self = .nearby
-        default: self = .upcoming
+        default: self = .joined
         }
     }
 
     var title: String {
         switch self {
-        case .upcoming: return "Upcoming Races"
+        case .joined:   return "Joined Races"
         case .nearby:   return "Nearby Races"
         }
     }

@@ -52,12 +52,12 @@ class RaceViewModel: Descriptable {
 extension RaceViewModel {
 
     static func dateLabelString(for race: Race) -> String? {
-        guard let date = DateUtil.deserializeJSONDate(race.startDate) else { return nil }
+        guard let date = race.startDate else { return nil }
         return DateUtil.localizedString(from: date)
     }
 
     static func fullDateLabel(for race: Race) -> String? {
-        guard let date = DateUtil.deserializeJSONDate(race.startDate) else { return nil }
+        guard let date = race.startDate else { return nil }
         return DateUtil.localizedString(from: date, full: true)
     }
 

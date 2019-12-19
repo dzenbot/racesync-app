@@ -13,8 +13,8 @@ public class Race: Mappable, Descriptable {
 
     public var id: ObjectId = ""
     public var name: String = ""
+    public var startDate: Date?
     public var mainImageFileName: String?
-    public var startDate: String = ""
     public var status: String = ""
     public var officialStatus: String = ""
     public var isJoined: Bool = false
@@ -70,11 +70,11 @@ public class Race: Mappable, Descriptable {
     public func mapping(map: Map) {
         id <- map["id"]
         name <- map["name"]
+        startDate <- (map["startDate"], MapperUtil.dateTransform)
         mainImageFileName <- map["mainImageFileName"]
         isJoined <- map["isJoined"]
         status <- map["status"]
         officialStatus <- map["officialStatus"]
-        startDate <- map["startDate"]
         type <- map["type"]
         raceType <- map["raceType"]
         urlName <- map["urlName"]
