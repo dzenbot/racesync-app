@@ -1,7 +1,7 @@
 ## Phase I: Discovery XP
 The first phase of development of the RaceSync app is meant to build the foundational pieces and include the most core features and allow users to discover races in the MultiGP network. This includes searching for users, chapters and races, as well as consuming important information about upcoming and past race events.
 
-![iOS-UI-Phase1](../Documentation/UI/iOS-UI-Phase1.png)
+![iOS-UI-Phase1](Documentation/UI/iOS-UI-Phase1.png)
 
 ## UI Color Scheme
 
