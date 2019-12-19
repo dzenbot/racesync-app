@@ -1,0 +1,2810 @@
+{
+	"info": {
+		"_postman_id": "86540de7-eff1-4554-8845-d18b77c0fa90",
+		"name": "MultiGP RaceSync API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "521a10df-424a-41f9-8ea0-31cc0bdf7d01",
+						"exec": [
+							""
+						],
+						"type": "text/javascript"
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "14aaba56-bfaa-4ee1-8b01-72b66d059f30",
+						"exec": [
+							"pm.test(\"response is ok\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.globals.set(\"sessionId\", jsonData.sessionId);\r",
+							"});\r",
+							"\r",
+							"// example using response assertions\r",
+							"pm.test(\"response should be okay to process\", function () { \r",
+							"    var jsonData = pm.response.json(); \r",
+							"    console.log(jsonData.sessionId); \r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"username\" : \"{{username}}\",\r\n  \"password\" : \"{{password}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/user/login",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"user",
+						"login"
+					]
+				},
+				"description": "Login the current user.  This endpoint retuns session id that must be applied to future API requests."
+			},
+			"response": [
+				{
+					"name": "Login",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\" : \"{{username}}\",\r\n  \"password\" : \"{{password}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/user/login",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"user",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:05:06 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c7c7a2a53ae18-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": 1,\n    \"sessionId\": \"4156f23b839b5827176feee9d0c295f977bf93b92c035065c9a4a2ff8fa334a2\",\n    \"data\": {\n        \"id\": \"20676\",\n        \"authType\": \"User\",\n        \"userName\": \"Zenith\",\n        \"displayName\": \"Ignacio \\\"Zenith\\\" Romero\",\n        \"firstName\": \"Ignacio\",\n        \"lastName\": \"Romero\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Logout",
+			"request": {
+				"auth": {
+					"type": "basic",
+					"basic": [
+						{
+							"key": "password",
+							"value": "TestMe!",
+							"type": "string"
+						},
+						{
+							"key": "username",
+							"value": "mgp",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\":  \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/user/logout",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"user",
+						"logout"
+					]
+				},
+				"description": "\t\t"
+			},
+			"response": [
+				{
+					"name": "Logout",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\":  \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/user/logout",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"user",
+								"logout"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:10:24 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Content-Length",
+							"value": "15"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c84406e455a5a-BOS"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "Update Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/user/profile",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Update Profile",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/user/profile",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"user",
+								"profile"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:11:24 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c85b70f8f5a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"20676\",\n        \"authType\": \"User\",\n        \"userName\": \"Zenith\",\n        \"displayName\": \"Ignacio \\\"Zenith\\\" Romero\",\n        \"firstName\": \"Ignacio\",\n        \"lastName\": \"Romero\",\n        \"phoneNumber\": \"\",\n        \"addressOne\": \"\",\n        \"addressTwo\": \"\",\n        \"city\": \"Delta\",\n        \"state\": \"British Columbia\",\n        \"zip\": \"\",\n        \"country\": \"CA\",\n        \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/20676/profileImage-244.png\",\n        \"profileBackgroundUrl\": \"https://s3.amazonaws.com/multigp-storage/user/20676/backgroundImage-920.png\",\n        \"language\": \"en\",\n        \"latitude\": \"49.2827291\",\n        \"longitude\": \"-123.1207375\",\n        \"dateAdded\": \"2017-09-18 07:19:59\",\n        \"dateModified\": \"2019-10-18 08:02:05\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Register",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": {{sessionId}},\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\":{\r\n    \"fcmToken\": \"<<fcm_token_here>>\",\r\n\t\"userName\" : \"String\",\r\n    \"email\" : \"String\",\r\n    \"password\" : \"mysecretpassword\",\r\n    \"firstName\" : \"String\",\r\n    \"lastName\" : \"String\",\r\n    \"isPublic\" : true,\r\n    \"phoneNumber\" : \"String\",\r\n    \"addressOne\" : \"String\",\r\n    \"addressTwo\" : \"String\",\r\n    \"city\" : \"String\",\r\n    \"state\" : \"String\",\r\n    \"zip\" : \"String\",\r\n    \"country\" : \"usa\",\r\n    \"language\" : \"mysecretpasswordString\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/user/register",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Profile",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/user/profile",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"user",
+						"profile"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\": {\r\n    \"id\" : \"20676\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/user/search",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"user",
+						"search"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Search by id",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\": {\r\n    \"id\" : \"20676\"\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/user/search",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"user",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 22:53:15 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539e7a7d1a5aae1e-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"20676\",\n        \"userName\": \"Zenith\",\n        \"firstName\": \"Ignacio\",\n        \"lastName\": \"Romero\",\n        \"country\": \"CA\",\n        \"city\": \"Vancouver\",\n        \"state\": \"British Columbia\",\n        \"zip\": \"\",\n        \"latitude\": \"49.2827291\",\n        \"longitude\": \"-123.1207375\",\n        \"displayName\": \"Ignacio \\\"Zenith\\\" Romero\",\n        \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/20676/profileImage-975.jpg\",\n        \"profileBackgroundUrl\": \"https://s3.amazonaws.com/multigp-storage/user/20676/backgroundImage-565.jpg\"\n    }\n}"
+				},
+				{
+					"name": "Search",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"type": "text",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\": {\r\n    \"userName\" : \"Slow_Poke\"\r\n  }\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/user/search",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"user",
+								"search"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:14:59 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c8af97d5c5a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": {\n        \"id\": \"1283\",\n        \"userName\": \"slow_poke\",\n        \"firstName\": \"Chris \",\n        \"lastName\": \"Jones\",\n        \"country\": \"\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Race List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\": {\r\n    \"pilotId\" : \"20676\"\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/list",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"list"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Race List",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"{{sessionId}}\",\n    \"apiKey\": \"{{apiKey}}\",\n    \"data\": {\n        \"joined\": {\n            \"pilotId\": 12380\n        },\n        \"upcoming\": {\n            \"limit\": 20\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/list?currentPage=0&pageSize=25",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currentPage",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:15:47 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c8c27b8f35a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": [\n        {\n            \"id\": \"19186\",\n            \"name\": \"MRAM 2020 Indoor Drone Racing\",\n            \"urlName\": \"MRAM-2020-Indoor-Drone-Racing\",\n            \"description\": \"Indoor Drone Racing at Ingersoll Arena\",\n            \"type\": \"1\",\n            \"raceType\": \"1\",\n            \"scoringFormat\": \"0\",\n            \"mainImageFileName\": null,\n            \"content\": \"<p>For the last three years there has been an awesome group of RC pilots gathering at Ingersoll Arena on Sunday mornings having an awesome time with RC Stuff. Please join us and put down some practice laps in the track. Get up and RACE early Sunday mornings before the day gets too busy! A perfect time to get some practice in to keep your skills sharp.</p>\",\n            \"itineraryContent\": \"<p>Show up a little early to maximize the number of practice laps you get in on the track.  We will have the area 2:30 minutes giving 15 mins at begining and end for track setup / teardown.</p>\\n<p>7:00 AM Arena Doors Open</p>\\n<p>7:15 AM Track Setup Complete</p>\\n<p>8:00 AM Controlled Racing</p>\\n<p>8:45 AM Track Tear Down</p>\\n<p>9:00 Freestyle Flying (Outdoor)</p>\\n<p> </p>\\n<p> </p>\",\n            \"url\": \"\",\n            \"ownerId\": \"12380\",\n            \"courseId\": \"2703\",\n            \"seasonId\": \"1752\",\n            \"chapterId\": \"1265\",\n            \"parentRaceId\": null,\n            \"nextRaceId\": null,\n            \"nextRaceCopyPilotsType\": null,\n            \"nextRaceCopyPilotsValue\": null,\n            \"nextRaceCopyPilotScores\": null,\n            \"nextRaceCopyPilotTimes\": null,\n            \"startDate\": \"2019-11-24 7:00 AM\",\n            \"status\": \"Open\",\n            \"officialStatus\": \"0\",\n            \"typeRestriction\": null,\n            \"sizeRestriction\": null,\n            \"batteryRestriction\": null,\n            \"propellerSizeRestriction\": null,\n            \"videoTransmitterRestriction\": null,\n            \"scoringDisabled\": false,\n            \"captureTimeEnabled\": \"0\",\n            \"cycleCount\": \"3\",\n            \"maxBatteriesForQualifying\": null,\n            \"currentCycle\": null,\n            \"currentHeat\": null,\n            \"targetTime\": null,\n            \"slotLayout\": \"7\",\n            \"slotAssignment\": \"3\",\n            \"disabledSlots\": \"\",\n            \"antennaPolarization\": \"1\",\n            \"autofillSlotChangeBetweenCycles\": \"0\",\n            \"disableSlotAutoPopulation\": \"0\",\n            \"latitude\": \"43.663\",\n            \"longitude\": \"-70.2569\",\n            \"address\": \"48 Pettengill Park\",\n            \"city\": \"Auburn\",\n            \"state\": \"ME\",\n            \"zip\": \"04210\",\n            \"country\": \"US\",\n            \"dateAdded\": \"2019-11-22 15:27:24\",\n            \"dateModified\": \"2019-11-22 15:54:49\",\n            \"updateAuth\": false,\n            \"deleteAuth\": false,\n            \"raceEntryCount\": \"1\",\n            \"childRaceCount\": 0,\n            \"participantCount\": \"1\",\n            \"isJoined\": false,\n            \"ownerUserName\": \"klevlandFPV\",\n            \"seasonName\": \"2020 MRAM - Maine Indoor Drone Racing Series\",\n            \"courseName\": \"Ingersoll Arena Turf Facility\",\n            \"chapterName\": \"Multi-Rotor Association of Maine MRAM\",\n            \"chapterImageFileName\": \"https://s3.amazonaws.com/multigp-storage/chapter/1265/mainImage-15.png\",\n            \"races\": []\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Race List for Chapter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/listForChapter?chapterId=1265",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"listForChapter"
+					],
+					"query": [
+						{
+							"key": "chapterId",
+							"value": "1265"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Race List for Chapter",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/listForChapter?chapterId=1265",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"listForChapter"
+							],
+							"query": [
+								{
+									"key": "chapterId",
+									"value": "1265"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:19:02 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c90e6ecdd5a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": [\n        {\n            \"id\": \"19026\",\n            \"name\": \"Whoop Racing at the York County Maker Faire\"\n        },\n        {\n            \"id\": \"19186\",\n            \"name\": \"MRAM 2020 Indoor Drone Racing\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "Find Local Races",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n\t    \"latitude\": \"43.9066624\",\r\n\t    \"longitude\": \"-70.115328\",\r\n   \t\t\"radius\":150, \r\n   \t\t\"dateRangeStart\":\"2019-09-04\", \r\n   \t\t\"dateRangeEnd\":\"2022-12-31\"\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/findLocal",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"findLocal"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Find Local Races",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n\t    \"latitude\": \"43.9066624\",\r\n\t    \"longitude\": \"-70.115328\",\r\n   \t\t\"radius\":150, \r\n   \t\t\"dateRangeStart\":\"2019-09-04\", \r\n   \t\t\"dateRangeEnd\":\"2022-12-31\"\r\n   }\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/findLocal",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"findLocal"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:19:30 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c9198be6c5a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": [\n        {\n            \"id\": \"19186\",\n            \"name\": \"MRAM 2020 Indoor Drone Racing\",\n            \"urlName\": \"MRAM-2020-Indoor-Drone-Racing\",\n            \"chapterName\": \"Multi-Rotor Association of Maine MRAM\",\n            \"seasonName\": \"2020 MRAM - Maine Indoor Drone Racing Series\",\n            \"courseName\": \"Ingersoll Arena Turf Facility\",\n            \"startDate\": \"2019-11-24 07:00:00\",\n            \"latitude\": \"43.663\",\n            \"longitude\": \"-70.2569\",\n            \"address\": \"48 Pettengill Park\",\n            \"city\": \"Auburn\",\n            \"state\": \"ME\",\n            \"zip\": \"04210\",\n            \"country\": \"US\",\n            \"distance\": 18.3,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/course/2703/mainImage-110.png\"\n        },\n        {\n            \"id\": \"19026\",\n            \"name\": \"Whoop Racing at the York County Maker Faire\",\n            \"urlName\": \"Whoop-Racing-at-the-York-County-Maker-Faire-2\",\n            \"chapterName\": \"Multi-Rotor Association of Maine MRAM\",\n            \"seasonName\": \"2020 MRAM - Maine Indoor Drone Racing Series\",\n            \"courseName\": \"Pepperell Mill Campus\",\n            \"startDate\": \"2019-11-03 10:00:00\",\n            \"latitude\": \"43.4933\",\n            \"longitude\": \"-70.4533\",\n            \"address\": \"40 Main Street\",\n            \"city\": \"Biddeford\",\n            \"state\": \"ME\",\n            \"zip\": \"04005\",\n            \"country\": \"US\",\n            \"distance\": 33.2,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/course/2250/mainImage-926.jpg\"\n        },\n        {\n            \"id\": \"18547\",\n            \"name\": \"Seacoast EXTREME Country Fair, NERDs Exhibition 1\",\n            \"urlName\": \"Seacoast-EXTREME-Country-Fair-NERDs-Exhibition-1\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs 2019 Summer Racing Season\",\n            \"courseName\": \"Seacoast EXTREME Fairgrounds\",\n            \"startDate\": \"2019-09-12 16:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"280 Exeter Rd\",\n            \"city\": \"Epping\",\n            \"state\": \"NH\",\n            \"zip\": \"03042\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/chapter/1471/mainImage-634.png\"\n        },\n        {\n            \"id\": \"18549\",\n            \"name\": \"Seacoast EXTREME Country Fair, NERDs Exhibition 2\",\n            \"urlName\": \"Seacoast-EXTREME-Country-Fair-NERDs-Exhibition-2\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs 2019 Summer Racing Season\",\n            \"courseName\": \"Seacoast EXTREME Fairgrounds\",\n            \"startDate\": \"2019-09-13 16:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"280 Exeter Rd\",\n            \"city\": \"Epping\",\n            \"state\": \"NH\",\n            \"zip\": \"03042\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/chapter/1471/mainImage-634.png\"\n        },\n        {\n            \"id\": \"18550\",\n            \"name\": \"Seacoast EXTREME Country Fair, NERDs Prize Race 1\",\n            \"urlName\": \"Seacoast-EXTREME-Country-Fair-NERDs-Prize-Race-1\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs 2019 Summer Racing Season\",\n            \"courseName\": \"Seacoast EXTREME Fairgrounds\",\n            \"startDate\": \"2019-09-14 12:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"280 Exeter Rd\",\n            \"city\": \"Epping\",\n            \"state\": \"NH\",\n            \"zip\": \"03042\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/chapter/1471/mainImage-634.png\"\n        },\n        {\n            \"id\": \"18552\",\n            \"name\": \"Seacoast EXTREME Country Fair, NERDs DRAGRACE!!!!\",\n            \"urlName\": \"Seacoast-EXTREME-Country-Fair-NERDs-DRAGRACE!!!!\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs 2019 Summer Racing Season\",\n            \"courseName\": \"Seacoast EXTREME Fairgrounds\",\n            \"startDate\": \"2019-09-14 19:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"280 Exeter Rd\",\n            \"city\": \"Epping\",\n            \"state\": \"NH\",\n            \"zip\": \"03042\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/chapter/1471/mainImage-634.png\"\n        },\n        {\n            \"id\": \"18551\",\n            \"name\": \"Seacoast EXTREME Country Fair, NERDs Prize Race 2\",\n            \"urlName\": \"Seacoast-EXTREME-Country-Fair-NERDs-Prize-Race-2\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs 2019 Summer Racing Season\",\n            \"courseName\": \"Seacoast EXTREME Fairgrounds\",\n            \"startDate\": \"2019-09-15 12:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"280 Exeter Rd\",\n            \"city\": \"Epping\",\n            \"state\": \"NH\",\n            \"zip\": \"03042\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/chapter/1471/mainImage-634.png\"\n        },\n        {\n            \"id\": \"18910\",\n            \"name\": \"NERDs Hillside Raceway 21\",\n            \"urlName\": \"NERDs-Hillside-Raceway-21\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs 2019 Summer Racing Season\",\n            \"courseName\": \"Hillside Raceway at the Outdoor Track\",\n            \"startDate\": \"2019-10-19 11:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"87 NH-27\",\n            \"city\": \"Brentwood\",\n            \"state\": \"NH\",\n            \"zip\": \"03833\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/course/2495/mainImage-994.png\"\n        },\n        {\n            \"id\": \"18949\",\n            \"name\": \"NERDs Hillside Raceway 22\",\n            \"urlName\": \"NERDs-Hillside-Raceway-22\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs 2019 Summer Racing Season\",\n            \"courseName\": \"Hillside Raceway at the Outdoor Track\",\n            \"startDate\": \"2019-10-20 11:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"87 NH-27\",\n            \"city\": \"Brentwood\",\n            \"state\": \"NH\",\n            \"zip\": \"03833\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/course/2495/mainImage-994.png\"\n        },\n        {\n            \"id\": \"18956\",\n            \"name\": \"207 Winter Whooping - Preseason Fun Fly 1\",\n            \"urlName\": \"207-Winter-Whooping---Preseason-Fun-Fly-1\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs Winter Whoop Season\",\n            \"courseName\": \"NERDS at Ray and Robins Hobby Center\",\n            \"startDate\": \"2019-10-27 12:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"65 Gray Rd\",\n            \"city\": \"Falmouth\",\n            \"state\": \"ME\",\n            \"zip\": \"04105\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/course/2685/mainImage-555.png\"\n        },\n        {\n            \"id\": \"18925\",\n            \"name\": \"NERD NH Tech Fest 2019\",\n            \"urlName\": \"NERD-NH-Tech-Fest-2019\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs Winter Whoop Season\",\n            \"courseName\": \"Salem High School NH Tech Fest 2019\",\n            \"startDate\": \"2019-11-02 10:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"44 Geremonty Dr\",\n            \"city\": \"Salem\",\n            \"state\": \"NH\",\n            \"zip\": \"03079\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/chapter/1471/mainImage-634.png\"\n        },\n        {\n            \"id\": \"19027\",\n            \"name\": \"207 Winter Whooping - Race 2\",\n            \"urlName\": \"207-Winter-Whooping---Race-2\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs Winter Whoop Season\",\n            \"courseName\": \"NERDS at Ray and Robins Hobby Center\",\n            \"startDate\": \"2019-11-10 00:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"65 Gray Rd\",\n            \"city\": \"Falmouth\",\n            \"state\": \"ME\",\n            \"zip\": \"04105\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/course/2685/mainImage-555.png\"\n        },\n        {\n            \"id\": \"19062\",\n            \"name\": \"Northeastern University NERD Race 2\",\n            \"urlName\": \"Northeastern-University-NERD-Race-2\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs Fall 2019 Racing Season\",\n            \"courseName\": \"Northeastern University Burlington Campus\",\n            \"startDate\": \"2019-11-20 15:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"141 S Bedford st.\",\n            \"city\": \"Burlington\",\n            \"state\": \"MA\",\n            \"zip\": \"01803\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/chapter/1471/mainImage-634.png\"\n        },\n        {\n            \"id\": \"19135\",\n            \"name\": \"207 Winter Whooping - Race 3\",\n            \"urlName\": \"207-Winter-Whooping---Race-3\",\n            \"chapterName\": \"NERD\",\n            \"seasonName\": \"NERDs Winter Whoop Season\",\n            \"courseName\": \"NERDS at Ray and Robins Hobby Center\",\n            \"startDate\": \"2019-11-24 12:00:00\",\n            \"latitude\": \"42.849\",\n            \"longitude\": \"-70.9169\",\n            \"address\": \"65 Gray Rd\",\n            \"city\": \"Falmouth\",\n            \"state\": \"ME\",\n            \"zip\": \"04105\",\n            \"country\": \"US\",\n            \"distance\": 83.4,\n            \"mainImageUrl\": \"https://s3.amazonaws.com/multigp-storage/course/2685/mainImage-555.png\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "View Race Summary",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n   \t\t\"latitude\":27.998029, \r\n   \t\t\"longitude\":-80.618381, \r\n   \t\t\"radius\":100, \r\n   \t\t\"dateRangeStart\":\"2018-09-04\", \r\n   \t\t\"dateRangeEnd\":\"2018-12-31\"\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/viewSimple?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"viewSimple"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "View Race Summary",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n   \t\t\"latitude\":27.998029, \r\n   \t\t\"longitude\":-80.618381, \r\n   \t\t\"radius\":100, \r\n   \t\t\"dateRangeStart\":\"2018-09-04\", \r\n   \t\t\"dateRangeEnd\":\"2018-12-31\"\r\n   }\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/viewSimple?id=12910",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"viewSimple"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "12910"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:19:52 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c9222becd5a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": {\n        \"name\": \"Friday Night Whoop Fight!\",\n        \"urlName\": \"Friday-Night-Whoop-Fight!\",\n        \"description\": \"Top 6 Pilots Invitational Whoop Battle @ The Herweg Club House Track...\",\n        \"raceType\": \"1\",\n        \"scoringFormat\": \"0\",\n        \"mainImageFileName\": null,\n        \"content\": \"\",\n        \"itineraryContent\": \"\",\n        \"url\": \"\",\n        \"ownerId\": \"21967\",\n        \"courseId\": null,\n        \"seasonId\": \"1168\",\n        \"chapterId\": \"1278\",\n        \"parentRaceId\": null,\n        \"nextRaceId\": null,\n        \"nextRaceCopyPilotsType\": null,\n        \"nextRaceCopyPilotsValue\": null,\n        \"nextRaceCopyPilotScores\": null,\n        \"nextRaceCopyPilotTimes\": null,\n        \"startDate\": \"2018-03-23 6:00 PM\",\n        \"status\": \"Closed\",\n        \"officialStatus\": \"0\",\n        \"typeRestriction\": null,\n        \"sizeRestriction\": null,\n        \"batteryRestriction\": null,\n        \"propellerSizeRestriction\": null,\n        \"videoTransmitterRestriction\": null,\n        \"scoringDisabled\": \"0\",\n        \"captureTimeEnabled\": \"0\",\n        \"cycleCount\": \"3\",\n        \"maxBatteriesForQualifying\": null,\n        \"currentCycle\": null,\n        \"currentHeat\": null,\n        \"targetTime\": null,\n        \"slotLayout\": \"9\",\n        \"slotAssignment\": \"1\",\n        \"disabledSlots\": \"\",\n        \"antennaPolarization\": null,\n        \"autofillSlotChangeBetweenCycles\": \"0\",\n        \"disableSlotAutoPopulation\": \"0\",\n        \"latitude\": \"44.8016128\",\n        \"longitude\": \"-68.7712257\",\n        \"address\": \"\",\n        \"city\": \"Bangor  \",\n        \"state\": \"ME\",\n        \"zip\": \"04401\",\n        \"country\": \"US\",\n        \"dateAdded\": \"2018-03-22 21:12:01\",\n        \"dateModified\": \"2018-03-24 00:47:21\",\n        \"updateAuth\": false,\n        \"deleteAuth\": false,\n        \"raceEntryCount\": \"6\",\n        \"childRaceCount\": 0,\n        \"participantCount\": \"6\",\n        \"isJoined\": false,\n        \"seasonName\": \"Mud Season\",\n        \"chapterName\": \"Twin-City Maineiacs\",\n        \"chapterImageFileName\": \"https://s3.amazonaws.com/multigp-storage/chapter/1278/mainImage-480.jpg\",\n        \"entries\": [\n            {\n                \"id\": \"105985\",\n                \"pilotId\": \"21967\",\n                \"aircraftId\": \"31257\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:11:01\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": \"Borgslayer\",\n                \"pilotName\": \"Jase H\",\n                \"userName\": \"Borgslayer\",\n                \"displayName\": \"Jase \\\"Borgslayer\\\" Herweg\",\n                \"firstName\": \"Jase\",\n                \"lastName\": \"Herweg\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21967/profileImage-630.jpg\",\n                \"aircraftName\": \"Indy Whoop 1\",\n                \"scannableId\": \"\",\n                \"score\": \"8\"\n            },\n            {\n                \"id\": \"105986\",\n                \"pilotId\": \"17955\",\n                \"aircraftId\": \"30970\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:12:15\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": \"NashtyFPV\",\n                \"pilotName\": \"Doug N\",\n                \"userName\": \"NashtyFPV\",\n                \"displayName\": \"Doug \\\"NashtyFPV\\\" Nash\",\n                \"firstName\": \"Doug\",\n                \"lastName\": \"Nash\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/17955/\",\n                \"aircraftName\": \"FPV Plus by Inductrix\",\n                \"scannableId\": \"5745\",\n                \"score\": \"9\"\n            },\n            {\n                \"id\": \"105989\",\n                \"pilotId\": \"21649\",\n                \"aircraftId\": \"32178\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:14:07\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": \"Sick_Nick\",\n                \"pilotName\": \"Nick D\",\n                \"userName\": \"Sick_Nick\",\n                \"displayName\": \"Nick \\\"Sick_Nick\\\" DeFlaminis\",\n                \"firstName\": \"Nick\",\n                \"lastName\": \"DeFlaminis\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21649/profileImage-741.jpg\",\n                \"aircraftName\": \"SN Beta75\",\n                \"scannableId\": \"\",\n                \"score\": \"8\"\n            },\n            {\n                \"id\": \"105987\",\n                \"pilotId\": \"21966\",\n                \"aircraftId\": \"30199\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:12:48\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": \"SnapCase\",\n                \"pilotName\": \"Daniel H\",\n                \"userName\": \"SnapCase\",\n                \"displayName\": \"Daniel \\\"SnapCase\\\" Herweg\",\n                \"firstName\": \"Daniel\",\n                \"lastName\": \"Herweg\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21966/profileImage-428.jpg\",\n                \"aircraftName\": \"EB-7\",\n                \"scannableId\": \"\",\n                \"score\": \"4\"\n            },\n            {\n                \"id\": \"105988\",\n                \"pilotId\": \"21712\",\n                \"aircraftId\": \"30209\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:13:30\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": \"TdubFPV\",\n                \"pilotName\": \"Tyler W\",\n                \"userName\": \"TdubFPV\",\n                \"displayName\": \"Tyler \\\"TdubFPV\\\" Walker\",\n                \"firstName\": \"Tyler\",\n                \"lastName\": \"Walker\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21712/\",\n                \"aircraftName\": \"TdubFPV Drone 1\",\n                \"scannableId\": \"\",\n                \"score\": \"7\"\n            },\n            {\n                \"id\": \"105990\",\n                \"pilotId\": \"21969\",\n                \"aircraftId\": \"30969\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:14:32\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": \"Xaero\",\n                \"pilotName\": \"Nicholas W\",\n                \"userName\": \"Xaero\",\n                \"displayName\": \"Nicholas \\\"Xaero\\\" Worster\",\n                \"firstName\": \"Nicholas\",\n                \"lastName\": \"Worster\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21969/profileImage-1.jpg\",\n                \"aircraftName\": \"Cambot\",\n                \"scannableId\": \"\",\n                \"score\": \"6\"\n            }\n        ],\n        \"races\": []\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "View Race Detail",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n   \t\t\"latitude\":27.998029, \r\n   \t\t\"longitude\":-80.618381, \r\n   \t\t\"radius\":100, \r\n   \t\t\"dateRangeStart\":\"2018-11-04\", \r\n   \t\t\"dateRangeEnd\":\"2018-12-31\"\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/view?id=19082",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"view"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "19082"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "View Race Detail",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n   \t\t\"latitude\":27.998029, \r\n   \t\t\"longitude\":-80.618381, \r\n   \t\t\"radius\":100, \r\n   \t\t\"dateRangeStart\":\"2018-11-04\", \r\n   \t\t\"dateRangeEnd\":\"2018-12-31\"\r\n   }\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/view?id=12910",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"view"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "12910"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:20:25 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c92e9e8345a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": {\n        \"name\": \"Friday Night Whoop Fight!\",\n        \"urlName\": \"Friday-Night-Whoop-Fight!\",\n        \"description\": \"Top 6 Pilots Invitational Whoop Battle @ The Herweg Club House Track...\",\n        \"raceType\": \"1\",\n        \"scoringFormat\": \"0\",\n        \"mainImageFileName\": null,\n        \"content\": \"\",\n        \"itineraryContent\": \"\",\n        \"url\": \"\",\n        \"ownerId\": \"21967\",\n        \"courseId\": null,\n        \"seasonId\": \"1168\",\n        \"chapterId\": \"1278\",\n        \"parentRaceId\": null,\n        \"nextRaceId\": null,\n        \"nextRaceCopyPilotsType\": null,\n        \"nextRaceCopyPilotsValue\": null,\n        \"nextRaceCopyPilotScores\": null,\n        \"nextRaceCopyPilotTimes\": null,\n        \"startDate\": \"2018-03-23 6:00 PM\",\n        \"status\": \"Closed\",\n        \"officialStatus\": \"0\",\n        \"typeRestriction\": null,\n        \"sizeRestriction\": null,\n        \"batteryRestriction\": null,\n        \"propellerSizeRestriction\": null,\n        \"videoTransmitterRestriction\": null,\n        \"scoringDisabled\": \"0\",\n        \"captureTimeEnabled\": \"0\",\n        \"cycleCount\": \"3\",\n        \"maxBatteriesForQualifying\": null,\n        \"currentCycle\": null,\n        \"currentHeat\": null,\n        \"targetTime\": null,\n        \"slotLayout\": \"9\",\n        \"slotAssignment\": \"1\",\n        \"disabledSlots\": \"\",\n        \"antennaPolarization\": null,\n        \"autofillSlotChangeBetweenCycles\": \"0\",\n        \"disableSlotAutoPopulation\": \"0\",\n        \"latitude\": \"44.8016128\",\n        \"longitude\": \"-68.7712257\",\n        \"address\": \"\",\n        \"city\": \"Bangor  \",\n        \"state\": \"ME\",\n        \"zip\": \"04401\",\n        \"country\": \"US\",\n        \"dateAdded\": \"2018-03-22 21:12:01\",\n        \"dateModified\": \"2018-03-24 00:47:21\",\n        \"updateAuth\": false,\n        \"deleteAuth\": false,\n        \"raceEntryCount\": \"6\",\n        \"childRaceCount\": 0,\n        \"participantCount\": \"6\",\n        \"isJoined\": false,\n        \"seasonName\": \"Mud Season\",\n        \"chapterName\": \"Twin-City Maineiacs\",\n        \"chapterImageFileName\": \"https://s3.amazonaws.com/multigp-storage/chapter/1278/mainImage-480.jpg\",\n        \"entries\": [\n            {\n                \"id\": \"105985\",\n                \"pilotId\": \"21967\",\n                \"aircraftId\": \"31257\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:11:01\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": null,\n                \"pilotName\": null,\n                \"userName\": \"Borgslayer\",\n                \"displayName\": \"Jase \\\"Borgslayer\\\" Herweg\",\n                \"firstName\": \"Jase\",\n                \"lastName\": \"Herweg\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21967/profileImage-630.jpg\",\n                \"aircraftName\": \"Indy Whoop 1\",\n                \"scannableId\": \"\",\n                \"score\": \"8\"\n            },\n            {\n                \"id\": \"105986\",\n                \"pilotId\": \"17955\",\n                \"aircraftId\": \"30970\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:12:15\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": null,\n                \"pilotName\": null,\n                \"userName\": \"NashtyFPV\",\n                \"displayName\": \"Doug \\\"NashtyFPV\\\" Nash\",\n                \"firstName\": \"Doug\",\n                \"lastName\": \"Nash\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/17955/\",\n                \"aircraftName\": \"FPV Plus by Inductrix\",\n                \"scannableId\": \"5745\",\n                \"score\": \"9\"\n            },\n            {\n                \"id\": \"105989\",\n                \"pilotId\": \"21649\",\n                \"aircraftId\": \"32178\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:14:07\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": null,\n                \"pilotName\": null,\n                \"userName\": \"Sick_Nick\",\n                \"displayName\": \"Nick \\\"Sick_Nick\\\" DeFlaminis\",\n                \"firstName\": \"Nick\",\n                \"lastName\": \"DeFlaminis\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21649/profileImage-741.jpg\",\n                \"aircraftName\": \"SN Beta75\",\n                \"scannableId\": \"\",\n                \"score\": \"8\"\n            },\n            {\n                \"id\": \"105987\",\n                \"pilotId\": \"21966\",\n                \"aircraftId\": \"30199\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:12:48\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": null,\n                \"pilotName\": null,\n                \"userName\": \"SnapCase\",\n                \"displayName\": \"Daniel \\\"SnapCase\\\" Herweg\",\n                \"firstName\": \"Daniel\",\n                \"lastName\": \"Herweg\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21966/profileImage-428.jpg\",\n                \"aircraftName\": \"EB-7\",\n                \"scannableId\": \"\",\n                \"score\": \"4\"\n            },\n            {\n                \"id\": \"105988\",\n                \"pilotId\": \"21712\",\n                \"aircraftId\": \"30209\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:13:30\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": null,\n                \"pilotName\": null,\n                \"userName\": \"TdubFPV\",\n                \"displayName\": \"Tyler \\\"TdubFPV\\\" Walker\",\n                \"firstName\": \"Tyler\",\n                \"lastName\": \"Walker\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21712/\",\n                \"aircraftName\": \"TdubFPV Drone 1\",\n                \"scannableId\": \"\",\n                \"score\": \"7\"\n            },\n            {\n                \"id\": \"105990\",\n                \"pilotId\": \"21969\",\n                \"aircraftId\": \"30969\",\n                \"frequency\": null,\n                \"group\": null,\n                \"groupSlot\": null,\n                \"dateAdded\": \"2018-03-22 22:14:32\",\n                \"dateModified\": \"2018-03-24 01:46:37\",\n                \"band\": null,\n                \"channel\": null,\n                \"pilotUserName\": null,\n                \"pilotName\": null,\n                \"userName\": \"Xaero\",\n                \"displayName\": \"Nicholas \\\"Xaero\\\" Worster\",\n                \"firstName\": \"Nicholas\",\n                \"lastName\": \"Worster\",\n                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21969/profileImage-1.jpg\",\n                \"aircraftName\": \"Cambot\",\n                \"scannableId\": \"\",\n                \"score\": \"6\"\n            }\n        ],\n        \"races\": [],\n        \"schedule\": {\n            \"rounds\": [\n                {\n                    \"name\": \"Round 1\",\n                    \"roundType\": 2,\n                    \"heats\": [\n                        {\n                            \"name\": \"Race 1\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\",\n                                    \"id\": \"742266\",\n                                    \"raceEntryId\": \"105986\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:42\",\n                                    \"pilotId\": \"17955\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"NashtyFPV\",\n                                    \"displayName\": \"Doug \\\"NashtyFPV\\\" Nash\",\n                                    \"firstName\": \"Doug\",\n                                    \"lastName\": \"Nash\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/17955/\",\n                                    \"aircraftName\": \"FPV Plus by Inductrix\",\n                                    \"scannableId\": \"5745\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\",\n                                    \"id\": \"742286\",\n                                    \"raceEntryId\": \"105985\",\n                                    \"score\": \"2\",\n                                    \"dateAdded\": \"2018-03-23 22:29:16\",\n                                    \"dateModified\": \"2018-03-24 00:27:42\",\n                                    \"pilotId\": \"21967\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Borgslayer\",\n                                    \"displayName\": \"Jase \\\"Borgslayer\\\" Herweg\",\n                                    \"firstName\": \"Jase\",\n                                    \"lastName\": \"Herweg\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21967/profileImage-630.jpg\",\n                                    \"aircraftName\": \"Indy Whoop 1\",\n                                    \"scannableId\": \"\"\n                                }\n                            ]\n                        },\n                        {\n                            \"name\": \"Race 2\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\",\n                                    \"id\": \"742268\",\n                                    \"raceEntryId\": \"105989\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:42\",\n                                    \"pilotId\": \"21649\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Sick_Nick\",\n                                    \"displayName\": \"Nick \\\"Sick_Nick\\\" DeFlaminis\",\n                                    \"firstName\": \"Nick\",\n                                    \"lastName\": \"DeFlaminis\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21649/profileImage-741.jpg\",\n                                    \"aircraftName\": \"SN Beta75\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\",\n                                    \"id\": \"742267\",\n                                    \"raceEntryId\": \"105987\",\n                                    \"score\": \"1\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:42\",\n                                    \"pilotId\": \"21966\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"SnapCase\",\n                                    \"displayName\": \"Daniel \\\"SnapCase\\\" Herweg\",\n                                    \"firstName\": \"Daniel\",\n                                    \"lastName\": \"Herweg\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21966/profileImage-428.jpg\",\n                                    \"aircraftName\": \"EB-7\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\"\n                                }\n                            ]\n                        },\n                        {\n                            \"name\": \"Race 3\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\",\n                                    \"id\": \"742270\",\n                                    \"raceEntryId\": \"105990\",\n                                    \"score\": \"2\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:42\",\n                                    \"pilotId\": \"21969\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Xaero\",\n                                    \"displayName\": \"Nicholas \\\"Xaero\\\" Worster\",\n                                    \"firstName\": \"Nicholas\",\n                                    \"lastName\": \"Worster\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21969/profileImage-1.jpg\",\n                                    \"aircraftName\": \"Cambot\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\",\n                                    \"id\": \"742269\",\n                                    \"raceEntryId\": \"105988\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:42\",\n                                    \"pilotId\": \"21712\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"TdubFPV\",\n                                    \"displayName\": \"Tyler \\\"TdubFPV\\\" Walker\",\n                                    \"firstName\": \"Tyler\",\n                                    \"lastName\": \"Walker\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21712/\",\n                                    \"aircraftName\": \"TdubFPV Drone 1\",\n                                    \"scannableId\": \"\"\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"Round 2\",\n                    \"roundType\": 2,\n                    \"heats\": [\n                        {\n                            \"name\": \"Race 1\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\",\n                                    \"id\": \"742271\",\n                                    \"raceEntryId\": \"105985\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:42\",\n                                    \"pilotId\": \"21967\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Borgslayer\",\n                                    \"displayName\": \"Jase \\\"Borgslayer\\\" Herweg\",\n                                    \"firstName\": \"Jase\",\n                                    \"lastName\": \"Herweg\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21967/profileImage-630.jpg\",\n                                    \"aircraftName\": \"Indy Whoop 1\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\",\n                                    \"id\": \"742272\",\n                                    \"raceEntryId\": \"105989\",\n                                    \"score\": \"2\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:42\",\n                                    \"pilotId\": \"21649\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Sick_Nick\",\n                                    \"displayName\": \"Nick \\\"Sick_Nick\\\" DeFlaminis\",\n                                    \"firstName\": \"Nick\",\n                                    \"lastName\": \"DeFlaminis\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21649/profileImage-741.jpg\",\n                                    \"aircraftName\": \"SN Beta75\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\"\n                                }\n                            ]\n                        },\n                        {\n                            \"name\": \"Race 2\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\",\n                                    \"id\": \"742297\",\n                                    \"raceEntryId\": \"105988\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:30:00\",\n                                    \"dateModified\": \"2018-03-24 00:27:43\",\n                                    \"pilotId\": \"21712\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"TdubFPV\",\n                                    \"displayName\": \"Tyler \\\"TdubFPV\\\" Walker\",\n                                    \"firstName\": \"Tyler\",\n                                    \"lastName\": \"Walker\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21712/\",\n                                    \"aircraftName\": \"TdubFPV Drone 1\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\",\n                                    \"id\": \"742274\",\n                                    \"raceEntryId\": \"105987\",\n                                    \"score\": \"1\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:43\",\n                                    \"pilotId\": \"21966\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"SnapCase\",\n                                    \"displayName\": \"Daniel \\\"SnapCase\\\" Herweg\",\n                                    \"firstName\": \"Daniel\",\n                                    \"lastName\": \"Herweg\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21966/profileImage-428.jpg\",\n                                    \"aircraftName\": \"EB-7\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\"\n                                }\n                            ]\n                        },\n                        {\n                            \"name\": \"Race 3\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\",\n                                    \"id\": \"742276\",\n                                    \"raceEntryId\": \"105990\",\n                                    \"score\": \"2\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:45:11\",\n                                    \"pilotId\": \"21969\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Xaero\",\n                                    \"displayName\": \"Nicholas \\\"Xaero\\\" Worster\",\n                                    \"firstName\": \"Nicholas\",\n                                    \"lastName\": \"Worster\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21969/profileImage-1.jpg\",\n                                    \"aircraftName\": \"Cambot\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\",\n                                    \"id\": \"742275\",\n                                    \"raceEntryId\": \"105986\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:45:11\",\n                                    \"pilotId\": \"17955\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"NashtyFPV\",\n                                    \"displayName\": \"Doug \\\"NashtyFPV\\\" Nash\",\n                                    \"firstName\": \"Doug\",\n                                    \"lastName\": \"Nash\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/17955/\",\n                                    \"aircraftName\": \"FPV Plus by Inductrix\",\n                                    \"scannableId\": \"5745\"\n                                }\n                            ]\n                        }\n                    ]\n                },\n                {\n                    \"name\": \"Round 3\",\n                    \"roundType\": 2,\n                    \"heats\": [\n                        {\n                            \"name\": \"Race 1\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\",\n                                    \"id\": \"742278\",\n                                    \"raceEntryId\": \"105990\",\n                                    \"score\": \"2\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:43\",\n                                    \"pilotId\": \"21969\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Xaero\",\n                                    \"displayName\": \"Nicholas \\\"Xaero\\\" Worster\",\n                                    \"firstName\": \"Nicholas\",\n                                    \"lastName\": \"Worster\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21969/profileImage-1.jpg\",\n                                    \"aircraftName\": \"Cambot\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\",\n                                    \"id\": \"742277\",\n                                    \"raceEntryId\": \"105989\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:43\",\n                                    \"pilotId\": \"21649\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Sick_Nick\",\n                                    \"displayName\": \"Nick \\\"Sick_Nick\\\" DeFlaminis\",\n                                    \"firstName\": \"Nick\",\n                                    \"lastName\": \"DeFlaminis\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21649/profileImage-741.jpg\",\n                                    \"aircraftName\": \"SN Beta75\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\"\n                                }\n                            ]\n                        },\n                        {\n                            \"name\": \"Race 2\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\",\n                                    \"id\": \"742279\",\n                                    \"raceEntryId\": \"105986\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:43\",\n                                    \"pilotId\": \"17955\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"NashtyFPV\",\n                                    \"displayName\": \"Doug \\\"NashtyFPV\\\" Nash\",\n                                    \"firstName\": \"Doug\",\n                                    \"lastName\": \"Nash\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/17955/\",\n                                    \"aircraftName\": \"FPV Plus by Inductrix\",\n                                    \"scannableId\": \"5745\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\",\n                                    \"id\": \"742280\",\n                                    \"raceEntryId\": \"105988\",\n                                    \"score\": \"1\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:27:43\",\n                                    \"pilotId\": \"21712\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"TdubFPV\",\n                                    \"displayName\": \"Tyler \\\"TdubFPV\\\" Walker\",\n                                    \"firstName\": \"Tyler\",\n                                    \"lastName\": \"Walker\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21712/\",\n                                    \"aircraftName\": \"TdubFPV Drone 1\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\"\n                                }\n                            ]\n                        },\n                        {\n                            \"name\": \"Race 3\",\n                            \"entries\": [\n                                {\n                                    \"slot\": 1,\n                                    \"frequency\": 5685,\n                                    \"band\": \"E\",\n                                    \"channel\": \"2\"\n                                },\n                                {\n                                    \"slot\": 2,\n                                    \"frequency\": 5760,\n                                    \"band\": \"F\",\n                                    \"channel\": \"2\",\n                                    \"id\": \"742310\",\n                                    \"raceEntryId\": \"105985\",\n                                    \"score\": \"3\",\n                                    \"dateAdded\": \"2018-03-23 22:30:33\",\n                                    \"dateModified\": \"2018-03-24 00:46:05\",\n                                    \"pilotId\": \"21967\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"Borgslayer\",\n                                    \"displayName\": \"Jase \\\"Borgslayer\\\" Herweg\",\n                                    \"firstName\": \"Jase\",\n                                    \"lastName\": \"Herweg\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21967/profileImage-630.jpg\",\n                                    \"aircraftName\": \"Indy Whoop 1\",\n                                    \"scannableId\": \"\"\n                                },\n                                {\n                                    \"slot\": 3,\n                                    \"frequency\": 5800,\n                                    \"band\": \"F\",\n                                    \"channel\": \"4\"\n                                },\n                                {\n                                    \"slot\": 4,\n                                    \"frequency\": 5860,\n                                    \"band\": \"F\",\n                                    \"channel\": \"7\"\n                                },\n                                {\n                                    \"slot\": 5,\n                                    \"frequency\": 5905,\n                                    \"band\": \"E\",\n                                    \"channel\": \"6\",\n                                    \"id\": \"742282\",\n                                    \"raceEntryId\": \"105987\",\n                                    \"score\": \"2\",\n                                    \"dateAdded\": \"2018-03-23 22:28:59\",\n                                    \"dateModified\": \"2018-03-24 00:46:05\",\n                                    \"pilotId\": \"21966\",\n                                    \"pilotName\": null,\n                                    \"userName\": \"SnapCase\",\n                                    \"displayName\": \"Daniel \\\"SnapCase\\\" Herweg\",\n                                    \"firstName\": \"Daniel\",\n                                    \"lastName\": \"Herweg\",\n                                    \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21966/profileImage-428.jpg\",\n                                    \"aircraftName\": \"EB-7\",\n                                    \"scannableId\": \"\"\n                                }\n                            ]\n                        }\n                    ]\n                }\n            ]\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Pilots For Race",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n   \t\t\"latitude\":27.998029, \r\n   \t\t\"longitude\":-80.618381, \r\n   \t\t\"radius\":100, \r\n   \t\t\"dateRangeStart\":\"2018-09-04\", \r\n   \t\t\"dateRangeEnd\":\"2018-12-31\"\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/getPilotsForRace?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"getPilotsForRace"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Pilots For Race",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n   \t\t\"latitude\":27.998029, \r\n   \t\t\"longitude\":-80.618381, \r\n   \t\t\"radius\":100, \r\n   \t\t\"dateRangeStart\":\"2018-09-04\", \r\n   \t\t\"dateRangeEnd\":\"2018-12-31\"\r\n   }\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/getPilotsForRace?id=12910",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"getPilotsForRace"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "12910"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:21:08 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c93fb4ef95a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": [\n        {\n            \"pilotId\": \"21967\",\n            \"userName\": \"Borgslayer\",\n            \"firstName\": \"Jase\",\n            \"lastName\": \"Herweg\"\n        },\n        {\n            \"pilotId\": \"17955\",\n            \"userName\": \"NashtyFPV\",\n            \"firstName\": \"Doug\",\n            \"lastName\": \"Nash\"\n        },\n        {\n            \"pilotId\": \"21966\",\n            \"userName\": \"SnapCase\",\n            \"firstName\": \"Daniel\",\n            \"lastName\": \"Herweg\"\n        },\n        {\n            \"pilotId\": \"21712\",\n            \"userName\": \"TdubFPV\",\n            \"firstName\": \"Tyler\",\n            \"lastName\": \"Walker\"\n        },\n        {\n            \"pilotId\": \"21649\",\n            \"userName\": \"Sick_Nick\",\n            \"firstName\": \"Nick\",\n            \"lastName\": \"DeFlaminis\"\n        },\n        {\n            \"pilotId\": \"21969\",\n            \"userName\": \"Xaero\",\n            \"firstName\": \"Nicholas\",\n            \"lastName\": \"Worster\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "View Rounds Minimum",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n   \t\t\"latitude\":27.998029, \r\n   \t\t\"longitude\":-80.618381, \r\n   \t\t\"radius\":100, \r\n   \t\t\"dateRangeStart\":\"2018-09-04\", \r\n   \t\t\"dateRangeEnd\":\"2018-12-31\"\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/viewRoundsMin?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"viewRoundsMin"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "View Rounds Minimum",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n   \"data\" : {\r\n   \t\t\"latitude\":27.998029, \r\n   \t\t\"longitude\":-80.618381, \r\n   \t\t\"radius\":100, \r\n   \t\t\"dateRangeStart\":\"2018-09-04\", \r\n   \t\t\"dateRangeEnd\":\"2018-12-31\"\r\n   }\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/viewRoundsMin?id=12910",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"viewRoundsMin"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "12910"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:21:31 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c948b88605a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": {\n        \"1\": {\n            \"1\": {\n                \"2\": \"17955\",\n                \"5\": \"21967\",\n                \"6\": \"21967\"\n            },\n            \"2\": {\n                \"3\": \"21649\",\n                \"4\": \"21966\"\n            },\n            \"3\": {\n                \"1\": \"21969\",\n                \"5\": \"21712\"\n            }\n        },\n        \"2\": {\n            \"1\": {\n                \"2\": \"21967\",\n                \"3\": \"21649\"\n            },\n            \"2\": {\n                \"2\": \"21712\",\n                \"4\": \"21966\",\n                \"6\": \"21967\"\n            },\n            \"3\": {\n                \"1\": \"21969\",\n                \"5\": \"17955\"\n            }\n        },\n        \"3\": {\n            \"1\": {\n                \"1\": \"21969\",\n                \"3\": \"21649\"\n            },\n            \"2\": {\n                \"2\": \"17955\",\n                \"4\": \"21712\"\n            },\n            \"3\": {\n                \"2\": \"21967\",\n                \"5\": \"21966\",\n                \"6\": \"21967\"\n            }\n        }\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Get Additional Rounds",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/getAdditionalRounds?id=12910&startFromRound=1",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"getAdditionalRounds"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						},
+						{
+							"key": "startFromRound",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get Additional Rounds",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\"\r\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/getAdditionalRounds?id=12910&startFromRound=1",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"getAdditionalRounds"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "12910"
+								},
+								{
+									"key": "startFromRound",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:21:46 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c94eb8b6e5a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": {\n        \"rounds\": [\n            {\n                \"name\": \"Round 1\",\n                \"roundType\": 2,\n                \"heats\": [\n                    {\n                        \"name\": \"Race 1\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\",\n                                \"id\": \"742266\",\n                                \"raceEntryId\": \"105986\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:42\",\n                                \"pilotId\": \"17955\",\n                                \"pilotName\": null,\n                                \"userName\": \"NashtyFPV\",\n                                \"displayName\": \"Doug \\\"NashtyFPV\\\" Nash\",\n                                \"firstName\": \"Doug\",\n                                \"lastName\": \"Nash\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/17955/\",\n                                \"aircraftName\": \"FPV Plus by Inductrix\",\n                                \"scannableId\": \"5745\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\",\n                                \"id\": \"742286\",\n                                \"raceEntryId\": \"105985\",\n                                \"score\": \"2\",\n                                \"dateAdded\": \"2018-03-23 22:29:16\",\n                                \"dateModified\": \"2018-03-24 00:27:42\",\n                                \"pilotId\": \"21967\",\n                                \"pilotName\": null,\n                                \"userName\": \"Borgslayer\",\n                                \"displayName\": \"Jase \\\"Borgslayer\\\" Herweg\",\n                                \"firstName\": \"Jase\",\n                                \"lastName\": \"Herweg\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21967/profileImage-630.jpg\",\n                                \"aircraftName\": \"Indy Whoop 1\",\n                                \"scannableId\": \"\"\n                            }\n                        ]\n                    },\n                    {\n                        \"name\": \"Race 2\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\",\n                                \"id\": \"742268\",\n                                \"raceEntryId\": \"105989\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:42\",\n                                \"pilotId\": \"21649\",\n                                \"pilotName\": null,\n                                \"userName\": \"Sick_Nick\",\n                                \"displayName\": \"Nick \\\"Sick_Nick\\\" DeFlaminis\",\n                                \"firstName\": \"Nick\",\n                                \"lastName\": \"DeFlaminis\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21649/profileImage-741.jpg\",\n                                \"aircraftName\": \"SN Beta75\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\",\n                                \"id\": \"742267\",\n                                \"raceEntryId\": \"105987\",\n                                \"score\": \"1\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:42\",\n                                \"pilotId\": \"21966\",\n                                \"pilotName\": null,\n                                \"userName\": \"SnapCase\",\n                                \"displayName\": \"Daniel \\\"SnapCase\\\" Herweg\",\n                                \"firstName\": \"Daniel\",\n                                \"lastName\": \"Herweg\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21966/profileImage-428.jpg\",\n                                \"aircraftName\": \"EB-7\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\"\n                            }\n                        ]\n                    },\n                    {\n                        \"name\": \"Race 3\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\",\n                                \"id\": \"742270\",\n                                \"raceEntryId\": \"105990\",\n                                \"score\": \"2\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:42\",\n                                \"pilotId\": \"21969\",\n                                \"pilotName\": null,\n                                \"userName\": \"Xaero\",\n                                \"displayName\": \"Nicholas \\\"Xaero\\\" Worster\",\n                                \"firstName\": \"Nicholas\",\n                                \"lastName\": \"Worster\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21969/profileImage-1.jpg\",\n                                \"aircraftName\": \"Cambot\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\",\n                                \"id\": \"742269\",\n                                \"raceEntryId\": \"105988\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:42\",\n                                \"pilotId\": \"21712\",\n                                \"pilotName\": null,\n                                \"userName\": \"TdubFPV\",\n                                \"displayName\": \"Tyler \\\"TdubFPV\\\" Walker\",\n                                \"firstName\": \"Tyler\",\n                                \"lastName\": \"Walker\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21712/\",\n                                \"aircraftName\": \"TdubFPV Drone 1\",\n                                \"scannableId\": \"\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"name\": \"Round 2\",\n                \"roundType\": 2,\n                \"heats\": [\n                    {\n                        \"name\": \"Race 1\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\",\n                                \"id\": \"742271\",\n                                \"raceEntryId\": \"105985\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:42\",\n                                \"pilotId\": \"21967\",\n                                \"pilotName\": null,\n                                \"userName\": \"Borgslayer\",\n                                \"displayName\": \"Jase \\\"Borgslayer\\\" Herweg\",\n                                \"firstName\": \"Jase\",\n                                \"lastName\": \"Herweg\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21967/profileImage-630.jpg\",\n                                \"aircraftName\": \"Indy Whoop 1\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\",\n                                \"id\": \"742272\",\n                                \"raceEntryId\": \"105989\",\n                                \"score\": \"2\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:42\",\n                                \"pilotId\": \"21649\",\n                                \"pilotName\": null,\n                                \"userName\": \"Sick_Nick\",\n                                \"displayName\": \"Nick \\\"Sick_Nick\\\" DeFlaminis\",\n                                \"firstName\": \"Nick\",\n                                \"lastName\": \"DeFlaminis\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21649/profileImage-741.jpg\",\n                                \"aircraftName\": \"SN Beta75\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\"\n                            }\n                        ]\n                    },\n                    {\n                        \"name\": \"Race 2\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\",\n                                \"id\": \"742297\",\n                                \"raceEntryId\": \"105988\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:30:00\",\n                                \"dateModified\": \"2018-03-24 00:27:43\",\n                                \"pilotId\": \"21712\",\n                                \"pilotName\": null,\n                                \"userName\": \"TdubFPV\",\n                                \"displayName\": \"Tyler \\\"TdubFPV\\\" Walker\",\n                                \"firstName\": \"Tyler\",\n                                \"lastName\": \"Walker\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21712/\",\n                                \"aircraftName\": \"TdubFPV Drone 1\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\",\n                                \"id\": \"742274\",\n                                \"raceEntryId\": \"105987\",\n                                \"score\": \"1\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:43\",\n                                \"pilotId\": \"21966\",\n                                \"pilotName\": null,\n                                \"userName\": \"SnapCase\",\n                                \"displayName\": \"Daniel \\\"SnapCase\\\" Herweg\",\n                                \"firstName\": \"Daniel\",\n                                \"lastName\": \"Herweg\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21966/profileImage-428.jpg\",\n                                \"aircraftName\": \"EB-7\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\"\n                            }\n                        ]\n                    },\n                    {\n                        \"name\": \"Race 3\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\",\n                                \"id\": \"742276\",\n                                \"raceEntryId\": \"105990\",\n                                \"score\": \"2\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:45:11\",\n                                \"pilotId\": \"21969\",\n                                \"pilotName\": null,\n                                \"userName\": \"Xaero\",\n                                \"displayName\": \"Nicholas \\\"Xaero\\\" Worster\",\n                                \"firstName\": \"Nicholas\",\n                                \"lastName\": \"Worster\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21969/profileImage-1.jpg\",\n                                \"aircraftName\": \"Cambot\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\",\n                                \"id\": \"742275\",\n                                \"raceEntryId\": \"105986\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:45:11\",\n                                \"pilotId\": \"17955\",\n                                \"pilotName\": null,\n                                \"userName\": \"NashtyFPV\",\n                                \"displayName\": \"Doug \\\"NashtyFPV\\\" Nash\",\n                                \"firstName\": \"Doug\",\n                                \"lastName\": \"Nash\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/17955/\",\n                                \"aircraftName\": \"FPV Plus by Inductrix\",\n                                \"scannableId\": \"5745\"\n                            }\n                        ]\n                    }\n                ]\n            },\n            {\n                \"name\": \"Round 3\",\n                \"roundType\": 2,\n                \"heats\": [\n                    {\n                        \"name\": \"Race 1\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\",\n                                \"id\": \"742278\",\n                                \"raceEntryId\": \"105990\",\n                                \"score\": \"2\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:43\",\n                                \"pilotId\": \"21969\",\n                                \"pilotName\": null,\n                                \"userName\": \"Xaero\",\n                                \"displayName\": \"Nicholas \\\"Xaero\\\" Worster\",\n                                \"firstName\": \"Nicholas\",\n                                \"lastName\": \"Worster\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21969/profileImage-1.jpg\",\n                                \"aircraftName\": \"Cambot\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\",\n                                \"id\": \"742277\",\n                                \"raceEntryId\": \"105989\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:43\",\n                                \"pilotId\": \"21649\",\n                                \"pilotName\": null,\n                                \"userName\": \"Sick_Nick\",\n                                \"displayName\": \"Nick \\\"Sick_Nick\\\" DeFlaminis\",\n                                \"firstName\": \"Nick\",\n                                \"lastName\": \"DeFlaminis\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21649/profileImage-741.jpg\",\n                                \"aircraftName\": \"SN Beta75\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\"\n                            }\n                        ]\n                    },\n                    {\n                        \"name\": \"Race 2\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\",\n                                \"id\": \"742279\",\n                                \"raceEntryId\": \"105986\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:43\",\n                                \"pilotId\": \"17955\",\n                                \"pilotName\": null,\n                                \"userName\": \"NashtyFPV\",\n                                \"displayName\": \"Doug \\\"NashtyFPV\\\" Nash\",\n                                \"firstName\": \"Doug\",\n                                \"lastName\": \"Nash\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/17955/\",\n                                \"aircraftName\": \"FPV Plus by Inductrix\",\n                                \"scannableId\": \"5745\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\",\n                                \"id\": \"742280\",\n                                \"raceEntryId\": \"105988\",\n                                \"score\": \"1\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:27:43\",\n                                \"pilotId\": \"21712\",\n                                \"pilotName\": null,\n                                \"userName\": \"TdubFPV\",\n                                \"displayName\": \"Tyler \\\"TdubFPV\\\" Walker\",\n                                \"firstName\": \"Tyler\",\n                                \"lastName\": \"Walker\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21712/\",\n                                \"aircraftName\": \"TdubFPV Drone 1\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\"\n                            }\n                        ]\n                    },\n                    {\n                        \"name\": \"Race 3\",\n                        \"entries\": [\n                            {\n                                \"slot\": 1,\n                                \"frequency\": 5685,\n                                \"band\": \"E\",\n                                \"channel\": \"2\"\n                            },\n                            {\n                                \"slot\": 2,\n                                \"frequency\": 5760,\n                                \"band\": \"F\",\n                                \"channel\": \"2\",\n                                \"id\": \"742310\",\n                                \"raceEntryId\": \"105985\",\n                                \"score\": \"3\",\n                                \"dateAdded\": \"2018-03-23 22:30:33\",\n                                \"dateModified\": \"2018-03-24 00:46:05\",\n                                \"pilotId\": \"21967\",\n                                \"pilotName\": null,\n                                \"userName\": \"Borgslayer\",\n                                \"displayName\": \"Jase \\\"Borgslayer\\\" Herweg\",\n                                \"firstName\": \"Jase\",\n                                \"lastName\": \"Herweg\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21967/profileImage-630.jpg\",\n                                \"aircraftName\": \"Indy Whoop 1\",\n                                \"scannableId\": \"\"\n                            },\n                            {\n                                \"slot\": 3,\n                                \"frequency\": 5800,\n                                \"band\": \"F\",\n                                \"channel\": \"4\"\n                            },\n                            {\n                                \"slot\": 4,\n                                \"frequency\": 5860,\n                                \"band\": \"F\",\n                                \"channel\": \"7\"\n                            },\n                            {\n                                \"slot\": 5,\n                                \"frequency\": 5905,\n                                \"band\": \"E\",\n                                \"channel\": \"6\",\n                                \"id\": \"742282\",\n                                \"raceEntryId\": \"105987\",\n                                \"score\": \"2\",\n                                \"dateAdded\": \"2018-03-23 22:28:59\",\n                                \"dateModified\": \"2018-03-24 00:46:05\",\n                                \"pilotId\": \"21966\",\n                                \"pilotName\": null,\n                                \"userName\": \"SnapCase\",\n                                \"displayName\": \"Daniel \\\"SnapCase\\\" Herweg\",\n                                \"firstName\": \"Daniel\",\n                                \"lastName\": \"Herweg\",\n                                \"profilePictureUrl\": \"https://s3.amazonaws.com/multigp-storage/user/21966/profileImage-428.jpg\",\n                                \"aircraftName\": \"EB-7\",\n                                \"scannableId\": \"\"\n                            }\n                        ]\n                    }\n                ]\n            }\n        ]\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "Join a Race",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\" :\r\n  {\r\n    \"pilotId\" : 20676,\r\n    \"aircraftId\" : 32678\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/join?id=15679",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"join"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "15679"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "addPilotsToNewRound",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/addPilotsToNewRound?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"addPilotsToNewRound"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Join a Race",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/join?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"join"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Resign from a Race",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/resign?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"resign"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check In to a Race",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/resign?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"resign"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Check Out of a Race",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/checkOut?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"checkOut"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Capture Round Results",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/captureRoundResults?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"captureRoundResults"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign Slot & Score",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\"data\":{\"pilotId\":1, \"score\":\"9\", \"fastest3ConsecutiveLapTime\":90.596234} }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/assignSlot",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"assignSlot"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkin All",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/checkinAll?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"checkinAll"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkout All",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/checkinAll?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"checkinAll"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assign All Slots",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/assignAllSlots?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"assignAllSlots"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Unassign All Slots",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/unassignAllSlots?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"unassignAllSlots"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Finalize",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/finalize?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"finalize"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Start Heat",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/startHeat?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"startHeat"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Open Enrollment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/open?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"open"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Close Enrollment",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/close?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"close"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Capture Regional Race Results",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/captureRegionalRaceResult?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"captureRegionalRaceResult"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Capture Regional Final Results",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/captureRegionalFinalResult?id=12910",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"captureRegionalFinalResult"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "12910"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Aircraft List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\": {\r\n    \"pilotId\" : 20676\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/aircraft/list",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"aircraft",
+						"list"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Aircraft",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/aircraft/create",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"aircraft",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Aircraft",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/aircraft/update",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"aircraft",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Aircraft",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/aircraft/delete",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"aircraft",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Chapter List",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\" : \r\n  {\r\n    \"latitude\": \"43.9066624\",\r\n    \"longitude\": \"-70.115328\",\r\n    \"radius\" : 100\r\n  }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/chapter/findLocal",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"chapter",
+						"findLocal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Chapter Noficiation",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\",\r\n  \"data\": {\r\n    \"title\": \"Pilots! Heat 1 is starting!\",\r\n    \"notification\": \"Take a Seat, have a seat!\"\r\n   }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/chapter/notifiy?id=1535",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"chapter",
+						"notifiy"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "1535"
+						}
+					]
+				},
+				"description": "Sends a message to pilots in the chapter subscribed to notifications. "
+			},
+			"response": []
+		},
+		{
+			"name": "Chapter List Managed",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/chapter/listManaged",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"chapter",
+						"listManaged"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Find Local",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/chapter/findLocal",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"chapter",
+						"findLocal"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Chapter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/chapter/create",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"chapter",
+						"create"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update Chapter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/chapter/update",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"chapter",
+						"update"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Chapter",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"sessionId\": \"{{sessionId}}\",\r\n  \"apiKey\": \"{{apiKey}}\" }\r\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/chapter/delete",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"chapter",
+						"delete"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "TestMe!",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "mgp",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "75d7d555-6b31-4047-a31b-7bd346fc488f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "29021975-7043-41aa-a1d5-e9ba72353755",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"protocolProfileBehavior": {}
+}
