@@ -233,7 +233,7 @@ class EventDetailViewController: UIViewController, Joinable {
         headerLabelStackView.snp.makeConstraints {
             $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding)
             $0.leading.equalToSuperview().offset(Constants.padding*1.5)
-            $0.trailing.equalTo(buttonStackView.snp.leading).offset(-Constants.padding)
+            $0.trailing.equalTo(buttonStackView.snp.leading).offset(-Constants.padding/2)
         }
 
         contentView.addSubview(descriptionTextView)
@@ -429,34 +429,6 @@ extension EventDetailViewController: UIScrollViewDelegate {
         stretchHeaderView(with: scrollView.contentOffset)
     }
 }
-
-//extension EventDetailViewController: MKMapViewDelegate {
-//
-////    func mapViewDidFinishRenderingMap(_ mapView: MKMapView, fullyRendered: Bool) {
-////
-//////        guard fullyRendered else { return }
-////
-////        let render = UIGraphicsImageRenderer(size: mapView.bounds.size)
-////        mapImageView.image = render.image { ctx in
-////            mapView.drawHierarchy(in: mapView.bounds, afterScreenUpdates: true)
-//////            mapView.removeFromSuperview()
-////        }
-////    }
-//
-//    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-//        guard annotation is MKPointAnnotation else { return nil }
-//
-//        let annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: nil)
-//        annotationView.image = UIImage(named: "icn_map_annotation")
-//        annotationView.canShowCallout = false
-//
-//        if let image = annotationView.image {
-//            annotationView.centerOffset = CGPoint(x: -image.size.width/2, y: -image.size.height/2)
-//        }
-//
-//        return annotationView
-//    }
-//}
 
 // MARK: - HeaderStretchable
 

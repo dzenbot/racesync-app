@@ -24,7 +24,7 @@ public class DateUtil {
         if full {
             return displayFullDateTimeFormatter.string(from: date)
         }
-        else if date.isInSameYear(date: Date()) {
+        else if date.isInThisYear || date.timeIntervalSinceNow.sign == .plus {
             return displayDateTimeFormatter.string(from: date)
         } else {
             return displayDateFormatter.string(from: date)
@@ -36,7 +36,7 @@ fileprivate extension DateUtil {
 
     static let displayFullDateTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM dd @ h:mm a"
+        formatter.dateFormat = "EEEE, MMMM d @ h:mm a"
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
         return formatter
@@ -44,7 +44,7 @@ fileprivate extension DateUtil {
 
     static let displayDateTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EE MMM dd @ h:mm a"
+        formatter.dateFormat = "EE, MMM d @ h:mm a"
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
         return formatter
@@ -52,7 +52,7 @@ fileprivate extension DateUtil {
 
     static let displayDateFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "MMM dd, yyyy"
+        formatter.dateFormat = "MMM d, yyyy"
         return formatter
     }()
 }

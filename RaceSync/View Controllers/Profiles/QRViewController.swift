@@ -10,6 +10,7 @@ import UIKit
 import RaceSyncAPI
 import SnapKit
 import QRCode
+import PassKit
 
 class QRViewController: UIViewController {
 
