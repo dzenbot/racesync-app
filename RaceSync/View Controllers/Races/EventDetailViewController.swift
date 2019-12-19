@@ -312,7 +312,7 @@ class EventDetailViewController: UIViewController, Joinable {
         let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: distance, longitudinalMeters: distance)
 
         let mapRect = MKCoordinateRegion.mapRectForCoordinateRegion(region)
-        let paddedRect = mapRect.offsetBy(dx: 0, dy: -1500)
+        let paddedRect = mapRect.offsetBy(dx: 0, dy: -1500) // TODO: Convert Screen points to Map points instead of harcoded value
 
         let mapView = MKMapView()
         mapView.setVisibleMapRect(paddedRect, animated: false)

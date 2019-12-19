@@ -215,7 +215,7 @@ class LoginViewController: UIViewController {
         addline(under: passwordField)
 
         passwordRecoveryButton.snp.makeConstraints {
-            $0.top.equalTo(passwordField.snp.bottom).offset(Constants.padding*2)
+            $0.top.equalTo(passwordField.snp.bottom).offset(Constants.padding*1.5)
             $0.leading.equalToSuperview()
         }
 
@@ -225,7 +225,7 @@ class LoginViewController: UIViewController {
         }
 
         loginButton.snp.makeConstraints {
-            $0.top.equalTo(createAccountButton.snp.bottom).offset(Constants.padding*1.5)
+            $0.top.equalTo(createAccountButton.snp.bottom).offset(Constants.padding)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.height.equalTo(Constants.loginButtonHeight)

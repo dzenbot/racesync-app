@@ -55,7 +55,6 @@ class RaceTabBarController: UITabBarController {
             self.race = race
             self.configureViewControllers()
         }
-
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -81,7 +80,7 @@ class RaceTabBarController: UITabBarController {
         self.selectedIndex = initialSelectedIndex+1
         self.selectedIndex = initialSelectedIndex
 
-        // pre-load each view
+        // Trick to pre-load each view controller
         preloadTabs()
 
         tabBar.tintColor = Color.black
