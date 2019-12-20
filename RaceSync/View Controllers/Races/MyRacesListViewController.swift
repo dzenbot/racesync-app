@@ -228,7 +228,8 @@ fileprivate extension MyRacesListViewController {
             }
         } else {
             tableView.reloadData()
-            completion?()
+            refreshControl.beginRefreshing()
+            reloadDataFromPull()
         }
     }
 
