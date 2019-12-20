@@ -3,55 +3,14 @@
 <plist version="1.0">
 <dict>
 	<key>SchemeUserState</key>
-	<dict>
-		<key>MapleBacon.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>2</integer>
-		</dict>
-		<key>Pods-RaceSync.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>3</integer>
-		</dict>
-		<key>Pods-RaceSyncAPI.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>4</integer>
-		</dict>
-		<key>Pods-RaceSyncAPITests.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>5</integer>
-		</dict>
-		<key>Presentr.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>6</integer>
-		</dict>
-		<key>QRCode.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>7</integer>
-		</dict>
-		<key>SnapKit.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>8</integer>
-		</dict>
-		<key>SwiftValidators.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>9</integer>
-		</dict>
-		<key>SwiftyJSON.xcscheme_^#shared#^_</key>
-		<dict>
-			<key>orderHint</key>
-			<integer>10</integer>
-		</dict>
-	</dict>
+	<dict/>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
+		<key>07D613BC487A51D52B908BF95740D6BF</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
 		<key>115FA0D867E07C04838493890DBD8D29</key>
 		<dict>
 			<key>primary</key>
@@ -67,22 +26,32 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>449810E61CED339E72354861679EC02C</key>
+		<key>5A6497EE5F0815DA20CA504A3E5EDC1A</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>56575E62E72E15C6F9B515F0094B03D6</key>
+		<key>5B636B1D30B90BC261BA7680A7FC5C7C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>7DAC47EED554595D037692D11D9B4FB7</key>
+		<key>5BE2A8ACAADB7109F2BF5413B7F11390</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5C616BC9E76363A7464B6B9ADB692E23</key>
 		<dict>
 			<key>primary</key>
 			<true/>
 		</dict>
 		<key>88E9EC28B8B46C3631E6B242B50F4442</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>94D187F0E70EB005B6E8104BDED14E35</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -97,7 +66,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>B631D4B39507FE8BC04B042D174D3E5C</key>
+		<key>A74827C1CB1AB33C1DA5970C3E3CAEBB</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -107,17 +76,7 @@
 			<key>primary</key>
 			<true/>
 		</dict>
-		<key>C0AE272DDCAC2F618D8B7EE510CF96D8</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
 		<key>DA2340EFEC1B8537B2BC747AFC074366</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>DA651CC5E2E0BFEF724BE68F22C773F2</key>
 		<dict>
 			<key>primary</key>
 			<true/>

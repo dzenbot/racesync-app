@@ -49,7 +49,7 @@ class EventDetailViewController: UIViewController, Joinable {
     }()
 
     fileprivate lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.joinButton, self.memberBadgeView])
+        let stackView = UIStackView(arrangedSubviews: [joinButton, memberBadgeView])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .trailing
@@ -81,7 +81,7 @@ class EventDetailViewController: UIViewController, Joinable {
     }()
 
     fileprivate lazy var headerLabelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.locationButton, self.dateButton])
+        let stackView = UIStackView(arrangedSubviews: [locationButton, dateButton])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading

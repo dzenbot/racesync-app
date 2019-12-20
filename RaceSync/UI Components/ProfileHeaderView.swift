@@ -40,7 +40,7 @@ class ProfileHeaderView: UIView {
     fileprivate lazy var mainTextLabel: PasteboardLabel = {
         let label = PasteboardLabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.textColor = Color.gray400
+        label.textColor = Color.gray500
         label.numberOfLines = 5
         return label
     }()
@@ -50,7 +50,7 @@ class ProfileHeaderView: UIView {
         button.tintColor = Color.red
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: -Constants.padding)
         return button
     }()
 
@@ -58,35 +58,35 @@ class ProfileHeaderView: UIView {
         let button = UIButton(type: .system)
         button.tintColor = Color.white
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Constants.padding/2)
         button.isUserInteractionEnabled = false
         return button
     }()
 
     fileprivate lazy var leftBadgeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = Color.gray400
+        button.tintColor = Color.gray300
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Constants.padding/2)
         button.isUserInteractionEnabled = false
         return button
     }()
 
     fileprivate lazy var rightBadgeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = Color.gray400
+        button.tintColor = Color.gray300
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -6, bottom: 0, right: 0)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding/2, bottom: 0, right: 0)
         button.isUserInteractionEnabled = false
         return button
     }()
 
     fileprivate lazy var headerLabelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.mainTextLabel, self.locationLabel])
+        let stackView = UIStackView(arrangedSubviews: [mainTextLabel, locationLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
-        stackView.spacing = 12
+        stackView.spacing = Constants.padding
         return stackView
     }()
 
@@ -131,7 +131,7 @@ class ProfileHeaderView: UIView {
         addSubview(leftBadgeButton)
         leftBadgeButton.snp.makeConstraints {
             $0.top.equalTo(backgroundImageView.snp.bottom).offset(Constants.padding/2)
-            $0.leading.equalToSuperview().offset(Constants.padding*1.5)
+            $0.leading.equalToSuperview().offset(Constants.padding)
         }
 
         addSubview(rightBadgeButton)
@@ -149,9 +149,9 @@ class ProfileHeaderView: UIView {
         addSubview(headerLabelStackView)
         headerLabelStackView.snp.makeConstraints {
             $0.top.equalTo(profileImageView.snp.bottom).offset(Constants.padding)
-            $0.leading.equalToSuperview().offset(Constants.padding*4/3) // 130%
-            $0.trailing.equalToSuperview().offset(-Constants.padding*4/3) // 130%
-            $0.bottom.equalToSuperview().offset(-Constants.padding/2)
+            $0.leading.equalToSuperview().offset(Constants.padding)
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
+            $0.bottom.equalToSuperview()
         }
 
         hasLaidOut = true

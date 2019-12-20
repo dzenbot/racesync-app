@@ -49,7 +49,7 @@ class ProfileViewModel: Descriptable {
 
     init(with chapter: Chapter) {
         self.title = chapter.name
-        self.displayName = chapter.description
+        self.displayName = chapter.description.isEmpty ? chapter.name : chapter.description
         self.locationName = ViewModelHelper.locationLabel(for: chapter.city, state: chapter.state)
         self.pictureUrl = chapter.mainImageUrl
         self.backgroundUrl = chapter.backgroundUrl

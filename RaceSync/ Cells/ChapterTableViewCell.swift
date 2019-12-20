@@ -42,7 +42,7 @@ class ChapterTableViewCell: UITableViewCell {
     // MARK: - Private Variables
 
     fileprivate lazy var labelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.titleLabel, self.subtitleLabel])
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
@@ -52,8 +52,8 @@ class ChapterTableViewCell: UITableViewCell {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let imageHeight: CGFloat = 50
-        static let cellHeight: CGFloat = 90
+        static let cellHeight: CGFloat = UniversalConstants.cellHeight
+        static let imageHeight: CGFloat = UniversalConstants.cellAvatarHeight
     }
 
     // MARK: - Initializatiom

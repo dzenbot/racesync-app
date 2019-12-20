@@ -57,7 +57,7 @@ class UserRaceTableViewCell: UITableViewCell {
     // MARK: - Private Variables
 
     fileprivate lazy var labelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [self.dateLabel, self.titleLabel])
+        let stackView = UIStackView(arrangedSubviews: [dateLabel, titleLabel])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
@@ -67,9 +67,9 @@ class UserRaceTableViewCell: UITableViewCell {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
+        static let cellHeight: CGFloat = UniversalConstants.cellHeight
+        static let imageHeight: CGFloat = UniversalConstants.cellAvatarHeight
         static let minButtonSize: CGFloat = 72
-        static let imageHeight: CGFloat = 50
-        static let cellHeight: CGFloat = 100
     }
 
     // MARK: - Initializatiom

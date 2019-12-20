@@ -8,6 +8,7 @@ target 'RaceSync' do
   pod 'SwiftValidators', :inhibit_warnings => true
   pod 'Presentr'
   pod 'QRCode', :git => 'https://github.com/andrewcampoli/QRCode.git', :inhibit_warnings => true
+  pod 'ShimmerSwift'
 
   # Dev Tools
   pod 'Fabric'

@@ -15,7 +15,7 @@ class ChapterViewController: ProfileViewController {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight:CGFloat = 90
+        static let cellHeight: CGFloat = UniversalConstants.cellHeight
     }
 
     fileprivate let chapter: Chapter
@@ -93,10 +93,14 @@ class ChapterViewController: ProfileViewController {
 fileprivate extension ChapterViewController {
 
     func loadRaces() {
-        tableView.reloadData()
-
         if raceViewModels.isEmpty {
-            fetchRaces()
+            isLoading(true)
+
+            fetchRaces { [weak self] in
+                self?.isLoading(false)
+            }
+        } else {
+            tableView.reloadData()
         }
     }
 
@@ -119,9 +123,16 @@ fileprivate extension ChapterViewController {
     }
 
     func loadUsers() {
-        if let myUser = APIServices.shared.myUser {
-            self.userViewModels = UserViewModel.viewModels(with: [myUser])
-            self.tableView.reloadData()
+        if userViewModels.isEmpty {
+            isLoading(true)
+
+            // TODO: Just displaying the 1 complete User model we have, while we wait for https://github.com/mainedrones/RaceSync/issues/7
+            if let myUser = APIServices.shared.myUser {
+                self.userViewModels = UserViewModel.viewModels(with: [myUser])
+                isLoading(false)
+            }
+        } else {
+            tableView.reloadData()
         }
     }
 }
@@ -149,7 +160,11 @@ extension ChapterViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.cellHeight
+        if selectedSegment == .left {
+            return RaceTableViewCell.height
+        } else {
+            return UserTableViewCell.height
+        }
     }
 
     func raceTableViewCell(for viewModel: RaceViewModel) -> RaceTableViewCell {

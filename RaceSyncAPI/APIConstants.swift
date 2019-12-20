@@ -33,6 +33,7 @@ public enum ChapterTier: Int {
     case one = 1
     case two = 2
     case three = 3
+    case four = 4
     case provisional = 5
 
     public var title: String {
@@ -40,6 +41,7 @@ public enum ChapterTier: Int {
         case .one:          return "Tier 1"
         case .two:          return "Tier 2"
         case .three:        return "Tier 3"
+        case .four:         return "Special"
         case .provisional:  return "Provisional"
         }
     }

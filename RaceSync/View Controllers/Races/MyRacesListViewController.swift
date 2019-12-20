@@ -8,13 +8,29 @@
 
 import UIKit
 import RaceSyncAPI
-import AlamofireImage
+import ShimmerSwift
 
-class MyRacesListViewController: UIViewController, Joinable {
+class MyRacesListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Feature Flags
     fileprivate var shouldShowSearchButton: Bool = false
     fileprivate var shouldLoadRaces: Bool = true
+
+    // MARK: - Public Variables
+
+    // TODO: Break it down into 1 tableView for each section. Should keep the scroll offset intact as well as less
+    // computing when switching segments. More optimal and practical.
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
+        tableView.refreshControl = self.refreshControl
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+
+    var shimmeringView: ShimmeringView = defaultShimmeringView()
 
     // MARK: - Private Variables
 
@@ -50,18 +66,6 @@ class MyRacesListViewController: UIViewController, Joinable {
             $0.bottom.equalTo(view.snp.bottom)
         }
         return view
-    }()
-
-    // TODO: Break it down into 1 tableView for each section. Should keep the scroll offset intact as well as less
-    // computing when switching segments. More optimal and practical.
-    fileprivate lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
-        tableView.refreshControl = self.refreshControl
-        tableView.tableFooterView = UIView()
-        return tableView
     }()
 
     fileprivate lazy var refreshControl: UIRefreshControl = {
@@ -109,7 +113,6 @@ class MyRacesListViewController: UIViewController, Joinable {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let headerHeight: CGFloat = 50
-        static let cellHeight: CGFloat = 96
     }
 
     // MARK: - Lifecycle Methods
@@ -119,6 +122,7 @@ class MyRacesListViewController: UIViewController, Joinable {
 
         setupLayout()
         fetchMyUser()
+        isLoading(true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -153,6 +157,13 @@ class MyRacesListViewController: UIViewController, Joinable {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.snp.bottom)
         }
+
+        view.addSubview(shimmeringView)
+        shimmeringView.snp.makeConstraints {
+            $0.top.equalTo(tableView.snp.top)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(tableView.snp.bottom)
+        }
     }
 
     // MARK: - Actions
@@ -176,8 +187,8 @@ class MyRacesListViewController: UIViewController, Joinable {
     }
 
     @objc fileprivate func reloadDataFromPull() {
-        fetchRaces(selectedRaceListFiltering()) {
-            self.refreshControl.endRefreshing()
+        fetchRaces(selectedRaceListFiltering()) { [weak self] in
+            self?.refreshControl.endRefreshing()
         }
     }
 
@@ -208,12 +219,16 @@ fileprivate extension MyRacesListViewController {
         }
     }
 
-    func loadRaces() {
-        if currentRaceList() == nil {
-            tableView.reloadData()
-            fetchRaces(selectedRaceListFiltering())
+    func loadRaces(_ force: Bool = false, completion: VoidCompletionBlock? = nil) {
+        if currentRaceList() == nil || force {
+            isLoading(true)
+            fetchRaces(selectedRaceListFiltering()) { [weak self] in
+                self?.isLoading(false)
+                completion?()
+            }
         } else {
             tableView.reloadData()
+            completion?()
         }
     }
 
@@ -228,10 +243,8 @@ fileprivate extension MyRacesListViewController {
                 guard let startDate = race.startDate else { return false }
                 return startDate.timeIntervalSinceNow.sign == .plus
             }) {
-                let filteredRaces = upcomingRaces.sorted(by: { $0.startDate?.compare($1.startDate ?? Date()) == .orderedAscending })
-
-                self.raceList[filtering.rawValue] = RaceViewModel.viewModels(with: filteredRaces)
-                self.tableView.reloadData()
+                let sortedRaces = upcomingRaces.sorted(by: { $0.startDate?.compare($1.startDate ?? Date()) == .orderedAscending })
+                self.raceList[filtering.rawValue] = RaceViewModel.viewModels(with: sortedRaces)
             } else {
                 print("getMyRaces error : \(error.debugDescription)")
             }
@@ -312,7 +325,7 @@ extension MyRacesListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.cellHeight
+        return RaceTableViewCell.height
     }
 }
 

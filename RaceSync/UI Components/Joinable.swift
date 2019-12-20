@@ -76,7 +76,7 @@ extension Joinable {
     func toggleJoinButton(_ button: JoinButton, forChapterId chapterId: ObjectId, chapterApi: ChapterApi, _ completion: @escaping JoinStateCompletionBlock) {
 
         let state = button.joinState
-        let newState = state.inverted
+        let _ = state.inverted
 
         if state == .joined {
 

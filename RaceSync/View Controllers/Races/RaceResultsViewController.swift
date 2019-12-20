@@ -25,7 +25,7 @@ class RaceResultsViewController: UIViewController {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight:CGFloat = 90
+        static let cellHeight: CGFloat = UniversalConstants.cellHeight
     }
 
     // MARK: - Initialization

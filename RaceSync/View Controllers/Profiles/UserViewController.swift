@@ -146,18 +146,20 @@ class UserViewController: ProfileViewController, Joinable {
 fileprivate extension UserViewController {
 
     func loadRaces() {
-        tableView.reloadData()
-
         if raceViewModels.isEmpty {
-            fetchRaces()
+            isLoading(true)
+
+            fetchRaces { [weak self] in
+                self?.isLoading(false)
+            }
         }
     }
 
     func fetchRaces(_ completion: VoidCompletionBlock? = nil) {
         raceApi.getRaces(forUser: user.id, filtering: .all) { (races, error) in
             if let races = races {
-                self.raceViewModels = RaceViewModel.viewModels(with: races)
-                self.tableView.reloadData()
+                let sortedRaces = races.sorted(by: { $0.startDate?.compare($1.startDate ?? Date()) == .orderedDescending })
+                self.raceViewModels = RaceViewModel.viewModels(with: sortedRaces)
             } else {
                 print("getRaces error : \(error.debugDescription)")
             }
@@ -167,10 +169,12 @@ fileprivate extension UserViewController {
     }
 
     func loadChapters() {
-        tableView.reloadData()
-
         if chapterViewModels.isEmpty {
-            fetchChapters()
+            isLoading(true)
+
+            fetchChapters { [weak self] in
+                self?.isLoading(false)
+            }
         }
     }
 
@@ -179,7 +183,6 @@ fileprivate extension UserViewController {
         chapterApi.getChapters(forUser: user.id) { (chapters, error) in
             if let chapters = chapters {
                 self.chapterViewModels = ChapterViewModel.viewModels(with: chapters)
-                self.tableView.reloadData()
             } else {
                 print("getChapters error : \(error.debugDescription)")
             }

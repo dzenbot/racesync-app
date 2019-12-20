@@ -13,6 +13,7 @@ PODS:
   - ObjectMapper (3.4.2)
   - Presentr (1.9)
   - QRCode (2.0)
+  - ShimmerSwift (2.1.1)
   - SnapKit (5.0.0)
   - SwiftLint (0.32.0)
   - SwiftValidators (9.0.1)
@@ -28,6 +29,7 @@ DEPENDENCIES:
   - ObjectMapper
   - Presentr
   - QRCode (from `https://github.com/andrewcampoli/QRCode.git`)
+  - ShimmerSwift
   - SnapKit
   - SwiftLint
   - SwiftValidators
@@ -43,6 +45,7 @@ SPEC REPOS:
     - Fabric
     - ObjectMapper
     - Presentr
+    - ShimmerSwift
     - SnapKit
     - SwiftLint
     - SwiftValidators
@@ -67,11 +70,12 @@ SPEC CHECKSUMS:
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   QRCode: 282441d0cfe8c4c1766b7578361fe93f72757685
+  ShimmerSwift: f7ed2daf9c246de8299dfd9e12c6ab465cba9842
   SnapKit: fd22d10eb9aff484d79a8724eab922c1ddf89bcf
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   SwiftValidators: 8389e5dd12516d228f9648c20501a23e63a5252a
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
 
-PODFILE CHECKSUM: 5859364a26d8bd776c7b30572cb749fd75d3fedf
+PODFILE CHECKSUM: b7a8596b325dc30231fa05de67bbf49a66e97adf
 
 COCOAPODS: 1.5.3

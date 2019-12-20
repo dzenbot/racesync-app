@@ -8,20 +8,22 @@
 
 import UIKit
 import SnapKit
+import ShimmerSwift
 
 enum ProfileSegment: Int {
     case left, right
 }
 
-class ProfileViewController: UIViewController {
+class ProfileViewController: UIViewController, Shimmable {
 
     // MARK: - Public Variables
 
-    public let profileViewModel: ProfileViewModel
+    let profileViewModel: ProfileViewModel
 
-    public let headerView = ProfileHeaderView()
+    let headerView = ProfileHeaderView()
+    let shimmeringView: ShimmeringView = defaultShimmeringView()
 
-    public lazy var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.delegate = self
         tableView.register(SegmentedTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: SegmentedTableViewHeaderView.identifier)
@@ -37,7 +39,7 @@ class ProfileViewController: UIViewController {
         return tableView
     }()
 
-    public var segmentedControl: UISegmentedControl? {
+    var segmentedControl: UISegmentedControl? {
         didSet {
             segmentedControl?.setTitle(profileViewModel.leftSegmentLabel, forSegmentAt: ProfileSegment.left.rawValue)
             segmentedControl?.setTitle(profileViewModel.rightSegmentLabel, forSegmentAt: ProfileSegment.right.rawValue)
@@ -45,7 +47,7 @@ class ProfileViewController: UIViewController {
         }
     }
 
-    public var selectedSegment: ProfileSegment {
+    var selectedSegment: ProfileSegment {
         get {
             if segmentedControl?.selectedSegmentIndex == ProfileSegment.right.rawValue {
                 return .right
@@ -107,13 +109,19 @@ class ProfileViewController: UIViewController {
         view.addSubview(tableView)
 
         tableView.snp.makeConstraints {
-            $0.top.bottom.equalToSuperview()
-            $0.height.greaterThanOrEqualTo(0)
-            $0.width.equalTo(UIScreen.main.bounds.width)
+            $0.top.leading.trailing.bottom.equalToSuperview()
         }
 
+        let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+
         headerView.snp.makeConstraints {
-            $0.size.equalTo(headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize))
+            $0.size.equalTo(headerViewSize)
+        }
+
+        view.addSubview(shimmeringView)
+        shimmeringView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaInsets.top).offset(headerViewSize.height + SegmentedTableViewHeaderView.headerHeight + topOffset)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 
