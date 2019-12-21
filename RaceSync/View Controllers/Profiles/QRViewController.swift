@@ -14,9 +14,12 @@ import PassKit
 
 class QRViewController: UIViewController {
 
+    // MARK: - Feature Flags
+    fileprivate var isPassKitEnabled: Bool = true
+
     // MARK: - Private Variables
 
-    lazy var qrImageView: UIImageView = {
+    fileprivate lazy var qrImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = Color.white
         imageView.contentMode = .center
@@ -34,7 +37,7 @@ class QRViewController: UIViewController {
         return imageView
     }()
 
-    lazy var qrCodeLabel: PasteboardLabel = {
+    fileprivate lazy var qrCodeLabel: PasteboardLabel = {
         let label = PasteboardLabel()
         label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         label.textColor = Color.black
@@ -42,33 +45,43 @@ class QRViewController: UIViewController {
         return label
     }()
 
-    lazy var walletButton: UIButton = {
-        let image = UIImage(named: "icn_apple_wallet")?.withRenderingMode(.alwaysOriginal)
+    fileprivate lazy var walletButton: UIButton = {
+        let button = PKAddPassButton(addPassButtonStyle: .black)
+        button.addTarget(self, action: #selector(didTapWalletButton), for: .touchUpInside)
+        return button
+    }()
+
+    fileprivate lazy var photosButton: UIButton = {
+        let image = UIImage(named: "icn_apple_photos")?.withRenderingMode(.alwaysOriginal)
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)
-        button.setTitle("Add To Apple Wallet", for: .normal)
-        button.addTarget(self, action: #selector(didTapWalletButton), for: .touchUpInside)
+        button.setTitle("Save to Photos", for: .normal)
+        button.addTarget(self, action: #selector(didTapPhotosButton), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: .regular)
+        button.tintColor = Color.black
         button.backgroundColor = Color.white
-        button.tintColor = Color.blue
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Constants.padding)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -50, bottom: 0, right: 0)
+        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -30, bottom: 0, right: 0)
         button.layer.cornerRadius = Constants.cornerRadius/2
         return button
     }()
 
-    lazy var photosButton: UIButton = {
-        let image = UIImage(named: "icn_apple_photos")?.withRenderingMode(.alwaysOriginal)
-        let button = UIButton(type: .system)
-        button.setImage(image, for: .normal)
-        button.setTitle("Save to Camera Roll", for: .normal)
-        button.addTarget(self, action: #selector(didTapPhotosButton), for: .touchUpInside)
-        button.backgroundColor = Color.white
-        button.tintColor = Color.blue
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Constants.padding)
-        button.layer.cornerRadius = Constants.cornerRadius/2
-        return button
+    fileprivate lazy var buttonStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: actionButtons())
+        stackView.backgroundColor = .red
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .center
+        stackView.spacing = Constants.padding
+        return stackView
     }()
+
+    fileprivate func actionButtons() -> [UIView] {
+        var subviews = [UIView]()
+        if isPassKitEnabled { subviews += [walletButton] }
+        subviews += [photosButton]
+        return subviews
+    }
 
     fileprivate let userId: String
 
@@ -76,7 +89,8 @@ class QRViewController: UIViewController {
         static let padding: CGFloat = UniversalConstants.padding
         static let qrSize: CGSize = CGSize(width: 270, height: 270)
         static let imageSize: CGSize = CGSize(width: 320, height: 320)
-        static let cornerRadius: CGFloat = 10
+        static let cornerRadius: CGFloat = 24
+        static let buttonHeight: CGFloat = 56
     }
 
     // MARK: - Initialization
@@ -125,20 +139,24 @@ class QRViewController: UIViewController {
             $0.size.equalTo(Constants.imageSize)
         }
 
-        view.addSubview(walletButton)
-        walletButton.snp.makeConstraints {
+        view.addSubview(buttonStackView)
+        buttonStackView.snp.makeConstraints {
             $0.top.equalTo(qrImageView.snp.bottom).offset(Constants.padding*3)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(qrImageView.snp.width).offset(-Constants.padding*4)
-            $0.height.equalTo(50)
+            $0.width.equalTo(Constants.imageSize.width)
+            $0.height.greaterThanOrEqualTo(Constants.buttonHeight*2)
         }
 
-        view.addSubview(photosButton)
+        if walletButton.superview != nil {
+            walletButton.snp.makeConstraints {
+                $0.width.equalTo(Constants.imageSize.width)
+                $0.height.equalTo(Constants.buttonHeight)
+            }
+        }
+
         photosButton.snp.makeConstraints {
-            $0.top.equalTo(walletButton.snp.bottom).offset(Constants.padding)
-            $0.centerX.equalToSuperview()
-            $0.width.equalTo(qrImageView.snp.width).offset(-Constants.padding*4)
-            $0.height.equalTo(50)
+            $0.width.equalTo(Constants.imageSize.width)
+            $0.height.equalTo(Constants.buttonHeight)
         }
     }
 
@@ -153,7 +171,15 @@ class QRViewController: UIViewController {
     }
 
     @objc func didTapWalletButton() {
-        print("didTapWalletButton")
+        guard PKAddPassesViewController.canAddPasses() else { return }
+
+        do {
+            let pass = try PKPass(data: Data())
+            guard let viewController = PKAddPassesViewController(pass: pass) else { return }
+            UIViewController.topMostViewController()?.present(viewController, animated: true, completion: nil)
+        }  catch {
+            print("error showing pass \(error.localizedDescription)")
+        }
     }
 
     @objc func didTapPhotosButton() {
@@ -165,7 +191,7 @@ class QRViewController: UIViewController {
         if let error = error {
             AlertUtil.presentErrorMessage(error.localizedDescription, title: "Save error")
         } else {
-            AlertUtil.presentAlertMessage("Your MultiGP QR has been saved to your Camera Roll.", title: "Saved!")
+            AlertUtil.presentAlertMessage("Your MultiGP QR code has been saved to the Photos app!", title: "Saved Image")
         }
     }
 }

@@ -23,6 +23,16 @@ class ProfileHeaderView: UIView {
         }
     }
 
+    lazy var locationButton: PasteboardButton = {
+        let button = PasteboardButton(type: .system)
+        button.tintColor = Color.red
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
+        button.titleEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: -Constants.padding)
+        button.shouldHighlight = true
+        return button
+    }()
+
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -43,15 +53,6 @@ class ProfileHeaderView: UIView {
         label.textColor = Color.gray500
         label.numberOfLines = 5
         return label
-    }()
-
-    fileprivate lazy var locationLabel: PasteboardButton = {
-        let button = PasteboardButton(type: .system)
-        button.tintColor = Color.red
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
-        button.titleEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: -Constants.padding)
-        return button
     }()
 
     fileprivate lazy var topBadgeButton: UIButton = {
@@ -82,7 +83,7 @@ class ProfileHeaderView: UIView {
     }()
 
     fileprivate lazy var headerLabelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [mainTextLabel, locationLabel])
+        let stackView = UIStackView(arrangedSubviews: [mainTextLabel, locationButton])
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
@@ -191,7 +192,7 @@ class ProfileHeaderView: UIView {
         }
 
         mainTextLabel.text = viewModel.displayName
-        locationLabel.setTitle(viewModel.locationName, for: .normal)
+        locationButton.setTitle(viewModel.locationName, for: .normal)
 
         if viewModel.topBadgeLabel != nil {
             topBadgeButton.setTitle(viewModel.topBadgeLabel, for: .normal)

@@ -105,6 +105,7 @@ class ProfileViewController: UIViewController, Shimmable {
 
         headerView.topLayoutInset = topOffset
         headerView.viewModel = profileViewModel
+        headerView.locationButton.addTarget(self, action: #selector(didPressLocationButton), for: .touchUpInside)
         tableView.tableHeaderView = headerView
         view.addSubview(tableView)
 
@@ -131,6 +132,10 @@ class ProfileViewController: UIViewController, Shimmable {
         if tableView.contentOffset.y >= headerView.frame.height + topOffset {
             tableView.contentOffset = CGPoint(x: 0, y: headerView.frame.height-topOffset)
         }
+    }
+
+    @objc open func didPressLocationButton() {
+        //
     }
 
     @objc open func didSwipeHorizontally(_ sender: Any) {

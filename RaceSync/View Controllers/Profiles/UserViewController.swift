@@ -101,6 +101,10 @@ class UserViewController: ProfileViewController, Joinable {
         }
     }
 
+    override func didPressLocationButton() {
+        //
+    }
+
     override func didSelectRow(at indexPath: IndexPath) {
         if selectedSegment == .left {
             let viewModel = raceViewModels[indexPath.row]
