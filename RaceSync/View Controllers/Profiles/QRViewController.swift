@@ -195,7 +195,6 @@ class QRViewController: UIViewController {
             }
 
             guard let viewController = PKAddPassesViewController(pass: pass) else { return }
-            viewController.title = "MultiGP Pilot Pass"
             viewController.delegate = self
             UIViewController.topMostViewController()?.present(viewController, animated: true, completion: nil)
 

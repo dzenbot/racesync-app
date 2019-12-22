@@ -75,6 +75,10 @@ class ChapterViewController: ProfileViewController {
         }
     }
 
+    override func didPressLocationButton() {
+        print("didPressLocationButton")
+    }
+
     override func didSelectRow(at indexPath: IndexPath) {
         if selectedSegment == .left {
             let viewModel = raceViewModels[indexPath.row]

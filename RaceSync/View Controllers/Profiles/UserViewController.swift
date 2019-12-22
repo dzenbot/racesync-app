@@ -102,7 +102,7 @@ class UserViewController: ProfileViewController, Joinable {
     }
 
     override func didPressLocationButton() {
-        //
+        print("didPressLocationButton")
     }
 
     override func didSelectRow(at indexPath: IndexPath) {
