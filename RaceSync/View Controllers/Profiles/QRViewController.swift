@@ -47,7 +47,7 @@ class QRViewController: UIViewController {
 
     fileprivate lazy var walletButton: UIButton = {
         let button = PKAddPassButton(addPassButtonStyle: .black)
-        button.addTarget(self, action: #selector(didTapWalletButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didPressWalletButton), for: .touchUpInside)
         return button
     }()
 
@@ -56,7 +56,7 @@ class QRViewController: UIViewController {
         let button = UIButton(type: .system)
         button.setImage(image, for: .normal)
         button.setTitle("Save to Photos", for: .normal)
-        button.addTarget(self, action: #selector(didTapPhotosButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didPressPhotosButton), for: .touchUpInside)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: .regular)
         button.tintColor = Color.black
         button.backgroundColor = Color.white
@@ -84,6 +84,7 @@ class QRViewController: UIViewController {
     }
 
     fileprivate let userId: String
+    fileprivate var pass: PKPass?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -109,7 +110,7 @@ class QRViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.init(white: 0, alpha: 0.5)
+        view.backgroundColor = UIColor.init(white: 0, alpha: 0.7)
 
         var qrCode = QRCode(userId)
         qrCode?.size = Constants.qrSize
@@ -135,7 +136,8 @@ class QRViewController: UIViewController {
 
         view.addSubview(qrImageView)
         qrImageView.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(-Constants.padding*2)
+            $0.centerX.equalToSuperview()
             $0.size.equalTo(Constants.imageSize)
         }
 
@@ -170,28 +172,63 @@ class QRViewController: UIViewController {
         print("didTapImageView")
     }
 
-    @objc func didTapWalletButton() {
-        guard PKAddPassesViewController.canAddPasses() else { return }
+    @objc func didPressWalletButton() {
+        // Skip if not allowed / supported
+        guard PKAddPassesViewController.canAddPasses() else {
+            AlertUtil.presentAlertMessage("This device doesn't support adding passes to the Wallet app.", title: "Device Not Supported")
+            return
+        }
+
+        guard let filepath = Bundle.main.path(forResource: "preview", ofType: "pkpass") else { return }
 
         do {
-            let pass = try PKPass(data: Data())
+            let content = try Data(contentsOf: URL(fileURLWithPath: filepath))
+            let pass = try PKPass(data: content)
+
+            // Offer to open Wallet if the pass is already present
+            if PKPassLibrary().containsPass(pass) {
+                AlertUtil.presentAlertMessage("This pass is already in the Wallet app. Do you wish to open wallet?", title: "Pass Already Saved", buttonTitle: "Show Pass") { (action) in
+                    guard let url = URL(string: WebUrls.walletScheme) else { return }
+                    UIApplication.shared.open(url, options: [:], completionHandler: nil)
+                }
+                return
+            }
+
             guard let viewController = PKAddPassesViewController(pass: pass) else { return }
+            viewController.title = "MultiGP Pilot Pass"
+            viewController.delegate = self
             UIViewController.topMostViewController()?.present(viewController, animated: true, completion: nil)
+
+            self.pass = pass
         }  catch {
             print("error showing pass \(error.localizedDescription)")
         }
     }
 
-    @objc func didTapPhotosButton() {
+    @objc func didPressPhotosButton() {
         guard let image = qrImageView.image else { return }
         UIImageWriteToSavedPhotosAlbum(image, self, #selector(image(_:didFinishSavingWithError:contextInfo:)), nil)
     }
 
     @objc func image(_ image: UIImage, didFinishSavingWithError error: Error?, contextInfo: UnsafeRawPointer) {
         if let error = error {
-            AlertUtil.presentErrorMessage(error.localizedDescription, title: "Save error")
+            AlertUtil.presentAlertMessage(error.localizedDescription, title: "Save error")
         } else {
             AlertUtil.presentAlertMessage("Your MultiGP QR code has been saved to the Photos app!", title: "Saved Image")
+        }
+    }
+}
+
+extension QRViewController: PKAddPassesViewControllerDelegate {
+
+    func addPassesViewControllerDidFinish(_ controller: PKAddPassesViewController) {
+
+        controller.dismiss(animated: true) { [weak self] in
+            if let pass = self?.pass {
+                if PKPassLibrary().containsPass(pass) {
+                    AlertUtil.presentAlertMessage("Your MultiGP Pilot Pass has been saved to the Wallet app!", title: "Saved Pass")
+                }
+            }
         }
     }
 }
