@@ -1,0 +1,7 @@
+node_modules
+fastlane/report.xml
+xcuserdata
+.DS_Store
+*.ipa
+*.zip
+basic/composer.lock
