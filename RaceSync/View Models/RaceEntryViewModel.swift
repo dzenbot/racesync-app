@@ -21,24 +21,15 @@ class RaceEntryViewModel: Descriptable {
 
     init(with raceEntry: RaceEntry) {
         self.raceEntry = raceEntry
-        self.bandLabel = RaceEntryViewModel.bandLabel(for: raceEntry)
+        self.bandLabel = VideoChannels.bandTitle(for: raceEntry.band)
         self.channelLabel = RaceEntryViewModel.channelLabel(for: raceEntry)
-        self.antennaLabel = AntennaPolarization.both.rawValue
+        self.antennaLabel = AntennaPolarization.both.title
         self.shortChannelLabel = RaceEntryViewModel.shortChannelLabel(for: raceEntry)
         self.avatarUrl = raceEntry.profilePictureUrl
     }
 }
 
 extension RaceEntryViewModel {
-
-    static func bandLabel(for raceEntry: RaceEntry) -> String {
-        if raceEntry.band == "A" { return "Boscam A" }
-        if raceEntry.band == "B" { return "Boscam B" }
-        if raceEntry.band == "E" { return "Boscam E" }
-        if raceEntry.band == "F" { return "IRC / FS" }
-        if raceEntry.band == "R" { return "Race Band" }
-        return ""
-    }
 
     static func channelLabel(for raceEntry: RaceEntry) -> String {
         return "\(raceEntry.channel) (\(raceEntry.frequency))"
@@ -49,7 +40,7 @@ extension RaceEntryViewModel {
     }
 
     static func backgroundColor(for raceEntry: RaceEntry) -> UIColor {
-        let channel = "\(bandLabel(for: raceEntry)) \(raceEntry.channel)"
+        let channel = "\(VideoChannels.bandTitle(for: raceEntry.band)) \(raceEntry.channel)"
         return UIColor.randomColor(seed: channel)
     }
 }

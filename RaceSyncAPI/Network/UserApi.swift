@@ -65,7 +65,3 @@ public class UserApi: UserApiInterface {
         //
     }
 }
-
-fileprivate extension UserApi {
-
-}
