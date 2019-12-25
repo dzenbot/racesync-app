@@ -30,12 +30,9 @@ extension HeaderStretchable where Self: UIViewController {
         let imageViewSize = targetHeaderViewSize
 
         if scrollRatio < 0 {
-            targetHeaderView.frame = CGRect(x: scrollRatio, y: scrollOffset, width: imageViewSize.width - scrollRatio*2 , height: imageViewSize.height - scrollRatio);
+            targetHeaderView.layer.frame = CGRect(x: scrollRatio, y: scrollOffset, width: imageViewSize.width - scrollRatio*2 , height: imageViewSize.height - scrollRatio);
         } else {
-            targetHeaderView.frame = CGRect(x: 0, y: -layoutInset, width: imageViewSize.width, height: imageViewSize.height);
+            targetHeaderView.layer.frame = CGRect(x: 0, y: -layoutInset, width: imageViewSize.width, height: imageViewSize.height);
         }
-
-        print("contentOffset \(contentOffset)")
-        print("targetHeaderView.frame \(targetHeaderView.frame)")
     }
 }
