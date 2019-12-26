@@ -285,7 +285,7 @@ extension MyRacesListViewController: UITableViewDelegate {
         guard let races = currentRaceList() else { return }
 
         let viewModel = races[indexPath.row]
-        let eventTVC = RaceTabBarController(with: viewModel)
+        let eventTVC = RaceTabBarController(with: viewModel.race.id)
         navigationController?.pushViewController(eventTVC, animated: true)
 
         tableView.deselectRow(at: indexPath, animated: true)

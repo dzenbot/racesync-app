@@ -82,7 +82,7 @@ class ChapterViewController: ProfileViewController {
     override func didSelectRow(at indexPath: IndexPath) {
         if selectedSegment == .left {
             let viewModel = raceViewModels[indexPath.row]
-            let eventTVC = RaceTabBarController(with: viewModel) // pass the actual model object instead
+            let eventTVC = RaceTabBarController(with: viewModel.race.id) // pass the actual model object instead
             navigationController?.pushViewController(eventTVC, animated: true)
         } else {
             let viewModel = userViewModels[indexPath.row]

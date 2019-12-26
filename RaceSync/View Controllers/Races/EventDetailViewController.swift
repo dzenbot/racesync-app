@@ -164,16 +164,15 @@ class EventDetailViewController: UIViewController, Joinable {
         static let minButtonSize: CGFloat = 72
     }
 
+    fileprivate let race: Race
     fileprivate let raceViewModel: RaceViewModel
     fileprivate let raceApi = RaceApi()
-    var race: Race? {
-        didSet { tableView.reloadData() }
-    }
 
     // MARK: - Initialization
 
-    init(with raceViewModel: RaceViewModel) {
-        self.raceViewModel = raceViewModel
+    init(with race: Race) {
+        self.race = race
+        self.raceViewModel = RaceViewModel(with: race)
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -299,13 +298,13 @@ class EventDetailViewController: UIViewController, Joinable {
         scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height*3)
 
         if let latitude = CLLocationDegrees(raceViewModel.race.latitude), let longitude = CLLocationDegrees(raceViewModel.race.longitude) {
-            loadMapSnapshot(with: latitude, longitude: longitude)
+            loadMapSnapshot(with: latitude, longitude: longitude, useSnapshot: false)
         } else {
             // TODO: hide map view and adjust content inset
         }
     }
 
-    fileprivate func loadMapSnapshot(with latitude: CLLocationDegrees, longitude: CLLocationDegrees) {
+    fileprivate func loadMapSnapshot(with latitude: CLLocationDegrees, longitude: CLLocationDegrees, useSnapshot: Bool = true) {
 
         let distance = CLLocationDistance(1000)
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
@@ -325,6 +324,8 @@ class EventDetailViewController: UIViewController, Joinable {
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.mapHeight)
         }
+
+        guard useSnapshot else { return }
 
         let snapShotOptions: MKMapSnapshotter.Options = MKMapSnapshotter.Options()
         snapShotOptions.mapRect = paddedRect
@@ -403,14 +404,12 @@ extension EventDetailViewController: UITableViewDataSource {
         selectedBackgroundView.backgroundColor = Color.gray50
         cell.selectedBackgroundView = selectedBackgroundView
 
-        if let race = race {
-            if indexPath.row == 0 {
-                cell.textLabel?.text = "Chapter"
-                cell.detailTextLabel?.text = race.chapterName
-            } else if indexPath.row == 1 {
-                cell.textLabel?.text = "Race Coordinator"
-                cell.detailTextLabel?.text = race.ownerUserName
-            }
+        if indexPath.row == 0 {
+            cell.textLabel?.text = "Chapter"
+            cell.detailTextLabel?.text = race.chapterName
+        } else if indexPath.row == 1 {
+            cell.textLabel?.text = "Race Coordinator"
+            cell.detailTextLabel?.text = race.ownerUserName
         }
 
         return cell

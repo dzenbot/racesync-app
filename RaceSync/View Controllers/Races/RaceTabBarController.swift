@@ -22,9 +22,25 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Private Variables
 
-    fileprivate let eventDetailVC: EventDetailViewController
-    fileprivate let raceViewModel: RaceViewModel
+    fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .gray)
+        view.hidesWhenStopped = true
+        view.color = Color.blue
+        return view
+    }()
+
+    fileprivate lazy var errorLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        label.textAlignment = .center
+        label.textColor = Color.gray300
+        label.numberOfLines = 0
+        label.isHidden = true
+        return label
+    }()
+
     fileprivate let raceApi = RaceApi()
+    fileprivate var raceId: ObjectId
     fileprivate var race: Race?
 
     fileprivate enum Constants {
@@ -33,10 +49,8 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Initialization
 
-    init(with raceViewModel: RaceViewModel) {
-        self.raceViewModel = raceViewModel
-        self.eventDetailVC = EventDetailViewController(with: raceViewModel)
-
+    init(with raceId: ObjectId) {
+        self.raceId = raceId
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -49,11 +63,31 @@ class RaceTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        view.backgroundColor = Color.white
         delegate = self
 
-        raceApi.viewSimple(race: raceViewModel.race.id) { (race, error) in
-            self.race = race
-            self.configureViewControllers()
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+
+        view.addSubview(errorLabel)
+        errorLabel.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+
+        activityIndicatorView.startAnimating()
+
+        raceApi.viewSimple(race: raceId) { [weak self] (race, error) in
+            self?.activityIndicatorView.stopAnimating()
+
+            if let _ = error {
+                self?.errorLabel.isHidden = false
+                self?.errorLabel.text = "Could not load the race details.\nPlease try again later."
+            } else {
+                self?.race = race
+                self?.configureViewControllers()
+            }
         }
     }
 
@@ -70,7 +104,7 @@ class RaceTabBarController: UITabBarController {
     fileprivate func configureViewControllers() {
         guard let race = race else { return }
 
-        eventDetailVC.race = race // sketch for now!
+        let eventDetailVC = EventDetailViewController(with: race)
         let raceDetailVC = RaceDetailViewController(with: race)
         let raceResultsVC = RaceResultsViewController(with: race)
 
@@ -100,11 +134,12 @@ class RaceTabBarController: UITabBarController {
     }
 
     @objc func shareRace(_ sender: UIBarButtonItem) {
-        // TODO: Should use self.race but sometimes id is nil. Related to https://github.com/dzenbot/RaceSync/issues/36
-        guard let raceUrl = URL(string: raceViewModel.race.url) else { return }
+        guard let race = race else { return }
 
-        let items = [raceUrl]
-        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: nil)
+        let items = [URL(string: race.url)]
+
+        // TODO: Include 'Open in Safari' action
+        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
         present(activityVC, animated: true)
     }
 }

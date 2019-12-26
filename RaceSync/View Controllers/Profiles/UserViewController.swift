@@ -108,7 +108,7 @@ class UserViewController: ProfileViewController, Joinable {
     override func didSelectRow(at indexPath: IndexPath) {
         if selectedSegment == .left {
             let viewModel = raceViewModels[indexPath.row]
-            let eventTVC = RaceTabBarController(with: viewModel) // pass the actual model object instead
+            let eventTVC = RaceTabBarController(with: viewModel.race.id)
             navigationController?.pushViewController(eventTVC, animated: true)
         } else {
             let viewModel = chapterViewModels[indexPath.row]
