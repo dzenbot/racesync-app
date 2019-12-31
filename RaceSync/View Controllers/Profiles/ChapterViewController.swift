@@ -130,7 +130,7 @@ fileprivate extension ChapterViewController {
         if userViewModels.isEmpty {
             isLoading(true)
 
-            // TODO: Just displaying the 1 complete User model we have, while we wait for https://github.com/mainedrones/RaceSync/issues/7
+            // TODO: Just displaying the 1 complete User model we have, while we wait for https://github.com/mainedrones/racesync-api/issues/16
             if let myUser = APIServices.shared.myUser {
                 self.userViewModels = UserViewModel.viewModels(with: [myUser])
                 isLoading(false)

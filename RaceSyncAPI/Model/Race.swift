@@ -54,7 +54,7 @@ public class Race: Mappable, Descriptable {
     // MARK: - Initialization
 
     // Some APIs does not always provide the id attribute. Skipping for now.
-    // https://github.com/dzenbot/RaceSync/issues/36
+    // https://github.com/mainedrones/RaceSync/pull/37
     fileprivate static let requiredProperties = [/*"id",*/ "name", "chapterId", "ownerId"]
 
     public required convenience init?(map: Map) {

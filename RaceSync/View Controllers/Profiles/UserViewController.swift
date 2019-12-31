@@ -156,6 +156,8 @@ fileprivate extension UserViewController {
             fetchRaces { [weak self] in
                 self?.isLoading(false)
             }
+        } else {
+            tableView.reloadData()
         }
     }
 
@@ -179,6 +181,8 @@ fileprivate extension UserViewController {
             fetchChapters { [weak self] in
                 self?.isLoading(false)
             }
+        } else {
+            tableView.reloadData()
         }
     }
 
