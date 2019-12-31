@@ -136,6 +136,7 @@ class EventDetailViewController: UIViewController, Joinable {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
+        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
 
         let separatorLine = UIView()
         separatorLine.backgroundColor = Color.gray100
@@ -167,6 +168,8 @@ class EventDetailViewController: UIViewController, Joinable {
     fileprivate let race: Race
     fileprivate let raceViewModel: RaceViewModel
     fileprivate let raceApi = RaceApi()
+    fileprivate var chapterApi = ChapterApi()
+    fileprivate var userApi = UserApi()
 
     // MARK: - Initialization
 
@@ -393,6 +396,25 @@ class EventDetailViewController: UIViewController, Joinable {
 extension EventDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
+
+        if indexPath.row == FormListType.chapter.rawValue {
+
+        } else if indexPath.row == FormListType.owner.rawValue {
+            cell.isLoading = true
+
+            userApi.getUser(with: race.ownerId) { (user, error) in
+                cell.isLoading = false
+
+                if let user = user {
+                    let userVC = UserViewController(with: user)
+                    self.navigationController?.pushViewController(userVC, animated: true)
+                } else if let _ = error {
+                    // handle error
+                }
+            }
+        }
+
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
@@ -400,21 +422,16 @@ extension EventDetailViewController: UITableViewDelegate {
 extension EventDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 2
+        return FormListType.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-        cell.accessoryType = .disclosureIndicator
+        let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
 
-        let selectedBackgroundView = UIView()
-        selectedBackgroundView.backgroundColor = Color.gray50
-        cell.selectedBackgroundView = selectedBackgroundView
-
-        if indexPath.row == 0 {
+        if indexPath.row == FormListType.chapter.rawValue {
             cell.textLabel?.text = "Chapter"
             cell.detailTextLabel?.text = race.chapterName
-        } else if indexPath.row == 1 {
+        } else if indexPath.row == FormListType.owner.rawValue {
             cell.textLabel?.text = "Race Coordinator"
             cell.detailTextLabel?.text = race.ownerUserName
         }
@@ -451,4 +468,8 @@ extension EventDetailViewController: HeaderStretchable {
     var topLayoutInset: CGFloat {
         return topOffset
     }
+}
+
+fileprivate enum FormListType: Int, CaseIterable {
+    case chapter, owner
 }

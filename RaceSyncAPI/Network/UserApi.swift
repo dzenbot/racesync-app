@@ -46,7 +46,6 @@ public class UserApi: UserApiInterface {
         }
     }
 
-    @available(*, deprecated, message: "Not implemented by the API yet")
     public func getUser(with id: String, _ completion: @escaping ObjectCompletionBlock<User>) {
         let endpoint = EndPoint.userSearch
         let parameters: Parameters = [ParameterKey.id: id]
@@ -61,6 +60,7 @@ public class UserApi: UserApiInterface {
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: User.self, completion)
     }
 
+    @available(*, deprecated, message: "Not implemented by the API yet. See https://github.com/mainedrones/racesync-api/issues/16")
     public func getUsers(forChapter chapterId: String, _ completion: @escaping ObjectCompletionBlock<[User]>) {
         //
     }

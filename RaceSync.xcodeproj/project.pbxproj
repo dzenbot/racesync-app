@@ -71,6 +71,7 @@
 		4FA26833237A5983008970AC /* ObjectMapper+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26832237A5983008970AC /* ObjectMapper+Extensions.swift */; };
 		4FA26835237A80B9008970AC /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26834237A80B9008970AC /* ActionButton.swift */; };
 		4FAAA88523AA15EA00A004DC /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */; };
+		4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */; };
 		4FCAF9FA23AB226500ACE7D3 /* MapperUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9F923AB226500ACE7D3 /* MapperUtil.swift */; };
 		4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */; };
 		4FCAF9FE23AC8B8400ACE7D3 /* Shimmable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */; };
@@ -233,6 +234,7 @@
 		4FA26832237A5983008970AC /* ObjectMapper+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectMapper+Extensions.swift"; sourceTree = "<group>"; };
 		4FA26834237A80B9008970AC /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
+		4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		4FCAF9F923AB226500ACE7D3 /* MapperUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapperUtil.swift; sourceTree = "<group>"; };
 		4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerView.swift; sourceTree = "<group>"; };
 		4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmable.swift; sourceTree = "<group>"; };
@@ -552,6 +554,7 @@
 				4FD53FB023A0D48F00158206 /* UserRaceTableViewCell.swift */,
 				4F86690323877041005E310A /* ChapterTableViewCell.swift */,
 				4FD53FAE23A0B20900158206 /* UserTableViewCell.swift */,
+				4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */,
 				4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */,
 			);
 			path = " Cells";
@@ -1007,6 +1010,7 @@
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,
 				4FD4E1C9237F987C008816B3 /* RaceDetailViewController.swift in Sources */,
 				4F8668FC23870E1E005E310A /* SegmentedTableViewHeaderView.swift in Sources */,
+				4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */,
 				4FD4E1CD237F98E7008816B3 /* RaceTabBarController.swift in Sources */,
 				4FCAF9FE23AC8B8400ACE7D3 /* Shimmable.swift in Sources */,
 				4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */,
