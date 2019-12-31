@@ -14,12 +14,12 @@ protocol HeaderStretchable {
     var targetHeaderViewSize: CGSize { get }
     var topLayoutInset: CGFloat { get }
     
-    func stretchHeaderView(with contentOffset: CGPoint)
+    func stretchHeaderView(with contentOffset: CGPoint, bluring: Bool)
 }
 
 extension HeaderStretchable where Self: UIViewController {
 
-    func stretchHeaderView(with contentOffset: CGPoint) {
+    func stretchHeaderView(with contentOffset: CGPoint, bluring: Bool = false) {
         let layoutInset = topLayoutInset
 
         // skipping from doing calculations if not needed
@@ -30,9 +30,16 @@ extension HeaderStretchable where Self: UIViewController {
         let imageViewSize = targetHeaderViewSize
 
         if scrollRatio < 0 {
-            targetHeaderView.layer.frame = CGRect(x: scrollRatio, y: scrollOffset, width: imageViewSize.width - scrollRatio*2 , height: imageViewSize.height - scrollRatio);
+            let newWidth = imageViewSize.width - scrollRatio*2
+            let newHeight = imageViewSize.height - scrollRatio
+
+            targetHeaderView.layer.frame = CGRect(x: scrollRatio, y: scrollOffset, width: newWidth , height: newHeight)
+
+            if bluring {
+                // TODO: Implement performant image bluring effect based on scrolling ratio
+            }
         } else {
-            targetHeaderView.layer.frame = CGRect(x: 0, y: -layoutInset, width: imageViewSize.width, height: imageViewSize.height);
+            targetHeaderView.layer.frame = CGRect(x: 0, y: -layoutInset, width: imageViewSize.width, height: imageViewSize.height)
         }
     }
 }
