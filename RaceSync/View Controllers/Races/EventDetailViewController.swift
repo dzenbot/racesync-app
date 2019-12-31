@@ -298,23 +298,23 @@ class EventDetailViewController: UIViewController, Joinable {
         scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height*3)
 
         if let latitude = CLLocationDegrees(raceViewModel.race.latitude), let longitude = CLLocationDegrees(raceViewModel.race.longitude) {
-            loadMapSnapshot(with: latitude, longitude: longitude, useSnapshot: false)
+            loadMap(with: latitude, longitude: longitude, useSnapshot: false)
         } else {
             // TODO: hide map view and adjust content inset
         }
     }
 
-    fileprivate func loadMapSnapshot(with latitude: CLLocationDegrees, longitude: CLLocationDegrees, useSnapshot: Bool = true) {
+    fileprivate func loadMap(with latitude: CLLocationDegrees, longitude: CLLocationDegrees, useSnapshot: Bool = true) {
 
         let distance = CLLocationDistance(1000)
         let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: distance, longitudinalMeters: distance)
 
         let mapRect = MKCoordinateRegion.mapRectForCoordinateRegion(region)
-        let paddedRect = mapRect.offsetBy(dx: 0, dy: -1500) // TODO: Convert Screen points to Map points instead of harcoded value
+        let paddedMapRect = mapRect.offsetBy(dx: 0, dy: -1500) // TODO: Convert Screen points to Map points instead of harcoded value
 
         let mapView = MKMapView()
-        mapView.setVisibleMapRect(paddedRect, animated: false)
+        mapView.setVisibleMapRect(paddedMapRect, animated: false)
 
         // add temporairly to the view hiearchy so the map is displayed when loading
         // remove the map once the snapshot has been rendered
@@ -325,10 +325,17 @@ class EventDetailViewController: UIViewController, Joinable {
             $0.height.equalTo(Constants.mapHeight)
         }
 
-        guard useSnapshot else { return }
+        if useSnapshot {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.loadMapSnapshot(with: mapView, mapRect: paddedMapRect, coordinate: coordinate)
+            }
+        }
+    }
+
+    fileprivate func loadMapSnapshot(with mapView: MKMapView, mapRect: MKMapRect, coordinate: CLLocationCoordinate2D) {
 
         let snapShotOptions: MKMapSnapshotter.Options = MKMapSnapshotter.Options()
-        snapShotOptions.mapRect = paddedRect
+        snapShotOptions.mapRect = mapRect
         snapShotOptions.size = mapViewSize
         snapShotOptions.scale = UIScreen.main.scale
         snapShotOptions.showsBuildings = true
