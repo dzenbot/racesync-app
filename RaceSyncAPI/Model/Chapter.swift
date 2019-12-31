@@ -14,15 +14,16 @@ public class Chapter: Mappable, Descriptable {
     public var id: ObjectId = ""
     public var name: String = ""
     public var tier: String?
+    public var url: String = ""
     public var urlName: String = ""
     public var description: String = ""
     public var mainImageUrl: String? //mainImageFileName
     public var backgroundUrl: String? //backgroundFileName
-    public var url: String = ""
 
     public var raceCount: String?
     public var memberCount: String?
 
+    public var websiteUrl: String = ""
     public var facebookUrl: String?
     public var googleUrl: String?
     public var twitterUrl: String?
@@ -59,6 +60,7 @@ public class Chapter: Mappable, Descriptable {
         id <- map["id"]
         name <- map["name"]
         tier <- map["tier"]
+        url = "https://www.multigp.com/chapters/view/?chapter=\(name)"
         urlName <- map["urlName"]
         description <- map["description"]
 
@@ -75,10 +77,10 @@ public class Chapter: Mappable, Descriptable {
             backgroundUrl <- map["backgroundUrl"]
         }
 
-        url <- map["url"]
         raceCount <- map["raceCount"]
         memberCount <- map["memberCount"]
 
+        websiteUrl <- map["url"]
         facebookUrl <- map["facebookUrl"]
         googleUrl <- map["googleUrl"]
         twitterUrl <- map["twitterUrl"]

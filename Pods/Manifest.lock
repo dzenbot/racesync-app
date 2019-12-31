@@ -18,6 +18,7 @@ PODS:
   - SwiftLint (0.32.0)
   - SwiftValidators (9.0.1)
   - SwiftyJSON (5.0.0)
+  - TUSafariActivity (1.0.4)
 
 DEPENDENCIES:
   - Alamofire
@@ -34,6 +35,7 @@ DEPENDENCIES:
   - SwiftLint
   - SwiftValidators
   - SwiftyJSON
+  - TUSafariActivity (~> 1.0)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -50,6 +52,7 @@ SPEC REPOS:
     - SwiftLint
     - SwiftValidators
     - SwiftyJSON
+    - TUSafariActivity
 
 EXTERNAL SOURCES:
   QRCode:
@@ -75,7 +78,8 @@ SPEC CHECKSUMS:
   SwiftLint: 009a898ef2a1c851f45e1b59349bf6ff2ddc990d
   SwiftValidators: 8389e5dd12516d228f9648c20501a23e63a5252a
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
+  TUSafariActivity: afc55a00965377939107ce4fdc7f951f62454546
 
-PODFILE CHECKSUM: b7a8596b325dc30231fa05de67bbf49a66e97adf
+PODFILE CHECKSUM: c7c681c4861fb83057f2444665990b343e6b1291
 
 COCOAPODS: 1.5.3

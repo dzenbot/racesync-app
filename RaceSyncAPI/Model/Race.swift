@@ -53,7 +53,7 @@ public class Race: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    // Some APIs does not always provide the id attribute. Skipping for now.
+    // Some APIs do not always provide the id attribute. Skipping for now.
     // https://github.com/mainedrones/RaceSync/pull/37
     fileprivate static let requiredProperties = [/*"id",*/ "name", "chapterId", "ownerId"]
 
@@ -78,7 +78,7 @@ public class Race: Mappable, Descriptable {
         officialStatus <- map["officialStatus"]
         type <- map["type"]
         raceType <- map["raceType"]
-        url = "https://www.multigp.com/races/view/?race=\(id)/"
+        url = "https://www.multigp.com/races/view/?race=\(id)"
         urlName <- map["urlName"]
         description <- map["description"]
         content <- map["content"]

@@ -19,6 +19,7 @@ public class User: Mappable, Descriptable {
     public var profilePictureUrl: String?
     public var profileBackgroundUrl: String?
     public var authType: String = ""
+    public var url: String = ""
 
     public var raceCount: String?
     public var chapterCount: String?
@@ -51,6 +52,7 @@ public class User: Mappable, Descriptable {
         profilePictureUrl <- map["profilePictureUrl"]
         profileBackgroundUrl <- map["profileBackgroundUrl"]
         authType <- map["authType"]
+        url = "https://www.multigp.com/pilots/view/?pilot=\(userName)"
 
         raceCount <- map["raceCount"]
         chapterCount <- map["chapterCount"]

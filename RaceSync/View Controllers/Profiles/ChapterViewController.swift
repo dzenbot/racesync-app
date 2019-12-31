@@ -8,6 +8,7 @@
 
 import UIKit
 import RaceSyncAPI
+import TUSafariActivity
 
 class ChapterViewController: ProfileViewController {
 
@@ -41,6 +42,8 @@ class ChapterViewController: ProfileViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
 
         tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
         tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
@@ -138,6 +141,15 @@ fileprivate extension ChapterViewController {
         } else {
             tableView.reloadData()
         }
+    }
+
+    @objc func didPressShareButton() {
+        let items = [URL(string: chapter.url)]
+
+        let activity = TUSafariActivity()
+
+        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: [activity])
+        present(activityVC, animated: true)
     }
 }
 

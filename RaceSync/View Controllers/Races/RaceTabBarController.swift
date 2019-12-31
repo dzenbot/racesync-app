@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import RaceSyncAPI
+import TUSafariActivity
 
 fileprivate enum RaceTabs: Int {
     case event, race, results
@@ -118,7 +119,7 @@ class RaceTabBarController: UITabBarController {
         preloadTabs()
 
         tabBar.tintColor = Color.black
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(shareRace))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
     }
 
     // MARK: - Actions
@@ -133,13 +134,14 @@ class RaceTabBarController: UITabBarController {
         title = viewControllers?[index].title
     }
 
-    @objc func shareRace(_ sender: UIBarButtonItem) {
+    @objc func didPressShareButton() {
         guard let race = race else { return }
 
         let items = [URL(string: race.url)]
 
-        // TODO: Include 'Open in Safari' action
-        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: nil)
+        let activity = TUSafariActivity()
+
+        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: [activity])
         present(activityVC, animated: true)
     }
 }

@@ -7,9 +7,10 @@
 //
 
 import UIKit
-import RaceSyncAPI
-import Presentr
 import SnapKit
+import RaceSyncAPI
+import TUSafariActivity
+import Presentr
 
 class UserViewController: ProfileViewController, Joinable {
 
@@ -60,12 +61,14 @@ class UserViewController: ProfileViewController, Joinable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        if navigationController?.viewControllers.count == 1 {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
-        }
-
         if user.isMe {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: qrButton)
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+        }
+
+        if navigationController?.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
         }
 
         tableView.register(UserRaceTableViewCell.self, forCellReuseIdentifier: UserRaceTableViewCell.identifier)
@@ -144,6 +147,15 @@ class UserViewController: ProfileViewController, Joinable {
         toggleJoinButton(sender, forRaceId: raceId, raceApi: raceApi) { (newState) in
             // Do something
         }
+    }
+
+    @objc func didPressShareButton() {
+        let items = [URL(string: user.url)]
+
+        let activity = TUSafariActivity()
+
+        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: [activity])
+        present(activityVC, animated: true)
     }
 }
 
