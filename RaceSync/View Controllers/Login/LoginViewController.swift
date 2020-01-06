@@ -340,7 +340,7 @@ class LoginViewController: UIViewController {
     }
 
     func presentHome(transition: UIModalTransitionStyle = .crossDissolve) {
-        let raceListVC = MyRacesListViewController(nibName: nil, bundle: nil)
+        let raceListVC = RaceListViewController(nibName: nil, bundle: nil)
         let raceListNC = UINavigationController(rootViewController: raceListVC)
         raceListNC.modalTransitionStyle = transition
         raceListNC.modalPresentationStyle = .fullScreen

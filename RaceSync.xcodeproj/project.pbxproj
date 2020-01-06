@@ -78,7 +78,7 @@
 		4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */ = {isa = PBXBuildFile; fileRef = 4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */; };
 		4FD4E1BC237DCAA3008816B3 /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1BB237DCAA3008816B3 /* UserApi.swift */; };
 		4FD4E1BE237DCB24008816B3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1BD237DCB24008816B3 /* User.swift */; };
-		4FD4E1C1237DDFB4008816B3 /* MyRacesListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C0237DDFB4008816B3 /* MyRacesListViewController.swift */; };
+		4FD4E1C1237DDFB4008816B3 /* RaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C0237DDFB4008816B3 /* RaceListViewController.swift */; };
 		4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C2237F960A008816B3 /* CustomButton.swift */; };
 		4FD4E1C5237F9746008816B3 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C4237F9746008816B3 /* UserViewController.swift */; };
 		4FD4E1C7237F97AD008816B3 /* ChapterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C6237F97AD008816B3 /* ChapterViewController.swift */; };
@@ -241,7 +241,7 @@
 		4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */ = {isa = PBXFileReference; lastKnownFileType = file; path = preview.pkpass; sourceTree = "<group>"; };
 		4FD4E1BB237DCAA3008816B3 /* UserApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApi.swift; sourceTree = "<group>"; };
 		4FD4E1BD237DCB24008816B3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
-		4FD4E1C0237DDFB4008816B3 /* MyRacesListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyRacesListViewController.swift; sourceTree = "<group>"; };
+		4FD4E1C0237DDFB4008816B3 /* RaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceListViewController.swift; sourceTree = "<group>"; };
 		4FD4E1C2237F960A008816B3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		4FD4E1C4237F9746008816B3 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		4FD4E1C6237F97AD008816B3 /* ChapterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterViewController.swift; sourceTree = "<group>"; };
@@ -525,7 +525,7 @@
 		4FD4E1D3237F9DF8008816B3 /* Races */ = {
 			isa = PBXGroup;
 			children = (
-				4FD4E1C0237DDFB4008816B3 /* MyRacesListViewController.swift */,
+				4FD4E1C0237DDFB4008816B3 /* RaceListViewController.swift */,
 				4FD4E1CC237F98E7008816B3 /* RaceTabBarController.swift */,
 				4FD4E1CA237F98A0008816B3 /* EventDetailViewController.swift */,
 				4FD4E1C8237F987C008816B3 /* RaceDetailViewController.swift */,
@@ -999,7 +999,7 @@
 				4FD4E1D9237FB1EA008816B3 /* RaceTableViewCell.swift in Sources */,
 				4F5C1E4F2390B01700D756EB /* ImageNetworking.swift in Sources */,
 				4FD4E1CB237F98A0008816B3 /* EventDetailViewController.swift in Sources */,
-				4FD4E1C1237DDFB4008816B3 /* MyRacesListViewController.swift in Sources */,
+				4FD4E1C1237DDFB4008816B3 /* RaceListViewController.swift in Sources */,
 				4F68BE692399CEB5009D44F7 /* AlertUtil.swift in Sources */,
 				4F6C8A96236A9D580017FD78 /* UIColor+Extensions.swift in Sources */,
 				4FD4E1C5237F9746008816B3 /* UserViewController.swift in Sources */,

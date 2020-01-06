@@ -1,5 +1,5 @@
 //
-//  MyRacesListViewController.swift
+//  RaceListViewController.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2019-11-14.
@@ -10,7 +10,7 @@ import UIKit
 import RaceSyncAPI
 import ShimmerSwift
 
-class MyRacesListViewController: UIViewController, Joinable, Shimmable {
+class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Feature Flags
     fileprivate var shouldShowSearchButton: Bool = false
@@ -201,7 +201,7 @@ class MyRacesListViewController: UIViewController, Joinable, Shimmable {
     }
 }
 
-fileprivate extension MyRacesListViewController {
+fileprivate extension RaceListViewController {
 
     func fetchMyUser() {
         userApi.getMyUser { (user, error) in
@@ -239,7 +239,6 @@ fileprivate extension MyRacesListViewController {
         dateFormatter.dateFormat = DateUtil.standardFormat
 
         raceApi.getMyRaces(filtering: filtering) { (races, error) in
-
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
                 return startDate.timeIntervalSinceNow.sign == .plus
@@ -279,7 +278,7 @@ fileprivate extension MyRacesListViewController {
     }
 }
 
-extension MyRacesListViewController: UITableViewDelegate {
+extension RaceListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let races = currentRaceList() else { return }
@@ -292,7 +291,7 @@ extension MyRacesListViewController: UITableViewDelegate {
     }
 }
 
-extension MyRacesListViewController: UITableViewDataSource {
+extension RaceListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard let races = currentRaceList() else { return 0 }

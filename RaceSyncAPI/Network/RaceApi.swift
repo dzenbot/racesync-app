@@ -169,13 +169,12 @@ fileprivate extension RaceApi {
                 ParameterKey.longitude: longitude,
                 ParameterKey.radius: "500"
             ]
-            parameters[ParameterKey.status] = RaceStatus.open.rawValue
         } else {
             parameters[ParameterKey.joined] = [ParameterKey.pilotId : userId]
-
             if filtering == .upcoming {
-                // temporary solution
-                parameters[ParameterKey.status] = RaceStatus.open.rawValue
+                // TODO: Disabling for now since it's causing the API to return an empty array every time
+                // Bugged https://github.com/mainedrones/racesync-api/issues/14
+                // parameters[ParameterKey.upcoming] = [ParameterKey.limit: 20, ParameterKey.orderByDistance: false]
             } else if filtering == .past {
                 parameters[ParameterKey.past] = [ParameterKey.limit: 20, ParameterKey.orderByDistance: false]
             }
