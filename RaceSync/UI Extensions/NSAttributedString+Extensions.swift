@@ -10,14 +10,27 @@ import UIKit
 
 extension NSAttributedString {
 
+    public convenience init?(string: String, font: UIFont? = nil, color: UIColor? = nil) {
+        guard !string.isEmpty else { return nil }
+
+        var attrs = [NSAttributedString.Key: Any]()
+        attrs[NSAttributedString.Key.font] = font
+        attrs[NSAttributedString.Key.foregroundColor] = color
+
+        self.init(string: string, attributes: attrs)
+    }
+
     public convenience init?(HTMLString html: String, font: UIFont? = nil, color: UIColor? = nil) throws {
         guard !html.isEmpty else { return nil }
+
+        let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
+        let htmlString = "<head><style type=\"text/css\"> img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; } </style> </head><body> \(html) </body>"
 
         let options : [NSAttributedString.DocumentReadingOptionKey: Any] =
             [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,
              NSAttributedString.DocumentReadingOptionKey.characterEncoding: String.Encoding.utf8.rawValue]
 
-        guard let data = html.data(using: .utf8, allowLossyConversion: true) else {
+        guard let data = htmlString.data(using: .utf8, allowLossyConversion: true) else {
             throw NSError(domain: "Parse Error", code: 0, userInfo: nil)
         }
 

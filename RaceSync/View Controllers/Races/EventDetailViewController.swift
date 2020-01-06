@@ -288,16 +288,17 @@ class EventDetailViewController: UIViewController, Joinable {
         locationButton.setTitle(raceViewModel.fullLocationLabel, for: .normal)
         dateButton.setTitle(raceViewModel.fullDateLabel, for: .normal)
 
-        let descriptionFont = UIFont.systemFont(ofSize: 17, weight: .regular)
-        let captionFont = UIFont.systemFont(ofSize: 15, weight: .regular)
-        descriptionTextView.attributedText = try? NSMutableAttributedString(HTMLString: raceViewModel.race.description, font: descriptionFont, color: Color.gray300)
-        contentTextView.attributedText = try? NSMutableAttributedString(HTMLString: raceViewModel.race.content, font: descriptionFont)
-        itineraryTextView.attributedText = try? NSMutableAttributedString(HTMLString: raceViewModel.race.itineraryContent, font: captionFont)
+        let textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
+
+        descriptionTextView.attributedText = NSAttributedString(string: raceViewModel.race.description, font: textFont, color: Color.gray300)
+        contentTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.content, font: textFont)
+        itineraryTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.itineraryContent, font: textFont)
 
         // lays out the content and helps calculating the content size
         let contentRect: CGRect = scrollView.subviews.reduce(into: .zero) { rect, view in
             rect = rect.union(view.frame)
         }
+        
         scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height*3)
 
         if let latitude = CLLocationDegrees(raceViewModel.race.latitude), let longitude = CLLocationDegrees(raceViewModel.race.longitude) {
