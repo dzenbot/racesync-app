@@ -7,7 +7,25 @@
 //
 
 import Foundation
+import ObjectMapper
 
-class Season {
+public class Season: Mappable, Descriptable {
+
+    // MARK: - Initialization
+
+    fileprivate static let requiredProperties = ["id"]
+
+    public required convenience init?(map: Map) {
+        for requiredProperty in Season.requiredProperties {
+            if map.JSON[requiredProperty] == nil { return nil }
+        }
+
+        self.init()
+        self.mapping(map: map)
+    }
+
+    public func mapping(map: Map) {
+
+    }
 
 }

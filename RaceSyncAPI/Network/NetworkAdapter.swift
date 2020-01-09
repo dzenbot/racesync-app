@@ -82,8 +82,10 @@ class NetworkAdapter {
     fileprivate func formHeaders(_ headers: [String: String]?, authProtected: Bool, completion: @escaping ([String: String]) -> Void) {
         var headers: [String : String] = headers ?? [:]
         
-        headers["Content-typ"] = "application/json"
+        headers["Content-type"] = "application/json"
         headers["platform"] = "ios"
+
+        // TODO: Send user-agents for platform and OS etc
 
         // The server requires basic authorization header
         // when interacting with test.multigp.com

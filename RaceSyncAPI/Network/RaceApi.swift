@@ -89,33 +89,33 @@ public class RaceApi: RaceApiInterface {
                          currentPage: Int = 0, pageSize: Int = 25,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
-        let endPoint = EndPoint.raceList
+        let endpoint = EndPoint.raceList
         let parameters = parametersForRaces(with: userId, filtering: filtering, latitude: latitude, longitude: longitude)
-        repositoryAdapter.getObjects(endPoint, parameters: parameters, type: Race.self, completion)
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Race.self, completion)
     }
 
     public func getRaces(forChapter chapterId: ObjectId,
                          currentPage: Int = 0, pageSize: Int = 25,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
-        let endPoint = EndPoint.raceList
+        let endpoint = EndPoint.raceList
         let parameters = [ParameterKey.chapterId: chapterId]
 
-        repositoryAdapter.getObjects(endPoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
             completion(races, error)
         }
     }
 
     public func view(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endPoint = "\(EndPoint.raceView)?\(ParameterKey.id)=\(raceId)"
-        repositoryAdapter.getObject(endPoint, type: Race.self, completion)
+        let endpoint = "\(EndPoint.raceView)?\(ParameterKey.id)=\(raceId)"
+        repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
     public func viewSimple(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endPoint = "\(EndPoint.raceViewSimple)?\(ParameterKey.id)=\(raceId)"
-        repositoryAdapter.getObject(endPoint, type: Race.self, completion)
+        let endpoint = "\(EndPoint.raceViewSimple)?\(ParameterKey.id)=\(raceId)"
+        repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
     public func join(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {

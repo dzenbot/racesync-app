@@ -30,19 +30,19 @@ public class ChapterApi: ChapterApiInterface {
 
     public func getChapters(forUser pilotId: String, currentPage: Int = 0, pageSize: Int = 25, _ completion: @escaping ObjectCompletionBlock<[Chapter]>) {
 
-        let endPoint = EndPoint.chapterList
+        let endpoint = EndPoint.chapterList
         var parameters: Parameters = [:]
         parameters[ParameterKey.joined] = [ParameterKey.pilotId : pilotId]
 
-        repositoryAdapter.getObjects(endPoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
     }
 
     public func getLocalChapters(currentPage: Int = 0, pageSize: Int = 25, completion: @escaping ObjectCompletionBlock<[Chapter]>) {
 
-        let endPoint = EndPoint.chapterFindLocal
+        let endpoint = EndPoint.chapterFindLocal
         let parameters = parametersForMyLocalChapters()
 
-        repositoryAdapter.getObjects(endPoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
     }
 
     @available(*, deprecated, message: "Not implemented by the API yet. See https://github.com/mainedrones/racesync-api/issues/16")

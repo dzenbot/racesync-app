@@ -31,6 +31,3 @@ public struct ProdEnvironment : APIEnvironment {
     public let password: String = "VosspcwXp2n3VZ9"
     public let isDev: Bool = false
 }
-
-// "ignacio.romeroz+test@gmail.com"
-// "g3EwxoU2oyFEsI%p"

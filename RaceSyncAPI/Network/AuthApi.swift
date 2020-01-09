@@ -40,13 +40,13 @@ public class AuthApi {
 
     public func login(_ username: String, password: String, _ completion: @escaping CompletionBlock) {
 
-        let endPoint = EndPoint.userLogin
+        let endpoint = EndPoint.userLogin
         let parameters: Parameters = [
             ParameterKey.username: username,
             ParameterKey.password: password
         ]
 
-        repositoryAdapter.networkAdapter.httpRequest(endPoint, method: .post, parameters: parameters, nestParameters: false) { (request) in
+        repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters, nestParameters: false) { (request) in
             request.responseJSON(completionHandler: { (response) in
                 switch response.result {
                 case .success(let value):
@@ -62,12 +62,12 @@ public class AuthApi {
 
     public func logout(_ sessionId: String, _ completion: @escaping CompletionBlock) {
 
-        let endPoint = EndPoint.userLogout
+        let endpoint = EndPoint.userLogout
         let parameters: Parameters = [
             ParameterKey.sessionId: sessionId
         ]
 
-        repositoryAdapter.networkAdapter.httpRequest(endPoint, method: .post, parameters: parameters) { (request) in
+        repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters) { (request) in
             // implement response handling
         }
     }

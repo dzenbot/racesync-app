@@ -19,6 +19,7 @@ public enum EndPoint {
     static let userLogout = "user/logout"
     static let userProfile = "user/profile"
     static let userSearch = "user/search"
+
     static let raceList = "race/list"
     static let raceListForChapter = "race/listForChapter"
     static let raceFindLocal = "race/findLocal"
@@ -26,8 +27,12 @@ public enum EndPoint {
     static let raceViewSimple = "race/viewSimple"
     static let raceJoin = "race/join"
     static let raceResign = "race/resign"
+
     static let chapterList = "chapter/list"
     static let chapterFindLocal = "chapter/findLocal"
+
+    static let aircraftList = "aircraft/list"
+    static let aircraftCreate = "aircraft/create"
 }
 
 public enum ParameterKey {
@@ -52,5 +57,6 @@ public enum ParameterKey {
     static let radius = "radius"
     static let chapterId = "chapterId"
     static let userName = "userName"
-
+    static let retired = "retired"
+    
 }
