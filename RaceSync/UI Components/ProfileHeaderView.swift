@@ -59,7 +59,7 @@ class ProfileHeaderView: UIView {
         let button = UIButton(type: .system)
         button.tintColor = Color.white
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Constants.padding/2)
+        button.titleEdgeInsets = UIEdgeInsets(right: -Constants.padding/2)
         button.isUserInteractionEnabled = false
         return button
     }()
@@ -68,7 +68,7 @@ class ProfileHeaderView: UIView {
         let button = UIButton(type: .system)
         button.tintColor = Color.gray300
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: -Constants.padding/2)
+        button.titleEdgeInsets = UIEdgeInsets(right: -Constants.padding/2)
         button.isUserInteractionEnabled = false
         return button
     }()

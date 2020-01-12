@@ -56,7 +56,13 @@ public enum ParameterKey {
     static let longitude = "longitude"
     static let radius = "radius"
     static let chapterId = "chapterId"
+    static let aircraftId = "aircraftId"
     static let userName = "userName"
     static let retired = "retired"
-    
+    static let type = "type"
+    static let size = "size"
+    static let battery = "battery"
+    static let propellerSize = "propellerSize"
+
+
 }

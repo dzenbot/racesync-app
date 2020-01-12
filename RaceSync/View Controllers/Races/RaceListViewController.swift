@@ -34,7 +34,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Private Variables
 
-    fileprivate var initialSelectedListType: RaceListType = .joined
+    fileprivate var initialSelectedListType: RaceListType = .nearby
 
     fileprivate lazy var segmentedControl: UISegmentedControl = {
         let items = [RaceListType.joined.title, RaceListType.nearby.title]
@@ -189,13 +189,14 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     @objc fileprivate func reloadDataFromPull() {
         fetchRaces(selectedRaceListFiltering()) { [weak self] in
             self?.refreshControl.endRefreshing()
+            self?.tableView.reloadData()
         }
     }
 
     @objc func didPressJoinButton(_ sender: JoinButton) {
-        guard let raceId = sender.raceId else { return }
+        guard let raceId = sender.raceId, let race = currentRaceList()?.race(withId: raceId) else { return }
 
-        toggleJoinButton(sender, forRaceId: raceId, raceApi: raceApi) { (newState) in
+        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { (newState) in
             // do something
         }
     }

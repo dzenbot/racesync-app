@@ -98,3 +98,15 @@ extension RaceViewModel {
         return "\(miles) mi"
     }
 }
+
+extension Array where Element: RaceViewModel {
+
+    func race(withId id: ObjectId) -> Race? {
+        let filteredModels = self.filter({ (viewModel) -> Bool in
+            return viewModel.race.id == id
+        })
+
+        guard let viewModel = filteredModels.first else { return nil }
+        return viewModel.race
+    }
+}

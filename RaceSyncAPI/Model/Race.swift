@@ -48,12 +48,17 @@ public class Race: Mappable, Descriptable {
     public var courseId: ObjectId?
     public var seasonId: ObjectId?
 
+    public var typeRestriction: String = ""
+    public var sizeRestriction: String = ""
+    public var batteryRestriction: String = ""
+    public var propellerSizeRestriction: String = ""
+
     public var races: [RaceLite]? = nil
     public var entries: [RaceEntry]? = nil
 
     // MARK: - Initialization
 
-    // Some APIs do not always provide the id attribute. Skipping for now.
+    // TODO: Patch for race/simpleView which doesn't provide the id attribute for a Race.
     // https://github.com/mainedrones/RaceSync/pull/37
     fileprivate static let requiredProperties = [/*"id",*/ "name", "chapterId", "ownerId"]
 
@@ -105,6 +110,11 @@ public class Race: Mappable, Descriptable {
         parentRaceId <- map["parentRaceId"]
         courseId <- map["courseId"]
         seasonId <- map["seasonId"]
+
+        typeRestriction <- map["typeRestriction"]
+        sizeRestriction <- map["sizeRestriction"]
+        batteryRestriction <- map["batteryRestriction"]
+        propellerSizeRestriction <- map["propellerSizeRestriction"]
 
         races <- map["races"]
         entries <- map["entries"]

@@ -60,8 +60,8 @@ class QRViewController: UIViewController {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 19, weight: .regular)
         button.tintColor = Color.black
         button.backgroundColor = Color.white
-        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -50, bottom: 0, right: 0)
-        button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -30, bottom: 0, right: 0)
+        button.imageEdgeInsets = UIEdgeInsets(left: -50)
+        button.titleEdgeInsets = UIEdgeInsets(left: -30)
         button.layer.cornerRadius = Constants.cornerRadius/2
         return button
     }()

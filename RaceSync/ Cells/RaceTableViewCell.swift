@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class RaceTableViewCell: UITableViewCell {
+class RaceTableViewCell: UITableViewCell, ViewCellInterface {
 
     static var identifier: String = "RaceTableViewCell"
 
@@ -20,9 +20,7 @@ class RaceTableViewCell: UITableViewCell {
     }
 
     lazy var avatarImageView: AvatarImageView = {
-        let view = AvatarImageView(withHeight: Constants.imageHeight)
-        view.imageView.image = UIImage(named: "placeholder_medium")
-        return view
+        return AvatarImageView(withHeight: Constants.imageHeight)
     }()
 
     lazy var dateLabel: UILabel = {
@@ -48,7 +46,7 @@ class RaceTableViewCell: UITableViewCell {
 
     lazy var joinButton: JoinButton = {
         let button = JoinButton(type: .system)
-        button.hitTestEdgeInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -10)
         return button
     }()
 

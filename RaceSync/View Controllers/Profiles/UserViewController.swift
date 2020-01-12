@@ -142,9 +142,9 @@ class UserViewController: ProfileViewController, Joinable {
     }
 
     @objc func didPressJoinButton(_ sender: JoinButton) {
-        guard let raceId = sender.raceId else { return }
+        guard let raceId = sender.raceId, let race = race(withId: raceId) else { return }
 
-        toggleJoinButton(sender, forRaceId: raceId, raceApi: raceApi) { (newState) in
+        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { (newState) in
             // Do something
         }
     }
@@ -209,6 +209,15 @@ fileprivate extension UserViewController {
 
             completion?()
         }
+    }
+
+    func race(withId id: ObjectId) -> Race? {
+        let filteredModels = raceViewModels.filter({ (viewModel) -> Bool in
+            return viewModel.race.id == id
+        })
+
+        guard let viewModel = filteredModels.first else { return nil }
+        return viewModel.race
     }
 }
 

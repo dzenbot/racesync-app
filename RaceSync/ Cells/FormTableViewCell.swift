@@ -8,9 +8,7 @@
 
 import UIKit
 
-class FormTableViewCell: UITableViewCell {
-
-    static var identifier: String = "FormTableViewCell"
+class FormTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Public Variables
 
@@ -26,10 +24,6 @@ class FormTableViewCell: UITableViewCell {
         }
     }
 
-    static var height: CGFloat {
-        return Constants.cellHeight
-    }
-
     // MARK: - Private Variables
 
     fileprivate lazy var spinnerView: UIActivityIndicatorView = {
@@ -41,7 +35,6 @@ class FormTableViewCell: UITableViewCell {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight: CGFloat = UniversalConstants.cellHeight
     }
 
     // MARK: - Initializatiom

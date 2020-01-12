@@ -29,9 +29,11 @@ class JoinButton: CustomButton {
                 isHidden = false
             }
 
+            let icon = joinState.icon?.image(withColor: joinState.titleColor.withAlphaComponent(isCompact ? 1 : 0.4))
+
             setTitle(isCompact ? nil : joinState.title, for: .normal)
             setTitleColor(joinState.titleColor, for: .normal)
-            setImage(joinState.icon?.image(withColor: joinState.titleColor.withAlphaComponent(isCompact ? 1 : 0.4)), for: .normal)
+            setImage(icon, for: .normal)
             backgroundColor = joinState.fillColor
             titleLabel?.font = joinState.font
             tintColor = joinState.titleColor

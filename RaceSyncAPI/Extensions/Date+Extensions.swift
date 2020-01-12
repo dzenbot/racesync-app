@@ -62,5 +62,4 @@ public extension Date {
     func minuteFromNow() -> Int {
         return Int(ceil(self.timeIntervalSinceNow / 60))
     }
-
 }

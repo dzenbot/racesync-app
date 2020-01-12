@@ -8,12 +8,13 @@
 
 import UIKit
 import RaceSyncAPI
+import Presentr
 
 public typealias JoinStateCompletionBlock = (_ joinState: JoinState) -> Void
 
 protocol Joinable {
-    func toggleJoinButton(_ button: JoinButton, forRaceId raceId: ObjectId, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock)
-    func toggleJoinButton(_ button: JoinButton, forChapterId chapterId: ObjectId, chapterApi: ChapterApi, _ completion: @escaping JoinStateCompletionBlock)
+    func toggleJoinButton(_ button: JoinButton, forRace race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock)
+    func toggleJoinButton(_ button: JoinButton, forChapterId chapter: Chapter, chapterApi: ChapterApi, _ completion: @escaping JoinStateCompletionBlock)
 }
 
 public enum JoinState {
@@ -38,42 +39,50 @@ public enum JoinState {
 
 extension Joinable {
 
-    func toggleJoinButton(_ button: JoinButton, forRaceId raceId: ObjectId, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock) {
+    func toggleJoinButton(_ button: JoinButton, forRace race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock) {
 
         let state = button.joinState
         let newState = state.inverted
 
         if state == .joined {
-            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure about resigning from this race?", message: nil, destructiveTitle: "Yes, Resign") { (action) in
+            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure about resigning from this race?", destructiveTitle: "Yes, Resign") { (action) in
                 button.isLoading = true
-                raceApi.resign(race: raceId) { (status, error) in
+                raceApi.resign(race: race.id) { (status, error) in
                     button.isLoading = false
                     if status == true {
                         button.joinState = newState
                         completion(newState)
                     } else {
                         completion(state)
-                        AlertUtil.presentAlertMessage("Couldn't resign from this race. Please try again later.", title: "Error")
+                        AlertUtil.presentAlertMessage("Couldn't resign from this race. Please try again later.", title: "Error", delay: 0.5)
                     }
                 }
             }
         } else if state == .join  {
             button.isLoading = true
-            raceApi.join(race: raceId) { (status, error) in
-                button.isLoading = false
-                if status == true {
-                    button.joinState = newState
-                    completion(newState)
-                    AlertUtil.presentAlertMessage("You have joined the race! How bold of you!", title: "Joined Race")
-                } else {
-                    completion(state)
-                    AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error")
+
+            let aircraftPicker = AircraftPickerController.showAircraftPicker(for: race)
+            aircraftPicker.didSelect = { (aircraftId) in
+                raceApi.join(race: race.id, aircraftId: aircraftId) { (status, error) in
+                    button.isLoading = false
+                    if status == true {
+                        button.joinState = newState
+                        completion(newState)
+                        // TODO: Use a non-intrusive UI instead, like a Toast view
+                        AlertUtil.presentAlertMessage("You have joined the race! How bold of you!", title: "Joined Race", delay: 1)
+                    } else {
+                        completion(state)
+                        AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error", delay: 0.5)
+                    }
                 }
+            }
+            aircraftPicker.didCancel = {
+                button.isLoading = false
             }
         }
     }
 
-    func toggleJoinButton(_ button: JoinButton, forChapterId chapterId: ObjectId, chapterApi: ChapterApi, _ completion: @escaping JoinStateCompletionBlock) {
+    func toggleJoinButton(_ button: JoinButton, forChapterId chapter: Chapter, chapterApi: ChapterApi, _ completion: @escaping JoinStateCompletionBlock) {
 
         let state = button.joinState
         let _ = state.inverted

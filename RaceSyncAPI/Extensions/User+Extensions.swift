@@ -14,5 +14,4 @@ public extension User {
         guard let myUser = APIServices.shared.myUser else { return false }
         return id == myUser.id
     }
-
 }

@@ -42,7 +42,11 @@ class RaceTabBarController: UITabBarController {
 
     fileprivate let raceApi = RaceApi()
     fileprivate var raceId: ObjectId
-    fileprivate var race: Race?
+    fileprivate var race: Race? {
+        // TODO: Patch for race/simpleView which doesn't provide the id attribute for a Race.
+        // https://github.com/mainedrones/RaceSync/pull/37
+        didSet { race?.id = raceId }
+    }
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -80,6 +84,7 @@ class RaceTabBarController: UITabBarController {
         activityIndicatorView.startAnimating()
 
         raceApi.viewSimple(race: raceId) { [weak self] (race, error) in
+            
             self?.activityIndicatorView.stopAnimating()
 
             if let _ = error {

@@ -9,20 +9,12 @@
 import UIKit
 import SnapKit
 
-class UserRaceTableViewCell: UITableViewCell {
-
-    static var identifier: String = "UserRaceTableViewCell"
+class UserRaceTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Public Variables
 
-    static var height: CGFloat {
-        return Constants.cellHeight
-    }
-
     lazy var avatarImageView: AvatarImageView = {
-        let view = AvatarImageView(withHeight: Constants.imageHeight)
-        view.imageView.image = UIImage(named: "placeholder_medium")
-        return view
+        return AvatarImageView(withHeight: Constants.imageHeight)
     }()
 
     lazy var dateLabel: UILabel = {
@@ -42,7 +34,7 @@ class UserRaceTableViewCell: UITableViewCell {
     lazy var joinButton: JoinButton = {
         let button = JoinButton(type: .system)
         button.isCompact = true
-        button.hitTestEdgeInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -10)
         button.imageEdgeInsets = .zero
         button.contentEdgeInsets = .zero
         return button
@@ -67,7 +59,6 @@ class UserRaceTableViewCell: UITableViewCell {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight: CGFloat = UniversalConstants.cellHeight
         static let imageHeight: CGFloat = UniversalConstants.cellAvatarHeight
         static let minButtonSize: CGFloat = 72
     }

@@ -35,7 +35,7 @@ class MemberBadgeView: CustomButton {
         tintColor = Color.black
 
         setImage(UIImage(named: "icn_member"), for: .normal)
-        imageEdgeInsets = UIEdgeInsets(top: 0, left: -7, bottom: 0, right: 0)
+        imageEdgeInsets = UIEdgeInsets(left: -7)
         contentEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 12)
 
         backgroundColor = Color.gray100

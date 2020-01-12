@@ -66,7 +66,7 @@ public protocol RaceApiInterface {
 
     /**
      */
-    func join(race raceId: ObjectId, completion: @escaping StatusCompletionBlock)
+    func join(race raceId: ObjectId, aircraftId: ObjectId, completion: @escaping StatusCompletionBlock)
 
     /**
      */
@@ -118,11 +118,12 @@ public class RaceApi: RaceApiInterface {
         repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
-    public func join(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
+    public func join(race raceId: ObjectId, aircraftId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
         let endpoint = "\(EndPoint.raceJoin)?\(ParameterKey.id)=\(raceId)"
+        let parameters = [ParameterKey.aircraftId: aircraftId]
 
-        repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post) { (request) in
+        repositoryAdapter.networkAdapter.httpRequest(endpoint,  method: .post, parameters: parameters) { (request) in
             print("Starting request \(String(describing: request.request?.url))")
             request.responseJSON { (response) in
                 switch response.result {

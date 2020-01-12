@@ -24,11 +24,13 @@ class AvatarImageView: UIView {
     // MARK: - Private Variables
 
     fileprivate let height: CGFloat
+    fileprivate let showShadow: Bool
 
     // MARK: - Initializatiom
 
-    init(withHeight height: CGFloat = 30) {
+    init(withHeight height: CGFloat = 30, showShadow: Bool = true) {
         self.height = height
+        self.showShadow = showShadow
         super.init(frame: .zero)
         configureLayout()
     }
@@ -43,10 +45,12 @@ class AvatarImageView: UIView {
 
         backgroundColor = Color.clear
 
-        layer.shadowColor = Color.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 1.0)
-        layer.shadowOpacity = 0.25
-        layer.shadowRadius = 1.25
+        if showShadow {
+            layer.shadowColor = Color.black.cgColor
+            layer.shadowOffset = CGSize(width: 0, height: 1.0)
+            layer.shadowOpacity = 0.25
+            layer.shadowRadius = 1.25
+        }
 
         addSubview(imageView)
         imageView.snp.makeConstraints {

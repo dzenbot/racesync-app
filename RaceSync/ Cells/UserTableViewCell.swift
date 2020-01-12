@@ -9,20 +9,12 @@
 import UIKit
 import SnapKit
 
-class UserTableViewCell: UITableViewCell {
-
-    static var identifier: String = "UserTableViewCell"
+class UserTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Public Variables
 
-    static var height: CGFloat {
-        return Constants.cellHeight
-    }
-
     lazy var avatarImageView: AvatarImageView = {
-        let view = AvatarImageView(withHeight: Constants.imageHeight)
-        view.imageView.image = UIImage(named: "placeholder_medium")
-        return view
+        return AvatarImageView(withHeight: Constants.imageHeight)
     }()
 
     lazy var titleLabel: UILabel = {
@@ -58,7 +50,6 @@ class UserTableViewCell: UITableViewCell {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight: CGFloat = UniversalConstants.cellHeight
         static let imageHeight: CGFloat = UniversalConstants.cellAvatarHeight
     }
 

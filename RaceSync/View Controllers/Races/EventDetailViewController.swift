@@ -38,7 +38,7 @@ class EventDetailViewController: UIViewController, Joinable {
     fileprivate lazy var joinButton: JoinButton = {
         let button = JoinButton(type: .system)
         button.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
-        button.hitTestEdgeInsets = UIEdgeInsets(top: -10, left: -10, bottom: -10, right: -10)
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -10)
         return button
     }()
 
@@ -388,7 +388,7 @@ class EventDetailViewController: UIViewController, Joinable {
     }
 
     @objc func didPressJoinButton(_ sender: JoinButton) {
-        toggleJoinButton(sender, forRaceId: raceViewModel.race.id, raceApi: raceApi) { (newState) in
+        toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { (newState) in
             // Do something
         }
     }

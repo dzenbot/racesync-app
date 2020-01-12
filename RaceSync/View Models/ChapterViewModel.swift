@@ -43,3 +43,15 @@ extension ChapterViewModel {
         return ImageUtil.getSizedUrl(chapter.mainImageUrl, size: CGSize(width: 50, height: 50))
     }
 }
+
+extension Array where Element: ChapterViewModel {
+
+    func chapter(withId id: ObjectId) -> Chapter? {
+        let filteredModels = self.filter({ (viewModel) -> Bool in
+            return viewModel.chapter.id == id
+        })
+
+        guard let viewModel = filteredModels.first else { return nil }
+        return viewModel.chapter
+    }
+}

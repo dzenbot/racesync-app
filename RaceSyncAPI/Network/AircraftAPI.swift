@@ -16,15 +16,15 @@ public protocol AircrafApiInterface {
 
     /**
      */
-    func getMyAircrafts(_ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
+    func getMyAircrafts(forRaceSpecs specs: AircraftRaceSpecs?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
 
     /**
      */
-    func getAircrafts(forUser userId: String, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
+    func getAircrafts(forUser userId: String, forRaceSpecs specs: AircraftRaceSpecs?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
 
     /**
     */
-    func createAircraft(withSpecs specs: String, _ completion: @escaping ObjectCompletionBlock<ObjectId>)
+    func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<ObjectId>)
 }
 
 public class AircraftAPI: AircrafApiInterface {
@@ -32,23 +32,27 @@ public class AircraftAPI: AircrafApiInterface {
     public init() {}
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func getMyAircrafts(_ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
+    public func getMyAircrafts(forRaceSpecs specs: AircraftRaceSpecs? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
         guard let myUser = APIServices.shared.myUser else { return }
-        getAircrafts(forUser: myUser.id, completion)
+        getAircrafts(forUser: myUser.id, forRaceSpecs: specs, completion)
     }
 
-    public func getAircrafts(forUser userId: String, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
+    public func getAircrafts(forUser userId: String, forRaceSpecs specs: AircraftRaceSpecs? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
 
         let endpoint = EndPoint.aircraftList
-        let parameters: Parameters = [ParameterKey.pilotId: userId, ParameterKey.retired: false]
+        var parameters: Parameters = [ParameterKey.pilotId: userId, ParameterKey.retired: false]
+
+        if let specs = specs {
+            parameters += specs.toParameters()
+        }
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Aircraft.self, completion)
     }
 
-    public func createAircraft(withSpecs specs: String, _ completion: @escaping ObjectCompletionBlock<ObjectId>) {
+    public func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<ObjectId>) {
 
         let endpoint = EndPoint.aircraftCreate
-        let parameters = Parameters()
+        let parameters = specs.toParameters()
 
         repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters, nestParameters: false) { (request) in
             print("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")

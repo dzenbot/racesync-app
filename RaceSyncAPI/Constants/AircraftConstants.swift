@@ -30,17 +30,34 @@ public enum AircraftType: Int, enumTitle {
 }
 
 //SIZES = array(7=>'120-149',8=>'150-179',9=>'180-219',10=>'220-249',0=>'250-279',1=>'280-299',2=>'300-229',3=>'330-399',4=>'400-449',5=>'450-499',6=>'500')
-public enum AircraftSize: String {
-    case from120 = "120-149"
-    case from150 = "150-179"
-    case from180 = "180-219"
-    case from220 = "220-249"
-    case from250 = "250-279"
-    case from280 = "280-299"
-    case from330 = "330-399"
-    case from400 = "400-449"
-    case from450 = "450-499"
-    case from500 = "500"
+public enum AircraftSize: Int {
+    case from120 = 7
+    case from150 = 8
+    case from180 = 9
+    case from220 = 10
+    case from250 = 0
+    case from280 = 1
+    case from300 = 2
+    case from330 = 3
+    case from400 = 4
+    case from450 = 5
+    case from500 = 6
+
+    public var title: String {
+        switch self {
+        case .from120:       return "120-149"
+        case .from150:       return "150-179"
+        case .from180:       return "180-219"
+        case .from220:       return "220-249"
+        case .from250:       return "250-279"
+        case .from280:       return "280-299"
+        case .from300:       return "300-329"
+        case .from330:       return "330-399"
+        case .from400:       return "400-449"
+        case .from450:       return "450-499"
+        case .from500:       return "500"
+        }
+    }
 }
 
 //WING_SIZES = array(0=>'450', 1=>'600', 2=>'900', 3=>'1200')
@@ -160,6 +177,7 @@ public enum BatteryCellType: Int, enumTitle {
     }
 }
 
+// TODO: Convert to Enum: Int
 //PROPELLER_SIZES = array(6=>'2 inch', 7=>'2.5 inch', 8=>'3 inch', 9=>'4 inch', 0=>'5 inch',1=>'6 inch',2=>'7 inch',3=>'8 inch',4=>'9 inch',5=>'10 inch')
 public enum PropellerSize: String {
     case ´2in´ = "2 inch"

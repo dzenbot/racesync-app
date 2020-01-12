@@ -12,8 +12,7 @@ public typealias AlertCompletionBlock = (UIAlertAction) -> Void
 
 class AlertUtil {
 
-    static func presentAlertMessage(_ message: String?, title: String?, buttonTitle: String? = nil, completion: AlertCompletionBlock? = nil) {
-        guard let topMostVC = UIViewController.topMostViewController() else { return }
+    static func presentAlertMessage(_ message: String?, title: String?, buttonTitle: String? = nil, delay: TimeInterval = 0, completion: AlertCompletionBlock? = nil) {
 
         let alert = UIAlertController(title: title ?? "Something Went Wrong", message: message ?? "Please try again.", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: buttonTitle ?? "Ok", style: .default, handler: completion))
@@ -21,6 +20,9 @@ class AlertUtil {
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         }
 
-        topMostVC.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+            guard let topMostVC = UIViewController.topMostViewController() else { return }
+            topMostVC.present(alert, animated: true, completion: nil)
+        })
     }
 }
