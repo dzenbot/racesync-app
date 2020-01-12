@@ -34,7 +34,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Private Variables
 
-    fileprivate var initialSelectedListType: RaceListType = .nearby
+    fileprivate var initialSelectedListType: RaceListType = .joined
 
     fileprivate lazy var segmentedControl: UISegmentedControl = {
         let items = [RaceListType.joined.title, RaceListType.nearby.title]
