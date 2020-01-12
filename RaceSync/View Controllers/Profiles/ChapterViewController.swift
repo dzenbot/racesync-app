@@ -10,7 +10,7 @@ import UIKit
 import RaceSyncAPI
 import TUSafariActivity
 
-class ChapterViewController: ProfileViewController {
+class ChapterViewController: ProfileViewController, Joinable {
 
     // MARK: - Private Variables
 
@@ -143,6 +143,14 @@ fileprivate extension ChapterViewController {
         }
     }
 
+    @objc func didPressJoinButton(_ sender: JoinButton) {
+        guard let raceId = sender.raceId, let race = raceViewModels.race(withId: raceId) else { return }
+
+        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { (newState) in
+            // Do something
+        }
+    }
+
     @objc func didPressShareButton() {
         let items = [URL(string: chapter.url)]
 
@@ -187,7 +195,9 @@ extension ChapterViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: RaceTableViewCell.identifier) as! RaceTableViewCell
         cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
+        cell.joinButton.raceId = viewModel.race.id
         cell.joinButton.joinState = viewModel.joinState
+        cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.memberBadgeView.count = viewModel.participantCount
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
         cell.subtitleLabel.text = viewModel.locationLabel
