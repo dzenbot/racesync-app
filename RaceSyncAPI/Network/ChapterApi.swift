@@ -28,7 +28,7 @@ public class ChapterApi: ChapterApiInterface {
     public init() {}
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func getChapters(forUser pilotId: String, currentPage: Int = 0, pageSize: Int = 25, _ completion: @escaping ObjectCompletionBlock<[Chapter]>) {
+    public func getChapters(forUser pilotId: String, currentPage: Int = 0, pageSize: Int = StandardPageSize, _ completion: @escaping ObjectCompletionBlock<[Chapter]>) {
 
         let endpoint = EndPoint.chapterList
         var parameters: Parameters = [:]
@@ -37,7 +37,7 @@ public class ChapterApi: ChapterApiInterface {
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
     }
 
-    public func getLocalChapters(currentPage: Int = 0, pageSize: Int = 25, completion: @escaping ObjectCompletionBlock<[Chapter]>) {
+    public func getLocalChapters(currentPage: Int = 0, pageSize: Int = StandardPageSize, completion: @escaping ObjectCompletionBlock<[Chapter]>) {
 
         let endpoint = EndPoint.chapterFindLocal
         let parameters = parametersForMyLocalChapters()

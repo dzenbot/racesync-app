@@ -10,11 +10,13 @@ import Foundation
 
 public typealias ObjectId = String
 
-public protocol enumTitle {
+public let StandardPageSize: Int = 50
+
+protocol EnumTitle {
     var title: String { get }
 }
 
-public enum EndPoint {
+enum EndPoint {
     static let userLogin = "user/login"
     static let userLogout = "user/logout"
     static let userProfile = "user/profile"
@@ -35,7 +37,7 @@ public enum EndPoint {
     static let aircraftCreate = "aircraft/create"
 }
 
-public enum ParameterKey {
+enum ParameterKey {
     static let apiKey = "apiKey"
     static let sessionId = "sessionId"
     static let data = "data"

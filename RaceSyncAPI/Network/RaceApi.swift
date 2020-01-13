@@ -86,7 +86,7 @@ public class RaceApi: RaceApiInterface {
     public func getRaces(forUser userId: ObjectId,
                          filtering: RaceListFiltering,
                          latitude: String? = nil, longitude: String? = nil,
-                         currentPage: Int = 0, pageSize: Int = 25,
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
@@ -95,7 +95,7 @@ public class RaceApi: RaceApiInterface {
     }
 
     public func getRaces(forChapter chapterId: ObjectId,
-                         currentPage: Int = 0, pageSize: Int = 25,
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList

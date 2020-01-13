@@ -491,6 +491,13 @@
 			path = Aircrafts;
 			sourceTree = "<group>";
 		};
+		4FA1AB4623CC51D7007CF389 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		4FA2681D2378C63C008970AC /* Network */ = {
 			isa = PBXGroup;
 			children = (
@@ -573,6 +580,7 @@
 				4FD4E1D3237F9DF8008816B3 /* Races */,
 				4F5C1E41238CF68F00D756EB /* Profiles */,
 				4FA1AB3123C6ACFD007CF389 /* Aircrafts */,
+				4FA1AB4623CC51D7007CF389 /* Settings */,
 				4FD4E1D2237F9DEF008816B3 /* Search */,
 				4F1342672360DA3200A9DBDE /* Login */,
 			);

@@ -9,7 +9,7 @@
 import Foundation
 
 //TYPES = array(0=>'Tri',1=>'Quad', 2=>'Hex', 3=>'Octo', 5=>'Winged', 4=>'Other')
-public enum AircraftType: Int, enumTitle {
+public enum AircraftType: Int, EnumTitle {
     case tri = 0
     case quad = 1
     case hex = 2
@@ -61,7 +61,7 @@ public enum AircraftSize: Int {
 }
 
 //WING_SIZES = array(0=>'450', 1=>'600', 2=>'900', 3=>'1200')
-public enum WingSize: Int, enumTitle {
+public enum WingSize: Int, EnumTitle {
     case from450 = 0
     case from600 = 1
     case from900 = 2
@@ -78,7 +78,7 @@ public enum WingSize: Int, enumTitle {
 }
 
 //VIDEO_TRANSMITTERS = array(0=>'900 mhz',1=>'1.3 GHz',2=>'2.4 GHz',3=>'5.8 GHz')
-public enum VideoTxType: Int, enumTitle {
+public enum VideoTxType: Int, EnumTitle {
     case ´900mhz´ = 0
     case ´1300mhz´ = 1
     case ´2400mhz´ = 2
@@ -95,7 +95,7 @@ public enum VideoTxType: Int, enumTitle {
 }
 
 //VIDEO_TRANSMITTER_POWERS = array(0=>'10 mw',1=>'50 mw',2=>'200 mw',3=>'250 mw',4=>'400 mw',5=>'600 mw',6=>'1000 mw')
-public enum VideoTxPower: Int, enumTitle {
+public enum VideoTxPower: Int, EnumTitle {
     case ´10mw´ = 0
     case ´50mw´ = 1
     case ´200mw´ = 2
@@ -118,7 +118,7 @@ public enum VideoTxPower: Int, enumTitle {
 }
 
 //VIDEO_TRANSMITTER_CHANNELS = array(0=>'Immersion / Fatshark 8 Channel',1=>'Boscam 8 Channel',2=>'Boscam 32 Channel',3=>'Raceband 40')
-public enum VideoChannels: Int, enumTitle {
+public enum VideoChannels: Int, EnumTitle {
     case fatshark = 0
     case boscam8 = 1
     case boscam32 = 2
@@ -146,7 +146,7 @@ public enum VideoChannels: Int, enumTitle {
 }
 
 //ANTENNAS = array(0=>'Left',1=>'Right',2=>'Both')
-public enum AntennaPolarization: Int, enumTitle {
+public enum AntennaPolarization: Int, EnumTitle {
     case lhcp = 0
     case rhcp = 1
     case both = 2
@@ -161,7 +161,7 @@ public enum AntennaPolarization: Int, enumTitle {
 }
 
 //BATTERIES = array(3=>'2 cell', 0=>'3 cell',1=>'4 cell',2=>'6 cell')
-public enum BatteryCellType: Int, enumTitle {
+public enum BatteryCellType: Int, EnumTitle {
     case ´3s´ = 0
     case ´4s´ = 1
     case ´6s´ = 2

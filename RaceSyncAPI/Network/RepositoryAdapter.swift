@@ -30,7 +30,7 @@ class RepositoryAdapter {
         }
     }
 
-    func getObjects<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, currentPage: Int = 0, pageSize: Int = 25, type: Element.Type, _ completion: @escaping ObjectCompletionBlock<[Element]>) {
+    func getObjects<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, currentPage: Int = 0, pageSize: Int = StandardPageSize, type: Element.Type, _ completion: @escaping ObjectCompletionBlock<[Element]>) {
 
         let endpoint = "\(endPoint)?\(ParameterKey.currentPage)=\(currentPage)&\(ParameterKey.pageSize)=\(pageSize)"
 

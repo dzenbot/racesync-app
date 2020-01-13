@@ -8,7 +8,7 @@
 
 import Foundation
 
-public enum RaceType: Int, enumTitle {
+public enum RaceType: Int, EnumTitle {
     case normal = 1
     case qualifier = 2
     case final = 3
@@ -26,3 +26,4 @@ public enum RaceStatus: String {
     case open = "Open"
     case closed = "Closed"
 }
+

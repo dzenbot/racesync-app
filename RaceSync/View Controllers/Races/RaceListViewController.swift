@@ -13,7 +13,7 @@ import ShimmerSwift
 class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Feature Flags
-    fileprivate var shouldShowSearchButton: Bool = false
+    fileprivate var shouldShowSearchButton: Bool = true
     fileprivate var shouldLoadRaces: Bool = true
 
     // MARK: - Public Variables
