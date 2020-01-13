@@ -59,10 +59,12 @@ public enum ParameterKey {
     static let aircraftId = "aircraftId"
     static let userName = "userName"
     static let retired = "retired"
+    static let name = "name"
     static let type = "type"
     static let size = "size"
+    static let videoTransmitter = "videoTransmitter"
+    static let videoTransmitterChannels = "videoTransmitterChannels"
     static let battery = "battery"
     static let propellerSize = "propellerSize"
-
-
+    static let antenna = "antenna"
 }

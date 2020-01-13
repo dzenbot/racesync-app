@@ -15,6 +15,7 @@ class AircraftPickerController: UINavigationController {
     // MARK: - Public Variables
 
     var didSelect: SimpleObjectCompletionBlock<ObjectId>?
+    var didError: VoidCompletionBlock?
     var didCancel: VoidCompletionBlock?
 
     // MARK: - Private Variables
@@ -52,6 +53,10 @@ extension AircraftPickerController: AircraftListViewControllerDelegate {
     func aircraftListViewController(_ viewController: AircraftListViewController, didSelectAircraft aircraftId: ObjectId) {
         didSelect?(aircraftId)
         dismiss(animated: true, completion: nil)
+    }
+
+    func aircraftListViewControllerDidError(_ viewController: AircraftListViewController) {
+        didError?()
     }
 
     func aircraftListViewControllerDidDismiss(_ viewController: AircraftListViewController) {

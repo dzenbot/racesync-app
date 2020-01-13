@@ -13,6 +13,7 @@ import RaceSyncAPI
 protocol AircraftListViewControllerDelegate {
 
     func aircraftListViewController(_ viewController: AircraftListViewController, didSelectAircraft aircraftId: ObjectId)
+    func aircraftListViewControllerDidError(_ viewController: AircraftListViewController)
     func aircraftListViewControllerDidDismiss(_ viewController: AircraftListViewController)
 }
 
@@ -141,6 +142,27 @@ extension AircraftListViewController {
             collectionView.deselectItem(at: item, animated: true)
         }
     }
+
+    func isWaiting(_ waiting: Bool, generic: Bool = false) {
+
+        if waiting {
+            activityIndicatorView.startAnimating()
+            deselectAllItems()
+            collectionView.isUserInteractionEnabled = false
+            collectionView.alpha = 0.5
+
+            if generic {
+                title = "Creating Generic Aircraft..."
+            } else {
+                title = "Joining Race..."
+            }
+        } else {
+            activityIndicatorView.stopAnimating()
+            collectionView.isUserInteractionEnabled = true
+            collectionView.alpha = 1
+            title = "Select Your Aircraft"
+        }
+    }
 }
 
 extension AircraftListViewController: UICollectionViewDelegate {
@@ -151,27 +173,27 @@ extension AircraftListViewController: UICollectionViewDelegate {
 
         let buttonTitle = "Yes, Join Race"
         var sheetTitle = ""
-        var title = ""
 
         if viewModel.isGeneric {
             sheetTitle = "Create a generic aircraft and join the race?"
-            title = "Creating Generic Aircraft..."
         } else {
             sheetTitle = "Join the race with \(viewModel.displayName)?"
-            title = "Joining Race..."
         }
 
         ActionSheetUtil.presentActionSheet(withTitle: sheetTitle, buttonTitle: buttonTitle, completion: { [weak self] (action) in
-            self?.activityIndicatorView.startAnimating()
-            self?.deselectAllItems()
-            self?.collectionView.isUserInteractionEnabled = false
-            self?.collectionView.alpha = 0.5
-            self?.title = title
+            self?.isWaiting(true, generic: viewModel.isGeneric)
 
             if let strongSelf = self {
                 if viewModel.isGeneric {
-                    let genericAircraft = AircraftSpecs(with: strongSelf.race)
-                    print("\(genericAircraft?.attributesDescription)")
+                    let genericAircraftSpecs = AircraftSpecs(with: strongSelf.race)
+                    strongSelf.aircraftApi.createAircraft(forAircraftSpecs: genericAircraftSpecs) { (aircraft, error) in
+                        if let aircraft = aircraft {
+                            strongSelf.delegate?.aircraftListViewController(strongSelf, didSelectAircraft: aircraft.id)
+                        } else {
+                            strongSelf.delegate?.aircraftListViewControllerDidError(strongSelf)
+                            strongSelf.isWaiting(false)
+                        }
+                    }
                 } else {
                     let viewModel = strongSelf.aircraftViewModels[indexPath.row]
                     strongSelf.delegate?.aircraftListViewController(strongSelf, didSelectAircraft: viewModel.aircraftId)
@@ -200,7 +222,12 @@ extension AircraftListViewController: UICollectionViewDataSource {
 
         let viewModel = aircraftViewModels[indexPath.row]
         cell.titleLabel.text = viewModel.displayName
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_large"))
+
+        if viewModel.isGeneric {
+            cell.avatarImageView.imageView.image = UIImage(named: "placeholder_large_aircraft_create")
+        } else {
+            cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_large_aircraft"))
+        }
 
         return cell
     }

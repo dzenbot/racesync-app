@@ -62,20 +62,24 @@ extension Joinable {
             button.isLoading = true
 
             let aircraftPicker = AircraftPickerController.showAircraftPicker(for: race)
+
             aircraftPicker.didSelect = { (aircraftId) in
                 raceApi.join(race: race.id, aircraftId: aircraftId) { (status, error) in
                     button.isLoading = false
                     if status == true {
                         button.joinState = newState
                         completion(newState)
-                        // TODO: Use a non-intrusive UI instead, like a Toast view
-                        AlertUtil.presentAlertMessage("You have joined the race! How bold of you!", title: "Joined Race", delay: 1)
                     } else {
                         completion(state)
                         AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error", delay: 0.5)
                     }
                 }
             }
+
+            aircraftPicker.didError = {
+                AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error", delay: 0.5)
+            }
+
             aircraftPicker.didCancel = {
                 button.isLoading = false
             }

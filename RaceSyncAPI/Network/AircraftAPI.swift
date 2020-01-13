@@ -24,7 +24,7 @@ public protocol AircrafApiInterface {
 
     /**
     */
-    func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<ObjectId>)
+    func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>)
 }
 
 public class AircraftAPI: AircrafApiInterface {
@@ -49,22 +49,11 @@ public class AircraftAPI: AircrafApiInterface {
         repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Aircraft.self, completion)
     }
 
-    public func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<ObjectId>) {
+    public func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>) {
 
         let endpoint = EndPoint.aircraftCreate
         let parameters = specs.toParameters()
 
-        repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters, nestParameters: false) { (request) in
-            print("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
-            request.responseJSON(completionHandler: { (response) in
-                switch response.result {
-                case .success(let value):
-                    let _ = JSON(value)
-                    completion(nil, nil)
-                case .failure:
-                    completion(nil, ErrorUtil.parseError(response))
-                }
-            })
-        }
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Aircraft.self, completion)
     }
 }

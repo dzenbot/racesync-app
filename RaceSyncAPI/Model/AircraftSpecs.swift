@@ -11,33 +11,43 @@ import Alamofire
 
 public class AircraftSpecs: Descriptable {
 
-    let type: Int
-    let size: Int
-    let batterySize: Int
-    let propellerSize: Int
+    let name: String
+    let videoTransmitter: Int
+    let videoTransmitterChannels: Int
+    let antenna: Int
 
-    public init?(with race: Race) {
+    let type: Int?
+    let size: Int?
+    let batterySize: Int?
+    let propellerSize: Int?
+
+    public init(with race: Race) {
+
+        let me = APIServices.shared.myUser
+        self.name = "\(me?.userName ?? Random.string())-Drone-\(Random.int(length: 200))"
+        self.videoTransmitter = VideoTxType.´5800mhz´.rawValue
+        self.videoTransmitterChannels = VideoChannels.raceband40.rawValue
+        self.antenna = AntennaPolarization.both.rawValue
 
         let raceSpecs = AircraftRaceSpecs(with: race)
-
-        guard let type = raceSpecs.types.first else { return nil }
-        guard let size = raceSpecs.sizes.first else { return nil }
-        guard let batterySize = raceSpecs.batterySizes.first else { return nil }
-        guard let propellerSize = raceSpecs.propellerSizes.first else { return nil }
-
-        self.type = type
-        self.size = size
-        self.batterySize = batterySize
-        self.propellerSize = propellerSize
+        self.type = raceSpecs.types.first
+        self.size = raceSpecs.sizes.first
+        self.batterySize = raceSpecs.batterySizes.first
+        self.propellerSize = raceSpecs.propellerSizes.first
     }
 
     func toParameters() -> Parameters {
         var parameters: Parameters = [:]
 
+        parameters[ParameterKey.name] = name
+        parameters[ParameterKey.videoTransmitter] = videoTransmitter
+        parameters[ParameterKey.videoTransmitterChannels] = videoTransmitterChannels
+        parameters[ParameterKey.antenna] = antenna
+
         parameters[ParameterKey.type] = type
         parameters[ParameterKey.size] = size
-        parameters[ParameterKey.battery] = batterySize
-        parameters[ParameterKey.propellerSize] = propellerSize
+        if batterySize != nil { parameters[ParameterKey.battery] = batterySize }
+        if propellerSize != nil { parameters[ParameterKey.propellerSize] = propellerSize }
 
         return parameters
     }
