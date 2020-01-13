@@ -243,7 +243,7 @@ class EventDetailViewController: UIViewController, Joinable {
             $0.top.equalTo(headerLabelStackView.snp.bottom).offset(Constants.padding/2)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width)
+            $0.width.equalTo(view.bounds.width)
         }
 
         contentView.addSubview(contentTextView)
@@ -251,23 +251,30 @@ class EventDetailViewController: UIViewController, Joinable {
             $0.top.equalTo(descriptionTextView.snp.bottom).offset(Constants.padding/2)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width)
+            $0.width.equalTo(view.bounds.width)
         }
 
-        contentView.addSubview(itineraryTextView)
-        itineraryTextView.snp.makeConstraints {
-            $0.top.equalTo(contentTextView.snp.bottom).offset(Constants.padding/2)
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
-            $0.width.equalTo(UIScreen.main.bounds.width)
+        if race.itineraryContent.count > 0 {
+            contentView.addSubview(itineraryTextView)
+            itineraryTextView.snp.makeConstraints {
+                $0.top.equalTo(contentTextView.snp.bottom).offset(Constants.padding/2)
+                $0.leading.equalToSuperview()
+                $0.trailing.equalToSuperview()
+                $0.width.equalTo(view.bounds.width)
+            }
         }
 
         contentView.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.equalTo(itineraryTextView.snp.bottom)
+            if race.itineraryContent.count > 0 {
+                $0.top.equalTo(itineraryTextView.snp.bottom)
+            } else {
+                $0.top.equalTo(contentTextView.snp.bottom)
+            }
+
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.cellHeight*2)
-            $0.bottom.equalToSuperview().offset(-Constants.padding)
+            $0.bottom.equalToSuperview().offset(-Constants.cellHeight)
         }
 
         scrollView.addSubview(contentView)
