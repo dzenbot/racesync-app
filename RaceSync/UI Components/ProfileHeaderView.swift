@@ -85,7 +85,7 @@ class ProfileHeaderView: UIView {
     fileprivate lazy var headerLabelStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: [mainTextLabel, locationButton])
         stackView.axis = .vertical
-        stackView.distribution = .fillEqually
+        stackView.distribution = .fill
         stackView.alignment = .leading
         stackView.spacing = Constants.padding
         return stackView

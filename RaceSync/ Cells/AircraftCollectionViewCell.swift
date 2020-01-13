@@ -17,7 +17,8 @@ class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
 
     lazy var avatarImageView: AvatarImageView = {
         let height = AircraftCollectionViewCell.height - Constants.padding*2
-        return AvatarImageView(withHeight: height, showShadow: false)
+        let imageView = AvatarImageView(withHeight: height, showShadow: false)
+        return imageView
     }()
 
     lazy var titleLabel: UILabel = {
@@ -29,6 +30,14 @@ class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
     }()
 
     // MARK: - Private Variables
+
+    fileprivate lazy var avatarOverlay: UIView = {
+        let view = UIView()
+        view.layer.cornerRadius = avatarImageView.imageView.layer.cornerRadius
+        view.backgroundColor = Color.black
+        view.alpha = 0.0
+        return view
+    }()
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -49,15 +58,14 @@ class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
 
     override var isSelected: Bool {
         didSet {
-            UIView.animate(withDuration: 0.2) {
-                self.avatarImageView.alpha = self.isSelected ? 0.6 : 1
-            }
+            self.avatarOverlay.alpha = self.isSelected ? 0.4 : 0
         }
     }
 
     override var isHighlighted: Bool {
         didSet {
-
+            guard !isSelected else { return }
+            self.avatarOverlay.alpha = self.isHighlighted ? 0.4 : 0
         }
     }
 
@@ -74,6 +82,11 @@ class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
         titleLabel.snp.makeConstraints {
             $0.top.equalTo(avatarImageView.snp.bottom).offset(Constants.padding/2)
             $0.leading.trailing.equalToSuperview()
+        }
+
+        contentView.addSubview(avatarOverlay)
+        avatarOverlay.snp.makeConstraints {
+            $0.leading.top.trailing.bottom.equalTo(avatarImageView)
         }
     }
 }
