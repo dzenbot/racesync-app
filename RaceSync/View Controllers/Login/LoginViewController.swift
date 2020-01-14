@@ -162,10 +162,13 @@ class LoginViewController: UIViewController {
 
         // Skip login if there's a persisted sessionId
         if !APIServices.shared.hasValidSession {
+#if DEBUG
             if shouldPrefillTextFields {
-                emailField.text = APIServices.shared.environment.username
-                passwordField.text = APIServices.shared.environment.password
+                    emailField.text = APIServices.shared.environment.username
+                    passwordField.text = APIServices.shared.environment.password
             }
+#endif
+
             animateIntro(duration: shouldAnimateIntro ? 0.7 : 0)
         } else {
             presentHome()
