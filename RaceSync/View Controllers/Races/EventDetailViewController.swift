@@ -20,6 +20,8 @@ class EventDetailViewController: UIViewController, Joinable {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = Color.clear
+        imageView.isUserInteractionEnabled = true
+        imageView.clipsToBounds = true
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapMapView))
         imageView.addGestureRecognizer(tapGestureRecognizer)
@@ -81,7 +83,12 @@ class EventDetailViewController: UIViewController, Joinable {
     }()
 
     fileprivate lazy var headerLabelStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [locationButton, dateButton])
+        var subviews = [UIView]()
+
+        if canDisplayAddress { subviews += [locationButton] }
+        subviews += [dateButton]
+
+        let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
@@ -149,6 +156,22 @@ class EventDetailViewController: UIViewController, Joinable {
         return tableView
     }()
 
+    var canDisplayAddress: Bool {
+        return raceViewModel.fullLocationLabel.count > 0
+    }
+
+    var canDisplayMap: Bool {
+        return raceCoordinates != nil
+    }
+
+    var canDisplayDescription: Bool {
+        return raceViewModel.race.description.count > 0
+    }
+
+    var canDisplayItinerary: Bool {
+        return raceViewModel.race.itineraryContent.count > 0
+    }
+
     fileprivate var topOffset: CGFloat {
         get {
             let status_height = UIApplication.shared.statusBarFrame.height
@@ -166,6 +189,7 @@ class EventDetailViewController: UIViewController, Joinable {
     }
 
     fileprivate let race: Race
+    fileprivate var raceCoordinates: CLLocationCoordinate2D?
     fileprivate let raceViewModel: RaceViewModel
     fileprivate let raceApi = RaceApi()
     fileprivate var chapterApi = ChapterApi()
@@ -176,6 +200,11 @@ class EventDetailViewController: UIViewController, Joinable {
     init(with race: Race) {
         self.race = race
         self.raceViewModel = RaceViewModel(with: race)
+
+        if let latitude = CLLocationDegrees(race.latitude), let longitude = CLLocationDegrees(race.longitude) {
+            self.raceCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        }
+
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -210,16 +239,22 @@ class EventDetailViewController: UIViewController, Joinable {
 
         let contentView = UIView()
 
-        contentView.addSubview(mapImageView)
-        mapImageView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(-topOffset)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.mapHeight)
+        if canDisplayMap {
+            contentView.addSubview(mapImageView)
+            mapImageView.snp.makeConstraints {
+                $0.top.equalToSuperview().offset(-topOffset)
+                $0.leading.trailing.equalToSuperview()
+                $0.height.equalTo(Constants.mapHeight)
+            }
         }
 
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.top.equalTo(mapImageView.snp.bottom).offset(Constants.padding*1.5)
+            if canDisplayMap {
+                $0.top.equalTo(mapImageView.snp.bottom).offset(Constants.padding*1.5)
+            } else {
+                $0.top.equalToSuperview().offset(Constants.padding*1.5)
+            }
             $0.leading.equalToSuperview().offset(Constants.padding)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
@@ -238,23 +273,29 @@ class EventDetailViewController: UIViewController, Joinable {
             $0.trailing.equalTo(buttonStackView.snp.leading).offset(-Constants.padding/2)
         }
 
-        contentView.addSubview(descriptionTextView)
-        descriptionTextView.snp.makeConstraints {
-            $0.top.equalTo(headerLabelStackView.snp.bottom).offset(Constants.padding/2)
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
-            $0.width.equalTo(view.bounds.width)
+        if canDisplayDescription {
+            contentView.addSubview(descriptionTextView)
+            descriptionTextView.snp.makeConstraints {
+                $0.top.equalTo(buttonStackView.snp.bottom).offset(Constants.padding)
+                $0.leading.equalToSuperview()
+                $0.trailing.equalToSuperview()
+                $0.width.equalTo(view.bounds.width)
+            }
         }
 
         contentView.addSubview(contentTextView)
         contentTextView.snp.makeConstraints {
-            $0.top.equalTo(descriptionTextView.snp.bottom).offset(Constants.padding/2)
+            if canDisplayDescription {
+                $0.top.equalTo(descriptionTextView.snp.bottom).offset(Constants.padding/2)
+            } else {
+                $0.top.equalTo(buttonStackView.snp.bottom).offset(Constants.padding)
+            }
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
             $0.width.equalTo(view.bounds.width)
         }
 
-        if race.itineraryContent.count > 0 {
+        if canDisplayItinerary {
             contentView.addSubview(itineraryTextView)
             itineraryTextView.snp.makeConstraints {
                 $0.top.equalTo(contentTextView.snp.bottom).offset(Constants.padding/2)
@@ -266,15 +307,15 @@ class EventDetailViewController: UIViewController, Joinable {
 
         contentView.addSubview(tableView)
         tableView.snp.makeConstraints {
-            if race.itineraryContent.count > 0 {
-                $0.top.equalTo(itineraryTextView.snp.bottom)
+            if canDisplayItinerary {
+                $0.top.equalTo(itineraryTextView.snp.bottom).offset(-Constants.padding)
             } else {
-                $0.top.equalTo(contentTextView.snp.bottom)
+                $0.top.equalTo(contentTextView.snp.bottom).offset(-Constants.padding)
             }
 
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.cellHeight*2)
-            $0.bottom.equalToSuperview().offset(-Constants.cellHeight)
+            $0.bottom.equalToSuperview().offset(-Constants.padding)
         }
 
         scrollView.addSubview(contentView)
@@ -292,14 +333,23 @@ class EventDetailViewController: UIViewController, Joinable {
         titleLabel.text = raceViewModel.titleLabel.uppercased()
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
-        locationButton.setTitle(raceViewModel.fullLocationLabel, for: .normal)
         dateButton.setTitle(raceViewModel.fullDateLabel, for: .normal)
+
+        if canDisplayAddress {
+            locationButton.setTitle(raceViewModel.fullLocationLabel, for: .normal)
+        }
 
         let textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
 
-        descriptionTextView.attributedText = NSAttributedString(string: raceViewModel.race.description, font: textFont, color: Color.gray300)
+        if canDisplayDescription {
+            descriptionTextView.attributedText = NSAttributedString(string: raceViewModel.race.description, font: textFont, color: Color.gray300)
+        }
+
         contentTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.content, font: textFont)
-        itineraryTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.itineraryContent, font: textFont)
+
+        if canDisplayItinerary {
+            itineraryTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.itineraryContent, font: textFont)
+        }
 
         // lays out the content and helps calculating the content size
         let contentRect: CGRect = scrollView.subviews.reduce(into: .zero) { rect, view in
@@ -308,18 +358,14 @@ class EventDetailViewController: UIViewController, Joinable {
         
         scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height*3)
 
-        if let latitude = CLLocationDegrees(raceViewModel.race.latitude), let longitude = CLLocationDegrees(raceViewModel.race.longitude) {
-            loadMap(with: latitude, longitude: longitude, useSnapshot: false)
-        } else {
-            // TODO: hide map view and adjust content inset
-        }
+        loadMapIfPossible()
     }
 
-    fileprivate func loadMap(with latitude: CLLocationDegrees, longitude: CLLocationDegrees, useSnapshot: Bool = true) {
+    fileprivate func loadMapIfPossible() {
+        guard let coordinates = raceCoordinates else { return }
 
         let distance = CLLocationDistance(1000)
-        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: distance, longitudinalMeters: distance)
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: distance, longitudinalMeters: distance)
 
         let mapRect = MKCoordinateRegion.mapRectForCoordinateRegion(region)
         let paddedMapRect = mapRect.offsetBy(dx: 0, dy: -1500) // TODO: Convert Screen points to Map points instead of harcoded value
@@ -336,10 +382,8 @@ class EventDetailViewController: UIViewController, Joinable {
             $0.height.equalTo(Constants.mapHeight)
         }
 
-        if useSnapshot {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
-                self?.loadMapSnapshot(with: mapView, mapRect: paddedMapRect, coordinate: coordinate)
-            }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+            self?.loadMapSnapshot(with: mapView, mapRect: paddedMapRect, coordinate: coordinates)
         }
     }
 
@@ -349,8 +393,8 @@ class EventDetailViewController: UIViewController, Joinable {
         snapShotOptions.mapRect = mapRect
         snapShotOptions.size = mapViewSize
         snapShotOptions.scale = UIScreen.main.scale
-        snapShotOptions.showsBuildings = true
-        snapShotOptions.showsPointsOfInterest = false
+        snapShotOptions.showsBuildings = mapView.showsBuildings
+        snapShotOptions.showsPointsOfInterest = mapView.showsPointsOfInterest
 
         // Set MKMapSnapShotOptions to MKMapSnapShotter.
         let snapShotter: MKMapSnapshotter = MKMapSnapshotter(options: snapShotOptions)
@@ -387,6 +431,8 @@ class EventDetailViewController: UIViewController, Joinable {
     }
 
     @objc func didPressLocationButton(_ sender: UITapGestureRecognizer) {
+        guard canDisplayMap else { return }
+
         print("didPressLocationButton!")
     }
 
@@ -457,7 +503,9 @@ extension EventDetailViewController: UITableViewDataSource {
 extension EventDetailViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        stretchHeaderView(with: scrollView.contentOffset)
+        if canDisplayMap {
+            stretchHeaderView(with: scrollView.contentOffset)
+        }
     }
 }
 
