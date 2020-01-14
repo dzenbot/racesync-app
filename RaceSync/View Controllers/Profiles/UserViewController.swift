@@ -151,7 +151,6 @@ class UserViewController: ProfileViewController, Joinable {
 
     @objc func didPressShareButton() {
         let items = [URL(string: user.url)]
-
         let activity = TUSafariActivity()
 
         let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: [activity])

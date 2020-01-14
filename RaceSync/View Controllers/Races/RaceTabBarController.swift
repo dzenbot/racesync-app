@@ -9,7 +9,6 @@
 import UIKit
 import SnapKit
 import RaceSyncAPI
-import TUSafariActivity
 
 fileprivate enum RaceTabs: Int {
     case event, race, results
@@ -140,13 +139,20 @@ class RaceTabBarController: UITabBarController {
     }
 
     @objc func didPressShareButton() {
-        guard let race = race else { return }
+        guard let race = race, let raceUrl = URL(string: race.url) else { return }
 
-        let items = [URL(string: race.url)]
+        var items: [Any] = [raceUrl]
+        var activities: [UIActivity] = [SafariActivity()]
 
-        let activity = TUSafariActivity()
+        // Calendar integration
+        if let startDate = race.startDate, let address = race.address {
+            let calendarEvent = CalendarEvent(title: race.name, location: address, description: race.description, startDate: startDate, url: raceUrl)
 
-        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: [activity])
+            items += [calendarEvent]
+            activities += [CalendarActivity()]
+        }
+
+        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: activities)
         present(activityVC, animated: true)
     }
 }

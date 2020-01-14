@@ -44,6 +44,8 @@
 		4F6C8A8F23657DE00017FD78 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APIEnvironment.swift */; };
 		4F6C8A96236A9D580017FD78 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A95236A9D580017FD78 /* UIColor+Extensions.swift */; };
 		4F6C8A98236A9E840017FD78 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A97236A9E840017FD78 /* Color.swift */; };
+		4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F714DE023CD4906000C4036 /* CalendarActivity.swift */; };
+		4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F714DE223CD5EAA000C4036 /* SafariActivity.swift */; };
 		4F791C9823A6105700F15FD7 /* ChannelBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9723A6105700F15FD7 /* ChannelBadge.swift */; };
 		4F791C9A23A66BA900F15FD7 /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */; };
 		4F791C9C23A6D64C00F15FD7 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9B23A6D64C00F15FD7 /* MapViewController.swift */; };
@@ -216,6 +218,8 @@
 		4F6C8A8E23657DE00017FD78 /* APIEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEnvironment.swift; sourceTree = "<group>"; };
 		4F6C8A95236A9D580017FD78 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		4F6C8A97236A9E840017FD78 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		4F714DE023CD4906000C4036 /* CalendarActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarActivity.swift; sourceTree = "<group>"; };
+		4F714DE223CD5EAA000C4036 /* SafariActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariActivity.swift; sourceTree = "<group>"; };
 		4F791C9723A6105700F15FD7 /* ChannelBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelBadge.swift; sourceTree = "<group>"; };
 		4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		4F791C9B23A6D64C00F15FD7 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = "RaceSync/View Controllers/Races/MapViewController.swift"; sourceTree = SOURCE_ROOT; };
@@ -618,6 +622,8 @@
 				4F5C1E46238D1C3200D756EB /* TextCopiable.swift */,
 				4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */,
 				4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */,
+				4F714DE023CD4906000C4036 /* CalendarActivity.swift */,
+				4F714DE223CD5EAA000C4036 /* SafariActivity.swift */,
 			);
 			path = "UI Components";
 			sourceTree = "<group>";
@@ -1034,6 +1040,8 @@
 				4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */,
 				4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */,
 				4F5C1E3E238A770B00D756EB /* UITableViewCell+Reuse.swift in Sources */,
+				4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */,
+				4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */,
 				4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */,
 				4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */,
 				4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */,
