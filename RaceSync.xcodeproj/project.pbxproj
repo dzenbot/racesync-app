@@ -108,6 +108,7 @@
 		4FD53FB123A0D48F00158206 /* UserRaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD53FB023A0D48F00158206 /* UserRaceTableViewCell.swift */; };
 		4FD53FB323A0E9B700158206 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD53FB223A0E9B700158206 /* AvatarImageView.swift */; };
 		4FD53FB623A16A6900158206 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4FD53FB423A166A200158206 /* GoogleService-Info.plist */; };
+		4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDC05D723CDB16E00B10881 /* CalendarUtil.swift */; };
 		4FDD499223B045E7009DD2DB /* Aircraft.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD499123B045E7009DD2DB /* Aircraft.swift */; };
 		4FDD499423B045FE009DD2DB /* AircraftConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD499323B045FE009DD2DB /* AircraftConstants.swift */; };
 		4FDD499623B0461D009DD2DB /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD499523B0461D009DD2DB /* Season.swift */; };
@@ -281,6 +282,7 @@
 		4FD53FB023A0D48F00158206 /* UserRaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRaceTableViewCell.swift; sourceTree = "<group>"; };
 		4FD53FB223A0E9B700158206 /* AvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		4FD53FB423A166A200158206 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		4FDC05D723CDB16E00B10881 /* CalendarUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUtil.swift; sourceTree = "<group>"; };
 		4FDD499123B045E7009DD2DB /* Aircraft.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Aircraft.swift; sourceTree = "<group>"; };
 		4FDD499323B045FE009DD2DB /* AircraftConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftConstants.swift; sourceTree = "<group>"; };
 		4FDD499523B0461D009DD2DB /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
@@ -464,6 +466,7 @@
 				4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */,
 				4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */,
 				4F8668F323860900005E310A /* UniversalConstants.swift */,
+				4FDC05D723CDB16E00B10881 /* CalendarUtil.swift */,
 				4F68BE682399CEB5009D44F7 /* AlertUtil.swift */,
 				4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */,
 			);
@@ -1066,6 +1069,7 @@
 				4F791C9E23A8AB7300F15FD7 /* HeaderStretchable.swift in Sources */,
 				4FD53FB123A0D48F00158206 /* UserRaceTableViewCell.swift in Sources */,
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
+				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
 				4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */,
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,
 				4FD4E1C9237F987C008816B3 /* RaceDetailViewController.swift in Sources */,

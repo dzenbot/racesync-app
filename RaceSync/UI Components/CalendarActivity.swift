@@ -53,37 +53,10 @@ class CalendarActivity: UIActivity {
 
     override func perform() {
 
-        let eventStore = EKEventStore()
-
-        eventStore.requestAccess(to: .event) { [weak self] (granted, error) in
-            guard granted, let event = self?.event else { return }
-
-            let ekevent = EKEvent(eventStore: eventStore)
-            ekevent.title = event.title
-            ekevent.location = event.location
-            ekevent.notes = event.description
-            ekevent.startDate = event.startDate
-            ekevent.endDate = event.startDate
-            ekevent.isAllDay = false
-            ekevent.url = event.url
-
-            ekevent.calendar = eventStore.defaultCalendarForNewEvents
-
-            do {
-                try eventStore.save(ekevent, span: .thisEvent)
-            }  catch {
-                print("error saving to calendar: \(error.localizedDescription)")
-            }
+        if let event = event {
+            CalendarUtil.add(event)
         }
 
         activityDidFinish(true)
     }
-}
-
-struct CalendarEvent {
-    let title: String
-    let location: String
-    let description: String
-    let startDate: Date
-    let url: URL?
 }

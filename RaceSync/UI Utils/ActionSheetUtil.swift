@@ -10,7 +10,7 @@ import UIKit
 
 class ActionSheetUtil {
 
-    static func presentActionSheet(withTitle title: String, message: String? = nil, buttonTitle: String? = nil, completion: AlertCompletionBlock? = nil, cancel: AlertCompletionBlock? = nil) {
+    static func presentActionSheet(withTitle title: String, message: String? = nil, buttonTitle: String? = nil, completion: @escaping AlertCompletionBlock, cancel: AlertCompletionBlock? = nil) {
         guard let topMostVC = UIViewController.topMostViewController() else { return }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)

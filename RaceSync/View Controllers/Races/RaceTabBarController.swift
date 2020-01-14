@@ -123,7 +123,16 @@ class RaceTabBarController: UITabBarController {
         preloadTabs()
 
         tabBar.tintColor = Color.black
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+
+        var rightBarButtonItems = [UIBarButtonItem]()
+        let shareButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+        rightBarButtonItems += [shareButtonItem]
+
+        if let _ = race.calendarEvent {
+            let calendarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_calendar"), style: .done, target: self, action: #selector(didPressCalendarButton))
+            rightBarButtonItems += [calendarButtonItem]
+        }
+        navigationItem.rightBarButtonItems = rightBarButtonItems
     }
 
     // MARK: - Actions
@@ -138,6 +147,14 @@ class RaceTabBarController: UITabBarController {
         title = viewControllers?[index].title
     }
 
+    @objc func didPressCalendarButton() {
+        guard let race = race, let event = race.calendarEvent else { return }
+
+        ActionSheetUtil.presentActionSheet(withTitle: "Add race details to your calendar?", buttonTitle: "Add to Calendar", completion: { (action) in
+            CalendarUtil.add(event)
+        })
+    }
+
     @objc func didPressShareButton() {
         guard let race = race, let raceUrl = URL(string: race.url) else { return }
 
@@ -145,10 +162,8 @@ class RaceTabBarController: UITabBarController {
         var activities: [UIActivity] = [SafariActivity()]
 
         // Calendar integration
-        if let startDate = race.startDate, let address = race.address {
-            let calendarEvent = CalendarEvent(title: race.name, location: address, description: race.description, startDate: startDate, url: raceUrl)
-
-            items += [calendarEvent]
+        if let event = race.calendarEvent {
+            items += [event]
             activities += [CalendarActivity()]
         }
 
