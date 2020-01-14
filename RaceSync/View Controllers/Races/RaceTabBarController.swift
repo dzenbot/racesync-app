@@ -150,7 +150,7 @@ class RaceTabBarController: UITabBarController {
     @objc func didPressCalendarButton() {
         guard let race = race, let event = race.calendarEvent else { return }
 
-        ActionSheetUtil.presentActionSheet(withTitle: "Add race details to your calendar?", buttonTitle: "Add to Calendar", completion: { (action) in
+        ActionSheetUtil.presentActionSheet(withTitle: "Save the race details to your calendar?", buttonTitle: "Save to Calendar", completion: { (action) in
             CalendarUtil.add(event)
         })
     }
