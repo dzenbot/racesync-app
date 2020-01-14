@@ -371,6 +371,13 @@ class EventDetailViewController: UIViewController, Joinable {
         let paddedMapRect = mapRect.offsetBy(dx: 0, dy: -1500) // TODO: Convert Screen points to Map points instead of harcoded value
 
         let mapView = MKMapView()
+        mapView.isZoomEnabled = false
+        mapView.isScrollEnabled = false
+        mapView.isRotateEnabled = false
+        mapView.isPitchEnabled = false
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapMapView))
+        mapView.addGestureRecognizer(tapGestureRecognizer)
+
         mapView.setVisibleMapRect(paddedMapRect, animated: false)
 
         // add temporairly to the view hiearchy so the map is displayed when loading
@@ -427,13 +434,17 @@ class EventDetailViewController: UIViewController, Joinable {
     // MARK: - Actions
 
     @objc func didTapMapView(_ sender: UITapGestureRecognizer) {
-        print("didTapMapView!")
+        guard let coordinates = raceCoordinates else { return }
+
+        let mapVC = RaceMapViewController(with: coordinates)
+        let mapNC = UINavigationController(rootViewController: mapVC)
+
+        present(mapNC, animated: true, completion: nil)
     }
 
     @objc func didPressLocationButton(_ sender: UITapGestureRecognizer) {
         guard canDisplayMap else { return }
-
-        print("didPressLocationButton!")
+        didTapMapView(sender)
     }
 
     @objc func didPressDateButton(_ sender: UITapGestureRecognizer) {

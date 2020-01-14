@@ -280,13 +280,13 @@ class LoginViewController: UIViewController {
     // MARK: - Button Events
 
     @objc func didPressPasswordRecoveryButton() {
-        if let url = URL(string: WebUrls.passwordReset) {
+        if let url = URL(string: WebUrls.passwordResetUrl) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
 
     @objc func didPressCreateAccountButton() {
-        if let url = URL(string: WebUrls.accountRegistration) {
+        if let url = URL(string: WebUrls.accountRegistrationUrl) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
@@ -317,7 +317,7 @@ class LoginViewController: UIViewController {
     }
 
     @objc func didPressLegalButton() {
-        if let url = URL(string: WebUrls.termsOfUse) {
+        if let url = URL(string: WebUrls.termsOfUseUrl) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }

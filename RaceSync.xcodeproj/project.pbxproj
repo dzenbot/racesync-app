@@ -48,7 +48,6 @@
 		4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F714DE223CD5EAA000C4036 /* SafariActivity.swift */; };
 		4F791C9823A6105700F15FD7 /* ChannelBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9723A6105700F15FD7 /* ChannelBadge.swift */; };
 		4F791C9A23A66BA900F15FD7 /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */; };
-		4F791C9C23A6D64C00F15FD7 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9B23A6D64C00F15FD7 /* MapViewController.swift */; };
 		4F791C9E23A8AB7300F15FD7 /* HeaderStretchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */; };
 		4F8668F423860900005E310A /* UniversalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8668F323860900005E310A /* UniversalConstants.swift */; };
 		4F8668F623861736005E310A /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8668F523861736005E310A /* Chapter.swift */; };
@@ -222,7 +221,6 @@
 		4F714DE223CD5EAA000C4036 /* SafariActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariActivity.swift; sourceTree = "<group>"; };
 		4F791C9723A6105700F15FD7 /* ChannelBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelBadge.swift; sourceTree = "<group>"; };
 		4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extensions.swift"; sourceTree = "<group>"; };
-		4F791C9B23A6D64C00F15FD7 /* MapViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = MapViewController.swift; path = "RaceSync/View Controllers/Races/MapViewController.swift"; sourceTree = SOURCE_ROOT; };
 		4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderStretchable.swift; sourceTree = "<group>"; };
 		4F8668F323860900005E310A /* UniversalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalConstants.swift; sourceTree = "<group>"; };
 		4F8668F523861736005E310A /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
@@ -472,6 +470,14 @@
 			path = "UI Utils";
 			sourceTree = "<group>";
 		};
+		4F714DE423CD769F000C4036 /* Map */ = {
+			isa = PBXGroup;
+			children = (
+				4F5C1E4A238EEC5200D756EB /* RaceMapViewController.swift */,
+			);
+			path = Map;
+			sourceTree = "<group>";
+		};
 		4F8F2C0F2384903100DC4907 /* View Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -572,8 +578,6 @@
 				4FD4E1CA237F98A0008816B3 /* EventDetailViewController.swift */,
 				4FD4E1C8237F987C008816B3 /* RaceDetailViewController.swift */,
 				4FD4E1E02380AC37008816B3 /* RaceResultsViewController.swift */,
-				4F5C1E4A238EEC5200D756EB /* RaceMapViewController.swift */,
-				4F791C9B23A6D64C00F15FD7 /* MapViewController.swift */,
 			);
 			path = Races;
 			sourceTree = "<group>";
@@ -585,6 +589,7 @@
 				4F5C1E41238CF68F00D756EB /* Profiles */,
 				4FA1AB3123C6ACFD007CF389 /* Aircrafts */,
 				4FA1AB4623CC51D7007CF389 /* Settings */,
+				4F714DE423CD769F000C4036 /* Map */,
 				4FD4E1D2237F9DEF008816B3 /* Search */,
 				4F1342672360DA3200A9DBDE /* Login */,
 			);
@@ -1036,7 +1041,6 @@
 				4F68BE6D2399DBCF009D44F7 /* UIViewController+Lookup.swift in Sources */,
 				4FD4E1E12380AC37008816B3 /* RaceResultsViewController.swift in Sources */,
 				4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */,
-				4F791C9C23A6D64C00F15FD7 /* MapViewController.swift in Sources */,
 				4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */,
 				4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */,
 				4F5C1E3E238A770B00D756EB /* UITableViewCell+Reuse.swift in Sources */,

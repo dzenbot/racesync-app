@@ -23,3 +23,11 @@ extension MKCoordinateRegion {
         return MKMapRect(origin: point, size: size)
     }
 }
+
+extension MKMapView {
+
+    var zoomLevel: CGFloat {
+        let width = frame.size.width
+        return log2(360 * ((width/256) / CGFloat(region.span.longitudeDelta))) + 1
+    }
+}
