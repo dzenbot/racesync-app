@@ -14,11 +14,13 @@ class RaceMapViewController: UIViewController {
     // MARK: - Private Variables
 
     fileprivate let coordinates: CLLocationCoordinate2D
+    fileprivate let address: String
 
     fileprivate lazy var mapView: MKMapView = {
         let mapView = MKMapView()
         mapView.showsScale = true
         mapView.showsUserLocation = true
+        mapView.delegate = self
         return mapView
     }()
 
@@ -36,8 +38,9 @@ class RaceMapViewController: UIViewController {
 
     // MARK: - Initialization
 
-    init(with coordinates: CLLocationCoordinate2D) {
+    init(with coordinates: CLLocationCoordinate2D, address: String) {
         self.coordinates = coordinates
+        self.address = address
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -86,6 +89,10 @@ class RaceMapViewController: UIViewController {
 
         mapView.setVisibleMapRect(paddedMapRect, animated: false)
 
+        let location = MKPointAnnotation()
+        location.title = address
+        location.coordinate = coordinates
+        mapView.addAnnotation(location)
     }
 
     // MARK: - Actions
@@ -140,4 +147,26 @@ class RaceMapViewController: UIViewController {
         guard let url = URL(string: WebUrls.wazeScheme) else { return false }
         return UIApplication.shared.canOpenURL(url)
     }
+}
+
+extension RaceMapViewController: MKMapViewDelegate {
+
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { return nil }
+
+        let identifier = "Annotation"
+
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.image = UIImage(named: "icn_map_annotation")
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+
+        return annotationView
+    }
+
 }

@@ -434,9 +434,9 @@ class EventDetailViewController: UIViewController, Joinable {
     // MARK: - Actions
 
     @objc func didTapMapView(_ sender: UITapGestureRecognizer) {
-        guard let coordinates = raceCoordinates else { return }
+        guard let coordinates = raceCoordinates, let address = race.address else { return }
 
-        let mapVC = RaceMapViewController(with: coordinates)
+        let mapVC = RaceMapViewController(with: coordinates, address: address)
         let mapNC = UINavigationController(rootViewController: mapVC)
 
         present(mapNC, animated: true, completion: nil)
