@@ -24,13 +24,6 @@ class RaceMapViewController: UIViewController {
         return mapView
     }()
 
-    fileprivate lazy var closeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(didPressCloseButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_navbar_close"), for: .normal)
-        return button
-    }()
-
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = UniversalConstants.cellHeight
@@ -70,8 +63,8 @@ class RaceMapViewController: UIViewController {
 
         title = "Race Location"
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navigation"), style: .done, target: self, action: #selector(didPressDirectionsButton))
 
         view.addSubview(mapView)
         mapView.snp.makeConstraints {
@@ -97,7 +90,7 @@ class RaceMapViewController: UIViewController {
 
     // MARK: - Actions
 
-    @objc func didPressShareButton() {
+    @objc func didPressDirectionsButton() {
 
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 

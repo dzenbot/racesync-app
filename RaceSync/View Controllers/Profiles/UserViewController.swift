@@ -16,13 +16,6 @@ class UserViewController: ProfileViewController, Joinable {
 
     // MARK: - Private Variables
 
-    fileprivate lazy var closeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(didPressCloseButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_navbar_close"), for: .normal)
-        return button
-    }()
-
     fileprivate lazy var qrButton: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(didPressQRButton), for: .touchUpInside)
@@ -68,7 +61,7 @@ class UserViewController: ProfileViewController, Joinable {
         }
 
         if navigationController?.viewControllers.count == 1 {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         }
 
         tableView.register(UserRaceTableViewCell.self, forCellReuseIdentifier: UserRaceTableViewCell.identifier)

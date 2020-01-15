@@ -25,13 +25,6 @@ class AircraftListViewController: UIViewController {
 
     // MARK: - Private Variables
 
-    fileprivate lazy var closeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(didPressCloseButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_navbar_close"), for: .normal)
-        return button
-    }()
-
     lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: AircraftCollectionViewCell.height, height: AircraftCollectionViewCell.height)
@@ -99,7 +92,7 @@ class AircraftListViewController: UIViewController {
         view.backgroundColor = Color.white
 
         navigationItem.title = "Select Your Aircraft"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: closeButton)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
 
         view.addSubview(collectionView)
