@@ -7,9 +7,7 @@ PODS:
   - AlamofireObjectMapper (5.2.0):
     - Alamofire (~> 4.7)
     - ObjectMapper (~> 3.4)
-  - Crashlytics (3.14.0):
-    - Fabric (~> 1.10.2)
-  - Fabric (1.10.2)
+  - Bugsnag (5.23.0)
   - ObjectMapper (3.4.2)
   - Presentr (1.9)
   - QRCode (2.0)
@@ -25,8 +23,7 @@ DEPENDENCIES:
   - AlamofireImage
   - AlamofireNetworkActivityIndicator
   - AlamofireObjectMapper
-  - Crashlytics
-  - Fabric
+  - Bugsnag
   - ObjectMapper
   - Presentr
   - QRCode (from `https://github.com/andrewcampoli/QRCode.git`)
@@ -38,13 +35,11 @@ DEPENDENCIES:
   - TUSafariActivity (~> 1.0)
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  https://github.com/CocoaPods/Specs.git:
     - Alamofire
     - AlamofireImage
     - AlamofireNetworkActivityIndicator
     - AlamofireObjectMapper
-    - Crashlytics
-    - Fabric
     - ObjectMapper
     - Presentr
     - ShimmerSwift
@@ -53,6 +48,8 @@ SPEC REPOS:
     - SwiftValidators
     - SwiftyJSON
     - TUSafariActivity
+  trunk:
+    - Bugsnag
 
 EXTERNAL SOURCES:
   QRCode:
@@ -68,8 +65,7 @@ SPEC CHECKSUMS:
   AlamofireImage: 63cfe3baf1370be6c498149687cf6db3e3b00999
   AlamofireNetworkActivityIndicator: 9acc3de3ca6645bf0efed462396b0df13dd3e7b8
   AlamofireObjectMapper: 92b6ce2423a9d159e686f6a1d514a009bf903ddc
-  Crashlytics: 540b7e5f5da5a042647227a5e3ac51d85eed06df
-  Fabric: 706c8b8098fff96c33c0db69cbf81f9c551d0d74
+  Bugsnag: 1f33ee5b55bc4b131a30e0fe6db714da9c6609f6
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   QRCode: 282441d0cfe8c4c1766b7578361fe93f72757685
@@ -80,6 +76,6 @@ SPEC CHECKSUMS:
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   TUSafariActivity: afc55a00965377939107ce4fdc7f951f62454546
 
-PODFILE CHECKSUM: c7c681c4861fb83057f2444665990b343e6b1291
+PODFILE CHECKSUM: 0ecf3d94a088c3f6a048790cc28961515c2f64bc
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

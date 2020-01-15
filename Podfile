@@ -12,8 +12,7 @@ target 'RaceSync' do
   pod 'TUSafariActivity', '~> 1.0'
 
   # Dev Tools
-  pod 'Fabric'
-  pod 'Crashlytics'
+  pod 'Bugsnag'
   pod 'SwiftLint'
 
   target 'RaceSyncTests' do
