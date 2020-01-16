@@ -1,3 +1,7 @@
+
+[![CircleCI](https://circleci.com/gh/MultiGP/racesync-ios.svg?style=svg)](https://circleci.com/gh/MultiGP/racesync-ios)
+
+
 ## Phase I: Discovery XP
 The first phase of development of the RaceSync app is meant to build the foundational pieces and include the most core features and allow users to discover races in the MultiGP network. This includes searching for users, chapters and races, as well as consuming important information about upcoming and past race events.
 

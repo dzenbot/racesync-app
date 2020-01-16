@@ -2,9 +2,22 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:RaceSync.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:RaceSync.xcodeproj">
+   </FileRef>
+   <Group
+      location = "container:"
+      name = "Config">
+      <FileRef
+         location = "group:.circleci/config.yml">
+      </FileRef>
+      <FileRef
+         location = "group:Podfile">
+      </FileRef>
+      <FileRef
+         location = "group:README.md">
+      </FileRef>
+   </Group>
 </Workspace>
