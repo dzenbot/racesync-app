@@ -25,6 +25,10 @@ fileprivate extension Appearance {
 
         if let mainWindow = UIApplication.shared.delegate?.window as? UIWindow {
             mainWindow.backgroundColor = Color.white
+
+            if #available(iOS 13.0, *) {
+                mainWindow.overrideUserInterfaceStyle = .light
+            }
         }
     }
 

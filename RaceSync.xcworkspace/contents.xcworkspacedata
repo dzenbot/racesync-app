@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Pods/Pods.xcodeproj">
+      location = "group:RaceSync.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:RaceSync.xcodeproj">
+      location = "group:Pods/Pods.xcodeproj">
    </FileRef>
    <Group
       location = "container:"
