@@ -35,11 +35,7 @@ public class APIServices {
     // MARK: - Initialization
 
     public init() {
-        if ProcessInfo.processInfo.environment["api-environment"] == "dev" {
-            self.environment = DevEnvironment()
-        } else {
-            self.environment = ProdEnvironment()
-        }
+        self.environment = APIEnvironment()
 
         NetworkActivityIndicatorManager.shared.isEnabled = true
     }

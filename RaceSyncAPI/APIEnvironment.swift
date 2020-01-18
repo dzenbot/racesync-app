@@ -8,23 +8,21 @@
 
 import Foundation
 
-public protocol APIEnvironment {
-    var apiKey: String { get }
-    var username: String { get }
-    var password: String { get }
-    var isDev: Bool { get }
-}
+public class APIEnvironment {
+    public let apiKey: String
+    public let username: String?
+    public let password: String?
 
-public struct DevEnvironment : APIEnvironment {
-    public let apiKey: String = "3WlfklZkaSO7p8Y3qwxebeSEMllyLVyPST4cf4xqWmxmuwqU2Y9dc2SYnex9a5Y2Z3ff8MF48drCJRxLPHZ2KS186yihEgjDkyTslyxtLY6uQEgFlgI68JefiwwWNQA7"
-    public let username: String = "ignacio.romeroz@gmail.com"
-    public let password: String = "VosspcwXp2n3VZ9"
-    public let isDev: Bool = true
-}
+    init() {
+        let bundle = Bundle(for: APIEnvironment.self)
 
-public struct ProdEnvironment : APIEnvironment {
-    public let apiKey: String = "3WlfklZkaSO7p8Y3qwxebeSEMllyLVyPST4cf4xqWmxmuwqU2Y9dc2SYnex9a5Y2Z3ff8MF48drCJRxLPHZ2KS186yihEgjDkyTslyxtLY6uQEgFlgI68JefiwwWNQA7"
-    public let username: String = "ignacio.romeroz@gmail.com"
-    public let password: String = "VosspcwXp2n3VZ9"
-    public let isDev: Bool = false
+        // TODO: Throw and print error
+        let path = bundle.path(forResource: "Credentials", ofType: "plist")
+        let dict = NSDictionary(contentsOfFile: path!)
+
+        // TODO: Throw and print error
+        apiKey = dict!["API_KEY"] as! String
+        username = dict!["USERNAME"] as? String
+        password = dict!["PASSWORD"] as? String
+    }
 }

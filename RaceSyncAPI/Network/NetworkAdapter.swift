@@ -83,6 +83,8 @@ class NetworkAdapter {
         var headers: [String : String] = headers ?? [:]
         
         headers["Content-type"] = "application/json"
+
+        // TODO: Add standard user-agents for mobile and iOS 
         headers["platform"] = "ios"
 
         // TODO: Send user-agents for platform and OS etc
@@ -90,7 +92,7 @@ class NetworkAdapter {
         // The server requires basic authorization header
         // when interacting with test.multigp.com
         // It is a base64 encoded string for "mgp:TestMe!"
-        if APIServices.shared.environment.isDev {
+        if APIServices.shared.isDev {
             headers["Authorization"] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE="
         }
 

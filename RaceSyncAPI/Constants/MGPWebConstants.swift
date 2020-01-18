@@ -9,6 +9,7 @@
 import Foundation
 
 public enum MGPWebConstant: String {
+    case home = "https://www.multigp.com/"
     case apiBase = "https://www.multigp.com/mgp/multigpwebservice/"
 
     case passwordReset = "https://www.multigp.com/initiatepasswordreset"
