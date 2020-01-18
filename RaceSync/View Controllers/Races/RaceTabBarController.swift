@@ -44,7 +44,10 @@ class RaceTabBarController: UITabBarController {
     fileprivate var race: Race? {
         // TODO: Patch for race/simpleView which doesn't provide the id attribute for a Race.
         // https://github.com/mainedrones/RaceSync/pull/37
-        didSet { race?.id = raceId }
+        didSet {
+            race?.id = raceId
+            race?.url = "\(WebConstants.RaceViewUrl)=\(raceId)"
+        }
     }
 
     fileprivate enum Constants {

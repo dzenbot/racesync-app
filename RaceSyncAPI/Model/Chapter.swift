@@ -60,7 +60,7 @@ public class Chapter: Mappable, Descriptable {
         id <- map["id"]
         name <- map["name"]
         tier <- map["tier"]
-        url = "https://www.multigp.com/chapters/view/?chapter=\(name)"
+        url = "\(WebConstants.ChapterViewUrl)=\(name)"
         urlName <- map["urlName"]
         description <- map["description"]
 

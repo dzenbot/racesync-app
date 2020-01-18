@@ -83,7 +83,7 @@ public class Race: Mappable, Descriptable {
         officialStatus <- map["officialStatus"]
         type <- map["type"]
         raceType <- map["raceType"]
-        url = "https://www.multigp.com/races/view/?race=\(id)"
+        url = "\(WebConstants.UserViewUrl)=\(name)"
         urlName <- map["urlName"]
         description <- map["description"]
         content <- map["content"]

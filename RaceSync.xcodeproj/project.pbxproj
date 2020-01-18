@@ -62,6 +62,7 @@
 		4F8F2C112384903F00DC4907 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C102384903F00DC4907 /* RaceViewModel.swift */; };
 		4F8F2C132385136300DC4907 /* NumberUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C122385136300DC4907 /* NumberUtil.swift */; };
 		4F91BC8A2398FBCE00539E95 /* Joinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91BC892398FBCE00539E95 /* Joinable.swift */; };
+		4F9DB79723D2B01C00570483 /* WebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* WebConstants.swift */; };
 		4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */; };
 		4FA1AB3523C6AD5B007CF389 /* AircraftAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */; };
 		4FA1AB3723C7149D007CF389 /* AircraftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */; };
@@ -74,7 +75,6 @@
 		4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268192378BE4A008970AC /* APIConstants.swift */; };
 		4FA268222378F8A0008970AC /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268212378F8A0008970AC /* APIServices.swift */; };
 		4FA268242378F9DD008970AC /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268232378F9DD008970AC /* NetworkAdapter.swift */; };
-		4FA26827237A4079008970AC /* WebUrls.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* WebUrls.swift */; };
 		4FA2682A237A4CE9008970AC /* CompletionBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26829237A4CE9008970AC /* CompletionBlock.swift */; };
 		4FA2682F237A5897008970AC /* ErrorUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA2682E237A5896008970AC /* ErrorUtil.swift */; };
 		4FA26831237A58E1008970AC /* ApiError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26830237A58E1008970AC /* ApiError.swift */; };
@@ -247,7 +247,7 @@
 		4FA268192378BE4A008970AC /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		4FA268212378F8A0008970AC /* APIServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		4FA268232378F9DD008970AC /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
-		4FA26826237A4079008970AC /* WebUrls.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebUrls.swift; sourceTree = "<group>"; };
+		4FA26826237A4079008970AC /* WebConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebConstants.swift; sourceTree = "<group>"; };
 		4FA26829237A4CE9008970AC /* CompletionBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionBlock.swift; sourceTree = "<group>"; };
 		4FA2682E237A5896008970AC /* ErrorUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorUtil.swift; sourceTree = "<group>"; };
 		4FA26830237A58E1008970AC /* ApiError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiError.swift; sourceTree = "<group>"; };
@@ -525,7 +525,6 @@
 		4FA26825237A4005008970AC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4FA26826237A4079008970AC /* WebUrls.swift */,
 				4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */,
 			);
 			path = Resources;
@@ -640,6 +639,7 @@
 				4FDD499923B065C9009DD2DB /* RaceConstants.swift */,
 				4FDD499723B0470E009DD2DB /* ChapterConstants.swift */,
 				4FDD499323B045FE009DD2DB /* AircraftConstants.swift */,
+				4FA26826237A4079008970AC /* WebConstants.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -967,7 +967,6 @@
 				4F6C8A98236A9E840017FD78 /* Color.swift in Sources */,
 				4FD4E1CF237F992B008816B3 /* QRViewController.swift in Sources */,
 				4F0B613F2385DA8F00930D91 /* UIImage+Extensions.swift in Sources */,
-				4FA26827237A4079008970AC /* WebUrls.swift in Sources */,
 				4FE490F423A4A0B00008C38D /* RaceEntryViewModel.swift in Sources */,
 				4FA1AB4323CAF803007CF389 /* AircraftPickerController.swift in Sources */,
 				4F68BE6D2399DBCF009D44F7 /* UIViewController+Lookup.swift in Sources */,
@@ -1039,6 +1038,7 @@
 				4F5001E923830E180025A593 /* Race.swift in Sources */,
 				4FEBB27F23A310BB007514B4 /* User+Extensions.swift in Sources */,
 				4FDD499A23B065C9009DD2DB /* RaceConstants.swift in Sources */,
+				4F9DB79723D2B01C00570483 /* WebConstants.swift in Sources */,
 				4FA1AB4523CB1666007CF389 /* AircraftSpecs.swift in Sources */,
 				4F5001E723827DE70025A593 /* ImageUtil.swift in Sources */,
 				4FA268222378F8A0008970AC /* APIServices.swift in Sources */,
