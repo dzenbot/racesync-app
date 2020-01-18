@@ -60,7 +60,7 @@ public class Chapter: Mappable, Descriptable {
         id <- map["id"]
         name <- map["name"]
         tier <- map["tier"]
-        url = "\(WebConstants.ChapterViewUrl)=\(name)"
+        url = "\(MGPWeb.getUrl(for: .chapterView))=\(name)"
         urlName <- map["urlName"]
         description <- map["description"]
 

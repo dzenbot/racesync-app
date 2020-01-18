@@ -46,7 +46,7 @@ class RaceTabBarController: UITabBarController {
         // https://github.com/mainedrones/RaceSync/pull/37
         didSet {
             race?.id = raceId
-            race?.url = "\(WebConstants.RaceViewUrl)=\(raceId)"
+            race?.url = "\(MGPWeb.getUrl(for: .raceView))=\(raceId)"
         }
     }
 

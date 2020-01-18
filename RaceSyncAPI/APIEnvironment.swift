@@ -9,7 +9,6 @@
 import Foundation
 
 public protocol APIEnvironment {
-    var baseURL: String { get }
     var apiKey: String { get }
     var username: String { get }
     var password: String { get }
@@ -17,7 +16,6 @@ public protocol APIEnvironment {
 }
 
 public struct DevEnvironment : APIEnvironment {
-    public let baseURL: String = "https://test.multigp.com/mgp/multigpwebservice/"
     public let apiKey: String = "3WlfklZkaSO7p8Y3qwxebeSEMllyLVyPST4cf4xqWmxmuwqU2Y9dc2SYnex9a5Y2Z3ff8MF48drCJRxLPHZ2KS186yihEgjDkyTslyxtLY6uQEgFlgI68JefiwwWNQA7"
     public let username: String = "ignacio.romeroz@gmail.com"
     public let password: String = "VosspcwXp2n3VZ9"
@@ -25,7 +23,6 @@ public struct DevEnvironment : APIEnvironment {
 }
 
 public struct ProdEnvironment : APIEnvironment {
-    public let baseURL: String = "https://www.multigp.com/mgp/multigpwebservice/"
     public let apiKey: String = "3WlfklZkaSO7p8Y3qwxebeSEMllyLVyPST4cf4xqWmxmuwqU2Y9dc2SYnex9a5Y2Z3ff8MF48drCJRxLPHZ2KS186yihEgjDkyTslyxtLY6uQEgFlgI68JefiwwWNQA7"
     public let username: String = "ignacio.romeroz@gmail.com"
     public let password: String = "VosspcwXp2n3VZ9"

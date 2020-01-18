@@ -83,7 +83,7 @@ public class Race: Mappable, Descriptable {
         officialStatus <- map["officialStatus"]
         type <- map["type"]
         raceType <- map["raceType"]
-        url = "\(WebConstants.UserViewUrl)=\(name)"
+        url = "\(MGPWeb.getUrl(for: .userView))=\(name)"
         urlName <- map["urlName"]
         description <- map["description"]
         content <- map["content"]

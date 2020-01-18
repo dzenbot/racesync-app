@@ -11,7 +11,7 @@ import ObjectMapper
 
 class RepositoryAdapter {
 
-    let networkAdapter = NetworkAdapter(serverUri: APIServices.shared.environment.baseURL)
+    let networkAdapter = NetworkAdapter(serverUri: MGPWeb.getUrl(for: .apiBase))
 
     func getObject<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, type: Element.Type, _ completion: @escaping ObjectCompletionBlock<Element>) {
         

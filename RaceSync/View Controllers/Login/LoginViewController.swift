@@ -283,15 +283,13 @@ class LoginViewController: UIViewController {
     // MARK: - Button Events
 
     @objc func didPressPasswordRecoveryButton() {
-        if let url = URL(string: WebConstants.PasswordResetUrl) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        let url = MGPWeb.getURL(for: .passwordReset)
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 
     @objc func didPressCreateAccountButton() {
-        if let url = URL(string: WebConstants.AccountRegistrationUrl) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        let url = MGPWeb.getURL(for: .accountRegistration)
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 
     @objc func didPressLoginButton() {
@@ -320,9 +318,8 @@ class LoginViewController: UIViewController {
     }
 
     @objc func didPressLegalButton() {
-        if let url = URL(string: WebConstants.TermsOfUseUrl) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+        let url = MGPWeb.getURL(for: .termsOfUse)
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
 
     func shakeLoginButton() {
