@@ -30,7 +30,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>waze</string>
@@ -40,12 +40,12 @@
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Saving race events to Calendar</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>Saving QR code to Photos</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Show user location on map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Show user location on map</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Show user location on map</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Saving QR code to Photos</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
