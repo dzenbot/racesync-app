@@ -387,7 +387,6 @@
 		4F1342462360B67D00A9DBDE /* RaceSync */ = {
 			isa = PBXGroup;
 			children = (
-				4F9DB79F23D3816800570483 /* RaceSync.entitlements */,
 				4F1342472360B67D00A9DBDE /* AppDelegate.swift */,
 				4FD4E1D6237F9E23008816B3 /* View Controllers */,
 				4F8F2C0F2384903100DC4907 /* View Models */,
@@ -399,6 +398,7 @@
 				4F13424B2360B67D00A9DBDE /* Main.storyboard */,
 				4F1342502360B67D00A9DBDE /* LaunchScreen.storyboard */,
 				4F13424E2360B67D00A9DBDE /* Assets.xcassets */,
+				4F9DB79F23D3816800570483 /* RaceSync.entitlements */,
 				4F1342532360B67D00A9DBDE /* Info.plist */,
 			);
 			path = RaceSync;

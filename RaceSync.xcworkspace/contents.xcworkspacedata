@@ -19,8 +19,5 @@
       <FileRef
          location = "group:README.md">
       </FileRef>
-      <FileRef
-         location = "group:RaceSync/Credentials.plist">
-      </FileRef>
    </Group>
 </Workspace>
