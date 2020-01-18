@@ -152,7 +152,7 @@ fileprivate extension ChapterViewController {
 
     @objc func didPressShareButton() {
         let items = [URL(string: chapter.url)]
-        var activities: [UIActivity] = [SafariActivity()]
+        let activities: [UIActivity] = [SafariActivity()]
 
         let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: activities)
         present(activityVC, animated: true)

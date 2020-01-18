@@ -28,7 +28,7 @@ public class APIServices {
         }
     }
 
-    public var isDev: Bool {
+    public static var isDev: Bool {
         return ProcessInfo.processInfo.environment["api-environment"] == "dev"
     }
 

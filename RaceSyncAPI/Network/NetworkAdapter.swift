@@ -92,7 +92,7 @@ class NetworkAdapter {
         // The server requires basic authorization header
         // when interacting with test.multigp.com
         // It is a base64 encoded string for "mgp:TestMe!"
-        if APIServices.shared.isDev {
+        if APIServices.isDev {
             headers["Authorization"] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE="
         }
 

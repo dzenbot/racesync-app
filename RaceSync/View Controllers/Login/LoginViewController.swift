@@ -17,7 +17,6 @@ class LoginViewController: UIViewController {
     // MARK: - Feature Flags
     
     fileprivate var shouldAnimateIntro: Bool = true
-    fileprivate var shouldPrefillTextFields: Bool = true
     fileprivate var shouldOpenKeyboardOnIntro: Bool = true
 
     // MARK: - Private Variables
@@ -52,7 +51,7 @@ class LoginViewController: UIViewController {
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = APIServices.shared.isDev ? "Login with MultiGP (test)" : "Login with MultiGP"
+        label.text = APIServices.isDev ? "Login with MultiGP (test)" : "Login with MultiGP"
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         label.textColor = Color.gray200
         return label
@@ -162,12 +161,8 @@ class LoginViewController: UIViewController {
 
         // Skip login if there's a persisted sessionId
         if !APIServices.shared.hasValidSession {
-#if DEBUG
-            if shouldPrefillTextFields {
-                    emailField.text = APIServices.shared.environment.username
-                    passwordField.text = APIServices.shared.environment.password
-            }
-#endif
+            emailField.text = APIServices.shared.environment.email
+            passwordField.text = APIServices.shared.environment.password
 
             animateIntro(duration: shouldAnimateIntro ? 0.7 : 0)
         } else {

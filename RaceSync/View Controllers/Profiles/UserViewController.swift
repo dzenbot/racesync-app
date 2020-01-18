@@ -143,7 +143,7 @@ class UserViewController: ProfileViewController, Joinable {
 
     @objc func didPressShareButton() {
         let items = [URL(string: user.url)]
-        var activities: [UIActivity] = [SafariActivity()]
+        let activities: [UIActivity] = [SafariActivity()]
 
         let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: activities)
         present(activityVC, animated: true)

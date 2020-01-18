@@ -10,26 +10,28 @@ import Foundation
 
 public class APIEnvironment {
     public let apiKey: String
-    public let username: String?
+    public let email: String?
     public let password: String?
 
     init() {
-        let bundle = Bundle(for: APIEnvironment.self)
+        apiKey = "3WlfklZkaSO7p8Y3qwxebeSEMllyLVyPST4cf4xqWmxmuwqU2Y9dc2SYnex9a5Y2Z3ff8MF48drCJRxLPHZ2KS186yihEgjDkyTslyxtLY6uQEgFlgI68JefiwwWNQA7"
 
-        // TODO: Throw and print error
-        let path = bundle.path(forResource: "Credentials", ofType: "plist")
-        let dict = NSDictionary(contentsOfFile: path!)
+        // Development tool for auto-completing the login screen
+        #if DEBUG
+            let bundle = Bundle(for: APIEnvironment.self)
 
-        // TODO: Throw and print error
-        if let key = dict?["API_KEY"] as? String {
-            apiKey = key
-        } else {
-            apiKey = ""
-            NSException(name:NSExceptionName(rawValue: "name"), reason:"Provide an API KEY on RaceSyncAPI/Credentials.plist", userInfo:nil).raise()
-        }
-
-        // only available during development, since not versioned
-        username = dict!["USERNAME"] as? String
-        password = dict!["PASSWORD"] as? String
+            // TODO: Throw and print error
+            if let path = bundle.path(forResource: "Credentials", ofType: "plist"),
+                let dict = NSDictionary(contentsOfFile: path) {
+                email = dict["EMAIL"] as? String
+                password = dict["PASSWORD"] as? String
+            } else {
+                email = nil
+                password = nil
+            }
+        #else
+            email = nil
+            password = nil
+        #endif
     }
 }
