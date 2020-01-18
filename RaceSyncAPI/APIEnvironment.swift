@@ -21,7 +21,14 @@ public class APIEnvironment {
         let dict = NSDictionary(contentsOfFile: path!)
 
         // TODO: Throw and print error
-        apiKey = dict!["API_KEY"] as! String
+        if let key = dict?["API_KEY"] as? String {
+            apiKey = key
+        } else {
+            apiKey = ""
+            NSException(name:NSExceptionName(rawValue: "name"), reason:"Provide an API KEY on RaceSyncAPI/Credentials.plist", userInfo:nil).raise()
+        }
+
+        // only available during development, since not versioned
         username = dict!["USERNAME"] as? String
         password = dict!["PASSWORD"] as? String
     }
