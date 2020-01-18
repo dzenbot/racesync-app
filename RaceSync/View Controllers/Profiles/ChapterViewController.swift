@@ -8,7 +8,6 @@
 
 import UIKit
 import RaceSyncAPI
-import TUSafariActivity
 
 class ChapterViewController: ProfileViewController, Joinable {
 
@@ -153,9 +152,9 @@ fileprivate extension ChapterViewController {
 
     @objc func didPressShareButton() {
         let items = [URL(string: chapter.url)]
-        let activity = TUSafariActivity()
+        var activities: [UIActivity] = [SafariActivity()]
 
-        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: [activity])
+        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: activities)
         present(activityVC, animated: true)
     }
 }

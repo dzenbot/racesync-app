@@ -9,7 +9,6 @@
 import UIKit
 import SnapKit
 import RaceSyncAPI
-import TUSafariActivity
 import Presentr
 
 class UserViewController: ProfileViewController, Joinable {
@@ -144,9 +143,9 @@ class UserViewController: ProfileViewController, Joinable {
 
     @objc func didPressShareButton() {
         let items = [URL(string: user.url)]
-        let activity = TUSafariActivity()
+        var activities: [UIActivity] = [SafariActivity()]
 
-        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: [activity])
+        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: activities)
         present(activityVC, animated: true)
     }
 }
