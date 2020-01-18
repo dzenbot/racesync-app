@@ -50,7 +50,7 @@ class ProfileHeaderView: UIView {
     fileprivate lazy var mainTextLabel: PasteboardLabel = {
         let label = PasteboardLabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        label.textColor = Color.gray500
+        label.textColor = Color.black
         label.numberOfLines = 5
         return label
     }()
@@ -66,7 +66,7 @@ class ProfileHeaderView: UIView {
 
     fileprivate lazy var leftBadgeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = Color.gray300
+        button.tintColor = Color.gray400
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         button.titleEdgeInsets = UIEdgeInsets(right: -Constants.padding/2)
         button.isUserInteractionEnabled = false
@@ -75,7 +75,7 @@ class ProfileHeaderView: UIView {
 
     fileprivate lazy var rightBadgeButton: UIButton = {
         let button = UIButton(type: .system)
-        button.tintColor = Color.gray300
+        button.tintColor = Color.gray400
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding/2, bottom: 0, right: 0)
         button.isUserInteractionEnabled = false

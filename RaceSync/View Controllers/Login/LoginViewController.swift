@@ -62,11 +62,11 @@ class LoginViewController: UIViewController {
         let textField = UITextField()
         textField.delegate = self
         textField.placeholder = "Email"
-        textField.textContentType = .emailAddress
         textField.keyboardType = .emailAddress
         textField.autocapitalizationType = .none
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .next
+        textField.textContentType = .emailAddress
         return textField
     }()
 
@@ -74,12 +74,12 @@ class LoginViewController: UIViewController {
         let textField = UITextField()
         textField.delegate = self
         textField.placeholder = "Password"
-        textField.textContentType = .password
         textField.keyboardType = .`default`
         textField.isSecureTextEntry = true
         textField.autocapitalizationType = .none
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .`continue`
+        textField.textContentType = .password
         return textField
     }()
 

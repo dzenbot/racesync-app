@@ -64,6 +64,8 @@
 		4F91BC8A2398FBCE00539E95 /* Joinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91BC892398FBCE00539E95 /* Joinable.swift */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
 		4F9DB79923D2D94E00570483 /* AppSchemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* AppSchemeConstants.swift */; };
+		4F9DB79D23D30EFB00570483 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F9DB79C23D30EEE00570483 /* Credentials.plist */; };
+		4F9DB79E23D30F3200570483 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APIEnvironment.swift */; };
 		4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */; };
 		4FA1AB3523C6AD5B007CF389 /* AircraftAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */; };
 		4FA1AB3723C7149D007CF389 /* AircraftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */; };
@@ -237,6 +239,8 @@
 		4F8F2C122385136300DC4907 /* NumberUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberUtil.swift; sourceTree = "<group>"; };
 		4F91BC892398FBCE00539E95 /* Joinable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joinable.swift; sourceTree = "<group>"; };
 		4F9DB79823D2D94E00570483 /* AppSchemeConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSchemeConstants.swift; sourceTree = "<group>"; };
+		4F9DB79C23D30EEE00570483 /* Credentials.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Credentials.plist; path = ../RaceSync/Credentials.plist; sourceTree = "<group>"; };
+		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
 		4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftAPI.swift; sourceTree = "<group>"; };
 		4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -383,6 +387,7 @@
 		4F1342462360B67D00A9DBDE /* RaceSync */ = {
 			isa = PBXGroup;
 			children = (
+				4F9DB79F23D3816800570483 /* RaceSync.entitlements */,
 				4F1342472360B67D00A9DBDE /* AppDelegate.swift */,
 				4FD4E1D6237F9E23008816B3 /* View Controllers */,
 				4F8F2C0F2384903100DC4907 /* View Models */,
@@ -429,6 +434,7 @@
 				4FA2682B237A52CD008970AC /* Model */,
 				4FA26828237A4CCE008970AC /* Utils */,
 				4FEBB27B23A30F7D007514B4 /* Extensions */,
+				4F9DB79C23D30EEE00570483 /* Credentials.plist */,
 				4F1342702360DA4B00A9DBDE /* Info.plist */,
 			);
 			path = RaceSyncAPI;
@@ -847,6 +853,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9DB79D23D30EFB00570483 /* Credentials.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1018,6 +1025,7 @@
 				4FA26835237A80B9008970AC /* ActionButton.swift in Sources */,
 				4F5C1E45238D1BD200D756EB /* PasteboardButton.swift in Sources */,
 				4FD53FB323A0E9B700158206 /* AvatarImageView.swift in Sources */,
+				4F9DB79E23D30F3200570483 /* APIEnvironment.swift in Sources */,
 				4FD53FAD23A0B01E00158206 /* UserViewModel.swift in Sources */,
 				4FA1AB3F23C9538A007CF389 /* AircraftViewModel.swift in Sources */,
 				4F86690423877041005E310A /* ChapterTableViewCell.swift in Sources */,
@@ -1251,6 +1259,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = RaceSync/RaceSync.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
@@ -1277,6 +1286,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CODE_SIGN_ENTITLEMENTS = RaceSync/RaceSync.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
