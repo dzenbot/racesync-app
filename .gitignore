@@ -5,3 +5,5 @@ xcuserdata
 *.ipa
 *.zip
 basic/composer.lock
+
+Credentials.plist
