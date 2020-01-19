@@ -66,6 +66,7 @@
 		4F9DB79923D2D94E00570483 /* AppSchemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* AppSchemeConstants.swift */; };
 		4F9DB79E23D30F3200570483 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APIEnvironment.swift */; };
 		4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A223D397B700570483 /* SettingsViewController.swift */; };
+		4F9DB7A523D3C3A500570483 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A423D3C3A500570483 /* Credentials.plist */; };
 		4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */; };
 		4FA1AB3523C6AD5B007CF389 /* AircraftAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */; };
 		4FA1AB3723C7149D007CF389 /* AircraftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */; };
@@ -241,6 +242,7 @@
 		4F9DB79823D2D94E00570483 /* AppSchemeConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSchemeConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		4F9DB7A423D3C3A500570483 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
 		4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
 		4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftAPI.swift; sourceTree = "<group>"; };
 		4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -434,6 +436,7 @@
 				4FA2682B237A52CD008970AC /* Model */,
 				4FA26828237A4CCE008970AC /* Utils */,
 				4FEBB27B23A30F7D007514B4 /* Extensions */,
+				4F9DB7A423D3C3A500570483 /* Credentials.plist */,
 				4F1342702360DA4B00A9DBDE /* Info.plist */,
 			);
 			path = RaceSyncAPI;
@@ -853,6 +856,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F9DB7A523D3C3A500570483 /* Credentials.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

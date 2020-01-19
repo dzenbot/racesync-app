@@ -22,10 +22,8 @@ public class APIServices {
         }
     }
 
-    public var hasValidSession: Bool {
-        get {
-            return APISessionManager.retrieveSessionId() != nil
-        }
+    public var isLoggedIn: Bool {
+        get { return APISessionManager.hasValidSession() }
     }
 
     public static var isDev: Bool {

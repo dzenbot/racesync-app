@@ -42,7 +42,7 @@ class NetworkAdapter {
 
         params[ParameterKey.apiKey] = APIServices.shared.environment.apiKey
 
-        if let sessionId = APISessionManager.retrieveSessionId() {
+        if let sessionId = APISessionManager.getSessionId() {
             params[ParameterKey.sessionId] = sessionId
         }
 

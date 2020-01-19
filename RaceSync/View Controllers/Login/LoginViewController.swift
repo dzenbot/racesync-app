@@ -151,7 +151,7 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if shouldShowForm && !APIServices.shared.hasValidSession {
+        if shouldShowForm && !APIServices.shared.isLoggedIn {
             setupLayout()
         }
     }
@@ -160,7 +160,7 @@ class LoginViewController: UIViewController {
         super.viewDidAppear(animated)
 
         // Skip login if there's a persisted sessionId
-        if !APIServices.shared.hasValidSession {
+        if !APIServices.shared.isLoggedIn {
             emailField.text = APIServices.shared.environment.email
             passwordField.text = APIServices.shared.environment.password
 

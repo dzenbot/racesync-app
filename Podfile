@@ -33,6 +33,9 @@ target 'RaceSyncAPI' do
     pod 'SwiftyJSON'
     pod 'ObjectMapper', :inhibit_warnings => true
     pod 'AlamofireObjectMapper'
+
+    # Security
+    pod 'Valet'
     
     # Data
 #    pod 'RealmSwift', '3.10.0'

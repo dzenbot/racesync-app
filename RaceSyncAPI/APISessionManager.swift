@@ -8,53 +8,36 @@
 
 import Foundation
 import SwiftyJSON
+import Valet
 
 class APISessionManager {
 
-    static func retrieveSessionId() -> String? {
-        return getSessionId()
+    fileprivate static let sessionIdKey = "com.multigp.RaceSync.session.id"
+    fileprivate static let valet = Valet.valet(with: Identifier(nonEmpty: "RaceSync")!, accessibility: .whenUnlocked)
+
+    static func hasValidSession() -> Bool {
+        return getSessionId() != nil
     }
-
-    @discardableResult
-    static func handleSessionJSON(_ json: JSON) -> Bool {
-        if let sessionId = json[ParameterKey.sessionId].string {
-            return setSessionId(sessionId)
-        } else {
-            return false
-        }
-    }
-
-    @discardableResult
-    static func handleSessionId(_ sessionId: String?) -> Bool {
-        return setSessionId(sessionId)
-    }
-
-    @discardableResult
-    static func invalidateSession() -> Bool {
-        return setSessionId(nil)
-    }
-}
-
-fileprivate extension APISessionManager {
-
-    static let SessionIdKey = "com.multigp.RaceSync.session.id"
 
     static func getSessionId() -> String? {
-        return UserDefaults.standard.object(forKey: SessionIdKey) as? String
+        return valet.string(forKey: sessionIdKey)
     }
 
-    static func setSessionId(_ sessionId: String?) -> Bool {
-        UserDefaults.standard.set(sessionId, forKey: SessionIdKey)
-
-        if UserDefaults.standard.synchronize() {
-            if let id = sessionId {
-                print("Did update user session \(id)")
-            } else {
-                print("Did invalidate session id")
-            }
-            return true
-        } else {
-            return false
+    static func handleSessionJSON(_ json: JSON) {
+        if let sessionId = json[ParameterKey.sessionId].string {
+            setSessionId(sessionId)
         }
+    }
+
+    static func setSessionId(_ sessionId: String?) {
+        if let sessionId = sessionId {
+            valet.set(string: sessionId, forKey: sessionIdKey)
+        } else {
+            valet.removeObject(forKey: sessionIdKey)
+        }
+    }
+
+    static func invalidateSession() {
+        setSessionId(nil)
     }
 }

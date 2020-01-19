@@ -72,19 +72,3 @@ public class AuthApi {
         }
     }
 }
-
-fileprivate extension AuthApi {
-
-    func handleSessionId(_ data: Data?) {
-        guard let data = data else { return }
-
-        do {
-            let json = try JSON(data: data)
-            if let sessionId = json["sessionId"].string {
-                APISessionManager.handleSessionId(sessionId)
-            }
-        } catch _ as NSError {
-            // error
-        }
-    }
-}
