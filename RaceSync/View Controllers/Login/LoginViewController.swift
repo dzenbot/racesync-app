@@ -102,11 +102,13 @@ class LoginViewController: UIViewController {
 
     lazy var loginButton: ActionButton = {
         let button = ActionButton(type: .system)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
-        button.setTitleColor(Color.white, for: .normal)
-        button.setTitle("LOGIN", for: .normal)
-        button.backgroundColor = Color.blue
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .regular)
+        button.setTitleColor(Color.blue, for: .normal)
+        button.setTitle("Login", for: .normal)
+        button.backgroundColor = Color.white
         button.layer.cornerRadius = Constants.padding/2
+        button.layer.borderColor = Color.gray100.cgColor
+        button.layer.borderWidth = 0.5
         button.addTarget(self, action:#selector(didPressLoginButton), for: .touchUpInside)
         return button
     }()
@@ -135,7 +137,7 @@ class LoginViewController: UIViewController {
         static let padding: CGFloat = UniversalConstants.padding
         static let loginButtonHeight: CGFloat = 50
         static let racesyncLogoHeightDecrement: CGFloat = 20
-        static let racesyncLogoOriginYDecrement: CGFloat = 290
+        static let racesyncLogoOriginYDecrement: CGFloat = 270
         static let formOriginYDecrement: CGFloat = 70
     }
 
