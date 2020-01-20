@@ -63,7 +63,7 @@ fileprivate extension ChapterApi {
 
         parameters[ParameterKey.latitude] = myUser.latitude
         parameters[ParameterKey.longitude] = myUser.longitude
-        parameters[ParameterKey.radius] = "500"
+        parameters[ParameterKey.radius] = "\(APIServices.shared.settings.radius)"
         return parameters
     }
 }

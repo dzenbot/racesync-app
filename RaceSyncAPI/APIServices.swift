@@ -14,7 +14,8 @@ public class APIServices {
     // MARK: - Public Variables
 
     public static let shared = APIServices()
-    public let environment: APIEnvironment
+    public let environment = APIEnvironment()
+    public let settings = APISettings()
 
     public var myUser: User? {
         didSet {
@@ -33,8 +34,6 @@ public class APIServices {
     // MARK: - Initialization
 
     public init() {
-        self.environment = APIEnvironment()
-
         NetworkActivityIndicatorManager.shared.isEnabled = true
     }
 }

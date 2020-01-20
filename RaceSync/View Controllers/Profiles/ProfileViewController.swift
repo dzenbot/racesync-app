@@ -142,12 +142,10 @@ class ProfileViewController: UIViewController, Shimmable {
         guard let swipeGesture = sender as? UISwipeGestureRecognizer, let segmentedControl = segmentedControl else { return }
 
         if swipeGesture.direction == .left && selectedSegment != .right {
-            segmentedControl.selectedSegmentIndex = ProfileSegment.right.rawValue
+            segmentedControl.setSelectedSegment(ProfileSegment.right.rawValue)
         } else if swipeGesture.direction == .right && selectedSegment != .left {
-            segmentedControl.selectedSegmentIndex = ProfileSegment.left.rawValue
+            segmentedControl.setSelectedSegment(ProfileSegment.left.rawValue)
         }
-
-        segmentedControl.sendActions(for: .valueChanged)
     }
 
     @objc open func didSelectRow(at indexPath: IndexPath) {

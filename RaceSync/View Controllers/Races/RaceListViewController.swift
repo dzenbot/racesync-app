@@ -30,6 +30,13 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
         tableView.refreshControl = self.refreshControl
         tableView.tableFooterView = UIView()
+
+        for direction in [UISwipeGestureRecognizer.Direction.left, UISwipeGestureRecognizer.Direction.right] {
+            let gesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeHorizontally(_:)))
+            gesture.direction = direction
+            tableView.addGestureRecognizer(gesture)
+        }
+
         return tableView
     }()
 
@@ -37,13 +44,13 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Private Variables
 
-    fileprivate var initialSelectedListType: RaceListType = .joined
+    fileprivate let initialSelectedRaceSegment: RaceSegment = .joined
 
     fileprivate lazy var segmentedControl: UISegmentedControl = {
-        let items = [RaceListType.joined.title, RaceListType.nearby.title]
+        let items = [RaceSegment.joined.title, RaceSegment.nearby.title]
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
-        segmentedControl.selectedSegmentIndex = initialSelectedListType.rawValue
+        segmentedControl.selectedSegmentIndex = initialSelectedRaceSegment.rawValue
         segmentedControl.tintColor = Color.blue
         return segmentedControl
     }()
@@ -112,6 +119,9 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate var raceList = [String: [RaceViewModel]]()
+
+    fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
+    fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -203,6 +213,16 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
             // do something
         }
     }
+
+    @objc open func didSwipeHorizontally(_ sender: Any) {
+        guard let swipeGesture = sender as? UISwipeGestureRecognizer else { return }
+
+        if swipeGesture.direction == .left && selectedSegment != .nearby {
+            segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
+        } else if swipeGesture.direction == .right && selectedSegment != .joined {
+            segmentedControl.setSelectedSegment(RaceSegment.joined.rawValue)
+        }
+    }
 }
 
 fileprivate extension RaceListViewController {
@@ -257,15 +277,17 @@ fileprivate extension RaceListViewController {
         }
     }
 
-    func selectedRaceListType() -> RaceListType {
-        return RaceListType(index: segmentedControl.selectedSegmentIndex)
+    var selectedSegment: RaceSegment {
+        get {
+            return RaceSegment(index: segmentedControl.selectedSegmentIndex)
+        }
     }
 
     func selectedRaceListFiltering() -> RaceListFiltering {
-        switch selectedRaceListType() {
-        case RaceListType.joined:
+        switch selectedSegment {
+        case RaceSegment.joined:
             return .upcoming
-        case RaceListType.nearby:
+        case RaceSegment.nearby:
             return .nearby
         }
     }
@@ -319,7 +341,7 @@ extension RaceListViewController: UITableViewDataSource {
         cell.memberBadgeView.count = viewModel.participantCount
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
 
-        if selectedRaceListType() == .joined {
+        if selectedSegment == .joined {
             cell.subtitleLabel.text = viewModel.locationLabel
         } else {
             cell.subtitleLabel.text = viewModel.distanceLabel
@@ -336,10 +358,18 @@ extension RaceListViewController: UITableViewDataSource {
 extension RaceListViewController: EmptyDataSetSource {
 
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedRaceListType() == .joined {
-            return nil
+        if selectedSegment == .joined {
+            return emptyStateJoinedRaces.title
         } else {
-            return nil
+            return emptyStateNearbyRaces.title
+        }
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        if selectedSegment == .joined {
+            return emptyStateJoinedRaces.description
+        } else {
+            return emptyStateNearbyRaces.description
         }
     }
 
@@ -348,26 +378,38 @@ extension RaceListViewController: EmptyDataSetSource {
     }
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
-        if selectedRaceListType() == .joined {
-            return nil
+        if selectedSegment == .joined {
+            return emptyStateJoinedRaces.buttonTitle(state)
         } else {
-            return nil
+            return emptyStateNearbyRaces.buttonTitle(state)
         }
     }
 }
 
 extension RaceListViewController: EmptyDataSetDelegate {
 
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+
     func emptyDataSet(_ scrollView: UIScrollView, didTapView view: UIView) {
 
     }
-    
+
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
 
+        if selectedSegment == .joined {
+            segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
+        } else {
+            let settingsVC = SettingsViewController()
+            let settingsNC = UINavigationController(rootViewController: settingsVC)
+
+            present(settingsNC, animated: true, completion: nil)
+        }
     }
 }
 
-fileprivate enum RaceListType: Int {
+fileprivate enum RaceSegment: Int {
     case joined, nearby
 
     init(index: Int) {
