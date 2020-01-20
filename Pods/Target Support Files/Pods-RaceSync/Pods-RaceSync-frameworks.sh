@@ -162,6 +162,7 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Bugsnag/Bugsnag.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/QRCode/QRCode.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ShimmerSwift/ShimmerSwift.framework"
@@ -178,6 +179,7 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Bugsnag/Bugsnag.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/QRCode/QRCode.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/ShimmerSwift/ShimmerSwift.framework"

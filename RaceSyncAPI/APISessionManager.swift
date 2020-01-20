@@ -18,7 +18,7 @@ class APISessionManager {
     static func hasValidSession() -> Bool {
         return getSessionId() != nil
     }
-
+ 
     static func getSessionId() -> String? {
         return valet.string(forKey: sessionIdKey)
     }

@@ -4,6 +4,7 @@ target 'RaceSync' do
   use_frameworks!
 
   # UI
+  pod 'EmptyDataSet-Swift'
   pod 'SnapKit'
   pod 'SwiftValidators', :inhibit_warnings => true
   pod 'Presentr'

@@ -8,6 +8,7 @@ PODS:
     - Alamofire (~> 4.7)
     - ObjectMapper (~> 3.4)
   - Bugsnag (5.23.0)
+  - EmptyDataSet-Swift (5.0.0)
   - ObjectMapper (3.4.2)
   - Presentr (1.9)
   - QRCode (2.0)
@@ -25,6 +26,7 @@ DEPENDENCIES:
   - AlamofireNetworkActivityIndicator
   - AlamofireObjectMapper
   - Bugsnag
+  - EmptyDataSet-Swift
   - ObjectMapper
   - Presentr
   - QRCode (from `https://github.com/andrewcampoli/QRCode.git`)
@@ -52,6 +54,7 @@ SPEC REPOS:
     - TUSafariActivity
   trunk:
     - Bugsnag
+    - EmptyDataSet-Swift
     - Valet
 
 EXTERNAL SOURCES:
@@ -69,6 +72,7 @@ SPEC CHECKSUMS:
   AlamofireNetworkActivityIndicator: 9acc3de3ca6645bf0efed462396b0df13dd3e7b8
   AlamofireObjectMapper: 92b6ce2423a9d159e686f6a1d514a009bf903ddc
   Bugsnag: 1f33ee5b55bc4b131a30e0fe6db714da9c6609f6
+  EmptyDataSet-Swift: eb382c0c87a2d9c678077385a595cec52da38171
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   QRCode: 282441d0cfe8c4c1766b7578361fe93f72757685
@@ -80,6 +84,6 @@ SPEC CHECKSUMS:
   TUSafariActivity: afc55a00965377939107ce4fdc7f951f62454546
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: 18dd6d22709d7ca1c84e92e5ba700b11f9867348
+PODFILE CHECKSUM: e2e50fc851a9dcd4480c9573cf3cd6d5926f2534
 
 COCOAPODS: 1.8.4

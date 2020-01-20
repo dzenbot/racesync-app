@@ -9,6 +9,7 @@
 import UIKit
 import RaceSyncAPI
 import ShimmerSwift
+import EmptyDataSet_Swift
 
 class RaceListViewController: UIViewController, Joinable, Shimmable {
 
@@ -24,6 +25,8 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
         tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
         tableView.refreshControl = self.refreshControl
         tableView.tableFooterView = UIView()
@@ -316,10 +319,10 @@ extension RaceListViewController: UITableViewDataSource {
         cell.memberBadgeView.count = viewModel.participantCount
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
 
-        if selectedRaceListType() == .nearby {
-            cell.subtitleLabel.text = viewModel.distanceLabel
-        } else {
+        if selectedRaceListType() == .joined {
             cell.subtitleLabel.text = viewModel.locationLabel
+        } else {
+            cell.subtitleLabel.text = viewModel.distanceLabel
         }
 
         return cell
@@ -327,6 +330,40 @@ extension RaceListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return RaceTableViewCell.height
+    }
+}
+
+extension RaceListViewController: EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        if selectedRaceListType() == .joined {
+            return nil
+        } else {
+            return nil
+        }
+    }
+
+    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
+        return nil
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
+        if selectedRaceListType() == .joined {
+            return nil
+        } else {
+            return nil
+        }
+    }
+}
+
+extension RaceListViewController: EmptyDataSetDelegate {
+
+    func emptyDataSet(_ scrollView: UIScrollView, didTapView view: UIView) {
+
+    }
+    
+    func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
+
     }
 }
 
