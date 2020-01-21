@@ -52,6 +52,7 @@ public class AuthApi {
                 case .success(let value):
                     let json = JSON(value)
                     APISessionManager.handleSessionJSON(json)
+                    APISessionManager.setSessionEmail(username)
                     completion(nil)
                 case .failure:
                     completion(ErrorUtil.parseError(response))

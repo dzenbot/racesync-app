@@ -21,6 +21,7 @@ public enum MGPWebConstant: String {
     case userView = "https://www.multigp.com/pilots/view/?pilot"
 
     case feedbackForm = "https://forms.gle/v7jYpjxW7fzBVzir7"
+    case feedbackPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSfY9qr-5I7JYtQ5s5UsVflMyXu-iW3-InzG03qAJOwGv9P1Tg/viewform"
 }
 
 public class MGPWeb {
@@ -36,5 +37,28 @@ public class MGPWeb {
         } else {
             return constant.rawValue
         }
+    }
+
+    public static func getPrefilledFeedbackFormUrl() -> String {
+        guard let user = APIServices.shared.myUser else { return MGPWebConstant.feedbackForm.rawValue }
+
+        let fullname = "\(user.firstName)+\(user.lastName)"
+        let username = user.userName
+
+        var url = MGPWebConstant.feedbackPrefilledForm.rawValue
+        url += "?"
+        url += "entry.3082215=\(fullname)"
+
+        if let email = APISessionManager.getSessionEmail() {
+            url += "&"
+            url += "entry.1185283391=\(email)"
+        }
+
+        url += "&"
+        url += "entry.1807575595=\(username)"
+
+        url = url.replacingOccurrences(of: " ", with: "+")
+
+        return url
     }
 }

@@ -12,8 +12,7 @@ import Valet
 
 class APISessionManager {
 
-    fileprivate static let sessionIdKey = "com.multigp.RaceSync.session.id"
-    fileprivate static let valet = Valet.valet(with: Identifier(nonEmpty: "RaceSync")!, accessibility: .whenUnlocked)
+    // MARK: - Session
 
     static func hasValidSession() -> Bool {
         return getSessionId() != nil
@@ -29,7 +28,23 @@ class APISessionManager {
         }
     }
 
-    static func setSessionId(_ sessionId: String?) {
+    static func invalidateSession() {
+        setSessionId(nil)
+    }
+
+    // MARK: - Email
+
+    static func getSessionEmail() -> String? {
+        return valet.string(forKey: sessionEmailKey)
+    }
+
+    static func setSessionEmail(_ email: String) {
+        valet.set(string: email, forKey: sessionEmailKey)
+    }
+
+    // MARK: - Private
+
+    fileprivate static func setSessionId(_ sessionId: String?) {
         if let sessionId = sessionId {
             valet.set(string: sessionId, forKey: sessionIdKey)
         } else {
@@ -37,7 +52,8 @@ class APISessionManager {
         }
     }
 
-    static func invalidateSession() {
-        setSessionId(nil)
-    }
+    fileprivate static let valet = Valet.valet(with: Identifier(nonEmpty: "RaceSync")!, accessibility: .whenUnlocked)
+
+    fileprivate static let sessionIdKey = "com.multigp.RaceSync.session.id"
+    fileprivate static let sessionEmailKey = "com.multigp.RaceSync.session.email"
 }
