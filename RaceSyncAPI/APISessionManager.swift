@@ -10,15 +10,15 @@ import Foundation
 import SwiftyJSON
 import Valet
 
-class APISessionManager {
+public class APISessionManager {
 
     // MARK: - Session
 
-    static func hasValidSession() -> Bool {
+    public static func hasValidSession() -> Bool {
         return getSessionId() != nil
     }
  
-    static func getSessionId() -> String? {
+    public static func getSessionId() -> String? {
         return valet.string(forKey: sessionIdKey)
     }
 
@@ -34,7 +34,7 @@ class APISessionManager {
 
     // MARK: - Email
 
-    static func getSessionEmail() -> String? {
+    public static func getSessionEmail() -> String? {
         return valet.string(forKey: sessionEmailKey)
     }
 

@@ -71,6 +71,7 @@
 		4F9DB7AE23D614CF00570483 /* APISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AD23D614CF00570483 /* APISettings.swift */; };
 		4F9DB7B023D618D100570483 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */; };
 		4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7B123D68EB100570483 /* NavigationController.swift */; };
+		4F9DB7B523D6BAC200570483 /* CrashCatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */; };
 		4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */; };
 		4FA1AB3523C6AD5B007CF389 /* AircraftAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */; };
 		4FA1AB3723C7149D007CF389 /* AircraftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */; };
@@ -251,6 +252,7 @@
 		4F9DB7AD23D614CF00570483 /* APISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISettings.swift; sourceTree = "<group>"; };
 		4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
 		4F9DB7B123D68EB100570483 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
+		4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashCatcher.swift; sourceTree = "<group>"; };
 		4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
 		4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftAPI.swift; sourceTree = "<group>"; };
 		4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -406,6 +408,7 @@
 				4FA26825237A4005008970AC /* Resources */,
 				4F6C8A94236A9D2B0017FD78 /* UI Utils */,
 				4F0B613D2385DA7900930D91 /* UI Extensions */,
+				4F9DB7B323D6BAA000570483 /* Tools */,
 				4F13424B2360B67D00A9DBDE /* Main.storyboard */,
 				4F1342502360B67D00A9DBDE /* LaunchScreen.storyboard */,
 				4F13424E2360B67D00A9DBDE /* Assets.xcassets */,
@@ -511,6 +514,14 @@
 				4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */,
 			);
 			path = "View Models";
+			sourceTree = "<group>";
+		};
+		4F9DB7B323D6BAA000570483 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */,
+			);
+			path = Tools;
 			sourceTree = "<group>";
 		};
 		4FA1AB3123C6ACFD007CF389 /* Aircrafts */ = {
@@ -999,6 +1010,7 @@
 				4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */,
 				4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */,
 				4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */,
+				4F9DB7B523D6BAC200570483 /* CrashCatcher.swift in Sources */,
 				4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */,
 				4F5C1E3E238A770B00D756EB /* UITableViewCell+Reuse.swift in Sources */,
 				4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */,
