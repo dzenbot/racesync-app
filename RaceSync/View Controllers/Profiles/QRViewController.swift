@@ -110,7 +110,7 @@ class QRViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = UIColor.init(white: 0, alpha: 0.7)
+        view.backgroundColor = Color.white.withAlphaComponent(0.7)
 
         var qrCode = QRCode(userId)
         qrCode?.size = Constants.qrSize

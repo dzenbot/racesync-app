@@ -113,6 +113,8 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     fileprivate let userApi = UserApi()
     fileprivate var raceList = [String: [RaceViewModel]]()
 
+    fileprivate var searchRadius: CGFloat = APIServices.shared.settings.radius
+
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
 
@@ -133,6 +135,15 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        let settingsRadius = APIServices.shared.settings.radius
+
+        if searchRadius != settingsRadius {
+            searchRadius = settingsRadius
+
+            refreshControl.beginRefreshing()
+            reloadDataFromPull()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -197,6 +208,8 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     @objc fileprivate func didPressSettingsButton() {
         let settingsVC = SettingsViewController()
         let settingsNC = NavigationController(rootViewController: settingsVC)
+        settingsNC.modalPresentationStyle = .fullScreen
+
         present(settingsNC, animated: true, completion: nil)
     }
 

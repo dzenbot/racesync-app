@@ -38,6 +38,21 @@ class SettingsViewController: UIViewController {
         return tableView
     }()
 
+    lazy var pickerView: UIPickerView = {
+        let view = UIPickerView()
+        view.backgroundColor = Color.white
+        view.dataSource = self
+        view.delegate = self
+
+        let row = APIServices.shared.settings.radius
+
+        view.selectRow(0, inComponent: 0, animated: false)
+
+        return view
+    }()
+
+    fileprivate let distances: [CGFloat] = [CGFloat(200), CGFloat(2500), CGFloat(21000), CGFloat(22000), CGFloat(25000)]
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = 50
@@ -86,7 +101,11 @@ extension SettingsViewController: UITableViewDelegate {
         let section = SettingsSection(rawValue: indexPath.section)
 
         if section == .searchRadius {
+            let dummy = UITextField(frame: .zero)
+            view.addSubview(dummy)
 
+            dummy.inputView = pickerView
+            dummy.becomeFirstResponder()
         } else if section == .submitFeedback {
             if let url = URL(string: MGPWeb.getPrefilledFeedbackFormUrl()) {
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
@@ -116,18 +135,17 @@ extension SettingsViewController: UITableViewDataSource {
 
         let section = SettingsSection(rawValue: indexPath.section)
         cell.textLabel?.text = section?.title
+        cell.textLabel?.textColor = Color.black
+        cell.detailTextLabel?.text = nil
         cell.accessoryType = .disclosureIndicator
 
         if section == .logout {
             cell.textLabel?.textColor = Color.red
-        } else {
-            cell.textLabel?.textColor = Color.black
+            cell.accessoryType = .none
         }
 
         if section == .searchRadius {
             cell.detailTextLabel?.text = "\(APIServices.shared.settings.radius) mi"
-        } else {
-            cell.detailTextLabel?.text = nil
         }
 
         return cell
@@ -147,5 +165,29 @@ extension SettingsViewController: UITableViewDataSource {
     }
 }
 
+extension SettingsViewController: UIPickerViewDataSource {
 
+    func numberOfComponents(in pickerView: UIPickerView) -> Int {
+        return 1
+    }
+
+    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
+        return distances.count
+    }
+}
+
+extension SettingsViewController: UIPickerViewDelegate {
+
+    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
+        let distance = distances[row]
+        return "\(distance) mi"
+    }
+
+    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
+        let distance = distances[row]
+
+        APIServices.shared.settings.radius = CGFloat(distance)
+        tableView.reloadData()
+    }
+}
 
