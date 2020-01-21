@@ -110,7 +110,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         case .noJoinedRaces:
             text = "Search Nearby Races"
         case .noNearbydRaces:
-            text = "Adjust Miles Radius"
+            text = "Adjust Search Radius"
         case .noRaceRegisters:
             text = "Join This Race"
         case .errorRace:

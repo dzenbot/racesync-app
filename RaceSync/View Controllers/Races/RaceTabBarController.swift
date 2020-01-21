@@ -228,6 +228,11 @@ extension RaceTabBarController: EmptyDataSetDelegate {
     func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
         return false
     }
+
+    func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
+        guard let url = URL(string: MGPWebConstant.feedbackForm.rawValue) else { return }
+        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+    }
 }
 
 extension RaceTabBarController: UITabBarControllerDelegate {
