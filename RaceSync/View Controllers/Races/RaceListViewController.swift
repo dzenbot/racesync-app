@@ -189,7 +189,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         guard let myUser = APIServices.shared.myUser else { return }
 
         let userVC = UserViewController(with: myUser)
-        let userNC = UINavigationController(rootViewController: userVC)
+        let userNC = NavigationController(rootViewController: userVC)
         userNC.modalPresentationStyle = .fullScreen
 
         present(userNC, animated: true, completion: nil)
@@ -402,7 +402,7 @@ extension RaceListViewController: EmptyDataSetDelegate {
             segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
         } else {
             let settingsVC = SettingsViewController()
-            let settingsNC = UINavigationController(rootViewController: settingsVC)
+            let settingsNC = NavigationController(rootViewController: settingsVC)
 
             present(settingsNC, animated: true, completion: nil)
         }

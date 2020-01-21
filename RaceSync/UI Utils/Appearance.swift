@@ -51,16 +51,6 @@ fileprivate extension Appearance {
         navigationBarAppearance.backIndicatorTransitionMaskImage = backIndicatorImage
         navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
                                                        NSAttributedString.Key.foregroundColor: Color.black]
-
-        // hides the title of the back button
-        configureBarButtonItemAppearance()
-    }
-
-    static func configureBarButtonItemAppearance() {
-        // hides the title of the back button
-        let offset = UIOffset(horizontal: -150, vertical: 0)
-        let barButtonItemAppearance = UIBarButtonItem.appearance()
-        barButtonItemAppearance.setBackButtonTitlePositionAdjustment(offset, for: .default)
     }
 
     static func configureTabBarAppearance() {

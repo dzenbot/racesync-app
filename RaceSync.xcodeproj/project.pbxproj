@@ -70,6 +70,7 @@
 		4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AB23D5A1DE00570483 /* EmptyStateViewModel.swift */; };
 		4F9DB7AE23D614CF00570483 /* APISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AD23D614CF00570483 /* APISettings.swift */; };
 		4F9DB7B023D618D100570483 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */; };
+		4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7B123D68EB100570483 /* NavigationController.swift */; };
 		4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */; };
 		4FA1AB3523C6AD5B007CF389 /* AircraftAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */; };
 		4FA1AB3723C7149D007CF389 /* AircraftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */; };
@@ -249,6 +250,7 @@
 		4F9DB7AB23D5A1DE00570483 /* EmptyStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateViewModel.swift; sourceTree = "<group>"; };
 		4F9DB7AD23D614CF00570483 /* APISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISettings.swift; sourceTree = "<group>"; };
 		4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
+		4F9DB7B123D68EB100570483 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
 		4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftAPI.swift; sourceTree = "<group>"; };
 		4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftCollectionViewCell.swift; sourceTree = "<group>"; };
@@ -649,6 +651,7 @@
 				4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */,
 				4F714DE023CD4906000C4036 /* CalendarActivity.swift */,
 				4F714DE223CD5EAA000C4036 /* SafariActivity.swift */,
+				4F9DB7B123D68EB100570483 /* NavigationController.swift */,
 			);
 			path = "UI Components";
 			sourceTree = "<group>";
@@ -1022,6 +1025,7 @@
 				4FD53FB123A0D48F00158206 /* UserRaceTableViewCell.swift in Sources */,
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
+				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
 				4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */,
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,

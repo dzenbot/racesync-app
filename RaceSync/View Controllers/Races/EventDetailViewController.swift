@@ -437,7 +437,7 @@ class EventDetailViewController: UIViewController, Joinable {
         guard let coordinates = raceCoordinates, let address = race.address else { return }
 
         let mapVC = RaceMapViewController(with: coordinates, address: address)
-        let mapNC = UINavigationController(rootViewController: mapVC)
+        let mapNC = NavigationController(rootViewController: mapVC)
 
         present(mapNC, animated: true, completion: nil)
     }

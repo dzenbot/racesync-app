@@ -85,6 +85,7 @@ class RaceTabBarController: UITabBarController {
 
     fileprivate func setupLayout() {
 
+        title = "Event Details"
         view.backgroundColor = Color.white
 
         tabBar.tintColor = Color.black
