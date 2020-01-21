@@ -361,7 +361,7 @@ class EventDetailViewController: UIViewController, Joinable {
         loadMapIfPossible()
     }
 
-    fileprivate func loadMapIfPossible() {
+    fileprivate func loadMapIfPossible(_ showMapSnapshot: Bool = false) {
         guard let coordinates = raceCoordinates else { return }
 
         let distance = CLLocationDistance(1000)
@@ -375,8 +375,14 @@ class EventDetailViewController: UIViewController, Joinable {
         mapView.isScrollEnabled = false
         mapView.isRotateEnabled = false
         mapView.isPitchEnabled = false
+        mapView.showsUserLocation = false
+        mapView.delegate = self
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapMapView))
         mapView.addGestureRecognizer(tapGestureRecognizer)
+
+        let location = MKPointAnnotation()
+        location.coordinate = coordinates
+        mapView.addAnnotation(location)
 
         mapView.setVisibleMapRect(paddedMapRect, animated: false)
 
@@ -389,8 +395,10 @@ class EventDetailViewController: UIViewController, Joinable {
             $0.height.equalTo(Constants.mapHeight)
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.loadMapSnapshot(with: mapView, mapRect: paddedMapRect, coordinate: coordinates)
+        if showMapSnapshot {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
+                self?.loadMapSnapshot(with: mapView, mapRect: paddedMapRect, coordinate: coordinates)
+            }
         }
     }
 
@@ -513,6 +521,28 @@ extension EventDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.cellHeight
     }
+}
+
+extension EventDetailViewController: MKMapViewDelegate {
+
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        guard annotation is MKPointAnnotation else { return nil }
+
+        let identifier = "Annotation"
+
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+
+        if annotationView == nil {
+            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
+            annotationView?.image = UIImage(named: "icn_map_annotation")
+            annotationView!.canShowCallout = true
+        } else {
+            annotationView!.annotation = annotation
+        }
+
+        return annotationView
+    }
+
 }
 
 // MARK: - ScrollView Delegate
