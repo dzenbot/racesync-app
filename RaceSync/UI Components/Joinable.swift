@@ -13,6 +13,10 @@ import Presentr
 public typealias JoinStateCompletionBlock = (_ joinState: JoinState) -> Void
 
 protocol Joinable {
+    func join(race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock)
+    func resign(race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock)
+
+    // convenience methods, when using a JoinButton instance
     func toggleJoinButton(_ button: JoinButton, forRace race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock)
     func toggleJoinButton(_ button: JoinButton, forChapterId chapter: Chapter, chapterApi: ChapterApi, _ completion: @escaping JoinStateCompletionBlock)
 }
@@ -39,49 +43,74 @@ public enum JoinState {
 
 extension Joinable {
 
+    func join(race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock) {
+
+        let aircraftPicker = AircraftPickerController.showAircraftPicker(for: race)
+
+        aircraftPicker.didSelect = { (aircraftId) in
+            raceApi.join(race: race.id, aircraftId: aircraftId) { (status, error) in
+                if status == true {
+                    completion(.joined)
+                } else {
+                    completion(.join)
+                    AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error", delay: 0.5)
+                }
+            }
+        }
+
+        aircraftPicker.didError = {
+            AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error", delay: 0.5)
+        }
+
+        aircraftPicker.didCancel = {
+            completion(.join)
+        }
+    }
+
+    func resign(race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock) {
+
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure about resigning from this race?",
+                                                      destructiveTitle: "Yes, Resign",
+                                                      completion: { (action) in
+                                                        raceApi.resign(race: race.id) { (status, error) in
+                                                            if status == true {
+                                                                completion(.join)
+                                                            } else {
+                                                                completion(.joined)
+                                                                AlertUtil.presentAlertMessage("Couldn't resign from this race. Please try again later.", title: "Error", delay: 0.5)
+                                                            }
+                                                        }
+        }) { (action) in
+            completion(.joined)
+        }
+    }
+
     func toggleJoinButton(_ button: JoinButton, forRace race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock) {
 
+        button.isLoading = true
         let state = button.joinState
-        let newState = state.inverted
 
         if state == .joined {
-            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure about resigning from this race?", destructiveTitle: "Yes, Resign") { (action) in
-                button.isLoading = true
-                raceApi.resign(race: race.id) { (status, error) in
-                    button.isLoading = false
-                    if status == true {
-                        button.joinState = newState
-                        completion(newState)
-                    } else {
-                        completion(state)
-                        AlertUtil.presentAlertMessage("Couldn't resign from this race. Please try again later.", title: "Error", delay: 0.5)
-                    }
+            resign(race: race, raceApi: raceApi) { (newState) in
+
+                if state != newState {
+                    race.isJoined = false
+                    button.joinState = newState
                 }
+
+                button.isLoading = false
+                completion(newState)
             }
         } else if state == .join  {
-            button.isLoading = true
+            join(race: race, raceApi: raceApi) { (newState) in
 
-            let aircraftPicker = AircraftPickerController.showAircraftPicker(for: race)
-
-            aircraftPicker.didSelect = { (aircraftId) in
-                raceApi.join(race: race.id, aircraftId: aircraftId) { (status, error) in
-                    button.isLoading = false
-                    if status == true {
-                        button.joinState = newState
-                        completion(newState)
-                    } else {
-                        completion(state)
-                        AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error", delay: 0.5)
-                    }
+                if state != newState {
+                    race.isJoined = true
+                    button.joinState = newState
                 }
-            }
 
-            aircraftPicker.didError = {
-                AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error", delay: 0.5)
-            }
-
-            aircraftPicker.didCancel = {
                 button.isLoading = false
+                completion(newState)
             }
         }
     }

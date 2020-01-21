@@ -69,7 +69,6 @@ class JoinButton: CustomButton {
 
     fileprivate lazy var spinnerView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .white)
-        view.isHidden = true
 
         addSubview(view)
         view.snp.makeConstraints { (make) -> Void in
