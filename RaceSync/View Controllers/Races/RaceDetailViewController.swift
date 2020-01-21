@@ -7,11 +7,20 @@
 //
 
 import UIKit
+import EmptyDataSet_Swift
 import RaceSyncAPI
 
-class RaceDetailViewController: UIViewController {
+class RaceDetailViewController: UIViewController, Joinable {
 
     // MARK: - Private Variables
+
+    fileprivate var isLoading: Bool {
+        get {
+            guard let tabBarController = tabBarController as? RaceTabBarController else { return false }
+            return tabBarController.isLoading
+        }
+        set { }
+    }
 
     fileprivate let headerView = RaceHeaderView()
 
@@ -19,8 +28,10 @@ class RaceDetailViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.emptyDataSetDelegate = self
+        tableView.emptyDataSetSource = self
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = Color.gray50
+        tableView.backgroundColor = Color.white
         tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
         return tableView
     }()
@@ -32,6 +43,8 @@ class RaceDetailViewController: UIViewController {
     fileprivate var isRacing: Bool { return myRaceEntry != nil }
     fileprivate var commonUserViewModels = [UserViewModel]()
     fileprivate var otherUserViewModels = [UserViewModel]()
+
+    fileprivate var emptyStateRaceRegisters = EmptyStateViewModel(.noRaceRegisters)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -77,7 +90,8 @@ class RaceDetailViewController: UIViewController {
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
     }
 
@@ -194,5 +208,47 @@ extension RaceDetailViewController: UITableViewDataSource {
     func userViewModel(at indexPath: IndexPath) -> UserViewModel {
         let viewModels = userViewModels(for: indexPath.section)
         return viewModels[indexPath.row]
+    }
+}
+
+extension RaceDetailViewController: EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        emptyStateRaceRegisters.title
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateRaceRegisters.description
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
+        emptyStateRaceRegisters.buttonTitle(state)
+    }
+
+//    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+//        return -(navigationController?.navigationBar.frame.height ?? 0)
+//    }
+}
+
+extension RaceDetailViewController: EmptyDataSetDelegate {
+
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
+        return !isLoading
+    }
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+
+    func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
+
+        let currentState: JoinState = .join
+
+        join(race: race, raceApi: raceApi) { [weak self] (newState) in
+            if let tabBarController = self?.tabBarController as? RaceTabBarController, currentState != newState {
+                tabBarController.reloadAllTabs()
+                self?.tableView.reloadEmptyDataSet()
+            }
+        }
     }
 }

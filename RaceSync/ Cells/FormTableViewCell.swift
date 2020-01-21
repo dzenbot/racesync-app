@@ -28,8 +28,6 @@ class FormTableViewCell: UITableViewCell, ViewCellInterface {
 
     fileprivate lazy var spinnerView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .white)
-        view.hidesWhenStopped = true
-        view.color = Color.gray300
         return view
     }()
 

@@ -384,16 +384,16 @@ extension RaceListViewController: EmptyDataSetSource {
             return emptyStateNearbyRaces.buttonTitle(state)
         }
     }
+
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        return -(navigationController?.navigationBar.frame.height ?? 0)
+    }
 }
 
 extension RaceListViewController: EmptyDataSetDelegate {
 
     func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
         return true
-    }
-
-    func emptyDataSet(_ scrollView: UIScrollView, didTapView view: UIView) {
-
     }
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {

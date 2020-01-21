@@ -8,6 +8,7 @@
 
 import UIKit
 import SnapKit
+import EmptyDataSet_Swift
 import RaceSyncAPI
 
 fileprivate enum RaceTabs: Int {
@@ -16,28 +17,24 @@ fileprivate enum RaceTabs: Int {
 
 class RaceTabBarController: UITabBarController {
 
-    // MARK: - Feature Flags
+    // MARK: - Public Variables
 
-    fileprivate var initialSelectedIndex: Int = RaceTabs.event.rawValue
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading { activityIndicatorView.startAnimating() }
+            else { activityIndicatorView.stopAnimating() }
+        }
+    }
 
     // MARK: - Private Variables
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .gray)
         view.hidesWhenStopped = true
-        view.color = Color.blue
         return view
     }()
 
-    fileprivate lazy var errorLabel: UILabel = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 16, weight: .regular)
-        label.textAlignment = .center
-        label.textColor = Color.gray300
-        label.numberOfLines = 0
-        label.isHidden = true
-        return label
-    }()
+    fileprivate var initialSelectedIndex: Int = RaceTabs.event.rawValue
 
     fileprivate let raceApi = RaceApi()
     fileprivate var raceId: ObjectId
@@ -49,6 +46,8 @@ class RaceTabBarController: UITabBarController {
             race?.url = "\(MGPWeb.getUrl(for: .raceView))=\(raceId)"
         }
     }
+
+    fileprivate var emptyStateError: EmptyStateViewModel?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -70,33 +69,8 @@ class RaceTabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Color.white
-        delegate = self
-
-        view.addSubview(activityIndicatorView)
-        activityIndicatorView.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-        }
-
-        view.addSubview(errorLabel)
-        errorLabel.snp.makeConstraints {
-            $0.centerX.centerY.equalToSuperview()
-        }
-
-        activityIndicatorView.startAnimating()
-
-        raceApi.viewSimple(race: raceId) { [weak self] (race, error) in
-            
-            self?.activityIndicatorView.stopAnimating()
-
-            if let _ = error {
-                self?.errorLabel.isHidden = false
-                self?.errorLabel.text = "Could not load the race details.\nPlease try again later."
-            } else {
-                self?.race = race
-                self?.configureViewControllers()
-            }
-        }
+        setupLayout()
+        loadRaceView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -108,6 +82,20 @@ class RaceTabBarController: UITabBarController {
     }
 
     // MARK: - Layout
+
+    fileprivate func setupLayout() {
+
+        view.backgroundColor = Color.white
+
+        tabBar.tintColor = Color.black
+        tabBar.isHidden = true
+        delegate = self
+
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
+    }
 
     fileprivate func configureViewControllers() {
         guard let race = race else { return }
@@ -124,8 +112,7 @@ class RaceTabBarController: UITabBarController {
 
         // Trick to pre-load each view controller
         preloadTabs()
-
-        tabBar.tintColor = Color.black
+        tabBar.isHidden = false
 
         var rightBarButtonItems = [UIBarButtonItem]()
         let shareButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
@@ -138,16 +125,16 @@ class RaceTabBarController: UITabBarController {
         navigationItem.rightBarButtonItems = rightBarButtonItems
     }
 
+    fileprivate func didSelectedIndex(_ index: Int) {
+        title = viewControllers?[index].title
+    }
+
     // MARK: - Actions
 
     override var selectedIndex: Int {
         didSet {
             didSelectedIndex(selectedIndex)
         }
-    }
-
-    fileprivate func didSelectedIndex(_ index: Int) {
-        title = viewControllers?[index].title
     }
 
     @objc func didPressCalendarButton() {
@@ -172,6 +159,73 @@ class RaceTabBarController: UITabBarController {
 
         let activityVC = UIActivityViewController(activityItems: items, applicationActivities: activities)
         present(activityVC, animated: true)
+    }
+
+    // MARK: - Error
+
+    fileprivate func handleError(_ error: Error) {
+
+        emptyStateError = EmptyStateViewModel(.errorRace)
+
+        // temporary scroll view used to display the error message
+        let scrollView = UIScrollView()
+        scrollView.contentInsetAdjustmentBehavior = .never
+        scrollView.emptyDataSetDelegate = self
+        scrollView.emptyDataSetSource = self
+
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.bottom.leading.trailing.equalToSuperview()
+        }
+
+        scrollView.reloadEmptyDataSet()
+    }
+}
+
+extension RaceTabBarController {
+
+    func loadRaceView() {
+        guard !isLoading else { return }
+
+        isLoading = true
+
+        raceApi.viewSimple(race: raceId) { [weak self] (race, error) in
+            self?.isLoading = false
+
+            if let error = error {
+                self?.handleError(error)
+            } else {
+                self?.race = race
+                self?.configureViewControllers()
+            }
+        }
+    }
+
+    func reloadAllTabs() {
+        loadRaceView()
+    }
+}
+
+extension RaceTabBarController: EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateError?.title
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateError?.description
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
+        return emptyStateError?.buttonTitle(state)
+    }
+}
+
+extension RaceTabBarController: EmptyDataSetDelegate {
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return false
     }
 }
 

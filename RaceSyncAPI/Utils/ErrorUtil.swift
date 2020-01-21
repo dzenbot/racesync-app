@@ -24,7 +24,14 @@ class ErrorUtil {
             return generalError
         }
 
-        if let status = value[ParameterKey.status] as? Bool, status == false {
+        let status: Bool? = value[ParameterKey.status] as? Bool
+        let description: String? = value[ParameterKey.statusDescription] as? String
+        let httpStatus: Int? = value[ParameterKey.httpStatus] as? Int
+
+        if let status = status, status == false, let description = description, let httpStatus = httpStatus {
+            return NSError(domain: "Error", code: httpStatus, userInfo: [NSLocalizedDescriptionKey : description])
+        }
+        else if let status = status, status == false {
             return undefinedError
         } else if let apiError = ApiError.from(JSON: value) {
             return formError(apiError)
@@ -43,10 +50,10 @@ class ErrorUtil {
         )
     }
 
-    static let undefinedError: NSError = generateError("Undefined Error.", withCode: .undefined)
-    static let generalError: NSError = generateError("Something went wrong!", withCode: .malfunction)
-    static let authError: NSError = generateError("Your session has expired.", withCode: .authorization)
-    static let notFoundError: NSError = generateError("Resource not found.", withCode: .notFound)
+    static let undefinedError: NSError = generateError("Undefined Error", withCode: .undefined)
+    static let generalError: NSError = generateError("Something went wrong", withCode: .malfunction)
+    static let authError: NSError = generateError("Your session has expired", withCode: .authorization)
+    static let notFoundError: NSError = generateError("Resource not found", withCode: .notFound)
 
     static func generateError(_ localizedDescription: String, withCode code: ErrorCode) -> NSError {
         return NSError(domain: "Error", code: code.rawValue, userInfo: [NSLocalizedDescriptionKey : localizedDescription])

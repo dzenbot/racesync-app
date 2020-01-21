@@ -19,6 +19,8 @@ public enum MGPWebConstant: String {
     case raceView = "https://www.multigp.com/races/view/?race"
     case chapterView = "https://www.multigp.com/chapters/view/?chapter"
     case userView = "https://www.multigp.com/pilots/view/?pilot"
+
+    case feedbackForm = "https://forms.gle/v7jYpjxW7fzBVzir7"
 }
 
 public class MGPWeb {

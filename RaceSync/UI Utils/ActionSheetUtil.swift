@@ -20,12 +20,12 @@ class ActionSheetUtil {
         topMostVC.present(alert, animated: true, completion: nil)
     }
 
-    static func presentDestructiveActionSheet(withTitle title: String, message: String? = nil, destructiveTitle: String? = nil, completion: AlertCompletionBlock? = nil) {
+    static func presentDestructiveActionSheet(withTitle title: String, message: String? = nil, destructiveTitle: String? = nil, completion: AlertCompletionBlock? = nil, cancel: AlertCompletionBlock? = nil) {
         guard let topMostVC = UIViewController.topMostViewController() else { return }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
         alert.addAction(UIAlertAction(title: destructiveTitle ?? "Ok", style: .destructive, handler: completion))
-        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: cancel))
         
         topMostVC.present(alert, animated: true, completion: nil)
     }

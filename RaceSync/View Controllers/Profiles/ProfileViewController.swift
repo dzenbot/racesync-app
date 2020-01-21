@@ -90,7 +90,6 @@ class ProfileViewController: UIViewController, Shimmable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        tableView.layoutIfNeeded()
     }
 
     override func viewDidAppear(_ animated: Bool) {

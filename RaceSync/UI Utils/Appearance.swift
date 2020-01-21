@@ -14,6 +14,7 @@ class Appearance {
         configureViewAppearance()
         configureNavigationBarAppearance()
         configureTabBarAppearance()
+        configureActivityIndicatorAppearance()
     }
 }
 
@@ -68,6 +69,12 @@ fileprivate extension Appearance {
 
     static func configureTabBarItemAppearance() {
         //
+    }
+
+    static func configureActivityIndicatorAppearance() {
+        let appearance = UIActivityIndicatorView.appearance()
+        appearance.color = Color.gray300
+        appearance.hidesWhenStopped = true
     }
 
     static func configureImageCache() {

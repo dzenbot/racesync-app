@@ -51,6 +51,8 @@ enum ParameterKey {
     static let upcoming = "upcoming"
     static let past = "past"
     static let status = "status"
+    static let statusDescription = "statusDescription"
+    static let httpStatus = "httpStatus"
     static let limit = "limit"
     static let orderByDistance = "orderByDistance"
     static let nearBy = "nearBy"

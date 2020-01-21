@@ -448,12 +448,18 @@ class EventDetailViewController: UIViewController, Joinable {
     }
 
     @objc func didPressDateButton(_ sender: UITapGestureRecognizer) {
-        print("didPressDateButton!")
+        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
+        tabBarController.didPressCalendarButton()
     }
 
     @objc func didPressJoinButton(_ sender: JoinButton) {
-        toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { (newState) in
-            // Do something
+        let currentState = sender.joinState
+
+        toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { [weak self] (newState) in
+
+            if let tabBarController = self?.tabBarController as? RaceTabBarController, currentState != newState {
+                tabBarController.reloadAllTabs()
+            }
         }
     }
 }

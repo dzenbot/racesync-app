@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import EmptyDataSet_Swift
 import RaceSyncAPI
 
 class RaceResultsViewController: UIViewController {
@@ -17,11 +18,15 @@ class RaceResultsViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
         tableView.tableFooterView = UIView()
+        tableView.backgroundColor = Color.white
         return tableView
     }()
 
     fileprivate var race: Race
+    fileprivate var emptyStateComingSoon = EmptyStateViewModel(.commingSoon)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -63,6 +68,11 @@ class RaceResultsViewController: UIViewController {
         tabBarItem = UITabBarItem(title: "Results", image: UIImage(named: "icn_tab_results"), tag: 1)
         
         view.backgroundColor = Color.white
+
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview()
+        }
     }
 }
 
@@ -73,7 +83,7 @@ extension RaceResultsViewController: UITableViewDelegate {
 extension RaceResultsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return 0
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -82,5 +92,35 @@ extension RaceResultsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.cellHeight
+    }
+}
+
+extension RaceResultsViewController: EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateComingSoon.title
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateComingSoon.description
+    }
+
+    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
+        return nil
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
+        nil
+    }
+}
+
+extension RaceResultsViewController: EmptyDataSetDelegate {
+
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return false
     }
 }

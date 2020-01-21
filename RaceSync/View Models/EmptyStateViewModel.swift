@@ -26,8 +26,13 @@ enum EmptyState {
     case noChapters
     case noChapterMembers
 
+    case commingSoon
+
+    case errorRace
+    case errorChapter
+    case errorUser
+
     case noInternet
-    case someError
 }
 
 struct EmptyStateViewModel: EmptyStateViewModelInterface {
@@ -46,6 +51,12 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         switch emptyState {
         case .noJoinedRaces, .noNearbydRaces:
             text = "No Races Found"
+        case .noRaceRegisters:
+            text = "No Registered Pilots"
+        case .commingSoon:
+            text = "Coming Soon"
+        case .errorRace:
+            text = "Error"
         default:
             return nil
         }
@@ -68,6 +79,12 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "You haven't joined any races yet."
         case .noNearbydRaces:
             text = "There are no races in a \(APIServices.shared.settings.radius) miles radius."
+        case .noRaceRegisters:
+            text = "There are no registered pilots for this race yet."
+        case .commingSoon:
+            text = "This feature is currently under development."
+        case .errorRace:
+            text = "Could not load the race details.\nPlease try again later or report a bug."
         default:
             return nil
         }
@@ -94,6 +111,10 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "Search Nearby Races"
         case .noNearbydRaces:
             text = "Adjust Miles Radius"
+        case .noRaceRegisters:
+            text = "Join This Race"
+        case .errorRace:
+            text = "Send Bug Report"
         default:
             return nil
         }
@@ -115,11 +136,4 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
     var backgroundColor: UIColor? {
         return Color.white
     }
-
-}
-
-extension EmptyStateViewModel {
-
-    static var noInternet: EmptyStateViewModel = EmptyStateViewModel(.noInternet)
-    static var someError: EmptyStateViewModel = EmptyStateViewModel(.someError)
 }
