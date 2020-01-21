@@ -34,8 +34,22 @@ class SettingsViewController: UIViewController {
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = Color.gray50
+        tableView.tableHeaderView = headerView
         tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
         return tableView
+    }()
+
+    lazy var headerView: UIView = {
+        let view = UIView()
+
+        let imageView = UIImageView(image: UIImage(named: "icn_settings_header"))
+        view.addSubview(imageView)
+        imageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.centerY.equalToSuperview().offset(-100)
+        }
+
+        return view
     }()
 
     lazy var pickerView: UIPickerView = {
