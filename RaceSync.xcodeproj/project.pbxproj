@@ -63,7 +63,7 @@
 		4F8F2C132385136300DC4907 /* NumberUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C122385136300DC4907 /* NumberUtil.swift */; };
 		4F91BC8A2398FBCE00539E95 /* Joinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91BC892398FBCE00539E95 /* Joinable.swift */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
-		4F9DB79923D2D94E00570483 /* AppSchemeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* AppSchemeConstants.swift */; };
+		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
 		4F9DB79E23D30F3200570483 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APIEnvironment.swift */; };
 		4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A223D397B700570483 /* SettingsViewController.swift */; };
 		4F9DB7A523D3C3A500570483 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A423D3C3A500570483 /* Credentials.plist */; };
@@ -82,6 +82,8 @@
 		4FA1AB4323CAF803007CF389 /* AircraftPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */; };
 		4FA1AB4523CB1666007CF389 /* AircraftSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */; };
 		4FA1FC8B23D6D7C0006D4704 /* ApplicationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */; };
+		4FA1FC8D23D74A39006D4704 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */; };
+		4FA1FC8F23D74D29006D4704 /* StringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8E23D74D29006D4704 /* StringConstants.swift */; };
 		4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268192378BE4A008970AC /* APIConstants.swift */; };
 		4FA268222378F8A0008970AC /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268212378F8A0008970AC /* APIServices.swift */; };
 		4FA268242378F9DD008970AC /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268232378F9DD008970AC /* NetworkAdapter.swift */; };
@@ -245,7 +247,7 @@
 		4F8F2C102384903F00DC4907 /* RaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceViewModel.swift; sourceTree = "<group>"; };
 		4F8F2C122385136300DC4907 /* NumberUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberUtil.swift; sourceTree = "<group>"; };
 		4F91BC892398FBCE00539E95 /* Joinable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joinable.swift; sourceTree = "<group>"; };
-		4F9DB79823D2D94E00570483 /* AppSchemeConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSchemeConstants.swift; sourceTree = "<group>"; };
+		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
 		4F9DB7A423D3C3A500570483 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
@@ -264,6 +266,8 @@
 		4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPickerController.swift; sourceTree = "<group>"; };
 		4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftSpecs.swift; sourceTree = "<group>"; };
 		4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationControl.swift; sourceTree = "<group>"; };
+		4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
+		4FA1FC8E23D74D29006D4704 /* StringConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringConstants.swift; sourceTree = "<group>"; };
 		4FA268192378BE4A008970AC /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		4FA268212378F8A0008970AC /* APIServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		4FA268232378F9DD008970AC /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
@@ -371,6 +375,7 @@
 				4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */,
 				4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */,
 				4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */,
+				4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */,
 			);
 			path = "UI Extensions";
 			sourceTree = "<group>";
@@ -561,7 +566,8 @@
 		4FA26825237A4005008970AC /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4F9DB79823D2D94E00570483 /* AppSchemeConstants.swift */,
+				4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */,
+				4FA1FC8E23D74D29006D4704 /* StringConstants.swift */,
 				4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */,
 			);
 			path = Resources;
@@ -1025,7 +1031,7 @@
 				4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */,
 				4FD4E1DD237FBE8B008816B3 /* MemberBadgeView.swift in Sources */,
 				4FD4E1DB237FBE36008816B3 /* JoinButton.swift in Sources */,
-				4F9DB79923D2D94E00570483 /* AppSchemeConstants.swift in Sources */,
+				4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */,
 				4FD53FAF23A0B20900158206 /* UserTableViewCell.swift in Sources */,
 				4FD4E1D9237FB1EA008816B3 /* RaceTableViewCell.swift in Sources */,
 				4F5C1E4F2390B01700D756EB /* ImageNetworking.swift in Sources */,
@@ -1038,6 +1044,7 @@
 				4FD4E1C5237F9746008816B3 /* UserViewController.swift in Sources */,
 				4FD4E1DF237FEC0A008816B3 /* Appearance.swift in Sources */,
 				4F791C9E23A8AB7300F15FD7 /* HeaderStretchable.swift in Sources */,
+				4FA1FC8D23D74A39006D4704 /* Bundle+Extensions.swift in Sources */,
 				4FD53FB123A0D48F00158206 /* UserRaceTableViewCell.swift in Sources */,
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
@@ -1061,6 +1068,7 @@
 				4F5C1E45238D1BD200D756EB /* PasteboardButton.swift in Sources */,
 				4FD53FB323A0E9B700158206 /* AvatarImageView.swift in Sources */,
 				4F9DB79E23D30F3200570483 /* APIEnvironment.swift in Sources */,
+				4FA1FC8F23D74D29006D4704 /* StringConstants.swift in Sources */,
 				4FD53FAD23A0B01E00158206 /* UserViewModel.swift in Sources */,
 				4FA1AB3F23C9538A007CF389 /* AircraftViewModel.swift in Sources */,
 				4F86690423877041005E310A /* ChapterTableViewCell.swift in Sources */,

@@ -113,7 +113,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     fileprivate let userApi = UserApi()
     fileprivate var raceList = [String: [RaceViewModel]]()
 
-    fileprivate var searchRadius: CGFloat = APIServices.shared.settings.radius
+    fileprivate var searchRadius: CGFloat = APIServices.shared.settings.searchRadius
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
@@ -136,10 +136,9 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        let settingsRadius = APIServices.shared.settings.radius
-
-        if searchRadius != settingsRadius {
-            searchRadius = settingsRadius
+        // helpful to detect when to reload
+        if searchRadius != APIServices.shared.settings.searchRadius {
+            searchRadius = APIServices.shared.settings.searchRadius
 
             refreshControl.beginRefreshing()
             reloadDataFromPull()

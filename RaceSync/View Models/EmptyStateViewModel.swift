@@ -78,7 +78,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         case .noJoinedRaces:
             text = "You haven't joined any races yet."
         case .noNearbydRaces:
-            text = "There are no races in a \(APIServices.shared.settings.radius) miles radius."
+            text = "There are no races in a \(APIServices.shared.settings.searchRadius) miles radius."
         case .noRaceRegisters:
             text = "There are no registered pilots for this race yet."
         case .commingSoon:

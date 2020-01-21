@@ -44,14 +44,15 @@ class SettingsViewController: UIViewController {
         view.dataSource = self
         view.delegate = self
 
-        let row = APIServices.shared.settings.radius
-
-        view.selectRow(0, inComponent: 0, animated: false)
+        let radius = APIServices.shared.settings.searchRadius
+        if let row = distances.firstIndex(of: radius) {
+            view.selectRow(row, inComponent: 0, animated: false)
+        }
 
         return view
     }()
 
-    fileprivate let distances: [CGFloat] = [CGFloat(200), CGFloat(2500), CGFloat(21000), CGFloat(22000), CGFloat(25000)]
+    fileprivate let distances: [CGFloat] = [CGFloat(200), CGFloat(500), CGFloat(1000), CGFloat(2000), CGFloat(5000)]
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -145,7 +146,9 @@ extension SettingsViewController: UITableViewDataSource {
         }
 
         if section == .searchRadius {
-            cell.detailTextLabel?.text = "\(APIServices.shared.settings.radius) mi"
+            cell.detailTextLabel?.text = "\(APIServices.shared.settings.searchRadius) mi"
+        } else if section == .submitFeedback {
+            cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
         }
 
         return cell
@@ -157,8 +160,8 @@ extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
 
-        if section == SettingsSection.allCases.count-1 {
-            return "RaceSync v1.0 (#002)\nCopyright © 2015 - 2020 MultiGP, Inc."
+        if section == SettingsSection.logout.rawValue {
+            return StringConstants.Copyright
         } else {
             return nil
         }
@@ -186,7 +189,7 @@ extension SettingsViewController: UIPickerViewDelegate {
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         let distance = distances[row]
 
-        APIServices.shared.settings.radius = CGFloat(distance)
+        APIServices.shared.settings.searchRadius = CGFloat(distance)
         tableView.reloadData()
     }
 }

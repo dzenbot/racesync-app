@@ -11,5 +11,14 @@ import CoreGraphics
 
 public class APISettings {
 
-    public var radius: CGFloat = 500
+    public var searchRadius: CGFloat {
+        get {
+            let value = UserDefaults.standard.float(forKey: Self.settingsSearchRadiusKey)
+            return CGFloat(value > 0 ? value : 500)
+        } set {
+            UserDefaults.standard.set(newValue, forKey: Self.settingsSearchRadiusKey)
+        }
+    }
+
+    fileprivate static let settingsSearchRadiusKey = "com.multigp.RaceSync.settings.search_radius"
 }
