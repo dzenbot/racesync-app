@@ -69,7 +69,7 @@ extension Joinable {
 
     func resign(race: Race, raceApi: RaceApi, _ completion: @escaping JoinStateCompletionBlock) {
 
-        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure about resigning from this race?",
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Resign from this race?",
                                                       destructiveTitle: "Yes, Resign",
                                                       completion: { (action) in
                                                         raceApi.resign(race: race.id) { (status, error) in

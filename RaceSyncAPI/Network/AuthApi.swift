@@ -27,10 +27,9 @@ public protocol AuthApiInterface {
     /**
      Basic account log out method.
 
-     - parameter sessionId: The id of the session to invalidate
      - parameter completion: The closure to be called upon completion
      */
-    func logout(_ sessionId: String, _ completion: @escaping CompletionBlock)
+    func logout(_ completion: @escaping CompletionBlock)
 }
 
 public class AuthApi {
@@ -61,15 +60,19 @@ public class AuthApi {
         }
     }
 
-    public func logout(_ sessionId: String, _ completion: @escaping CompletionBlock) {
+    public func logout(_ completion: @escaping CompletionBlock) {
 
         let endpoint = EndPoint.userLogout
-        let parameters: Parameters = [
-            ParameterKey.sessionId: sessionId
-        ]
 
-        repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters) { (request) in
-            // implement response handling
+        repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post) { (request) in
+            request.responseJSON(completionHandler: { (response) in
+                switch response.result {
+                case .success(_):
+                    completion(nil)
+                case .failure:
+                    completion(ErrorUtil.parseError(response))
+                }
+            })
         }
     }
 }

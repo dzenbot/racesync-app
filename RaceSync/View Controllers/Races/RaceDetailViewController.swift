@@ -31,7 +31,7 @@ class RaceDetailViewController: UIViewController, Joinable {
         tableView.emptyDataSetDelegate = self
         tableView.emptyDataSetSource = self
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = Color.white
+        tableView.backgroundColor = Color.gray50
         tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
         return tableView
     }()
@@ -90,8 +90,7 @@ class RaceDetailViewController: UIViewController, Joinable {
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.bottom.equalToSuperview()
+            $0.top.leading.trailing.bottom.equalToSuperview()
         }
     }
 
@@ -225,9 +224,9 @@ extension RaceDetailViewController: EmptyDataSetSource {
         emptyStateRaceRegisters.buttonTitle(state)
     }
 
-//    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
-//        return -(navigationController?.navigationBar.frame.height ?? 0)
-//    }
+    func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor? {
+        return Color.white
+    }
 }
 
 extension RaceDetailViewController: EmptyDataSetDelegate {
@@ -237,7 +236,7 @@ extension RaceDetailViewController: EmptyDataSetDelegate {
     }
 
     func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
-        return true
+        return false
     }
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {

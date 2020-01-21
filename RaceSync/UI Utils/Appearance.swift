@@ -54,7 +54,20 @@ fileprivate extension Appearance {
     }
 
     static func configureTabBarAppearance() {
-        //
+        let foregroundColor = Color.blue
+        let backgroundColor = Color.navigationBarColor
+        let unselectedItemTintColor = Color.gray200
+        let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
+
+        // set the color and font for the title
+        let tabBarAppearance = UITabBar.appearance()
+        tabBarAppearance.barTintColor = backgroundColor
+        tabBarAppearance.tintColor = foregroundColor
+        tabBarAppearance.unselectedItemTintColor = unselectedItemTintColor
+        tabBarAppearance.barStyle = .default
+        tabBarAppearance.backgroundImage = backgroundImage
+        tabBarAppearance.isOpaque = false
+        tabBarAppearance.isTranslucent = true
     }
 
     static func configureTabBarItemAppearance() {

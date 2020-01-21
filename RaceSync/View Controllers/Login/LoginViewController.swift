@@ -21,21 +21,7 @@ class LoginViewController: UIViewController {
 
     // MARK: - Private Variables
 
-    @IBOutlet weak var racesyncLogoView: UIImageView!
-    @IBOutlet weak var racesyncLogoViewHeight: NSLayoutConstraint!
-    @IBOutlet weak var racesyncLogoViewOriginY: NSLayoutConstraint!
-
-    @IBOutlet weak var mgpLogoView: UIImageView!
-    @IBOutlet weak var mgpLogoLabel: UILabel!
-
-    fileprivate let authApi = AuthApi()
-    fileprivate var shouldShowForm: Bool {
-        get { return loginFormView.superview == nil }
-    }
-
-    // MARK: - Lazy Variables
-
-    lazy var loginFormView: UIView = {
+    fileprivate lazy var loginFormView: UIView = {
         let view = UIView()
         view.alpha = 0
         view.backgroundColor = .white
@@ -49,7 +35,7 @@ class LoginViewController: UIViewController {
         return view
     }()
 
-    lazy var titleLabel: UILabel = {
+    fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.text = APIServices.isDev ? "Login with MultiGP (test)" : "Login with MultiGP"
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
@@ -57,7 +43,7 @@ class LoginViewController: UIViewController {
         return label
     }()
 
-    lazy var emailField: UITextField = {
+    fileprivate lazy var emailField: UITextField = {
         let textField = UITextField()
         textField.delegate = self
         textField.placeholder = "Email"
@@ -69,7 +55,7 @@ class LoginViewController: UIViewController {
         return textField
     }()
 
-    lazy var passwordField: UITextField = {
+    fileprivate lazy var passwordField: UITextField = {
         let textField = UITextField()
         textField.delegate = self
         textField.placeholder = "Password"
@@ -82,7 +68,7 @@ class LoginViewController: UIViewController {
         return textField
     }()
 
-    lazy var passwordRecoveryButton: UIButton = {
+    fileprivate lazy var passwordRecoveryButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         button.setTitleColor(Color.red, for: .normal)
@@ -91,7 +77,7 @@ class LoginViewController: UIViewController {
         return button
     }()
 
-    lazy var createAccountButton: UIButton = {
+    fileprivate lazy var createAccountButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         button.setTitleColor(Color.red, for: .normal)
@@ -100,7 +86,7 @@ class LoginViewController: UIViewController {
         return button
     }()
 
-    lazy var loginButton: ActionButton = {
+    fileprivate lazy var loginButton: ActionButton = {
         let button = ActionButton(type: .system)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .regular)
         button.setTitleColor(Color.blue, for: .normal)
@@ -113,7 +99,7 @@ class LoginViewController: UIViewController {
         return button
     }()
 
-    lazy var legalButton: UIButton = {
+    fileprivate lazy var legalButton: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action:#selector(didPressLegalButton), for: .touchUpInside)
 
@@ -133,6 +119,18 @@ class LoginViewController: UIViewController {
         return button
     }()
 
+    @IBOutlet fileprivate weak var racesyncLogoView: UIImageView!
+    @IBOutlet fileprivate weak var racesyncLogoViewHeight: NSLayoutConstraint!
+    @IBOutlet fileprivate weak var racesyncLogoViewOriginY: NSLayoutConstraint!
+
+    @IBOutlet fileprivate weak var mgpLogoView: UIImageView!
+    @IBOutlet fileprivate weak var mgpLogoLabel: UILabel!
+
+    fileprivate let authApi = AuthApi()
+    fileprivate var shouldShowForm: Bool {
+        get { return loginFormView.superview == nil }
+    }
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let loginButtonHeight: CGFloat = 50
@@ -140,9 +138,6 @@ class LoginViewController: UIViewController {
         static let racesyncLogoOriginYDecrement: CGFloat = 270
         static let formOriginYDecrement: CGFloat = 70
     }
-
-    // MARK: - Initialization
-
 
     // MARK: - Lifecycle Methods
 
@@ -165,8 +160,7 @@ class LoginViewController: UIViewController {
         if !APIServices.shared.isLoggedIn {
             emailField.text = APIServices.shared.environment.email
             passwordField.text = APIServices.shared.environment.password
-
-            animateIntro(duration: shouldAnimateIntro ? 0.7 : 0)
+            animateIntro()
         } else {
             presentHome()
         }
@@ -240,23 +234,25 @@ class LoginViewController: UIViewController {
     func animateIntro(duration: TimeInterval = 0.7) {
 
         // Animate the Racesync logo to the top
-        UIView.animate(withDuration: duration,
-                       delay: 0.2,
-                       options: [.curveEaseInOut],
-                       animations: {
+        if shouldAnimateIntro {
+            UIView.animate(withDuration: duration,
+                           delay: 0.2,
+                           options: [.curveEaseInOut],
+                           animations: {
+                            self.racesyncLogoViewHeight.constant -= Constants.racesyncLogoHeightDecrement
+                            self.racesyncLogoViewOriginY.constant -= Constants.racesyncLogoOriginYDecrement
 
-                        self.racesyncLogoViewHeight.constant -= Constants.racesyncLogoHeightDecrement
-                        self.racesyncLogoViewOriginY.constant -= Constants.racesyncLogoOriginYDecrement
+                            self.loginFormView.snp.updateConstraints({
+                                $0.centerY.equalToSuperview().offset(-Constants.formOriginYDecrement)
+                            })
 
-                        self.loginFormView.snp.updateConstraints({
-                            $0.centerY.equalToSuperview().offset(-Constants.formOriginYDecrement)
-                        })
-
-                        self.view.setNeedsLayout()
-                        self.view.layoutIfNeeded()
-        },
-                       completion: nil)
-
+                            self.view.setNeedsLayout()
+                            self.view.layoutIfNeeded()
+            },
+                           completion: { [weak self] (finished) in
+                            self?.shouldAnimateIntro = false
+            })
+        }
 
         // Clear the MGP logo from the bottom
         UIView.animate(withDuration: 0.5, delay: 0.2, options: [.curveEaseIn], animations: {
@@ -265,8 +261,7 @@ class LoginViewController: UIViewController {
 
             self.loginFormView.alpha = 1
         }) { (finished) in
-            self.mgpLogoView.removeFromSuperview()
-            self.mgpLogoLabel.removeFromSuperview()
+            // Do something?
         }
 
         if shouldOpenKeyboardOnIntro {
@@ -301,15 +296,14 @@ class LoginViewController: UIViewController {
         loginButton.isLoading = true
 
         // Login
-        authApi.login(email, password: password) { (error) in
+        authApi.login(email, password: password) { [weak self] (error) in
             if let _ = error {
                 // TODO: Handle errors. At least, display in screen.
                 print("Login error \(error.debugDescription)!")
-
-                self.loginButton.isLoading = false
-                self.freezeLoginForm(false)
+                self?.loginButton.isLoading = false
+                self?.freezeLoginForm(false)
             } else {
-                self.presentHome(transition: .flipHorizontal)
+                self?.presentHome(transition: .flipHorizontal)
             }
         }
     }
@@ -342,7 +336,10 @@ class LoginViewController: UIViewController {
         raceListNC.modalTransitionStyle = transition
         raceListNC.modalPresentationStyle = .fullScreen
 
-        present(raceListNC, animated: true, completion: nil)
+        present(raceListNC, animated: true) { [weak self] in
+            self?.loginButton.isLoading = false
+            self?.freezeLoginForm(false)
+        }
     }
 }
 

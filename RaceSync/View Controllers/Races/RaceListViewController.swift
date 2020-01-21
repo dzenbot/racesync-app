@@ -109,13 +109,6 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         return button
     }()
 
-    fileprivate lazy var searchButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(didPressSearchButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_search"), for: .normal)
-        return button
-    }()
-
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate var raceList = [String: [RaceViewModel]]()
@@ -154,7 +147,9 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userProfileButton)
 
         if shouldShowSearchButton {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: searchButton)
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_search"), style: .done, target: self, action: #selector(didPressSearchButton))
+        } else {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings_btn"), style: .done, target: self, action: #selector(didPressSettingsButton))
         }
 
         view.addSubview(headerView)
@@ -199,6 +194,12 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         print("didPressSearchButton")
     }
 
+    @objc fileprivate func didPressSettingsButton() {
+        let settingsVC = SettingsViewController()
+        let settingsNC = NavigationController(rootViewController: settingsVC)
+        present(settingsNC, animated: true, completion: nil)
+    }
+
     @objc fileprivate func reloadDataFromPull() {
         fetchRaces(selectedRaceListFiltering()) { [weak self] in
             self?.refreshControl.endRefreshing()
@@ -239,10 +240,8 @@ fileprivate extension RaceListViewController {
                 self.updateProfilePicture()
                 self.loadRaces()
             } else if error != nil {
-                print("fetchMyUser error : \(error.debugDescription)")
-                
-                // Invalidate session id
-                self.dismiss(animated: true, completion: nil)
+                // This is somewhat the best way to detect an invalid session
+                ApplicationControl.shared.invalidateSession()
             }
         }
     }
@@ -407,7 +406,6 @@ extension RaceListViewController: EmptyDataSetDelegate {
         } else {
             let settingsVC = SettingsViewController()
             let settingsNC = NavigationController(rootViewController: settingsVC)
-
             present(settingsNC, animated: true, completion: nil)
         }
     }

@@ -81,6 +81,7 @@
 		4FA1AB4123CAC956007CF389 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4023CAC956007CF389 /* Dictionary+Extensions.swift */; };
 		4FA1AB4323CAF803007CF389 /* AircraftPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */; };
 		4FA1AB4523CB1666007CF389 /* AircraftSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */; };
+		4FA1FC8B23D6D7C0006D4704 /* ApplicationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */; };
 		4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268192378BE4A008970AC /* APIConstants.swift */; };
 		4FA268222378F8A0008970AC /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268212378F8A0008970AC /* APIServices.swift */; };
 		4FA268242378F9DD008970AC /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268232378F9DD008970AC /* NetworkAdapter.swift */; };
@@ -262,6 +263,7 @@
 		4FA1AB4023CAC956007CF389 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPickerController.swift; sourceTree = "<group>"; };
 		4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftSpecs.swift; sourceTree = "<group>"; };
+		4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationControl.swift; sourceTree = "<group>"; };
 		4FA268192378BE4A008970AC /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		4FA268212378F8A0008970AC /* APIServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		4FA268232378F9DD008970AC /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
@@ -489,6 +491,7 @@
 				4FDC05D723CDB16E00B10881 /* CalendarUtil.swift */,
 				4F68BE682399CEB5009D44F7 /* AlertUtil.swift */,
 				4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */,
+				4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */,
 			);
 			path = "UI Utils";
 			sourceTree = "<group>";
@@ -1013,6 +1016,7 @@
 				4F9DB7B523D6BAC200570483 /* CrashCatcher.swift in Sources */,
 				4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */,
 				4F5C1E3E238A770B00D756EB /* UITableViewCell+Reuse.swift in Sources */,
+				4FA1FC8B23D6D7C0006D4704 /* ApplicationControl.swift in Sources */,
 				4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */,
 				4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */,
 				4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */,

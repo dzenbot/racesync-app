@@ -71,7 +71,7 @@ class RaceResultsViewController: UIViewController {
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview()
+            $0.top.leading.trailing.bottom.equalToSuperview()
         }
     }
 }

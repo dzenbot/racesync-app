@@ -88,7 +88,6 @@ class RaceTabBarController: UITabBarController {
         title = "Event Details"
         view.backgroundColor = Color.white
 
-        tabBar.tintColor = Color.black
         tabBar.isHidden = true
         delegate = self
 

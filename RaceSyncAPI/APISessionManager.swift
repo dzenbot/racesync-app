@@ -22,14 +22,14 @@ public class APISessionManager {
         return valet.string(forKey: sessionIdKey)
     }
 
+    public static func invalidateSession() {
+        setSessionId(nil)
+    }
+
     static func handleSessionJSON(_ json: JSON) {
         if let sessionId = json[ParameterKey.sessionId].string {
             setSessionId(sessionId)
         }
-    }
-
-    static func invalidateSession() {
-        setSessionId(nil)
     }
 
     // MARK: - Email
