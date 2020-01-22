@@ -335,7 +335,7 @@ class EventDetailViewController: UIViewController, Joinable {
         titleLabel.text = raceViewModel.titleLabel.uppercased()
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
-        dateButton.setTitle(raceViewModel.fullDateLabel, for: .normal)
+        dateButton.setTitle(raceViewModel.dateLabel, for: .normal)
 
         if canDisplayAddress {
             locationButton.setTitle(raceViewModel.fullLocationLabel, for: .normal)
@@ -344,7 +344,7 @@ class EventDetailViewController: UIViewController, Joinable {
         let textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
 
         if canDisplayDescription {
-            descriptionTextView.attributedText = NSAttributedString(string: raceViewModel.race.description, font: textFont, color: Color.gray300)
+            descriptionTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.description, font: textFont, color: Color.gray300)
         }
 
         contentTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.content, font: textFont)

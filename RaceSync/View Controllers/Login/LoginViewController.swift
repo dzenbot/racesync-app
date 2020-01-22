@@ -37,7 +37,7 @@ class LoginViewController: UIViewController {
 
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = APIServices.isDev ? "Login with MultiGP (test)" : "Login with MultiGP"
+        label.text = APIServices.shared.settings.isDev ? "Login with test.MultiGP" : "Login with MultiGP"
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         label.textColor = Color.gray200
         return label
@@ -126,7 +126,7 @@ class LoginViewController: UIViewController {
     @IBOutlet fileprivate weak var mgpLogoView: UIImageView!
     @IBOutlet fileprivate weak var mgpLogoLabel: UILabel!
 
-    fileprivate let authApi = AuthApi()
+    fileprivate var authApi = AuthApi()
     fileprivate var shouldShowForm: Bool {
         get { return loginFormView.superview == nil }
     }
@@ -135,7 +135,7 @@ class LoginViewController: UIViewController {
         static let padding: CGFloat = UniversalConstants.padding
         static let loginButtonHeight: CGFloat = 50
         static let racesyncLogoHeightDecrement: CGFloat = 20
-        static let racesyncLogoOriginYDecrement: CGFloat = 270
+        static let racesyncLogoOriginYDecrement: CGFloat = 290
         static let formOriginYDecrement: CGFloat = 70
     }
 
@@ -150,6 +150,10 @@ class LoginViewController: UIViewController {
 
         if shouldShowForm && !APIServices.shared.isLoggedIn {
             setupLayout()
+        } else {
+            // resetting API object, for when logging out
+            authApi = AuthApi()
+            titleLabel.text = APIServices.shared.settings.isDev ? "Login with test.MultiGP" : "Login with MultiGP"
         }
     }
 
@@ -158,8 +162,8 @@ class LoginViewController: UIViewController {
 
         // Skip login if there's a persisted sessionId
         if !APIServices.shared.isLoggedIn {
-            emailField.text = APIServices.shared.environment.email
-            passwordField.text = APIServices.shared.environment.password
+            emailField.text = APIServices.shared.credential.email
+            passwordField.text = APIServices.shared.credential.password
             animateIntro()
         } else {
             presentHome()

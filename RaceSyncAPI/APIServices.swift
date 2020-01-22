@@ -14,7 +14,7 @@ public class APIServices {
     // MARK: - Public Variables
 
     public static let shared = APIServices()
-    public let environment = APIEnvironment()
+    public let credential = APICredential()
     public let settings = APISettings()
 
     public var myUser: User? {
@@ -25,10 +25,6 @@ public class APIServices {
 
     public var isLoggedIn: Bool {
         get { return APISessionManager.hasValidSession() }
-    }
-
-    public static var isDev: Bool {
-        return ProcessInfo.processInfo.environment["api-environment"] == "dev"
     }
 
     // MARK: - Initialization

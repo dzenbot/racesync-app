@@ -159,7 +159,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         if shouldShowSearchButton {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_search"), style: .done, target: self, action: #selector(didPressSearchButton))
         } else {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "settings_btn"), style: .done, target: self, action: #selector(didPressSettingsButton))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_settings"), style: .done, target: self, action: #selector(didPressSettingsButton))
         }
 
         view.addSubview(headerView)

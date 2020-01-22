@@ -32,7 +32,7 @@ public class MGPWeb {
     }
 
     public static func getUrl(for constant: MGPWebConstant) -> String {
-        if ProcessInfo.processInfo.environment["api-environment"] == "dev" {
+        if APIServices.shared.settings.isDev {
             return constant.rawValue.replacingOccurrences(of: "www", with: "test")
         } else {
             return constant.rawValue

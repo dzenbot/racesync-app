@@ -24,11 +24,13 @@ class ApplicationControl {
         rootViewController?.dismiss(animated: true, completion: nil)
     }
 
-    func logout() {
+    func logout(switchTo environment: APIEnvironment = .prod) {
         authApi.logout { [weak self] (error) in
             if error == nil {
                 self?.invalidateSession()
             }
+            
+            APIServices.shared.settings.environment = environment
         }
     }
 }

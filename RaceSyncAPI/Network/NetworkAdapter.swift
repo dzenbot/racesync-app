@@ -40,7 +40,7 @@ class NetworkAdapter {
             params = parameters
         }
 
-        params[ParameterKey.apiKey] = APIServices.shared.environment.apiKey
+        params[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
 
         if let sessionId = APISessionManager.getSessionId() {
             params[ParameterKey.sessionId] = sessionId
@@ -92,7 +92,7 @@ class NetworkAdapter {
         // The server requires basic authorization header
         // when interacting with test.multigp.com
         // It is a base64 encoded string for "mgp:TestMe!"
-        if APIServices.isDev {
+        if APIServices.shared.settings.isDev {
             headers["Authorization"] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE="
         }
 

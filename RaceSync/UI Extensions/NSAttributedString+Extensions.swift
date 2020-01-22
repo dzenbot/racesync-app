@@ -23,8 +23,14 @@ extension NSAttributedString {
     public convenience init?(HTMLString html: String, font: UIFont? = nil, color: UIColor? = nil) throws {
         guard !html.isEmpty else { return nil }
 
-        let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
-        let htmlString = "<head><style type=\"text/css\"> img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; } </style> </head><body> \(html) </body>"
+        let maxWidth = UIScreen.main.bounds.width
+        let htmlString = """
+        <head>
+        <style type=\"text/css\"> img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; } </style>
+        </head>
+        <body> \(html) </body>
+        </html>
+        """
 
         let options : [NSAttributedString.DocumentReadingOptionKey: Any] =
             [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,

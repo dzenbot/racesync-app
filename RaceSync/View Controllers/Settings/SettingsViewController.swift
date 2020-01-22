@@ -13,13 +13,15 @@ import RaceSyncAPI
 fileprivate enum SettingsSection: Int, CaseIterable {
     case searchRadius
     case submitFeedback
+    case switchEnvironment
     case logout
 
     var title: String {
         switch self {
-        case .searchRadius:     return "Change Search Radius"
-        case .submitFeedback:   return "Submit Feedback"
-        case .logout:           return "Logout"
+        case .searchRadius:         return "Change Search Radius"
+        case .submitFeedback:       return "Submit Feedback"
+        case .switchEnvironment:    return "Switch to"
+        case .logout:               return "Logout"
         }
     }
 }
@@ -108,6 +110,35 @@ class SettingsViewController: UIViewController {
     @objc func didPressCloseButton() {
         dismiss(animated: true, completion: nil)
     }
+
+    func changeSearchRadius() {
+        let dummy = UITextField(frame: .zero)
+        view.addSubview(dummy)
+
+        dummy.inputView = pickerView
+        dummy.becomeFirstResponder()
+    }
+
+    func submitFeedback() {
+        if let url = URL(string: MGPWeb.getPrefilledFeedbackFormUrl()) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+    }
+
+    func switchEnvironment() {
+        // inverted environment
+        let environment = APIServices.shared.settings.isDev ? APIEnvironment.prod : APIEnvironment.dev
+
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to switch to \(environment.title)?", destructiveTitle: "Yes, switch", completion: { (action) in
+            ApplicationControl.shared.logout(switchTo: environment)
+        }, cancel: nil)
+    }
+
+    func logout() {
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to log out?", destructiveTitle: "Yes, log out", completion: { (action) in
+            ApplicationControl.shared.logout()
+        }, cancel: nil)
+    }
 }
 
 extension SettingsViewController: UITableViewDelegate {
@@ -116,19 +147,13 @@ extension SettingsViewController: UITableViewDelegate {
         let section = SettingsSection(rawValue: indexPath.section)
 
         if section == .searchRadius {
-            let dummy = UITextField(frame: .zero)
-            view.addSubview(dummy)
-
-            dummy.inputView = pickerView
-            dummy.becomeFirstResponder()
+            changeSearchRadius()
         } else if section == .submitFeedback {
-            if let url = URL(string: MGPWeb.getPrefilledFeedbackFormUrl()) {
-                UIApplication.shared.open(url, options: [:], completionHandler: nil)
-            }
+            submitFeedback()
+        } else if section == .switchEnvironment {
+            switchEnvironment()
         } else if section == .logout {
-            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to log out?", destructiveTitle: "Yes, log out", completion: { (action) in
-                ApplicationControl.shared.logout()
-            }, cancel: nil)
+            logout()
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
@@ -148,13 +173,14 @@ extension SettingsViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
 
-        let section = SettingsSection(rawValue: indexPath.section)
-        cell.textLabel?.text = section?.title
+        guard let section = SettingsSection(rawValue: indexPath.section) else { return cell }
+
+        cell.textLabel?.text = section.title
         cell.textLabel?.textColor = Color.black
         cell.detailTextLabel?.text = nil
         cell.accessoryType = .disclosureIndicator
 
-        if section == .logout {
+        if section == .logout || section == .switchEnvironment {
             cell.textLabel?.textColor = Color.red
             cell.accessoryType = .none
         }
@@ -163,6 +189,9 @@ extension SettingsViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = "\(APIServices.shared.settings.searchRadius) mi"
         } else if section == .submitFeedback {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
+        } else if section == .switchEnvironment {
+            let environment = APIServices.shared.settings.isDev ? "Prod" : "Dev"
+            cell.textLabel?.text = "\(section.title) \(environment)"
         }
 
         return cell
