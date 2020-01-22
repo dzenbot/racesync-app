@@ -167,6 +167,13 @@ extension SettingsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard let section = SettingsSection(rawValue: section) else { return 0 }
+
+        if section == .switchEnvironment, let stage = CrashCatcher.config.releaseStage {
+            if stage == "alpha" || stage == "development" { return 1 }
+            else { return 0 }
+        }
+
         return 1
     }
 
