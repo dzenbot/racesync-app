@@ -60,6 +60,7 @@ class RaceMapViewController: UIViewController {
         super.viewDidLoad()
 
         setupLayout()
+        loadMapView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -95,8 +96,6 @@ class RaceMapViewController: UIViewController {
             $0.top.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview()
         }
-
-        loadMapView()
     }
 
     fileprivate func loadMapView() {
