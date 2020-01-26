@@ -18,3 +18,8 @@ public enum APIEnvironment: Int {
         }
     }
 }
+
+public enum APIReleaseStage: String {
+    case alpha = "alpha"
+    case development = "development"
+}

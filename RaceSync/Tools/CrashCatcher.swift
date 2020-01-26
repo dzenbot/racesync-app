@@ -16,7 +16,7 @@ class CrashCatcher {
 
     static func configure() {
         config.apiKey = "68a2e921b94e6bd3c4a0db836c6191c4"
-        config.releaseStage = "alpha"
+        config.releaseStage = APIReleaseStage.alpha.rawValue
         config.appVersion = "1.0"
 
         Bugsnag.start(with: config)

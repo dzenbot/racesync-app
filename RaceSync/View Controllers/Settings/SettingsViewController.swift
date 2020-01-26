@@ -170,7 +170,7 @@ extension SettingsViewController: UITableViewDataSource {
         guard let section = SettingsSection(rawValue: section) else { return 0 }
 
         if section == .switchEnvironment, let stage = CrashCatcher.config.releaseStage {
-            if stage == "alpha" || stage == "development" { return 1 }
+            if stage == APIReleaseStage.alpha.rawValue || stage == APIReleaseStage.development.rawValue { return 1 }
             else { return 0 }
         }
 

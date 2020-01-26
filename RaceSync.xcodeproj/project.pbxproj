@@ -82,7 +82,6 @@
 		4FA1AB4323CAF803007CF389 /* AircraftPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */; };
 		4FA1AB4523CB1666007CF389 /* AircraftSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */; };
 		4FA1FC8B23D6D7C0006D4704 /* ApplicationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */; };
-		4FA1FC8D23D74A39006D4704 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */; };
 		4FA1FC8F23D74D29006D4704 /* StringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8E23D74D29006D4704 /* StringConstants.swift */; };
 		4FA1FC9123D7B571006D4704 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC9023D7B571006D4704 /* APIEnvironment.swift */; };
 		4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268192378BE4A008970AC /* APIConstants.swift */; };
@@ -94,7 +93,9 @@
 		4FA26833237A5983008970AC /* ObjectMapper+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26832237A5983008970AC /* ObjectMapper+Extensions.swift */; };
 		4FA26835237A80B9008970AC /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26834237A80B9008970AC /* ActionButton.swift */; };
 		4FAAA88523AA15EA00A004DC /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */; };
+		4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */; };
 		4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */; };
+		4FC9A1B623D7CFBC00069FDE /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */; };
 		4FCAF9FA23AB226500ACE7D3 /* MapperUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9F923AB226500ACE7D3 /* MapperUtil.swift */; };
 		4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */; };
 		4FCAF9FE23AC8B8400ACE7D3 /* Shimmable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */; };
@@ -280,6 +281,7 @@
 		4FA26832237A5983008970AC /* ObjectMapper+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectMapper+Extensions.swift"; sourceTree = "<group>"; };
 		4FA26834237A80B9008970AC /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
+		4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+LinesCount.swift"; sourceTree = "<group>"; };
 		4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		4FCAF9F923AB226500ACE7D3 /* MapperUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapperUtil.swift; sourceTree = "<group>"; };
 		4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerView.swift; sourceTree = "<group>"; };
@@ -372,12 +374,12 @@
 				4F5C1E3D238A770B00D756EB /* UITableViewCell+Reuse.swift */,
 				4F5C1E48238DD82500D756EB /* UIView+RecognizerBlock.swift */,
 				4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */,
+				4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */,
 				4FA1AB3C23C94F5F007CF389 /* UIEdgeInsets+Extensions.swift */,
 				4FEBB27523A1F9DA007514B4 /* UITabBarController+Extensions.swift */,
 				4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */,
 				4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */,
 				4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */,
-				4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */,
 			);
 			path = "UI Extensions";
 			sourceTree = "<group>";
@@ -697,6 +699,7 @@
 				4FEBB27E23A310BB007514B4 /* User+Extensions.swift */,
 				4FEBB27C23A30F99007514B4 /* Date+Extensions.swift */,
 				4FA1AB4023CAC956007CF389 /* Dictionary+Extensions.swift */,
+				4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1047,7 +1050,6 @@
 				4FD4E1C5237F9746008816B3 /* UserViewController.swift in Sources */,
 				4FD4E1DF237FEC0A008816B3 /* Appearance.swift in Sources */,
 				4F791C9E23A8AB7300F15FD7 /* HeaderStretchable.swift in Sources */,
-				4FA1FC8D23D74A39006D4704 /* Bundle+Extensions.swift in Sources */,
 				4FD53FB123A0D48F00158206 /* UserRaceTableViewCell.swift in Sources */,
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
@@ -1062,6 +1064,7 @@
 				4FCAF9FE23AC8B8400ACE7D3 /* Shimmable.swift in Sources */,
 				4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */,
 				4F68BE6B2399CF07009D44F7 /* ActionSheetUtil.swift in Sources */,
+				4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */,
 				4F5001E523823C940025A593 /* FlagEmojiGenerator.swift in Sources */,
 				4F5C1E4B238EEC5200D756EB /* RaceMapViewController.swift in Sources */,
 				4FAAA88523AA15EA00A004DC /* MapKit+Extensions.swift in Sources */,
@@ -1101,6 +1104,7 @@
 				4F5001E723827DE70025A593 /* ImageUtil.swift in Sources */,
 				4FA268222378F8A0008970AC /* APIServices.swift in Sources */,
 				4F8668F623861736005E310A /* Chapter.swift in Sources */,
+				4FC9A1B623D7CFBC00069FDE /* Bundle+Extensions.swift in Sources */,
 				4FEBB27823A2023A007514B4 /* RaceEntry.swift in Sources */,
 				4FD4E1E32381E175008816B3 /* Random.swift in Sources */,
 				4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */,
