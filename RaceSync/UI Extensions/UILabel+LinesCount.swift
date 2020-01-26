@@ -18,6 +18,7 @@ extension UILabel {
     }
 
     var maxNumberOfLines: Int {
+        guard let font = font else { return 0 }
         let maxSize = CGSize(width: frame.size.width, height: CGFloat(MAXFLOAT))
         let text = (self.text ?? "") as NSString
         let textHeight = text.boundingRect(with: maxSize, options: .usesLineFragmentOrigin, attributes: [.font: font], context: nil).height

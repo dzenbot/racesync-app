@@ -39,6 +39,7 @@ class RaceMapViewController: UIViewController {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = UniversalConstants.cellHeight
+        static let annotationIdentifier: String = "Annotation"
     }
 
     // MARK: - Initialization
@@ -99,10 +100,12 @@ class RaceMapViewController: UIViewController {
     }
 
     fileprivate func loadMapView() {
-        let distance = CLLocationDistance(1000)
-        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: distance, longitudinalMeters: distance)
+
+        let distance:Double = 1000
+        let meters = CLLocationDistance(distance)
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: meters, longitudinalMeters: meters)
         let mapRect = MKCoordinateRegion.mapRectForCoordinateRegion(region)
-        let paddedMapRect = mapRect.offsetBy(dx: 0, dy: -1500) // TODO: Convert Screen points to Map points instead of harcoded value
+        let paddedMapRect = mapRect.offsetBy(dx: 0, dy: -(distance*2)) // TODO: Convert Screen points to Map points instead of harcoded value
 
         mapView.setVisibleMapRect(paddedMapRect, animated: false)
 
@@ -118,30 +121,32 @@ class RaceMapViewController: UIViewController {
 
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
 
-        alert.addAction(UIAlertAction(title: "Open in Maps", style: .default, handler: { (action) in
-            let lat = self.coordinates.latitude
-            let long = self.coordinates.longitude
+        alert.addAction(UIAlertAction(title: "Open in Maps", style: .default, handler: { [weak self] (action) in
+            guard let lat = self?.coordinates.latitude, let long = self?.coordinates.longitude else { return }
             guard let url = URL(string: "\(ExternalAppConstants.AppleMapsUrl)?daddr=\(lat),\(long)&dirflg=d") else { return }
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }))
 
         if canOpenGoogleMaps {
-            alert.addAction(UIAlertAction(title: "Open in Google Maps", style: .default, handler: { (action) in
-                let lat = self.coordinates.latitude
-                let long = self.coordinates.longitude
+            alert.addAction(UIAlertAction(title: "Open in Google Maps", style: .default, handler: { [weak self] (action) in
+                guard let lat = self?.coordinates.latitude, let long = self?.coordinates.longitude else { return }
                 guard let url = URL(string: "\(ExternalAppConstants.GoogleMapsScheme)?daddr=\(lat),\(long)") else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }))
         }
 
         if canOpenWaze {
-            alert.addAction(UIAlertAction(title: "Open in Waze", style: .default, handler: { (action) in
-                let lat = self.coordinates.latitude
-                let long = self.coordinates.longitude
+            alert.addAction(UIAlertAction(title: "Open in Waze", style: .default, handler: { [weak self] (action) in
+                guard let lat = self?.coordinates.latitude, let long = self?.coordinates.longitude else { return }
                 guard let url = URL(string: "\(ExternalAppConstants.WazeScheme)?ll=\(lat),\(long)&navigate=yes") else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }))
         }
+
+        alert.addAction(UIAlertAction(title: "Copy Coordinates", style: .default, handler: { [weak self] (action) in
+            guard let lat = self?.coordinates.latitude, let long = self?.coordinates.longitude else { return }
+            UIPasteboard.general.string = "\(lat), \(long)"
+        }))
 
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
@@ -176,16 +181,14 @@ extension RaceMapViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { return nil }
 
-        let identifier = "Annotation"
+        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: Constants.annotationIdentifier)
 
-        var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
-
-        if annotationView == nil {
-            annotationView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: identifier)
-            annotationView?.image = UIImage(named: "icn_map_annotation")
-            annotationView!.canShowCallout = true
+        if let view = annotationView {
+            view.annotation = annotation
         } else {
-            annotationView!.annotation = annotation
+            annotationView = MKAnnotationView(annotation: annotation, reuseIdentifier: Constants.annotationIdentifier)
+            annotationView?.image = UIImage(named: "icn_map_annotation")
+            annotationView?.canShowCallout = true
         }
 
         return annotationView
