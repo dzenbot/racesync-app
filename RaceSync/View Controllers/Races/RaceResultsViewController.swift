@@ -26,7 +26,7 @@ class RaceResultsViewController: UIViewController {
     }()
 
     fileprivate var race: Race
-    fileprivate var emptyStateComingSoon = EmptyStateViewModel(.commingSoon)
+    fileprivate var emptyStateComingSoon = EmptyStateViewModel(.noRaceResults)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding

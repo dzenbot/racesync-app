@@ -23,6 +23,7 @@ enum EmptyState {
     case noNearbydRaces
     case noRaces
     case noRaceRegisters
+    case noRaceResults
     case noChapters
     case noChapterMembers
 
@@ -53,6 +54,8 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "No Races Found"
         case .noRaceRegisters:
             text = "No Registered Pilots"
+        case .noRaceResults:
+            text = "No Race Results"
         case .commingSoon:
             text = "Coming Soon"
         case .errorRace:
@@ -81,6 +84,8 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "There are no races in a \(APIServices.shared.settings.searchRadius) miles radius."
         case .noRaceRegisters:
             text = "There are no registered pilots for this race yet."
+        case .noRaceResults:
+            text = "There are no race results available just yet."
         case .commingSoon:
             text = "This feature is currently under development."
         case .errorRace:

@@ -64,9 +64,9 @@ class EventDetailViewController: UIViewController, Joinable {
         button.tintColor = Color.red
         button.shouldHighlight = true
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        button.titleLabel?.numberOfLines = 3
+        button.titleLabel?.numberOfLines = 2
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
-        button.imageEdgeInsets = UIEdgeInsets(top: -Constants.padding, left: -Constants.padding, bottom: 0, right: 0)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.addTarget(self, action: #selector(didPressLocationButton), for: .touchUpInside)
         return button
     }()
@@ -339,6 +339,11 @@ class EventDetailViewController: UIViewController, Joinable {
 
         if canDisplayAddress {
             locationButton.setTitle(raceViewModel.fullLocationLabel, for: .normal)
+
+            // Bring the icon to the first line, if there are more than 1 line of text
+            if let label = locationButton.titleLabel, label.numberOfVisibleLines > 2 {
+                locationButton.imageEdgeInsets = UIEdgeInsets(top: -Constants.padding, left: -Constants.padding, bottom: 0, right: 0)
+            }
         }
 
         let textFont = UIFont.systemFont(ofSize: 15, weight: .regular)

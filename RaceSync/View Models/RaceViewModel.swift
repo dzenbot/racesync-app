@@ -67,7 +67,7 @@ extension RaceViewModel {
 
     static func fullLocationLabel(for race: Race) -> String {
         var string = ""
-        if let address = race.address {
+        if let address = race.address, !address.isEmpty  {
             string += address + "\n"
         }
         string += ViewModelHelper.locationLabel(for: race.city, state: race.state, country: race.country)
