@@ -25,6 +25,17 @@ class RaceMapViewController: UIViewController {
         return mapView
     }()
 
+    fileprivate let initialSelectedMapSegment: MapSegment = .map
+
+    fileprivate lazy var segmentedControl: UISegmentedControl = {
+        let items = [MapSegment.map.title, MapSegment.hybrid.title, MapSegment.satellite.title]
+        let segmentedControl = UISegmentedControl(items: items)
+        segmentedControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
+        segmentedControl.selectedSegmentIndex = initialSelectedMapSegment.rawValue
+        segmentedControl.tintColor = Color.blue
+        return segmentedControl
+    }()
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = UniversalConstants.cellHeight
@@ -67,9 +78,21 @@ class RaceMapViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navigation"), style: .done, target: self, action: #selector(didPressDirectionsButton))
 
+        navigationController?.isToolbarHidden = false
+
+        if let toolbar = navigationController?.toolbar {
+            toolbar.addSubview(segmentedControl)
+            segmentedControl.snp.makeConstraints {
+                $0.centerY.equalToSuperview()
+                $0.leading.equalToSuperview().offset(Constants.padding*2)
+                $0.trailing.equalToSuperview().offset(-Constants.padding*2)
+            }
+        }
+
         view.addSubview(mapView)
         mapView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.top.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
         }
 
         loadMapView()
@@ -129,6 +152,11 @@ class RaceMapViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
+    @objc fileprivate func didChangeSegment() {
+        guard let segment = MapSegment(rawValue: segmentedControl.selectedSegmentIndex) else { return }
+        mapView.mapType = segment.mapType
+    }
+
 
     // MARK: - Integration
 
@@ -163,4 +191,24 @@ extension RaceMapViewController: MKMapViewDelegate {
         return annotationView
     }
 
+}
+
+fileprivate enum MapSegment: Int {
+    case map, hybrid, satellite
+
+    var title: String {
+        switch self {
+        case .map:          return "Map"
+        case .hybrid:       return "Hybrid"
+        case .satellite:    return "Satellite"
+        }
+    }
+
+    var mapType: MKMapType {
+        switch self {
+        case .map:          return .standard
+        case .hybrid:       return .hybrid
+        case .satellite:    return .satellite
+        }
+    }
 }

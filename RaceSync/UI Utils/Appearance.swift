@@ -14,6 +14,7 @@ class Appearance {
         configureViewAppearance()
         configureNavigationBarAppearance()
         configureTabBarAppearance()
+        configureToolBarAppearance()
         configureActivityIndicatorAppearance()
     }
 }
@@ -68,6 +69,19 @@ fileprivate extension Appearance {
         tabBarAppearance.backgroundImage = backgroundImage
         tabBarAppearance.isOpaque = false
         tabBarAppearance.isTranslucent = true
+    }
+
+    static func configureToolBarAppearance() {
+        let foregroundColor = Color.blue
+        let backgroundColor = Color.navigationBarColor
+
+        // set the color and font for the title
+        let toolBarAppearance = UIToolbar.appearance()
+        toolBarAppearance.barTintColor = backgroundColor
+        toolBarAppearance.tintColor = foregroundColor
+        toolBarAppearance.barStyle = .default
+        toolBarAppearance.isOpaque = false
+        toolBarAppearance.isTranslucent = true
     }
 
     static func configureTabBarItemAppearance() {
