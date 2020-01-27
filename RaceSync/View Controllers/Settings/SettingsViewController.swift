@@ -18,7 +18,7 @@ fileprivate enum SettingsSection: Int, CaseIterable {
 
     var title: String {
         switch self {
-        case .searchRadius:         return "Change Search Radius"
+        case .searchRadius:         return "Search Radius"
         case .submitFeedback:       return "Submit Feedback"
         case .switchEnvironment:    return "Switch to"
         case .logout:               return "Logout"
@@ -35,9 +35,17 @@ class SettingsViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        tableView.backgroundColor = Color.gray50
         tableView.tableHeaderView = headerView
         tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
+
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Color.gray50
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didBackgroundView))
+        backgroundView.addGestureRecognizer(tapGestureRecognizer)
+        
+        tableView.backgroundView = backgroundView
+
         return tableView
     }()
 
@@ -66,6 +74,12 @@ class SettingsViewController: UIViewController {
         }
 
         return view
+    }()
+
+    lazy var pickerDummy: UITextField = {
+        let dummy = UITextField(frame: .zero)
+        dummy.inputView = pickerView
+        return dummy
     }()
 
     fileprivate let distances: [CGFloat] = [CGFloat(200), CGFloat(500), CGFloat(1000), CGFloat(2000), CGFloat(5000)]
@@ -111,12 +125,21 @@ class SettingsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    func changeSearchRadius() {
-        let dummy = UITextField(frame: .zero)
-        view.addSubview(dummy)
+    @objc func didBackgroundView(_ sender: UITapGestureRecognizer) {
+        if pickerDummy.isFirstResponder {
+            pickerDummy.resignFirstResponder()
+            pickerDummy.removeFromSuperview()
+        }
+    }
 
-        dummy.inputView = pickerView
-        dummy.becomeFirstResponder()
+    func changeSearchRadius() {
+        if pickerDummy.superview == nil {
+            view.addSubview(pickerDummy)
+        }
+
+        if !pickerDummy.isFirstResponder {
+            pickerDummy.becomeFirstResponder()
+        }
     }
 
     func submitFeedback() {
