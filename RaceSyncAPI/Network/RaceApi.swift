@@ -71,6 +71,14 @@ public protocol RaceApiInterface {
     /**
      */
     func resign(race raceId: ObjectId, completion: @escaping StatusCompletionBlock)
+
+    /**
+    */
+    func checkIn(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<RaceEntry>)
+
+    /**
+    */
+    func checkOut(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<RaceEntry>)
 }
 
 public class RaceApi: RaceApiInterface {
@@ -153,6 +161,18 @@ public class RaceApi: RaceApiInterface {
                 }
             }
         }
+    }
+
+    public func checkIn(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
+
+        let endpoint = "\(EndPoint.raceCheckIn)?\(ParameterKey.id)=\(raceId)"
+        repositoryAdapter.getObject(endpoint, type: RaceEntry.self, completion)
+    }
+
+    public func checkOut(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
+
+        let endpoint = "\(EndPoint.raceCheckOut)?\(ParameterKey.id)=\(raceId)"
+        repositoryAdapter.getObject(endpoint, type: RaceEntry.self, completion)
     }
 }
 

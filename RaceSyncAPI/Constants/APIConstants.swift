@@ -29,6 +29,8 @@ enum EndPoint {
     static let raceViewSimple = "race/viewSimple"
     static let raceJoin = "race/join"
     static let raceResign = "race/resign"
+    static let raceCheckIn = "race/checkIn"
+    static let raceCheckOut = "race/checkOut"
 
     static let chapterList = "chapter/list"
     static let chapterFindLocal = "chapter/findLocal"
