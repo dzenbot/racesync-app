@@ -14,17 +14,12 @@ import RaceSyncAPI
 
 class LoginViewController: UIViewController {
 
-    // MARK: - Feature Flags
-    
-    fileprivate var shouldAnimateIntro: Bool = true
-    fileprivate var shouldOpenKeyboardOnIntro: Bool = true
-
     // MARK: - Private Variables
 
     fileprivate lazy var loginFormView: UIView = {
         let view = UIView()
         view.alpha = 0
-        view.backgroundColor = .white
+        view.backgroundColor = Color.white
         view.addSubview(self.titleLabel)
         view.addSubview(self.emailField)
         view.addSubview(self.passwordField)
@@ -52,6 +47,8 @@ class LoginViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .next
         textField.textContentType = .emailAddress
+        textField.autocorrectionType = .no
+        textField.spellCheckingType = .no
         return textField
     }()
 
@@ -65,6 +62,8 @@ class LoginViewController: UIViewController {
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = .`continue`
         textField.textContentType = .password
+        textField.autocorrectionType = .no
+        textField.spellCheckingType = .no
         return textField
     }()
 
@@ -126,6 +125,12 @@ class LoginViewController: UIViewController {
     @IBOutlet fileprivate weak var mgpLogoView: UIImageView!
     @IBOutlet fileprivate weak var mgpLogoLabel: UILabel!
 
+    fileprivate var loginFormViewCenterYConstraint: Constraint?
+    fileprivate var loginFormViewCenterYConstant: CGFloat = 0
+
+    fileprivate var racesyncLogoHeightConstant: CGFloat = 0
+    fileprivate var isKeyboardVisible: Bool = false
+
     fileprivate var authApi = AuthApi()
     fileprivate var shouldShowForm: Bool {
         get { return loginFormView.superview == nil }
@@ -133,16 +138,28 @@ class LoginViewController: UIViewController {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
+        static let loginFormHeight: CGFloat = 320
         static let loginButtonHeight: CGFloat = 50
-        static let racesyncLogoHeightDecrement: CGFloat = 20
-        static let racesyncLogoOriginYDecrement: CGFloat = 290
-        static let formOriginYDecrement: CGFloat = 70
     }
 
     // MARK: - Lifecycle Methods
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillShow),
+            name: UIResponder.keyboardWillShowNotification,
+            object: nil
+        )
+
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(keyboardWillHide),
+            name: UIResponder.keyboardWillHideNotification,
+            object: nil
+        )
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -164,7 +181,10 @@ class LoginViewController: UIViewController {
         if !APIServices.shared.isLoggedIn {
             emailField.text = APIServices.shared.credential.email
             passwordField.text = APIServices.shared.credential.password
-            animateIntro()
+
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
+                self.emailField.becomeFirstResponder()
+            }
         } else {
             presentHome()
         }
@@ -176,10 +196,13 @@ class LoginViewController: UIViewController {
 
         view.insertSubview(loginFormView, belowSubview: racesyncLogoView)
         loginFormView.snp.makeConstraints {
-            $0.centerY.centerX.equalToSuperview()
+            $0.centerX.equalToSuperview()
             $0.leading.equalToSuperview().offset(Constants.padding)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
-            $0.height.greaterThanOrEqualTo(360)
+            $0.height.greaterThanOrEqualTo(Constants.loginFormHeight)
+
+            loginFormViewCenterYConstraint = $0.centerY.equalToSuperview().constraint
+            loginFormViewCenterYConstraint?.activate()
         }
 
         titleLabel.snp.makeConstraints {
@@ -235,47 +258,6 @@ class LoginViewController: UIViewController {
         }
     }
 
-    func animateIntro(duration: TimeInterval = 0.7) {
-
-        // Animate the Racesync logo to the top
-        if shouldAnimateIntro {
-            UIView.animate(withDuration: duration,
-                           delay: 0.2,
-                           options: [.curveEaseInOut],
-                           animations: {
-                            self.racesyncLogoViewHeight.constant -= Constants.racesyncLogoHeightDecrement
-                            self.racesyncLogoViewOriginY.constant -= Constants.racesyncLogoOriginYDecrement
-
-                            self.loginFormView.snp.updateConstraints({
-                                $0.centerY.equalToSuperview().offset(-Constants.formOriginYDecrement)
-                            })
-
-                            self.view.setNeedsLayout()
-                            self.view.layoutIfNeeded()
-            },
-                           completion: { [weak self] (finished) in
-                            self?.shouldAnimateIntro = false
-            })
-        }
-
-        // Clear the MGP logo from the bottom
-        UIView.animate(withDuration: 0.5, delay: 0.2, options: [.curveEaseIn], animations: {
-            self.mgpLogoView.alpha = 0
-            self.mgpLogoLabel.alpha = 0
-
-            self.loginFormView.alpha = 1
-        }) { (finished) in
-            // Do something?
-        }
-
-        if shouldOpenKeyboardOnIntro {
-            let deadlineTime = DispatchTime.now() + DispatchTimeInterval.milliseconds(300)
-            DispatchQueue.main.asyncAfter(deadline: deadlineTime) {
-                self.emailField.becomeFirstResponder()
-            }
-        }
-    }
-
     // MARK: - Button Events
 
     @objc func didPressPasswordRecoveryButton() {
@@ -316,6 +298,66 @@ class LoginViewController: UIViewController {
         let url = MGPWeb.getURL(for: .termsOfUse)
         UIApplication.shared.open(url, options: [:], completionHandler: nil)
     }
+
+    @objc func keyboardWillShow(_ notification: Notification) {
+
+        guard !isKeyboardVisible else { return }
+        guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
+            let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
+
+        let keyboardRect = keyboardFrame.cgRectValue
+
+        guard keyboardRect.intersects(loginFormView.frame) else { return }
+
+        let intersection = keyboardRect.intersection(loginFormView.frame)
+
+        loginFormViewCenterYConstant = intersection.height
+        racesyncLogoHeightConstant = loginFormView.frame.minY - (intersection.height + Constants.padding*3)
+        let racesyncLogoAlpha: CGFloat = 1
+
+        UIView.animate(withDuration: animationDuration,
+                       animations: {
+                        self.loginFormViewCenterYConstraint?.update(offset: -self.loginFormViewCenterYConstant)
+                        self.loginFormView.alpha = 1
+                        self.view.layoutIfNeeded()
+        },
+                       completion: nil)
+
+        guard racesyncLogoViewOriginY.constant != 0 else { return }
+
+        UIView.animate(withDuration: animationDuration,
+                       animations: {
+                        self.racesyncLogoViewOriginY.constant = 0
+                        self.racesyncLogoViewHeight.constant = self.racesyncLogoHeightConstant
+                        self.racesyncLogoView.alpha = racesyncLogoAlpha
+                        self.view.layoutIfNeeded()
+        },
+                       completion: nil)
+
+        isKeyboardVisible = true
+    }
+
+    @objc func keyboardWillHide(_ notification: Notification) {
+        guard isKeyboardVisible else { return }
+        guard let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
+
+        let racesyncLogoViewOriginYConstant = loginFormViewCenterYConstant/2
+        loginFormViewCenterYConstant = 0
+
+        UIView.animate(withDuration: animationDuration,
+                       animations: {
+                        self.loginFormViewCenterYConstraint?.update(offset: 0)
+                        self.racesyncLogoViewOriginY.constant = racesyncLogoViewOriginYConstant
+
+                        self.view.setNeedsLayout()
+                        self.view.layoutIfNeeded()
+        },
+                       completion: nil)
+
+        isKeyboardVisible = false
+    }
+
+    // MARK: - Transitions
 
     func shakeLoginButton() {
         let animation = CAKeyframeAnimation(keyPath: "transform.translation.x")
