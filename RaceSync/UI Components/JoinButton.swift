@@ -37,6 +37,7 @@ class JoinButton: CustomButton {
             backgroundColor = joinState.fillColor
             titleLabel?.font = joinState.font
             tintColor = joinState.titleColor
+            imageView?.tintColor = joinState.titleColor
             isUserInteractionEnabled = !isCompact
 
             if let borderColor = joinState.outlineColor {

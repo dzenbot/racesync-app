@@ -53,11 +53,15 @@ class UserViewController: ProfileViewController, Joinable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        var rightBarButtonItems = [UIBarButtonItem]()
+        let shareButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+        rightBarButtonItems += [shareButtonItem]
+
         if user.isMe {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: qrButton)
-        } else {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+            let qrButtonItem = UIBarButtonItem(customView: qrButton)
+            rightBarButtonItems += [qrButtonItem]
         }
+        navigationItem.rightBarButtonItems = rightBarButtonItems
 
         if navigationController?.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
