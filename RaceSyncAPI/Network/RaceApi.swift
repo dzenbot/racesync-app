@@ -84,6 +84,8 @@ public protocol RaceApiInterface {
 public class RaceApi: RaceApiInterface {
 
     public init() {}
+    public static let raceListPageSize: Int = 75
+    
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
     public func getMyRaces(filtering: RaceListFiltering, completion: @escaping ObjectCompletionBlock<[Race]>) {
@@ -94,7 +96,7 @@ public class RaceApi: RaceApiInterface {
     public func getRaces(forUser userId: ObjectId,
                          filtering: RaceListFiltering,
                          latitude: String? = nil, longitude: String? = nil,
-                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
+                         currentPage: Int = 0, pageSize: Int = raceListPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
@@ -103,7 +105,7 @@ public class RaceApi: RaceApiInterface {
     }
 
     public func getRaces(forChapter chapterId: ObjectId,
-                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
+                         currentPage: Int = 0, pageSize: Int = raceListPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
