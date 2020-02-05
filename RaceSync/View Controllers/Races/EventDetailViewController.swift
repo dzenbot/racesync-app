@@ -66,6 +66,7 @@ class EventDetailViewController: UIViewController, Joinable {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         button.titleLabel?.numberOfLines = 2
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
+        button.imageView?.tintColor = button.tintColor
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.addTarget(self, action: #selector(didPressLocationButton), for: .touchUpInside)
         return button
@@ -77,6 +78,7 @@ class EventDetailViewController: UIViewController, Joinable {
         button.shouldHighlight = true
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
+        button.imageView?.tintColor = button.tintColor
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
         return button
