@@ -129,20 +129,12 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         super.viewDidLoad()
 
         setupLayout()
-        fetchMyUser()
-        isLoading(true)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        // helpful to detect when to reload
-        if searchRadius != APIServices.shared.settings.searchRadius {
-            searchRadius = APIServices.shared.settings.searchRadius
-
-            refreshControl.beginRefreshing()
-            reloadRaces()
-        }
+        loadContent()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -233,6 +225,15 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
 fileprivate extension RaceListViewController {
 
+    func loadContent() {
+        if APIServices.shared.myUser == nil {
+            fetchMyUser()
+            isLoading(true)
+        } else {
+            reloadRaces()
+        }
+    }
+
     func fetchMyUser() {
         userApi.getMyUser { (user, error) in
             APIServices.shared.myUser = user
@@ -260,7 +261,6 @@ fileprivate extension RaceListViewController {
             }
         } else {
             tableView.reloadData()
-            refreshControl.beginRefreshing()
             reloadRaces()
         }
     }
