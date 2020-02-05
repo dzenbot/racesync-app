@@ -82,7 +82,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         let refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = .white
         refreshControl.tintColor = Color.blue
-        refreshControl.addTarget(self, action: #selector(reloadDataFromPull), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(reloadRaces), for: .valueChanged)
         return refreshControl
     }()
 
@@ -141,7 +141,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
             searchRadius = APIServices.shared.settings.searchRadius
 
             refreshControl.beginRefreshing()
-            reloadDataFromPull()
+            reloadRaces()
         }
     }
 
@@ -212,18 +212,11 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         present(settingsNC, animated: true, completion: nil)
     }
 
-    @objc fileprivate func reloadDataFromPull() {
-        fetchRaces(selectedRaceListFiltering()) { [weak self] in
-            self?.refreshControl.endRefreshing()
-            self?.tableView.reloadData()
-        }
-    }
-
     @objc func didPressJoinButton(_ sender: JoinButton) {
         guard let raceId = sender.raceId, let race = currentRaceList()?.race(withId: raceId) else { return }
 
-        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { (newState) in
-            // do something
+        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
+            self?.reloadRaces()
         }
     }
 
@@ -268,7 +261,16 @@ fileprivate extension RaceListViewController {
         } else {
             tableView.reloadData()
             refreshControl.beginRefreshing()
-            reloadDataFromPull()
+            reloadRaces()
+        }
+    }
+
+    @objc func reloadRaces() {
+        fetchRaces(selectedRaceListFiltering()) { [weak self] in
+            if self?.refreshControl.isRefreshing ?? false {
+                self?.refreshControl.endRefreshing()
+            }
+            self?.tableView.reloadData()
         }
     }
 
