@@ -139,7 +139,7 @@ public class RaceApi: RaceApiInterface {
                     let json = JSON(value)
                     completion(json[ParameterKey.status].bool ?? false, nil)
                 case .failure:
-                    completion(false, nil)
+                    completion(false, response.error as NSError?)
                 }
             }
         }
@@ -157,7 +157,7 @@ public class RaceApi: RaceApiInterface {
                     let json = JSON(value)
                     completion(json[ParameterKey.status].bool ?? false, nil)
                 case .failure:
-                    completion(false, nil)
+                    completion(false, response.error as NSError?)
                 }
             }
         }
