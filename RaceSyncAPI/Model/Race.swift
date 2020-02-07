@@ -58,9 +58,7 @@ public class Race: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    // TODO: Patch for race/simpleView which doesn't provide the id attribute for a Race.
-    // https://github.com/mainedrones/RaceSync/pull/37
-    fileprivate static let requiredProperties = [/*"id",*/ "name", "chapterId", "ownerId"]
+    fileprivate static let requiredProperties = ["id", "name", "chapterId", "ownerId"]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Race.requiredProperties {
@@ -83,7 +81,7 @@ public class Race: Mappable, Descriptable {
         officialStatus <- map["officialStatus"]
         type <- map["type"]
         raceType <- map["raceType"]
-        url = "\(MGPWeb.getUrl(for: .userView))=\(name)"
+        url = "\(MGPWeb.getUrl(for: .raceView))=\(id)"
         urlName <- map["urlName"]
         description <- map["description"]
         content <- map["content"]

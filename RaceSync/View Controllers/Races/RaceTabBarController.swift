@@ -38,14 +38,7 @@ class RaceTabBarController: UITabBarController {
 
     fileprivate let raceApi = RaceApi()
     fileprivate var raceId: ObjectId
-    fileprivate var race: Race? {
-        // TODO: Patch for race/simpleView which doesn't provide the id attribute for a Race.
-        // https://github.com/mainedrones/RaceSync/pull/37
-        didSet {
-            race?.id = raceId
-            race?.url = "\(MGPWeb.getUrl(for: .raceView))=\(raceId)"
-        }
-    }
+    fileprivate var race: Race?
 
     fileprivate var emptyStateError: EmptyStateViewModel?
 
