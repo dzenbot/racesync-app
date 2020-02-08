@@ -83,12 +83,12 @@ class JoinButton: CustomButton {
 
     init() {
         super.init(frame: .zero)
-        configureLayout()
+        setupLayout()
     }
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureLayout()
+        setupLayout()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -97,7 +97,7 @@ class JoinButton: CustomButton {
 
     // MARK: - Layout
 
-    fileprivate func configureLayout() {
+    fileprivate func setupLayout() {
         adjustsImageWhenHighlighted = false
         adjustsImageWhenDisabled = true
         imageEdgeInsets = UIEdgeInsets(top: 0, left: -4, bottom: 0, right: 0)

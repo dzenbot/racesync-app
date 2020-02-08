@@ -20,7 +20,7 @@ class MemberBadgeView: CustomButton {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureLayout()
+        setupLayout()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -29,7 +29,7 @@ class MemberBadgeView: CustomButton {
     
     // MARK: - Layout
 
-    fileprivate func configureLayout() {
+    fileprivate func setupLayout() {
         titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         setTitleColor(Color.black, for: .normal)
         tintColor = Color.black

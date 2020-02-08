@@ -49,6 +49,7 @@
 		4F791C9823A6105700F15FD7 /* ChannelBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9723A6105700F15FD7 /* ChannelBadge.swift */; };
 		4F791C9A23A66BA900F15FD7 /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */; };
 		4F791C9E23A8AB7300F15FD7 /* HeaderStretchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */; };
+		4F8376DC23EE87CC00256AEC /* RotatingIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8376DB23EE87CC00256AEC /* RotatingIconView.swift */; };
 		4F8668F423860900005E310A /* UniversalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8668F323860900005E310A /* UniversalConstants.swift */; };
 		4F8668F623861736005E310A /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8668F523861736005E310A /* Chapter.swift */; };
 		4F8668F823864389005E310A /* Descriptable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8668F723864389005E310A /* Descriptable.swift */; };
@@ -236,6 +237,7 @@
 		4F791C9723A6105700F15FD7 /* ChannelBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelBadge.swift; sourceTree = "<group>"; };
 		4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderStretchable.swift; sourceTree = "<group>"; };
+		4F8376DB23EE87CC00256AEC /* RotatingIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingIconView.swift; sourceTree = "<group>"; };
 		4F8668F323860900005E310A /* UniversalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalConstants.swift; sourceTree = "<group>"; };
 		4F8668F523861736005E310A /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
 		4F8668F723864389005E310A /* Descriptable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Descriptable.swift; sourceTree = "<group>"; };
@@ -674,6 +676,7 @@
 				4F5C1E46238D1C3200D756EB /* TextCopiable.swift */,
 				4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */,
 				4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */,
+				4F8376DB23EE87CC00256AEC /* RotatingIconView.swift */,
 				4F714DE023CD4906000C4036 /* CalendarActivity.swift */,
 				4F714DE223CD5EAA000C4036 /* SafariActivity.swift */,
 				4F9DB7B123D68EB100570483 /* NavigationController.swift */,
@@ -1033,6 +1036,7 @@
 				4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */,
 				4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */,
 				4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */,
+				4F8376DC23EE87CC00256AEC /* RotatingIconView.swift in Sources */,
 				4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */,
 				4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */,
 				4FD4E1DD237FBE8B008816B3 /* MemberBadgeView.swift in Sources */,

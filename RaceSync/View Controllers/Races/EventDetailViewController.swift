@@ -37,6 +37,14 @@ class EventDetailViewController: UIViewController, Joinable {
         return label
     }()
 
+    fileprivate lazy var rotatingIconView: RotatingIconView = {
+        let view = RotatingIconView()
+        view.tintColor = Color.yellow
+        view.imageView.image = UIImage(named: "icn_trophy_qualifier")?.withRenderingMode(.alwaysTemplate)
+        view.imageView.tintColor = Color.yellow
+        return view
+    }()
+
     fileprivate lazy var joinButton: JoinButton = {
         let button = JoinButton(type: .system)
         button.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
@@ -158,6 +166,10 @@ class EventDetailViewController: UIViewController, Joinable {
         return tableView
     }()
 
+    var canDisplayRaceIcon: Bool {
+        return race.raceType == .qualifier
+    }
+
     var canDisplayAddress: Bool {
         return raceViewModel.fullLocationLabel.count > 0
     }
@@ -252,14 +264,35 @@ class EventDetailViewController: UIViewController, Joinable {
             }
         }
 
+        if canDisplayRaceIcon {
+            contentView.addSubview(rotatingIconView)
+            rotatingIconView.snp.makeConstraints {
+                if canDisplayMap {
+                    $0.top.equalTo(mapImageView.snp.bottom).offset(Constants.padding*1.5)
+                } else {
+                    $0.top.equalToSuperview().offset(Constants.padding*1.5)
+                }
+
+                $0.leading.equalToSuperview().offset(Constants.padding)
+                $0.width.height.equalTo(20)
+            }
+        }
+
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            if canDisplayMap {
-                $0.top.equalTo(mapImageView.snp.bottom).offset(Constants.padding*1.5)
+            if canDisplayRaceIcon {
+                $0.top.equalTo(rotatingIconView.snp.top)
+                $0.leading.equalTo(rotatingIconView.snp.trailing).offset(Constants.padding/2)
             } else {
-                $0.top.equalToSuperview().offset(Constants.padding*1.5)
+                if canDisplayMap {
+                    $0.top.equalTo(mapImageView.snp.bottom).offset(Constants.padding*1.5)
+                } else {
+                    $0.top.equalToSuperview().offset(Constants.padding*1.5)
+                }
+
+                $0.leading.equalToSuperview().offset(Constants.padding)
             }
-            $0.leading.equalToSuperview().offset(Constants.padding)
+
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 

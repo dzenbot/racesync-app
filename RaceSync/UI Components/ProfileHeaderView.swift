@@ -230,7 +230,7 @@ fileprivate class ProfileImageView: UIView {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        configureLayout()
+        setupLayout()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -239,7 +239,7 @@ fileprivate class ProfileImageView: UIView {
 
     // MARK: - Layout
 
-    func configureLayout() {
+    func setupLayout() {
 
         backgroundColor = Color.clear
 

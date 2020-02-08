@@ -32,7 +32,7 @@ class AvatarImageView: UIView {
         self.height = height
         self.showShadow = showShadow
         super.init(frame: .zero)
-        configureLayout()
+        setupLayout()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -41,7 +41,7 @@ class AvatarImageView: UIView {
 
     // MARK: - Layout
 
-    func configureLayout() {
+    func setupLayout() {
 
         backgroundColor = Color.clear
 
