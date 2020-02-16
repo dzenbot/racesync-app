@@ -197,7 +197,7 @@
 		4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelHelper.swift; sourceTree = "<group>"; };
 		4F0B61442385F66300930D91 /* ProfileHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileHeaderView.swift; sourceTree = "<group>"; };
 		4F0B61462385F69E00930D91 /* ProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewModel.swift; sourceTree = "<group>"; };
-		4F1342442360B67D00A9DBDE /* RaceSync.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaceSync.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F1342442360B67D00A9DBDE /* RaceSYNC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaceSYNC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F1342472360B67D00A9DBDE /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		4F13424C2360B67D00A9DBDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4F13424E2360B67D00A9DBDE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -402,7 +402,7 @@
 		4F1342452360B67D00A9DBDE /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				4F1342442360B67D00A9DBDE /* RaceSync.app */,
+				4F1342442360B67D00A9DBDE /* RaceSYNC.app */,
 				4F1342582360B67E00A9DBDE /* RaceSyncTests.xctest */,
 				4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */,
 				4F1342752360DA4C00A9DBDE /* RaceSyncAPITests.xctest */,
@@ -765,7 +765,7 @@
 			);
 			name = RaceSync;
 			productName = RaceSync;
-			productReference = 4F1342442360B67D00A9DBDE /* RaceSync.app */;
+			productReference = 4F1342442360B67D00A9DBDE /* RaceSYNC.app */;
 			productType = "com.apple.product-type.application";
 		};
 		4F1342572360B67E00A9DBDE /* RaceSyncTests */ = {
@@ -1329,7 +1329,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RaceSYNC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1357,7 +1357,7 @@
 					"@executable_path/Frameworks",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = RaceSYNC;
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

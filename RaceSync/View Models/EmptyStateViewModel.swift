@@ -19,13 +19,18 @@ protocol EmptyStateViewModelInterface {
 }
 
 enum EmptyState {
+    case noRaces
     case noJoinedRaces
     case noNearbydRaces
-    case noRaces
     case noRaceRegisters
     case noRaceResults
     case noChapters
     case noChapterMembers
+
+    case noProfileRaces
+    case noProfileChapters
+    case noMyProfileRaces
+    case noMyProfileChapters
 
     case commingSoon
 
@@ -56,6 +61,12 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "No Registered Pilots"
         case .noRaceResults:
             text = "No Race Results"
+        case .noChapterMembers:
+            text = "No Chapter Members"
+        case .noRaces, .noMyProfileRaces, .noProfileRaces:
+            text = "No Races"
+        case .noChapters, .noMyProfileChapters, .noProfileChapters:
+            text = "No Chapters"
         case .commingSoon:
             text = "Coming Soon"
         case .errorRace:
@@ -78,7 +89,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         var text: String?
 
         switch emptyState {
-        case .noJoinedRaces:
+        case .noJoinedRaces, .noMyProfileRaces:
             text = "You haven't joined any races yet."
         case .noNearbydRaces:
             text = "There are no races in a \(APIServices.shared.settings.searchRadius) miles radius."
@@ -86,6 +97,14 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "There are no registered pilots for this race yet."
         case .noRaceResults:
             text = "There are no race results available just yet."
+        case .noChapterMembers:
+            text = "There are no registered members for this chapter yet."
+        case .noProfileRaces:
+            text = "This user hasn't joined any races yet."
+        case .noProfileChapters:
+            text = "This user hasn't joined any chapters yet."
+        case .noMyProfileChapters:
+            text = "You haven't joined any chapters yet."
         case .commingSoon:
             text = "This feature is currently under development."
         case .errorRace:
