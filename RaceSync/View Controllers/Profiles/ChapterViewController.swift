@@ -8,21 +8,25 @@
 
 import UIKit
 import RaceSyncAPI
+import EmptyDataSet_Swift
 
 class ChapterViewController: ProfileViewController, Joinable {
 
     // MARK: - Private Variables
-
-    fileprivate enum Constants {
-        static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight: CGFloat = UniversalConstants.cellHeight
-    }
 
     fileprivate let chapter: Chapter
     fileprivate let raceApi = RaceApi()
 
     fileprivate var raceViewModels = [RaceViewModel]()
     fileprivate var userViewModels = [UserViewModel]()
+
+    fileprivate var emptyStateRaces = EmptyStateViewModel(.noRaces)
+    fileprivate var emptyStateMembers = EmptyStateViewModel(.noChapterMembers)
+
+    fileprivate enum Constants {
+        static let padding: CGFloat = UniversalConstants.padding
+        static let cellHeight: CGFloat = UniversalConstants.cellHeight
+    }
 
     // MARK: - Initialization
 
@@ -47,6 +51,7 @@ class ChapterViewController: ProfileViewController, Joinable {
         tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
         tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
         tableView.dataSource = self
+        tableView.emptyDataSetSource = self
 
         loadRaces()
     }
@@ -208,5 +213,32 @@ extension ChapterViewController: UITableViewDataSource {
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
         cell.subtitleLabel.text = viewModel.displayName
         return cell
+    }
+}
+
+extension ChapterViewController: EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        if selectedSegment == .left {
+            return emptyStateRaces.title
+        } else if selectedSegment == .right {
+            return emptyStateMembers.title
+        } else {
+            return nil
+        }
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        if selectedSegment == .left {
+            return emptyStateRaces.description
+        } else if selectedSegment == .right {
+            return emptyStateMembers.description
+        } else {
+            return nil
+        }
+    }
+
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        return 0
     }
 }

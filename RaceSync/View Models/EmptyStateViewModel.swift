@@ -89,6 +89,8 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         var text: String?
 
         switch emptyState {
+        case .noRaces:
+            text = "There are no races available yet."
         case .noJoinedRaces, .noMyProfileRaces:
             text = "You haven't joined any races yet."
         case .noNearbydRaces:
@@ -98,7 +100,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         case .noRaceResults:
             text = "There are no race results available just yet."
         case .noChapterMembers:
-            text = "There are no registered members for this chapter yet."
+            text = "There are no registered members yet."
         case .noProfileRaces:
             text = "This user hasn't joined any races yet."
         case .noProfileChapters:
