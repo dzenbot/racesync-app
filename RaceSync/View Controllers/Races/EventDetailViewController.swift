@@ -167,7 +167,7 @@ class EventDetailViewController: UIViewController, Joinable {
     }()
 
     var canDisplayRaceIcon: Bool {
-        return race.raceType == .qualifier
+        return race.officialStatus == .approved
     }
 
     var canDisplayAddress: Bool {

@@ -15,11 +15,12 @@ public class Race: Mappable, Descriptable {
     public var name: String = ""
     public var startDate: Date?
     public var mainImageFileName: String?
-    public var status: String = ""
-    public var officialStatus: String = ""
+    public var status: RaceStatus = .open
     public var isJoined: Bool = false
     public var type: String = ""
     public var raceType: RaceType = .normal
+    public var officialStatus: RaceOfficialStatus  = .normal
+
     public var url: String = ""
     public var urlName: String = ""
     public var description: String = ""
@@ -77,10 +78,10 @@ public class Race: Mappable, Descriptable {
         startDate <- (map["startDate"], MapperUtil.dateTransform)
         mainImageFileName <- map["mainImageFileName"]
         isJoined <- map["isJoined"]
-        status <- map["status"]
-        officialStatus <- map["officialStatus"]
+        status <- (map["status"],EnumTransform<RaceStatus>())
         type <- map["type"]
-        raceType <- map["raceType"]
+        raceType <- (map["raceType"],EnumTransform<RaceType>())
+        officialStatus <- (map["officialStatus"],EnumTransform<RaceOfficialStatus>())
         url = "\(MGPWeb.getUrl(for: .raceView))=\(id)"
         urlName <- map["urlName"]
         description <- map["description"]

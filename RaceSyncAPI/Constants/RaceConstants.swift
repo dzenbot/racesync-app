@@ -8,10 +8,10 @@
 
 import Foundation
 
-public enum RaceType: Int, EnumTitle {
-    case normal = 1
-    case qualifier = 2
-    case final = 3
+public enum RaceType: String, EnumTitle {
+    case normal = "1"
+    case qualifier = "2"
+    case final = "3"
 
     public var title: String {
         switch self {
@@ -27,3 +27,8 @@ public enum RaceStatus: String {
     case closed = "Closed"
 }
 
+public enum RaceOfficialStatus: String {
+    case normal = "0"
+    case requested = "1"
+    case approved = "2"
+}

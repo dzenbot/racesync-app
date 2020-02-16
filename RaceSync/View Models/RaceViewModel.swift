@@ -79,8 +79,7 @@ extension RaceViewModel {
     }
 
     static func joinState(for race: Race) -> JoinState {
-        guard let status = RaceStatus(rawValue: race.status) else { return .join }
-        if status == .closed { return .closed }
+        if race.status == .closed { return .closed }
         return race.isJoined ? .joined : .join
     }
 
