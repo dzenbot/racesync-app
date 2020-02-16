@@ -4,7 +4,8 @@
 <dict>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
-		<string>webcredentials:example.com</string>
+		<string>webcredentials:multigp.com</string>
+		<string>applinks:multigp.com</string>
 	</array>
 </dict>
 </plist>
