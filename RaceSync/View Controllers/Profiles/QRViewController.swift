@@ -15,7 +15,7 @@ import PassKit
 class QRViewController: UIViewController {
 
     // MARK: - Feature Flags
-    fileprivate var isPassKitEnabled: Bool = true
+    fileprivate var isPassKitEnabled: Bool = false
 
     // MARK: - Private Variables
 
@@ -23,7 +23,7 @@ class QRViewController: UIViewController {
         let imageView = UIImageView()
         imageView.backgroundColor = Color.white
         imageView.contentMode = .center
-        imageView.layer.cornerRadius = Constants.cornerRadius
+        imageView.layer.cornerRadius = Constants.cornerRadius/2
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapImageView)))
 
@@ -68,7 +68,7 @@ class QRViewController: UIViewController {
 
     fileprivate lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: actionButtons())
-        stackView.backgroundColor = .red
+        stackView.backgroundColor = Color.white
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .center
@@ -110,7 +110,7 @@ class QRViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        view.backgroundColor = Color.white.withAlphaComponent(0.7)
+        view.backgroundColor = Color.black.withAlphaComponent(0.7)
 
         var qrCode = QRCode(userId)
         qrCode?.size = Constants.qrSize
@@ -146,7 +146,12 @@ class QRViewController: UIViewController {
             $0.top.equalTo(qrImageView.snp.bottom).offset(Constants.padding*3)
             $0.centerX.equalToSuperview()
             $0.width.equalTo(Constants.imageSize.width)
-            $0.height.greaterThanOrEqualTo(Constants.buttonHeight*2)
+
+            if isPassKitEnabled {
+                $0.height.greaterThanOrEqualTo(Constants.buttonHeight*2)
+            } else {
+                $0.height.greaterThanOrEqualTo(Constants.buttonHeight)
+            }
         }
 
         if walletButton.superview != nil {
