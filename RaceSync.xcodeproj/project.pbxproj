@@ -26,6 +26,8 @@
 		4F1342832360DA4C00A9DBDE /* RaceSyncAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F13428C2360DAD100A9DBDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13428B2360DAD100A9DBDE /* LoginViewController.swift */; };
 		4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F13428E236120E700A9DBDE /* LoginViewController.xib */; };
+		4F3D640723FB0A4800DE6DF2 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640623FB0A4700DE6DF2 /* AircraftListViewController.swift */; };
+		4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */; };
 		4F5001E523823C940025A593 /* FlagEmojiGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */; };
 		4F5001E723827DE70025A593 /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5001E623827DE70025A593 /* ImageUtil.swift */; };
 		4F5001E923830E180025A593 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5001E823830E180025A593 /* Race.swift */; };
@@ -73,7 +75,6 @@
 		4F9DB7B023D618D100570483 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */; };
 		4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7B123D68EB100570483 /* NavigationController.swift */; };
 		4F9DB7B523D6BAC200570483 /* CrashCatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */; };
-		4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */; };
 		4FA1AB3523C6AD5B007CF389 /* AircraftAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */; };
 		4FA1AB3723C7149D007CF389 /* AircraftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */; };
 		4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3A23C948BA007CF389 /* ViewCellInterface.swift */; };
@@ -214,6 +215,8 @@
 		4F13427E2360DA4C00A9DBDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F13428B2360DAD100A9DBDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4F13428E236120E700A9DBDE /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		4F3D640623FB0A4700DE6DF2 /* AircraftListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
+		4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftDetailViewController.swift; sourceTree = "<group>"; };
 		4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagEmojiGenerator.swift; sourceTree = "<group>"; };
 		4F5001E623827DE70025A593 /* ImageUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
 		4F5001E823830E180025A593 /* Race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
@@ -260,7 +263,6 @@
 		4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
 		4F9DB7B123D68EB100570483 /* NavigationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationController.swift; sourceTree = "<group>"; };
 		4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashCatcher.swift; sourceTree = "<group>"; };
-		4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
 		4FA1AB3423C6AD5B007CF389 /* AircraftAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftAPI.swift; sourceTree = "<group>"; };
 		4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftCollectionViewCell.swift; sourceTree = "<group>"; };
 		4FA1AB3A23C948BA007CF389 /* ViewCellInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCellInterface.swift; sourceTree = "<group>"; };
@@ -542,8 +544,9 @@
 		4FA1AB3123C6ACFD007CF389 /* Aircrafts */ = {
 			isa = PBXGroup;
 			children = (
-				4FA1AB3223C6AD1B007CF389 /* AircraftListViewController.swift */,
+				4F3D640623FB0A4700DE6DF2 /* AircraftListViewController.swift */,
 				4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */,
+				4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */,
 			);
 			path = Aircrafts;
 			sourceTree = "<group>";
@@ -1038,7 +1041,6 @@
 				4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */,
 				4F8376DC23EE87CC00256AEC /* RotatingIconView.swift in Sources */,
 				4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */,
-				4FA1AB3323C6AD1B007CF389 /* AircraftListViewController.swift in Sources */,
 				4FD4E1DD237FBE8B008816B3 /* MemberBadgeView.swift in Sources */,
 				4FD4E1DB237FBE36008816B3 /* JoinButton.swift in Sources */,
 				4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */,
@@ -1065,7 +1067,9 @@
 				4F8668FC23870E1E005E310A /* SegmentedTableViewHeaderView.swift in Sources */,
 				4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */,
 				4FD4E1CD237F98E7008816B3 /* RaceTabBarController.swift in Sources */,
+				4F3D640723FB0A4800DE6DF2 /* AircraftListViewController.swift in Sources */,
 				4FCAF9FE23AC8B8400ACE7D3 /* Shimmable.swift in Sources */,
+				4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */,
 				4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */,
 				4F68BE6B2399CF07009D44F7 /* ActionSheetUtil.swift in Sources */,
 				4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */,
