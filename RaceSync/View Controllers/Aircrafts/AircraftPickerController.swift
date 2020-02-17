@@ -18,15 +18,12 @@ class AircraftPickerController: UINavigationController {
     var didError: VoidCompletionBlock?
     var didCancel: VoidCompletionBlock?
 
-    // MARK: - Private Variables
-
-
     // MARK: - Presentation
 
     static func showAircraftPicker(for race: Race) -> AircraftPickerController {
 
-        let aircraftVC = AircraftListViewController(with: race)
-        let aircraftPicker = AircraftPickerController(rootViewController: aircraftVC)
+        let aircraftPickerVC = AircraftPickerViewController(with: race)
+        let aircraftPicker = AircraftPickerController(rootViewController: aircraftPickerVC)
 
         let presenter = Presentr(presentationType: .bottomHalf)
         presenter.blurBackground = false
@@ -43,23 +40,24 @@ class AircraftPickerController: UINavigationController {
         let topVC = UIViewController.topMostViewController()
         topVC?.customPresentViewController(presenter, viewController: aircraftPicker, animated: true)
 
-        aircraftVC.delegate = aircraftPicker
+        aircraftPickerVC.delegate = aircraftPicker
+        
         return aircraftPicker
     }
 }
 
-extension AircraftPickerController: AircraftListViewControllerDelegate {
+extension AircraftPickerController: AircraftPickerViewControllerDelegate {
 
-    func aircraftListViewController(_ viewController: AircraftListViewController, didSelectAircraft aircraftId: ObjectId) {
+    func aircraftPickerViewController(_ viewController: AircraftPickerViewController, didSelectAircraft aircraftId: ObjectId) {
         didSelect?(aircraftId)
         dismiss(animated: true, completion: nil)
     }
 
-    func aircraftListViewControllerDidError(_ viewController: AircraftListViewController) {
+    func aircraftPickerViewControllerDidError(_ viewController: AircraftPickerViewController) {
         didError?()
     }
 
-    func aircraftListViewControllerDidDismiss(_ viewController: AircraftListViewController) {
+    func aircraftPickerViewControllerDidDismiss(_ viewController: AircraftPickerViewController) {
         didCancel?()
         dismiss(animated: true, completion: nil)
     }

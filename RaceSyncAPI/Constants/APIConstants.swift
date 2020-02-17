@@ -37,6 +37,7 @@ enum EndPoint {
 
     static let aircraftList = "aircraft/list"
     static let aircraftCreate = "aircraft/create"
+    static let aircraftDelete = "aircraft/delete"
 }
 
 enum ParameterKey {

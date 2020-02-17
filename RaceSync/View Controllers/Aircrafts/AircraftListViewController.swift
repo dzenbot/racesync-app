@@ -2,7 +2,7 @@
 //  AircraftListViewController.swift
 //  RaceSync
 //
-//  Created by Ignacio Romero Zurbuchen on 2020-01-08.
+//  Created by Ignacio Romero Zurbuchen on 2020-02-17.
 //  Copyright © 2020 MultiGP Inc. All rights reserved.
 //
 
@@ -10,18 +10,7 @@ import UIKit
 import SnapKit
 import RaceSyncAPI
 
-protocol AircraftListViewControllerDelegate {
-
-    func aircraftListViewController(_ viewController: AircraftListViewController, didSelectAircraft aircraftId: ObjectId)
-    func aircraftListViewControllerDidError(_ viewController: AircraftListViewController)
-    func aircraftListViewControllerDidDismiss(_ viewController: AircraftListViewController)
-}
-
 class AircraftListViewController: UIViewController {
-
-    // MARK: - Public Variables
-
-    var delegate: AircraftListViewControllerDelegate?
 
     // MARK: - Private Variables
 
@@ -42,30 +31,12 @@ class AircraftListViewController: UIViewController {
         return collectionView
     }()
 
-    lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
-        view.hidesWhenStopped = true
-        return view
-    }()
-
-    fileprivate let race: Race
     fileprivate let aircraftApi = AircraftAPI()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let margin: UIEdgeInsets = UIEdgeInsets(proportionally: Constants.padding)
-    }
-
-    // MARK: - Initialization
-
-    init(with race: Race) {
-        self.race = race
-        super.init(nibName: nil, bundle: nil)
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        static let cellHeight: CGFloat = UniversalConstants.cellHeight
     }
 
     // MARK: - Lifecycle Methods
@@ -90,21 +61,12 @@ class AircraftListViewController: UIViewController {
     func setupLayout() {
 
         view.backgroundColor = Color.white
-
-        navigationItem.title = "Select Your Aircraft"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+        navigationItem.title = "Your Aircrafts"
 
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
-    }
-
-    // MARK: - Actions
-
-    @objc func didPressCloseButton() {
-        delegate?.aircraftListViewControllerDidDismiss(self)
     }
 }
 
@@ -117,11 +79,9 @@ extension AircraftListViewController {
     func fetchMyAircrafts() {
         isLoading(true)
 
-        let specs = AircraftRaceSpecs(with: race)
-        aircraftApi.getMyAircrafts(forRaceSpecs: specs) { [weak self] (aircrafts, error) in
+        aircraftApi.getMyAircrafts() { [weak self] (aircrafts, error) in
             if let aircrafts = aircrafts {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
-                self?.aircraftViewModels += [AircraftViewModel(genericWith: "Generic Aircraft")]
                 self?.isLoading(false)
             } else if error != nil {
                 print("fetchMyUser error : \(error.debugDescription)")
@@ -135,67 +95,17 @@ extension AircraftListViewController {
             collectionView.deselectItem(at: item, animated: true)
         }
     }
-
-    func isWaiting(_ waiting: Bool, generic: Bool = false) {
-
-        if waiting {
-            activityIndicatorView.startAnimating()
-            deselectAllItems()
-            collectionView.isUserInteractionEnabled = false
-            collectionView.alpha = 0.5
-
-            if generic {
-                title = "Creating Generic Aircraft..."
-            } else {
-                title = "Joining Race..."
-            }
-        } else {
-            activityIndicatorView.stopAnimating()
-            collectionView.isUserInteractionEnabled = true
-            collectionView.alpha = 1
-            title = "Select Your Aircraft"
-        }
-    }
 }
 
 extension AircraftListViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-
         let viewModel = aircraftViewModels[indexPath.row]
 
-        let buttonTitle = "Yes, Join Race"
-        var sheetTitle = ""
+        let aircraftDetailVC = AircraftDetailViewController(with: viewModel)
+        navigationController?.pushViewController(aircraftDetailVC, animated: true)
 
-        if viewModel.isGeneric {
-            sheetTitle = "Create a generic aircraft and join the race?"
-        } else {
-            sheetTitle = "Join the race with \(viewModel.displayName)?"
-        }
-
-        ActionSheetUtil.presentActionSheet(withTitle: sheetTitle, buttonTitle: buttonTitle, completion: { [weak self] (action) in
-            self?.isWaiting(true, generic: viewModel.isGeneric)
-
-            if let strongSelf = self {
-                if viewModel.isGeneric {
-                    let genericAircraftSpecs = AircraftSpecs(with: strongSelf.race)
-                    strongSelf.aircraftApi.createAircraft(forAircraftSpecs: genericAircraftSpecs) { (aircraft, error) in
-                        if let aircraft = aircraft {
-                            strongSelf.delegate?.aircraftListViewController(strongSelf, didSelectAircraft: aircraft.id)
-                        } else {
-                            strongSelf.delegate?.aircraftListViewControllerDidError(strongSelf)
-                            strongSelf.isWaiting(false)
-                        }
-                    }
-                } else {
-                    let viewModel = strongSelf.aircraftViewModels[indexPath.row]
-                    strongSelf.delegate?.aircraftListViewController(strongSelf, didSelectAircraft: viewModel.aircraftId)
-                }
-            }
-
-        }) { [weak self] (cancel) in
-            self?.deselectAllItems()
-        }
+        collectionView.deselectAllItems()
     }
 }
 
@@ -225,3 +135,4 @@ extension AircraftListViewController: UICollectionViewDataSource {
         return cell
     }
 }
+

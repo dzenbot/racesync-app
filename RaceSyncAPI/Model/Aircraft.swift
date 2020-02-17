@@ -18,9 +18,21 @@ public class Aircraft: Mappable, Descriptable {
     public var mainImageUrl: String?
     public var backgroundImageUrl: String?
 
+//    public var videoChannels: VideoChannels = .raceband40
+
+    public var type: AircraftType?
+    public var size: AircraftSize?
+    public var battery: BatteryCell?
+    public var propSize: PropellerSize?
+    public var videoTxType: VideoTxType = .´5800mhz´
+    public var videoTxPower: VideoTxPower?
+    public var videoTxChannels: VideoChannels = .raceband40
+    public var videoRxChannels: VideoChannels?
+    public var antenna: AntennaPolarization = .both
+
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id"]
+    fileprivate static let requiredProperties = ["id", "name"]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Aircraft.requiredProperties {
@@ -38,5 +50,15 @@ public class Aircraft: Mappable, Descriptable {
         description <- map["description"]
         mainImageUrl <- map["mainImageFileName"]
         backgroundImageUrl <- map["backgroundFileName"]
+
+        type <- (map["type"],EnumTransform<AircraftType>())
+        size <- (map["size"],EnumTransform<AircraftSize>())
+        battery <- (map["battery"],EnumTransform<BatteryCell>())
+        propSize <- (map["propellerSize"],EnumTransform<PropellerSize>())
+        videoTxType <- (map["videoTransmitter"],EnumTransform<VideoTxType>())
+        videoTxPower <- (map["videoTransmitterPower"],EnumTransform<VideoTxPower>())
+        videoTxChannels <- (map["videoTransmitterChannels"],EnumTransform<VideoChannels>())
+        videoRxChannels <- (map["videoReceiverChannels"],EnumTransform<VideoChannels>())
+        antenna <- (map["antenna"],EnumTransform<AntennaPolarization>())
     }
 }

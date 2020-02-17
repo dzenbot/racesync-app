@@ -25,6 +25,10 @@ public protocol AircrafApiInterface {
     /**
     */
     func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>)
+
+    /**
+    */
+    func delete(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock)
 }
 
 public class AircraftAPI: AircrafApiInterface {
@@ -55,5 +59,23 @@ public class AircraftAPI: AircrafApiInterface {
         let parameters = specs.toParameters()
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Aircraft.self, completion)
+    }
+
+    public func delete(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
+
+        let endpoint = "\(EndPoint.aircraftDelete)?\(ParameterKey.id)=\(aircraftId)"
+
+        repositoryAdapter.networkAdapter.httpRequest(endpoint,  method: .post) { (request) in
+            print("Starting request \(String(describing: request.request?.url))")
+            request.responseJSON { (response) in
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    completion(json[ParameterKey.status].bool ?? false, nil)
+                case .failure:
+                    completion(false, response.error as NSError?)
+                }
+            }
+        }
     }
 }

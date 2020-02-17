@@ -12,14 +12,14 @@ import Alamofire
 public class AircraftSpecs: Descriptable {
 
     let name: String
-    let videoTransmitter: Int
-    let videoTransmitterChannels: Int
-    let antenna: Int
+    let videoTransmitter: String
+    let videoTransmitterChannels: String
+    let antenna: String
 
-    let type: Int?
-    let size: Int?
-    let batterySize: Int?
-    let propellerSize: Int?
+    let type: String?
+    let size: String?
+    let batterySize: String?
+    let propellerSize: String?
 
     public init(with race: Race) {
 
@@ -55,21 +55,21 @@ public class AircraftSpecs: Descriptable {
 
 public class AircraftRaceSpecs: Descriptable {
 
-    let types: [Int]
-    let sizes: [Int]
+    let types: [String]
+    let sizes: [String]
 //    let videoTransmitter: [Int]
 //    let videoTransmitterPower: [Int]
 //    let videoTransmitterChannels: [Int]
 //    let videoReceiverChannels: [Int]
 //    let antenna: [Int]
-    let batterySizes: [Int]
-    let propellerSizes: [Int]
+    let batterySizes: [String]
+    let propellerSizes: [String]
 
     public init(with race: Race) {
-        types = race.typeRestriction.components(separatedBy: ",").compactMap { Int($0) }
-        sizes = race.sizeRestriction.components(separatedBy: ",").compactMap { Int($0) }
-        batterySizes = race.batteryRestriction.components(separatedBy: ",").compactMap { Int($0) }
-        propellerSizes = race.propellerSizeRestriction.components(separatedBy: ",").compactMap { Int($0) }
+        types = race.typeRestriction.components(separatedBy: ",").compactMap { $0 }
+        sizes = race.sizeRestriction.components(separatedBy: ",").compactMap { $0 }
+        batterySizes = race.batteryRestriction.components(separatedBy: ",").compactMap { $0 }
+        propellerSizes = race.propellerSizeRestriction.components(separatedBy: ",").compactMap { $0 }
     }
 
     func toParameters() -> Parameters {

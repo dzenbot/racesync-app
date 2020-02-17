@@ -24,6 +24,21 @@ class UserViewController: ProfileViewController, Joinable {
         return button
     }()
 
+    fileprivate lazy var aircraftButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(didPressAircraftButton), for: .touchUpInside)
+
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        button.setTitleColor(Color.white, for: .normal)
+        button.setTitle("My Aircrafts", for: .normal)
+
+        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
+        button.backgroundColor = Color.blue
+        button.layer.cornerRadius = 6
+
+        return button
+    }()
+
     fileprivate let user: User
     fileprivate let raceApi = RaceApi()
     fileprivate let chapterApi = ChapterApi()
@@ -93,6 +108,14 @@ class UserViewController: ProfileViewController, Joinable {
 
     override func setupLayout() {
         super.setupLayout()
+
+        if user.isMe {
+            headerView.addSubview(aircraftButton)
+            aircraftButton.snp.makeConstraints {
+                $0.bottom.equalToSuperview()
+                $0.trailing.equalToSuperview().offset(-Constants.padding)
+            }
+        }
     }
 
     // MARK: - Actions
@@ -125,6 +148,11 @@ class UserViewController: ProfileViewController, Joinable {
 
     @objc func didPressCloseButton() {
         dismiss(animated: true, completion: nil)
+    }
+
+    @objc func didPressAircraftButton() {
+        let aircraftVC = AircraftListViewController()
+        navigationController?.pushViewController(aircraftVC, animated: true)
     }
 
     @objc func didPressQRButton() {

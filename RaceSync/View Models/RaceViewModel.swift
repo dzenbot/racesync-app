@@ -15,7 +15,6 @@ class RaceViewModel: Descriptable {
     let race: Race
 
     let titleLabel: String
-
     let dateLabel: String?
     let fullDateLabel: String?
     let locationLabel: String
@@ -31,10 +30,10 @@ class RaceViewModel: Descriptable {
         self.race = race
         self.titleLabel = race.name
         self.dateLabel = RaceViewModel.dateLabelString(for: race) // "Sat Sept 14 @ 9:00 AM"
-        self.fullDateLabel = RaceViewModel.fullDateLabel(for: race) // "Saturday, September 14th @ 9:00 AM"
-        self.locationLabel = RaceViewModel.locationLabel(for: race)
-        self.fullLocationLabel = RaceViewModel.fullLocationLabel(for: race)
-        self.distanceLabel = RaceViewModel.distanceString(for: race) // "309.4 mi"
+        self.fullDateLabel = RaceViewModel.fullDateLabelString(for: race) // "Saturday, September 14th @ 9:00 AM"
+        self.locationLabel = RaceViewModel.locationLabelString(for: race)
+        self.fullLocationLabel = RaceViewModel.fullLocationLabelString(for: race)
+        self.distanceLabel = RaceViewModel.distanceLabelString(for: race) // "309.4 mi"
         self.joinState = RaceViewModel.joinState(for: race)
         self.participantCount = Int(race.participantCount) ?? 0
         self.imageUrl = RaceViewModel.imageUrl(for: race)
@@ -56,16 +55,16 @@ extension RaceViewModel {
         return DateUtil.localizedString(from: date)
     }
 
-    static func fullDateLabel(for race: Race) -> String? {
+    static func fullDateLabelString(for race: Race) -> String? {
         guard let date = race.startDate else { return nil }
         return DateUtil.localizedString(from: date, full: true)
     }
 
-    static func locationLabel(for race: Race) -> String {
+    static func locationLabelString(for race: Race) -> String {
         return ViewModelHelper.locationLabel(for: race.city, state: race.state, country: race.country)
     }
 
-    static func fullLocationLabel(for race: Race) -> String {
+    static func fullLocationLabelString(for race: Race) -> String {
         var string = ""
         if let address = race.address, !address.isEmpty  {
             string += address + "\n"
@@ -83,7 +82,7 @@ extension RaceViewModel {
         return race.isJoined ? .joined : .join
     }
 
-    static func distanceString(for race: Race) -> String {
+    static func distanceLabelString(for race: Race) -> String {
         guard let myUser = APIServices.shared.myUser else { return "" }
         guard let userLat =  Double(myUser.latitude), let userLong = Double(myUser.longitude) else { return "" }
         guard let raceLat =  Double(race.latitude), let raceLong = Double(race.longitude) else { return "" }
