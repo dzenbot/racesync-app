@@ -113,8 +113,6 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     fileprivate let userApi = UserApi()
     fileprivate var raceList = [String: [RaceViewModel]]()
 
-    fileprivate var searchRadius: CGFloat = APIServices.shared.settings.searchRadius
-
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
 

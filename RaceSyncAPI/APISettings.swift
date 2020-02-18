@@ -11,10 +11,10 @@ import CoreGraphics
 
 public class APISettings {
 
-    public var searchRadius: CGFloat {
+    public var searchRadius: String {
         get {
-            let value = UserDefaults.standard.float(forKey: Self.settingsSearchRadiusKey)
-            return CGFloat(value > 0 ? value : 500)
+            guard let value = UserDefaults.standard.string(forKey: Self.settingsSearchRadiusKey) else { return "500" }
+            return value
         } set {
             UserDefaults.standard.set(newValue, forKey: Self.settingsSearchRadiusKey)
             UserDefaults.standard.synchronize()

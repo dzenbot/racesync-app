@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import RaceSyncAPI
+import Presentr
 
 fileprivate enum SettingsSection: Int, EnumTitle, CaseIterable {
     case searchRadius
@@ -40,10 +41,6 @@ class SettingsViewController: UIViewController {
 
         let backgroundView = UIView()
         backgroundView.backgroundColor = Color.gray50
-
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didBackgroundView))
-        backgroundView.addGestureRecognizer(tapGestureRecognizer)
-        
         tableView.backgroundView = backgroundView
 
         return tableView
@@ -62,27 +59,7 @@ class SettingsViewController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var pickerView: UIPickerView = {
-        let view = UIPickerView()
-        view.backgroundColor = Color.white
-        view.dataSource = self
-        view.delegate = self
-
-        let radius = APIServices.shared.settings.searchRadius
-        if let row = distances.firstIndex(of: radius) {
-            view.selectRow(row, inComponent: 0, animated: false)
-        }
-
-        return view
-    }()
-
-    fileprivate lazy var pickerDummy: UITextField = {
-        let dummy = UITextField(frame: .zero)
-        dummy.inputView = pickerView
-        return dummy
-    }()
-
-    fileprivate let distances: [CGFloat] = [CGFloat(200), CGFloat(500), CGFloat(1000), CGFloat(2000), CGFloat(5000)]
+    fileprivate let distances: [String] = ["200", "500", "1000", "2000", "5000"]
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -125,21 +102,16 @@ class SettingsViewController: UIViewController {
         dismiss(animated: true, completion: nil)
     }
 
-    @objc func didBackgroundView(_ sender: UITapGestureRecognizer) {
-        if pickerDummy.isFirstResponder {
-            pickerDummy.resignFirstResponder()
-            pickerDummy.removeFromSuperview()
-        }
-    }
-
     func changeSearchRadius() {
-        if pickerDummy.superview == nil {
-            view.addSubview(pickerDummy)
-        }
+        let selectedDistance = APIServices.shared.settings.searchRadius
 
-        if !pickerDummy.isFirstResponder {
-            pickerDummy.becomeFirstResponder()
-        }
+        let presenter = Appearance.defaultPresenter()
+        let pickerVC = PickerViewController(with: distances, selectedItem: selectedDistance)
+        pickerVC.delegate = self
+        pickerVC.title = "Update \(SettingsSection.searchRadius.title)"
+        pickerVC.unit = "mi"
+        
+        customPresentViewController(presenter, viewController: pickerVC, animated: true)
     }
 
     func submitFeedback() {
@@ -241,29 +213,16 @@ extension SettingsViewController: UITableViewDataSource {
     }
 }
 
-extension SettingsViewController: UIPickerViewDataSource {
+extension SettingsViewController: PickerViewControllerDelegate {
 
-    func numberOfComponents(in pickerView: UIPickerView) -> Int {
-        return 1
-    }
-
-    func pickerView(_ pickerView: UIPickerView, numberOfRowsInComponent component: Int) -> Int {
-        return distances.count
-    }
-}
-
-extension SettingsViewController: UIPickerViewDelegate {
-
-    func pickerView(_ pickerView: UIPickerView, titleForRow row: Int, forComponent component: Int) -> String? {
-        let distance = distances[row]
-        return "\(distance) mi"
-    }
-
-    func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        let distance = distances[row]
-
-        APIServices.shared.settings.searchRadius = CGFloat(distance)
+    func pickerViewController(_ viewController: PickerViewController, didSelectItem item: String) {
+        APIServices.shared.settings.searchRadius = item
         tableView.reloadData()
+
+        viewController.dismiss(animated: true, completion: nil)
+    }
+
+    func pickerViewControllerDidDismiss(_ viewController: PickerViewController) {
+        //
     }
 }
-

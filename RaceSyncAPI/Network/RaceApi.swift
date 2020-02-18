@@ -168,7 +168,7 @@ fileprivate extension RaceApi {
             parameters[ParameterKey.nearBy] = [
                 ParameterKey.latitude: latitude,
                 ParameterKey.longitude: longitude,
-                ParameterKey.radius: "\(APIServices.shared.settings.searchRadius)"
+                ParameterKey.radius: APIServices.shared.settings.searchRadius
             ]
         } else {
             parameters[ParameterKey.joined] = [ParameterKey.pilotId : userId]

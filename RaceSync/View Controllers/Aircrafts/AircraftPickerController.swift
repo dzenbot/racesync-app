@@ -24,19 +24,8 @@ class AircraftPickerController: UINavigationController {
 
         let aircraftPickerVC = AircraftPickerViewController(with: race)
         let aircraftPicker = AircraftPickerController(rootViewController: aircraftPickerVC)
+        let presenter = Appearance.defaultPresenter()
 
-        let presenter = Presentr(presentationType: .bottomHalf)
-        presenter.blurBackground = false
-        presenter.backgroundOpacity = 0.2
-        presenter.transitionType = .coverVertical
-        presenter.dismissTransitionType = .coverVertical
-        presenter.dismissAnimated = true
-        presenter.dismissOnSwipe = true
-        presenter.backgroundTap = .dismiss
-        presenter.outsideContextTap = .passthrough
-        presenter.roundCorners = true
-        presenter.cornerRadius = 10
-        
         let topVC = UIViewController.topMostViewController()
         topVC?.customPresentViewController(presenter, viewController: aircraftPicker, animated: true)
 

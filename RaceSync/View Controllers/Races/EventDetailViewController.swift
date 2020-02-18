@@ -208,14 +208,12 @@ class EventDetailViewController: UIViewController, Joinable {
     fileprivate let raceApi = RaceApi()
     fileprivate var chapterApi = ChapterApi()
     fileprivate var userApi = UserApi()
-    fileprivate var searchRadius: CGFloat = 0
 
     // MARK: - Initialization
 
     init(with race: Race) {
         self.race = race
         self.raceViewModel = RaceViewModel(with: race)
-        self.searchRadius = APIServices.shared.settings.searchRadius
 
         if let latitude = CLLocationDegrees(race.latitude), let longitude = CLLocationDegrees(race.longitude) {
             self.raceCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)

@@ -44,21 +44,6 @@ class AircraftDetailViewController: UIViewController {
         return button
     }()
 
-    fileprivate lazy var presenter: Presentr = {
-        let presenter = Presentr(presentationType: .bottomHalf)
-        presenter.blurBackground = false
-        presenter.backgroundOpacity = 0.2
-        presenter.transitionType = .coverVertical
-        presenter.dismissTransitionType = .coverVertical
-        presenter.dismissAnimated = true
-        presenter.dismissOnSwipe = true
-        presenter.backgroundTap = .dismiss
-        presenter.outsideContextTap = .passthrough
-        presenter.roundCorners = true
-        presenter.cornerRadius = 10
-        return presenter
-    }()
-
     fileprivate let aircraftViewModel: AircraftViewModel
     fileprivate let aircraftApi = AircraftAPI()
 
@@ -149,8 +134,9 @@ extension AircraftDetailViewController: UITableViewDelegate {
         let items = AircraftType.allCases.compactMap { $0.title }
         let selectedItem = aircraftViewModel.aircraft?.type?.title
 
+        let presenter = Appearance.defaultPresenter()
         let pickerVC = PickerViewController(with: items, selectedItem: selectedItem)
-        pickerVC.title = "Updated \(row.title)"
+        pickerVC.title = "Update \(row.title)"
 
         customPresentViewController(presenter, viewController: pickerVC, animated: true)
     }

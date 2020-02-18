@@ -10,13 +10,24 @@ import UIKit
 import SnapKit
 import PickerView
 
+protocol PickerViewControllerDelegate {
+    func pickerViewController(_ viewController: PickerViewController, didSelectItem item: String)
+    func pickerViewControllerDidDismiss(_ viewController: PickerViewController)
+}
+
 class PickerViewController: UIViewController {
+
+    // MARK: - Public Variables
+
+    var delegate: PickerViewControllerDelegate?
 
     override var title: String? {
         didSet {
             navigationBarItem.title = title
         }
     }
+
+    var unit: String?
 
     // MARK: - Private Variables
 
@@ -103,10 +114,12 @@ class PickerViewController: UIViewController {
 
     @objc func didPressCloseButton() {
         dismiss(animated: true, completion: nil)
+        delegate?.pickerViewControllerDidDismiss(self)
     }
 
     @objc func didPressSaveButton() {
-        print("didPressSaveButton")
+        let item = items[pickerView.currentSelectedRow]
+        delegate?.pickerViewController(self, didSelectItem: item)
     }
 }
 
@@ -117,7 +130,11 @@ extension PickerViewController: PickerViewDataSource {
     }
 
     func pickerView(_ pickerView: PickerView, titleForRow row: Int) -> String {
-        return items[row]
+        var title = items[row]
+        if let unit = unit {
+            title += " \(unit)"
+        }
+        return title
     }
 }
 

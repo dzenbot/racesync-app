@@ -8,6 +8,7 @@
 
 import UIKit
 import AlamofireImage
+import Presentr
 
 class Appearance {
     static func configureUIAppearance() {
@@ -16,6 +17,21 @@ class Appearance {
         configureTabBarAppearance()
         configureToolBarAppearance()
         configureActivityIndicatorAppearance()
+    }
+
+    static func defaultPresenter() -> Presentr {
+        let presenter = Presentr(presentationType: .bottomHalf)
+        presenter.blurBackground = false
+        presenter.backgroundOpacity = 0.2
+        presenter.transitionType = .coverVertical
+        presenter.dismissTransitionType = .coverVertical
+        presenter.dismissAnimated = true
+        presenter.dismissOnSwipe = true
+        presenter.backgroundTap = .dismiss
+        presenter.outsideContextTap = .passthrough
+        presenter.roundCorners = true
+        presenter.cornerRadius = 10
+        return presenter
     }
 }
 
