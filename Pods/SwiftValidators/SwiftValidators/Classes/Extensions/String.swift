@@ -1,15 +1,14 @@
 //
 //  String.swift
-//  SwiftValidators
+//  Nimble
 //
-//  Created by Γιώργος Καϊμακάς on 03/08/16.
-//  Copyright © 2016 Γιώργος Καϊμακάς. All rights reserved.
+//  Created by George Kaimakas on 02/07/2019.
 //
 
 import Foundation
 
 internal extension String {
-
+    
     subscript (i: Int) -> String{
         return "\(self[self.index(self.startIndex, offsetBy: i)])"
     }

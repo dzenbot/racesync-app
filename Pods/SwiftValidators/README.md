@@ -1,6 +1,6 @@
 # Swift Validators :large_orange_diamond:
 
-String validation for iOS developed in Swift.
+String validation for iOS.
 
 ## Contents
 + [Installation](#installation)

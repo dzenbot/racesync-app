@@ -1,9 +1,8 @@
 //
 //  Regex.swift
-//  SwiftValidators
+//  Nimble
 //
-//  Created by George Kaimakas on 31/03/2017.
-//  Copyright © 2017 Γιώργος Καϊμακάς. All rights reserved.
+//  Created by George Kaimakas on 02/07/2019.
 //
 
 import Foundation
