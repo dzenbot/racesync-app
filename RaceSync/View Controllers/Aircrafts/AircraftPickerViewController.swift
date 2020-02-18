@@ -11,7 +11,6 @@ import SnapKit
 import RaceSyncAPI
 
 protocol AircraftPickerViewControllerDelegate {
-
     func aircraftPickerViewController(_ viewController: AircraftPickerViewController, didSelectAircraft aircraftId: ObjectId)
     func aircraftPickerViewControllerDidError(_ viewController: AircraftPickerViewController)
     func aircraftPickerViewControllerDidDismiss(_ viewController: AircraftPickerViewController)
@@ -171,8 +170,8 @@ extension AircraftPickerViewController: UICollectionViewDelegate {
 
             if let strongSelf = self {
                 if viewModel.isGeneric {
-                    let genericAircraftSpecs = AircraftSpecs(with: strongSelf.race)
-                    strongSelf.aircraftApi.createAircraft(forAircraftSpecs: genericAircraftSpecs) { (aircraft, error) in
+                    let aircraftSpecs = AircraftSpecs(with: strongSelf.race)
+                    strongSelf.aircraftApi.createAircraft(with: aircraftSpecs) { (aircraft, error) in
                         if let aircraft = aircraft {
                             strongSelf.delegate?.aircraftPickerViewController(strongSelf, didSelectAircraft: aircraft.id)
                         } else {

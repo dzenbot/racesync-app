@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import RaceSyncAPI
+import EmptyDataSet_Swift
 
 class AircraftListViewController: UIViewController {
 
@@ -28,11 +29,20 @@ class AircraftListViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(AircraftCollectionViewCell.self, forCellWithReuseIdentifier: AircraftCollectionViewCell.identifier)
         collectionView.backgroundColor = Color.white
+        collectionView.alwaysBounceVertical = true
+        collectionView.emptyDataSetSource = self
+        collectionView.emptyDataSetDelegate = self
         return collectionView
     }()
 
+    fileprivate var isLoading: Bool = false {
+        didSet { collectionView.reloadData() }
+    }
+
     fileprivate let aircraftApi = AircraftAPI()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
+
+    fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noAircrafts)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -72,17 +82,13 @@ class AircraftListViewController: UIViewController {
 
 extension AircraftListViewController {
 
-    func isLoading(_ loading: Bool) {
-        collectionView.reloadData()
-    }
-
     func fetchMyAircrafts() {
-        isLoading(true)
+        isLoading = true
 
         aircraftApi.getMyAircrafts() { [weak self] (aircrafts, error) in
             if let aircrafts = aircrafts {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
-                self?.isLoading(false)
+                self?.isLoading = false
             } else if error != nil {
                 print("fetchMyUser error : \(error.debugDescription)")
             }
@@ -103,6 +109,7 @@ extension AircraftListViewController: UICollectionViewDelegate {
         let viewModel = aircraftViewModels[indexPath.row]
 
         let aircraftDetailVC = AircraftDetailViewController(with: viewModel)
+        aircraftDetailVC.delegate = self
         navigationController?.pushViewController(aircraftDetailVC, animated: true)
 
         collectionView.deselectAllItems()
@@ -136,3 +143,45 @@ extension AircraftListViewController: UICollectionViewDataSource {
     }
 }
 
+extension AircraftListViewController: AircraftDetailViewControllerDelegate {
+
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId) {
+
+        if let index = aircraftViewModels.firstIndex(where: { $0.aircraftId == aircraftId }) {
+            aircraftViewModels.remove(at: index)
+            collectionView.reloadData()
+        }
+
+        navigationController?.popViewController(animated: true)
+    }
+}
+
+extension AircraftListViewController: EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateAircrafts.title
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateAircrafts.description
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
+        return emptyStateAircrafts.buttonTitle(state)
+    }
+}
+
+extension AircraftListViewController: EmptyDataSetDelegate {
+
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
+        return !isLoading
+    }
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+
+    func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
+        print("Add Aircraft!")
+    }
+}

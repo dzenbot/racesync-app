@@ -12,7 +12,7 @@ class SearchViewController: UIViewController {
 
     // MARK: - Private Variables
 
-    lazy var tableView: UITableView = {
+    fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self

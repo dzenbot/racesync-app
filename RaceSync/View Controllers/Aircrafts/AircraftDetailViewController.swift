@@ -9,28 +9,64 @@
 import UIKit
 import SnapKit
 import RaceSyncAPI
+import Presentr
+
+protocol AircraftDetailViewControllerDelegate {
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId)
+}
 
 class AircraftDetailViewController: UIViewController {
 
+    // MARK: - Public Variables
+
+    var delegate: AircraftDetailViewControllerDelegate?
+
     // MARK: - Private Variables
 
-    lazy var tableView: UITableView = {
+    fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-
         tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
-
         return tableView
+    }()
+
+    fileprivate lazy var deleteButton: ActionButton = {
+        let button = ActionButton(type: .system)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .regular)
+        button.setTitleColor(Color.white, for: .normal)
+        button.setTitle("Delete Aircraft", for: .normal)
+        button.backgroundColor = Color.red
+        button.layer.cornerRadius = Constants.padding/2
+        button.addTarget(self, action:#selector(didPressDeleteButton), for: .touchUpInside)
+        button.spinnerView.color = Color.white
+        return button
+    }()
+
+    fileprivate lazy var presenter: Presentr = {
+        let presenter = Presentr(presentationType: .bottomHalf)
+        presenter.blurBackground = false
+        presenter.backgroundOpacity = 0.2
+        presenter.transitionType = .coverVertical
+        presenter.dismissTransitionType = .coverVertical
+        presenter.dismissAnimated = true
+        presenter.dismissOnSwipe = true
+        presenter.backgroundTap = .dismiss
+        presenter.outsideContextTap = .passthrough
+        presenter.roundCorners = true
+        presenter.cornerRadius = 10
+        return presenter
     }()
 
     fileprivate let aircraftViewModel: AircraftViewModel
     fileprivate let aircraftApi = AircraftAPI()
 
+    fileprivate var selectedRow: AircraftRow?
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight: CGFloat = UniversalConstants.cellHeight
+        static let cellHeight: CGFloat = 50
     }
 
     // MARK: - Initialization
@@ -70,6 +106,36 @@ class AircraftDetailViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
+
+        let footerView = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: Constants.cellHeight*2))
+        footerView.backgroundColor = Color.white
+
+        footerView.addSubview(deleteButton)
+        deleteButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.leading.equalToSuperview().offset(Constants.padding)
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
+            $0.height.equalTo(Constants.cellHeight)
+        }
+
+        tableView.tableFooterView = footerView
+    }
+
+    // MARK: - Button Events
+
+    @objc func didPressDeleteButton() {
+
+        let aircraftId = aircraftViewModel.aircraftId
+        deleteButton.isLoading = true
+
+        aircraftApi.delete(aircraft: aircraftId) { [weak self] (status, error)  in
+            guard let strongSelf = self else { return }
+            if status {
+                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didDeleteAircraft: aircraftId)
+            } else if let _ = error {
+                strongSelf.deleteButton.isLoading = false
+            }
+        }
     }
 }
 
@@ -77,6 +143,16 @@ extension AircraftDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+
+        guard let row = AircraftRow(rawValue: indexPath.row) else { return }
+
+        let items = AircraftType.allCases.compactMap { $0.title }
+        let selectedItem = aircraftViewModel.aircraft?.type?.title
+
+        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem)
+        pickerVC.title = "Updated \(row.title)"
+
+        customPresentViewController(presenter, viewController: pickerVC, animated: true)
     }
 }
 
@@ -89,43 +165,59 @@ extension AircraftDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
 
+        let row = AircraftRow(rawValue: indexPath.row)
+
         cell.textLabel?.textColor = Color.gray300
         cell.detailTextLabel?.textColor = Color.black
         cell.accessoryType = .none
 
-        if indexPath.row == 0 {
-            cell.textLabel?.text = "Type"
-            cell.detailTextLabel?.text = aircraftViewModel.typeLabel
-        } else if indexPath.row == 1 {
-            cell.textLabel?.text = "Size"
-            cell.detailTextLabel?.text = aircraftViewModel.sizeLabel
-        } else if indexPath.row == 2 {
-            cell.textLabel?.text = "Battery"
-            cell.detailTextLabel?.text = aircraftViewModel.batteryLabel
-        } else if indexPath.row == 3 {
-            cell.textLabel?.text = "Propeller Size"
-            cell.detailTextLabel?.text = aircraftViewModel.propSizeLabel
-        } else if indexPath.row == 4 {
-            cell.textLabel?.text = "Video Tx"
-            cell.detailTextLabel?.text = aircraftViewModel.videoTxTypeLabel
-        } else if indexPath.row == 5 {
-            cell.textLabel?.text = "Video Tx Power"
-            cell.detailTextLabel?.text = aircraftViewModel.videoTxPowerLabel
-        } else if indexPath.row == 6 {
-            cell.textLabel?.text = "Video Tx Channels"
-            cell.detailTextLabel?.text = aircraftViewModel.videoTxChannelsLabel
-        } else if indexPath.row == 7 {
-            cell.textLabel?.text = "Video Rx Channels"
-            cell.detailTextLabel?.text = aircraftViewModel.videoRxChannelsLabel
-        } else if indexPath.row == 8 {
-            cell.textLabel?.text = "Antenna"
-            cell.detailTextLabel?.text = aircraftViewModel.antennaLabel
+        cell.textLabel?.text = row?.title
+
+        switch row {
+        case .type:
+        cell.detailTextLabel?.text = aircraftViewModel.typeLabel
+        case .size:
+        cell.detailTextLabel?.text = aircraftViewModel.sizeLabel
+        case .battery:
+        cell.detailTextLabel?.text = aircraftViewModel.batteryLabel
+        case .propSize:
+        cell.detailTextLabel?.text = aircraftViewModel.propSizeLabel
+        case .videoTx:
+        cell.detailTextLabel?.text = aircraftViewModel.videoTxTypeLabel
+        case .videoTxPower:
+        cell.detailTextLabel?.text = aircraftViewModel.videoTxPowerLabel
+        case .videoTxChannels:
+        cell.detailTextLabel?.text = aircraftViewModel.videoTxChannelsLabel
+        case .videoRxChannels:
+        cell.detailTextLabel?.text = aircraftViewModel.videoRxChannelsLabel
+        case .antenna:
+        cell.detailTextLabel?.text = aircraftViewModel.antennaLabel
+        case .none:
+        cell.detailTextLabel?.text = ""
         }
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 50
+        return Constants.cellHeight
+    }
+}
+
+fileprivate enum AircraftRow: Int, EnumTitle, CaseIterable {
+    case type, size, battery, propSize, videoTx, videoTxPower, videoTxChannels, videoRxChannels, antenna
+
+    public var title: String {
+        switch self {
+        case .type:             return "Type"
+        case .size:             return "Size"
+        case .battery:          return "Battery"
+        case .propSize:         return "Propeller Size"
+        case .videoTx:          return "Video Tx"
+        case .videoTxPower:     return "Video Tx Power"
+        case .videoTxChannels:  return "Video Tx Channels"
+        case .videoRxChannels:  return "Video Rx Channels"
+        case .antenna:          return "Antenna"
+        }
     }
 }

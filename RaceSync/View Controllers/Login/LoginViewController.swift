@@ -139,7 +139,7 @@ class LoginViewController: UIViewController {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let loginFormHeight: CGFloat = 320
-        static let loginButtonHeight: CGFloat = 50
+        static let actionButtonHeight: CGFloat = 50
     }
 
     // MARK: - Lifecycle Methods
@@ -249,7 +249,7 @@ class LoginViewController: UIViewController {
             $0.top.equalTo(createAccountButton.snp.bottom).offset(Constants.padding)
             $0.leading.equalToSuperview()
             $0.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.loginButtonHeight)
+            $0.height.equalTo(Constants.actionButtonHeight)
         }
 
         legalButton.snp.makeConstraints {

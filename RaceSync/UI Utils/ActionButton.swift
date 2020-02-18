@@ -37,9 +37,7 @@ class ActionButton: CustomButton {
         }
     }
 
-    // MARK: - Private Variables
-
-    fileprivate lazy var spinnerView: UIActivityIndicatorView = {
+    lazy var spinnerView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .white)
 
         addSubview(view)

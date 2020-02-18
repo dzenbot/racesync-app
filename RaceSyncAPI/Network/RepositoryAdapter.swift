@@ -8,6 +8,7 @@
 
 import Alamofire
 import ObjectMapper
+import SwiftyJSON
 
 class RepositoryAdapter {
 
@@ -57,6 +58,23 @@ class RepositoryAdapter {
                     completion(nil, error)
                 }
             })
+        }
+    }
+
+    func performAction(_ endPoint: String, parameters: Parameters? = nil, completion: @escaping StatusCompletionBlock) {
+        networkAdapter.httpRequest(endPoint,  method: .post, parameters: parameters) { (request) in
+            print("Starting request \(String(describing: request.request?.url))")
+            request.responseJSON { (response) in
+                print("Ended request with code \(String(describing: response.response?.statusCode))")
+
+                switch response.result {
+                case .success(let value):
+                    let json = JSON(value)
+                    completion(json[ParameterKey.status].bool ?? false, nil)
+                case .failure:
+                    completion(false, response.error as NSError?)
+                }
+            }
         }
     }
 }

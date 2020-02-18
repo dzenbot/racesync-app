@@ -11,6 +11,7 @@ target 'RaceSync' do
   pod 'QRCode', :git => 'https://github.com/andrewcampoli/QRCode.git', :inhibit_warnings => true
   pod 'ShimmerSwift'
   pod 'TUSafariActivity', '~> 1.0'
+  pod "PickerView"
 
   # Dev Tools
   pod 'Bugsnag'

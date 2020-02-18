@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4F1342432360B67D00A9DBDE"
-               BuildableName = "RaceSync.app"
+               BuildableName = "RaceSYNC.app"
                BlueprintName = "RaceSync"
                ReferencedContainer = "container:RaceSync.xcodeproj">
             </BuildableReference>
@@ -31,7 +31,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4F1342432360B67D00A9DBDE"
-            BuildableName = "RaceSync.app"
+            BuildableName = "RaceSYNC.app"
             BlueprintName = "RaceSync"
             ReferencedContainer = "container:RaceSync.xcodeproj">
          </BuildableReference>
@@ -74,7 +74,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4F1342432360B67D00A9DBDE"
-            BuildableName = "RaceSync.app"
+            BuildableName = "RaceSYNC.app"
             BlueprintName = "RaceSync"
             ReferencedContainer = "container:RaceSync.xcodeproj">
          </BuildableReference>
@@ -98,7 +98,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4F1342432360B67D00A9DBDE"
-            BuildableName = "RaceSync.app"
+            BuildableName = "RaceSYNC.app"
             BlueprintName = "RaceSync"
             ReferencedContainer = "container:RaceSync.xcodeproj">
          </BuildableReference>

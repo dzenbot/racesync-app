@@ -12,7 +12,7 @@ public typealias ObjectId = String
 
 public let StandardPageSize: Int = 50
 
-protocol EnumTitle {
+public protocol EnumTitle {
     var title: String { get }
 }
 
@@ -37,6 +37,7 @@ enum EndPoint {
 
     static let aircraftList = "aircraft/list"
     static let aircraftCreate = "aircraft/create"
+    static let aircraftUpdate = "aircraft/update"
     static let aircraftDelete = "aircraft/delete"
 }
 

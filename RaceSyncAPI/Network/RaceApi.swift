@@ -133,36 +133,14 @@ public class RaceApi: RaceApiInterface {
         let endpoint = "\(EndPoint.raceJoin)?\(ParameterKey.id)=\(raceId)"
         let parameters = [ParameterKey.aircraftId: aircraftId]
 
-        repositoryAdapter.networkAdapter.httpRequest(endpoint,  method: .post, parameters: parameters) { (request) in
-            print("Starting request \(String(describing: request.request?.url))")
-            request.responseJSON { (response) in
-                switch response.result {
-                case .success(let value):
-                    let json = JSON(value)
-                    completion(json[ParameterKey.status].bool ?? false, nil)
-                case .failure:
-                    completion(false, response.error as NSError?)
-                }
-            }
-        }
+        repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
     public func resign(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
         
         let endpoint = "\(EndPoint.raceResign)?\(ParameterKey.id)=\(raceId)"
 
-        repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post) { (request) in
-            print("Starting request \(String(describing: request.request?.url))")
-            request.responseJSON { (response) in
-                switch response.result {
-                case .success(let value):
-                    let json = JSON(value)
-                    completion(json[ParameterKey.status].bool ?? false, nil)
-                case .failure:
-                    completion(false, response.error as NSError?)
-                }
-            }
-        }
+        repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func checkIn(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<RaceEntry>) {

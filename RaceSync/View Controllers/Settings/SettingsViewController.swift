@@ -10,7 +10,7 @@ import UIKit
 import SnapKit
 import RaceSyncAPI
 
-fileprivate enum SettingsSection: Int, CaseIterable {
+fileprivate enum SettingsSection: Int, EnumTitle, CaseIterable {
     case searchRadius
     case submitFeedback
     case switchEnvironment
@@ -30,7 +30,7 @@ class SettingsViewController: UIViewController {
 
     // MARK: - Private Variables
 
-    lazy var tableView: UITableView = {
+   fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
@@ -49,7 +49,7 @@ class SettingsViewController: UIViewController {
         return tableView
     }()
 
-    lazy var headerView: UIView = {
+    fileprivate lazy var headerView: UIView = {
         let view = UIView()
 
         let imageView = UIImageView(image: UIImage(named: "icn_settings_header"))
@@ -62,7 +62,7 @@ class SettingsViewController: UIViewController {
         return view
     }()
 
-    lazy var pickerView: UIPickerView = {
+    fileprivate lazy var pickerView: UIPickerView = {
         let view = UIPickerView()
         view.backgroundColor = Color.white
         view.dataSource = self
@@ -76,7 +76,7 @@ class SettingsViewController: UIViewController {
         return view
     }()
 
-    lazy var pickerDummy: UITextField = {
+    fileprivate lazy var pickerDummy: UITextField = {
         let dummy = UITextField(frame: .zero)
         dummy.inputView = pickerView
         return dummy

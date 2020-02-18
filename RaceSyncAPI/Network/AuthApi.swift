@@ -48,6 +48,8 @@ public class AuthApi {
         repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters, nestParameters: false) { (request) in
             print("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseJSON(completionHandler: { (response) in
+                print("Ended request with code \(String(describing: response.response?.statusCode))")
+
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -68,6 +70,8 @@ public class AuthApi {
         repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post) { (request) in
             print("Starting request \(String(describing: request.request?.url)))")
             request.responseJSON(completionHandler: { (response) in
+                print("Ended request with code \(String(describing: response.response?.statusCode))")
+
                 switch response.result {
                 case .success(_):
                     completion(nil)

@@ -32,6 +32,8 @@ enum EmptyState {
     case noMyProfileRaces
     case noMyProfileChapters
 
+    case noAircrafts
+
     case commingSoon
 
     case errorRace
@@ -67,6 +69,8 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "No Races"
         case .noChapters, .noMyProfileChapters, .noProfileChapters:
             text = "No Chapters"
+        case .noAircrafts:
+            text = "No Aircrafts"
         case .commingSoon:
             text = "Coming Soon"
         case .errorRace:
@@ -107,6 +111,8 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "This user hasn't joined any chapters yet."
         case .noMyProfileChapters:
             text = "You haven't joined any chapters yet."
+        case .noAircrafts:
+            text = "No don't have any aircrafts yet."
         case .commingSoon:
             text = "This feature is currently under development."
         case .errorRace:
@@ -139,6 +145,8 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "Adjust Search Radius"
         case .noRaceRegisters:
             text = "Join This Race"
+        case .noAircrafts:
+            text = "Add an Aircraft"
         case .errorRace:
             text = "Send Bug Report"
         default:

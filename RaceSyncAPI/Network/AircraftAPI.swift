@@ -24,7 +24,11 @@ public protocol AircrafApiInterface {
 
     /**
     */
-    func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>)
+    func createAircraft(with specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>)
+
+    /**
+    */
+    func update(aircraft aircraftId: ObjectId, with specs: AircraftSpecs, _ completion: @escaping StatusCompletionBlock)
 
     /**
     */
@@ -53,7 +57,7 @@ public class AircraftAPI: AircrafApiInterface {
         repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Aircraft.self, completion)
     }
 
-    public func createAircraft(forAircraftSpecs specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>) {
+    public func createAircraft(with specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>) {
 
         let endpoint = EndPoint.aircraftCreate
         let parameters = specs.toParameters()
@@ -61,21 +65,18 @@ public class AircraftAPI: AircrafApiInterface {
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Aircraft.self, completion)
     }
 
+    public func update(aircraft aircraftId: ObjectId, with specs: AircraftSpecs, _ completion: @escaping StatusCompletionBlock) {
+
+        let endpoint = "\(EndPoint.aircraftUpdate)?\(ParameterKey.id)=\(aircraftId)"
+        let parameters = specs.toParameters()
+
+        repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
+    }
+
     public func delete(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
 
         let endpoint = "\(EndPoint.aircraftDelete)?\(ParameterKey.id)=\(aircraftId)"
 
-        repositoryAdapter.networkAdapter.httpRequest(endpoint,  method: .post) { (request) in
-            print("Starting request \(String(describing: request.request?.url))")
-            request.responseJSON { (response) in
-                switch response.result {
-                case .success(let value):
-                    let json = JSON(value)
-                    completion(json[ParameterKey.status].bool ?? false, nil)
-                case .failure:
-                    completion(false, response.error as NSError?)
-                }
-            }
-        }
+        repositoryAdapter.performAction(endpoint, completion: completion)
     }
 }

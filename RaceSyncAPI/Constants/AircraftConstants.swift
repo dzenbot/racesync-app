@@ -9,7 +9,7 @@
 import Foundation
 
 //TYPES = array(0=>'Tri',1=>'Quad', 2=>'Hex', 3=>'Octo', 5=>'Winged', 4=>'Other')
-public enum AircraftType: String, EnumTitle {
+public enum AircraftType: String, EnumTitle, CaseIterable {
     case tri = "0"
     case quad = "1"
     case hex = "2"
@@ -30,7 +30,7 @@ public enum AircraftType: String, EnumTitle {
 }
 
 //SIZES = array(7=>'120-149',8=>'150-179',9=>'180-219',10=>'220-249',0=>'250-279',1=>'280-299',2=>'300-229',3=>'330-399',4=>'400-449',5=>'450-499',6=>'500')
-public enum AircraftSize: String, EnumTitle {
+public enum AircraftSize: String, EnumTitle, CaseIterable {
     case under120 = "11"
     case from120 = "7"
     case from150 = "8"
@@ -65,7 +65,7 @@ public enum AircraftSize: String, EnumTitle {
 }
 
 //WING_SIZES = array(0=>'450', 1=>'600', 2=>'900', 3=>'1200')
-public enum WingSize: String, EnumTitle {
+public enum WingSize: String, EnumTitle, CaseIterable {
     case from450 = "0"
     case from600 = "1"
     case from900 = "2"
@@ -82,7 +82,7 @@ public enum WingSize: String, EnumTitle {
 }
 
 //VIDEO_TRANSMITTERS = array(0=>'900 mhz',1=>'1.3 GHz',2=>'2.4 GHz',3=>'5.8 GHz')
-public enum VideoTxType: String, EnumTitle {
+public enum VideoTxType: String, EnumTitle, CaseIterable {
     case ´900mhz´ = "0"
     case ´1300mhz´ = "1"
     case ´2400mhz´ = "2"
@@ -99,7 +99,7 @@ public enum VideoTxType: String, EnumTitle {
 }
 
 //VIDEO_TRANSMITTER_POWERS = array(0=>'10 mw',1=>'50 mw',2=>'200 mw',3=>'250 mw',4=>'400 mw',5=>'600 mw',6=>'1000 mw')
-public enum VideoTxPower: String, EnumTitle {
+public enum VideoTxPower: String, EnumTitle, CaseIterable {
     case ´10mw´ = "0"
     case ´50mw´ = "1"
     case ´200mw´ = "2"
@@ -122,7 +122,7 @@ public enum VideoTxPower: String, EnumTitle {
 }
 
 //VIDEO_TRANSMITTER_CHANNELS = array(0=>'Immersion / Fatshark 8 Channel',1=>'Boscam 8 Channel',2=>'Boscam 32 Channel',3=>'Raceband 40')
-public enum VideoChannels: String, EnumTitle {
+public enum VideoChannels: String, EnumTitle, CaseIterable {
     case fatshark = "0"
     case boscam8 = "1"
     case boscam32 = "2"
@@ -150,7 +150,7 @@ public enum VideoChannels: String, EnumTitle {
 }
 
 //ANTENNAS = array(0=>'Left',1=>'Right',2=>'Both')
-public enum AntennaPolarization: String, EnumTitle {
+public enum AntennaPolarization: String, EnumTitle, CaseIterable {
     case lhcp = "0"
     case rhcp = "1"
     case both = "2"
@@ -165,7 +165,7 @@ public enum AntennaPolarization: String, EnumTitle {
 }
 
 //BATTERIES = array(3=>'2 cell', 0=>'3 cell',1=>'4 cell',2=>'6 cell')
-public enum BatteryCell: String, EnumTitle {
+public enum BatteryCell: String, EnumTitle, CaseIterable {
     case ´1s´ = "4"
     case ´2s´ = "3"
     case ´3s´ = "0"
