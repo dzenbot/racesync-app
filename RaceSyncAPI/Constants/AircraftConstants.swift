@@ -98,25 +98,29 @@ public enum VideoTxType: String, EnumTitle {
     }
 }
 
-//VIDEO_TRANSMITTER_POWERS = array(0=>'10 mw',1=>'50 mw',2=>'200 mw',3=>'250 mw',4=>'400 mw',5=>'600 mw',6=>'1000 mw')
+//VIDEO_TRANSMITTER_POWERS = array(0=>'10 mW',8=>'25 mW',1=>'50 mW',2=>'200 mW',3=>'250 mW',7=>'350 mW',4=>'400 mW',5=>'600 mW',6=>'1000 mW')
 public enum VideoTxPower: String, EnumTitle {
     case ´10mw´ = "0"
+    case ´25mw´ = "8"
     case ´50mw´ = "1"
     case ´200mw´ = "2"
     case ´250mw´ = "3"
+    case ´350mw´ = "7"
     case ´400mw´ = "4"
     case ´600mw´ = "5"
     case ´1000mw´ = "6"
 
     public var title: String {
         switch self {
-        case .´10mw´:       return "10 mw"
-        case .´50mw´:       return "50 mw"
-        case .´200mw´:      return "200 mw"
-        case .´250mw´:      return "250 mw"
-        case .´400mw´:      return "400 mw"
-        case .´600mw´:      return "600 mw"
-        case .´1000mw´:     return "1000 mw"
+        case .´10mw´:       return "25 mW"
+        case .´25mw´:       return "25 mW"
+        case .´50mw´:       return "50 mW"
+        case .´200mw´:      return "200 mW"
+        case .´250mw´:      return "250 mW"
+        case .´350mw´:      return "350 mW"
+        case .´400mw´:      return "400 mW"
+        case .´600mw´:      return "600 mW"
+        case .´1000mw´:     return "1000 mW"
         }
     }
 }
