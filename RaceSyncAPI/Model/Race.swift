@@ -52,7 +52,7 @@ public class Race: Mappable, Descriptable {
     public var typeRestriction: String = ""
     public var sizeRestriction: String = ""
     public var batteryRestriction: String = ""
-    public var propellerSizeRestriction: String = ""
+    public var propSizeRestriction: String = ""
 
     public var races: [RaceLite]? = nil
     public var entries: [RaceEntry]? = nil
@@ -115,7 +115,7 @@ public class Race: Mappable, Descriptable {
         typeRestriction <- map["typeRestriction"]
         sizeRestriction <- map["sizeRestriction"]
         batteryRestriction <- map["batteryRestriction"]
-        propellerSizeRestriction <- map["propellerSizeRestriction"]
+        propSizeRestriction <- map["propSizeRestriction"]
 
         races <- map["races"]
         entries <- map["entries"]

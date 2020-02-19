@@ -12,8 +12,21 @@ public typealias ObjectId = String
 
 public let StandardPageSize: Int = 50
 
-public protocol EnumTitle {
+public protocol EnumTitle: CaseIterable {
     var title: String { get }
+    init?(title: String)
+}
+
+extension EnumTitle {
+    public init?(title: String) {
+        for `case` in Self.allCases {
+            if `case`.title == title {
+                self = `case`
+                return
+            }
+        }
+        return nil
+    }
 }
 
 enum EndPoint {
@@ -71,8 +84,10 @@ enum ParameterKey {
     static let type = "type"
     static let size = "size"
     static let videoTransmitter = "videoTransmitter"
+    static let videoTransmitterPower = "videoTransmitterPower"
     static let videoTransmitterChannels = "videoTransmitterChannels"
+    static let videoReceiverChannels = "videoReceiverChannels"
     static let battery = "battery"
-    static let propellerSize = "propellerSize"
+    static let propSize = "propellerSize"
     static let antenna = "antenna"
 }

@@ -22,7 +22,7 @@ public class Aircraft: Mappable, Descriptable {
 
     public var type: AircraftType?
     public var size: AircraftSize?
-    public var battery: BatteryCell?
+    public var battery: BatterySize?
     public var propSize: PropellerSize?
     public var videoTxType: VideoTxType = .´5800mhz´
     public var videoTxPower: VideoTxPower?
@@ -53,7 +53,7 @@ public class Aircraft: Mappable, Descriptable {
 
         type <- (map["type"],EnumTransform<AircraftType>())
         size <- (map["size"],EnumTransform<AircraftSize>())
-        battery <- (map["battery"],EnumTransform<BatteryCell>())
+        battery <- (map["battery"],EnumTransform<BatterySize>())
         propSize <- (map["propellerSize"],EnumTransform<PropellerSize>())
         videoTxType <- (map["videoTransmitter"],EnumTransform<VideoTxType>())
         videoTxPower <- (map["videoTransmitterPower"],EnumTransform<VideoTxPower>())
