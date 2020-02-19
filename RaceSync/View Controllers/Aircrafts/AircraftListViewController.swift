@@ -15,6 +15,15 @@ class AircraftListViewController: UIViewController {
 
     let canAddAircraft: Bool = false
 
+    // MARK: - Public Variables
+
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading { activityIndicatorView.startAnimating() }
+            else { activityIndicatorView.stopAnimating() }
+        }
+    }
+
     // MARK: - Private Variables
 
     lazy var collectionViewLayout: UICollectionViewLayout = {
@@ -37,9 +46,11 @@ class AircraftListViewController: UIViewController {
         return collectionView
     }()
 
-    fileprivate var isLoading: Bool = false {
-        didSet { collectionView.reloadData() }
-    }
+    fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .gray)
+        view.hidesWhenStopped = true
+        return view
+    }()
 
     fileprivate let aircraftApi = AircraftAPI()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
@@ -83,6 +94,11 @@ class AircraftListViewController: UIViewController {
         collectionView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
+
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
+        }
     }
 
     // MARK: - Button Events
@@ -101,6 +117,7 @@ extension AircraftListViewController {
             if let aircrafts = aircrafts {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
                 self?.isLoading = false
+                self?.collectionView.reloadData()
             } else if error != nil {
                 print("fetchMyUser error : \(error.debugDescription)")
             }
