@@ -134,7 +134,7 @@ class ProfileViewController: UIViewController, Shimmable {
     }
 
     @objc open func didPressLocationButton() {
-        //
+        // To be implemented by subclass
     }
 
     @objc open func didSwipeHorizontally(_ sender: Any) {
@@ -148,7 +148,7 @@ class ProfileViewController: UIViewController, Shimmable {
     }
 
     @objc open func didSelectRow(at indexPath: IndexPath) {
-        //
+        // To be implemented by subclass
     }
 }
 

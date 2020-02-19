@@ -13,6 +13,8 @@ import EmptyDataSet_Swift
 
 class AircraftListViewController: UIViewController {
 
+    let canAddAircraft: Bool = false
+
     // MARK: - Private Variables
 
     lazy var collectionViewLayout: UICollectionViewLayout = {
@@ -73,10 +75,20 @@ class AircraftListViewController: UIViewController {
         view.backgroundColor = Color.white
         navigationItem.title = "Your Aircrafts"
 
+        if canAddAircraft {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressAddButton))
+        }
+
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
+    }
+
+    // MARK: - Button Events
+
+    @objc func didPressAddButton() {
+        print("didPressAddButton")
     }
 }
 

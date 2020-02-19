@@ -71,4 +71,23 @@ class ProfileViewModel: Descriptable {
         self.rightBadgeImage = UIImage(named: "icn_chapter_small")
         self.rightSegmentLabel = "Members"
     }
+
+    init(with aircraft: Aircraft) {
+        self.title = aircraft.name
+        self.displayName = ""
+        self.locationName = ""
+        self.pictureUrl = aircraft.mainImageUrl
+        self.backgroundUrl = aircraft.backgroundImageUrl
+
+        self.topBadgeLabel = nil
+        self.topBadgeImage = nil
+
+        self.leftBadgeLabel = ""
+        self.leftBadgeImage = nil
+        self.leftSegmentLabel = ""
+
+        self.rightBadgeLabel = ""
+        self.rightBadgeImage = nil
+        self.rightSegmentLabel = ""
+    }
 }
