@@ -160,6 +160,11 @@ class LoginViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
+
+        if !APIServices.shared.isLoggedIn {
+            emailField.text = APIServices.shared.credential.email
+            passwordField.text = APIServices.shared.credential.password
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -178,15 +183,12 @@ class LoginViewController: UIViewController {
         super.viewDidAppear(animated)
 
         // Skip login if there's a persisted sessionId
-        if !APIServices.shared.isLoggedIn {
-            emailField.text = APIServices.shared.credential.email
-            passwordField.text = APIServices.shared.credential.password
-
+        if APIServices.shared.isLoggedIn {
+            presentHome()
+        } else {
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
                 self.emailField.becomeFirstResponder()
             }
-        } else {
-            presentHome()
         }
     }
 
