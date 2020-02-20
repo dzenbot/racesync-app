@@ -13,18 +13,9 @@ import EmptyDataSet_Swift
 
 class AircraftListViewController: UIViewController {
 
-    let canAddAircraft: Bool = false
-
-    // MARK: - Public Variables
-
-    var isLoading: Bool = false {
-        didSet {
-            if isLoading { activityIndicatorView.startAnimating() }
-            else { activityIndicatorView.stopAnimating() }
-        }
-    }
-
     // MARK: - Private Variables
+
+    let canAddAircraft: Bool = false
 
     lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -51,6 +42,13 @@ class AircraftListViewController: UIViewController {
         view.hidesWhenStopped = true
         return view
     }()
+
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading { activityIndicatorView.startAnimating() }
+            else { activityIndicatorView.stopAnimating() }
+        }
+    }
 
     fileprivate let aircraftApi = AircraftAPI()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
@@ -84,7 +82,7 @@ class AircraftListViewController: UIViewController {
     func setupLayout() {
 
         view.backgroundColor = Color.white
-        navigationItem.title = "Your Aircrafts"
+        navigationItem.title = "My Aircrafts"
 
         if canAddAircraft {
             navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressAddButton))

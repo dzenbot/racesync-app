@@ -114,6 +114,8 @@ class ProfileHeaderView: UIView {
     fileprivate func setupLayout() {
         guard !hasLaidOut else { return }
 
+        backgroundColor = Color.white
+
         addSubview(backgroundImageView)
         backgroundImageView.snp.makeConstraints {
             $0.top.equalTo(snp.top).offset(-topLayoutInset)

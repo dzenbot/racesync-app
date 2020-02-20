@@ -106,14 +106,13 @@ class ProfileViewController: UIViewController, Shimmable {
         headerView.viewModel = profileViewModel
         headerView.locationButton.addTarget(self, action: #selector(didPressLocationButton), for: .touchUpInside)
         tableView.tableHeaderView = headerView
-        view.addSubview(tableView)
 
+        view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
 
         let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-
         headerView.snp.makeConstraints {
             $0.size.equalTo(headerViewSize)
         }

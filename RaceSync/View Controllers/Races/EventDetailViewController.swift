@@ -401,7 +401,39 @@ class EventDetailViewController: UIViewController, Joinable {
         loadMapIfPossible()
     }
 
-    fileprivate func loadMapIfPossible(_ showMapSnapshot: Bool = false) {
+    // MARK: - Actions
+
+    @objc func didTapMapView(_ sender: UITapGestureRecognizer) {
+        presentMapView()
+    }
+
+    @objc func didPressLocationButton(_ sender: UIButton) {
+        guard canDisplayMap else { return }
+        presentMapView()
+    }
+
+    @objc func didPressDateButton(_ sender: UITapGestureRecognizer) {
+        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
+        tabBarController.didPressCalendarButton()
+    }
+
+    @objc func didPressJoinButton(_ sender: JoinButton) {
+        let currentState = sender.joinState
+
+        toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { [weak self] (newState) in
+
+            if let tabBarController = self?.tabBarController as? RaceTabBarController, currentState != newState {
+                tabBarController.reloadAllTabs()
+            }
+        }
+    }
+}
+
+// MARK: - Map Logic
+
+fileprivate extension EventDetailViewController {
+
+    func loadMapIfPossible(_ showMapSnapshot: Bool = false) {
         guard let coordinates = raceCoordinates else { return }
 
         let distance = CLLocationDistance(1000)
@@ -442,7 +474,7 @@ class EventDetailViewController: UIViewController, Joinable {
         }
     }
 
-    fileprivate func loadMapSnapshot(with mapView: MKMapView, mapRect: MKMapRect, coordinate: CLLocationCoordinate2D) {
+    func loadMapSnapshot(with mapView: MKMapView, mapRect: MKMapRect, coordinate: CLLocationCoordinate2D) {
 
         let snapShotOptions: MKMapSnapshotter.Options = MKMapSnapshotter.Options()
         snapShotOptions.mapRect = mapRect
@@ -479,9 +511,7 @@ class EventDetailViewController: UIViewController, Joinable {
         }
     }
 
-    // MARK: - Actions
-
-    @objc func didTapMapView(_ sender: UITapGestureRecognizer) {
+    func presentMapView() {
         guard let coordinates = raceCoordinates, let address = race.address else { return }
 
         let mapVC = RaceMapViewController(with: coordinates, address: address)
@@ -489,28 +519,9 @@ class EventDetailViewController: UIViewController, Joinable {
 
         present(mapNC, animated: true, completion: nil)
     }
-
-    @objc func didPressLocationButton(_ sender: UITapGestureRecognizer) {
-        guard canDisplayMap else { return }
-        didTapMapView(sender)
-    }
-
-    @objc func didPressDateButton(_ sender: UITapGestureRecognizer) {
-        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
-        tabBarController.didPressCalendarButton()
-    }
-
-    @objc func didPressJoinButton(_ sender: JoinButton) {
-        let currentState = sender.joinState
-
-        toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { [weak self] (newState) in
-
-            if let tabBarController = self?.tabBarController as? RaceTabBarController, currentState != newState {
-                tabBarController.reloadAllTabs()
-            }
-        }
-    }
 }
+
+// MARK: - UITableView Delegate
 
 extension EventDetailViewController: UITableViewDelegate {
 
@@ -538,6 +549,8 @@ extension EventDetailViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - UITableView DataSource
+
 extension EventDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -562,6 +575,8 @@ extension EventDetailViewController: UITableViewDataSource {
         return Constants.cellHeight
     }
 }
+
+// MARK: - MKMapView Delegate
 
 extension EventDetailViewController: MKMapViewDelegate {
 

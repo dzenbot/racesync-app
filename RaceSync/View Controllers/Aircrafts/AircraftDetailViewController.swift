@@ -17,7 +17,7 @@ protocol AircraftDetailViewControllerDelegate {
 
 class AircraftDetailViewController: UIViewController {
 
-    let shouldDisplayHeader: Bool = false
+    let shouldDisplayHeader: Bool = true
 
     // MARK: - Public Variables
 
@@ -25,17 +25,30 @@ class AircraftDetailViewController: UIViewController {
 
     // MARK: - Private Variables
 
-    let headerView = ProfileHeaderView()
+    fileprivate let headerView = ProfileHeaderView()
 
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
-        tableView.contentInsetAdjustmentBehavior = .scrollableAxes
+        tableView.contentInsetAdjustmentBehavior = .always
         tableView.tableFooterView = UIView()
         return tableView
     }()
+
+    fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .gray)
+        view.hidesWhenStopped = true
+        return view
+    }()
+
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading { activityIndicatorView.startAnimating() }
+            else { activityIndicatorView.stopAnimating() }
+        }
+    }
 
     fileprivate var topOffset: CGFloat {
         get {
@@ -70,20 +83,20 @@ class AircraftDetailViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        title = aircraftViewModel.displayName
-
+        
         setupLayout()
+        isLoading = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        tableView.reloadData()
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        isLoading = false
+        tableView.reloadData()
     }
 
     // MARK: - Layout
@@ -91,29 +104,35 @@ class AircraftDetailViewController: UIViewController {
     func setupLayout() {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
+        title = aircraftViewModel.displayName
+        view.backgroundColor = Color.white
+
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didPressDeleteButton))
         navigationItem.rightBarButtonItem?.tintColor = Color.red
+
+        headerView.topLayoutInset = topOffset
+        headerView.viewModel = ProfileViewModel(with: aircraft)
+        tableView.tableHeaderView = headerView
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
 
-        if shouldDisplayHeader {
-            headerView.topLayoutInset = topOffset
-            headerView.viewModel = ProfileViewModel(with: aircraft)
-            tableView.tableHeaderView = headerView
+        let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+        headerView.snp.makeConstraints {
+            $0.size.equalTo(headerViewSize)
+        }
 
-            let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-            headerView.snp.makeConstraints {
-                $0.size.equalTo(headerViewSize)
-            }
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
         }
     }
 
     fileprivate func presentPicker(forRow row: AircraftRow) {
-        let items = aircraftSpecs(forRow: row)
-        let selectedItem = selectedAircraftSpec(forRow: row)
+        let items = aircraftSpecItems(forRow: row)
+        let selectedItem = selectedAircraftSpecItem(forRow: row)
 
         let presenter = Appearance.defaultPresenter()
         let pickerVC = PickerViewController(with: items, selectedItem: selectedItem)
@@ -123,50 +142,15 @@ class AircraftDetailViewController: UIViewController {
         customPresentViewController(presenter, viewController: pickerVC, animated: true)
     }
 
-    fileprivate func aircraftSpecs(forRow row: AircraftRow) -> [String] {
-        switch row {
-        case .type:
-            return AircraftType.allCases.compactMap { $0.title }
-        case .size:
-            return AircraftSize.allCases.compactMap { $0.title }
-        case .battery:
-            return BatterySize.allCases.compactMap { $0.title }
-        case .propSize:
-            return PropellerSize.allCases.compactMap { $0.title }
-        case .videoTx:
-            return VideoTxType.allCases.compactMap { $0.title }
-        case .videoTxPower:
-            return VideoTxPower.allCases.compactMap { $0.title }
-        case .videoTxChannels:
-            return VideoChannels.allCases.compactMap { $0.title }
-        case .videoRxChannels:
-            return VideoChannels.allCases.compactMap { $0.title }
-        case .antenna:
-            return AntennaPolarization.allCases.compactMap { $0.title }
-        }
-    }
+    fileprivate func presentTextField(forRow row: AircraftRow) {
+        let text = selectedAircraftSpecItem(forRow: row)
 
-    fileprivate func selectedAircraftSpec(forRow row: AircraftRow) -> String? {
-        switch row {
-        case .type:
-            return aircraftViewModel.aircraft?.type?.title
-        case .size:
-            return aircraftViewModel.aircraft?.size?.title
-        case .battery:
-            return aircraftViewModel.aircraft?.battery?.title
-        case .propSize:
-            return aircraftViewModel.aircraft?.propSize?.title
-        case .videoTx:
-            return aircraftViewModel.aircraft?.videoTxType.title
-        case .videoTxPower:
-            return aircraftViewModel.aircraft?.videoTxPower?.title
-        case .videoTxChannels:
-            return aircraftViewModel.aircraft?.videoTxChannels.title
-        case .videoRxChannels:
-            return aircraftViewModel.aircraft?.videoRxChannels?.title
-        case .antenna:
-            return aircraftViewModel.aircraft?.antenna.title
-        }
+        let presenter = Appearance.defaultPresenter()
+        let textFieldVC = TextFieldViewController(with: text)
+        textFieldVC.delegate = self
+        textFieldVC.title = "Update \(row.title)"
+
+        customPresentViewController(presenter, viewController: textFieldVC, animated: true)
     }
 
     // MARK: - Button Events
@@ -198,7 +182,12 @@ extension AircraftDetailViewController: UITableViewDelegate {
 
         guard let row = AircraftRow(rawValue: indexPath.row) else { return }
 
-        presentPicker(forRow: row)
+        if row == .name {
+            presentTextField(forRow: row)
+        } else {
+            presentPicker(forRow: row)
+        }
+
         selectedRow = row
     }
 }
@@ -206,42 +195,18 @@ extension AircraftDetailViewController: UITableViewDelegate {
 extension AircraftDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 9
+        return isLoading ? 0 : AircraftRow.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
+        guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
 
-        let row = AircraftRow(rawValue: indexPath.row)
-
+        cell.textLabel?.text = row.title
         cell.textLabel?.textColor = Color.gray300
+
+        cell.detailTextLabel?.text = detailTextLabel(forRow: row)
         cell.detailTextLabel?.textColor = Color.black
-        cell.accessoryType = .none
-
-        cell.textLabel?.text = row?.title
-
-        switch row {
-        case .type:
-        cell.detailTextLabel?.text = aircraftViewModel.typeLabel
-        case .size:
-        cell.detailTextLabel?.text = aircraftViewModel.sizeLabel
-        case .battery:
-        cell.detailTextLabel?.text = aircraftViewModel.batteryLabel
-        case .propSize:
-        cell.detailTextLabel?.text = aircraftViewModel.propSizeLabel
-        case .videoTx:
-        cell.detailTextLabel?.text = aircraftViewModel.videoTxTypeLabel
-        case .videoTxPower:
-        cell.detailTextLabel?.text = aircraftViewModel.videoTxPowerLabel
-        case .videoTxChannels:
-        cell.detailTextLabel?.text = aircraftViewModel.videoTxChannelsLabel
-        case .videoRxChannels:
-        cell.detailTextLabel?.text = aircraftViewModel.videoRxChannelsLabel
-        case .antenna:
-        cell.detailTextLabel?.text = aircraftViewModel.antennaLabel
-        case .none:
-        cell.detailTextLabel?.text = ""
-        }
 
         return cell
     }
@@ -250,6 +215,113 @@ extension AircraftDetailViewController: UITableViewDataSource {
         return Constants.cellHeight
     }
 }
+
+fileprivate extension AircraftDetailViewController {
+
+    func aircraftSpecItems(forRow row: AircraftRow) -> [String] {
+        switch row {
+        case .type:
+            return AircraftType.allCases.compactMap { $0.title }
+        case .size:
+            return AircraftSize.allCases.compactMap { $0.title }
+        case .battery:
+            return BatterySize.allCases.compactMap { $0.title }
+        case .propSize:
+            return PropellerSize.allCases.compactMap { $0.title }
+        case .videoTx:
+            return VideoTxType.allCases.compactMap { $0.title }
+        case .videoTxPower:
+            return VideoTxPower.allCases.compactMap { $0.title }
+        case .videoTxChannels:
+            return VideoChannels.allCases.compactMap { $0.title }
+        case .videoRxChannels:
+            return VideoChannels.allCases.compactMap { $0.title }
+        case .antenna:
+            return AntennaPolarization.allCases.compactMap { $0.title }
+        default:
+            return [String]()
+        }
+    }
+
+    func selectedAircraftSpecItem(forRow row: AircraftRow) -> String? {
+        switch row {
+        case .name:
+            return aircraftViewModel.displayName
+        case .type:
+            return aircraftViewModel.aircraft?.type?.title
+        case .size:
+            return aircraftViewModel.aircraft?.size?.title
+        case .battery:
+            return aircraftViewModel.aircraft?.battery?.title
+        case .propSize:
+            return aircraftViewModel.aircraft?.propSize?.title
+        case .videoTx:
+            return aircraftViewModel.aircraft?.videoTxType.title
+        case .videoTxPower:
+            return aircraftViewModel.aircraft?.videoTxPower?.title
+        case .videoTxChannels:
+            return aircraftViewModel.aircraft?.videoTxChannels.title
+        case .videoRxChannels:
+            return aircraftViewModel.aircraft?.videoRxChannels?.title
+        case .antenna:
+            return aircraftViewModel.aircraft?.antenna.title
+        default:
+            return nil
+        }
+    }
+
+    func detailTextLabel(forRow row: AircraftRow) -> String {
+        switch row {
+        case .name:
+            return aircraftViewModel.displayName
+        case .type:
+            return aircraftViewModel.typeLabel
+        case .size:
+            return aircraftViewModel.sizeLabel
+        case .battery:
+            return aircraftViewModel.batteryLabel
+        case .propSize:
+            return aircraftViewModel.propSizeLabel
+        case .videoTx:
+            return aircraftViewModel.videoTxTypeLabel
+        case .videoTxPower:
+            return aircraftViewModel.videoTxPowerLabel
+        case .videoTxChannels:
+            return aircraftViewModel.videoTxChannelsLabel
+        case .videoRxChannels:
+            return aircraftViewModel.videoRxChannelsLabel
+        case .antenna:
+            return aircraftViewModel.antennaLabel
+        }
+    }
+}
+
+// MARK: - TextFieldViewController Delegate
+
+extension AircraftDetailViewController: TextFieldViewControllerDelegate {
+
+    func textFieldViewController(_ viewController: TextFieldViewController, didInputText text: String?) {
+
+        let specs = AircraftSpecs()
+        specs.name = text
+
+        aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) { (status, error) in
+            if status {
+                // handle success
+            } else if let _ = error {
+                // handle failure
+            }
+
+            viewController.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    func textFieldViewControllerDidDismiss(_ viewController: TextFieldViewController) {
+        //
+    }
+}
+
+// MARK: - PickerViewController Delegate
 
 extension AircraftDetailViewController: PickerViewControllerDelegate {
 
@@ -286,6 +358,8 @@ extension AircraftDetailViewController: PickerViewControllerDelegate {
         case .antenna:
             let type = AntennaPolarization(title: item)
             specs.antenna = type?.rawValue
+        default:
+            break
         }
 
         aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) { (status, error) in
@@ -330,12 +404,12 @@ extension AircraftDetailViewController: HeaderStretchable {
     }
 }
 
-
 fileprivate enum AircraftRow: Int, EnumTitle, CaseIterable {
-    case type, size, battery, propSize, videoTx, videoTxPower, videoTxChannels, videoRxChannels, antenna
+    case name, type, size, battery, propSize, videoTx, videoTxPower, videoTxChannels, videoRxChannels, antenna
 
     public var title: String {
         switch self {
+        case .name:             return "Name"
         case .type:             return "Type"
         case .size:             return "Size"
         case .battery:          return "Battery"

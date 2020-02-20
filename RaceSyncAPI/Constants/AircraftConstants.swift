@@ -59,7 +59,7 @@ public enum AircraftSize: String, EnumTitle {
         case .from400:       return "400mm to 449mm"
         case .from450:       return "450mm to 499mm"
         case .from500:       return "500mm to 675mm"
-        case .from800:       return "800mm to 1050mm (Mega Class)"
+        case .from800:       return "800mm to 1050mm (Mega)"
         }
     }
 }
