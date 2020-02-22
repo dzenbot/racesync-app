@@ -66,11 +66,14 @@ class AircraftListViewController: UIViewController {
         super.viewDidLoad()
 
         setupLayout()
-        fetchMyAircrafts()
+
+        isLoading = true
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        fetchMyAircrafts()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -109,10 +112,9 @@ class AircraftListViewController: UIViewController {
 extension AircraftListViewController {
 
     func fetchMyAircrafts() {
-        isLoading = true
-
         aircraftApi.getMyAircrafts() { [weak self] (aircrafts, error) in
             if let aircrafts = aircrafts {
+                self?.aircraftViewModels = [AircraftViewModel]()
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
                 self?.isLoading = false
                 self?.collectionView.reloadData()
