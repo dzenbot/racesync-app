@@ -11,7 +11,7 @@ import SnapKit
 import PickerView
 
 protocol TextFieldViewControllerDelegate {
-    func textFieldViewController(_ viewController: TextFieldViewController, didInputText text: String?)
+    func textFieldViewController(_ viewController: TextFieldViewController, didSaveText text: String?)
     func textFieldViewControllerDidDismiss(_ viewController: TextFieldViewController)
 }
 
@@ -21,9 +21,16 @@ class TextFieldViewController: UIViewController {
 
     var delegate: TextFieldViewControllerDelegate?
 
-    override var title: String? {
+    var isLoading: Bool = false {
         didSet {
-            navigationBarItem.title = title
+            if isLoading {
+                navigationBarItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                activityIndicatorView.startAnimating()
+            }
+            else {
+                navigationBarItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didPressSaveButton))
+                activityIndicatorView.stopAnimating()
+            }
         }
     }
 
@@ -57,6 +64,18 @@ class TextFieldViewController: UIViewController {
         textField.spellCheckingType = .no
         return textField
     }()
+
+    fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .gray)
+        view.hidesWhenStopped = true
+        return view
+    }()
+
+    override var title: String? {
+        didSet {
+            navigationBarItem.title = title
+        }
+    }
 
     fileprivate var text: String?
 
@@ -123,7 +142,7 @@ class TextFieldViewController: UIViewController {
 
     @objc func didPressSaveButton() {
         let text = textField.text
-        delegate?.textFieldViewController(self, didInputText: text)
+        delegate?.textFieldViewController(self, didSaveText: text)
     }
 }
 
@@ -153,6 +172,14 @@ extension TextFieldViewController: UITextFieldDelegate {
         let canSave = (newText != text)
         navigationBarItem.rightBarButtonItem?.isEnabled = canSave
         textField.enablesReturnKeyAutomatically = canSave
+    }
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        let canSave = (textField.text != text)
+        if canSave {
+            didPressSaveButton()
+        }
+        return canSave
     }
 
 }

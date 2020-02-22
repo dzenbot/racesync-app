@@ -18,8 +18,6 @@ public class Aircraft: Mappable, Descriptable {
     public var mainImageUrl: String?
     public var backgroundImageUrl: String?
 
-//    public var videoChannels: VideoChannels = .raceband40
-
     public var type: AircraftType?
     public var size: AircraftSize?
     public var battery: BatterySize?

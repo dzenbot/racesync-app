@@ -11,7 +11,7 @@ import SnapKit
 import PickerView
 
 protocol PickerViewControllerDelegate {
-    func pickerViewController(_ viewController: PickerViewController, didSelectItem item: String)
+    func pickerViewController(_ viewController: PickerViewController, didSaveItem item: String)
     func pickerViewControllerDidDismiss(_ viewController: PickerViewController)
 }
 
@@ -28,6 +28,19 @@ class PickerViewController: UIViewController {
     }
 
     var unit: String?
+
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                navigationBarItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                activityIndicatorView.startAnimating()
+            }
+            else {
+                navigationBarItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didPressSaveButton))
+                activityIndicatorView.stopAnimating()
+            }
+        }
+    }
 
     // MARK: - Private Variables
 
@@ -57,14 +70,22 @@ class PickerViewController: UIViewController {
         return view
     }()
 
+    fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .gray)
+        view.hidesWhenStopped = true
+        return view
+    }()
+
     fileprivate let items: [String]
     fileprivate var selectedItem: String?
+    fileprivate var defaultItem: String?
 
     // MARK: - Initialization
 
-    init(with items: [String], selectedItem: String? = nil) {
+    init(with items: [String], selectedItem: String? = nil, defaultItem: String? = nil) {
         self.items = items
         self.selectedItem = selectedItem
+        self.defaultItem = defaultItem
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -107,6 +128,8 @@ class PickerViewController: UIViewController {
 
         if let selectedItem = selectedItem, let index = items.firstIndex(of: selectedItem) {
             pickerView.selectRow(index, animated: false)
+        } else if let defaultItem = defaultItem, let index = items.firstIndex(of: defaultItem) {
+            pickerView.selectRow(index, animated: false)
         }
     }
 
@@ -119,7 +142,7 @@ class PickerViewController: UIViewController {
 
     @objc func didPressSaveButton() {
         let item = items[pickerView.currentSelectedRow]
-        delegate?.pickerViewController(self, didSelectItem: item)
+        delegate?.pickerViewController(self, didSaveItem: item)
     }
 }
 

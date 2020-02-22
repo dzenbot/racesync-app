@@ -112,7 +112,7 @@ public enum VideoTxPower: String, EnumTitle {
 
     public var title: String {
         switch self {
-        case .´10mw´:       return "25 mW"
+        case .´10mw´:       return "10 mW"
         case .´25mw´:       return "25 mW"
         case .´50mw´:       return "50 mW"
         case .´200mw´:      return "200 mW"

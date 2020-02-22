@@ -58,7 +58,9 @@ class AircraftDetailViewController: UIViewController {
         }
     }
 
-    fileprivate var aircraftViewModel: AircraftViewModel
+    fileprivate var aircraftViewModel: AircraftViewModel {
+        didSet { navigationItem.title = aircraftViewModel.displayName }
+    }
     fileprivate let aircraftApi = AircraftAPI()
 
     fileprivate var selectedRow: AircraftRow?
@@ -104,7 +106,7 @@ class AircraftDetailViewController: UIViewController {
     func setupLayout() {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
-        title = aircraftViewModel.displayName
+        navigationItem.title = aircraftViewModel.displayName
         view.backgroundColor = Color.white
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didPressDeleteButton))
@@ -133,9 +135,10 @@ class AircraftDetailViewController: UIViewController {
     fileprivate func presentPicker(forRow row: AircraftRow) {
         let items = aircraftSpecItems(forRow: row)
         let selectedItem = selectedAircraftSpecItem(forRow: row)
+        let defaultItem = defaultAircraftSpecItem(forRow: row)
 
         let presenter = Appearance.defaultPresenter()
-        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem)
+        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
         pickerVC.delegate = self
         pickerVC.title = "Update \(row.title)"
 
@@ -265,8 +268,31 @@ fileprivate extension AircraftDetailViewController {
             return aircraftViewModel.aircraft?.videoRxChannels?.title
         case .antenna:
             return aircraftViewModel.aircraft?.antenna.title
-        default:
+        }
+    }
+
+    func defaultAircraftSpecItem(forRow row: AircraftRow) -> String? {
+        switch row {
+        case .name:
             return nil
+        case .type:
+            return AircraftType.quad.title
+        case .size:
+            return AircraftSize.from250.title
+        case .battery:
+            return BatterySize.´4s´.title
+        case .propSize:
+            return PropellerSize.´5in´.title
+        case .videoTx:
+            return VideoTxType.´5800mhz´.title
+        case .videoTxPower:
+            return VideoTxPower.´25mw´.title
+        case .videoTxChannels:
+            return VideoChannels.raceband40.title
+        case .videoRxChannels:
+            return VideoChannels.raceband40.title
+        case .antenna:
+            return AntennaPolarization.both.title
         }
     }
 
@@ -300,16 +326,22 @@ fileprivate extension AircraftDetailViewController {
 
 extension AircraftDetailViewController: TextFieldViewControllerDelegate {
 
-    func textFieldViewController(_ viewController: TextFieldViewController, didInputText text: String?) {
+    func textFieldViewController(_ viewController: TextFieldViewController, didSaveText text: String?) {
+        guard let aircraft = aircraftViewModel.aircraft else { return }
 
         let specs = AircraftSpecs()
         specs.name = text
+        aircraft.name = text ?? ""
 
-        aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) { (status, error) in
+        viewController.isLoading = true
+
+        aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) {  [weak self] (status, error) in
             if status {
-                // handle success
+                self?.aircraftViewModel = AircraftViewModel(with: aircraft)
+                self?.tableView.reloadData()
             } else if let _ = error {
-                // handle failure
+                viewController.isLoading = false
+                // present dialog?
             }
 
             viewController.dismiss(animated: true, completion: nil)
@@ -325,8 +357,9 @@ extension AircraftDetailViewController: TextFieldViewControllerDelegate {
 
 extension AircraftDetailViewController: PickerViewControllerDelegate {
 
-    func pickerViewController(_ viewController: PickerViewController, didSelectItem item: String) {
+    func pickerViewController(_ viewController: PickerViewController, didSaveItem item: String) {
         guard let row = selectedRow else { return }
+        guard let aircraft = aircraftViewModel.aircraft else { return }
 
         let specs = AircraftSpecs()
 
@@ -334,39 +367,52 @@ extension AircraftDetailViewController: PickerViewControllerDelegate {
         case .type:
             let type = AircraftType(title: item)
             specs.type = type?.rawValue
+            aircraft.type = type
         case .size:
             let type = AircraftSize(title: item)
             specs.size = type?.rawValue
+            aircraft.size = type
         case .battery:
             let type = BatterySize(title: item)
             specs.battery = type?.rawValue
+            aircraft.battery = type
         case .propSize:
             let type = PropellerSize(title: item)
             specs.propSize = type?.rawValue
+            aircraft.propSize = type
         case .videoTx:
             let type = VideoTxType(title: item)
             specs.videoTxType = type?.rawValue
+            aircraft.videoTxType = type ?? .´5800mhz´
         case .videoTxPower:
             let type = VideoTxPower(title: item)
             specs.videoTxPower = type?.rawValue
+            aircraft.videoTxPower = type
         case .videoTxChannels:
             let type = VideoChannels(title: item)
             specs.videoTxChannels = type?.rawValue
+            aircraft.videoTxChannels = type ?? .raceband40
         case .videoRxChannels:
             let type = VideoChannels(title: item)
             specs.videoRxChannels = type?.rawValue
+            aircraft.videoRxChannels = type
         case .antenna:
             let type = AntennaPolarization(title: item)
             specs.antenna = type?.rawValue
+            aircraft.antenna = type ?? .both
         default:
             break
         }
 
-        aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) { (status, error) in
+        viewController.isLoading = true
+
+        aircraftApi.update(aircraft: aircraft.id, with: specs) { [weak self] (status, error) in
             if status {
-                // handle success
+                self?.aircraftViewModel = AircraftViewModel(with: aircraft)
+                self?.tableView.reloadData()
             } else if let _ = error {
-                // handle failure
+                viewController.isLoading = false
+                // present dialog?
             }
 
             viewController.dismiss(animated: true, completion: nil)

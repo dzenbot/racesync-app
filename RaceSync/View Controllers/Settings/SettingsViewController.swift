@@ -215,7 +215,7 @@ extension SettingsViewController: UITableViewDataSource {
 
 extension SettingsViewController: PickerViewControllerDelegate {
 
-    func pickerViewController(_ viewController: PickerViewController, didSelectItem item: String) {
+    func pickerViewController(_ viewController: PickerViewController, didSaveItem item: String) {
         APIServices.shared.settings.searchRadius = item
         tableView.reloadData()
 

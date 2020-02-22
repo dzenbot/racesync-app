@@ -12,7 +12,7 @@ import CoreLocation
 
 class AircraftViewModel: Descriptable {
 
-    let aircraft: Aircraft?
+    var aircraft: Aircraft?
 
     let aircraftId: ObjectId
     let displayName: String
