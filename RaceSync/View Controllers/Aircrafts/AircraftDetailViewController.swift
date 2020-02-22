@@ -205,10 +205,14 @@ extension AircraftDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
         guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
 
-        cell.textLabel?.text = row.title
-        cell.textLabel?.textColor = Color.gray300
+        if isAircraftSpecRequired(forRow: row) {
+            cell.textLabel?.text = row.title + " *"
+        } else {
+            cell.textLabel?.text = row.title
+        }
 
         cell.detailTextLabel?.text = detailTextLabel(forRow: row)
+        cell.textLabel?.textColor = Color.gray300
         cell.detailTextLabel?.textColor = Color.black
 
         return cell
@@ -216,109 +220,6 @@ extension AircraftDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.cellHeight
-    }
-}
-
-fileprivate extension AircraftDetailViewController {
-
-    func aircraftSpecItems(forRow row: AircraftRow) -> [String] {
-        switch row {
-        case .type:
-            return AircraftType.allCases.compactMap { $0.title }
-        case .size:
-            return AircraftSize.allCases.compactMap { $0.title }
-        case .battery:
-            return BatterySize.allCases.compactMap { $0.title }
-        case .propSize:
-            return PropellerSize.allCases.compactMap { $0.title }
-        case .videoTx:
-            return VideoTxType.allCases.compactMap { $0.title }
-        case .videoTxPower:
-            return VideoTxPower.allCases.compactMap { $0.title }
-        case .videoTxChannels:
-            return VideoChannels.allCases.compactMap { $0.title }
-        case .videoRxChannels:
-            return VideoChannels.allCases.compactMap { $0.title }
-        case .antenna:
-            return AntennaPolarization.allCases.compactMap { $0.title }
-        default:
-            return [String]()
-        }
-    }
-
-    func selectedAircraftSpecItem(forRow row: AircraftRow) -> String? {
-        switch row {
-        case .name:
-            return aircraftViewModel.displayName
-        case .type:
-            return aircraftViewModel.aircraft?.type?.title
-        case .size:
-            return aircraftViewModel.aircraft?.size?.title
-        case .battery:
-            return aircraftViewModel.aircraft?.battery?.title
-        case .propSize:
-            return aircraftViewModel.aircraft?.propSize?.title
-        case .videoTx:
-            return aircraftViewModel.aircraft?.videoTxType.title
-        case .videoTxPower:
-            return aircraftViewModel.aircraft?.videoTxPower?.title
-        case .videoTxChannels:
-            return aircraftViewModel.aircraft?.videoTxChannels.title
-        case .videoRxChannels:
-            return aircraftViewModel.aircraft?.videoRxChannels?.title
-        case .antenna:
-            return aircraftViewModel.aircraft?.antenna.title
-        }
-    }
-
-    func defaultAircraftSpecItem(forRow row: AircraftRow) -> String? {
-        switch row {
-        case .name:
-            return nil
-        case .type:
-            return AircraftType.quad.title
-        case .size:
-            return AircraftSize.from250.title
-        case .battery:
-            return BatterySize.´4s´.title
-        case .propSize:
-            return PropellerSize.´5in´.title
-        case .videoTx:
-            return VideoTxType.´5800mhz´.title
-        case .videoTxPower:
-            return VideoTxPower.´25mw´.title
-        case .videoTxChannels:
-            return VideoChannels.raceband40.title
-        case .videoRxChannels:
-            return VideoChannels.raceband40.title
-        case .antenna:
-            return AntennaPolarization.both.title
-        }
-    }
-
-    func detailTextLabel(forRow row: AircraftRow) -> String {
-        switch row {
-        case .name:
-            return aircraftViewModel.displayName
-        case .type:
-            return aircraftViewModel.typeLabel
-        case .size:
-            return aircraftViewModel.sizeLabel
-        case .battery:
-            return aircraftViewModel.batteryLabel
-        case .propSize:
-            return aircraftViewModel.propSizeLabel
-        case .videoTx:
-            return aircraftViewModel.videoTxTypeLabel
-        case .videoTxPower:
-            return aircraftViewModel.videoTxPowerLabel
-        case .videoTxChannels:
-            return aircraftViewModel.videoTxChannelsLabel
-        case .videoRxChannels:
-            return aircraftViewModel.videoRxChannelsLabel
-        case .antenna:
-            return aircraftViewModel.antennaLabel
-        }
     }
 }
 
@@ -450,12 +351,124 @@ extension AircraftDetailViewController: HeaderStretchable {
     }
 }
 
+fileprivate extension AircraftDetailViewController {
+
+    func aircraftSpecItems(forRow row: AircraftRow) -> [String] {
+        switch row {
+        case .type:
+            return AircraftType.allCases.compactMap { $0.title }
+        case .size:
+            return AircraftSize.allCases.compactMap { $0.title }
+        case .battery:
+            return BatterySize.allCases.compactMap { $0.title }
+        case .propSize:
+            return PropellerSize.allCases.compactMap { $0.title }
+        case .videoTx:
+            return VideoTxType.allCases.compactMap { $0.title }
+        case .videoTxPower:
+            return VideoTxPower.allCases.compactMap { $0.title }
+        case .videoTxChannels:
+            return VideoChannels.allCases.compactMap { $0.title }
+        case .videoRxChannels:
+            return VideoChannels.allCases.compactMap { $0.title }
+        case .antenna:
+            return AntennaPolarization.allCases.compactMap { $0.title }
+        default:
+            return [String]()
+        }
+    }
+
+    func selectedAircraftSpecItem(forRow row: AircraftRow) -> String? {
+        switch row {
+        case .name:
+            return aircraftViewModel.displayName
+        case .type:
+            return aircraftViewModel.aircraft?.type?.title
+        case .size:
+            return aircraftViewModel.aircraft?.size?.title
+        case .battery:
+            return aircraftViewModel.aircraft?.battery?.title
+        case .propSize:
+            return aircraftViewModel.aircraft?.propSize?.title
+        case .videoTx:
+            return aircraftViewModel.aircraft?.videoTxType.title
+        case .videoTxPower:
+            return aircraftViewModel.aircraft?.videoTxPower?.title
+        case .videoTxChannels:
+            return aircraftViewModel.aircraft?.videoTxChannels.title
+        case .videoRxChannels:
+            return aircraftViewModel.aircraft?.videoRxChannels?.title
+        case .antenna:
+            return aircraftViewModel.aircraft?.antenna.title
+        }
+    }
+
+    func defaultAircraftSpecItem(forRow row: AircraftRow) -> String? {
+        switch row {
+        case .name:
+            return nil
+        case .type:
+            return AircraftType.quad.title
+        case .size:
+            return AircraftSize.from250.title
+        case .battery:
+            return BatterySize.´4s´.title
+        case .propSize:
+            return PropellerSize.´5in´.title
+        case .videoTx:
+            return VideoTxType.´5800mhz´.title
+        case .videoTxPower:
+            return VideoTxPower.´25mw´.title
+        case .videoTxChannels:
+            return VideoChannels.raceband40.title
+        case .videoRxChannels:
+            return VideoChannels.raceband40.title
+        case .antenna:
+            return AntennaPolarization.both.title
+        }
+    }
+
+    func detailTextLabel(forRow row: AircraftRow) -> String {
+        switch row {
+        case .name:
+            return aircraftViewModel.displayName
+        case .type:
+            return aircraftViewModel.typeLabel
+        case .size:
+            return aircraftViewModel.sizeLabel
+        case .battery:
+            return aircraftViewModel.batteryLabel
+        case .propSize:
+            return aircraftViewModel.propSizeLabel
+        case .videoTx:
+            return aircraftViewModel.videoTxTypeLabel
+        case .videoTxPower:
+            return aircraftViewModel.videoTxPowerLabel
+        case .videoTxChannels:
+            return aircraftViewModel.videoTxChannelsLabel
+        case .videoRxChannels:
+            return aircraftViewModel.videoRxChannelsLabel
+        case .antenna:
+            return aircraftViewModel.antennaLabel
+        }
+    }
+
+    func isAircraftSpecRequired(forRow row: AircraftRow) -> Bool {
+        switch row {
+        case .name, .videoTx, .videoTxChannels, .antenna:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 fileprivate enum AircraftRow: Int, EnumTitle, CaseIterable {
     case name, type, size, battery, propSize, videoTx, videoTxPower, videoTxChannels, videoRxChannels, antenna
 
     public var title: String {
         switch self {
-        case .name:             return "Name"
+        case .name:             return "Aircraft Name"
         case .type:             return "Type"
         case .size:             return "Size"
         case .battery:          return "Battery"

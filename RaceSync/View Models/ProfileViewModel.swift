@@ -11,6 +11,8 @@ import RaceSyncAPI
 
 class ProfileViewModel: Descriptable {
 
+    let type: ProfileViewModelType
+
     let title: String
     let displayName: String
     let locationName: String
@@ -29,6 +31,8 @@ class ProfileViewModel: Descriptable {
     let rightSegmentLabel: String
 
     init(with user: User) {
+        self.type = .user
+
         self.title = ViewModelHelper.titleLabel(for: user.userName, country: user.country)
         self.displayName = user.displayName
         self.locationName = ViewModelHelper.locationLabel(for: user.city, state: user.state)
@@ -48,6 +52,8 @@ class ProfileViewModel: Descriptable {
     }
 
     init(with chapter: Chapter) {
+        self.type = .chapter
+
         self.title = chapter.name
         self.displayName = chapter.description.isEmpty ? chapter.name : chapter.description
         self.locationName = ViewModelHelper.locationLabel(for: chapter.city, state: chapter.state)
@@ -73,6 +79,8 @@ class ProfileViewModel: Descriptable {
     }
 
     init(with aircraft: Aircraft) {
+        self.type = .aircraft
+
         self.title = aircraft.name
         self.displayName = ""
         self.locationName = ""
@@ -90,4 +98,8 @@ class ProfileViewModel: Descriptable {
         self.rightBadgeImage = nil
         self.rightSegmentLabel = ""
     }
+}
+
+public enum ProfileViewModelType {
+    case user, chapter, aircraft
 }

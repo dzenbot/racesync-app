@@ -170,7 +170,11 @@ class ProfileHeaderView: UIView {
         }
 
         func handleAvatarImage(_ image: UIImage?) {
-            if image == nil {  profileImageView.imageView.image = UIImage(named: "placeholder_profile_avatar") }
+            if viewModel.type == .aircraft {
+                if image == nil {  profileImageView.imageView.image = UIImage(named: "placeholder_profile_aircraft") }
+            } else {
+                if image == nil {  profileImageView.imageView.image = UIImage(named: "placeholder_profile_avatar") }
+            }
         }
 
         let headerImageSize = CGSize(width: 0, height: Constants.headerHeight)

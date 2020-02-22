@@ -15,7 +15,7 @@ class AircraftListViewController: UIViewController {
 
     // MARK: - Private Variables
 
-    let canAddAircraft: Bool = false
+    let canAddAircraft: Bool = true
 
     lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
