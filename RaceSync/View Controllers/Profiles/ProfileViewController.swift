@@ -28,6 +28,7 @@ class ProfileViewController: UIViewController, Shimmable {
         tableView.delegate = self
         tableView.register(SegmentedTableViewHeaderView.self, forHeaderFooterViewReuseIdentifier: SegmentedTableViewHeaderView.identifier)
         tableView.contentInsetAdjustmentBehavior = .always
+        tableView.alwaysBounceVertical = true
         tableView.tableFooterView = UIView()
 
         for direction in [UISwipeGestureRecognizer.Direction.left, UISwipeGestureRecognizer.Direction.right] {

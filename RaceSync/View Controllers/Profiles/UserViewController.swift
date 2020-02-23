@@ -92,7 +92,8 @@ class UserViewController: ProfileViewController, Joinable {
         tableView.register(ChapterTableViewCell.self, forCellReuseIdentifier: ChapterTableViewCell.identifier)
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
-
+        tableView.emptyDataSetDelegate = self
+        
         loadRaces()
     }
 
@@ -319,3 +320,11 @@ extension UserViewController: EmptyDataSetSource {
         return 0
     }
 }
+
+extension UserViewController: EmptyDataSetDelegate {
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+}
+

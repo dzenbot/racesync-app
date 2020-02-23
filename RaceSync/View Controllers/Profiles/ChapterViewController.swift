@@ -16,12 +16,13 @@ class ChapterViewController: ProfileViewController, Joinable {
 
     fileprivate let chapter: Chapter
     fileprivate let raceApi = RaceApi()
+    fileprivate let chapterApi = ChapterApi()
 
     fileprivate var raceViewModels = [RaceViewModel]()
     fileprivate var userViewModels = [UserViewModel]()
 
     fileprivate var emptyStateRaces = EmptyStateViewModel(.noRaces)
-    fileprivate var emptyStateMembers = EmptyStateViewModel(.noChapterMembers)
+    fileprivate var emptyStateUsers = EmptyStateViewModel(.commingSoon)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -52,6 +53,7 @@ class ChapterViewController: ProfileViewController, Joinable {
         tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
+        tableView.emptyDataSetDelegate = self
 
         loadRaces()
     }
@@ -137,13 +139,24 @@ fileprivate extension ChapterViewController {
         if userViewModels.isEmpty {
             isLoading(true)
 
-            // TODO: Just displaying the 1 complete User model we have, while we wait for https://github.com/mainedrones/racesync-api/issues/16
-            if let myUser = APIServices.shared.myUser {
-                self.userViewModels = UserViewModel.viewModels(with: [myUser])
-                isLoading(false)
+            fetchUsers { [weak self] in
+                self?.isLoading(false)
             }
         } else {
             tableView.reloadData()
+        }
+    }
+
+    func fetchUsers(_ completion: VoidCompletionBlock? = nil) {
+        chapterApi.getUsers(with: chapter.id) { (users, error) in
+            if let users = users {
+                self.userViewModels = UserViewModel.viewModels(with: users)
+                self.tableView.reloadData()
+            } else {
+                print("getMyRaces error : \(error.debugDescription)")
+            }
+
+            completion?()
         }
     }
 
@@ -240,5 +253,12 @@ extension ChapterViewController: EmptyDataSetSource {
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
         return 0
+    }
+}
+
+extension ChapterViewController: EmptyDataSetDelegate {
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
     }
 }
