@@ -222,7 +222,7 @@ extension ChapterViewController: EmptyDataSetSource {
         if selectedSegment == .left {
             return emptyStateRaces.title
         } else if selectedSegment == .right {
-            return emptyStateMembers.title
+            return emptyStateUsers.title
         } else {
             return nil
         }
@@ -232,7 +232,7 @@ extension ChapterViewController: EmptyDataSetSource {
         if selectedSegment == .left {
             return emptyStateRaces.description
         } else if selectedSegment == .right {
-            return emptyStateMembers.description
+            return emptyStateUsers.description
         } else {
             return nil
         }

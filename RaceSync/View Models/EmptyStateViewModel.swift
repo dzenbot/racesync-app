@@ -114,7 +114,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         case .noAircrafts:
             text = "No don't have any aircrafts yet."
         case .commingSoon:
-            text = "This feature is currently under development."
+            text = "This section is under development."
         case .errorRace:
             text = "Could not load the race details.\nPlease try again later or report a bug."
         default:
