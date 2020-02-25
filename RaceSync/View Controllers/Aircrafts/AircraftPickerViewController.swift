@@ -22,9 +22,22 @@ class AircraftPickerViewController: UIViewController {
 
     var delegate: AircraftPickerViewControllerDelegate?
 
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                activityIndicatorView.startAnimating()
+            }
+            else {
+                navigationItem.rightBarButtonItem = rightBarButtonItem
+                activityIndicatorView.stopAnimating()
+            }
+        }
+    }
+
     // MARK: - Private Variables
 
-    lazy var collectionViewLayout: UICollectionViewLayout = {
+    fileprivate lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: AircraftCollectionViewCell.height, height: AircraftCollectionViewCell.height)
         layout.minimumInteritemSpacing = Constants.padding
@@ -32,7 +45,7 @@ class AircraftPickerViewController: UIViewController {
         return layout
     }()
 
-    lazy var collectionView: UICollectionView = {
+    fileprivate lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout:collectionViewLayout)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -41,7 +54,11 @@ class AircraftPickerViewController: UIViewController {
         return collectionView
     }()
 
-    lazy var activityIndicatorView: UIActivityIndicatorView = {
+    fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
+        return UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressCreateButton))
+    }()
+
+    fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .gray)
         view.hidesWhenStopped = true
         return view
@@ -54,6 +71,7 @@ class AircraftPickerViewController: UIViewController {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let margin: UIEdgeInsets = UIEdgeInsets(proportionally: Constants.padding)
+        static let title: String = "Select an Aircraft"
     }
 
     // MARK: - Initialization
@@ -90,9 +108,9 @@ class AircraftPickerViewController: UIViewController {
 
         view.backgroundColor = Color.white
 
-        navigationItem.title = "Select Your Aircraft"
+        navigationItem.title = Constants.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+        navigationItem.rightBarButtonItem = rightBarButtonItem
 
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
@@ -102,8 +120,57 @@ class AircraftPickerViewController: UIViewController {
 
     // MARK: - Actions
 
+    @objc func didPressCreateButton() {
+
+        let sheetTitle = "Join the race with a new aircraft?"
+
+        let alert = UIAlertController(title: sheetTitle, message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = Color.blue
+
+        alert.addAction(UIAlertAction(title: "New Aircraft", style: .default, handler: { [weak self] (actionButton) in
+            self?.presentNewAircraftForm()
+        }))
+        alert.addAction(UIAlertAction(title: "Generic Aircraft", style: .default, handler: { [weak self] (actionButton) in
+            self?.pickGenericAircraft()
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        navigationController?.present(alert, animated: true, completion: nil)
+    }
+
     @objc func didPressCloseButton() {
         delegate?.aircraftPickerViewControllerDidDismiss(self)
+    }
+
+    func presentNewAircraftForm() {
+        let aircraftSpecs = AircraftSpecs(with: race)
+        aircraftSpecs.name = nil
+        
+        let newAircraftVC = NewAircraftViewController(with: aircraftSpecs)
+        let newAircraftNC = UINavigationController(rootViewController: newAircraftVC)
+        newAircraftVC.delegate = self
+
+        navigationController?.present(newAircraftNC, animated: true, completion: nil)
+    }
+
+    func pickGenericAircraft() {
+
+        title = "Creating Generic Aircraft..."
+        isLoading = true
+
+        let aircraftSpecs = AircraftSpecs(with: race)
+
+        aircraftApi.createAircraft(with: aircraftSpecs) { [weak self] (aircraft, error) in
+            guard let strongSelf = self else { return }
+            strongSelf.isLoading = false
+
+            if let aircraft = aircraft {
+                strongSelf.delegate?.aircraftPickerViewController(strongSelf, didSelectAircraft: aircraft.id)
+            } else {
+                strongSelf.title = Constants.title
+                strongSelf.delegate?.aircraftPickerViewControllerDidError(strongSelf)
+            }
+        }
     }
 }
 
@@ -120,7 +187,6 @@ extension AircraftPickerViewController {
         aircraftApi.getMyAircrafts(forRaceSpecs: specs) { [weak self] (aircrafts, error) in
             if let aircrafts = aircrafts {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
-                self?.aircraftViewModels += [AircraftViewModel(genericWith: "Generic Aircraft")]
                 self?.isLoading(false)
             } else if error != nil {
                 print("fetchMyUser error : \(error.debugDescription)")
@@ -156,35 +222,14 @@ extension AircraftPickerViewController: UICollectionViewDelegate {
 
         let viewModel = aircraftViewModels[indexPath.row]
 
+        let sheetTitle = "Join the race with \(viewModel.displayName)?"
         let buttonTitle = "Yes, Join Race"
-        var sheetTitle = ""
-
-        if viewModel.isGeneric {
-            sheetTitle = "Create a generic aircraft and join the race?"
-        } else {
-            sheetTitle = "Join the race with \(viewModel.displayName)?"
-        }
 
         ActionSheetUtil.presentActionSheet(withTitle: sheetTitle, buttonTitle: buttonTitle, completion: { [weak self] (action) in
-            self?.isWaiting(true, generic: viewModel.isGeneric)
+            guard let strongSelf = self else { return }
 
-            if let strongSelf = self {
-                if viewModel.isGeneric {
-                    let aircraftSpecs = AircraftSpecs(with: strongSelf.race)
-                    strongSelf.aircraftApi.createAircraft(with: aircraftSpecs) { (aircraft, error) in
-                        if let aircraft = aircraft {
-                            strongSelf.delegate?.aircraftPickerViewController(strongSelf, didSelectAircraft: aircraft.id)
-                        } else {
-                            strongSelf.delegate?.aircraftPickerViewControllerDidError(strongSelf)
-                            strongSelf.isWaiting(false)
-                        }
-                    }
-                } else {
-                    let viewModel = strongSelf.aircraftViewModels[indexPath.row]
-                    strongSelf.delegate?.aircraftPickerViewController(strongSelf, didSelectAircraft: viewModel.aircraftId)
-                }
-            }
-
+            let viewModel = strongSelf.aircraftViewModels[indexPath.row]
+            strongSelf.delegate?.aircraftPickerViewController(strongSelf, didSelectAircraft: viewModel.aircraftId)
         }) { [weak self] (cancel) in
             self?.collectionView.deselectAllItems()
         }
@@ -207,13 +252,26 @@ extension AircraftPickerViewController: UICollectionViewDataSource {
 
         let viewModel = aircraftViewModels[indexPath.row]
         cell.titleLabel.text = viewModel.displayName
-
-        if viewModel.isGeneric {
-            cell.avatarImageView.imageView.image = UIImage(named: "placeholder_large_aircraft_create")
-        } else {
-            cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_large_aircraft"))
-        }
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_large_aircraft"))
 
         return cell
+    }
+}
+
+extension AircraftPickerViewController: NewAircraftViewControllerDelegate {
+
+    func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
+        viewController.dismiss(animated: true, completion: nil)
+
+        delegate?.aircraftPickerViewController(self, didSelectAircraft: aircraft.id)
+    }
+
+    func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {
+        viewController.dismiss(animated: true, completion: nil)
+    }
+
+    func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]? {
+        let aircraftRaceSpecs = AircraftRaceSpecs(with: race)
+        return row.aircraftRaceSpecValues(for: aircraftRaceSpecs)
     }
 }

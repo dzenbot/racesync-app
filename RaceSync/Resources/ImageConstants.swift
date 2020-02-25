@@ -18,7 +18,6 @@ public class PlaceholderImage {
     public static let ProfileBackground = UIImage(named: "placeholder_profile_background")
 
     public static let LargeAircraft = UIImage(named: "placeholder_large_aircraft")
-    public static let LargeAircraftCreate = UIImage(named: "placeholder_large_aircraft_create")
 
     public static let ShimmerList = UIImage(named: "placeholder_shimmer_list")
 }

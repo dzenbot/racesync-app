@@ -27,14 +27,14 @@ public class AircraftSpecs: Descriptable {
         let me = APIServices.shared.myUser
         let raceSpecs = AircraftRaceSpecs(with: race)
 
-        self.name = "\(me?.userName ?? Random.string())-Drone-\(Random.int(length: 200))"
+        self.name = "\(me?.userName ?? Random.string())-Drone-\(Random.int(length: 5000))"
         self.type = raceSpecs.types.first
         self.size = raceSpecs.sizes.first
         self.battery = raceSpecs.batteries.first
         self.propSize = raceSpecs.propSizes.first
 
         self.videoTxType = VideoTxType.´5800mhz´.rawValue
-        self.videoTxPower = VideoTxPower.´50mw´.rawValue
+        self.videoTxPower = VideoTxPower.´25mw´.rawValue
         self.videoTxChannels = VideoChannels.raceband40.rawValue
         self.videoRxChannels = VideoChannels.raceband40.rawValue
         self.antenna = AntennaPolarization.both.rawValue
@@ -63,39 +63,37 @@ public class AircraftSpecs: Descriptable {
 
 public class AircraftRaceSpecs: Descriptable {
 
-    let types: [String]
-    let sizes: [String]
-    let batteries: [String]
-    let propSizes: [String]
+    public let types: [String]
+    public let sizes: [String]
+    public let batteries: [String]
+    public let propSizes: [String]
 
     public init(with race: Race) {
-        types = race.typeRestriction.components(separatedBy: ",").compactMap { $0 }
-        sizes = race.sizeRestriction.components(separatedBy: ",").compactMap { $0 }
-        batteries = race.batteryRestriction.components(separatedBy: ",").compactMap { $0 }
-        propSizes = race.propSizeRestriction.components(separatedBy: ",").compactMap { $0 }
+        types = race.typeRestriction.components(separatedBy: ",").compactMap { $0 }.filter({ (value) -> Bool in
+            return value.count > 0
+        })
+
+        sizes = race.sizeRestriction.components(separatedBy: ",").compactMap { $0 }.filter({ (value) -> Bool in
+            return value.count > 0
+        })
+
+        batteries = race.batteryRestriction.components(separatedBy: ",").compactMap { $0 }.filter({ (value) -> Bool in
+            return value.count > 0
+        })
+
+        propSizes = race.propSizeRestriction.components(separatedBy: ",").compactMap { $0 }.filter({ (value) -> Bool in
+            return value.count > 0
+        })
     }
 
-    func toParameters() -> Parameters {
+    public func toParameters() -> Parameters {
         var parameters: Parameters = [:]
-
-        let types = self.types.filter({ (value) -> Bool in
-            return value.count > 0
-        })
-        let sizes = self.sizes.filter({ (value) -> Bool in
-            return value.count > 0
-        })
-        let batteries = self.batteries.filter({ (value) -> Bool in
-            return value.count > 0
-        })
-        let propSizes = self.propSizes.filter({ (value) -> Bool in
-            return value.count > 0
-        })
 
         if types.count > 0 { parameters[ParameterKey.type] = types }
         if sizes.count > 0 { parameters[ParameterKey.size] = sizes }
         if batteries.count > 0 { parameters[ParameterKey.battery] = batteries }
         if propSizes.count > 0 { parameters[ParameterKey.propSize] = propSizes }
-        
+
         return parameters
     }
 }

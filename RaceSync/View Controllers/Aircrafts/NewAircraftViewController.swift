@@ -13,6 +13,9 @@ import Presentr
 
 protocol NewAircraftViewControllerDelegate {
     func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft)
+    func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController)
+
+    func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]?
 }
 
 class NewAircraftViewController: UIViewController {
@@ -44,6 +47,21 @@ class NewAircraftViewController: UIViewController {
         static let cellHeight: CGFloat = 50
     }
 
+    // MARK: - Initialization
+
+    init() {
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    init(with aircraftSpecs: AircraftSpecs) {
+        self.aircraftSpecs = aircraftSpecs
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: - Lifecycle Methods
 
     override func viewDidLoad() {
@@ -59,10 +77,12 @@ class NewAircraftViewController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
-        DispatchQueue.main.async { [weak self] in
-            let row = AircraftRow.name
-            self?.presentTextField(forRow: row)
-            self?.selectedRow = row
+        if isFormEnabled {
+            DispatchQueue.main.async { [weak self] in
+                let row = AircraftRow.name
+                self?.presentTextField(forRow: row)
+                self?.selectedRow = row
+            }
         }
     }
 
@@ -74,7 +94,11 @@ class NewAircraftViewController: UIViewController {
         view.backgroundColor = Color.white
 
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(didPressCreateButton))
-        navigationItem.rightBarButtonItem?.isEnabled = false
+//        navigationItem.rightBarButtonItem?.isEnabled = false
+
+        if let nc = navigationController, nc.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        }
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
@@ -96,10 +120,15 @@ class NewAircraftViewController: UIViewController {
     }
 
     fileprivate func presentPicker(forRow row: AircraftRow, animated: Bool = true) {
-        let items = row.aircraftSpecValues
+        var items = row.aircraftSpecValues
+        if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
+            items = values
+        }
+
+        let selectedItem = row.specValue(from: aircraftSpecs)
         let defaultItem = row.defaultAircraftSpecValue
 
-        let pickerVC = PickerViewController(with: items, defaultItem: defaultItem)
+        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
         pickerVC.delegate = self
         pickerVC.title = row.title
 
@@ -108,10 +137,15 @@ class NewAircraftViewController: UIViewController {
     }
 
     fileprivate func pushPicker(forRow row: AircraftRow, animated: Bool = true) {
-        let items = row.aircraftSpecValues
+        var items = row.aircraftSpecValues
+        if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
+            items = values
+        }
+
+        let selectedItem = row.specValue(from: aircraftSpecs)
         let defaultItem = row.defaultAircraftSpecValue
 
-        let pickerVC = PickerViewController(with: items, defaultItem: defaultItem)
+        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
         pickerVC.delegate = self
         pickerVC.title = row.title
 
@@ -131,6 +165,10 @@ class NewAircraftViewController: UIViewController {
                 // TODO: Prompt?
             }
         }
+    }
+
+    @objc func didPressCloseButton() {
+        delegate?.newAircraftViewControllerDidDismiss(self)
     }
 
     // MARK: - Verification

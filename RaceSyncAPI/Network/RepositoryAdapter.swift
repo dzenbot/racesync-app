@@ -23,6 +23,8 @@ class RepositoryAdapter {
                 case .success(let object):
                     completion(object, nil)
                 case .failure:
+                    print("response \(response)")
+
                     let error = ErrorUtil.parseError(response)
                     print("network error \(error.debugDescription)")
                     completion(nil, error)

@@ -15,6 +15,8 @@ class AlertUtil {
     static func presentAlertMessage(_ message: String?, title: String?, buttonTitle: String? = nil, delay: TimeInterval = 0, completion: AlertCompletionBlock? = nil) {
 
         let alert = UIAlertController(title: title ?? "Something Went Wrong", message: message ?? "Please try again.", preferredStyle: .alert)
+        alert.view.tintColor = Color.blue
+        
         alert.addAction(UIAlertAction(title: buttonTitle ?? "Ok", style: .default, handler: completion))
         if buttonTitle != nil {
             alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

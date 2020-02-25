@@ -215,4 +215,33 @@ extension AircraftRow {
             return nil
         }
     }
+
+    func aircraftRaceSpecValues(for aircraftRaceSpecs: AircraftRaceSpecs) -> [String]? {
+        switch self {
+        case .type:
+            if aircraftRaceSpecs.types.count > 0 {
+                let enums = aircraftRaceSpecs.types.compactMap { AircraftType(rawValue: $0) }
+                return enums.compactMap { $0.title }
+            }
+        case .size:
+            if aircraftRaceSpecs.sizes.count > 0 {
+                let enums = aircraftRaceSpecs.sizes.compactMap { AircraftSize(rawValue: $0) }
+                return enums.compactMap { $0.title }
+            }
+        case .battery:
+            if aircraftRaceSpecs.batteries.count > 0 {
+                let enums = aircraftRaceSpecs.batteries.compactMap { BatterySize(rawValue: $0) }
+                return enums.compactMap { $0.title }
+            }
+        case .propSize:
+            if aircraftRaceSpecs.propSizes.count > 0 {
+                let enums = aircraftRaceSpecs.propSizes.compactMap { PropellerSize(rawValue: $0) }
+                return enums.compactMap { $0.title }
+            }
+        default:
+            return nil
+        }
+
+        return nil
+    }
 }

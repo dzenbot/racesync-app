@@ -107,8 +107,6 @@ class AircraftListViewController: UIViewController {
     // MARK: - Button Events
 
     @objc func didPressAddButton() {
-        print("didPressAddButton")
-
         let newAircraftVC = NewAircraftViewController()
         newAircraftVC.delegate = self
         navigationController?.pushViewController(newAircraftVC, animated: true)
@@ -216,6 +214,14 @@ extension AircraftListViewController: NewAircraftViewControllerDelegate {
         }, completion: { [weak self] finished in
             self?.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
         })
+    }
+
+    func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {
+        //
+    }
+
+    func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]? {
+        return nil
     }
 }
 

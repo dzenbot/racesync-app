@@ -14,6 +14,8 @@ class ActionSheetUtil {
         guard let topMostVC = UIViewController.topMostViewController() else { return }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.view.tintColor = Color.blue
+
         alert.addAction(UIAlertAction(title: buttonTitle ?? "Ok", style: .default, handler: completion))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: cancel))
 
@@ -24,10 +26,11 @@ class ActionSheetUtil {
         guard let topMostVC = UIViewController.topMostViewController() else { return }
 
         let alert = UIAlertController(title: title, message: message, preferredStyle: .actionSheet)
+        alert.view.tintColor = Color.blue
+
         alert.addAction(UIAlertAction(title: destructiveTitle ?? "Ok", style: .destructive, handler: completion))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: cancel))
         
         topMostVC.present(alert, animated: true, completion: nil)
     }
-
 }

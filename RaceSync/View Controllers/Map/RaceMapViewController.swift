@@ -119,7 +119,8 @@ class RaceMapViewController: UIViewController {
     @objc func didPressDirectionsButton() {
 
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-
+        alert.view.tintColor = Color.blue
+        
         alert.addAction(UIAlertAction(title: "Open in Maps", style: .default, handler: { [weak self] (action) in
             guard let lat = self?.coordinates.latitude, let long = self?.coordinates.longitude else { return }
             guard let url = URL(string: "\(ExternalAppConstants.AppleMapsUrl)?daddr=\(lat),\(long)&dirflg=d") else { return }
