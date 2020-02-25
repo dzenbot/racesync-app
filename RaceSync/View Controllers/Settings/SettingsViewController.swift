@@ -31,6 +31,10 @@ class SettingsViewController: UIViewController {
 
     // MARK: - Private Variables
 
+    var adjustRadiusEnabled: Bool = false
+
+    // MARK: - Private Variables
+
    fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
@@ -84,6 +88,12 @@ class SettingsViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        if adjustRadiusEnabled {
+            DispatchQueue.main.async { [weak self] in
+                self?.changeSearchRadius()
+            }
+        }
     }
 
     // MARK: - Layout
@@ -103,6 +113,8 @@ class SettingsViewController: UIViewController {
     }
 
     func changeSearchRadius() {
+        adjustRadiusEnabled = false
+
         let selectedDistance = APIServices.shared.settings.searchRadius
 
         let presenter = Appearance.defaultPresenter()
@@ -110,8 +122,10 @@ class SettingsViewController: UIViewController {
         pickerVC.delegate = self
         pickerVC.title = "Update \(SettingsSection.searchRadius.title)"
         pickerVC.unit = "mi"
+
+        let pickerVN = NavigationController(rootViewController: pickerVC)
         
-        customPresentViewController(presenter, viewController: pickerVC, animated: true)
+        customPresentViewController(presenter, viewController: pickerVN, animated: true)
     }
 
     func submitFeedback() {

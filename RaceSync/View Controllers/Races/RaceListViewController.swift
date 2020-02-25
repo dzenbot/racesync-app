@@ -246,7 +246,6 @@ fileprivate extension RaceListViewController {
 
             if user != nil && self.shouldLoadRaces {
                 self.updateProfilePicture()
-                self.didPressUserProfileButton()
                 self.loadRaces()
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session
@@ -422,6 +421,7 @@ extension RaceListViewController: EmptyDataSetDelegate {
             segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
         } else {
             let settingsVC = SettingsViewController()
+            settingsVC.adjustRadiusEnabled = true
             let settingsNC = NavigationController(rootViewController: settingsVC)
             present(settingsNC, animated: true, completion: nil)
         }
