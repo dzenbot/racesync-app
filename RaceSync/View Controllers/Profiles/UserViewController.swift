@@ -34,7 +34,7 @@ class UserViewController: ProfileViewController, Joinable {
 
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
         button.backgroundColor = Color.blue
-        button.layer.cornerRadius = 6
+        button.layer.cornerRadius = Constants.buttonHeight/4
 
         return button
     }()
@@ -54,6 +54,7 @@ class UserViewController: ProfileViewController, Joinable {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
+        static let buttonHeight: CGFloat = 32
     }
 
     // MARK: - Initialization
@@ -115,6 +116,7 @@ class UserViewController: ProfileViewController, Joinable {
             aircraftButton.snp.makeConstraints {
                 $0.bottom.equalToSuperview()
                 $0.trailing.equalToSuperview().offset(-Constants.padding)
+                $0.height.equalTo(Constants.buttonHeight)
             }
         }
     }

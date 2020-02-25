@@ -44,6 +44,10 @@
 		4F5C1E4B238EEC5200D756EB /* RaceMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4A238EEC5200D756EB /* RaceMapViewController.swift */; };
 		4F5C1E4D2390600400D756EB /* APISessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4C2390600400D756EB /* APISessionManager.swift */; };
 		4F5C1E4F2390B01700D756EB /* ImageNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */; };
+		4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64290D24019090005E8036 /* NewAircraftViewController.swift */; };
+		4F642910240199AC005E8036 /* AircraftForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64290F240199AC005E8036 /* AircraftForm.swift */; };
+		4F6429122402DB00005E8036 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6429112402DB00005E8036 /* ImageConstants.swift */; };
+		4F6429142403AE9A005E8036 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6429132403AE9A005E8036 /* FormViewController.swift */; };
 		4F68BE692399CEB5009D44F7 /* AlertUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE682399CEB5009D44F7 /* AlertUtil.swift */; };
 		4F68BE6B2399CF07009D44F7 /* ActionSheetUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */; };
 		4F68BE6D2399DBCF009D44F7 /* UIViewController+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */; };
@@ -237,6 +241,10 @@
 		4F5C1E4A238EEC5200D756EB /* RaceMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceMapViewController.swift; sourceTree = "<group>"; };
 		4F5C1E4C2390600400D756EB /* APISessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISessionManager.swift; sourceTree = "<group>"; };
 		4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworking.swift; sourceTree = "<group>"; };
+		4F64290D24019090005E8036 /* NewAircraftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAircraftViewController.swift; sourceTree = "<group>"; };
+		4F64290F240199AC005E8036 /* AircraftForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftForm.swift; sourceTree = "<group>"; };
+		4F6429112402DB00005E8036 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
+		4F6429132403AE9A005E8036 /* FormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		4F68BE682399CEB5009D44F7 /* AlertUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertUtil.swift; sourceTree = "<group>"; };
 		4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetUtil.swift; sourceTree = "<group>"; };
 		4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Lookup.swift"; sourceTree = "<group>"; };
@@ -553,10 +561,12 @@
 		4FA1AB3123C6ACFD007CF389 /* Aircrafts */ = {
 			isa = PBXGroup;
 			children = (
-				4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */,
-				4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */,
 				4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */,
 				4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */,
+				4F64290D24019090005E8036 /* NewAircraftViewController.swift */,
+				4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */,
+				4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */,
+				4F64290F240199AC005E8036 /* AircraftForm.swift */,
 			);
 			path = Aircrafts;
 			sourceTree = "<group>";
@@ -588,6 +598,7 @@
 			children = (
 				4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */,
 				4FA1FC8E23D74D29006D4704 /* StringConstants.swift */,
+				4F6429112402DB00005E8036 /* ImageConstants.swift */,
 				4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */,
 			);
 			path = Resources;
@@ -695,6 +706,7 @@
 				4F9DB7B123D68EB100570483 /* NavigationController.swift */,
 				4F3D640E23FC65F700DE6DF2 /* PickerViewController.swift */,
 				4F3D641023FE664A00DE6DF2 /* TextFieldViewController.swift */,
+				4F6429132403AE9A005E8036 /* FormViewController.swift */,
 			);
 			path = "UI Components";
 			sourceTree = "<group>";
@@ -1052,6 +1064,7 @@
 				4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */,
 				4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */,
 				4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */,
+				4F6429142403AE9A005E8036 /* FormViewController.swift in Sources */,
 				4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */,
 				4F8376DC23EE87CC00256AEC /* RotatingIconView.swift in Sources */,
 				4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */,
@@ -1059,6 +1072,7 @@
 				4FD4E1DB237FBE36008816B3 /* JoinButton.swift in Sources */,
 				4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */,
 				4FD53FAF23A0B20900158206 /* UserTableViewCell.swift in Sources */,
+				4F642910240199AC005E8036 /* AircraftForm.swift in Sources */,
 				4FD4E1D9237FB1EA008816B3 /* RaceTableViewCell.swift in Sources */,
 				4F5C1E4F2390B01700D756EB /* ImageNetworking.swift in Sources */,
 				4FD4E1CB237F98A0008816B3 /* EventDetailViewController.swift in Sources */,
@@ -1067,6 +1081,7 @@
 				4F6C8A96236A9D580017FD78 /* UIColor+Extensions.swift in Sources */,
 				4FA1AB3D23C94F5F007CF389 /* UIEdgeInsets+Extensions.swift in Sources */,
 				4FA1AB3723C7149D007CF389 /* AircraftCollectionViewCell.swift in Sources */,
+				4F6429122402DB00005E8036 /* ImageConstants.swift in Sources */,
 				4FD4E1C5237F9746008816B3 /* UserViewController.swift in Sources */,
 				4FD4E1DF237FEC0A008816B3 /* Appearance.swift in Sources */,
 				4F791C9E23A8AB7300F15FD7 /* HeaderStretchable.swift in Sources */,
@@ -1074,6 +1089,7 @@
 				4FD53FB123A0D48F00158206 /* UserRaceTableViewCell.swift in Sources */,
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
+				4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */,
 				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
 				4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */,
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,

@@ -17,7 +17,7 @@ extension UIImageView {
     func setImage(with urlString: String?, placeholderImage: UIImage?, renderingMode: UIImage.RenderingMode = .alwaysOriginal, completion: ImageBlock? = nil) {
         image = placeholderImage
 
-        if let urlString = urlString, let url = URL(string: urlString) {
+        if let urlString = urlString, let url = URL(string: urlString), url.host != nil {
             af_setImage(withURL: url, placeholderImage: placeholderImage, filter: DynamicImageFilter("OriginalFilterImage") { image in
                 return image.withRenderingMode(renderingMode)
             },

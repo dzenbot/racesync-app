@@ -213,16 +213,16 @@ extension SettingsViewController: UITableViewDataSource {
     }
 }
 
-extension SettingsViewController: PickerViewControllerDelegate {
+extension SettingsViewController: FormViewControllerDelegate {
 
-    func pickerViewController(_ viewController: PickerViewController, didSaveItem item: String) {
+    func formViewController(_ viewController: FormViewController, didSelectItem item: String) {
         APIServices.shared.settings.searchRadius = item
         tableView.reloadData()
 
         viewController.dismiss(animated: true, completion: nil)
     }
 
-    func pickerViewControllerDidDismiss(_ viewController: PickerViewController) {
+    func formViewControllerDidDismiss(_ viewController: FormViewController) {
         //
     }
 }

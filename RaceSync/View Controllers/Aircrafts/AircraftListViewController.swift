@@ -15,7 +15,7 @@ class AircraftListViewController: UIViewController {
 
     // MARK: - Private Variables
 
-    let canAddAircraft: Bool = true
+    fileprivate let canAddAircraft: Bool = true
 
     lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -52,6 +52,7 @@ class AircraftListViewController: UIViewController {
 
     fileprivate let aircraftApi = AircraftAPI()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
+    fileprivate var shouldReloadAircrafts: Bool = true
 
     fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noAircrafts)
 
@@ -67,6 +68,7 @@ class AircraftListViewController: UIViewController {
 
         setupLayout()
 
+        // only show the spinner once
         isLoading = true
     }
 
@@ -106,12 +108,18 @@ class AircraftListViewController: UIViewController {
 
     @objc func didPressAddButton() {
         print("didPressAddButton")
+
+        let newAircraftVC = NewAircraftViewController()
+        newAircraftVC.delegate = self
+        navigationController?.pushViewController(newAircraftVC, animated: true)
     }
 }
 
 extension AircraftListViewController {
 
     func fetchMyAircrafts() {
+        guard shouldReloadAircrafts else { return }
+
         aircraftApi.getMyAircrafts() { [weak self] (aircrafts, error) in
             if let aircrafts = aircrafts {
                 self?.aircraftViewModels = [AircraftViewModel]()
@@ -122,6 +130,8 @@ extension AircraftListViewController {
                 print("fetchMyUser error : \(error.debugDescription)")
             }
         }
+
+        shouldReloadAircrafts = false
     }
 
     func deselectAllItems() {
@@ -174,7 +184,12 @@ extension AircraftListViewController: UICollectionViewDataSource {
 
 extension AircraftListViewController: AircraftDetailViewControllerDelegate {
 
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didEditAircraft aircraftId: ObjectId) {
+        shouldReloadAircrafts = true
+    }
+
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId) {
+        print("didDeleteAircraft")
 
         if let index = aircraftViewModels.firstIndex(where: { $0.aircraftId == aircraftId }) {
             aircraftViewModels.remove(at: index)
@@ -182,6 +197,25 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
         }
 
         navigationController?.popViewController(animated: true)
+    }
+}
+
+extension AircraftListViewController: NewAircraftViewControllerDelegate {
+
+    func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
+        navigationController?.popViewController(animated: true)
+
+        let aircraftViewModel = AircraftViewModel(with: aircraft)
+        aircraftViewModels += [aircraftViewModel]
+
+        let indexPath = IndexPath(item: aircraftViewModels.count - 1, section: 0)
+        let indexPaths: [IndexPath] = [indexPath]
+
+        collectionView.performBatchUpdates({
+            collectionView.insertItems(at: indexPaths)
+        }, completion: { [weak self] finished in
+            self?.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
+        })
     }
 }
 

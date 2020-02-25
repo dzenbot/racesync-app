@@ -147,7 +147,7 @@ public enum VideoChannels: String, EnumTitle {
         case "B":           return "Boscam B"
         case "E":           return "Boscam E"
         case "F":           return "RC / FS"
-        case "R":           return "Race Band"
+        case "R":           return "RaceBand"
         default:            return ""
         }
     }

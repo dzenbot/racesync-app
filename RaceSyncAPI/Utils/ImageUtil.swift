@@ -11,7 +11,10 @@ import UIKit
 public class ImageUtil {
 
     static public func getSizedUrl(_ url: String?, size: CGSize, scale: CGFloat = UIScreen.main.scale) -> String? {
-        return getSizedURL(url, size: size, scale: scale)?.absoluteString
+        if let URL = getSizedURL(url, size: size, scale: scale), URL.host != nil {
+            return URL.absoluteString
+        }
+        return nil
     }
 
     static public func getSizedURL(_ url: String?, size: CGSize, scale: CGFloat = UIScreen.main.scale) -> URL? {

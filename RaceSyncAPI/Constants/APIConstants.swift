@@ -47,6 +47,7 @@ enum EndPoint {
 
     static let chapterList = "chapter/list"
     static let chapterFindLocal = "chapter/findLocal"
+    static let chapterUsers = "chapter/users"
 
     static let aircraftList = "aircraft/list"
     static let aircraftCreate = "aircraft/create"

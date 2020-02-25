@@ -76,7 +76,7 @@ class AircraftViewModel: Descriptable {
 
 extension AircraftViewModel {
 
-    static let Unavailable = "N/A"
+    static let Unavailable = "Not Set"
 
     static func typeLabelString(for aircraft: Aircraft) -> String {
         guard let type = aircraft.type else { return Unavailable }

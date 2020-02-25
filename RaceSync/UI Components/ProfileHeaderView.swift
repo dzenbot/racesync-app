@@ -166,15 +166,23 @@ class ProfileHeaderView: UIView {
         guard let viewModel = viewModel else { return }
 
         func handleBackgroundImage(_ image: UIImage?) {
-            if image == nil {  backgroundImageView.image = UIImage(named: "placeholder_profile_background") }
+            guard image == nil else { return }
+            let placeholder = UIImage(named: "placeholder_profile_background")
+            backgroundImageView.image = placeholder
         }
 
         func handleAvatarImage(_ image: UIImage?) {
-            if viewModel.type == .aircraft {
-                if image == nil {  profileImageView.imageView.image = UIImage(named: "placeholder_profile_aircraft") }
-            } else {
-                if image == nil {  profileImageView.imageView.image = UIImage(named: "placeholder_profile_avatar") }
+            guard image == nil else { return }
+
+            var placeholder: UIImage?
+
+            switch viewModel.type {
+            case .user:         placeholder = UIImage(named: "placeholder_profile_avatar")
+            case .chapter:      placeholder = UIImage(named: "placeholder_profile_avatar")
+            case .aircraft:     placeholder = UIImage(named: "placeholder_profile_aircraft")
             }
+
+            profileImageView.imageView.image = placeholder
         }
 
         let headerImageSize = CGSize(width: 0, height: Constants.headerHeight)

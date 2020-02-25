@@ -9,55 +9,33 @@
 import UIKit
 import SnapKit
 import PickerView
+import Presentr
 
-protocol PickerViewControllerDelegate {
-    func pickerViewController(_ viewController: PickerViewController, didSaveItem item: String)
-    func pickerViewControllerDidDismiss(_ viewController: PickerViewController)
-}
-
-class PickerViewController: UIViewController {
+class PickerViewController: FormViewController {
 
     // MARK: - Public Variables
 
-    var delegate: PickerViewControllerDelegate?
-
-    override var title: String? {
-        didSet {
-            navigationBarItem.title = title
-        }
-    }
-
-    var unit: String?
-
-    var isLoading: Bool = false {
+    override var isLoading: Bool {
         didSet {
             if isLoading {
-                navigationBarItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
                 activityIndicatorView.startAnimating()
             }
             else {
-                navigationBarItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didPressSaveButton))
+                navigationItem.rightBarButtonItem = rightBarButtonItem
                 activityIndicatorView.stopAnimating()
             }
         }
     }
 
+    override var formType: FormType {
+        get { return .picker }
+        set { }
+    }
+
+    var unit: String?
+
     // MARK: - Private Variables
-
-    fileprivate lazy var navigationBar: UINavigationBar = {
-        let view = UINavigationBar()
-        view.barTintColor = Color.clear
-        view.items = [navigationBarItem]
-        return view
-    }()
-
-    fileprivate lazy var navigationBarItem: UINavigationItem = {
-        let item = UINavigationItem()
-        item.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-        item.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didPressSaveButton))
-        item.rightBarButtonItem?.isEnabled = false
-        return item
-    }()
 
     fileprivate lazy var pickerView: PickerView = {
         let view = PickerView()
@@ -74,6 +52,13 @@ class PickerViewController: UIViewController {
         let view = UIActivityIndicatorView(style: .gray)
         view.hidesWhenStopped = true
         return view
+    }()
+
+    fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
+        let title = self.delegate?.formViewControllerRightBarButtonTitle?(self) ?? "OK"
+        let barButtonItem = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(didPressOKButton))
+        barButtonItem.isEnabled = false
+        return barButtonItem
     }()
 
     fileprivate let items: [String]
@@ -115,14 +100,15 @@ class PickerViewController: UIViewController {
 
         view.backgroundColor = Color.white
 
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+        if let nc = navigationController, nc.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         }
+
+        navigationItem.rightBarButtonItem = rightBarButtonItem
 
         view.addSubview(pickerView)
         pickerView.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.bottom.leading.trailing.equalToSuperview()
         }
 
@@ -137,12 +123,12 @@ class PickerViewController: UIViewController {
 
     @objc func didPressCloseButton() {
         dismiss(animated: true, completion: nil)
-        delegate?.pickerViewControllerDidDismiss(self)
+        delegate?.formViewControllerDidDismiss(self)
     }
 
-    @objc func didPressSaveButton() {
+    @objc func didPressOKButton() {
         let item = items[pickerView.currentSelectedRow]
-        delegate?.pickerViewController(self, didSaveItem: item)
+        delegate?.formViewController(self, didSelectItem: item)
     }
 }
 
@@ -171,7 +157,7 @@ extension PickerViewController: PickerViewDelegate {
         let item = items[row]
         print("The selected item is \(item)")
 
-        navigationBarItem.rightBarButtonItem?.isEnabled = item != selectedItem
+        navigationItem.rightBarButtonItem?.isEnabled = item != selectedItem
     }
 
     func pickerView(_ pickerView: PickerView, didTapRow row: Int) {
@@ -188,5 +174,16 @@ extension PickerViewController: PickerViewDelegate {
             label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
             label.textColor = Color.gray200
         }
+    }
+}
+
+extension PickerViewController: PresentrDelegate {
+
+    func presentrShouldDismiss(keyboardShowing: Bool) -> Bool {
+        DispatchQueue.main.async {
+            self.delegate?.formViewControllerDidDismiss(self)
+        }
+
+        return true
     }
 }

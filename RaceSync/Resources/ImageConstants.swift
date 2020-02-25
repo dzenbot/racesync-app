@@ -8,7 +8,7 @@
 
 import UIKit
 
-public class Placeholder {
+public class PlaceholderImage {
     public static let Small = UIImage(named: "placeholder_small")
     public static let Medium = UIImage(named: "placeholder_medium")
     public static let Large = UIImage(named: "placeholder_large")
@@ -21,4 +21,8 @@ public class Placeholder {
     public static let LargeAircraftCreate = UIImage(named: "placeholder_large_aircraft_create")
 
     public static let ShimmerList = UIImage(named: "placeholder_shimmer_list")
+}
+
+public class ButtonImage {
+    public static let Close = UIImage(named: "icn_navbar_close")
 }

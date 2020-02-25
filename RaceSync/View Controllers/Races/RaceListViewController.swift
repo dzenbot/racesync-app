@@ -246,6 +246,7 @@ fileprivate extension RaceListViewController {
 
             if user != nil && self.shouldLoadRaces {
                 self.updateProfilePicture()
+                self.didPressUserProfileButton()
                 self.loadRaces()
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session

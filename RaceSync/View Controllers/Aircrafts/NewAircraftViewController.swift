@@ -1,0 +1,326 @@
+//
+//  NewAircraftViewController.swift
+//  RaceSync
+//
+//  Created by Ignacio Romero Zurbuchen on 2020-02-22.
+//  Copyright © 2020 MultiGP Inc. All rights reserved.
+//
+
+import UIKit
+import SnapKit
+import RaceSyncAPI
+import Presentr
+
+protocol NewAircraftViewControllerDelegate {
+    func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft)
+}
+
+class NewAircraftViewController: UIViewController {
+
+    var delegate: NewAircraftViewControllerDelegate?
+
+    // MARK: - Private Variables
+
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
+        tableView.contentInsetAdjustmentBehavior = .always
+        tableView.tableFooterView = UIView()
+        return tableView
+    }()
+
+    fileprivate var aircraftAPI = AircraftAPI()
+    fileprivate var aircraftSpecs = AircraftSpecs()
+    fileprivate var selectedRow: AircraftRow?
+    fileprivate var isFormEnabled: Bool = true
+
+    fileprivate let presenter = Appearance.defaultPresenter()
+    fileprivate var formNavigationController: NavigationController?
+
+    fileprivate enum Constants {
+        static let padding: CGFloat = UniversalConstants.padding
+        static let cellHeight: CGFloat = 50
+    }
+
+    // MARK: - Lifecycle Methods
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        setupLayout()
+    }
+
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
+        DispatchQueue.main.async { [weak self] in
+            let row = AircraftRow.name
+            self?.presentTextField(forRow: row)
+            self?.selectedRow = row
+        }
+    }
+
+    // MARK: - Layout
+
+    func setupLayout() {
+
+        title = "New Aircraft"
+        view.backgroundColor = Color.white
+
+        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(didPressCreateButton))
+        navigationItem.rightBarButtonItem?.isEnabled = false
+
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints {
+            $0.top.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+
+    fileprivate func presentTextField(forRow row: AircraftRow, animated: Bool = true) {
+
+        let textFieldVC = TextFieldViewController(with: aircraftSpecs.name)
+        textFieldVC.delegate = self
+        textFieldVC.title = row.title
+        textFieldVC.textField.placeholder = row.title
+
+        let formdNC = NavigationController(rootViewController: textFieldVC)
+        customPresentViewController(presenter, viewController: formdNC, animated: animated)
+
+        formNavigationController = formdNC
+    }
+
+    fileprivate func presentPicker(forRow row: AircraftRow, animated: Bool = true) {
+        let items = row.aircraftSpecValues
+        let defaultItem = row.defaultAircraftSpecValue
+
+        let pickerVC = PickerViewController(with: items, defaultItem: defaultItem)
+        pickerVC.delegate = self
+        pickerVC.title = row.title
+
+        let formdNC = NavigationController(rootViewController: pickerVC)
+        customPresentViewController(presenter, viewController: formdNC, animated: animated)
+    }
+
+    fileprivate func pushPicker(forRow row: AircraftRow, animated: Bool = true) {
+        let items = row.aircraftSpecValues
+        let defaultItem = row.defaultAircraftSpecValue
+
+        let pickerVC = PickerViewController(with: items, defaultItem: defaultItem)
+        pickerVC.delegate = self
+        pickerVC.title = row.title
+
+        formNavigationController?.pushViewController(pickerVC, animated: animated)
+        formNavigationController?.delegate = self
+    }
+
+    // MARK: - Action
+
+    @objc func didPressCreateButton() {
+
+        aircraftAPI.createAircraft(with: aircraftSpecs) { [weak self] (aircraft, error) in
+            guard let strongSelf = self else { return }
+            if let aircraft = aircraft {
+                strongSelf.delegate?.newAircraftViewController(strongSelf, didCreateAircraft: aircraft)
+            } else if let _ = error {
+                // TODO: Prompt?
+            }
+        }
+    }
+
+    // MARK: - Verification
+
+    fileprivate func canCreateAircraft() -> Bool {
+
+        let requiredRows = AircraftRow.allCases.filter({ (row) -> Bool in
+            return row.isAircraftSpecRequired
+        })
+
+        for row in requiredRows {
+            if let value = row.specValue(from: aircraftSpecs) {
+                if value.isEmpty { return false }
+            } else {
+                return false
+            }
+        }
+
+        return true
+    }
+}
+
+extension NewAircraftViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        guard let row = AircraftRow(rawValue: indexPath.row) else { return }
+
+        if row == .name {
+            presentTextField(forRow: row)
+        } else {
+            presentPicker(forRow: row)
+        }
+
+        selectedRow = row
+    }
+}
+
+extension NewAircraftViewController: UITableViewDataSource {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return AircraftRow.allCases.count
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
+        guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
+
+        if row.isAircraftSpecRequired {
+            cell.textLabel?.text = row.title + " *"
+        } else {
+            cell.textLabel?.text = row.title
+        }
+
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        cell.textLabel?.textColor = Color.black
+
+        cell.detailTextLabel?.text = row.displayText(from: aircraftSpecs)
+        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        cell.detailTextLabel?.textColor = Color.gray300
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return Constants.cellHeight
+    }
+}
+
+// MARK: - TextFieldViewController Delegate
+
+extension NewAircraftViewController: FormViewControllerDelegate {
+
+    func formViewController(_ viewController: FormViewController, didSelectItem item: String) {
+        guard let currentRow = selectedRow else { return }
+
+        if viewController.formType == .textfield {
+            handleTextfieldVC(viewController, selection: item)
+        } else if viewController.formType == .picker {
+            handlePickerVC(viewController, selection: item)
+        }
+
+        if !item.isEmpty {
+            tableView.reloadData()
+            navigationItem.rightBarButtonItem?.isEnabled = canCreateAircraft()
+        }
+
+        // invalidate form once reaching the end of it
+        if isFormEnabled, currentRow.rawValue == AircraftRow.allCases.count-1 {
+            isFormEnabled = false
+            selectedRow = nil
+        }
+    }
+
+    func formViewController(_ viewController: FormViewController, enableSelectionWithItem item: String) -> Bool {
+        guard let currentRow = selectedRow else { return false }
+
+        if currentRow.isAircraftSpecRequired {
+            return !item.isEmpty
+        }
+
+        return true
+    }
+
+    func formViewControllerRightBarButtonTitle(_ viewController: FormViewController) -> String {
+        guard let currentRow = selectedRow else { return "" }
+
+        if isFormEnabled, currentRow.rawValue != AircraftRow.allCases.count-1 {
+            return "Next"
+        }
+        return "OK"
+    }
+
+    func formViewControllerKeyboardReturnKeyType(_ viewController: FormViewController) -> UIReturnKeyType {
+        return isFormEnabled ? .next : .done
+    }
+
+    func formViewControllerDidDismiss(_ viewController: FormViewController) {
+        isFormEnabled = false
+        selectedRow = nil
+    }
+
+    func handleTextfieldVC(_ viewController: FormViewController, selection item: String) {
+        aircraftSpecs.name = item
+
+        if isFormEnabled {
+            let row = AircraftRow.type
+            pushPicker(forRow: row, animated: true)
+            selectedRow = row
+        } else {
+            viewController.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    func handlePickerVC(_ viewController: FormViewController, selection item: String) {
+        guard let currentRow = selectedRow else { return }
+
+        switch currentRow {
+        case .type:
+            let type = AircraftType(title: item)
+            aircraftSpecs.type = type?.rawValue
+        case .size:
+            let type = AircraftSize(title: item)
+            aircraftSpecs.size = type?.rawValue
+        case .battery:
+            let type = BatterySize(title: item)
+            aircraftSpecs.battery = type?.rawValue
+        case .propSize:
+            let type = PropellerSize(title: item)
+            aircraftSpecs.propSize = type?.rawValue
+        case .videoTx:
+            let type = VideoTxType(title: item)
+            aircraftSpecs.videoTxType = type?.rawValue
+        case .videoTxPower:
+            let type = VideoTxPower(title: item)
+            aircraftSpecs.videoTxPower = type?.rawValue
+        case .videoTxChannels:
+            let type = VideoChannels(title: item)
+            aircraftSpecs.videoTxChannels = type?.rawValue
+        case .videoRxChannels:
+            let type = VideoChannels(title: item)
+            aircraftSpecs.videoRxChannels = type?.rawValue
+        case .antenna:
+            let type = AntennaPolarization(title: item)
+            aircraftSpecs.antenna = type?.rawValue
+        default:
+            break
+        }
+
+        if isFormEnabled, let nextRow = AircraftRow(rawValue: currentRow.rawValue + 1) {
+            pushPicker(forRow: nextRow, animated: true)
+            selectedRow = nextRow
+        } else {
+            viewController.dismiss(animated: true, completion: nil)
+        }
+    }
+}
+
+// MARK: - PickerViewController Delegate
+
+extension NewAircraftViewController: UINavigationControllerDelegate {
+
+    func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        guard let currentRow = selectedRow else { return nil }
+
+        if operation == .pop {
+            selectedRow = AircraftRow(rawValue: currentRow.rawValue - 1)
+        }
+
+        return nil
+    }
+}

@@ -15,12 +15,17 @@ public protocol ChapterApiInterface {
      */
     func getChapters(forUser pilotId: String, currentPage: Int, pageSize: Int, _ completion: @escaping ObjectCompletionBlock<[Chapter]>)
 
-
+    /**
+    */
     func getLocalChapters(currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Chapter]>)
 
     /**
      */
     func getChapter(with id: String, _ completion: @escaping ObjectCompletionBlock<Chapter>)
+
+    /**
+     */
+    func getUsers(with id: String, currentPage: Int, pageSize: Int, _ completion: @escaping ObjectCompletionBlock<[User]>)
 }
 
 public class ChapterApi: ChapterApiInterface {
@@ -45,12 +50,22 @@ public class ChapterApi: ChapterApiInterface {
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
     }
 
-    @available(*, deprecated, message: "Not implemented by the API yet. See https://github.com/mainedrones/racesync-api/issues/16")
+    // TODO: Not implemented by the API yet. See https://github.com/MultiGP/racesync-api/issues/30
     public func getChapter(with id: String, _ completion: @escaping ObjectCompletionBlock<Chapter>) {
 
         let endpoint = "\(EndPoint.chapterList)?\(ParameterKey.id)=\(id)"
 
         repositoryAdapter.getObject(endpoint, type: Chapter.self, completion)
+    }
+
+    // TODO: Not implemented by the API yet. See https://github.com/MultiGP/racesync-api/issues/16
+    public func getUsers(with id: String, currentPage: Int = 0, pageSize: Int = StandardPageSize, _ completion: @escaping ObjectCompletionBlock<[User]>) {
+
+        let endpoint = EndPoint.chapterUsers
+        var parameters: Parameters = [:]
+        parameters[ParameterKey.chapterId] = id
+
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: User.self, completion)
     }
 }
 

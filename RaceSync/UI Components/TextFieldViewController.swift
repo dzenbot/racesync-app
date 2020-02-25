@@ -9,61 +9,44 @@
 import UIKit
 import SnapKit
 import PickerView
+import Presentr
 
-protocol TextFieldViewControllerDelegate {
-    func textFieldViewController(_ viewController: TextFieldViewController, didSaveText text: String?)
-    func textFieldViewControllerDidDismiss(_ viewController: TextFieldViewController)
-}
-
-class TextFieldViewController: UIViewController {
+class TextFieldViewController: FormViewController {
 
     // MARK: - Public Variables
 
-    var delegate: TextFieldViewControllerDelegate?
-
-    var isLoading: Bool = false {
+    override var isLoading: Bool {
         didSet {
             if isLoading {
-                navigationBarItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
                 activityIndicatorView.startAnimating()
             }
             else {
-                navigationBarItem.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didPressSaveButton))
+                navigationItem.rightBarButtonItem = rightBarButtonItem
                 activityIndicatorView.stopAnimating()
             }
         }
     }
 
-    // MARK: - Private Variables
+    override var formType: FormType {
+        get { return .textfield }
+        set { }
+    }
 
-    fileprivate lazy var navigationBar: UINavigationBar = {
-        let view = UINavigationBar()
-        view.barTintColor = Color.clear
-        view.items = [navigationBarItem]
-        return view
-    }()
-
-    fileprivate lazy var navigationBarItem: UINavigationItem = {
-        let item = UINavigationItem()
-        item.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-        item.rightBarButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didPressSaveButton))
-        item.rightBarButtonItem?.isEnabled = false
-        return item
-    }()
-
-    fileprivate lazy var textField: UITextField = {
+    lazy var textField: UITextField = {
         let textField = UITextField()
         textField.delegate = self
-        textField.placeholder = "Aircraft Name"
         textField.keyboardType = .default
         textField.autocapitalizationType = .sentences
         textField.clearButtonMode = .whileEditing
-        textField.returnKeyType = .done
+        textField.returnKeyType = self.delegate?.formViewControllerKeyboardReturnKeyType?(self) ?? .done
         textField.textContentType = .nickname
         textField.autocorrectionType = .no
         textField.spellCheckingType = .no
         return textField
     }()
+
+    // MARK: - Private Variables
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .gray)
@@ -71,13 +54,14 @@ class TextFieldViewController: UIViewController {
         return view
     }()
 
-    override var title: String? {
-        didSet {
-            navigationBarItem.title = title
-        }
-    }
+    fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
+        let title = self.delegate?.formViewControllerRightBarButtonTitle?(self) ?? "OK"
+        let barButtonItem = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(didPressOKButton))
+        barButtonItem.isEnabled = allowSelection(with: textField.text)
+        return barButtonItem
+    }()
 
-    fileprivate var text: String?
+    fileprivate var item: String?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -85,8 +69,8 @@ class TextFieldViewController: UIViewController {
 
     // MARK: - Initialization
 
-    init(with text: String? = nil) {
-        self.text = text
+    init(with item: String? = nil) {
+        self.item = item
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -113,21 +97,26 @@ class TextFieldViewController: UIViewController {
         super.viewDidAppear(animated)
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+
     // MARK: - Layout
 
     func setupLayout() {
         view.backgroundColor = Color.white
 
-        textField.text = text
+        textField.text = item
 
-        view.addSubview(navigationBar)
-        navigationBar.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
+        if let nc = navigationController, nc.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         }
+
+        navigationItem.rightBarButtonItem = rightBarButtonItem
 
         view.addSubview(textField)
         textField.snp.makeConstraints {
-            $0.top.equalTo(navigationBar.snp.bottom).offset(Constants.padding*1.5)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(Constants.padding*1.5)
             $0.leading.equalToSuperview().offset(Constants.padding*3)
             $0.trailing.equalToSuperview().offset(-Constants.padding*3)
         }
@@ -137,12 +126,12 @@ class TextFieldViewController: UIViewController {
 
     @objc func didPressCloseButton() {
         dismiss(animated: true, completion: nil)
-        delegate?.textFieldViewControllerDidDismiss(self)
+        delegate?.formViewControllerDidDismiss(self)
     }
 
-    @objc func didPressSaveButton() {
-        let text = textField.text
-        delegate?.textFieldViewController(self, didSaveText: text)
+    @objc func didPressOKButton() {
+        let text = textField.text ?? ""
+        delegate?.formViewController(self, didSelectItem: text)
     }
 }
 
@@ -159,27 +148,41 @@ extension TextFieldViewController: UITextFieldDelegate {
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         let currentText = textField.text ?? ""
         let prospectiveText = (currentText as NSString).replacingCharacters(in: range, with: string)
+
         didChangeText(prospectiveText)
         return true
     }
 
     func textFieldShouldClear(_ textField: UITextField) -> Bool {
-        didChangeText(textField.text)
+        didChangeText(nil)
         return true
     }
 
     func didChangeText(_ newText: String?) {
-        let canSave = (newText != text)
-        navigationBarItem.rightBarButtonItem?.isEnabled = canSave
-        textField.enablesReturnKeyAutomatically = canSave
+        let enabled = allowSelection(with: newText)
+
+        navigationItem.rightBarButtonItem?.isEnabled = enabled
+        textField.enablesReturnKeyAutomatically = enabled
     }
 
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        let canSave = (textField.text != text)
-        if canSave {
-            didPressSaveButton()
-        }
-        return canSave
+        let enabled = allowSelection(with: textField.text)
+        if enabled { didPressOKButton() }
+        return enabled
     }
 
+    func allowSelection(with text: String?) -> Bool {
+        return delegate?.formViewController?(self, enableSelectionWithItem: text ?? "") ?? true
+    }
+}
+
+extension TextFieldViewController: PresentrDelegate {
+
+    func presentrShouldDismiss(keyboardShowing: Bool) -> Bool {
+        DispatchQueue.main.async {
+            self.delegate?.formViewControllerDidDismiss(self)
+        }
+
+        return true
+    }
 }

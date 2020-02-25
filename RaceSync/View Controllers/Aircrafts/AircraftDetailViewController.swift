@@ -12,6 +12,7 @@ import RaceSyncAPI
 import Presentr
 
 protocol AircraftDetailViewControllerDelegate {
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didEditAircraft aircraftId: ObjectId)
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId)
 }
 
@@ -62,7 +63,6 @@ class AircraftDetailViewController: UIViewController {
         didSet { navigationItem.title = aircraftViewModel.displayName }
     }
     fileprivate let aircraftApi = AircraftAPI()
-
     fileprivate var selectedRow: AircraftRow?
 
     fileprivate enum Constants {
@@ -133,27 +133,30 @@ class AircraftDetailViewController: UIViewController {
     }
 
     fileprivate func presentPicker(forRow row: AircraftRow) {
-        let items = aircraftSpecItems(forRow: row)
-        let selectedItem = selectedAircraftSpecItem(forRow: row)
-        let defaultItem = defaultAircraftSpecItem(forRow: row)
+        let items = row.aircraftSpecValues
+        let selectedItem = row.specValue(from: aircraftViewModel)
+        let defaultItem = row.defaultAircraftSpecValue
 
         let presenter = Appearance.defaultPresenter()
         let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
         pickerVC.delegate = self
         pickerVC.title = "Update \(row.title)"
 
-        customPresentViewController(presenter, viewController: pickerVC, animated: true)
+        let formdNC = NavigationController(rootViewController: pickerVC)
+        customPresentViewController(presenter, viewController: formdNC, animated: true)
     }
 
     fileprivate func presentTextField(forRow row: AircraftRow) {
-        let text = selectedAircraftSpecItem(forRow: row)
+        let text = row.specValue(from: aircraftViewModel)
 
         let presenter = Appearance.defaultPresenter()
         let textFieldVC = TextFieldViewController(with: text)
         textFieldVC.delegate = self
         textFieldVC.title = "Update \(row.title)"
+        textFieldVC.textField.placeholder = "Aircraft Name"
 
-        customPresentViewController(presenter, viewController: textFieldVC, animated: true)
+        let formdNC = NavigationController(rootViewController: textFieldVC)
+        customPresentViewController(presenter, viewController: formdNC, animated: true)
     }
 
     // MARK: - Button Events
@@ -205,15 +208,18 @@ extension AircraftDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
         guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
 
-        if isAircraftSpecRequired(forRow: row) {
+        if row.isAircraftSpecRequired {
             cell.textLabel?.text = row.title + " *"
         } else {
             cell.textLabel?.text = row.title
         }
 
-        cell.detailTextLabel?.text = detailTextLabel(forRow: row)
-        cell.textLabel?.textColor = Color.gray300
-        cell.detailTextLabel?.textColor = Color.black
+        cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        cell.textLabel?.textColor = Color.black
+
+        cell.detailTextLabel?.text = row.displayText(from: aircraftViewModel)
+        cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        cell.detailTextLabel?.textColor = Color.gray300
 
         return cell
     }
@@ -225,21 +231,46 @@ extension AircraftDetailViewController: UITableViewDataSource {
 
 // MARK: - TextFieldViewController Delegate
 
-extension AircraftDetailViewController: TextFieldViewControllerDelegate {
+extension AircraftDetailViewController: FormViewControllerDelegate {
 
-    func textFieldViewController(_ viewController: TextFieldViewController, didSaveText text: String?) {
+    func formViewController(_ viewController: FormViewController, didSelectItem item: String) {
+
+        if viewController.formType == .textfield {
+            handleTextfieldVC(viewController, selection: item)
+        } else if viewController.formType == .picker {
+            handlePickerVC(viewController, selection: item)
+        }
+    }
+
+    func formViewController(_ viewController: FormViewController, enableSelectionWithItem item: String) -> Bool {
+        guard let row = selectedRow else { return false }
+
+        if row.isAircraftSpecRequired {
+            return !item.isEmpty
+        }
+
+        return true
+    }
+
+    func formViewControllerDidDismiss(_ viewController: FormViewController) {
+        //
+    }
+
+    func handleTextfieldVC(_ viewController: FormViewController, selection item: String) {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
         let specs = AircraftSpecs()
-        specs.name = text
-        aircraft.name = text ?? ""
+        specs.name = item
+        aircraft.name = item
 
         viewController.isLoading = true
 
         aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) {  [weak self] (status, error) in
+            guard let strongSelf = self else { return }
             if status {
-                self?.aircraftViewModel = AircraftViewModel(with: aircraft)
-                self?.tableView.reloadData()
+                strongSelf.aircraftViewModel = AircraftViewModel(with: aircraft)
+                strongSelf.tableView.reloadData()
+                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didEditAircraft: aircraft.id)
             } else if let _ = error {
                 viewController.isLoading = false
                 // present dialog?
@@ -249,16 +280,7 @@ extension AircraftDetailViewController: TextFieldViewControllerDelegate {
         }
     }
 
-    func textFieldViewControllerDidDismiss(_ viewController: TextFieldViewController) {
-        //
-    }
-}
-
-// MARK: - PickerViewController Delegate
-
-extension AircraftDetailViewController: PickerViewControllerDelegate {
-
-    func pickerViewController(_ viewController: PickerViewController, didSaveItem item: String) {
+    func handlePickerVC(_ viewController: FormViewController, selection item: String) {
         guard let row = selectedRow else { return }
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
@@ -308,9 +330,11 @@ extension AircraftDetailViewController: PickerViewControllerDelegate {
         viewController.isLoading = true
 
         aircraftApi.update(aircraft: aircraft.id, with: specs) { [weak self] (status, error) in
+            guard let strongSelf = self else { return }
             if status {
-                self?.aircraftViewModel = AircraftViewModel(with: aircraft)
-                self?.tableView.reloadData()
+                strongSelf.aircraftViewModel = AircraftViewModel(with: aircraft)
+                strongSelf.tableView.reloadData()
+                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didEditAircraft: aircraft.id)
             } else if let _ = error {
                 viewController.isLoading = false
                 // present dialog?
@@ -318,10 +342,6 @@ extension AircraftDetailViewController: PickerViewControllerDelegate {
 
             viewController.dismiss(animated: true, completion: nil)
         }
-    }
-
-    func pickerViewControllerDidDismiss(_ viewController: PickerViewController) {
-        //
     }
 }
 
@@ -348,136 +368,5 @@ extension AircraftDetailViewController: HeaderStretchable {
 
     var topLayoutInset: CGFloat {
         return topOffset
-    }
-}
-
-fileprivate extension AircraftDetailViewController {
-
-    func aircraftSpecItems(forRow row: AircraftRow) -> [String] {
-        switch row {
-        case .type:
-            return AircraftType.allCases.compactMap { $0.title }
-        case .size:
-            return AircraftSize.allCases.compactMap { $0.title }
-        case .battery:
-            return BatterySize.allCases.compactMap { $0.title }
-        case .propSize:
-            return PropellerSize.allCases.compactMap { $0.title }
-        case .videoTx:
-            return VideoTxType.allCases.compactMap { $0.title }
-        case .videoTxPower:
-            return VideoTxPower.allCases.compactMap { $0.title }
-        case .videoTxChannels:
-            return VideoChannels.allCases.compactMap { $0.title }
-        case .videoRxChannels:
-            return VideoChannels.allCases.compactMap { $0.title }
-        case .antenna:
-            return AntennaPolarization.allCases.compactMap { $0.title }
-        default:
-            return [String]()
-        }
-    }
-
-    func selectedAircraftSpecItem(forRow row: AircraftRow) -> String? {
-        switch row {
-        case .name:
-            return aircraftViewModel.displayName
-        case .type:
-            return aircraftViewModel.aircraft?.type?.title
-        case .size:
-            return aircraftViewModel.aircraft?.size?.title
-        case .battery:
-            return aircraftViewModel.aircraft?.battery?.title
-        case .propSize:
-            return aircraftViewModel.aircraft?.propSize?.title
-        case .videoTx:
-            return aircraftViewModel.aircraft?.videoTxType.title
-        case .videoTxPower:
-            return aircraftViewModel.aircraft?.videoTxPower?.title
-        case .videoTxChannels:
-            return aircraftViewModel.aircraft?.videoTxChannels.title
-        case .videoRxChannels:
-            return aircraftViewModel.aircraft?.videoRxChannels?.title
-        case .antenna:
-            return aircraftViewModel.aircraft?.antenna.title
-        }
-    }
-
-    func defaultAircraftSpecItem(forRow row: AircraftRow) -> String? {
-        switch row {
-        case .name:
-            return nil
-        case .type:
-            return AircraftType.quad.title
-        case .size:
-            return AircraftSize.from250.title
-        case .battery:
-            return BatterySize.´4s´.title
-        case .propSize:
-            return PropellerSize.´5in´.title
-        case .videoTx:
-            return VideoTxType.´5800mhz´.title
-        case .videoTxPower:
-            return VideoTxPower.´25mw´.title
-        case .videoTxChannels:
-            return VideoChannels.raceband40.title
-        case .videoRxChannels:
-            return VideoChannels.raceband40.title
-        case .antenna:
-            return AntennaPolarization.both.title
-        }
-    }
-
-    func detailTextLabel(forRow row: AircraftRow) -> String {
-        switch row {
-        case .name:
-            return aircraftViewModel.displayName
-        case .type:
-            return aircraftViewModel.typeLabel
-        case .size:
-            return aircraftViewModel.sizeLabel
-        case .battery:
-            return aircraftViewModel.batteryLabel
-        case .propSize:
-            return aircraftViewModel.propSizeLabel
-        case .videoTx:
-            return aircraftViewModel.videoTxTypeLabel
-        case .videoTxPower:
-            return aircraftViewModel.videoTxPowerLabel
-        case .videoTxChannels:
-            return aircraftViewModel.videoTxChannelsLabel
-        case .videoRxChannels:
-            return aircraftViewModel.videoRxChannelsLabel
-        case .antenna:
-            return aircraftViewModel.antennaLabel
-        }
-    }
-
-    func isAircraftSpecRequired(forRow row: AircraftRow) -> Bool {
-        switch row {
-        case .name, .videoTx, .videoTxChannels, .antenna:
-            return true
-        default:
-            return false
-        }
-    }
-}
-
-fileprivate enum AircraftRow: Int, EnumTitle, CaseIterable {
-    case name, type, size, battery, propSize, videoTx, videoTxPower, videoTxChannels, videoRxChannels, antenna
-
-    public var title: String {
-        switch self {
-        case .name:             return "Aircraft Name"
-        case .type:             return "Type"
-        case .size:             return "Size"
-        case .battery:          return "Battery"
-        case .propSize:         return "Propeller Size"
-        case .videoTx:          return "Video Tx"
-        case .videoTxPower:     return "Video Tx Power"
-        case .videoTxChannels:  return "Video Tx Channels"
-        case .videoRxChannels:  return "Video Rx Channels"
-        case .antenna:          return "Antenna"
-        }
     }
 }
