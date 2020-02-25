@@ -51,7 +51,7 @@ class ProfileHeaderView: UIView {
         let label = PasteboardLabel()
         label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.textColor = Color.black
-        label.numberOfLines = 5
+        label.numberOfLines = 2
         return label
     }()
 
