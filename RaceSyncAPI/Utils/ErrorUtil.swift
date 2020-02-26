@@ -40,6 +40,21 @@ class ErrorUtil {
         }
     }
 
+    static func errors(fromJSON json: JSON) -> [NSError]? {
+        guard json[ParameterKey.errors].count > 0 else { return nil }
+
+        var errors = [NSError]()
+
+        for (_, value) in json[ParameterKey.errors] {
+            if let content = value.array?.first, let description = content.string {
+                let error = generateError(description, withCode: .malfunction)
+                errors += [error]
+            }
+        }
+
+        return errors.count > 0 ? errors : nil
+    }
+
     static func formError(_ apiError: ApiError) -> NSError {
         return NSError(
             domain: "error",

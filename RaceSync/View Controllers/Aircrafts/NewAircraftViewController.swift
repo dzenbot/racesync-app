@@ -34,6 +34,31 @@ class NewAircraftViewController: UIViewController {
         return tableView
     }()
 
+    fileprivate var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                activityIndicatorView.startAnimating()
+            }
+            else {
+                navigationItem.rightBarButtonItem = rightBarButtonItem
+                activityIndicatorView.stopAnimating()
+            }
+        }
+    }
+
+    fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .gray)
+        view.hidesWhenStopped = true
+        return view
+    }()
+
+    fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
+        let barButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(didPressCreateButton))
+        barButtonItem.isEnabled = false
+        return barButtonItem
+    }()
+
     fileprivate var aircraftAPI = AircraftAPI()
     fileprivate var aircraftSpecs = AircraftSpecs()
     fileprivate var selectedRow: AircraftRow?
@@ -93,8 +118,7 @@ class NewAircraftViewController: UIViewController {
         title = "New Aircraft"
         view.backgroundColor = Color.white
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(didPressCreateButton))
-//        navigationItem.rightBarButtonItem?.isEnabled = false
+        navigationItem.rightBarButtonItem = rightBarButtonItem
 
         if let nc = navigationController, nc.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
@@ -157,13 +181,17 @@ class NewAircraftViewController: UIViewController {
 
     @objc func didPressCreateButton() {
 
+        isLoading = true
+
         aircraftAPI.createAircraft(with: aircraftSpecs) { [weak self] (aircraft, error) in
             guard let strongSelf = self else { return }
             if let aircraft = aircraft {
                 strongSelf.delegate?.newAircraftViewController(strongSelf, didCreateAircraft: aircraft)
-            } else if let _ = error {
-                // TODO: Prompt?
+            } else if let error = error {
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
             }
+
+            strongSelf.isLoading = false
         }
     }
 
@@ -266,6 +294,8 @@ extension NewAircraftViewController: FormViewControllerDelegate {
 
     func formViewController(_ viewController: FormViewController, enableSelectionWithItem item: String) -> Bool {
         guard let currentRow = selectedRow else { return false }
+        guard item.count >= Aircraft.nameMinLength else { return false }
+        guard item.count < Aircraft.nameMaxLength else { return false }
 
         if currentRow.isAircraftSpecRequired {
             return !item.isEmpty

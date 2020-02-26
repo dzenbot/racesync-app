@@ -28,6 +28,9 @@ public class Aircraft: Mappable, Descriptable {
     public var videoRxChannels: VideoChannels?
     public var antenna: AntennaPolarization = .both
 
+    public static let nameMinLength: Int = 3
+    public static let nameMaxLength: Int = 20
+
     // MARK: - Initialization
 
     fileprivate static let requiredProperties = ["id", "name"]

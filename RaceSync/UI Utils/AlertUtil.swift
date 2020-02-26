@@ -12,7 +12,7 @@ public typealias AlertCompletionBlock = (UIAlertAction) -> Void
 
 class AlertUtil {
 
-    static func presentAlertMessage(_ message: String?, title: String?, buttonTitle: String? = nil, delay: TimeInterval = 0, completion: AlertCompletionBlock? = nil) {
+    static func presentAlertMessage(_ message: String?, title: String? = nil, buttonTitle: String? = nil, delay: TimeInterval = 0, completion: AlertCompletionBlock? = nil) {
 
         let alert = UIAlertController(title: title ?? "Something Went Wrong", message: message ?? "Please try again.", preferredStyle: .alert)
         alert.view.tintColor = Color.blue

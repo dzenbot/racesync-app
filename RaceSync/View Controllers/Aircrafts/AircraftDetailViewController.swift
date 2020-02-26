@@ -174,8 +174,8 @@ class AircraftDetailViewController: UIViewController {
             guard let strongSelf = self else { return }
             if status {
                 strongSelf.delegate?.aircraftDetailViewController(strongSelf, didDeleteAircraft: aircraftId)
-            } else if let _ = error {
-                //
+            } else if let error = error {
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
             }
         }
     }
@@ -244,7 +244,9 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
 
     func formViewController(_ viewController: FormViewController, enableSelectionWithItem item: String) -> Bool {
         guard let row = selectedRow else { return false }
-
+        guard item.count >= Aircraft.nameMinLength else { return false }
+        guard item.count < Aircraft.nameMaxLength else { return false }
+        
         if row.isAircraftSpecRequired {
             return !item.isEmpty
         }
@@ -261,22 +263,21 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
 
         let specs = AircraftSpecs()
         specs.name = item
-        aircraft.name = item
 
         viewController.isLoading = true
 
         aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) {  [weak self] (status, error) in
             guard let strongSelf = self else { return }
             if status {
-                strongSelf.aircraftViewModel = AircraftViewModel(with: aircraft)
+                let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: AircraftRow.name)
+                strongSelf.aircraftViewModel = AircraftViewModel(with: updatedAircraft)
                 strongSelf.tableView.reloadData()
                 strongSelf.delegate?.aircraftDetailViewController(strongSelf, didEditAircraft: aircraft.id)
-            } else if let _ = error {
+                viewController.dismiss(animated: true, completion: nil)
+            } else if let error = error {
                 viewController.isLoading = false
-                // present dialog?
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
             }
-
-            viewController.dismiss(animated: true, completion: nil)
         }
     }
 
@@ -288,41 +289,23 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
 
         switch row {
         case .type:
-            let type = AircraftType(title: item)
-            specs.type = type?.rawValue
-            aircraft.type = type
+            specs.type = AircraftType(title: item)?.rawValue
         case .size:
-            let type = AircraftSize(title: item)
-            specs.size = type?.rawValue
-            aircraft.size = type
+            specs.size = AircraftSize(title: item)?.rawValue
         case .battery:
-            let type = BatterySize(title: item)
-            specs.battery = type?.rawValue
-            aircraft.battery = type
+            specs.battery = BatterySize(title: item)?.rawValue
         case .propSize:
-            let type = PropellerSize(title: item)
-            specs.propSize = type?.rawValue
-            aircraft.propSize = type
+            specs.propSize = PropellerSize(title: item)?.rawValue
         case .videoTx:
-            let type = VideoTxType(title: item)
-            specs.videoTxType = type?.rawValue
-            aircraft.videoTxType = type ?? .´5800mhz´
+            specs.videoTxType = VideoTxType(title: item)?.rawValue
         case .videoTxPower:
-            let type = VideoTxPower(title: item)
-            specs.videoTxPower = type?.rawValue
-            aircraft.videoTxPower = type
+            specs.videoTxPower = VideoTxPower(title: item)?.rawValue
         case .videoTxChannels:
-            let type = VideoChannels(title: item)
-            specs.videoTxChannels = type?.rawValue
-            aircraft.videoTxChannels = type ?? .raceband40
+            specs.videoTxChannels = VideoChannels(title: item)?.rawValue
         case .videoRxChannels:
-            let type = VideoChannels(title: item)
-            specs.videoRxChannels = type?.rawValue
-            aircraft.videoRxChannels = type
+            specs.videoRxChannels = VideoChannels(title: item)?.rawValue
         case .antenna:
-            let type = AntennaPolarization(title: item)
-            specs.antenna = type?.rawValue
-            aircraft.antenna = type ?? .both
+            specs.antenna = AntennaPolarization(title: item)?.rawValue
         default:
             break
         }
@@ -332,16 +315,51 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
         aircraftApi.update(aircraft: aircraft.id, with: specs) { [weak self] (status, error) in
             guard let strongSelf = self else { return }
             if status {
-                strongSelf.aircraftViewModel = AircraftViewModel(with: aircraft)
+                let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: row)
+                strongSelf.aircraftViewModel = AircraftViewModel(with: updatedAircraft)
                 strongSelf.tableView.reloadData()
-                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didEditAircraft: aircraft.id)
-            } else if let _ = error {
+                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didEditAircraft: updatedAircraft.id)
+                viewController.dismiss(animated: true, completion: nil)
+            }  else if let error = error {
                 viewController.isLoading = false
-                // present dialog?
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
             }
-
-            viewController.dismiss(animated: true, completion: nil)
         }
+    }
+
+    func updateAircraft(_ aircraft: Aircraft, withItem item: String, forRow row: AircraftRow) -> Aircraft {
+        switch row {
+        case .type:
+            let type = AircraftType(title: item)
+            aircraft.type = type
+        case .size:
+            let type = AircraftSize(title: item)
+            aircraft.size = type
+        case .battery:
+            let type = BatterySize(title: item)
+            aircraft.battery = type
+        case .propSize:
+            let type = PropellerSize(title: item)
+            aircraft.propSize = type
+        case .videoTx:
+            let type = VideoTxType(title: item)
+            aircraft.videoTxType = type ?? .´5800mhz´
+        case .videoTxPower:
+            let type = VideoTxPower(title: item)
+            aircraft.videoTxPower = type
+        case .videoTxChannels:
+            let type = VideoChannels(title: item)
+            aircraft.videoTxChannels = type ?? .raceband40
+        case .videoRxChannels:
+            let type = VideoChannels(title: item)
+            aircraft.videoRxChannels = type
+        case .antenna:
+            let type = AntennaPolarization(title: item)
+            aircraft.antenna = type ?? .both
+        default:
+            break
+        }
+        return aircraft
     }
 }
 

@@ -59,6 +59,7 @@ enum ParameterKey {
     static let apiKey = "apiKey"
     static let sessionId = "sessionId"
     static let data = "data"
+    static let errors = "errors"
     static let id = "id"
     static let username = "username"
     static let password = "password"

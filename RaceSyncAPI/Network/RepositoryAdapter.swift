@@ -19,12 +19,17 @@ class RepositoryAdapter {
         networkAdapter.httpRequest(endPoint, method: .post, parameters: parameters) { (request) in
             print("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseObject(keyPath: ParameterKey.data, completionHandler: { (response: DataResponse<Element>) in
+                print("Ended request with code \(String(describing: response.response?.statusCode))")
+                
                 switch response.result {
-                case .success(let object):
-                    completion(object, nil)
+                case .success(let value):
+                    let json = JSON(value)
+                    if let errors = ErrorUtil.errors(fromJSON: json) {
+                        completion(nil, errors.first)
+                    } else {
+                        completion(value, nil)
+                    }
                 case .failure:
-                    print("response \(response)")
-
                     let error = ErrorUtil.parseError(response)
                     print("network error \(error.debugDescription)")
                     completion(nil, error)
@@ -39,7 +44,6 @@ class RepositoryAdapter {
 
         networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters) { (request) in
             print("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
-
             request.responseArray(keyPath: ParameterKey.data, completionHandler: { (response: DataResponse<[Element]>) in
                 print("Ended request with code \(String(describing: response.response?.statusCode))")
 
@@ -52,8 +56,13 @@ class RepositoryAdapter {
                 }
 
                 switch response.result {
-                case .success(let objects):
-                    completion(objects, nil)
+                case .success(let value):
+                    let json = JSON(value)
+                    if let errors = ErrorUtil.errors(fromJSON: json) {
+                        completion(nil, errors.first)
+                    } else {
+                        completion(value, nil)
+                    }
                 case .failure:
                     let error = ErrorUtil.parseError(response)
                     print("network error \(error.debugDescription)")
@@ -65,14 +74,18 @@ class RepositoryAdapter {
 
     func performAction(_ endPoint: String, parameters: Parameters? = nil, completion: @escaping StatusCompletionBlock) {
         networkAdapter.httpRequest(endPoint,  method: .post, parameters: parameters) { (request) in
-            print("Starting request \(String(describing: request.request?.url))")
+            print("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseJSON { (response) in
                 print("Ended request with code \(String(describing: response.response?.statusCode))")
 
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    completion(json[ParameterKey.status].bool ?? false, nil)
+                    if let errors = ErrorUtil.errors(fromJSON: json) {
+                        completion(false, errors.first)
+                    } else {
+                        completion(json[ParameterKey.status].bool ?? false, nil)
+                    }
                 case .failure:
                     completion(false, response.error as NSError?)
                 }

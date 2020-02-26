@@ -25,7 +25,8 @@ class AircraftPickerViewController: UIViewController {
     var isLoading: Bool = false {
         didSet {
             if isLoading {
-                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                let view = UIActivityIndicatorView(style: .gray)
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: view)
                 activityIndicatorView.startAnimating()
             }
             else {
@@ -59,8 +60,7 @@ class AircraftPickerViewController: UIViewController {
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
-        view.hidesWhenStopped = true
+        let view = UIActivityIndicatorView(style: .whiteLarge)
         return view
     }()
 
@@ -115,6 +115,11 @@ class AircraftPickerViewController: UIViewController {
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
+        }
+
+        view.addSubview(activityIndicatorView)
+        activityIndicatorView.snp.makeConstraints {
+            $0.centerX.centerY.equalToSuperview()
         }
     }
 

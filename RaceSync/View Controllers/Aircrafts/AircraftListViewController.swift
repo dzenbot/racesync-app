@@ -38,8 +38,7 @@ class AircraftListViewController: UIViewController {
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
-        view.hidesWhenStopped = true
+        let view = UIActivityIndicatorView(style: .whiteLarge)
         return view
     }()
 
