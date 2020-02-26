@@ -183,6 +183,9 @@ extension AircraftPickerViewController {
 
     func isLoading(_ loading: Bool) {
         collectionView.reloadData()
+
+        if loading { activityIndicatorView.startAnimating() }
+        else { activityIndicatorView.stopAnimating() }
     }
 
     func fetchMyAircrafts() {
@@ -196,27 +199,6 @@ extension AircraftPickerViewController {
             } else if error != nil {
                 print("fetchMyUser error : \(error.debugDescription)")
             }
-        }
-    }
-
-    func isWaiting(_ waiting: Bool, generic: Bool = false) {
-
-        if waiting {
-            activityIndicatorView.startAnimating()
-            collectionView.deselectAllItems()
-            collectionView.isUserInteractionEnabled = false
-            collectionView.alpha = 0.5
-
-            if generic {
-                title = "Creating Generic Aircraft..."
-            } else {
-                title = "Joining Race..."
-            }
-        } else {
-            activityIndicatorView.stopAnimating()
-            collectionView.isUserInteractionEnabled = true
-            collectionView.alpha = 1
-            title = "Select Your Aircraft"
         }
     }
 }
