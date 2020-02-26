@@ -18,6 +18,7 @@ protocol AircraftDetailViewControllerDelegate {
 
 class AircraftDetailViewController: UIViewController {
 
+    let isEditable: Bool = true
     let shouldDisplayHeader: Bool = true
 
     // MARK: - Public Variables
@@ -109,21 +110,28 @@ class AircraftDetailViewController: UIViewController {
         navigationItem.title = aircraftViewModel.displayName
         view.backgroundColor = Color.white
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didPressDeleteButton))
-        navigationItem.rightBarButtonItem?.tintColor = Color.red
+        if isEditable {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didPressDeleteButton))
+            navigationItem.rightBarButtonItem?.tintColor = Color.red
+        }
 
-        headerView.topLayoutInset = topOffset
-        headerView.viewModel = ProfileViewModel(with: aircraft)
-        tableView.tableHeaderView = headerView
+        if shouldDisplayHeader {
+            headerView.topLayoutInset = topOffset
+            headerView.viewModel = ProfileViewModel(with: aircraft)
+            tableView.tableHeaderView = headerView
+        }
+
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
 
-        let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
-        headerView.snp.makeConstraints {
-            $0.size.equalTo(headerViewSize)
+        if shouldDisplayHeader {
+            let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
+            headerView.snp.makeConstraints {
+                $0.size.equalTo(headerViewSize)
+            }
         }
 
         view.addSubview(activityIndicatorView)
@@ -187,6 +195,7 @@ extension AircraftDetailViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
         guard let row = AircraftRow(rawValue: indexPath.row) else { return }
+        guard isEditing else { return }
 
         if row == .name {
             presentTextField(forRow: row)
@@ -368,7 +377,9 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
 extension AircraftDetailViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        stretchHeaderView(with: scrollView.contentOffset)
+        if shouldDisplayHeader {
+            stretchHeaderView(with: scrollView.contentOffset)
+        }
     }
 }
 

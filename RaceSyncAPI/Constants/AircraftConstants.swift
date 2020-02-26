@@ -123,6 +123,20 @@ public enum VideoTxPower: String, EnumTitle {
         case .´1000mw´:     return "1000 mW"
         }
     }
+
+    public var number: Int {
+        switch self {
+        case .´10mw´:       return 10
+        case .´25mw´:       return 25
+        case .´50mw´:       return 50
+        case .´200mw´:      return 200
+        case .´250mw´:      return 250
+        case .´350mw´:      return 350
+        case .´400mw´:      return 400
+        case .´600mw´:      return 600
+        case .´1000mw´:     return 1000
+        }
+    }
 }
 
 //VIDEO_TRANSMITTER_CHANNELS = array(0=>'Immersion / Fatshark 8 Channel',1=>'Boscam 8 Channel',2=>'Boscam 32 Channel',3=>'Raceband 40')
@@ -189,6 +203,18 @@ public enum BatterySize: String, EnumTitle {
         case .´12s´:         return "12 Cells"
         }
     }
+
+    public var number: Int {
+        switch self {
+        case .´1s´:         return 1
+        case .´2s´:         return 2
+        case .´3s´:         return 3
+        case .´4s´:         return 4
+        case .´6s´:         return 6
+        case .´8s´:         return 8
+        case .´12s´:        return 12
+        }
+    }
 }
 
 //PROPELLER_SIZES = array(11=>'31 mm', 12=>'40 mm', 6=>'2 inch', 7=>'2.5 inch', 8=>'3 inch', 9=>'4 inch', 0=>'5 inch',1=>'6 inch',2=>'7 inch',3=>'8 inch',4=>'9 inch',5=>'10 inch',10=>'13 inch')
@@ -222,6 +248,24 @@ public enum PropellerSize: String, EnumTitle {
         case .´9in´:        return "9 inch"
         case .´10in´:       return "10 inch"
         case .´13in´:       return "13 inch"
+        }
+    }
+
+    public var number: Float {
+        switch self {
+        case .´31mm´:       return 0.31
+        case .´40mm´:       return 0.40
+        case .´2in´:        return 2
+        case .´2in5´:       return 2.5
+        case .´3in´:        return 3
+        case .´4in´:        return 4
+        case .´5in´:        return 5
+        case .´6in´:        return 6
+        case .´7in´:        return 7
+        case .´8in´:        return 8
+        case .´9in´:        return 9
+        case .´10in´:       return 10
+        case .´13in´:       return 13
         }
     }
 }

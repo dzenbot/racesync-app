@@ -349,7 +349,7 @@ class EventDetailViewController: UIViewController, Joinable {
             }
 
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.cellHeight*2)
+            $0.height.equalTo(Constants.cellHeight*CGFloat(FormListType.allCases.count))
             $0.bottom.equalToSuperview().offset(-Constants.padding)
         }
 
@@ -528,8 +528,10 @@ extension EventDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
 
-        if indexPath.row == FormListType.chapter.rawValue {
-
+        if indexPath.row == FormListType.requirements.rawValue {
+            // TODO: Push AircraftDetailViewController
+        } else if indexPath.row == FormListType.chapter.rawValue {
+            // TODO: Push ChapterViewController
         } else if indexPath.row == FormListType.owner.rawValue {
             cell.isLoading = true
 
@@ -560,7 +562,11 @@ extension EventDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
 
-        if indexPath.row == FormListType.chapter.rawValue {
+        if indexPath.row == FormListType.requirements.rawValue {
+            cell.textLabel?.text = "Aircraft Specs"
+            let aircraftRaceSpecs = AircraftRaceSpecs(with: race)
+            cell.detailTextLabel?.text = aircraftRaceSpecs.displayText()
+        } else if indexPath.row == FormListType.chapter.rawValue {
             cell.textLabel?.text = "Chapter"
             cell.detailTextLabel?.text = race.chapterName
         } else if indexPath.row == FormListType.owner.rawValue {
@@ -629,5 +635,5 @@ extension EventDetailViewController: HeaderStretchable {
 }
 
 fileprivate enum FormListType: Int, CaseIterable {
-    case chapter, owner
+    case requirements, chapter, owner
 }

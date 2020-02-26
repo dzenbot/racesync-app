@@ -96,4 +96,39 @@ public class AircraftRaceSpecs: Descriptable {
 
         return parameters
     }
+
+    public func displayText() -> String {
+
+        var strings = [String]()
+
+        if batteries.count > 0 {
+            let enums = batteries.compactMap { BatterySize(rawValue: $0) }
+            let numbers = enums.compactMap { $0.number }
+
+            if let max = numbers.max() {
+                strings += ["\(max)S"]
+            }
+        }
+
+        if propSizes.count > 0 {
+            let enums = propSizes.compactMap { PropellerSize(rawValue: $0) }
+            let numbers = enums.compactMap { $0.number }
+
+            if let max = numbers.max() {
+                if max < 1 {
+                    let mm = max*100
+                    let cleanValue = mm.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", mm) : String(format: "%.1f", mm)
+                    strings += ["\(cleanValue)mm"]
+                } else {
+                    let cleanValue = max.truncatingRemainder(dividingBy: 1) == 0 ? String(format: "%.0f", max) : String(format: "%.1f", max)
+                    strings += ["\(cleanValue)\""]
+                }
+            }
+        }
+
+        if strings.count > 0 {
+            return "Max \(strings.joined(separator: ", "))"
+        }
+        return "N/A"
+    }
 }
