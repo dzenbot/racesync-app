@@ -195,7 +195,7 @@ extension AircraftDetailViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
         guard let row = AircraftRow(rawValue: indexPath.row) else { return }
-        guard isEditing else { return }
+        guard isEditable else { return }
 
         if row == .name {
             presentTextField(forRow: row)
