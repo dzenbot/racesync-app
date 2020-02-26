@@ -149,7 +149,7 @@ class NewAircraftViewController: UIViewController {
             items = values
         }
 
-        let selectedItem = row.specValue(from: aircraftSpecs)
+        let selectedItem = row.displayText(from: aircraftSpecs)
         let defaultItem = row.defaultAircraftSpecValue
 
         let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
@@ -166,7 +166,7 @@ class NewAircraftViewController: UIViewController {
             items = values
         }
 
-        let selectedItem = row.specValue(from: aircraftSpecs)
+        let selectedItem = row.displayText(from: aircraftSpecs)
         let defaultItem = row.defaultAircraftSpecValue
 
         let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
