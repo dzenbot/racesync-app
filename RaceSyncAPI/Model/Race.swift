@@ -115,7 +115,7 @@ public class Race: Mappable, Descriptable {
         typeRestriction <- map["typeRestriction"]
         sizeRestriction <- map["sizeRestriction"]
         batteryRestriction <- map["batteryRestriction"]
-        propSizeRestriction <- map["propSizeRestriction"]
+        propSizeRestriction <- map["propellerSizeRestriction"]
 
         races <- map["races"]
         entries <- map["entries"]
