@@ -7,7 +7,9 @@
 //
 
 import UIKit
+import CoreLocation
 import RaceSyncAPI
+import SnapKit
 import ShimmerSwift
 import EmptyDataSet_Swift
 
@@ -82,7 +84,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         let refreshControl = UIRefreshControl()
         refreshControl.backgroundColor = .white
         refreshControl.tintColor = Color.blue
-        refreshControl.addTarget(self, action: #selector(reloadRaces), for: .valueChanged)
+        refreshControl.addTarget(self, action: #selector(didPullRefreshControl), for: .valueChanged)
         return refreshControl
     }()
 
@@ -112,6 +114,9 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate var raceList = [String: [RaceViewModel]]()
+
+    fileprivate let locationManager = CLLocationManager()
+    fileprivate var userLocation: CLLocation?
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
@@ -172,12 +177,26 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(tableView.snp.bottom)
         }
+
+        locationManager.delegate = self
     }
 
     // MARK: - Actions
 
     @objc fileprivate func didChangeSegment() {
+        updateUserLocation()
         loadRaces()
+    }
+
+    func updateUserLocation() {
+        guard selectedSegment == .nearby else { return }
+
+        let status = CLLocationManager.authorizationStatus()
+        if status == .authorizedWhenInUse {
+            locationManager.startUpdatingLocation()
+        } else {
+            locationManager.requestWhenInUseAuthorization()
+        }
     }
 
     @objc fileprivate func didPressUserProfileButton() {
@@ -212,6 +231,11 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
                 self?.reloadRaces()
             }
         }
+    }
+
+    @objc func didPullRefreshControl() {
+        updateUserLocation()
+        reloadRaces()
     }
 
     @objc open func didSwipeHorizontally(_ sender: Any) {
@@ -278,10 +302,11 @@ fileprivate extension RaceListViewController {
 
     func fetchRaces(_ filtering: RaceListFiltering, completion: VoidCompletionBlock? = nil) {
 
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = DateUtil.standardFormat
+        let coordinate = userLocation?.coordinate
+        let lat = coordinate?.latitude.string
+        let long = coordinate?.longitude.string
 
-        raceApi.getMyRaces(filtering: filtering) { (races, error) in
+        raceApi.getMyRaces(filtering: filtering, latitude: lat, longitude: long) { (races, error) in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
                 return startDate.timeIntervalSinceNow.sign == .plus
@@ -425,6 +450,28 @@ extension RaceListViewController: EmptyDataSetDelegate {
             let settingsNC = NavigationController(rootViewController: settingsVC)
             present(settingsNC, animated: true, completion: nil)
         }
+    }
+}
+
+extension RaceListViewController: CLLocationManagerDelegate {
+
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        print("User Location's did dhange Authorization \(status)")
+
+        if status == .authorizedWhenInUse {
+            updateUserLocation()
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        if let location = locations.first {
+            userLocation = location
+            print("Found user's location: \(location)")
+        }
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        print("Failed to find user's location: \(error.localizedDescription)")
     }
 }
 

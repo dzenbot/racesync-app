@@ -42,10 +42,12 @@
 	<true/>
 	<key>NSCalendarsUsageDescription</key>
 	<string>Saving race events to Calendar</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Search races based on location and show user location on map</string>
 	<key>NSLocationAlwaysUsageDescription</key>
-	<string>Show user location on map</string>
+	<string>Search races based on location and show user location on map</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>Show user location on map</string>
+	<string>Search races based on location and show user location on map</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
 	<string>Saving QR code to Photos</string>
 	<key>UILaunchStoryboardName</key>

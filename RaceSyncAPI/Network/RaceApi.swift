@@ -27,7 +27,7 @@ public protocol RaceApiInterface {
      - parameter filtering: The amount filterying type, such as upcoming, past, nearby and all
      - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
      */
-    func getMyRaces(filtering: RaceListFiltering, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getMyRaces(filtering: RaceListFiltering, latitude: String?, longitude: String?, completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets a filtered set of races related to a specific User.
@@ -84,19 +84,23 @@ public protocol RaceApiInterface {
 public class RaceApi: RaceApiInterface {
 
     public init() {}
-    public static let raceListPageSize: Int = 75
-    
+
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func getMyRaces(filtering: RaceListFiltering, completion: @escaping ObjectCompletionBlock<[Race]>) {
+    public func getMyRaces(filtering: RaceListFiltering,
+                           latitude: String? = nil,
+                           longitude: String? = nil,
+                           completion: @escaping ObjectCompletionBlock<[Race]>) {
         guard let myUser = APIServices.shared.myUser else { return }
-        getRaces(forUser: myUser.id, filtering: filtering, latitude: myUser.latitude, longitude: myUser.longitude, completion: completion)
+        let lat = latitude ?? myUser.latitude
+        let long = longitude ?? myUser.longitude
+        getRaces(forUser: myUser.id, filtering: filtering, latitude: lat, longitude: long, completion: completion)
     }
 
     public func getRaces(forUser userId: ObjectId,
                          filtering: RaceListFiltering,
                          latitude: String? = nil, longitude: String? = nil,
-                         currentPage: Int = 0, pageSize: Int = raceListPageSize,
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
@@ -105,7 +109,7 @@ public class RaceApi: RaceApiInterface {
     }
 
     public func getRaces(forChapter chapterId: ObjectId,
-                         currentPage: Int = 0, pageSize: Int = raceListPageSize,
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
@@ -165,11 +169,10 @@ fileprivate extension RaceApi {
         var parameters: Parameters = [:]
 
         if filtering == .nearby {
-            parameters[ParameterKey.nearBy] = [
-                ParameterKey.latitude: latitude,
-                ParameterKey.longitude: longitude,
-                ParameterKey.radius: APIServices.shared.settings.searchRadius
-            ]
+            var nearbyDict = [ParameterKey.radius: APIServices.shared.settings.searchRadius]
+            if let lat = latitude { nearbyDict[ParameterKey.latitude] = lat }
+            if let long = longitude { nearbyDict[ParameterKey.longitude] = long }
+            parameters[ParameterKey.nearBy] = nearbyDict
         } else {
             parameters[ParameterKey.joined] = [ParameterKey.pilotId : userId]
             if filtering == .upcoming {
