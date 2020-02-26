@@ -51,9 +51,11 @@ extension Joinable {
             raceApi.join(race: race.id, aircraftId: aircraftId) { (status, error) in
                 if status == true {
                     completion(.joined)
+                } else if let error = error {
+                    completion(.join)
+                    AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
                 } else {
                     completion(.join)
-                    AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later.", title: "Error", delay: 0.5)
                 }
             }
         }

@@ -9,6 +9,7 @@
 import UIKit
 import SnapKit
 import RaceSyncAPI
+import EmptyDataSet_Swift
 
 protocol AircraftPickerViewControllerDelegate {
     func aircraftPickerViewController(_ viewController: AircraftPickerViewController, didSelectAircraft aircraftId: ObjectId)
@@ -26,8 +27,8 @@ class AircraftPickerViewController: UIViewController {
         didSet {
             if isLoading {
                 let view = UIActivityIndicatorView(style: .gray)
+                view.startAnimating()
                 navigationItem.rightBarButtonItem = UIBarButtonItem(customView: view)
-                activityIndicatorView.startAnimating()
             }
             else {
                 navigationItem.rightBarButtonItem = rightBarButtonItem
@@ -52,6 +53,8 @@ class AircraftPickerViewController: UIViewController {
         collectionView.delegate = self
         collectionView.register(AircraftCollectionViewCell.self, forCellWithReuseIdentifier: AircraftCollectionViewCell.identifier)
         collectionView.backgroundColor = Color.white
+        collectionView.emptyDataSetSource = self
+        collectionView.emptyDataSetDelegate = self
         return collectionView
     }()
 
@@ -67,6 +70,8 @@ class AircraftPickerViewController: UIViewController {
     fileprivate let race: Race
     fileprivate let aircraftApi = AircraftAPI()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
+
+    fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noMatchingAircrafts)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -136,7 +141,13 @@ class AircraftPickerViewController: UIViewController {
             self?.presentNewAircraftForm()
         }))
         alert.addAction(UIAlertAction(title: "Generic Aircraft", style: .default, handler: { [weak self] (actionButton) in
-            self?.pickGenericAircraft()
+            let title = "Are you sure? This will create a generic aircraft matching the race specs, then join the race."
+            ActionSheetUtil.presentDestructiveActionSheet(withTitle: title, destructiveTitle: "Yes, Create and Join",
+                                                          completion: { (action) in
+                                                            self?.pickGenericAircraft()
+            }) { (action) in
+                //
+            }
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
@@ -181,21 +192,15 @@ class AircraftPickerViewController: UIViewController {
 
 extension AircraftPickerViewController {
 
-    func isLoading(_ loading: Bool) {
-        collectionView.reloadData()
-
-        if loading { activityIndicatorView.startAnimating() }
-        else { activityIndicatorView.stopAnimating() }
-    }
-
     func fetchMyAircrafts() {
-        isLoading(true)
+        activityIndicatorView.startAnimating()
 
         let specs = AircraftRaceSpecs(with: race)
         aircraftApi.getMyAircrafts(forRaceSpecs: specs) { [weak self] (aircrafts, error) in
             if let aircrafts = aircrafts {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
-                self?.isLoading(false)
+                self?.activityIndicatorView.stopAnimating()
+                self?.collectionView.reloadData()
             } else if error != nil {
                 print("fetchMyUser error : \(error.debugDescription)")
             }
@@ -260,5 +265,42 @@ extension AircraftPickerViewController: NewAircraftViewControllerDelegate {
     func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]? {
         let aircraftRaceSpecs = AircraftRaceSpecs(with: race)
         return row.aircraftRaceSpecValues(for: aircraftRaceSpecs)
+    }
+}
+
+extension AircraftPickerViewController: EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateAircrafts.title
+    }
+
+    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return emptyStateAircrafts.description
+    }
+
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
+        return emptyStateAircrafts.buttonTitle(state)
+    }
+
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        if let nc = navigationController {
+            return -nc.navigationBar.frame.height
+        }
+        return 0
+    }
+}
+
+extension AircraftPickerViewController: EmptyDataSetDelegate {
+
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
+        return !activityIndicatorView.isAnimating
+    }
+
+    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
+        return true
+    }
+
+    func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
+        didPressCreateButton()
     }
 }
