@@ -13,11 +13,19 @@ import EmptyDataSet_Swift
 
 class AircraftListViewController: UIViewController {
 
+    // MARK: - Public Variables
+
+    var isEditable: Bool = true {
+        didSet {
+            canAddAircraft = false
+        }
+    }
+
     // MARK: - Private Variables
 
-    fileprivate let canAddAircraft: Bool = true
+    fileprivate var canAddAircraft: Bool = true
 
-    lazy var collectionViewLayout: UICollectionViewLayout = {
+    fileprivate lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: AircraftCollectionViewCell.height, height: AircraftCollectionViewCell.height)
         layout.minimumInteritemSpacing = Constants.padding
@@ -25,7 +33,7 @@ class AircraftListViewController: UIViewController {
         return layout
     }()
 
-    lazy var collectionView: UICollectionView = {
+    fileprivate lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout:collectionViewLayout)
         collectionView.dataSource = self
         collectionView.delegate = self
@@ -42,22 +50,35 @@ class AircraftListViewController: UIViewController {
         return view
     }()
 
-    var isLoading: Bool = false {
+    fileprivate var isLoading: Bool = false {
         didSet {
             if isLoading { activityIndicatorView.startAnimating() }
             else { activityIndicatorView.stopAnimating() }
         }
     }
 
+    fileprivate let user: User
     fileprivate let aircraftApi = AircraftAPI()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
     fileprivate var shouldReloadAircrafts: Bool = true
 
     fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noAircrafts)
+    fileprivate var emptyStateError: EmptyStateViewModel?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = UniversalConstants.cellHeight
+    }
+
+    // MARK: - Initialization
+
+    init(with user: User) {
+        self.user = user
+        super.init(nibName: nil, bundle: nil)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Lifecycle Methods
@@ -74,7 +95,7 @@ class AircraftListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        fetchMyAircrafts()
+        fetchAircrafts()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -86,10 +107,10 @@ class AircraftListViewController: UIViewController {
     func setupLayout() {
 
         view.backgroundColor = Color.white
-        navigationItem.title = "My Aircrafts"
+        navigationItem.title = user.isMe ? "My Aircrafts" : "Aircrafts"
 
         if canAddAircraft {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .add, target: self, action: #selector(didPressAddButton))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressCreateButton))
         }
 
         view.addSubview(collectionView)
@@ -105,7 +126,7 @@ class AircraftListViewController: UIViewController {
 
     // MARK: - Button Events
 
-    @objc func didPressAddButton() {
+    @objc func didPressCreateButton() {
         let newAircraftVC = NewAircraftViewController()
         newAircraftVC.delegate = self
         navigationController?.pushViewController(newAircraftVC, animated: true)
@@ -114,17 +135,17 @@ class AircraftListViewController: UIViewController {
 
 extension AircraftListViewController {
 
-    func fetchMyAircrafts() {
+    func fetchAircrafts() {
         guard shouldReloadAircrafts else { return }
 
-        aircraftApi.getMyAircrafts() { [weak self] (aircrafts, error) in
+        aircraftApi.getAircrafts(forUser: user.id) { [weak self] (aircrafts, error) in
             if let aircrafts = aircrafts {
                 self?.aircraftViewModels = [AircraftViewModel]()
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
                 self?.isLoading = false
                 self?.collectionView.reloadData()
-            } else if error != nil {
-                print("fetchMyUser error : \(error.debugDescription)")
+            } else if let error = error {
+                self?.handleError(error)
             }
         }
 
@@ -137,6 +158,13 @@ extension AircraftListViewController {
             collectionView.deselectItem(at: item, animated: true)
         }
     }
+
+    // MARK: - Error
+
+    fileprivate func handleError(_ error: Error) {
+        emptyStateError = EmptyStateViewModel(.errorAircrafts)
+        collectionView.reloadEmptyDataSet()
+    }
 }
 
 extension AircraftListViewController: UICollectionViewDelegate {
@@ -146,6 +174,7 @@ extension AircraftListViewController: UICollectionViewDelegate {
 
         let aircraftDetailVC = AircraftDetailViewController(with: viewModel)
         aircraftDetailVC.delegate = self
+        aircraftDetailVC.isEditable = isEditable
         navigationController?.pushViewController(aircraftDetailVC, animated: true)
 
         collectionView.deselectAllItems()
@@ -186,8 +215,6 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
     }
 
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId) {
-        print("didDeleteAircraft")
-
         if let index = aircraftViewModels.firstIndex(where: { $0.aircraftId == aircraftId }) {
             aircraftViewModels.remove(at: index)
             collectionView.reloadData()
@@ -227,14 +254,26 @@ extension AircraftListViewController: NewAircraftViewControllerDelegate {
 extension AircraftListViewController: EmptyDataSetSource {
 
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        if emptyStateError != nil {
+            return emptyStateError?.title
+        }
+
         return emptyStateAircrafts.title
     }
 
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        if emptyStateError != nil {
+            return emptyStateError?.description
+        }
+
         return emptyStateAircrafts.description
     }
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
+        if emptyStateError != nil {
+            return emptyStateError?.buttonTitle(state)
+        }
+
         return emptyStateAircrafts.buttonTitle(state)
     }
 }
@@ -250,6 +289,12 @@ extension AircraftListViewController: EmptyDataSetDelegate {
     }
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
-        print("Add Aircraft!")
+
+        if emptyStateError != nil {
+            guard let url = URL(string: MGPWeb.getPrefilledFeedbackFormUrl()) else { return }
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        } else {
+            didPressCreateButton()
+        }
     }
 }

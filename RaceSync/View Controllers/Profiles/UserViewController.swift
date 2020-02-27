@@ -30,7 +30,9 @@ class UserViewController: ProfileViewController, Joinable {
 
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         button.setTitleColor(Color.white, for: .normal)
-        button.setTitle("My Aircrafts", for: .normal)
+
+        let title = user.isMe ? "My Aircrafts" : "Aircrafts"
+        button.setTitle(title, for: .normal)
 
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
         button.backgroundColor = Color.blue
@@ -111,13 +113,11 @@ class UserViewController: ProfileViewController, Joinable {
     override func setupLayout() {
         super.setupLayout()
 
-        if user.isMe {
-            headerView.addSubview(aircraftButton)
-            aircraftButton.snp.makeConstraints {
-                $0.bottom.equalToSuperview()
-                $0.trailing.equalToSuperview().offset(-Constants.padding)
-                $0.height.equalTo(Constants.buttonHeight)
-            }
+        headerView.addSubview(aircraftButton)
+        aircraftButton.snp.makeConstraints {
+            $0.bottom.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
+            $0.height.equalTo(Constants.buttonHeight)
         }
     }
 
@@ -154,7 +154,8 @@ class UserViewController: ProfileViewController, Joinable {
     }
 
     @objc func didPressAircraftButton() {
-        let aircraftVC = AircraftListViewController()
+        let aircraftVC = AircraftListViewController(with: user)
+        aircraftVC.isEditable = user.isMe
         navigationController?.pushViewController(aircraftVC, animated: true)
     }
 

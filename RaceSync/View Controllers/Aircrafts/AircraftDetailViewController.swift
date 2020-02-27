@@ -18,10 +18,10 @@ protocol AircraftDetailViewControllerDelegate {
 
 class AircraftDetailViewController: UIViewController {
 
-    let isEditable: Bool = true
-    let shouldDisplayHeader: Bool = true
-
     // MARK: - Public Variables
+
+    var isEditable: Bool = true
+    var shouldDisplayHeader: Bool = true
 
     var delegate: AircraftDetailViewControllerDelegate?
 
@@ -217,7 +217,7 @@ extension AircraftDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
         guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
 
-        if row.isAircraftSpecRequired {
+        if row.isAircraftSpecRequired, isEditable {
             cell.textLabel?.text = row.title + " *"
         } else {
             cell.textLabel?.text = row.title
@@ -229,7 +229,8 @@ extension AircraftDetailViewController: UITableViewDataSource {
         cell.detailTextLabel?.text = row.displayText(from: aircraftViewModel)
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         cell.detailTextLabel?.textColor = Color.gray300
-
+        cell.accessoryType = isEditable ? .disclosureIndicator : .none
+        
         return cell
     }
 

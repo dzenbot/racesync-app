@@ -37,9 +37,10 @@ enum EmptyState {
 
     case commingSoon
 
-    case errorRace
-    case errorChapter
-    case errorUser
+    case errorRaces
+    case errorChapters
+    case errorUsers
+    case errorAircrafts
 
     case noInternet
 }
@@ -76,7 +77,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "No Matching Aircrafts"
         case .commingSoon:
             text = "Coming Soon"
-        case .errorRace:
+        case .errorRaces, .errorAircrafts:
             text = "Error"
         default:
             return nil
@@ -120,8 +121,10 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "You don't have any aircrafts matching the race requirements."
         case .commingSoon:
             text = "This section is under development."
-        case .errorRace:
+        case .errorRaces:
             text = "Could not load the race details.\nPlease try again later or report a bug."
+        case .errorAircrafts:
+            text = "Could not load the aircrafts.\nPlease try again later or report a bug."
         default:
             return nil
         }
@@ -152,7 +155,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "Join Race"
         case .noAircrafts, .noMatchingAircrafts:
             text = "Add Aircraft"
-        case .errorRace:
+        case .errorRaces, .errorAircrafts:
             text = "Send Bug Report"
         default:
             return nil

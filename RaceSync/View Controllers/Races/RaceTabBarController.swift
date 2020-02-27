@@ -158,7 +158,7 @@ class RaceTabBarController: UITabBarController {
 
     fileprivate func handleError(_ error: Error) {
 
-        emptyStateError = EmptyStateViewModel(.errorRace)
+        emptyStateError = EmptyStateViewModel(.errorRaces)
 
         // temporary scroll view used to display the error message
         let scrollView = UIScrollView()
