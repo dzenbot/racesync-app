@@ -19,6 +19,9 @@ public class APIServices {
 
     public var myUser: User? {
         didSet {
+            // Override useful for debugging a specific user's issue
+            // myUser?.id = "8062"
+
             print("Did set my User with id: \(String(describing: myUser?.id))")
         }
     }
