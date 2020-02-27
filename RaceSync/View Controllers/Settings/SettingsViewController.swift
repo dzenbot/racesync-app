@@ -63,8 +63,6 @@ class SettingsViewController: UIViewController {
         return view
     }()
 
-    fileprivate let distances: [String] = ["200", "500", "1000", "2000", "5000"]
-
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = 50
@@ -118,7 +116,7 @@ class SettingsViewController: UIViewController {
         let selectedDistance = APIServices.shared.settings.searchRadius
 
         let presenter = Appearance.defaultPresenter()
-        let pickerVC = PickerViewController(with: distances, selectedItem: selectedDistance)
+        let pickerVC = PickerViewController(with: SearchRadiuses, selectedItem: selectedDistance)
         pickerVC.delegate = self
         pickerVC.title = "Update \(SettingsSection.searchRadius.title)"
         pickerVC.unit = "mi"

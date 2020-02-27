@@ -13,7 +13,7 @@ public class APISettings {
 
     public var searchRadius: String {
         get {
-            guard let value = UserDefaults.standard.string(forKey: Self.settingsSearchRadiusKey) else { return "500" }
+            guard let value = UserDefaults.standard.string(forKey: Self.settingsSearchRadiusKey) else { return DefaultSearchRadius }
             return value
         } set {
             UserDefaults.standard.set(newValue, forKey: Self.settingsSearchRadiusKey)
