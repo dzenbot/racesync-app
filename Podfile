@@ -15,6 +15,7 @@ target 'RaceSync' do
 
   # Dev Tools
   pod 'SwiftLint'
+  pod 'Sentry', '~> 4.4.1'
 
   target 'RaceSyncTests' do
     inherit! :search_paths
