@@ -8,23 +8,20 @@
 
 import Foundation
 import RaceSyncAPI
-import Bugsnag
 
 class CrashCatcher {
 
-    static let config = BugsnagConfiguration()
-
     static func configure() {
-        config.apiKey = "68a2e921b94e6bd3c4a0db836c6191c4"
-        config.releaseStage = APIReleaseStage.alpha.rawValue
-        config.appVersion = "1.0"
-
-        Bugsnag.start(with: config)
+//        config.apiKey = "68a2e921b94e6bd3c4a0db836c6191c4"
+//        config.releaseStage = APIReleaseStage.alpha.rawValue
+//        config.appVersion = "1.0"
+//
+//        Bugsnag.start(with: config)
     }
 
     static func update(with user: User?) {
 
-        let email = APISessionManager.getSessionEmail()
-        config.setUser(user?.id, withName: user?.userName, andEmail: email)
+//        let email = APISessionManager.getSessionEmail()
+//        config.setUser(user?.id, withName: user?.userName, andEmail: email)
     }
 }

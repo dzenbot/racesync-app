@@ -14,27 +14,25 @@ target 'RaceSync' do
   pod "PickerView"
 
   # Dev Tools
-  pod 'Bugsnag'
   pod 'SwiftLint'
 
   target 'RaceSyncTests' do
     inherit! :search_paths
   end
-
 end
 
 target 'RaceSyncAPI' do
     use_frameworks!
 
     # Network
-    pod 'Alamofire'
-    pod 'AlamofireImage'
-    pod 'AlamofireNetworkActivityIndicator'
+    pod 'Alamofire', '~> 4.9.1'
+    pod 'AlamofireImage', '~> 3.6.0'
+    pod 'AlamofireNetworkActivityIndicator', '~> 2.4.0'
+    pod 'AlamofireObjectMapper', '~> 5.2.1'
 
     # Data Parsing
     pod 'SwiftyJSON'
     pod 'ObjectMapper', :inhibit_warnings => true
-    pod 'AlamofireObjectMapper'
 
     # Security
     pod 'Valet'
@@ -55,5 +53,4 @@ target 'RaceSyncAPI' do
     target 'RaceSyncAPITests' do
         inherit! :search_paths
     end
-
 end

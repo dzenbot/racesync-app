@@ -1,5 +1,4 @@
 ${PODS_ROOT}/Target Support Files/Pods-RaceSync/Pods-RaceSync-frameworks.sh
-${BUILT_PRODUCTS_DIR}/Bugsnag/Bugsnag.framework
 ${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework
 ${BUILT_PRODUCTS_DIR}/PickerView/PickerView.framework
 ${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework
