@@ -22,6 +22,8 @@ public enum MGPWebConstant: String {
 
     case feedbackForm = "https://forms.gle/v7jYpjxW7fzBVzir7"
     case feedbackPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSfY9qr-5I7JYtQ5s5UsVflMyXu-iW3-InzG03qAJOwGv9P1Tg/viewform"
+
+    case seasonRules2020 = "http://docs.google.com/document/d/1GROA7Z6KgINhVDonuZ359zxOzWmmwbPV6H5xsU_wvgY/"
 }
 
 public class MGPWeb {

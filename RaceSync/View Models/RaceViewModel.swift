@@ -91,7 +91,10 @@ extension RaceViewModel {
         let userLocation = CLLocation(latitude: userLat, longitude: userLong)
 
         let meters = raceLocation.distance(from: userLocation)
+        print("meters \(meters)")
+
         let miles = NumberUtil.string(for: (meters/1609.344))
+        print("miles \(miles)")
 
         return "\(miles) mi"
     }

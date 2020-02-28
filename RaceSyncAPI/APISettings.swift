@@ -13,11 +13,18 @@ public class APISettings {
 
     public var searchRadius: String {
         get {
-            guard let value = UserDefaults.standard.string(forKey: Self.settingsSearchRadiusKey) else { return DefaultSearchRadius }
-            return value
+            return UserDefaults.standard.string(forKey: APISettingsSearchRadiusKey) ?? self.lengthUnit.defaultValue
         } set {
-            UserDefaults.standard.set(newValue, forKey: Self.settingsSearchRadiusKey)
-            UserDefaults.standard.synchronize()
+            save(newValue, key: APISettingsSearchRadiusKey)
+        }
+    }
+
+    public var lengthUnit: APIUnitSystem {
+        get {
+            let value = UserDefaults.standard.integer(forKey: APISettingsLengthUnitKey)
+            return APIUnitSystem(rawValue: value) ?? .miles
+        } set {
+            save(newValue.rawValue, key: APISettingsLengthUnitKey)
         }
     }
 
@@ -27,7 +34,7 @@ public class APISettings {
 
     public var environment: APIEnvironment {
         get {
-            if let rawValue = UserDefaults.standard.object(forKey: Self.settingsEnvironmentsKey) as? Int {
+            if let rawValue = UserDefaults.standard.object(forKey: APISettingsEnvironmentsKey) as? Int {
                 if let env = APIEnvironment(rawValue: rawValue) { return env }
             }
 
@@ -35,11 +42,21 @@ public class APISettings {
             return dev ? APIEnvironment.dev : APIEnvironment.prod
         } set {
             guard newValue != environment else { return }
-            UserDefaults.standard.set(newValue.rawValue, forKey: Self.settingsEnvironmentsKey)
-            UserDefaults.standard.synchronize()
+            save(newValue.rawValue, key: APISettingsEnvironmentsKey)
         }
     }
-
-    fileprivate static let settingsSearchRadiusKey = "com.multigp.RaceSync.settings.search_radius"
-    fileprivate static let settingsEnvironmentsKey = "com.multigp.RaceSync.settings.environment"
 }
+
+fileprivate extension APISettings {
+
+    func save(_ value: Any, key: String) {
+        UserDefaults.standard.set(value, forKey: key)
+        UserDefaults.standard.synchronize()
+
+        print("Updating Setting \(key) with \(value)")
+    }
+}
+
+fileprivate let APISettingsEnvironmentsKey = "com.multigp.RaceSync.settings.environment"
+fileprivate let APISettingsSearchRadiusKey = "com.multigp.RaceSync.settings.search_radius"
+fileprivate let APISettingsLengthUnitKey = "com.multigp.RaceSync.settings.length_unit"

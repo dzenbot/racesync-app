@@ -32,6 +32,3 @@ public enum RaceOfficialStatus: String {
     case requested = "1"
     case approved = "2"
 }
-
-public let SearchRadiuses: [String] = ["100", "200", "500", "2000"]
-public let DefaultSearchRadius: String = "200"

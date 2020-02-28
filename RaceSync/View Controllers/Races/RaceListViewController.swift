@@ -446,7 +446,7 @@ extension RaceListViewController: EmptyDataSetDelegate {
             segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
         } else {
             let settingsVC = SettingsViewController()
-            settingsVC.adjustRadiusEnabled = true
+            settingsVC.promptSearchRadiusPicker = true
             let settingsNC = NavigationController(rootViewController: settingsVC)
             present(settingsNC, animated: true, completion: nil)
         }
