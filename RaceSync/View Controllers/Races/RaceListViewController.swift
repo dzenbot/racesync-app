@@ -264,11 +264,7 @@ fileprivate extension RaceListViewController {
     func fetchMyUser() {
         userApi.getMyUser { (user, error) in
             APIServices.shared.myUser = user
-
-            #if !DEBUG
-            CrashCatcher.update(with: user)
-            #endif
-
+            
             if user != nil && self.shouldLoadRaces {
                 self.updateProfilePicture()
                 self.loadRaces()
