@@ -8,20 +8,12 @@
 
 import Foundation
 import RaceSyncAPI
+import Sentry
 
 class CrashCatcher {
 
     static func configure() {
-//        config.apiKey = "68a2e921b94e6bd3c4a0db836c6191c4"
-//        config.releaseStage = APIReleaseStage.alpha.rawValue
-//        config.appVersion = "1.0"
-//
-//        Bugsnag.start(with: config)
-    }
-
-    static func update(with user: User?) {
-
-//        let email = APISessionManager.getSessionEmail()
-//        config.setUser(user?.id, withName: user?.userName, andEmail: email)
+        Client.shared = try? Client(dsn: "https://4dbd7fdde60b4c828846d94fecc814c1@sentry.io/3036524")
+        try? Client.shared?.startCrashHandler()
     }
 }
