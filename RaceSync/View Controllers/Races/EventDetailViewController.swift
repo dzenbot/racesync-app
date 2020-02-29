@@ -202,12 +202,12 @@ class EventDetailViewController: UIViewController, Joinable {
         static let minButtonSize: CGFloat = 72
     }
 
-    fileprivate let race: Race
-    fileprivate var raceCoordinates: CLLocationCoordinate2D?
-    fileprivate let raceViewModel: RaceViewModel
+    fileprivate var race: Race
+    fileprivate var raceViewModel: RaceViewModel
     fileprivate let raceApi = RaceApi()
     fileprivate var chapterApi = ChapterApi()
     fileprivate var userApi = UserApi()
+    fileprivate var raceCoordinates: CLLocationCoordinate2D?
 
     // MARK: - Initialization
 
@@ -423,7 +423,8 @@ class EventDetailViewController: UIViewController, Joinable {
         toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { [weak self] (newState) in
 
             if currentState != newState {
-                self?.reloadRace()
+                self?.race.isJoined = (newState == .joined)
+                self?.reloadRaceView()
             }
         }
     }
@@ -451,9 +452,8 @@ fileprivate extension EventDetailViewController {
 
         raceApi.open(race: race.id) { [weak self] (status, error) in
             if status {
-                self?.reloadRace()
-            } else {
-                cell.isLoading = false
+                self?.race.status = .open
+                self?.reloadRaceView()
             }
         }
     }
@@ -463,16 +463,26 @@ fileprivate extension EventDetailViewController {
 
         raceApi.close(race: race.id) { [weak self] (status, error) in
             if status {
-                self?.reloadRace()
-            } else {
-                cell.isLoading = false
+                self?.race.status = .closed
+                self?.reloadRaceView()
             }
         }
     }
 
-    func reloadRace() {
-        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
-        tabBarController.reloadAllTabs()
+    func reloadRaceView() {
+
+        raceApi.viewSimple(race: race.id) { [weak self] (race, error) in
+
+            if let race = race {
+                let viewModel = RaceViewModel(with: race)
+
+                self?.joinButton.joinState = viewModel.joinState
+                self?.memberBadgeView.count = viewModel.participantCount
+
+                self?.raceViewModel = viewModel
+                self?.tableView.reloadData()
+            }
+        }
     }
 }
 
@@ -630,6 +640,8 @@ extension EventDetailViewController: UITableViewDataSource {
         } else if row == .status {
             cell.detailTextLabel?.text = race.status.rawValue
         }
+
+        cell.isLoading = false
 
         return cell
     }
