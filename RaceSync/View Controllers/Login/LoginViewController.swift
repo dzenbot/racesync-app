@@ -284,15 +284,14 @@ class LoginViewController: UIViewController {
         loginButton.isLoading = true
 
         // Login
-        authApi.login(email, password: password) { [weak self] (error) in
-            if let _ = error {
-                // TODO: Handle errors. At least, display in screen.
-                print("Login error \(error.debugDescription)!")
-                self?.loginButton.isLoading = false
+        authApi.login(email, password: password) { [weak self] (status, error) in
+            if let error = error {
                 self?.freezeLoginForm(false)
-            } else {
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
+            } else if status {
                 self?.presentHome(transition: .flipHorizontal)
             }
+            self?.loginButton.isLoading = false
         }
     }
 

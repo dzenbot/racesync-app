@@ -22,14 +22,14 @@ public protocol AuthApiInterface {
      - parameter password: Account password.
      - parameter completion: The closure to be called upon completion
      */
-    func login(_ username: String, password: String, _ completion: @escaping CompletionBlock)
+    func login(_ username: String, password: String, _ completion: @escaping StatusCompletionBlock)
 
     /**
      Basic account log out method.
 
      - parameter completion: The closure to be called upon completion
      */
-    func logout(_ completion: @escaping CompletionBlock)
+    func logout(_ completion: @escaping StatusCompletionBlock)
 }
 
 public class AuthApi {
@@ -37,7 +37,7 @@ public class AuthApi {
     public init() {}
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func login(_ username: String, password: String, _ completion: @escaping CompletionBlock) {
+    public func login(_ username: String, password: String, _ completion: @escaping StatusCompletionBlock) {
 
         let endpoint = EndPoint.userLogin
         let parameters: Parameters = [
@@ -53,17 +53,21 @@ public class AuthApi {
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
-                    APISessionManager.handleSessionJSON(json)
-                    APISessionManager.setSessionEmail(username)
-                    completion(nil)
+                    if let errors = ErrorUtil.errors(fromJSON: json) {
+                        completion(false, errors.first)
+                    } else {
+                        APISessionManager.handleSessionJSON(json)
+                        APISessionManager.setSessionEmail(username)
+                        completion(true, nil)
+                    }
                 case .failure:
-                    completion(ErrorUtil.parseError(response))
+                    completion(false, response.error as NSError?)
                 }
             })
         }
     }
 
-    public func logout(_ completion: @escaping CompletionBlock) {
+    public func logout(_ completion: @escaping StatusCompletionBlock) {
 
         let endpoint = EndPoint.userLogout
 
@@ -73,10 +77,15 @@ public class AuthApi {
                 print("+ Ended request with code \(String(describing: response.response?.statusCode))")
 
                 switch response.result {
-                case .success(_):
-                    completion(nil)
+                case .success(let value):
+                    let json = JSON(value)
+                    if let errors = ErrorUtil.errors(fromJSON: json) {
+                        completion(false, errors.first)
+                    } else {
+                        completion(true, nil)
+                    }
                 case .failure:
-                    completion(ErrorUtil.parseError(response))
+                    completion(false, response.error as NSError?)
                 }
             })
         }

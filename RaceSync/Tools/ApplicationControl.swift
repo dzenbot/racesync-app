@@ -25,12 +25,14 @@ class ApplicationControl {
     }
 
     func logout(switchTo environment: APIEnvironment = .prod) {
-        authApi.logout { [weak self] (error) in
+        authApi.logout { [weak self] (status, error) in
             if error == nil {
                 self?.invalidateSession()
             }
-            
-            APIServices.shared.settings.environment = environment
+
+            if status {
+                APIServices.shared.settings.environment = environment
+            }
         }
     }
 }
