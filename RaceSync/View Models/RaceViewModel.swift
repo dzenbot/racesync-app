@@ -33,7 +33,7 @@ class RaceViewModel: Descriptable {
         self.fullDateLabel = RaceViewModel.fullDateLabelString(for: race) // "Saturday, September 14th @ 9:00 AM"
         self.locationLabel = RaceViewModel.locationLabelString(for: race)
         self.fullLocationLabel = RaceViewModel.fullLocationLabelString(for: race)
-        self.distanceLabel = RaceViewModel.distanceLabelString(for: race) // "309.4 mi"
+        self.distanceLabel = RaceViewModel.distanceLabelString(for: race) // "309.4 mi" or "122 kms"
         self.joinState = RaceViewModel.joinState(for: race)
         self.participantCount = Int(race.participantCount) ?? 0
         self.imageUrl = RaceViewModel.imageUrl(for: race)
@@ -90,13 +90,15 @@ extension RaceViewModel {
         let raceLocation = CLLocation(latitude: raceLat, longitude: raceLong)
         let userLocation = CLLocation(latitude: userLat, longitude: userLong)
 
-        let meters = raceLocation.distance(from: userLocation)
-        print("meters \(meters)")
+        let kms = raceLocation.distance(from: userLocation)/1000
+        var string = NumberUtil.string(for: kms)
+        let lengthUnit = APIServices.shared.settings.lengthUnit
 
-        let miles = NumberUtil.string(for: (meters/1609.344))
-        print("miles \(miles)")
+        if lengthUnit == .miles {
+            string = APIUnitSystem.convert(string, to: .miles)
+        }
 
-        return "\(miles) mi"
+        return "\(string) \(lengthUnit.symbol)"
     }
 }
 

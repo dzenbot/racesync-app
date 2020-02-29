@@ -169,7 +169,15 @@ fileprivate extension RaceApi {
         var parameters: Parameters = [:]
 
         if filtering == .nearby {
-            var nearbyDict = [ParameterKey.radius: APIServices.shared.settings.searchRadius]
+            let settings = APIServices.shared.settings
+            let lengthUnit = settings.lengthUnit
+            var radiusString = settings.searchRadius
+
+            if lengthUnit == .kilometers {
+                radiusString = APIUnitSystem.convert(radiusString, to: .miles)
+            }
+
+            var nearbyDict = [ParameterKey.radius: radiusString]
             if let lat = latitude { nearbyDict[ParameterKey.latitude] = lat }
             if let long = longitude { nearbyDict[ParameterKey.longitude] = long }
             parameters[ParameterKey.nearBy] = nearbyDict

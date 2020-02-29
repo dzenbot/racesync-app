@@ -40,11 +40,17 @@ public enum APIUnitSystem: Int, EnumTitle {
         }
     }
 
-    public func convert(_ value: CGFloat, from: APIUnitSystem, to: APIUnitSystem) -> CGFloat {
-        return 0
-    }
+    public static func convert(_ string: String, to: APIUnitSystem) -> String {
+        guard let number = Double(string) else { return string }
 
-    public func convert(_ value: CGFloat, from: APIUnitSystem, to: APIUnitSystem) -> String {
-        return ""
+        if to == .miles {
+            let value = number * 0.621371
+            return NumberUtil.string(for: value)
+        } else if to == .kilometers {
+            let value = number * 1.60934
+            return NumberUtil.string(for: value)
+        }
+
+        return string
     }
 }
