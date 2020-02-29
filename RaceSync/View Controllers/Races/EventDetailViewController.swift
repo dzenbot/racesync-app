@@ -231,7 +231,7 @@ class EventDetailViewController: UIViewController, Joinable {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupLayout()
-        populateData()
+        populateContent()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -349,7 +349,7 @@ class EventDetailViewController: UIViewController, Joinable {
             }
 
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.cellHeight*CGFloat(FormListType.allCases.count))
+            $0.height.equalTo(Constants.cellHeight*CGFloat(Row.allCases.count))
             $0.bottom.equalToSuperview().offset(-Constants.padding)
         }
 
@@ -364,7 +364,7 @@ class EventDetailViewController: UIViewController, Joinable {
         }
     }
 
-    fileprivate func populateData() {
+    fileprivate func populateContent() {
         titleLabel.text = raceViewModel.titleLabel.uppercased()
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
@@ -422,10 +422,57 @@ class EventDetailViewController: UIViewController, Joinable {
 
         toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { [weak self] (newState) in
 
-            if let tabBarController = self?.tabBarController as? RaceTabBarController, currentState != newState {
-                tabBarController.reloadAllTabs()
+            if currentState != newState {
+                self?.reloadRace()
             }
         }
+    }
+}
+
+fileprivate extension EventDetailViewController {
+
+    func showOwnerProfile(_ cell: FormTableViewCell) {
+        cell.isLoading = true
+
+        userApi.getUser(with: race.ownerId) { (user, error) in
+            cell.isLoading = false
+
+            if let user = user {
+                let userVC = UserViewController(with: user)
+                self.navigationController?.pushViewController(userVC, animated: true)
+            } else if let _ = error {
+                // handle error
+            }
+        }
+    }
+
+    func openRace(_ cell: FormTableViewCell) {
+        cell.isLoading = true
+
+        raceApi.open(race: race.id) { [weak self] (status, error) in
+            if status {
+                self?.reloadRace()
+            } else {
+                cell.isLoading = false
+            }
+        }
+    }
+
+    func closeRace(_ cell: FormTableViewCell) {
+        cell.isLoading = true
+
+        raceApi.close(race: race.id) { [weak self] (status, error) in
+            if status {
+                self?.reloadRace()
+            } else {
+                cell.isLoading = false
+            }
+        }
+    }
+
+    func reloadRace() {
+        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
+        tabBarController.reloadAllTabs()
     }
 }
 
@@ -527,23 +574,27 @@ extension EventDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
+        guard let row = Row(rawValue: indexPath.row) else { return }
 
-        if indexPath.row == FormListType.requirements.rawValue {
+        if row == .requirements {
             // TODO: Push AircraftDetailViewController
-        } else if indexPath.row == FormListType.chapter.rawValue {
+        } else if row == .chapter {
             // TODO: Push ChapterViewController
-        } else if indexPath.row == FormListType.owner.rawValue {
-            cell.isLoading = true
-
-            userApi.getUser(with: race.ownerId) { (user, error) in
-                cell.isLoading = false
-
-                if let user = user {
-                    let userVC = UserViewController(with: user)
-                    self.navigationController?.pushViewController(userVC, animated: true)
-                } else if let _ = error {
-                    // handle error
-                }
+        } else if row == .owner {
+            showOwnerProfile(cell)
+        } else if row == .status {
+            if race.status == .open {
+                ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close this race?",
+                                                              destructiveTitle: "Yes, Close",
+                                                              completion: { [weak self] (action) in
+                                                                self?.closeRace(cell)
+                })
+            } else {
+                ActionSheetUtil.presentActionSheet(withTitle: "Open this race?",
+                                                   buttonTitle: "Yes, Open",
+                                                   completion: { [weak self] (action) in
+                                                    self?.openRace(cell)
+                })
             }
         }
 
@@ -556,22 +607,28 @@ extension EventDetailViewController: UITableViewDelegate {
 extension EventDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return FormListType.allCases.count
+        var count = Row.allCases.count
+        if !race.isMyChapter {
+            count -= 1
+        }
+        return count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
+        guard let row = Row(rawValue: indexPath.row) else { return cell }
 
-        if indexPath.row == FormListType.requirements.rawValue {
-            cell.textLabel?.text = "Aircraft Specs"
+        cell.textLabel?.text = row.title
+
+        if row == .requirements {
             let aircraftRaceSpecs = AircraftRaceSpecs(with: race)
             cell.detailTextLabel?.text = aircraftRaceSpecs.displayText()
-        } else if indexPath.row == FormListType.chapter.rawValue {
-            cell.textLabel?.text = "Chapter"
+        } else if row == .chapter {
             cell.detailTextLabel?.text = race.chapterName
-        } else if indexPath.row == FormListType.owner.rawValue {
-            cell.textLabel?.text = "Race Coordinator"
+        } else if row == .owner {
             cell.detailTextLabel?.text = race.ownerUserName
+        } else if row == .status {
+            cell.detailTextLabel?.text = race.status.rawValue
         }
 
         return cell
@@ -634,6 +691,15 @@ extension EventDetailViewController: HeaderStretchable {
     }
 }
 
-fileprivate enum FormListType: Int, CaseIterable {
-    case requirements, chapter, owner
+fileprivate enum Row: Int, EnumTitle, CaseIterable {
+    case requirements, chapter, owner, status
+
+    var title: String {
+        switch self {
+        case .requirements:     return "Aircraft Specs"
+        case .chapter:          return "Chapter"
+        case .owner:            return "Race Coordinator"
+        case .status:           return "Race Status"
+        }
+    }
 }

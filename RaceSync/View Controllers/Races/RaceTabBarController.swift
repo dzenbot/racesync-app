@@ -196,7 +196,9 @@ extension RaceTabBarController {
     }
 
     func reloadAllTabs() {
-        loadRaceView()
+        DispatchQueue.main.async { [weak self] in
+            self?.loadRaceView()
+        }
     }
 }
 

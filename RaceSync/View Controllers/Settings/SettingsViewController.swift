@@ -11,44 +11,6 @@ import SnapKit
 import RaceSyncAPI
 import Presentr
 
-fileprivate enum Section: Int, EnumTitle, CaseIterable {
-    case search, about, auth
-
-    var title: String {
-        switch self {
-        case .search:               return "Search"
-        case .about:                return "About"
-        case .auth:                 return ""
-        }
-    }
-}
-
-fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case searchRadius
-    case lengthUnit
-
-    case submitFeedback
-    case readRules
-    case visitSite
-
-//    case switchEnv
-    case logout
-
-    var title: String {
-        switch self {
-        case .searchRadius:         return "Search Radius"
-        case .lengthUnit:           return "Length Unit"
-
-        case .submitFeedback:       return "Feedback"
-        case .readRules:            return "2020 Season Rules"
-        case .visitSite:            return "Go to multigp.com"
-
-//        case .switchEnv:            return "Switch to"
-        case .logout:               return "Logout"
-        }
-    }
-}
-
 class SettingsViewController: UIViewController {
 
     // MARK: - Public Variables
@@ -319,5 +281,43 @@ extension SettingsViewController: FormViewControllerDelegate {
 
     func formViewControllerDidDismiss(_ viewController: FormViewController) {
         //
+    }
+}
+
+fileprivate enum Section: Int, EnumTitle, CaseIterable {
+    case search, about, auth
+
+    var title: String {
+        switch self {
+        case .search:               return "Search"
+        case .about:                return "About"
+        case .auth:                 return ""
+        }
+    }
+}
+
+fileprivate enum Row: Int, EnumTitle, CaseIterable {
+    case searchRadius
+    case lengthUnit
+
+    case submitFeedback
+    case readRules
+    case visitSite
+
+//    case switchEnv
+    case logout
+
+    var title: String {
+        switch self {
+        case .searchRadius:         return "Search Radius"
+        case .lengthUnit:           return "Length Unit"
+
+        case .submitFeedback:       return "Feedback"
+        case .readRules:            return "2020 Season Rules"
+        case .visitSite:            return "Go to multigp.com"
+
+//        case .switchEnv:            return "Switch to"
+        case .logout:               return "Logout"
+        }
     }
 }

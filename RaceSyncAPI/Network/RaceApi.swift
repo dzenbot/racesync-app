@@ -73,6 +73,14 @@ public protocol RaceApiInterface {
     func resign(race raceId: ObjectId, completion: @escaping StatusCompletionBlock)
 
     /**
+     */
+    func open(race raceId: ObjectId, completion: @escaping StatusCompletionBlock)
+
+    /**
+     */
+    func close(race raceId: ObjectId, completion: @escaping StatusCompletionBlock)
+
+    /**
     */
     func checkIn(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<RaceEntry>)
 
@@ -143,6 +151,20 @@ public class RaceApi: RaceApiInterface {
     public func resign(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
         
         let endpoint = "\(EndPoint.raceResign)?\(ParameterKey.id)=\(raceId)"
+
+        repositoryAdapter.performAction(endpoint, completion: completion)
+    }
+
+    public func open(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
+
+        let endpoint = "\(EndPoint.raceOpen)?\(ParameterKey.id)=\(raceId)"
+
+        repositoryAdapter.performAction(endpoint, completion: completion)
+    }
+
+    public func close(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
+
+        let endpoint = "\(EndPoint.raceClose)?\(ParameterKey.id)=\(raceId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
