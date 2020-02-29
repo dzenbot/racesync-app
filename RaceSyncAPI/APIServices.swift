@@ -26,6 +26,12 @@ public class APIServices {
         }
     }
 
+    public var myManagedChapters: [ManagedChapter]? {
+        didSet {
+            
+        }
+    }
+
     public var isLoggedIn: Bool {
         get { return APISessionManager.hasValidSession() }
     }

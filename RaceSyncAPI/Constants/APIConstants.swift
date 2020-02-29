@@ -48,6 +48,7 @@ enum EndPoint {
     static let chapterList = "chapter/list"
     static let chapterFindLocal = "chapter/findLocal"
     static let chapterUsers = "chapter/users"
+    static let chapterListManaged = "chapter/listManaged"
 
     static let aircraftList = "aircraft/list"
     static let aircraftCreate = "aircraft/create"
@@ -92,4 +93,5 @@ enum ParameterKey {
     static let battery = "battery"
     static let propSize = "propellerSize"
     static let antenna = "antenna"
+    static let managedChapters = "managedChapters"
 }

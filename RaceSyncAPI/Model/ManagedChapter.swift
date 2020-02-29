@@ -1,19 +1,22 @@
 //
-//  Season.swift
+//  ManagedChapter.swift
 //  RaceSyncAPI
 //
-//  Created by Ignacio Romero Zurbuchen on 2019-12-22.
-//  Copyright © 2019 MultiGP Inc. All rights reserved.
+//  Created by Ignacio Romero Zurbuchen on 2020-02-28.
+//  Copyright © 2020 MultiGP Inc. All rights reserved.
 //
 
 import Foundation
 import ObjectMapper
 
-public class Season: Mappable, Descriptable {
+public class ManagedChapter: Mappable, Descriptable {
+
+    public var id: ObjectId = ""
+    public var name: String = ""
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id"]
+    fileprivate static let requiredProperties = ["id", "name"]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -25,7 +28,7 @@ public class Season: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-
+        id <- map["id"]
+        name <- map["name"]
     }
-
 }

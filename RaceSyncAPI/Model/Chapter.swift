@@ -48,7 +48,7 @@ public class Chapter: Mappable, Descriptable {
     fileprivate static let requiredProperties = ["id", "name"]
 
     public required convenience init?(map: Map) {
-        for requiredProperty in Chapter.requiredProperties {
+        for requiredProperty in Self.requiredProperties {
             if map.JSON[requiredProperty] == nil { return nil }
         }
 

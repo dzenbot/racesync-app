@@ -37,7 +37,7 @@ public class RaceEntry: Mappable, Descriptable {
     fileprivate static let requiredProperties = ["id", "pilotId", "aircraftId"]
 
     public required convenience init?(map: Map) {
-        for requiredProperty in RaceEntry.requiredProperties {
+        for requiredProperty in Self.requiredProperties {
             if map.JSON[requiredProperty] == nil { return nil }
         }
 

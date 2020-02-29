@@ -113,6 +113,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
+    fileprivate let chapterApi = ChapterApi()
     fileprivate var raceList = [String: [RaceViewModel]]()
 
     fileprivate let locationManager = CLLocationManager()
@@ -275,6 +276,10 @@ fileprivate extension RaceListViewController {
                 // This is somewhat the best way to detect an invalid session
                 ApplicationControl.shared.invalidateSession()
             }
+        }
+
+        chapterApi.getMyManagedChapters { (managedChapters, error) in
+            APIServices.shared.myManagedChapters = managedChapters
         }
     }
 

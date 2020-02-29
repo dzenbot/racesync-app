@@ -35,7 +35,7 @@ public class User: Mappable, Descriptable {
     fileprivate static let requiredProperties = ["id"]
 
     public required convenience init?(map: Map) {
-        for requiredProperty in User.requiredProperties {
+        for requiredProperty in Self.requiredProperties {
             if map.JSON[requiredProperty] == nil { return nil }
         }
 

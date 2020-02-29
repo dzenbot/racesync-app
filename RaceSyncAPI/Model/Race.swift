@@ -62,7 +62,7 @@ public class Race: Mappable, Descriptable {
     fileprivate static let requiredProperties = ["id", "name", "chapterId", "ownerId"]
 
     public required convenience init?(map: Map) {
-        for requiredProperty in Race.requiredProperties {
+        for requiredProperty in Self.requiredProperties {
             if map.JSON[requiredProperty] == nil {
                 return nil
             }

@@ -26,6 +26,10 @@ public protocol ChapterApiInterface {
     /**
      */
     func getUsers(with id: String, currentPage: Int, pageSize: Int, _ completion: @escaping ObjectCompletionBlock<[User]>)
+
+    /**
+    */
+    func getMyManagedChapters(_ completion: @escaping ObjectCompletionBlock<[ManagedChapter]>)
 }
 
 public class ChapterApi: ChapterApiInterface {
@@ -66,6 +70,13 @@ public class ChapterApi: ChapterApiInterface {
         parameters[ParameterKey.chapterId] = id
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: User.self, completion)
+    }
+
+    public func getMyManagedChapters(_ completion: @escaping ObjectCompletionBlock<[ManagedChapter]>) {
+
+        let endpoint = EndPoint.chapterListManaged
+
+        repositoryAdapter.getObjects(endpoint, type: ManagedChapter.self, keyPath: ParameterKey.managedChapters, completion)
     }
 }
 
