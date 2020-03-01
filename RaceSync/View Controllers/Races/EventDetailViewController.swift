@@ -166,23 +166,23 @@ class EventDetailViewController: UIViewController, Joinable {
         return tableView
     }()
 
-    var canDisplayRaceIcon: Bool {
+    fileprivate var canDisplayRaceIcon: Bool {
         return race.officialStatus == .approved
     }
 
-    var canDisplayAddress: Bool {
+    fileprivate var canDisplayAddress: Bool {
         return raceViewModel.fullLocationLabel.count > 0
     }
 
-    var canDisplayMap: Bool {
+    fileprivate var canDisplayMap: Bool {
         return raceCoordinates != nil
     }
 
-    var canDisplayDescription: Bool {
+    fileprivate var canDisplayDescription: Bool {
         return raceViewModel.race.description.count > 0
     }
 
-    var canDisplayItinerary: Bool {
+    fileprivate var canDisplayItinerary: Bool {
         return raceViewModel.race.itineraryContent.count > 0
     }
 
@@ -191,6 +191,16 @@ class EventDetailViewController: UIViewController, Joinable {
             let status_height = UIApplication.shared.statusBarFrame.height
             let navi_height = navigationController?.navigationBar.frame.size.height ?? 44
             return status_height + navi_height
+        }
+    }
+
+    fileprivate var tableViewRowCount: Int {
+        get {
+            var count = Row.allCases.count
+            if !race.isMyChapter {
+                count -= 1
+            }
+            return count
         }
     }
 
@@ -349,7 +359,7 @@ class EventDetailViewController: UIViewController, Joinable {
             }
 
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.cellHeight*CGFloat(Row.allCases.count))
+            $0.height.equalTo(Constants.cellHeight*CGFloat(tableViewRowCount))
             $0.bottom.equalToSuperview().offset(-Constants.padding)
         }
 
@@ -617,11 +627,7 @@ extension EventDetailViewController: UITableViewDelegate {
 extension EventDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        var count = Row.allCases.count
-        if !race.isMyChapter {
-            count -= 1
-        }
-        return count
+        return tableViewRowCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
