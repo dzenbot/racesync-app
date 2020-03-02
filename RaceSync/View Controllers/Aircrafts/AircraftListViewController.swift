@@ -17,7 +17,7 @@ class AircraftListViewController: UIViewController {
 
     var isEditable: Bool = true {
         didSet {
-            canAddAircraft = false
+            canAddAircraft = isEditable
         }
     }
 
