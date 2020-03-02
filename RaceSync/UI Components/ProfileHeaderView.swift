@@ -41,6 +41,14 @@ class ProfileHeaderView: UIView {
 
     var backgroundImageViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight)
 
+    func hideLeftBadgeButton(_ hide: Bool) {
+        leftBadgeButton.isHidden = hide
+    }
+
+    func hideRightBadgeButton(_ hide: Bool) {
+        rightBadgeButton.isHidden = hide
+    }
+
     // MARK: - Private Variables
 
     fileprivate lazy var profileImageView: ProfileImageView = {
