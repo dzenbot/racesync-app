@@ -21,8 +21,6 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Public Variables
 
-    // TODO: Break it down into 1 tableView for each section. Should keep the scroll offset intact as well as less
-    // computing when switching segments. More optimal and practical.
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
