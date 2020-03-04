@@ -54,7 +54,7 @@ public class ChapterApi: ChapterApiInterface {
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
     }
 
-    // TODO: Not implemented by the API yet. See https://github.com/MultiGP/racesync-api/issues/30
+    // TODO: Will work once https://github.com/MultiGP/racesync-api/pull/41 is merged
     public func getChapter(with id: String, _ completion: @escaping ObjectCompletionBlock<Chapter>) {
 
         let endpoint = "\(EndPoint.chapterList)?\(ParameterKey.id)=\(id)"
