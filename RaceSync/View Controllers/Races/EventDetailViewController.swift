@@ -457,6 +457,21 @@ fileprivate extension EventDetailViewController {
         }
     }
 
+    func showChapterProfile(_ cell: FormTableViewCell) {
+        cell.isLoading = true
+
+        chapterApi.getChapter(with: race.chapterId) { (chapter, error) in
+            cell.isLoading = false
+
+            if let chapter = chapter {
+                let chapterVC = ChapterViewController(with: chapter)
+                self.navigationController?.pushViewController(chapterVC, animated: true)
+            } else if let _ = error {
+                // handle error
+            }
+        }
+    }
+
     func openRace(_ cell: FormTableViewCell) {
         cell.isLoading = true
 
@@ -599,7 +614,7 @@ extension EventDetailViewController: UITableViewDelegate {
         if row == .requirements {
             // TODO: Push AircraftDetailViewController
         } else if row == .chapter {
-            // TODO: Push ChapterViewController
+            showChapterProfile(cell)
         } else if row == .owner {
             showOwnerProfile(cell)
         } else if row == .status {
