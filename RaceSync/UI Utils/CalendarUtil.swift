@@ -32,7 +32,7 @@ class CalendarUtil {
             do {
                 try eventStore.save(ekevent, span: .thisEvent)
             }  catch {
-                print("error saving to calendar: \(error.localizedDescription)")
+                Clog.log("error saving to calendar: \(error.localizedDescription)")
             }
         }
     }

@@ -205,7 +205,7 @@ class QRViewController: UIViewController {
 
             self.pass = pass
         }  catch {
-            print("error showing pass \(error.localizedDescription)")
+            Clog.log("error showing pass \(error.localizedDescription)")
         }
     }
 

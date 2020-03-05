@@ -22,7 +22,7 @@ public class APIServices {
             // Override useful for debugging a specific user's issue
             // myUser?.id = "8062"
 
-            print("Did set my User with id: \(String(describing: myUser?.id))")
+            Clog.log("Did set my User with id: \(String(describing: myUser?.id))")
         }
     }
 

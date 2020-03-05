@@ -202,7 +202,7 @@ extension AircraftPickerViewController {
                 self?.activityIndicatorView.stopAnimating()
                 self?.collectionView.reloadData()
             } else if error != nil {
-                print("fetchMyUser error : \(error.debugDescription)")
+                Clog.log("fetchMyUser error : \(error.debugDescription)")
             }
         }
     }

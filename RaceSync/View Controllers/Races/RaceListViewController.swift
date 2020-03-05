@@ -476,12 +476,11 @@ extension RaceListViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         if let location = locations.first {
             userLocation = location
-            print("Found user's location: \(location)")
         }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        print("Failed to find user's location: \(error.localizedDescription)")
+        Clog.log("Failed to find user's location: \(error.localizedDescription)", andLevel: .error)
     }
 }
 

@@ -221,7 +221,7 @@ fileprivate extension UserViewController {
                 let sortedRaces = races.sorted(by: { $0.startDate?.compare($1.startDate ?? Date()) == .orderedDescending })
                 self.raceViewModels = RaceViewModel.viewModels(with: sortedRaces)
             } else {
-                print("getRaces error : \(error.debugDescription)")
+                Clog.log("getRaces error : \(error.debugDescription)")
             }
 
             completion?()
@@ -246,7 +246,7 @@ fileprivate extension UserViewController {
             if let chapters = chapters {
                 self.chapterViewModels = ChapterViewModel.viewModels(with: chapters)
             } else {
-                print("getChapters error : \(error.debugDescription)")
+                Clog.log("getChapters error : \(error.debugDescription)")
             }
 
             completion?()

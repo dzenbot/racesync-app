@@ -18,7 +18,7 @@ class CrashCatcher {
             Client.shared = try Client(dsn: "https://4dbd7fdde60b4c828846d94fecc814c1@sentry.io/3036524")
             try Client.shared?.startCrashHandler()
         } catch let error {
-            print("\(error)")
+            Clog.log("\(error)", andLevel: .error)
         }
     }
 }

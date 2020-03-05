@@ -34,16 +34,12 @@ fileprivate extension UIView {
     @objc func handleTapGestureRecognizer(_ sender: UITapGestureRecognizer) {
         if let block = self.tapGestureRecognizerBlock {
             block(sender)
-        } else {
-            print("No Tap Gesture Recognizer Found")
         }
     }
 
     @objc func handleLongPressGestureRecognizer(_ sender: UILongPressGestureRecognizer) {
         if let block = self.longPressGestureRecognizerBlock {
             block(sender)
-        } else {
-            print("No Long Press Gesture Recognizer Found")
         }
     }
 

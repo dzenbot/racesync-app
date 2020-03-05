@@ -17,9 +17,9 @@ class RepositoryAdapter {
     func getObject<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, type: Element.Type, keyPath: String = ParameterKey.data, _ completion: @escaping ObjectCompletionBlock<Element>) {
         
         networkAdapter.httpRequest(endPoint, method: .post, parameters: parameters) { (request) in
-            print("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
+            Clog.log("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseObject(keyPath: keyPath, completionHandler: { (response: DataResponse<Element>) in
-                print("+ Ended request with code \(String(describing: response.response?.statusCode))")
+                Clog.log("+ Ended request with code \(String(describing: response.response?.statusCode))")
 
                 switch response.result {
                 case .success(let value):
@@ -31,7 +31,7 @@ class RepositoryAdapter {
                     }
                 case .failure:
                     let error = ErrorUtil.parseError(response)
-                    print("network error \(error.debugDescription)")
+                    Clog.log("network error \(error.debugDescription)")
                     completion(nil, error)
                 }
             })
@@ -48,7 +48,7 @@ class RepositoryAdapter {
         }
 
         networkAdapter.httpRequest(finalEndpoint, method: .post, parameters: parameters) { (request) in
-            print("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
+            Clog.log("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseArray(keyPath: keyPath, completionHandler: { (response: DataResponse<[Element]>) in
                 var log: String = "+ Ended request with code \(String(describing: response.response?.statusCode)) "
 
@@ -57,7 +57,7 @@ class RepositoryAdapter {
                 case .none:
                     log += "(0 objects)"
                     completion([], nil)
-                    print("\(log)")
+                    Clog.log("\(log)")
                     return
                 default:
                     break
@@ -79,16 +79,16 @@ class RepositoryAdapter {
                     log += " Network Error: \(error.debugDescription)"
                 }
 
-                print("\(log)")
+                Clog.log("\(log)")
             })
         }
     }
 
     func performAction(_ endPoint: String, parameters: Parameters? = nil, completion: @escaping StatusCompletionBlock) {
         networkAdapter.httpRequest(endPoint,  method: .post, parameters: parameters) { (request) in
-            print("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
+            Clog.log("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseJSON { (response) in
-                print("+ Ended request with code \(String(describing: response.response?.statusCode))")
+                Clog.log("+ Ended request with code \(String(describing: response.response?.statusCode))")
 
                 switch response.result {
                 case .success(let value):

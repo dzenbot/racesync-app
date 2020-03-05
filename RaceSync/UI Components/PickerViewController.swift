@@ -155,13 +155,12 @@ extension PickerViewController: PickerViewDelegate {
 
     func pickerView(_ pickerView: PickerView, didSelectRow row: Int) {
         let item = items[row]
-        print("The selected item is \(item)")
 
         navigationItem.rightBarButtonItem?.isEnabled = item != selectedItem
     }
 
     func pickerView(_ pickerView: PickerView, didTapRow row: Int) {
-        print("The row \(row) was tapped by the user")
+        // 
     }
 
     func pickerView(_ pickerView: PickerView, styleForLabel label: UILabel, highlighted: Bool) {

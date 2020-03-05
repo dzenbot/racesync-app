@@ -60,6 +60,7 @@
 		4F791C9823A6105700F15FD7 /* ChannelBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9723A6105700F15FD7 /* ChannelBadge.swift */; };
 		4F791C9A23A66BA900F15FD7 /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */; };
 		4F791C9E23A8AB7300F15FD7 /* HeaderStretchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */; };
+		4F81759C241192AF00685F83 /* Clog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F81759A2411917900685F83 /* Clog.swift */; };
 		4F8376DC23EE87CC00256AEC /* RotatingIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8376DB23EE87CC00256AEC /* RotatingIconView.swift */; };
 		4F8668F423860900005E310A /* UniversalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8668F323860900005E310A /* UniversalConstants.swift */; };
 		4F8668F623861736005E310A /* Chapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8668F523861736005E310A /* Chapter.swift */; };
@@ -262,6 +263,7 @@
 		4F791C9723A6105700F15FD7 /* ChannelBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelBadge.swift; sourceTree = "<group>"; };
 		4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderStretchable.swift; sourceTree = "<group>"; };
+		4F81759A2411917900685F83 /* Clog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clog.swift; sourceTree = "<group>"; };
 		4F8376DB23EE87CC00256AEC /* RotatingIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RotatingIconView.swift; sourceTree = "<group>"; };
 		4F8668F323860900005E310A /* UniversalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UniversalConstants.swift; sourceTree = "<group>"; };
 		4F8668F523861736005E310A /* Chapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chapter.swift; sourceTree = "<group>"; };
@@ -627,6 +629,7 @@
 				4FA26832237A5983008970AC /* ObjectMapper+Extensions.swift */,
 				4FD4E1E22381E175008816B3 /* Random.swift */,
 				4F8668F723864389005E310A /* Descriptable.swift */,
+				4F81759A2411917900685F83 /* Clog.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1162,6 +1165,7 @@
 				4FC51B1F2409EA9B00D654D0 /* ManagedChapter.swift in Sources */,
 				4F1E150524107BCE0082C486 /* URL+Extensions.swift in Sources */,
 				4FC9A1B623D7CFBC00069FDE /* Bundle+Extensions.swift in Sources */,
+				4F81759C241192AF00685F83 /* Clog.swift in Sources */,
 				4FEBB27823A2023A007514B4 /* RaceEntry.swift in Sources */,
 				4FD4E1E32381E175008816B3 /* Random.swift in Sources */,
 				4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */,

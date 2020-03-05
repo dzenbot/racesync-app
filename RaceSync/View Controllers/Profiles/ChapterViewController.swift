@@ -128,7 +128,7 @@ fileprivate extension ChapterViewController {
                 self.raceViewModels = RaceViewModel.viewModels(with: childRaces)
                 self.tableView.reloadData()
             } else {
-                print("getMyRaces error : \(error.debugDescription)")
+                Clog.log("getMyRaces error : \(error.debugDescription)")
             }
 
             completion?()
@@ -153,7 +153,7 @@ fileprivate extension ChapterViewController {
                 self.userViewModels = UserViewModel.viewModels(with: users)
                 self.tableView.reloadData()
             } else {
-                print("getMyRaces error : \(error.debugDescription)")
+                Clog.log("getMyRaces error : \(error.debugDescription)")
             }
 
             completion?()

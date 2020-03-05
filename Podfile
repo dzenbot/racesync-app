@@ -1,8 +1,11 @@
 platform :ios, '11.0'
+use_frameworks!
+
+# Dev Tools
+pod 'SwiftLint'
+pod 'Sentry', '~> 4.4.1'
 
 target 'RaceSync' do
-  use_frameworks!
-
   # UI
   pod 'EmptyDataSet-Swift'
   pod 'SnapKit'
@@ -13,18 +16,12 @@ target 'RaceSync' do
   pod 'TUSafariActivity', '~> 1.0'
   pod "PickerView"
 
-  # Dev Tools
-  pod 'SwiftLint'
-  pod 'Sentry', '~> 4.4.1'
-
   target 'RaceSyncTests' do
     inherit! :search_paths
   end
 end
 
 target 'RaceSyncAPI' do
-    use_frameworks!
-
     # Network
     pod 'Alamofire', '~> 4.9.1'
     pod 'AlamofireImage', '~> 3.6.0'

@@ -53,7 +53,7 @@ fileprivate extension APISettings {
         UserDefaults.standard.set(value, forKey: key)
         UserDefaults.standard.synchronize()
 
-        print("Updating Setting \(key) with \(value)")
+        Clog.log("Updating Setting \(key) with \(value)")
     }
 }
 
