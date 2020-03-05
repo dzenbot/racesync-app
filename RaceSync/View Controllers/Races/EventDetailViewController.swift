@@ -204,6 +204,8 @@ class EventDetailViewController: UIViewController, Joinable {
         }
     }
 
+    fileprivate var didTapCell: Bool = false
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let contentInsets = UIEdgeInsets(top: padding/2, left: 10, bottom: padding/2, right: padding/2)
@@ -240,6 +242,7 @@ class EventDetailViewController: UIViewController, Joinable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
         setupLayout()
         populateContent()
     }
@@ -348,6 +351,15 @@ class EventDetailViewController: UIViewController, Joinable {
                 $0.trailing.equalToSuperview()
                 $0.width.equalTo(view.bounds.width)
             }
+
+            let separatorLine = UIView()
+            separatorLine.backgroundColor = Color.gray100
+            contentView.addSubview(separatorLine)
+            separatorLine.snp.makeConstraints {
+                $0.top.equalTo(contentTextView.snp.bottom).offset(-Constants.padding/2)
+                $0.height.greaterThanOrEqualTo(0.5)
+                $0.width.equalToSuperview()
+            }
         }
 
         contentView.addSubview(tableView)
@@ -443,14 +455,18 @@ class EventDetailViewController: UIViewController, Joinable {
 fileprivate extension EventDetailViewController {
 
     func showOwnerProfile(_ cell: FormTableViewCell) {
-        cell.isLoading = true
+        guard !didTapCell else { return }
 
-        userApi.getUser(with: race.ownerId) { (user, error) in
+        cell.isLoading = true
+        didTapCell = true
+
+        userApi.getUser(with: race.ownerId) { [weak self] (user, error) in
             cell.isLoading = false
+            self?.didTapCell = true
 
             if let user = user {
                 let userVC = UserViewController(with: user)
-                self.navigationController?.pushViewController(userVC, animated: true)
+                self?.navigationController?.pushViewController(userVC, animated: true)
             } else if let _ = error {
                 // handle error
             }
@@ -458,24 +474,52 @@ fileprivate extension EventDetailViewController {
     }
 
     func showChapterProfile(_ cell: FormTableViewCell) {
-        cell.isLoading = true
+        guard !didTapCell else { return }
 
-        chapterApi.getChapter(with: race.chapterId) { (chapter, error) in
+        cell.isLoading = true
+        didTapCell = true
+
+        chapterApi.getChapter(with: race.chapterId) { [weak self] (chapter, error) in
             cell.isLoading = false
+            self?.didTapCell = true
 
             if let chapter = chapter {
                 let chapterVC = ChapterViewController(with: chapter)
-                self.navigationController?.pushViewController(chapterVC, animated: true)
+                self?.navigationController?.pushViewController(chapterVC, animated: true)
             } else if let _ = error {
                 // handle error
             }
         }
     }
 
+    func toggleRaceStatus(_ cell: FormTableViewCell) {
+        guard !didTapCell else { return }
+
+        if race.status == .open {
+            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close this race?",
+                                                          destructiveTitle: "Yes, Close",
+                                                          completion: { [weak self] (action) in
+                                                            self?.closeRace(cell)
+            })
+        } else {
+            ActionSheetUtil.presentActionSheet(withTitle: "Open this race?",
+                                               buttonTitle: "Yes, Open",
+                                               completion: { [weak self] (action) in
+                                                self?.openRace(cell)
+            })
+        }
+    }
+
     func openRace(_ cell: FormTableViewCell) {
+        guard !didTapCell else { return }
+
         cell.isLoading = true
+        didTapCell = true
 
         raceApi.open(race: race.id) { [weak self] (status, error) in
+            cell.isLoading = false
+            self?.didTapCell = true
+
             if status {
                 self?.race.status = .open
                 self?.reloadRaceView()
@@ -484,9 +528,15 @@ fileprivate extension EventDetailViewController {
     }
 
     func closeRace(_ cell: FormTableViewCell) {
+        guard !didTapCell else { return }
+
         cell.isLoading = true
+        didTapCell = true
 
         raceApi.close(race: race.id) { [weak self] (status, error) in
+            cell.isLoading = false
+            self?.didTapCell = true
+
             if status {
                 self?.race.status = .closed
                 self?.reloadRaceView()
@@ -618,19 +668,7 @@ extension EventDetailViewController: UITableViewDelegate {
         } else if row == .owner {
             showOwnerProfile(cell)
         } else if row == .status {
-            if race.status == .open {
-                ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close this race?",
-                                                              destructiveTitle: "Yes, Close",
-                                                              completion: { [weak self] (action) in
-                                                                self?.closeRace(cell)
-                })
-            } else {
-                ActionSheetUtil.presentActionSheet(withTitle: "Open this race?",
-                                                   buttonTitle: "Yes, Open",
-                                                   completion: { [weak self] (action) in
-                                                    self?.openRace(cell)
-                })
-            }
+            toggleRaceStatus(cell)
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
