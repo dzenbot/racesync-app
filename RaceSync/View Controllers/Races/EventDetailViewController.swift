@@ -401,16 +401,23 @@ class EventDetailViewController: UIViewController, Joinable {
             }
         }
 
+        let race = raceViewModel.race
         let textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
 
         if canDisplayDescription {
-            descriptionTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.description, font: textFont, color: Color.gray300)
+            race.description.toHTMLAttributedString(textFont, color: Color.gray300) { [weak self] (att) in
+                self?.descriptionTextView.attributedText = att
+            }
         }
 
-        contentTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.content, font: textFont)
+        race.content.toHTMLAttributedString(textFont) { [weak self] (att) in
+            self?.contentTextView.attributedText = att
+        }
 
         if canDisplayItinerary {
-            itineraryTextView.attributedText = try? NSAttributedString(HTMLString: raceViewModel.race.itineraryContent, font: textFont)
+            race.itineraryContent.toHTMLAttributedString(textFont) { [weak self] (att) in
+                self?.itineraryTextView.attributedText = att
+            }
         }
 
         // lays out the content and helps calculating the content size
