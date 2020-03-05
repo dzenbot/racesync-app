@@ -20,7 +20,7 @@ class RepositoryAdapter {
             print("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseObject(keyPath: keyPath, completionHandler: { (response: DataResponse<Element>) in
                 print("+ Ended request with code \(String(describing: response.response?.statusCode))")
-                
+
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -38,11 +38,16 @@ class RepositoryAdapter {
         }
     }
 
-    func getObjects<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, currentPage: Int = 0, pageSize: Int = StandardPageSize, type: Element.Type, keyPath: String = ParameterKey.data, _ completion: @escaping ObjectCompletionBlock<[Element]>) {
+    func getObjects<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, currentPage: Int = 0, pageSize: Int = StandardPageSize, skipPagination: Bool = false, type: Element.Type, keyPath: String = ParameterKey.data, _ completion: @escaping ObjectCompletionBlock<[Element]>) {
 
-        let endpoint = "\(endPoint)?\(ParameterKey.currentPage)=\(currentPage)&\(ParameterKey.pageSize)=\(pageSize)"
+        var finalEndpoint = endPoint
 
-        networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters) { (request) in
+        // only include pagination if required
+        if !skipPagination {
+            finalEndpoint = "\(endPoint)?\(ParameterKey.currentPage)=\(currentPage)&\(ParameterKey.pageSize)=\(pageSize)"
+        }
+
+        networkAdapter.httpRequest(finalEndpoint, method: .post, parameters: parameters) { (request) in
             print("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseArray(keyPath: keyPath, completionHandler: { (response: DataResponse<[Element]>) in
                 var log: String = "+ Ended request with code \(String(describing: response.response?.statusCode)) "

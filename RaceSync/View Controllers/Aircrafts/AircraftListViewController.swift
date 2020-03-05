@@ -214,7 +214,7 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
         shouldReloadAircrafts = true
     }
 
-    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId) {
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didRetireAircraft aircraftId: ObjectId) {
         if let index = aircraftViewModels.firstIndex(where: { $0.aircraftId == aircraftId }) {
             aircraftViewModels.remove(at: index)
             collectionView.reloadData()

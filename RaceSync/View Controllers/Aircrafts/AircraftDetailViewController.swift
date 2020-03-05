@@ -13,7 +13,7 @@ import Presentr
 
 protocol AircraftDetailViewControllerDelegate {
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didEditAircraft aircraftId: ObjectId)
-    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId)
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didRetireAircraft aircraftId: ObjectId)
 }
 
 class AircraftDetailViewController: UIViewController {
@@ -170,18 +170,18 @@ class AircraftDetailViewController: UIViewController {
     // MARK: - Button Events
 
     @objc func didPressDeleteButton() {
-        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete to \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, delete", completion: { (action) in
-            self.deleteAircraft()
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to retire \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, retire", completion: { (action) in
+            self.retireAircraft()
         }, cancel: nil)
     }
 
-    func deleteAircraft() {
+    func retireAircraft() {
         let aircraftId = aircraftViewModel.aircraftId
 
-        aircraftApi.delete(aircraft: aircraftId) { [weak self] (status, error)  in
+        aircraftApi.retire(aircraft: aircraftId) { [weak self] (status, error)  in
             guard let strongSelf = self else { return }
             if status {
-                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didDeleteAircraft: aircraftId)
+                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didRetireAircraft: aircraftId)
             } else if let error = error {
                 AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
             }

@@ -25,6 +25,10 @@ public protocol ChapterApiInterface {
 
     /**
      */
+    func searchChapter(with name: String, _ completion: @escaping ObjectCompletionBlock<Chapter>)
+
+    /**
+     */
     func getUsers(with id: String, currentPage: Int, pageSize: Int, _ completion: @escaping ObjectCompletionBlock<[User]>)
 
     /**
@@ -54,22 +58,28 @@ public class ChapterApi: ChapterApiInterface {
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
     }
 
-    // TODO: Will work once https://github.com/MultiGP/racesync-api/pull/41 is merged
     public func getChapter(with id: String, _ completion: @escaping ObjectCompletionBlock<Chapter>) {
 
-        let endpoint = "\(EndPoint.chapterList)?\(ParameterKey.id)=\(id)"
+        let endpoint = EndPoint.chapterSearch
+        let parameters: Parameters = [ParameterKey.id: id]
 
-        repositoryAdapter.getObject(endpoint, type: Chapter.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Chapter.self, completion)
+    }
+
+    public func searchChapter(with name: String, _ completion: @escaping ObjectCompletionBlock<Chapter>) {
+
+        let endpoint = EndPoint.chapterSearch
+        let parameters: Parameters = [ParameterKey.chapterName: name]
+
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Chapter.self, completion)
     }
 
     // TODO: Not implemented by the API yet. See https://github.com/MultiGP/racesync-api/issues/16
     public func getUsers(with id: String, currentPage: Int = 0, pageSize: Int = StandardPageSize, _ completion: @escaping ObjectCompletionBlock<[User]>) {
 
-        let endpoint = EndPoint.chapterUsers
-        var parameters: Parameters = [:]
-        parameters[ParameterKey.chapterId] = id
+        let endpoint = "\(EndPoint.chapterUsers)?\(ParameterKey.id)=\(id)"
 
-        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: User.self, completion)
+        repositoryAdapter.getObjects(endpoint, skipPagination: true, type: User.self, completion)
     }
 
     public func getMyManagedChapters(_ completion: @escaping ObjectCompletionBlock<[ManagedChapter]>) {

@@ -32,7 +32,7 @@ public protocol AircrafApiInterface {
 
     /**
     */
-    func delete(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock)
+    func retire(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock)
 }
 
 public class AircraftAPI: AircrafApiInterface {
@@ -73,9 +73,9 @@ public class AircraftAPI: AircrafApiInterface {
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
-    public func delete(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
+    public func retire(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.aircraftDelete)?\(ParameterKey.id)=\(aircraftId)"
+        let endpoint = "\(EndPoint.aircraftRetire)?\(ParameterKey.id)=\(aircraftId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
