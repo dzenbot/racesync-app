@@ -32,20 +32,12 @@ extension NSAttributedString {
         </html>
         """
 
-        let options : [NSAttributedString.DocumentReadingOptionKey: Any] =
-            [NSAttributedString.DocumentReadingOptionKey.documentType: NSAttributedString.DocumentType.html,
-             NSAttributedString.DocumentReadingOptionKey.characterEncoding: String.Encoding.utf8.rawValue]
+        var options = [NSAttributedString.DocumentReadingOptionKey : Any]()
+        options[.documentType] = NSAttributedString.DocumentType.html
+        options[.characterEncoding] = String.Encoding.utf8.rawValue
 
         guard let data = htmlString.data(using: .utf8, allowLossyConversion: true) else {
             throw NSError(domain: "Parse Error", code: 0, userInfo: nil)
-        }
-
-        func applyTraitsFromFont(_ f1: UIFont, to f2: UIFont) -> UIFont? {
-            let t = f1.fontDescriptor.symbolicTraits
-            if let fd = f2.fontDescriptor.withSymbolicTraits(t) {
-                return UIFont.init(descriptor: fd, size: 0)
-            }
-            return nil
         }
 
         let att = try! NSAttributedString.init( data: data, options: options, documentAttributes: nil)
@@ -55,6 +47,14 @@ extension NSAttributedString {
             var attrs = att.attributes(at: 0, effectiveRange: nil)
             attrs[NSAttributedString.Key.foregroundColor] = newColor
             matt.setAttributes(attrs, range: NSRange(location: 0, length: att.length))
+        }
+
+        func applyTraitsFromFont(_ f1: UIFont, to f2: UIFont) -> UIFont? {
+            let t = f1.fontDescriptor.symbolicTraits
+            if let fd = f2.fontDescriptor.withSymbolicTraits(t) {
+                return UIFont.init(descriptor: fd, size: 0)
+            }
+            return nil
         }
 
         if let newFont = font {
