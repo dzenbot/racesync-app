@@ -456,13 +456,10 @@ fileprivate extension EventDetailViewController {
 
     func showOwnerProfile(_ cell: FormTableViewCell) {
         guard !didTapCell else { return }
-
-        cell.isLoading = true
-        didTapCell = true
+        setLoading(cell, loading: true)
 
         userApi.getUser(with: race.ownerId) { [weak self] (user, error) in
-            cell.isLoading = false
-            self?.didTapCell = true
+            self?.setLoading(cell, loading: false)
 
             if let user = user {
                 let userVC = UserViewController(with: user)
@@ -475,13 +472,10 @@ fileprivate extension EventDetailViewController {
 
     func showChapterProfile(_ cell: FormTableViewCell) {
         guard !didTapCell else { return }
-
-        cell.isLoading = true
-        didTapCell = true
+        setLoading(cell, loading: true)
 
         chapterApi.getChapter(with: race.chapterId) { [weak self] (chapter, error) in
-            cell.isLoading = false
-            self?.didTapCell = true
+            self?.setLoading(cell, loading: false)
 
             if let chapter = chapter {
                 let chapterVC = ChapterViewController(with: chapter)
@@ -512,13 +506,10 @@ fileprivate extension EventDetailViewController {
 
     func openRace(_ cell: FormTableViewCell) {
         guard !didTapCell else { return }
-
-        cell.isLoading = true
-        didTapCell = true
+        setLoading(cell, loading: true)
 
         raceApi.open(race: race.id) { [weak self] (status, error) in
-            cell.isLoading = false
-            self?.didTapCell = true
+            self?.setLoading(cell, loading: false)
 
             if status {
                 self?.race.status = .open
@@ -529,13 +520,10 @@ fileprivate extension EventDetailViewController {
 
     func closeRace(_ cell: FormTableViewCell) {
         guard !didTapCell else { return }
-
-        cell.isLoading = true
-        didTapCell = true
+        setLoading(cell, loading: true)
 
         raceApi.close(race: race.id) { [weak self] (status, error) in
-            cell.isLoading = false
-            self?.didTapCell = true
+            self?.setLoading(cell, loading: false)
 
             if status {
                 self?.race.status = .closed
@@ -558,6 +546,11 @@ fileprivate extension EventDetailViewController {
                 self?.tableView.reloadData()
             }
         }
+    }
+
+    func setLoading(_ cell: FormTableViewCell, loading: Bool) {
+        cell.isLoading = loading
+        didTapCell = loading
     }
 }
 
