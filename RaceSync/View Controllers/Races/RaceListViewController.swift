@@ -312,10 +312,10 @@ fileprivate extension RaceListViewController {
             }) {
                 let viewModels = RaceViewModel.viewModels(with: upcomingRaces)
                 let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
-                    if r1.distanceLabel < r2.distanceLabel {
+                    if r1.distance < r2.distance {
                         return true
                     }
-                    if r1.distanceLabel == r2.distanceLabel {
+                    if r1.distance == r2.distance {
                         guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
                         return date1 < date2
                     }

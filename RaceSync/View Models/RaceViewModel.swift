@@ -20,6 +20,7 @@ class RaceViewModel: Descriptable {
     let locationLabel: String
     let fullLocationLabel: String
     let distanceLabel: String
+    let distance: Double
     let joinState: JoinState
     let participantCount: Int
     let imageUrl: String?
@@ -34,6 +35,7 @@ class RaceViewModel: Descriptable {
         self.locationLabel = RaceViewModel.locationLabelString(for: race)
         self.fullLocationLabel = RaceViewModel.fullLocationLabelString(for: race)
         self.distanceLabel = RaceViewModel.distanceLabelString(for: race) // "309.4 mi" or "122 kms"
+        self.distance = RaceViewModel.distance(for: race)
         self.joinState = RaceViewModel.joinState(for: race)
         self.participantCount = Int(race.participantCount) ?? 0
         self.imageUrl = RaceViewModel.imageUrl(for: race)
@@ -82,21 +84,29 @@ extension RaceViewModel {
         return race.isJoined ? .joined : .join
     }
 
-    static func distanceLabelString(for race: Race) -> String {
-        guard let myUser = APIServices.shared.myUser else { return "" }
-        guard let userLat =  Double(myUser.latitude), let userLong = Double(myUser.longitude) else { return "" }
-        guard let raceLat =  Double(race.latitude), let raceLong = Double(race.longitude) else { return "" }
+    static func distance(for race: Race) -> Double {
+        guard let myUser = APIServices.shared.myUser else { return 0 }
+        guard let userLat =  Double(myUser.latitude), let userLong = Double(myUser.longitude) else { return 0 }
+        guard let raceLat =  Double(race.latitude), let raceLong = Double(race.longitude) else { return 0 }
 
         let raceLocation = CLLocation(latitude: raceLat, longitude: raceLong)
         let userLocation = CLLocation(latitude: userLat, longitude: userLong)
 
-        let kms = raceLocation.distance(from: userLocation)/1000
-        var string = NumberUtil.string(for: kms)
+        let distance = raceLocation.distance(from: userLocation)/1000
         let lengthUnit = APIServices.shared.settings.lengthUnit
 
         if lengthUnit == .miles {
-            string = APIUnitSystem.convert(string, to: .miles)
+            return APIUnitSystem.convert(distance, to: lengthUnit)
+        } else {
+            return distance
         }
+    }
+
+    static func distanceLabelString(for race: Race) -> String {
+        let distance = Self.distance(for: race)
+
+        let string = NumberUtil.string(for: distance)
+        let lengthUnit = APIServices.shared.settings.lengthUnit
 
         return "\(string) \(lengthUnit.symbol)"
     }
