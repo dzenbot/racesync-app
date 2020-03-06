@@ -160,11 +160,6 @@ class LoginViewController: UIViewController {
             name: UIResponder.keyboardWillHideNotification,
             object: nil
         )
-
-        if !APIServices.shared.isLoggedIn {
-            emailField.text = APIServices.shared.credential.email
-            passwordField.text = APIServices.shared.credential.password
-        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -195,6 +190,14 @@ class LoginViewController: UIViewController {
     // MARK: - Layout
 
     func setupLayout() {
+
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
+        view.addGestureRecognizer(tapGestureRecognizer)
+
+        if !APIServices.shared.isLoggedIn {
+            emailField.text = APIServices.shared.credential.email
+            passwordField.text = APIServices.shared.credential.password
+        }
 
         view.insertSubview(loginFormView, belowSubview: racesyncLogoView)
         loginFormView.snp.makeConstraints {
@@ -260,7 +263,16 @@ class LoginViewController: UIViewController {
         }
     }
 
-    // MARK: - Button Events
+    // MARK: - Actions
+
+    @objc func didTapView(_ sender: UITapGestureRecognizer) {
+        if emailField.isFirstResponder {
+            emailField.resignFirstResponder()
+        }
+        if passwordField.isFirstResponder {
+            passwordField.resignFirstResponder()
+        }
+    }
 
     @objc func didPressPasswordRecoveryButton() {
         let url = MGPWeb.getURL(for: .passwordReset)
@@ -385,6 +397,9 @@ class LoginViewController: UIViewController {
         present(viewController, animated: true) { [weak self] in
             self?.loginButton.isLoading = false
             self?.freezeLoginForm(false)
+
+            self?.emailField.text = nil
+            self?.passwordField.text = nil
         }
     }
 }

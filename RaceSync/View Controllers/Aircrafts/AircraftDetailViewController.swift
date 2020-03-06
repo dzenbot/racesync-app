@@ -167,7 +167,7 @@ class AircraftDetailViewController: UIViewController {
         customPresentViewController(presenter, viewController: formdNC, animated: true)
     }
 
-    // MARK: - Button Events
+    // MARK: - Actions
 
     @objc func didPressDeleteButton() {
         ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to retire \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, retire", completion: { (action) in

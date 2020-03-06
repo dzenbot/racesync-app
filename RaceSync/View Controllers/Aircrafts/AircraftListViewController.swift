@@ -124,7 +124,7 @@ class AircraftListViewController: UIViewController {
         }
     }
 
-    // MARK: - Button Events
+    // MARK: - Actions
 
     @objc func didPressCreateButton() {
         let newAircraftVC = NewAircraftViewController()
