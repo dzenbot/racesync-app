@@ -378,12 +378,11 @@ class LoginViewController: UIViewController {
     }
 
     func presentHome(transition: UIModalTransitionStyle = .crossDissolve) {
-        let raceListVC = RaceListViewController(nibName: nil, bundle: nil)
-        let raceListNC = NavigationController(rootViewController: raceListVC)
-        raceListNC.modalTransitionStyle = transition
-        raceListNC.modalPresentationStyle = .fullScreen
+        let viewController = HomeController.homeViewController()
+        viewController.modalTransitionStyle = transition
+        viewController.modalPresentationStyle = .fullScreen
 
-        present(raceListNC, animated: true) { [weak self] in
+        present(viewController, animated: true) { [weak self] in
             self?.loginButton.isLoading = false
             self?.freezeLoginForm(false)
         }

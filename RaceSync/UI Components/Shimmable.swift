@@ -20,6 +20,8 @@ protocol Shimmable {
 extension Shimmable where Self: UIViewController {
 
     func isLoading(_ loading: Bool) {
+        guard shimmeringView.isShimmering != loading else { return }
+        
         shimmeringView.isShimmering = loading
         shimmeringView.isHidden = !loading
         view.isUserInteractionEnabled = !loading

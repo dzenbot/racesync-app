@@ -17,7 +17,6 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Feature Flags
     fileprivate var shouldShowSearchButton: Bool = false
-    fileprivate var shouldLoadRaces: Bool = true
 
     // MARK: - Public Variables
 
@@ -44,13 +43,9 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     // MARK: - Private Variables
 
-    fileprivate let initialSelectedRaceSegment: RaceSegment = .joined
-
     fileprivate lazy var segmentedControl: UISegmentedControl = {
-        let items = [RaceSegment.joined.title, RaceSegment.nearby.title]
-        let segmentedControl = UISegmentedControl(items: items)
+        let segmentedControl = UISegmentedControl()
         segmentedControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
-        segmentedControl.selectedSegmentIndex = initialSelectedRaceSegment.rawValue
         segmentedControl.tintColor = Color.blue
         return segmentedControl
     }()
@@ -109,10 +104,17 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         return button
     }()
 
+    fileprivate var selectedRaceList: RaceListType {
+        get {
+            return RaceListType(rawValue: segmentedControl.selectedSegmentIndex)!
+        }
+    }
+
+    fileprivate let raceListController: RaceListController
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate let chapterApi = ChapterApi()
-    fileprivate var raceList = [String: [RaceViewModel]]()
+    fileprivate var raceList = [RaceViewModel]()
 
     fileprivate let locationManager = CLLocationManager()
     fileprivate var userLocation: CLLocation?
@@ -123,6 +125,21 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let headerHeight: CGFloat = 50
+    }
+
+    // MARK: - Lifecycle Methods
+
+    init(_ types: [RaceListType]) {
+        self.raceListController = RaceListController(types)
+
+        super.init(nibName: nil, bundle: nil)
+
+        self.segmentedControl.setItems(types.compactMap { $0.title })
+        self.segmentedControl.selectedSegmentIndex = 0
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Lifecycle Methods
@@ -187,8 +204,8 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         loadRaces()
     }
 
-    func updateUserLocation() {
-        guard selectedSegment == .nearby else { return }
+    fileprivate func updateUserLocation() {
+        guard selectedRaceList == .nearby else { return }
 
         let status = CLLocationManager.authorizationStatus()
         if status == .authorizedWhenInUse {
@@ -220,31 +237,45 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         present(settingsNC, animated: true, completion: nil)
     }
 
-    @objc func didPressJoinButton(_ sender: JoinButton) {
-        guard let raceId = sender.raceId, let race = currentRaceList()?.race(withId: raceId) else { return }
+    @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
+        guard let raceId = sender.raceId, let race = raceList.race(withId: raceId) else { return }
         let joinState = sender.joinState
 
         toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
             if joinState != newState {
                 // reload races to reflect race changes, specially join counts
-                self?.reloadRaces()
+                self?.loadRaces(forceReload: true)
             }
         }
     }
 
-    @objc func didPullRefreshControl() {
+    @objc fileprivate func didPullRefreshControl() {
         updateUserLocation()
-        reloadRaces()
+        loadRaces(forceReload: true)
     }
 
-    @objc open func didSwipeHorizontally(_ sender: Any) {
+    fileprivate func openRaceDetail(_ viewModel: RaceViewModel) {
+        let eventTVC = RaceTabBarController(with: viewModel.race.id)
+        eventTVC.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(eventTVC, animated: true)
+    }
+
+    @objc fileprivate func didSwipeHorizontally(_ sender: Any) {
         guard let swipeGesture = sender as? UISwipeGestureRecognizer else { return }
 
-        if swipeGesture.direction == .left && selectedSegment != .nearby {
-            segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
-        } else if swipeGesture.direction == .right && selectedSegment != .joined {
-            segmentedControl.setSelectedSegment(RaceSegment.joined.rawValue)
+        if swipeGesture.direction == .left && selectedRaceList.rawValue != 1 {
+            toggleSegmentedControl()
+        } else if swipeGesture.direction == .right && selectedRaceList.rawValue != 0 {
+            toggleSegmentedControl()
         }
+    }
+
+    fileprivate func toggleSegmentedControl() {
+        var nextSegment = 0
+        if selectedRaceList.rawValue == 0 {
+            nextSegment += 1
+        }
+        segmentedControl.setSelectedSegment(nextSegment)
     }
 }
 
@@ -252,18 +283,18 @@ fileprivate extension RaceListViewController {
 
     func loadContent() {
         if APIServices.shared.myUser == nil {
-            fetchMyUser()
             isLoading(true)
+            loadMyUser()
         } else {
-            reloadRaces()
+            loadRaces(forceReload: true)
         }
     }
 
-    func fetchMyUser() {
+    func loadMyUser() {
         userApi.getMyUser { (user, error) in
             APIServices.shared.myUser = user
             
-            if user != nil && self.shouldLoadRaces {
+            if user != nil {
                 self.updateProfilePicture()
                 self.loadRaces()
             } else if error != nil {
@@ -277,77 +308,26 @@ fileprivate extension RaceListViewController {
         }
     }
 
-    func loadRaces(_ force: Bool = false, completion: VoidCompletionBlock? = nil) {
-        if currentRaceList() == nil || force {
+    @objc func loadRaces(forceReload: Bool = false) {
+        if raceListController.shouldShowShimmer(for: selectedRaceList) {
             isLoading(true)
-            fetchRaces(selectedRaceListFiltering()) { [weak self] in
-                self?.isLoading(false)
-                completion?()
-            }
-        } else {
-            tableView.reloadData()
-            reloadRaces()
         }
-    }
 
-    @objc func reloadRaces() {
-        fetchRaces(selectedRaceListFiltering()) { [weak self] in
-            if self?.refreshControl.isRefreshing ?? false {
-                self?.refreshControl.endRefreshing()
-            }
-            self?.tableView.reloadData()
-        }
-    }
+        raceListController.raceViewModels(for: selectedRaceList, userLocation: userLocation, forceFetch: forceReload) { [weak self] (viewModels, error) in
+            self?.isLoading(false)
 
-    func fetchRaces(_ filtering: RaceListFiltering, completion: VoidCompletionBlock? = nil) {
+            if let viewModels = viewModels {
+                self?.raceList = viewModels
 
-        let coordinate = userLocation?.coordinate
-        let lat = coordinate?.latitude.string
-        let long = coordinate?.longitude.string
+                if self?.refreshControl.isRefreshing ?? false {
+                    self?.refreshControl.endRefreshing()
+                }
 
-        raceApi.getMyRaces(filtering: filtering, latitude: lat, longitude: long) { (races, error) in
-            if let upcomingRaces = races?.filter({ (race) -> Bool in
-                guard let startDate = race.startDate else { return false }
-                return startDate.timeIntervalSinceNow.sign == .plus
-            }) {
-                let viewModels = RaceViewModel.viewModels(with: upcomingRaces)
-                let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
-                    if r1.distance < r2.distance {
-                        return true
-                    }
-                    if r1.distance == r2.distance {
-                        guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
-                        return date1 < date2
-                    }
-                    return false
-                })
-
-                self.raceList[filtering.rawValue] = sortedViewModels
+                self?.tableView.reloadData()
             } else {
                 print("getMyRaces error : \(error.debugDescription)")
             }
-
-            completion?()
         }
-    }
-
-    var selectedSegment: RaceSegment {
-        get {
-            return RaceSegment(index: segmentedControl.selectedSegmentIndex)
-        }
-    }
-
-    func selectedRaceListFiltering() -> RaceListFiltering {
-        switch selectedSegment {
-        case RaceSegment.joined:
-            return .upcoming
-        case RaceSegment.nearby:
-            return .nearby
-        }
-    }
-
-    func currentRaceList() -> [RaceViewModel]? {
-        return raceList[selectedRaceListFiltering().rawValue]
     }
 
     func updateProfilePicture() {
@@ -361,31 +341,26 @@ fileprivate extension RaceListViewController {
 extension RaceListViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let races = currentRaceList() else { return }
-
-        let viewModel = races[indexPath.row]
-        let eventTVC = RaceTabBarController(with: viewModel.race.id)
-        navigationController?.pushViewController(eventTVC, animated: true)
-
         tableView.deselectRow(at: indexPath, animated: true)
+
+        let viewModel = raceList[indexPath.row]
+        openRaceDetail(viewModel)
     }
 }
 
 extension RaceListViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard let races = currentRaceList() else { return 0 }
-        return races.count
+        return raceList.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
-        guard let races = currentRaceList(),
-            let cell = tableView.dequeueReusableCell(withIdentifier: RaceTableViewCell.identifier) as? RaceTableViewCell else {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RaceTableViewCell.identifier) as? RaceTableViewCell else {
             return UITableViewCell()
         }
 
-        let viewModel = races[indexPath.row]
+        let viewModel = raceList[indexPath.row]
 
         cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
@@ -395,7 +370,7 @@ extension RaceListViewController: UITableViewDataSource {
         cell.memberBadgeView.count = viewModel.participantCount
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
 
-        if selectedSegment == .joined {
+        if selectedRaceList == .joined {
             cell.subtitleLabel.text = viewModel.locationLabel
         } else {
             cell.subtitleLabel.text = viewModel.distanceLabel
@@ -412,7 +387,7 @@ extension RaceListViewController: UITableViewDataSource {
 extension RaceListViewController: EmptyDataSetSource {
 
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedSegment == .joined {
+        if selectedRaceList == .joined {
             return emptyStateJoinedRaces.title
         } else {
             return emptyStateNearbyRaces.title
@@ -420,7 +395,7 @@ extension RaceListViewController: EmptyDataSetSource {
     }
 
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedSegment == .joined {
+        if selectedRaceList == .joined {
             return emptyStateJoinedRaces.description
         } else {
             return emptyStateNearbyRaces.description
@@ -432,7 +407,7 @@ extension RaceListViewController: EmptyDataSetSource {
     }
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
-        if selectedSegment == .joined {
+        if selectedRaceList == .joined {
             return emptyStateJoinedRaces.buttonTitle(state)
         } else {
             return emptyStateNearbyRaces.buttonTitle(state)
@@ -452,9 +427,9 @@ extension RaceListViewController: EmptyDataSetDelegate {
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
 
-        if selectedSegment == .joined {
-            segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
-        } else {
+        if selectedRaceList == .joined {
+//            segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
+        } else if selectedRaceList == .nearby {
             let settingsVC = SettingsViewController()
             settingsVC.promptSearchRadiusPicker = true
             let settingsNC = NavigationController(rootViewController: settingsVC)
@@ -481,23 +456,5 @@ extension RaceListViewController: CLLocationManagerDelegate {
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         Clog.log("Failed to find user's location: \(error.localizedDescription)", andLevel: .error)
-    }
-}
-
-fileprivate enum RaceSegment: Int {
-    case joined, nearby
-
-    init(index: Int) {
-        switch index {
-        case 1 : self = .nearby
-        default: self = .joined
-        }
-    }
-
-    var title: String {
-        switch self {
-        case .joined:   return "Joined Races"
-        case .nearby:   return "Nearby Races"
-        }
     }
 }

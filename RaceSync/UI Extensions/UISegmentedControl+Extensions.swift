@@ -10,6 +10,14 @@ import UIKit
 
 extension UISegmentedControl {
 
+    func setItems(_ items: [String]) {
+        guard !items.isEmpty else { return }
+
+        for i in 0..<items.count {
+            insertSegment(withTitle: items[i], at: i, animated: false)
+        }
+    }
+
     func setSelectedSegment(_ index: NSInteger) {
         guard selectedSegmentIndex != index else { return }
 
