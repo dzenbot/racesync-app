@@ -67,8 +67,13 @@ fileprivate extension RaceListController {
                 return startDate.timeIntervalSinceNow.sign == .plus
             }) {
                 let viewModels = RaceViewModel.viewModels(with: upcomingRaces)
-                self.raceList[.joined] = viewModels
-                completion(viewModels, nil)
+                let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
+                    guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
+                    return date1 < date2
+                })
+
+                self.raceList[.joined] = sortedViewModels
+                completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
             }
