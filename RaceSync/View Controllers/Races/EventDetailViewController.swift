@@ -404,19 +404,17 @@ class EventDetailViewController: UIViewController, Joinable {
         let race = raceViewModel.race
         let textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
 
-        if canDisplayDescription {
-            race.description.toHTMLAttributedString(textFont, color: Color.gray300) { [weak self] (att) in
-                self?.descriptionTextView.attributedText = att
-            }
-        }
+        // Chain HTML parsing from less expensive operations to the most.
+        // This will cause blocks of text to asynchrounsly load 1 by 1, but still be more efficient and not block the UI
+        race.description.toHTMLAttributedString(textFont, color: Color.gray300) { [weak self] (att) in
+            self?.descriptionTextView.attributedText = att
 
-        race.content.toHTMLAttributedString(textFont) { [weak self] (att) in
-            self?.contentTextView.attributedText = att
-        }
-
-        if canDisplayItinerary {
             race.itineraryContent.toHTMLAttributedString(textFont) { [weak self] (att) in
                 self?.itineraryTextView.attributedText = att
+
+                race.content.toHTMLAttributedString(textFont) { [weak self] (att) in
+                    self?.contentTextView.attributedText = att
+                }
             }
         }
 

@@ -75,6 +75,7 @@ extension NSAttributedString {
 
 extension String {
 
+    // Asynchrounsly parse HTML String into NSAttributedString
     public func toHTMLAttributedString(_ font: UIFont? = nil, color: UIColor? = nil, completion: @escaping SimpleObjectCompletionBlock<NSAttributedString?>) {
         guard !isEmpty else { completion(nil); return }
 
