@@ -19,12 +19,18 @@ public class APISettings {
         }
     }
 
+    public var measurementSystem: APIMeasurementSystem {
+        get {
+            let value = UserDefaults.standard.integer(forKey: APISettingsMeasurementSystemKey)
+            return APIMeasurementSystem(rawValue: value) ?? .imperial
+        } set {
+            save(newValue.rawValue, key: APISettingsMeasurementSystemKey)
+        }
+    }
+
     public var lengthUnit: APIUnitSystem {
         get {
-            let value = UserDefaults.standard.integer(forKey: APISettingsLengthUnitKey)
-            return APIUnitSystem(rawValue: value) ?? .miles
-        } set {
-            save(newValue.rawValue, key: APISettingsLengthUnitKey)
+            return (measurementSystem == .imperial) ? .miles : .kilometers
         }
     }
 
@@ -59,4 +65,4 @@ fileprivate extension APISettings {
 
 fileprivate let APISettingsEnvironmentsKey = "com.multigp.RaceSync.settings.environment"
 fileprivate let APISettingsSearchRadiusKey = "com.multigp.RaceSync.settings.search_radius"
-fileprivate let APISettingsLengthUnitKey = "com.multigp.RaceSync.settings.length_unit"
+fileprivate let APISettingsMeasurementSystemKey = "com.multigp.RaceSync.settings.measurement_system"

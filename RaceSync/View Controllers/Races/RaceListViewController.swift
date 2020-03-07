@@ -92,6 +92,21 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         return view
     }()
 
+    fileprivate lazy var filterButton: CustomButton = {
+        let button = CustomButton(type: .system)
+        button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
+        button.setImage(UIImage(named: "icn_filter"), for: .normal)
+        button.isEnabled = false
+        return button
+    }()
+
+    fileprivate lazy var settingsButton: CustomButton = {
+        let button = CustomButton(type: .system)
+        button.addTarget(self, action: #selector(didPressSettingsButton), for: .touchUpInside)
+        button.setImage(UIImage(named: "icn_settings"), for: .normal)
+        return button
+    }()
+
     fileprivate lazy var userProfileButton: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(didPressUserProfileButton), for: .touchUpInside)
@@ -118,6 +133,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     fileprivate let locationManager = CLLocationManager()
     fileprivate var userLocation: CLLocation?
+    fileprivate var settingsController = SettingsController()
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
@@ -170,7 +186,12 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         if shouldShowSearchButton {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_search"), style: .done, target: self, action: #selector(didPressSearchButton))
         } else {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_settings"), style: .done, target: self, action: #selector(didPressSettingsButton))
+            let stackView = UIStackView(arrangedSubviews: [filterButton, settingsButton])
+            stackView.axis = .horizontal
+            stackView.distribution = .fillEqually
+            stackView.alignment = .lastBaseline
+            stackView.spacing = Constants.padding/2
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
         }
 
         view.addSubview(headerView)
@@ -202,6 +223,8 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     @objc fileprivate func didChangeSegment() {
         updateUserLocation()
         loadRaces()
+
+        filterButton.isEnabled = (selectedRaceList == .nearby)
     }
 
     fileprivate func updateUserLocation() {
@@ -225,16 +248,23 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         present(userNC, animated: true, completion: nil)
     }
 
-    @objc fileprivate func didPressSearchButton() {
+    @objc fileprivate func didPressSearchButton(_ sender: Any) {
         print("didPressSearchButton")
     }
 
-    @objc fileprivate func didPressSettingsButton() {
+    @objc fileprivate func didPressSettingsButton(_ sender: Any) {
         let settingsVC = SettingsViewController()
         let settingsNC = NavigationController(rootViewController: settingsVC)
         settingsNC.modalPresentationStyle = .fullScreen
 
         present(settingsNC, animated: true, completion: nil)
+    }
+
+    @objc fileprivate func didPressFilterButton(_ sender: Any) {
+        settingsController.presentSettingsPicker(.searchRadius, from: self) { [weak self] in
+            self?.isLoading(true)
+            self?.loadRaces(forceReload: true)
+        }
     }
 
     @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
@@ -428,12 +458,9 @@ extension RaceListViewController: EmptyDataSetDelegate {
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
 
         if selectedRaceList == .joined {
-//            segmentedControl.setSelectedSegment(RaceSegment.nearby.rawValue)
+            toggleSegmentedControl()
         } else if selectedRaceList == .nearby {
-            let settingsVC = SettingsViewController()
-            settingsVC.promptSearchRadiusPicker = true
-            let settingsNC = NavigationController(rootViewController: settingsVC)
-            present(settingsNC, animated: true, completion: nil)
+            didPressFilterButton(button)
         }
     }
 }

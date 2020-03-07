@@ -9,6 +9,17 @@
 import Foundation
 import CoreGraphics
 
+public enum APIMeasurementSystem: Int, EnumTitle {
+    case imperial, metric
+
+    public var title: String {
+        switch self {
+        case .imperial:     return "Imperial"
+        case .metric:       return "Metric"
+        }
+    }
+}
+
 public enum APIUnitSystem: Int, EnumTitle {
     case miles, kilometers
 

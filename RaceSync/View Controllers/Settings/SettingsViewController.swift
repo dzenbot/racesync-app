@@ -13,10 +13,6 @@ import Presentr
 
 class SettingsViewController: UIViewController {
 
-    // MARK: - Public Variables
-
-    var promptSearchRadiusPicker: Bool = false
-
     // MARK: - Private Variables
 
    fileprivate lazy var tableView: UITableView = {
@@ -48,12 +44,12 @@ class SettingsViewController: UIViewController {
     }()
 
     fileprivate let sections: [Section: [Row]] = [
-        .search: [.searchRadius, .lengthUnit],
+        .pref: [.measurement],
         .about: [.submitFeedback, .readRules, .visitSite],
         .auth: [.logout]
     ]
 
-    fileprivate var selectedRow: Row?
+    fileprivate var settingsController = SettingsController()
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -78,12 +74,6 @@ class SettingsViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-
-        if promptSearchRadiusPicker {
-            DispatchQueue.main.async { [weak self] in
-                self?.setSearchRadius()
-            }
-        }
     }
 
     // MARK: - Layout
@@ -100,41 +90,6 @@ class SettingsViewController: UIViewController {
 
     @objc func didPressCloseButton() {
         dismiss(animated: true, completion: nil)
-    }
-
-    fileprivate func setSearchRadius(_ row: Row? = nil) {
-        promptSearchRadiusPicker = false
-        selectedRow = row
-
-        let radiuses = APIServices.shared.settings.lengthUnit.supportedValues
-        let radius = APIServices.shared.settings.searchRadius
-        let unit = APIServices.shared.settings.lengthUnit
-
-        let presenter = Appearance.defaultPresenter()
-        let pickerVC = PickerViewController(with: radiuses, selectedItem: radius)
-        pickerVC.delegate = self
-        pickerVC.title = Row.searchRadius.title
-        pickerVC.unit = unit.symbol
-
-        let pickerVN = NavigationController(rootViewController: pickerVC)
-        
-        customPresentViewController(presenter, viewController: pickerVN, animated: true)
-    }
-
-    fileprivate func setLengthUnit(_ row: Row? = nil) {
-        selectedRow = row
-
-        let units = APIUnitSystem.allCases.compactMap { $0.title }
-        let selectedUnit = APIServices.shared.settings.lengthUnit.title
-
-        let presenter = Appearance.defaultPresenter()
-        let pickerVC = PickerViewController(with: units, selectedItem: selectedUnit)
-        pickerVC.delegate = self
-        pickerVC.title = Row.lengthUnit.title
-
-        let pickerVN = NavigationController(rootViewController: pickerVC)
-
-        customPresentViewController(presenter, viewController: pickerVN, animated: true)
     }
 
     fileprivate func submitFeedback() {
@@ -177,10 +132,10 @@ extension SettingsViewController: UITableViewDelegate {
         guard let section = Section(rawValue: indexPath.section), let rows = sections[section] else { return }
         let row = rows[indexPath.row]
 
-        if row == .searchRadius {
-            setSearchRadius(row)
-        } else if row == .lengthUnit {
-            setLengthUnit(row)
+        if row == .measurement {
+            settingsController.presentSettingsPicker(.measurement, from: self) { [weak self] in
+                self?.tableView.reloadData()
+            }
         } else if row == .submitFeedback {
             submitFeedback()
         } else if row == .readRules {
@@ -230,10 +185,8 @@ extension SettingsViewController: UITableViewDataSource {
             cell.accessoryType = .none
         }
 
-        if row == .searchRadius {
-            cell.detailTextLabel?.text = "\(settings.searchRadius) \(settings.lengthUnit.symbol)"
-        } else if row == .lengthUnit {
-            cell.detailTextLabel?.text = settings.lengthUnit.title
+        if row == .measurement {
+            cell.detailTextLabel?.text = settings.measurementSystem.title
         } else if row == .submitFeedback {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
         }
@@ -254,51 +207,20 @@ extension SettingsViewController: UITableViewDataSource {
     }
 }
 
-extension SettingsViewController: FormViewControllerDelegate {
-
-    func formViewController(_ viewController: FormViewController, didSelectItem item: String) {
-        guard let row = selectedRow else { return }
-
-        let settings = APIServices.shared.settings
-
-        if row == .searchRadius {
-            settings.searchRadius = item
-        } else if row == .lengthUnit, let unit = APIUnitSystem(title: item) {
-
-            let previousUnit = settings.lengthUnit
-            APIServices.shared.settings.lengthUnit = unit
-
-            // we are forced to update the search radius, with a supported value
-            if let idx = previousUnit.supportedValues.firstIndex(of: settings.searchRadius) {
-                let value = unit.supportedValues[idx]
-                APIServices.shared.settings.searchRadius = value
-            }
-        }
-
-        tableView.reloadData()
-        viewController.dismiss(animated: true, completion: nil)
-    }
-
-    func formViewControllerDidDismiss(_ viewController: FormViewController) {
-        //
-    }
-}
-
 fileprivate enum Section: Int, EnumTitle, CaseIterable {
-    case search, about, auth
+    case pref, about, auth
 
     var title: String {
         switch self {
-        case .search:               return "Search"
-        case .about:                return "About"
-        case .auth:                 return ""
+        case .pref:         return "Preferences"
+        case .about:        return "About"
+        case .auth:         return ""
         }
     }
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case searchRadius
-    case lengthUnit
+    case measurement
 
     case submitFeedback
     case readRules
@@ -309,8 +231,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
 
     var title: String {
         switch self {
-        case .searchRadius:         return "Search Radius"
-        case .lengthUnit:           return "Length Unit"
+        case .measurement:          return "Measurement System"
 
         case .submitFeedback:       return "Feedback"
         case .readRules:            return "2020 Season Rules"

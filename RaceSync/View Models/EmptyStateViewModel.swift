@@ -94,6 +94,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
 
     var description: NSAttributedString? {
 
+        let settings = APIServices.shared.settings
         var text: String?
 
         switch emptyState {
@@ -102,7 +103,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         case .noJoinedRaces, .noMyProfileRaces:
             text = "You haven't joined any races yet."
         case .noNearbydRaces:
-            text = "There are no races in a \(APIServices.shared.settings.searchRadius) miles radius."
+            text = "There are no races in a \(settings.searchRadius)\(settings.lengthUnit.symbol) radius."
         case .noRaceRegisters:
             text = "There are no registered pilots for this race yet."
         case .noRaceResults:

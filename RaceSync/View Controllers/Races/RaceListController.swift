@@ -58,7 +58,7 @@ fileprivate extension RaceListController {
 
     func getJoinedRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
         if let viewModels = raceList[.joined], !forceFetch {
-            completion(viewModels, nil)
+            completion([RaceViewModel](), nil)
         }
 
         raceApi.getMyRaces(filtering: .upcoming) { (races, error) in
@@ -73,7 +73,7 @@ fileprivate extension RaceListController {
                 })
 
                 self.raceList[.joined] = sortedViewModels
-                completion(sortedViewModels, nil)
+                completion([RaceViewModel](), nil)
             } else {
                 completion(nil, error)
             }
@@ -82,7 +82,7 @@ fileprivate extension RaceListController {
 
     func getNearbydRaces(_ userLocation: CLLocation?, _ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
         if let viewModels = raceList[.nearby], !forceFetch {
-            completion(viewModels, nil)
+            completion([RaceViewModel](), nil)
         }
 
         let coordinate = userLocation?.coordinate
@@ -107,7 +107,7 @@ fileprivate extension RaceListController {
                 })
 
                 self.raceList[.nearby] = sortedViewModels
-                completion(sortedViewModels, nil)
+                completion([RaceViewModel](), nil)
             } else {
                 completion(nil, error)
             }
