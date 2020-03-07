@@ -11,7 +11,7 @@ import SnapKit
 import EmptyDataSet_Swift
 import RaceSyncAPI
 
-fileprivate enum RaceTabs: Int {
+enum RaceTabs: Int {
     case event, race, results
 }
 
@@ -23,6 +23,12 @@ class RaceTabBarController: UITabBarController {
         didSet {
             if isLoading { activityIndicatorView.startAnimating() }
             else { activityIndicatorView.stopAnimating() }
+        }
+    }
+
+    override var selectedIndex: Int {
+        didSet {
+            didSelectedIndex(selectedIndex)
         }
     }
 
@@ -124,10 +130,8 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Actions
 
-    override var selectedIndex: Int {
-        didSet {
-            didSelectedIndex(selectedIndex)
-        }
+    func selectTab(_ tab: RaceTabs) {
+        selectedIndex = tab.rawValue
     }
 
     @objc func didPressCalendarButton() {

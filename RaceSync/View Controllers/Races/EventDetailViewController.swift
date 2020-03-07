@@ -54,7 +54,8 @@ class EventDetailViewController: UIViewController, Joinable {
 
     fileprivate lazy var memberBadgeView: MemberBadgeView = {
         let view = MemberBadgeView(type: .system)
-        view.isUserInteractionEnabled = false
+        view.addTarget(self, action: #selector(didPressMemberView), for: .touchUpInside)
+        view.isUserInteractionEnabled = true
         return view
     }()
 
@@ -454,6 +455,11 @@ class EventDetailViewController: UIViewController, Joinable {
                 self?.reloadRaceView()
             }
         }
+    }
+
+    @objc func didPressMemberView(_ sender: MemberBadgeView) {
+        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
+        tabBarController.selectTab(.race)
     }
 }
 
