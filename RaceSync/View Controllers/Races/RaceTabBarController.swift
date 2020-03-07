@@ -96,9 +96,7 @@ class RaceTabBarController: UITabBarController {
         }
     }
 
-    fileprivate func configureViewControllers() {
-        guard let race = race else { return }
-
+    fileprivate func configureViewControllers(with race: Race) {
         let eventDetailVC = EventDetailViewController(with: race)
         let raceDetailVC = RaceDetailViewController(with: race)
         let raceResultsVC = RaceResultsViewController(with: race)
@@ -112,7 +110,9 @@ class RaceTabBarController: UITabBarController {
         // Trick to pre-load each view controller
         preloadTabs()
         tabBar.isHidden = false
+    }
 
+    fileprivate func configureBarButtonItems(with race: Race) {
         var rightBarButtonItems = [UIBarButtonItem]()
         let shareButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
         rightBarButtonItems += [shareButtonItem]
@@ -124,14 +124,14 @@ class RaceTabBarController: UITabBarController {
         navigationItem.rightBarButtonItems = rightBarButtonItems
     }
 
-    fileprivate func didSelectedIndex(_ index: Int) {
-        title = viewControllers?[index].title
-    }
-
     // MARK: - Actions
 
     func selectTab(_ tab: RaceTabs) {
         selectedIndex = tab.rawValue
+    }
+
+    fileprivate func didSelectedIndex(_ index: Int) {
+        title = viewControllers?[index].title
     }
 
     @objc func didPressCalendarButton() {
@@ -190,11 +190,12 @@ extension RaceTabBarController {
         raceApi.viewSimple(race: raceId) { [weak self] (race, error) in
             self?.isLoading = false
 
-            if let error = error {
-                self?.handleError(error)
-            } else {
+            if let race = race {
                 self?.race = race
-                self?.configureViewControllers()
+                self?.configureBarButtonItems(with: race)
+                self?.configureViewControllers(with: race)
+            } else if let error = error {
+                self?.handleError(error)
             }
         }
     }
