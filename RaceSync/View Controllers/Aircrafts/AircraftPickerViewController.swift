@@ -63,8 +63,7 @@ class AircraftPickerViewController: UIViewController {
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .whiteLarge)
-        return view
+        return UIActivityIndicatorView(style: .whiteLarge)
     }()
 
     fileprivate let race: Race
