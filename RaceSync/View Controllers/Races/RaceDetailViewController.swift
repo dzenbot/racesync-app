@@ -110,33 +110,36 @@ class RaceDetailViewController: UIViewController, Joinable {
     fileprivate lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = Color.gray300
-        textView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         textView.textAlignment = .justified
         textView.isEditable = false
         textView.isScrollEnabled = false
         textView.textContainerInset = Constants.contentInsets
+        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
         return textView
     }()
 
     fileprivate lazy var contentTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = Color.black
-        textView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         textView.textAlignment = .justified
         textView.isEditable = false
         textView.isScrollEnabled = false
         textView.textContainerInset = Constants.contentInsets
+        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
         return textView
     }()
 
     fileprivate lazy var itineraryTextView: UITextView = {
         let textView = UITextView()
         textView.textColor = Color.black
-        textView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         textView.textAlignment = .justified
         textView.isEditable = false
         textView.isScrollEnabled = false
         textView.textContainerInset = Constants.contentInsets
+        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
         return textView
     }()
 
@@ -403,17 +406,17 @@ class RaceDetailViewController: UIViewController, Joinable {
         }
 
         let race = raceViewModel.race
-        let textFont = UIFont.systemFont(ofSize: 15, weight: .regular)
+        let font = contentTextView.font
 
         // Chain HTML parsing from less expensive operations to the most.
-        // This will cause blocks of text to asynchrounsly load 1 by 1, but still be more efficient and not block the UI
-        race.description.toHTMLAttributedString(textFont, color: Color.gray300) { [weak self] (att) in
+        // This will make blocks of text to asynchrounsly load 1 by 1, but still be more efficient and not block the UI
+        race.description.toHTMLAttributedString(font, color: descriptionTextView.textColor) { [weak self] (att) in
             self?.descriptionTextView.attributedText = att
 
-            race.itineraryContent.toHTMLAttributedString(textFont) { [weak self] (att) in
+            race.itineraryContent.toHTMLAttributedString(font) { [weak self] (att) in
                 self?.itineraryTextView.attributedText = att
 
-                race.content.toHTMLAttributedString(textFont) { [weak self] (att) in
+                race.content.toHTMLAttributedString(font) { [weak self] (att) in
                     self?.contentTextView.attributedText = att
                 }
             }

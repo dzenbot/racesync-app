@@ -21,20 +21,11 @@ extension NSAttributedString {
         self.init(string: string, attributes: attrs)
     }
 
-    public convenience init?(HTMLString html: String, font: UIFont? = nil, color: UIColor? = nil) throws {
-        guard !html.isEmpty else { return nil }
+    public convenience init?(HTMLString content: String, font: UIFont? = nil, color: UIColor? = nil) throws {
+        guard !content.isEmpty else { return nil }
 
         let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
-        let htmlString = """
-        <head>
-        <style type=\"text/css\">
-        img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; }
-        a { color: \(Color.red.toHexString()); }
-        </style>
-        </head>
-        <body> \(html) </body>
-        </html>
-        """
+        let htmlString = content.toHTML(color)
 
         var options = [NSAttributedString.DocumentReadingOptionKey : Any]()
         options[.documentType] = NSAttributedString.DocumentType.html
@@ -46,12 +37,6 @@ extension NSAttributedString {
 
         let att = try! NSAttributedString.init( data: data, options: options, documentAttributes: nil)
         let matt = NSMutableAttributedString(attributedString: att)
-
-        if let newColor = color {
-            var attrs = att.attributes(at: 0, effectiveRange: nil)
-            attrs[NSAttributedString.Key.foregroundColor] = newColor
-            matt.setAttributes(attrs, range: NSRange(location: 0, length: att.length))
-        }
 
         func applyTraitsFromFont(_ f1: UIFont, to f2: UIFont) -> UIFont? {
             let t = f1.fontDescriptor.symbolicTraits
@@ -82,17 +67,7 @@ extension String {
     public func toHTMLAttributedString(_ font: UIFont? = nil, color: UIColor? = nil, completion: @escaping SimpleObjectCompletionBlock<NSAttributedString?>) {
         guard !isEmpty else { completion(nil); return }
 
-        let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
-        let htmlString = """
-        <head>
-        <style type=\"text/css\">
-        img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; }
-        a, a:link, a:visited { color: \(Color.red.toHexString()) !important; }
-        </style>
-        </head>
-        <body> \(self) </body>
-        </html>
-        """
+        let htmlString = toHTML(color)
 
         DispatchQueue.global(qos: .utility).async {
             var options = [NSAttributedString.DocumentReadingOptionKey : Any]()
@@ -115,12 +90,6 @@ extension String {
 
             let matt = NSMutableAttributedString(attributedString: att)
 
-            if let newColor = color {
-                var attrs = att.attributes(at: 0, effectiveRange: nil)
-                attrs[NSAttributedString.Key.foregroundColor] = newColor
-                matt.setAttributes(attrs, range: NSRange(location: 0, length: att.length))
-            }
-
             func applyTraitsFromFont(_ f1: UIFont, to f2: UIFont) -> UIFont? {
                 let t = f1.fontDescriptor.symbolicTraits
                 if let fd = f2.fontDescriptor.withSymbolicTraits(t) {
@@ -130,16 +99,12 @@ extension String {
             }
 
             if let newFont = font {
-                matt.enumerateAttribute(NSAttributedString.Key.font, in:NSMakeRange(0,matt.length),
-                                        options:.longestEffectiveRangeNotRequired) { value, range, stop in
+                matt.enumerateAttribute(NSAttributedString.Key.font, in: NSMakeRange(0, matt.length),
+                                        options: .longestEffectiveRangeNotRequired) { value, range, stop in
                     let f1 = value as! UIFont
                     if let f3 = applyTraitsFromFont(f1, to: newFont) {
-                        matt.addAttribute(NSAttributedString.Key.font, value:f3, range:range)
+                        matt.addAttribute(NSAttributedString.Key.font, value:f3, range: range)
                     }
-                }
-
-                DispatchQueue.main.async {
-                    completion(NSAttributedString.init(attributedString: matt))
                 }
             }
 
@@ -147,5 +112,25 @@ extension String {
                 completion(NSAttributedString.init(attributedString: matt))
             }
         }
+    }
+
+    public func toHTML(_ textColor: UIColor?) -> String {
+
+        let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
+        let colorString: String = (textColor != nil) ? textColor!.toHexString() : Color.black.toHexString()
+
+        let htmlString = """
+        <head>
+        <style type=\"text/css\">
+        body { color: \(colorString); }
+        img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; }
+        a { color: \(Color.red.toHexString()); }
+        </style>
+        </head>
+        <body> \(self) </body>
+        </html>
+        """
+
+        return htmlString
     }
 }
