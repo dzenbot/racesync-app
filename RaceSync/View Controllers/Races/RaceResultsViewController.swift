@@ -1,5 +1,5 @@
 //
-//  RaceDetailViewController.swift
+//  RaceResultsViewController.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2019-11-15.

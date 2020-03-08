@@ -34,6 +34,8 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Private Variables
 
+    let isResultsTabEnabled: Bool = false
+
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
         let view = UIActivityIndicatorView(style: .gray)
         view.hidesWhenStopped = true
@@ -50,6 +52,7 @@ class RaceTabBarController: UITabBarController {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
+        static let buttonSpacing: CGFloat = 12
     }
 
     // MARK: - Initialization
@@ -97,11 +100,16 @@ class RaceTabBarController: UITabBarController {
     }
 
     fileprivate func configureViewControllers(with race: Race) {
-        let eventDetailVC = EventDetailViewController(with: race)
-        let raceDetailVC = RaceDetailViewController(with: race)
-        let raceResultsVC = RaceResultsViewController(with: race)
 
-        viewControllers = [eventDetailVC, raceDetailVC, raceResultsVC]
+        var vcs = [UIViewController]()
+        vcs += [RaceDetailViewController(with: race)]
+        vcs += [RaceRosterViewController(with: race)]
+
+        if isResultsTabEnabled {
+            vcs += [RaceResultsViewController(with: race)]
+        }
+
+        viewControllers = vcs
 
         // Dirty little trick to select the first tab bar item
         self.selectedIndex = initialSelectedIndex+1
@@ -113,15 +121,26 @@ class RaceTabBarController: UITabBarController {
     }
 
     fileprivate func configureBarButtonItems(with race: Race) {
-        var rightBarButtonItems = [UIBarButtonItem]()
-        let shareButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
-        rightBarButtonItems += [shareButtonItem]
+        var buttons = [UIButton]()
 
         if let _ = race.calendarEvent {
-            let calendarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_calendar"), style: .done, target: self, action: #selector(didPressCalendarButton))
-            rightBarButtonItems += [calendarButtonItem]
+            let calendarButton = CustomButton(type: .system)
+            calendarButton.addTarget(self, action: #selector(didPressCalendarButton), for: .touchUpInside)
+            calendarButton.setImage(UIImage(named: "icn_calendar"), for: .normal)
+            buttons += [calendarButton]
         }
-        navigationItem.rightBarButtonItems = rightBarButtonItems
+
+        let shareButton = CustomButton(type: .system)
+        shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
+        shareButton.setImage(UIImage(named: "icn_share"), for: .normal)
+        buttons += [shareButton]
+
+        let stackView = UIStackView(arrangedSubviews: buttons)
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.alignment = .lastBaseline
+        stackView.spacing = Constants.buttonSpacing
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
     }
 
     // MARK: - Actions

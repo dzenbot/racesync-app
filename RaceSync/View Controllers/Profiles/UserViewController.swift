@@ -59,6 +59,7 @@ class UserViewController: ProfileViewController, Joinable {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let buttonHeight: CGFloat = 32
+        static let buttonSpacing: CGFloat = 12
     }
 
     // MARK: - Initialization
@@ -79,19 +80,7 @@ class UserViewController: ProfileViewController, Joinable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        var rightBarButtonItems = [UIBarButtonItem]()
-        let shareButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
-        rightBarButtonItems += [shareButtonItem]
-
-        if user.isMe {
-            let qrButtonItem = UIBarButtonItem(customView: qrButton)
-            rightBarButtonItems += [qrButtonItem]
-        }
-        navigationItem.rightBarButtonItems = rightBarButtonItems
-
-        if navigationController?.viewControllers.count == 1 {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-        }
+        configureBarButtonItems()
 
         // TODO: Remove once https://github.com/MultiGP/racesync-api/issues/11 is addressed
         if !shouldShowStats {
@@ -126,6 +115,31 @@ class UserViewController: ProfileViewController, Joinable {
             $0.bottom.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-Constants.padding)
             $0.height.equalTo(Constants.buttonHeight)
+        }
+    }
+
+    fileprivate func configureBarButtonItems() {
+
+        var buttons = [UIButton]()
+
+        if user.isMe {
+            buttons += [qrButton]
+        }
+
+        let shareButton = CustomButton(type: .system)
+        shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
+        shareButton.setImage(UIImage(named: "icn_share"), for: .normal)
+        buttons += [shareButton]
+
+        let stackView = UIStackView(arrangedSubviews: buttons)
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.alignment = .lastBaseline
+        stackView.spacing = Constants.buttonSpacing
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
+
+        if navigationController?.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         }
     }
 

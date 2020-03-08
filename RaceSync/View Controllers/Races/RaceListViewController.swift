@@ -141,6 +141,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let headerHeight: CGFloat = 50
+        static let buttonSpacing: CGFloat = 12
     }
 
     // MARK: - Lifecycle Methods
@@ -190,7 +191,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
             stackView.axis = .horizontal
             stackView.distribution = .fillEqually
             stackView.alignment = .lastBaseline
-            stackView.spacing = Constants.padding/2
+            stackView.spacing = Constants.buttonSpacing
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
         }
 
