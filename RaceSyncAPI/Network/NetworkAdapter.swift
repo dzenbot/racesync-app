@@ -75,19 +75,30 @@ class NetworkAdapter {
         }
     }
 
-    fileprivate func urlFrom(endpoint: String) -> String {
+    func httpCancelRequests() {
+        self.sessionManager.session.getTasksWithCompletionHandler { (sessionDataTask, _, _) in
+            sessionDataTask.forEach { $0.cancel() }
+        }
+    }
+
+    func httpCancelAll() {
+        self.sessionManager.session.getTasksWithCompletionHandler { (sessionDataTask, uploadData, downloadData) in
+            sessionDataTask.forEach { $0.cancel() }
+            uploadData.forEach { $0.cancel() }
+            downloadData.forEach { $0.cancel() }
+        }
+    }
+}
+
+fileprivate extension NetworkAdapter {
+
+    func urlFrom(endpoint: String) -> String {
         return "\(serverUri)\(endpoint)"
     }
 
-    fileprivate func formHeaders(_ headers: [String: String]?, authProtected: Bool, completion: @escaping ([String: String]) -> Void) {
-        var headers: [String : String] = headers ?? [:]
-        
+    func formHeaders(_ headers: [String: String]?, authProtected: Bool, completion: @escaping ([String: String]) -> Void) {
+        var headers = SessionManager.defaultHTTPHeaders
         headers["Content-type"] = "application/json"
-
-        // TODO: Add standard user-agents for mobile and iOS 
-        headers["platform"] = "ios"
-
-        // TODO: Send user-agents for platform and OS etc
 
         // The server requires basic authorization header
         // when interacting with test.multigp.com
@@ -99,10 +110,9 @@ class NetworkAdapter {
         completion(headers)
     }
 
-    fileprivate func authorizationHeader() -> String {
+    func authorizationHeader() -> String {
         guard let data = "mgp:TestMe!".data(using: .utf8) else { return "" }
         let credential = data.base64EncodedString(options: [])
         return "Basic \(credential)"
     }
-
 }
