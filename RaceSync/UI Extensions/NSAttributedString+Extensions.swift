@@ -27,7 +27,10 @@ extension NSAttributedString {
         let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
         let htmlString = """
         <head>
-        <style type=\"text/css\"> img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; } </style>
+        <style type=\"text/css\">
+        img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; }
+        a { color: \(Color.red.toHexString()); }
+        </style>
         </head>
         <body> \(html) </body>
         </html>
@@ -82,7 +85,10 @@ extension String {
         let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
         let htmlString = """
         <head>
-        <style type=\"text/css\"> img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; } </style>
+        <style type=\"text/css\">
+        img { max-height: 100%; max-width: \(maxWidth) !important; width: auto; height: auto; }
+        a, a:link, a:visited { color: \(Color.red.toHexString()) !important; }
+        </style>
         </head>
         <body> \(self) </body>
         </html>
