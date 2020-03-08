@@ -51,6 +51,13 @@ extension Joinable {
             raceApi.join(race: race.id, aircraftId: aircraftId) { (status, error) in
                 if status == true {
                     completion(.joined)
+
+                    // when joining a race, we checkin to get a frequency assigned
+                    raceApi.checkIn(race: race.id) { (raceEntry, error) in
+                        if let entry = raceEntry, var raceEntries = race.entries {
+                            raceEntries += [entry]
+                        }
+                    }
                 } else if let error = error {
                     completion(.join)
                     AlertUtil.presentAlertMessage("Couldn't join this race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
