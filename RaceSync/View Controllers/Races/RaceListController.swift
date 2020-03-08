@@ -49,7 +49,6 @@ class RaceListController {
     // MARK: - Private Variables
 
     fileprivate let raceApi = RaceApi()
-
     fileprivate var raceListType: [RaceListType]
     fileprivate var raceList = [RaceListType: [RaceViewModel]]()
 }

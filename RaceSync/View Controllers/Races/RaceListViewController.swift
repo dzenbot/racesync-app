@@ -239,6 +239,11 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
         }
     }
 
+    fileprivate func stopUpdatingLocation() {
+        guard selectedRaceList == .nearby else { return }
+        locationManager.stopUpdatingLocation()
+    }
+
     @objc fileprivate func didPressUserProfileButton() {
         guard let myUser = APIServices.shared.myUser else { return }
 
