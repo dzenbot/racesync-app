@@ -203,12 +203,13 @@ fileprivate extension RaceApi {
             if let lat = latitude { nearbyDict[ParameterKey.latitude] = lat }
             if let long = longitude { nearbyDict[ParameterKey.longitude] = long }
             parameters[ParameterKey.nearBy] = nearbyDict
+            parameters[ParameterKey.upcoming] = [ParameterKey.limit: StandardPageSize]
         } else {
             parameters[ParameterKey.joined] = [ParameterKey.pilotId : userId]
             if filtering == .upcoming {
-                 parameters[ParameterKey.upcoming] = [ParameterKey.limit: 20]
+                 parameters[ParameterKey.upcoming] = [ParameterKey.limit: StandardPageSize]
             } else if filtering == .past {
-                parameters[ParameterKey.past] = [ParameterKey.limit: 20]
+                parameters[ParameterKey.past] = [ParameterKey.limit: StandardPageSize]
             }
         }
 
