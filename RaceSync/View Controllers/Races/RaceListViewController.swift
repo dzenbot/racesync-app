@@ -7,11 +7,11 @@
 //
 
 import UIKit
-import CoreLocation
 import RaceSyncAPI
 import SnapKit
 import ShimmerSwift
 import EmptyDataSet_Swift
+import CoreLocation
 
 class RaceListViewController: UIViewController, Joinable, Shimmable {
 
@@ -131,8 +131,6 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     fileprivate let chapterApi = ChapterApi()
     fileprivate var raceList = [RaceViewModel]()
 
-    fileprivate let locationManager = CLLocationManager()
-    fileprivate var userLocation: CLLocation?
     fileprivate var settingsController = SettingsController()
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
@@ -215,33 +213,26 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(tableView.snp.bottom)
         }
-
-        locationManager.delegate = self
     }
 
     // MARK: - Actions
 
     @objc fileprivate func didChangeSegment() {
-        updateUserLocation()
-        loadRaces()
+
+        let locationManager = LocationManager.shared
+
+        // This should be triggered just once, when first requesting access to the user's location
+        // and display the shimmer while retrieving the location and loading the nearby races.
+        if selectedRaceList == .nearby, !locationManager.didRequestAuthorization {
+            isLoading(true)
+            locationManager.requestsAuthorization { [weak self] (error) in
+                self?.loadRaces()
+            }
+        } else {
+            loadRaces()
+        }
 
         filterButton.isEnabled = (selectedRaceList == .nearby)
-    }
-
-    fileprivate func updateUserLocation() {
-        guard selectedRaceList == .nearby else { return }
-
-        let status = CLLocationManager.authorizationStatus()
-        if status == .authorizedWhenInUse {
-            locationManager.startUpdatingLocation()
-        } else {
-            locationManager.requestWhenInUseAuthorization()
-        }
-    }
-
-    fileprivate func stopUpdatingLocation() {
-        guard selectedRaceList == .nearby else { return }
-        locationManager.stopUpdatingLocation()
     }
 
     @objc fileprivate func didPressUserProfileButton() {
@@ -286,7 +277,6 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     }
 
     @objc fileprivate func didPullRefreshControl() {
-        updateUserLocation()
         loadRaces(forceReload: true)
     }
 
@@ -349,7 +339,7 @@ fileprivate extension RaceListViewController {
             isLoading(true)
         }
 
-        raceListController.raceViewModels(for: selectedRaceList, userLocation: userLocation, forceFetch: forceReload) { [weak self] (viewModels, error) in
+        raceListController.raceViewModels(for: selectedRaceList, forceFetch: forceReload) { [weak self] (viewModels, error) in
             self?.isLoading(false)
 
             if let viewModels = viewModels {
@@ -468,26 +458,5 @@ extension RaceListViewController: EmptyDataSetDelegate {
         } else if selectedRaceList == .nearby {
             didPressFilterButton(button)
         }
-    }
-}
-
-extension RaceListViewController: CLLocationManagerDelegate {
-
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        print("User Location's did dhange Authorization \(status)")
-
-        if status == .authorizedWhenInUse {
-            updateUserLocation()
-        }
-    }
-
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        if let location = locations.first {
-            userLocation = location
-        }
-    }
-
-    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
-        Clog.log("Failed to find user's location: \(error.localizedDescription)", andLevel: .error)
     }
 }

@@ -85,14 +85,12 @@ extension RaceViewModel {
     }
 
     static func distance(for race: Race) -> Double {
-        guard let myUser = APIServices.shared.myUser else { return 0 }
-        guard let userLat =  Double(myUser.latitude), let userLong = Double(myUser.longitude) else { return 0 }
-        guard let raceLat =  Double(race.latitude), let raceLong = Double(race.longitude) else { return 0 }
+        guard let raceLat = Double(race.latitude), let raceLong = Double(race.longitude) else { return 0 }
+        guard let userlocation = userLocation() else { return 0 }
 
         let raceLocation = CLLocation(latitude: raceLat, longitude: raceLong)
-        let userLocation = CLLocation(latitude: userLat, longitude: userLong)
 
-        let distance = raceLocation.distance(from: userLocation)/1000
+        let distance = raceLocation.distance(from: userlocation)/1000
         let lengthUnit = APIServices.shared.settings.lengthUnit
 
         if lengthUnit == .miles {
@@ -109,6 +107,18 @@ extension RaceViewModel {
         let lengthUnit = APIServices.shared.settings.lengthUnit
 
         return "\(string) \(lengthUnit.symbol)"
+    }
+
+    fileprivate static func userLocation() -> CLLocation? {
+        guard let myUser = APIServices.shared.myUser else { return nil }
+
+        if let location = LocationManager.shared.location {
+            return location
+        } else if let lat = Double(myUser.latitude), let long = Double(myUser.longitude) {
+            return CLLocation(latitude: lat, longitude: long)
+        } else {
+            return nil
+        }
     }
 }
 

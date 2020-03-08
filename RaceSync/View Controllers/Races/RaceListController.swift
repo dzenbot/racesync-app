@@ -35,12 +35,12 @@ class RaceListController {
         return raceList[listType] == nil
     }
 
-    func raceViewModels(for listType: RaceListType, userLocation: CLLocation?, forceFetch: Bool = false, completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+    func raceViewModels(for listType: RaceListType, forceFetch: Bool = false, completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
         switch listType {
         case .joined:
             getJoinedRaces(forceFetch, completion)
         case .nearby:
-            getNearbydRaces(userLocation, forceFetch, completion)
+            getNearbydRaces(forceFetch, completion)
         default:
             return
         }
@@ -79,12 +79,12 @@ fileprivate extension RaceListController {
         }
     }
 
-    func getNearbydRaces(_ userLocation: CLLocation?, _ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+    func getNearbydRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
         if let viewModels = raceList[.nearby], !forceFetch {
             completion(viewModels, nil)
         }
 
-        let coordinate = userLocation?.coordinate
+        let coordinate = LocationManager.shared.location?.coordinate
         let lat = coordinate?.latitude.string
         let long = coordinate?.longitude.string
 
