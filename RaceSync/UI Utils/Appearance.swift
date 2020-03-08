@@ -71,9 +71,9 @@ fileprivate extension Appearance {
     }
 
     static func configureTabBarAppearance() {
-        let foregroundColor = Color.blue
+        let foregroundColor = Color.red
         let backgroundColor = Color.navigationBarColor
-        let unselectedItemTintColor = Color.gray200
+        let unselectedItemTintColor = Color.gray300
         let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
 
         // set the color and font for the title

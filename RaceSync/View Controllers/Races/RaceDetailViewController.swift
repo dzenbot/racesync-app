@@ -261,7 +261,7 @@ class RaceDetailViewController: UIViewController, Joinable {
     fileprivate func setupLayout() {
 
         title = "Race Details"
-        tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tab_details"), tag: 0)
+        tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tab_details"), selectedImage: UIImage(named: "icn_tab_details_selected"))
 
         view.backgroundColor = Color.white
 
