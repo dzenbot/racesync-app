@@ -37,9 +37,7 @@ class RaceTabBarController: UITabBarController {
     let isResultsTabEnabled: Bool = false
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
-        view.hidesWhenStopped = true
-        return view
+        return UIActivityIndicatorView(style: .whiteLarge)
     }()
 
     fileprivate var initialSelectedIndex: Int = RaceTabs.event.rawValue
