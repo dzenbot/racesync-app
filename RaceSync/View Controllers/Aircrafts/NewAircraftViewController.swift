@@ -294,10 +294,13 @@ extension NewAircraftViewController: FormViewControllerDelegate {
 
     func formViewController(_ viewController: FormViewController, enableSelectionWithItem item: String) -> Bool {
         guard let currentRow = selectedRow else { return false }
-        guard item.count >= Aircraft.nameMinLength else { return false }
-        guard item.count < Aircraft.nameMaxLength else { return false }
 
-        if currentRow.isAircraftSpecRequired {
+        if viewController is TextFieldViewController {
+            guard item.count >= Aircraft.nameMinLength else { return false }
+            guard item.count < Aircraft.nameMaxLength else { return false }
+        }
+
+        if !isFormEnabled && currentRow.isAircraftSpecRequired {
             return !item.isEmpty
         }
 

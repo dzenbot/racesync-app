@@ -57,7 +57,6 @@ class PickerViewController: FormViewController {
     fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
         let title = self.delegate?.formViewControllerRightBarButtonTitle?(self) ?? "OK"
         let barButtonItem = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(didPressOKButton))
-        barButtonItem.isEnabled = false
         return barButtonItem
     }()
 
@@ -100,12 +99,6 @@ class PickerViewController: FormViewController {
 
         view.backgroundColor = Color.white
 
-        if let nc = navigationController, nc.viewControllers.count == 1 {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-        }
-
-        navigationItem.rightBarButtonItem = rightBarButtonItem
-
         view.addSubview(pickerView)
         pickerView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
@@ -117,6 +110,17 @@ class PickerViewController: FormViewController {
         } else if let defaultItem = defaultItem, let index = items.firstIndex(of: defaultItem) {
             pickerView.selectRow(index, animated: false)
         }
+
+        configureButtonBarItems()
+    }
+
+    func configureButtonBarItems() {
+        if let nc = navigationController, nc.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        }
+
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+        navigationItem.rightBarButtonItem?.isEnabled = delegate?.formViewController?(self, enableSelectionWithItem: selectedItem ?? "") ?? false
     }
 
     // MARK: - Actions
@@ -156,7 +160,8 @@ extension PickerViewController: PickerViewDelegate {
     func pickerView(_ pickerView: PickerView, didSelectRow row: Int) {
         let item = items[row]
 
-        navigationItem.rightBarButtonItem?.isEnabled = item != selectedItem
+        let enabled = delegate?.formViewController?(self, enableSelectionWithItem: selectedItem ?? "") ?? (item != selectedItem)
+        navigationItem.rightBarButtonItem?.isEnabled = enabled
     }
 
     func pickerView(_ pickerView: PickerView, didTapRow row: Int) {
