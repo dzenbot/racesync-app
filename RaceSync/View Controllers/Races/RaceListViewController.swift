@@ -223,6 +223,7 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
         // This should be triggered just once, when first requesting access to the user's location
         // and display the shimmer while retrieving the location and loading the nearby races.
+        let locationManager = LocationManager.shared
         if selectedRaceList == .nearby, !locationManager.didRequestAuthorization {
             isLoading(true)
             locationManager.requestsAuthorization { [weak self] (error) in
@@ -335,21 +336,25 @@ fileprivate extension RaceListViewController {
     }
 
     @objc func loadRaces(forceReload: Bool = false) {
-        if raceListController.shouldShowShimmer(for: selectedRaceList) {
+        let selectedList = selectedRaceList
+
+        if raceListController.shouldShowShimmer(for: selectedList) {
             isLoading(true)
         }
 
-        raceListController.raceViewModels(for: selectedRaceList, forceFetch: forceReload) { [weak self] (viewModels, error) in
-            self?.isLoading(false)
+        raceListController.raceViewModels(for: selectedList, forceFetch: forceReload) { [weak self] (viewModels, error) in
+            guard let strongSelf = self else { return }
 
-            if let viewModels = viewModels {
-                self?.raceList = viewModels
+            strongSelf.isLoading(false)
 
-                if self?.refreshControl.isRefreshing ?? false {
-                    self?.refreshControl.endRefreshing()
+            if let viewModels = viewModels, selectedList == strongSelf.selectedRaceList {
+                strongSelf.raceList = viewModels
+
+                if strongSelf.refreshControl.isRefreshing {
+                    strongSelf.refreshControl.endRefreshing()
                 }
 
-                self?.tableView.reloadData()
+                strongSelf.tableView.reloadData()
             } else {
                 print("getMyRaces error : \(error.debugDescription)")
             }
