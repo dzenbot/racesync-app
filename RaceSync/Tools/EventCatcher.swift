@@ -11,6 +11,8 @@ import RaceSyncAPI
 
 class EventCatcher {
 
+    static let showLogs: Bool = false
+
     static func configure() {
         guard let gai = GAI.sharedInstance() else {
           assert(false, "Google Analytics not configured correctly")
@@ -23,7 +25,9 @@ class EventCatcher {
         // Optional: set Logger to VERBOSE for debug information.
         // Remove before app release.
         #if DEBUG
-        gai.logger.logLevel = .verbose
+        if showLogs {
+            gai.logger.logLevel = .verbose
+        }
         #endif
     }
 
