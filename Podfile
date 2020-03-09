@@ -16,6 +16,9 @@ target 'RaceSync' do
   pod 'TUSafariActivity', '~> 1.0'
   pod "PickerView"
 
+  # Analytics
+  pod 'GoogleAnalytics'
+
   target 'RaceSyncTests' do
     inherit! :search_paths
   end

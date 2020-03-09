@@ -8,6 +8,7 @@ PODS:
     - Alamofire (~> 4.7)
     - ObjectMapper (~> 3.4)
   - EmptyDataSet-Swift (5.0.0)
+  - GoogleAnalytics (3.17.0)
   - ObjectMapper (3.5.1)
   - PickerView (0.4.0)
   - Presentr (1.9)
@@ -29,6 +30,7 @@ DEPENDENCIES:
   - AlamofireNetworkActivityIndicator (~> 2.4.0)
   - AlamofireObjectMapper (~> 5.2.1)
   - EmptyDataSet-Swift
+  - GoogleAnalytics
   - ObjectMapper
   - PickerView
   - Presentr
@@ -49,6 +51,7 @@ SPEC REPOS:
     - AlamofireNetworkActivityIndicator
     - AlamofireObjectMapper
     - EmptyDataSet-Swift
+    - GoogleAnalytics
     - ObjectMapper
     - PickerView
     - Presentr
@@ -76,6 +79,7 @@ SPEC CHECKSUMS:
   AlamofireNetworkActivityIndicator: 9acc3de3ca6645bf0efed462396b0df13dd3e7b8
   AlamofireObjectMapper: 1989f690e982b71921b9253f53a4f33a9bc00d88
   EmptyDataSet-Swift: eb382c0c87a2d9c678077385a595cec52da38171
+  GoogleAnalytics: f42cc53a87a51fe94334821868d9c8481ff47a7b
   ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
   PickerView: a736ea986d992aa3ef32423f475fdf3f3a0cf7d4
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
@@ -89,6 +93,6 @@ SPEC CHECKSUMS:
   TUSafariActivity: afc55a00965377939107ce4fdc7f951f62454546
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: 8a1c202660cc3bbcbbbcc1d64b859cf70603e60b
+PODFILE CHECKSUM: 456a41433a37c982b815dbc48688d6fc24fd2398
 
 COCOAPODS: 1.8.4
