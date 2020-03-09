@@ -255,7 +255,6 @@ fileprivate extension UserViewController {
     }
 
     func fetchChapters(_ completion: VoidCompletionBlock? = nil) {
-
         chapterApi.getChapters(forUser: user.id) { (chapters, error) in
             if let chapters = chapters {
                 self.chapterViewModels = ChapterViewModel.viewModels(with: chapters)
