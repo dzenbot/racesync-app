@@ -16,7 +16,7 @@ protocol AircraftDetailViewControllerDelegate {
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didRetireAircraft aircraftId: ObjectId)
 }
 
-class AircraftDetailViewController: UIViewController {
+class AircraftDetailViewController: ViewController {
 
     // MARK: - Public Variables
 
@@ -61,7 +61,7 @@ class AircraftDetailViewController: UIViewController {
     }
 
     fileprivate var aircraftViewModel: AircraftViewModel {
-        didSet { navigationItem.title = aircraftViewModel.displayName }
+        didSet { title = aircraftViewModel.displayName }
     }
     fileprivate let aircraftApi = AircraftAPI()
     fileprivate var selectedRow: AircraftRow?
@@ -107,7 +107,7 @@ class AircraftDetailViewController: UIViewController {
     func setupLayout() {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
-        navigationItem.title = aircraftViewModel.displayName
+        title = aircraftViewModel.displayName
         view.backgroundColor = Color.white
 
         if isEditable {

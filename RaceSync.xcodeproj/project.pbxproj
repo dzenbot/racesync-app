@@ -149,6 +149,8 @@
 		4FE490F223A4725D0008C38D /* RaceHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE490F123A4725D0008C38D /* RaceHeaderView.swift */; };
 		4FE490F423A4A0B00008C38D /* RaceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE490F323A4A0B00008C38D /* RaceEntryViewModel.swift */; };
 		4FEADB7224147D2D00F82F0D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB7124147D2D00F82F0D /* LocationManager.swift */; };
+		4FEADB742416B3D400F82F0D /* EventCatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB732416B3D400F82F0D /* EventCatcher.swift */; };
+		4FEADB782416BC4500F82F0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB772416BC4500F82F0D /* ViewController.swift */; };
 		4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27523A1F9DA007514B4 /* UITabBarController+Extensions.swift */; };
 		4FEBB27823A2023A007514B4 /* RaceEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27723A2023A007514B4 /* RaceEntry.swift */; };
 		4FEBB27A23A2DAFF007514B4 /* DescriptableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27923A2DAFF007514B4 /* DescriptableTests.swift */; };
@@ -358,6 +360,8 @@
 		4FE490F123A4725D0008C38D /* RaceHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceHeaderView.swift; sourceTree = "<group>"; };
 		4FE490F323A4A0B00008C38D /* RaceEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEntryViewModel.swift; sourceTree = "<group>"; };
 		4FEADB7124147D2D00F82F0D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		4FEADB732416B3D400F82F0D /* EventCatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCatcher.swift; sourceTree = "<group>"; };
+		4FEADB772416BC4500F82F0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4FEBB27523A1F9DA007514B4 /* UITabBarController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extensions.swift"; sourceTree = "<group>"; };
 		4FEBB27723A2023A007514B4 /* RaceEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEntry.swift; sourceTree = "<group>"; };
 		4FEBB27923A2DAFF007514B4 /* DescriptableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptableTests.swift; sourceTree = "<group>"; };
@@ -588,6 +592,7 @@
 			children = (
 				4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */,
 				4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */,
+				4FEADB732416B3D400F82F0D /* EventCatcher.swift */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -727,6 +732,8 @@
 		4FD4E1E52381E8C6008816B3 /* UI Components */ = {
 			isa = PBXGroup;
 			children = (
+				4F9DB7B123D68EB100570483 /* NavigationController.swift */,
+				4FEADB772416BC4500F82F0D /* ViewController.swift */,
 				4F0B61442385F66300930D91 /* ProfileHeaderView.swift */,
 				4FE490F123A4725D0008C38D /* RaceHeaderView.swift */,
 				4FD53FB223A0E9B700158206 /* AvatarImageView.swift */,
@@ -738,12 +745,11 @@
 				4F0B613B238528C300930D91 /* PasteboardLabel.swift */,
 				4F5C1E44238D1BD200D756EB /* PasteboardButton.swift */,
 				4F5C1E46238D1C3200D756EB /* TextCopiable.swift */,
-				4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */,
 				4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */,
+				4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */,
 				4F8376DB23EE87CC00256AEC /* RotatingIconView.swift */,
 				4F714DE023CD4906000C4036 /* CalendarActivity.swift */,
 				4F714DE223CD5EAA000C4036 /* SafariActivity.swift */,
-				4F9DB7B123D68EB100570483 /* NavigationController.swift */,
 				4F3D640E23FC65F700DE6DF2 /* PickerViewController.swift */,
 				4F3D641023FE664A00DE6DF2 /* TextFieldViewController.swift */,
 				4F6429132403AE9A005E8036 /* FormViewController.swift */,
@@ -1121,6 +1127,7 @@
 				4F3D640F23FC65F700DE6DF2 /* PickerViewController.swift in Sources */,
 				4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */,
 				4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */,
+				4FEADB742416B3D400F82F0D /* EventCatcher.swift in Sources */,
 				4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */,
 				4F9DB7B523D6BAC200570483 /* CrashCatcher.swift in Sources */,
 				4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */,
@@ -1156,6 +1163,7 @@
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
 				4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */,
+				4FEADB782416BC4500F82F0D /* ViewController.swift in Sources */,
 				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
 				4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */,
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,

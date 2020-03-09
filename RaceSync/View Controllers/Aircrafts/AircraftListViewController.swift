@@ -11,7 +11,7 @@ import SnapKit
 import RaceSyncAPI
 import EmptyDataSet_Swift
 
-class AircraftListViewController: UIViewController {
+class AircraftListViewController: ViewController {
 
     // MARK: - Public Variables
 
@@ -105,8 +105,8 @@ class AircraftListViewController: UIViewController {
 
     func setupLayout() {
 
+        title = user.isMe ? "My Aircrafts" : "Aircrafts"
         view.backgroundColor = Color.white
-        navigationItem.title = user.isMe ? "My Aircrafts" : "Aircrafts"
 
         if canAddAircraft {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressCreateButton))

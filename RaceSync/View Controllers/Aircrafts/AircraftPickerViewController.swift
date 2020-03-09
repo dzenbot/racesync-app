@@ -17,7 +17,7 @@ protocol AircraftPickerViewControllerDelegate {
     func aircraftPickerViewControllerDidDismiss(_ viewController: AircraftPickerViewController)
 }
 
-class AircraftPickerViewController: UIViewController {
+class AircraftPickerViewController: ViewController {
 
     // MARK: - Public Variables
 
@@ -110,9 +110,9 @@ class AircraftPickerViewController: UIViewController {
 
     func setupLayout() {
 
+        title = Constants.title
         view.backgroundColor = Color.white
 
-        navigationItem.title = Constants.title
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.rightBarButtonItem = rightBarButtonItem
 

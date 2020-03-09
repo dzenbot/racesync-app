@@ -12,7 +12,7 @@ import SnapKit
 import SwiftValidators
 import RaceSyncAPI
 
-class LoginViewController: UIViewController {
+class LoginViewController: ViewController {
 
     // MARK: - Private Variables
 
@@ -190,6 +190,8 @@ class LoginViewController: UIViewController {
     // MARK: - Layout
 
     func setupLayout() {
+
+        title = "Login"
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         view.addGestureRecognizer(tapGestureRecognizer)

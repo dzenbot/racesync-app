@@ -14,7 +14,7 @@ enum ProfileSegment: Int {
     case left, right
 }
 
-class ProfileViewController: UIViewController, Shimmable {
+class ProfileViewController: ViewController, Shimmable {
 
     // MARK: - Public Variables
 
@@ -100,8 +100,8 @@ class ProfileViewController: UIViewController, Shimmable {
     // MARK: - Layout
 
     open func setupLayout() {
+        title = profileViewModel.title
         view.backgroundColor = Color.white
-        navigationItem.title = profileViewModel.title
 
         headerView.topLayoutInset = topOffset
         headerView.viewModel = profileViewModel

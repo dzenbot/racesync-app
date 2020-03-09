@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import RaceSyncAPI
 
-class RaceMapViewController: UIViewController {
+class RaceMapViewController: ViewController {
 
     // MARK: - Private Variables
 

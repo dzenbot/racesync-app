@@ -13,7 +13,7 @@ import ShimmerSwift
 import EmptyDataSet_Swift
 import CoreLocation
 
-class RaceListViewController: UIViewController, Joinable, Shimmable {
+class RaceListViewController: ViewController, Joinable, Shimmable {
 
     // MARK: - Feature Flags
     fileprivate var shouldShowSearchButton: Bool = false
@@ -179,8 +179,10 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
 
     fileprivate func setupLayout() {
 
+        title = "Race List"
         navigationItem.titleView = titleView
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userProfileButton)
+        viewName = selectedRaceList.title
 
         if shouldShowSearchButton {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_search"), style: .done, target: self, action: #selector(didPressSearchButton))
@@ -220,6 +222,10 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     @objc fileprivate func didChangeSegment() {
         // Cancelling previous race API requests to avoid overlaps
         raceApi.cancelAll()
+
+        // analytics
+        viewName = selectedRaceList.title
+        trackScreenChange()
 
         // This should be triggered just once, when first requesting access to the user's location
         // and display the shimmer while retrieving the location and loading the nearby races.

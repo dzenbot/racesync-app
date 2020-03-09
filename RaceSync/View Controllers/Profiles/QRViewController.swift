@@ -12,7 +12,7 @@ import SnapKit
 import QRCode
 import PassKit
 
-class QRViewController: UIViewController {
+class QRViewController: ViewController {
 
     // MARK: - Feature Flags
     fileprivate var isPassKitEnabled: Bool = false
@@ -109,6 +109,8 @@ class QRViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        title = "QR Code"
 
         view.backgroundColor = Color.black.withAlphaComponent(0.7)
 

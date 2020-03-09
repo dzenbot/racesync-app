@@ -12,7 +12,7 @@ enum LeaderboardType {
     case open, mega
 }
 
-class LeaderboardViewController: UIViewController {
+class LeaderboardViewController: ViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

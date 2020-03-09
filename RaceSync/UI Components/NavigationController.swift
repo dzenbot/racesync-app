@@ -10,10 +10,7 @@ import UIKit
 
 class NavigationController: UINavigationController {
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-    }
-
+    // Override used for removing the back buttom's label
     override func pushViewController(_ viewController: UIViewController, animated: Bool) {
         viewController.navigationItem.backBarButtonItem = UIBarButtonItem()
         visibleViewController?.navigationItem.backBarButtonItem = UIBarButtonItem()

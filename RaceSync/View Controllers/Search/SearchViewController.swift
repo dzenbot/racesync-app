@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: UIViewController {
+class SearchViewController: ViewController {
 
     // MARK: - Private Variables
 
