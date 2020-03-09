@@ -15,7 +15,8 @@ class EventCatcher {
 
     static func configure() {
         guard let gai = GAI.sharedInstance() else {
-          assert(false, "Google Analytics not configured correctly")
+            Clog.log("Google Analytics not configured correctly")
+            return
         }
         
         gai.tracker(withTrackingId: "224684788")
