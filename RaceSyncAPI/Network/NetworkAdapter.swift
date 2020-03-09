@@ -75,13 +75,18 @@ class NetworkAdapter {
         }
     }
 
-    func httpCancelRequests() {
+    func httpCancelRequests(with endpoint: String) {
         self.sessionManager.session.getTasksWithCompletionHandler { (sessionDataTask, _, _) in
-            sessionDataTask.forEach { $0.cancel() }
+            sessionDataTask.forEach {
+                if let request = $0.currentRequest, let url = request.url {
+                    if url.absoluteString.contains(endpoint) {
+                    }
+                }
+            }
         }
     }
 
-    func httpCancelAll() {
+    func httpCancelAllRequests() {
         self.sessionManager.session.getTasksWithCompletionHandler { (sessionDataTask, uploadData, downloadData) in
             sessionDataTask.forEach { $0.cancel() }
             uploadData.forEach { $0.cancel() }

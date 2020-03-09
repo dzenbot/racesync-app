@@ -218,8 +218,8 @@ class RaceListViewController: UIViewController, Joinable, Shimmable {
     // MARK: - Actions
 
     @objc fileprivate func didChangeSegment() {
-
-        let locationManager = LocationManager.shared
+        // Cancelling previous race API requests to avoid overlaps
+        raceApi.cancelAll()
 
         // This should be triggered just once, when first requesting access to the user's location
         // and display the shimmer while retrieving the location and loading the nearby races.

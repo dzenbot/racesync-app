@@ -87,6 +87,10 @@ public protocol RaceApiInterface {
     /**
     */
     func checkOut(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<RaceEntry>)
+
+    /**
+    */
+    func cancelAll()
 }
 
 public class RaceApi: RaceApiInterface {
@@ -179,6 +183,10 @@ public class RaceApi: RaceApiInterface {
 
         let endpoint = "\(EndPoint.raceCheckOut)?\(ParameterKey.id)=\(raceId)"
         repositoryAdapter.getObject(endpoint, type: RaceEntry.self, completion)
+    }
+
+    public func cancelAll() {
+        repositoryAdapter.networkAdapter.httpCancelRequests(with: "race/")
     }
 }
 
