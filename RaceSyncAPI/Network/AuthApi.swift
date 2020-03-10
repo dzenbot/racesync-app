@@ -46,9 +46,9 @@ public class AuthApi {
         ]
 
         repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters, nestParameters: false) { (request) in
-            Clog.log("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
+            Clog.log("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseJSON(completionHandler: { (response) in
-                Clog.log("+ Ended request with code \(String(describing: response.response?.statusCode))")
+                Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
 
                 switch response.result {
                 case .success(let value):
@@ -72,9 +72,9 @@ public class AuthApi {
         let endpoint = EndPoint.userLogout
 
         repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post) { (request) in
-            Clog.log("+ Starting request \(String(describing: request.request?.url)))")
+            Clog.log("Starting request \(String(describing: request.request?.url)))")
             request.responseJSON(completionHandler: { (response) in
-                Clog.log("+ Ended request with code \(String(describing: response.response?.statusCode))")
+                Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
 
                 switch response.result {
                 case .success(let value):

@@ -17,9 +17,9 @@ class RepositoryAdapter {
     func getObject<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, type: Element.Type, keyPath: String = ParameterKey.data, _ completion: @escaping ObjectCompletionBlock<Element>) {
         
         networkAdapter.httpRequest(endPoint, method: .post, parameters: parameters) { (request) in
-            Clog.log("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
+            Clog.log("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseObject(keyPath: keyPath, completionHandler: { (response: DataResponse<Element>) in
-                Clog.log("+ Ended request with code \(String(describing: response.response?.statusCode))")
+                Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
 
                 switch response.result {
                 case .success(let value):
@@ -48,7 +48,7 @@ class RepositoryAdapter {
         }
 
         networkAdapter.httpRequest(finalEndpoint, method: .post, parameters: parameters) { (request) in
-            Clog.log("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
+            Clog.log("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseArray(keyPath: keyPath, completionHandler: { (response: DataResponse<[Element]>) in
                 var log: String = "+ Ended request with code \(String(describing: response.response?.statusCode)) "
 
@@ -86,9 +86,9 @@ class RepositoryAdapter {
 
     func performAction(_ endPoint: String, parameters: Parameters? = nil, completion: @escaping StatusCompletionBlock) {
         networkAdapter.httpRequest(endPoint,  method: .post, parameters: parameters) { (request) in
-            Clog.log("+ Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
+            Clog.log("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseJSON { (response) in
-                Clog.log("+ Ended request with code \(String(describing: response.response?.statusCode))")
+                Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
 
                 switch response.result {
                 case .success(let value):
