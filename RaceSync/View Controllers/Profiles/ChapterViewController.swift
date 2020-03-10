@@ -162,9 +162,13 @@ fileprivate extension ChapterViewController {
 
     @objc func didPressJoinButton(_ sender: JoinButton) {
         guard let raceId = sender.raceId, let race = raceViewModels.race(withId: raceId) else { return }
+        let joinState = sender.joinState
 
-        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { (newState) in
-            // Do something
+        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
+            if joinState != newState {
+                // reload races to reflect race changes, specially join counts
+                self?.fetchRaces(nil)
+            }
         }
     }
 

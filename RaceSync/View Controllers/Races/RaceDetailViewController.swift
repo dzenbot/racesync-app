@@ -449,11 +449,10 @@ class RaceDetailViewController: ViewController, Joinable {
     }
 
     @objc func didPressJoinButton(_ sender: JoinButton) {
-        let currentState = sender.joinState
+        let joinState = sender.joinState
 
         toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { [weak self] (newState) in
-
-            if currentState != newState {
+            if joinState != newState {
                 self?.race.isJoined = (newState == .joined)
                 self?.reloadRaceView()
             }
