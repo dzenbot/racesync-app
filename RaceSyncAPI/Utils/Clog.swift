@@ -18,9 +18,7 @@ public class Clog : NSObject {
     public class func log(_ message: String, andLevel level: ClogLevel = .debug) {
         SentryLog.log(withMessage: message, andLevel: level.sentryLog)
 
-        #if DEBUG
         print("\(message)")
-        #endif
     }
 }
 
