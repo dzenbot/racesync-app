@@ -20,7 +20,9 @@ public class APIServices {
     public var myUser: User? {
         didSet {
             // Override useful for debugging a specific user's issue
-            // myUser?.id = "8062"
+//            myUser?.id = "8062"
+//            myUser?.latitude = "37.3290122"
+//            myUser?.longitude = "-121.9160211"
 
             Clog.log("Did set my User with id: \(String(describing: myUser?.id))")
         }
