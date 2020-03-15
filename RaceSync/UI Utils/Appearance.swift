@@ -109,11 +109,4 @@ fileprivate extension Appearance {
         appearance.color = Color.gray300
         appearance.hidesWhenStopped = true
     }
-
-    static func configureImageCache() {
-        // Disabling the image cache for now, to by pass an issue where images being later fetched from disk
-        // are not correctly scaled down to the device scale. This is causing them to blow out on the layout.
-        // TODO: Investigate and find a fix, or else, switch away from the AlamoFireImage lib
-//        UIImageView.af_sharedImageDownloader = ImageDownloader(imageCache: nil)xr
-    }
 }
