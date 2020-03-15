@@ -125,7 +125,8 @@ fileprivate extension ChapterViewController {
                     return race.childRaceCount == nil
                 })
 
-                self.raceViewModels = RaceViewModel.viewModels(with: childRaces)
+                let sortedRaces = childRaces.sorted(by: { $0.startDate?.compare($1.startDate ?? Date()) == .orderedDescending })
+                self.raceViewModels = RaceViewModel.viewModels(with: sortedRaces)
                 self.tableView.reloadData()
             } else {
                 Clog.log("getMyRaces error : \(error.debugDescription)")
