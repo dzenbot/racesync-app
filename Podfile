@@ -40,13 +40,13 @@ target 'RaceSyncAPI' do
     
     # Data
 #    pod 'RealmSwift', '3.10.0'
-#    pod 'RxRealm', '0.7.5'
 #    pod 'ObjectMapper+Realm', '0.6'
 
     # Rx
 #    pod 'RxSwift', '4.3.1'
 #    pod 'RxCocoa', '4.3.1'
 #    pod 'RxDataSources', '3.1.0'
+#    pod 'RxRealm', '0.7.5'
 
     # Dev Tools
     pod 'SwiftLint'
