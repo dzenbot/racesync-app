@@ -30,8 +30,7 @@ class ErrorUtil {
 
         if let status = status, status == false, let description = description, let httpStatus = httpStatus {
             return NSError(domain: "Error", code: httpStatus, userInfo: [NSLocalizedDescriptionKey : description])
-        }
-        else if let status = status, status == false {
+        } else if let status = status, status == false {
             return undefinedError
         } else if let apiError = ApiError.from(JSON: value) {
             return formError(apiError)
