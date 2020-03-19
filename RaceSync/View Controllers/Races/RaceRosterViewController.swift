@@ -96,28 +96,28 @@ class RaceRosterViewController: ViewController, Joinable {
 
     fileprivate func populateData() {
         guard let myUser = APIServices.shared.myUser else { return }
+        guard let entries = race.entries else { return }
 
-        myRaceEntry = race.entries?.filter({ (raceEntry) -> Bool in
-            return raceEntry.pilotId == myUser.id
+        myRaceEntry = entries.filter({ (raceEntry) -> Bool in
+            return raceEntry.pilotId == myUser.id && entries.count > 1
             }).first
 
         if let myRaceEntry = myRaceEntry, !myRaceEntry.frequency.isEmpty {
-            if let commonRaceEntries = race.entries?.filter({ (raceEntry) -> Bool in
-                return myRaceEntry.frequency == raceEntry.frequency && myRaceEntry.pilotId != raceEntry.pilotId
-            }) {
-                commonUserViewModels = UserViewModel.viewModels(with: commonRaceEntries)
-            }
-            if let otherRaceEntries = race.entries?.filter({ (raceEntry) -> Bool in
-                return myRaceEntry.frequency != raceEntry.frequency && myRaceEntry.pilotId != raceEntry.pilotId
-            }) {
-                otherUserViewModels = UserViewModel.viewModels(with: otherRaceEntries)
-            }
 
+            let commonRaceEntries = entries.filter({ (raceEntry) -> Bool in
+                return myRaceEntry.frequency == raceEntry.frequency && myRaceEntry.pilotId != raceEntry.pilotId
+            })
+            let otherRaceEntries = entries.filter({ (raceEntry) -> Bool in
+                return myRaceEntry.frequency != raceEntry.frequency && myRaceEntry.pilotId != raceEntry.pilotId
+            })
+
+            commonUserViewModels = UserViewModel.viewModels(with: commonRaceEntries)
+            otherUserViewModels = UserViewModel.viewModels(with: otherRaceEntries)
             headerView.viewModel = RaceEntryViewModel(with: myRaceEntry)
             tableView.tableHeaderView = headerView
 
-        } else if let allRaceEntries = race.entries {
-            otherUserViewModels = UserViewModel.viewModels(with: allRaceEntries)
+        } else {
+            otherUserViewModels = UserViewModel.viewModels(with: entries)
         }
 
         tableView.reloadData()
