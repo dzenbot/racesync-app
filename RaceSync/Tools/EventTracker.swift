@@ -9,7 +9,7 @@
 import Foundation
 import RaceSyncAPI
 
-class EventCatcher {
+class EventTracker {
 
     static func configure() {
         configureAnalytics()
@@ -18,11 +18,11 @@ class EventCatcher {
 
     // MARK: - Analytics
 
+    fileprivate static let isAnalyticsEnabled: Bool = false
     fileprivate static let showLogs: Bool = true
 
     fileprivate static func configureAnalytics() {
-        guard let gai = GAI.sharedInstance() else {
-            Clog.log("Google Analytics not configured correctly")
+        guard isAnalyticsEnabled, let gai = GAI.sharedInstance() else {
             return
         }
 

@@ -19,9 +19,9 @@ class ViewController: UIViewController {
 
     func trackScreenChange() {
         if let name = viewName {
-            EventCatcher.trackScreenView(withName: name)
+            EventTracker.trackScreenView(withName: name)
         } else if let name = title {
-            EventCatcher.trackScreenView(withName: name)
+            EventTracker.trackScreenView(withName: name)
         }
     }
 }

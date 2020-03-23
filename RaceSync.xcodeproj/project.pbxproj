@@ -156,7 +156,7 @@
 		4FE490F223A4725D0008C38D /* RaceHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE490F123A4725D0008C38D /* RaceHeaderView.swift */; };
 		4FE490F423A4A0B00008C38D /* RaceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE490F323A4A0B00008C38D /* RaceEntryViewModel.swift */; };
 		4FEADB7224147D2D00F82F0D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB7124147D2D00F82F0D /* LocationManager.swift */; };
-		4FEADB742416B3D400F82F0D /* EventCatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB732416B3D400F82F0D /* EventCatcher.swift */; };
+		4FEADB742416B3D400F82F0D /* EventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB732416B3D400F82F0D /* EventTracker.swift */; };
 		4FEADB782416BC4500F82F0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB772416BC4500F82F0D /* ViewController.swift */; };
 		4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27523A1F9DA007514B4 /* UITabBarController+Extensions.swift */; };
 		4FEBB27823A2023A007514B4 /* RaceEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27723A2023A007514B4 /* RaceEntry.swift */; };
@@ -374,7 +374,7 @@
 		4FE490F123A4725D0008C38D /* RaceHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceHeaderView.swift; sourceTree = "<group>"; };
 		4FE490F323A4A0B00008C38D /* RaceEntryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEntryViewModel.swift; sourceTree = "<group>"; };
 		4FEADB7124147D2D00F82F0D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
-		4FEADB732416B3D400F82F0D /* EventCatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventCatcher.swift; sourceTree = "<group>"; };
+		4FEADB732416B3D400F82F0D /* EventTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTracker.swift; sourceTree = "<group>"; };
 		4FEADB772416BC4500F82F0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4FEBB27523A1F9DA007514B4 /* UITabBarController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extensions.swift"; sourceTree = "<group>"; };
 		4FEBB27723A2023A007514B4 /* RaceEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEntry.swift; sourceTree = "<group>"; };
@@ -616,7 +616,7 @@
 			children = (
 				4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */,
 				4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */,
-				4FEADB732416B3D400F82F0D /* EventCatcher.swift */,
+				4FEADB732416B3D400F82F0D /* EventTracker.swift */,
 				4F00E065242930B3001DCFC4 /* RateMe */,
 			);
 			path = Tools;
@@ -1159,7 +1159,7 @@
 				4F3D640F23FC65F700DE6DF2 /* PickerViewController.swift in Sources */,
 				4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */,
 				4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */,
-				4FEADB742416B3D400F82F0D /* EventCatcher.swift in Sources */,
+				4FEADB742416B3D400F82F0D /* EventTracker.swift in Sources */,
 				4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */,
 				4F9DB7B523D6BAC200570483 /* CrashCatcher.swift in Sources */,
 				4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */,
