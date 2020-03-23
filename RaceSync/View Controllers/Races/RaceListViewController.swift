@@ -13,7 +13,7 @@ import ShimmerSwift
 import EmptyDataSet_Swift
 import CoreLocation
 
-class RaceListViewController: ViewController, Joinable, Shimmable {
+class RaceListViewController: ViewController, ViewJoinable, Shimmable {
 
     // MARK: - Feature Flags
     fileprivate var shouldShowSearchButton: Bool = false
@@ -272,7 +272,7 @@ class RaceListViewController: ViewController, Joinable, Shimmable {
     }
 
     @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
-        guard let raceId = sender.raceId, let race = raceList.race(withId: raceId) else { return }
+        guard let objectId = sender.objectId, let race = raceList.race(withId: objectId) else { return }
         let joinState = sender.joinState
 
         toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
@@ -401,7 +401,8 @@ extension RaceListViewController: UITableViewDataSource {
 
         cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
-        cell.joinButton.raceId = viewModel.race.id
+        cell.joinButton.type = .race
+        cell.joinButton.objectId = viewModel.race.id
         cell.joinButton.joinState = viewModel.joinState
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.memberBadgeView.count = viewModel.participantCount

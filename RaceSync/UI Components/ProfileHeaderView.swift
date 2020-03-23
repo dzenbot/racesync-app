@@ -95,7 +95,7 @@ class ProfileHeaderView: UIView {
         stackView.axis = .vertical
         stackView.distribution = .fill
         stackView.alignment = .leading
-        stackView.spacing = Constants.padding
+        stackView.spacing = Constants.padding*1.5
         return stackView
     }()
 

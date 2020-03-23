@@ -10,7 +10,17 @@ import UIKit
 import MapKit
 import RaceSyncAPI
 
-class RaceMapViewController: ViewController {
+class MapViewController: ViewController {
+
+    var showsDirection: Bool = true {
+        didSet {
+            if showsDirection {
+                navigationItem.rightBarButtonItem = navigationBarButtonItem
+            } else {
+                navigationItem.rightBarButtonItem = nil
+            }
+        }
+    }
 
     // MARK: - Private Variables
 
@@ -36,6 +46,10 @@ class RaceMapViewController: ViewController {
         return segmentedControl
     }()
 
+    fileprivate lazy var navigationBarButtonItem: UIBarButtonItem = {
+        return UIBarButtonItem(image: UIImage(named: "icn_navigation"), style: .done, target: self, action: #selector(didPressDirectionsButton))
+    }()
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = UniversalConstants.cellHeight
@@ -48,6 +62,8 @@ class RaceMapViewController: ViewController {
         self.coordinates = coordinates
         self.address = address
         super.init(nibName: nil, bundle: nil)
+
+        title = "Location"
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -74,11 +90,10 @@ class RaceMapViewController: ViewController {
     // MARK: - Layout
 
     fileprivate func setupLayout() {
-
-        title = "Race Location"
-
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navigation"), style: .done, target: self, action: #selector(didPressDirectionsButton))
+        if showsDirection {
+            navigationItem.rightBarButtonItem = navigationBarButtonItem
+        }
 
         navigationController?.isToolbarHidden = false
 
@@ -176,7 +191,7 @@ class RaceMapViewController: ViewController {
     }
 }
 
-extension RaceMapViewController: MKMapViewDelegate {
+extension MapViewController: MKMapViewDelegate {
 
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         guard annotation is MKPointAnnotation else { return nil }

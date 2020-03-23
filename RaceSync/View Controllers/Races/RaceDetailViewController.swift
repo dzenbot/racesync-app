@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import RaceSyncAPI
 
-class RaceDetailViewController: ViewController, Joinable, RaceTabbable {
+class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
 
     // MARK: - Public Variables
 
@@ -704,7 +704,9 @@ fileprivate extension RaceDetailViewController {
     func presentMapView() {
         guard let coordinates = raceCoordinates, let address = race.address else { return }
 
-        let mapVC = RaceMapViewController(with: coordinates, address: address)
+        let mapVC = MapViewController(with: coordinates, address: address)
+        mapVC.title = "Race Location"
+        mapVC.showsDirection = true
         let mapNC = NavigationController(rootViewController: mapVC)
 
         present(mapNC, animated: true, completion: nil)

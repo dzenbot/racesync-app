@@ -15,7 +15,9 @@ class JoinButton: CustomButton {
     // MARK: - Public Variables
 
     /// Optional race id for callback usage
-    var raceId: ObjectId?
+    var objectId: ObjectId?
+
+    var type: JoinableType?
 
     /// compact style to be used in small cells, with no interactivity
     var isCompact: Bool = false

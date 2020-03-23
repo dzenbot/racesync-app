@@ -9,7 +9,7 @@
 import Foundation
 import ObjectMapper
 
-public class Race: Mappable, Descriptable {
+public class Race: Mappable, Joinable, Descriptable {
 
     public var id: ObjectId = ""
     public var name: String = ""

@@ -16,12 +16,14 @@ class ChapterViewModel: Descriptable {
     let titleLabel: String
     let locationLabel: String
     let imageUrl: String?
+    let joinState: JoinState
 
     init(with chapter: Chapter) {
         self.chapter = chapter
         self.titleLabel = chapter.name
         self.locationLabel = ChapterViewModel.locationLabel(for: chapter)
         self.imageUrl = ChapterViewModel.imageUrl(for: chapter)
+        self.joinState = ChapterViewModel.joinState(for: chapter)
     }
 
     static func viewModels(with chapters:[Chapter]) -> [ChapterViewModel] {
@@ -41,6 +43,10 @@ extension ChapterViewModel {
 
     static func imageUrl(for chapter: Chapter) -> String? {
         return ImageUtil.getSizedUrl(chapter.mainImageUrl, size: CGSize(width: 50, height: 50))
+    }
+
+    static func joinState(for chapter: Chapter) -> JoinState {
+        return chapter.isJoined ? .joined : .join
     }
 }
 

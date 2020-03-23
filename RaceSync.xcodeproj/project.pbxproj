@@ -13,6 +13,7 @@
 		4F00E072242932D7001DCFC4 /* RateMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E071242932D7001DCFC4 /* RateMe.swift */; };
 		4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */; };
 		4F00E076242932F2001DCFC4 /* RateMeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E074242932F2001DCFC4 /* RateMeConstants.swift */; };
+		4F00E078242963F1001DCFC4 /* Joinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E077242963F1001DCFC4 /* Joinable.swift */; };
 		4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B613B238528C300930D91 /* PasteboardLabel.swift */; };
 		4F0B613F2385DA8F00930D91 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */; };
 		4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */; };
@@ -46,7 +47,7 @@
 		4F5C1E45238D1BD200D756EB /* PasteboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E44238D1BD200D756EB /* PasteboardButton.swift */; };
 		4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E46238D1C3200D756EB /* TextCopiable.swift */; };
 		4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E48238DD82500D756EB /* UIView+RecognizerBlock.swift */; };
-		4F5C1E4B238EEC5200D756EB /* RaceMapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4A238EEC5200D756EB /* RaceMapViewController.swift */; };
+		4F5C1E4B238EEC5200D756EB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4A238EEC5200D756EB /* MapViewController.swift */; };
 		4F5C1E4D2390600400D756EB /* APISessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4C2390600400D756EB /* APISessionManager.swift */; };
 		4F5C1E4F2390B01700D756EB /* ImageNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */; };
 		4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64290D24019090005E8036 /* NewAircraftViewController.swift */; };
@@ -81,7 +82,7 @@
 		4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */; };
 		4F8F2C112384903F00DC4907 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C102384903F00DC4907 /* RaceViewModel.swift */; };
 		4F8F2C132385136300DC4907 /* NumberUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C122385136300DC4907 /* NumberUtil.swift */; };
-		4F91BC8A2398FBCE00539E95 /* Joinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91BC892398FBCE00539E95 /* Joinable.swift */; };
+		4F91BC8A2398FBCE00539E95 /* ViewJoinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91BC892398FBCE00539E95 /* ViewJoinable.swift */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
 		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
 		4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APICredential.swift */; };
@@ -224,6 +225,7 @@
 		4F00E071242932D7001DCFC4 /* RateMe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMe.swift; sourceTree = "<group>"; };
 		4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeDefaults.swift; sourceTree = "<group>"; };
 		4F00E074242932F2001DCFC4 /* RateMeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeConstants.swift; sourceTree = "<group>"; };
+		4F00E077242963F1001DCFC4 /* Joinable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joinable.swift; sourceTree = "<group>"; };
 		4F0B613B238528C300930D91 /* PasteboardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardLabel.swift; sourceTree = "<group>"; };
 		4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelHelper.swift; sourceTree = "<group>"; };
@@ -262,7 +264,7 @@
 		4F5C1E44238D1BD200D756EB /* PasteboardButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardButton.swift; sourceTree = "<group>"; };
 		4F5C1E46238D1C3200D756EB /* TextCopiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCopiable.swift; sourceTree = "<group>"; };
 		4F5C1E48238DD82500D756EB /* UIView+RecognizerBlock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+RecognizerBlock.swift"; sourceTree = "<group>"; };
-		4F5C1E4A238EEC5200D756EB /* RaceMapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RaceMapViewController.swift; sourceTree = "<group>"; };
+		4F5C1E4A238EEC5200D756EB /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		4F5C1E4C2390600400D756EB /* APISessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISessionManager.swift; sourceTree = "<group>"; };
 		4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworking.swift; sourceTree = "<group>"; };
 		4F64290D24019090005E8036 /* NewAircraftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAircraftViewController.swift; sourceTree = "<group>"; };
@@ -298,7 +300,7 @@
 		4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		4F8F2C102384903F00DC4907 /* RaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceViewModel.swift; sourceTree = "<group>"; };
 		4F8F2C122385136300DC4907 /* NumberUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberUtil.swift; sourceTree = "<group>"; };
-		4F91BC892398FBCE00539E95 /* Joinable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joinable.swift; sourceTree = "<group>"; };
+		4F91BC892398FBCE00539E95 /* ViewJoinable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewJoinable.swift; sourceTree = "<group>"; };
 		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -581,7 +583,7 @@
 		4F714DE423CD769F000C4036 /* Map */ = {
 			isa = PBXGroup;
 			children = (
-				4F5C1E4A238EEC5200D756EB /* RaceMapViewController.swift */,
+				4F5C1E4A238EEC5200D756EB /* MapViewController.swift */,
 			);
 			path = Map;
 			sourceTree = "<group>";
@@ -680,6 +682,7 @@
 				4FA26832237A5983008970AC /* ObjectMapper+Extensions.swift */,
 				4FD4E1E22381E175008816B3 /* Random.swift */,
 				4F8668F723864389005E310A /* Descriptable.swift */,
+				4F00E077242963F1001DCFC4 /* Joinable.swift */,
 				4F81759A2411917900685F83 /* Clog.swift */,
 			);
 			path = Utils;
@@ -765,7 +768,7 @@
 				4FD53FB223A0E9B700158206 /* AvatarImageView.swift */,
 				4F8668FB23870E1E005E310A /* SegmentedTableViewHeaderView.swift */,
 				4FD4E1DA237FBE36008816B3 /* JoinButton.swift */,
-				4F91BC892398FBCE00539E95 /* Joinable.swift */,
+				4F91BC892398FBCE00539E95 /* ViewJoinable.swift */,
 				4F791C9723A6105700F15FD7 /* ChannelBadge.swift */,
 				4FD4E1DC237FBE8B008816B3 /* MemberBadgeView.swift */,
 				4F0B613B238528C300930D91 /* PasteboardLabel.swift */,
@@ -1142,7 +1145,7 @@
 				4F8F2C112384903F00DC4907 /* RaceViewModel.swift in Sources */,
 				4F791C9A23A66BA900F15FD7 /* NSAttributedString+Extensions.swift in Sources */,
 				4FD4E1C7237F97AD008816B3 /* ChapterViewController.swift in Sources */,
-				4F91BC8A2398FBCE00539E95 /* Joinable.swift in Sources */,
+				4F91BC8A2398FBCE00539E95 /* ViewJoinable.swift in Sources */,
 				4F13428C2360DAD100A9DBDE /* LoginViewController.swift in Sources */,
 				4F6C8A98236A9E840017FD78 /* Color.swift in Sources */,
 				4FD4E1CF237F992B008816B3 /* QRViewController.swift in Sources */,
@@ -1211,7 +1214,7 @@
 				4F68BE6B2399CF07009D44F7 /* ActionSheetUtil.swift in Sources */,
 				4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */,
 				4F5001E523823C940025A593 /* FlagEmojiGenerator.swift in Sources */,
-				4F5C1E4B238EEC5200D756EB /* RaceMapViewController.swift in Sources */,
+				4F5C1E4B238EEC5200D756EB /* MapViewController.swift in Sources */,
 				4FAAA88523AA15EA00A004DC /* MapKit+Extensions.swift in Sources */,
 				4F5C1E43238CF6BD00D756EB /* ProfileViewController.swift in Sources */,
 				4F8175A32411C39C00685F83 /* RaceListController.swift in Sources */,
@@ -1282,6 +1285,7 @@
 				4FA268242378F9DD008970AC /* NetworkAdapter.swift in Sources */,
 				4F5C1E4D2390600400D756EB /* APISessionManager.swift in Sources */,
 				4FDD499623B0461D009DD2DB /* Season.swift in Sources */,
+				4F00E078242963F1001DCFC4 /* Joinable.swift in Sources */,
 				4FD4E1BC237DCAA3008816B3 /* UserApi.swift in Sources */,
 				4F8668FA23868359005E310A /* ChapterApi.swift in Sources */,
 				4FDD499823B0470E009DD2DB /* ChapterConstants.swift in Sources */,
