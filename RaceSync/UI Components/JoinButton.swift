@@ -66,6 +66,9 @@ class JoinButton: CustomButton {
         }
     }
 
+    static let minHeight: CGFloat = 32
+    static let minWidth: CGFloat = 76
+
     // MARK: - Private Variables
 
     fileprivate lazy var spinnerView: UIActivityIndicatorView = {
@@ -119,7 +122,7 @@ class JoinButton: CustomButton {
     // MARK: - Overrides
 
     override var intrinsicContentSize: CGSize {
-        return CGSize(width: 76, height: 32)
+        return CGSize(width: Self.minWidth, height: Self.minHeight)
     }
 
     override var isHighlighted: Bool {

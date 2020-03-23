@@ -233,7 +233,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         switch self {
         case .measurement:          return "Measurement System"
 
-        case .submitFeedback:       return "Feedback"
+        case .submitFeedback:       return "Send Feedback"
         case .readRules:            return "2020 Season Rules"
         case .visitSite:            return "Go to multigp.com"
 

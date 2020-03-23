@@ -66,7 +66,7 @@ class UserTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    open func setupLayout() {
 
         let selectedBackgroundView = UIView()
         selectedBackgroundView.backgroundColor = Color.gray50

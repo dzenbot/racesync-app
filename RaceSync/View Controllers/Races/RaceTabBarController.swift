@@ -50,7 +50,6 @@ class RaceTabBarController: UITabBarController {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let buttonSpacing: CGFloat = 12
     }
 
     // MARK: - Initialization
@@ -118,29 +117,6 @@ class RaceTabBarController: UITabBarController {
         tabBar.isHidden = false
     }
 
-    fileprivate func configureBarButtonItems(with race: Race) {
-        var buttons = [UIButton]()
-
-        if let _ = race.calendarEvent {
-            let calendarButton = CustomButton(type: .system)
-            calendarButton.addTarget(self, action: #selector(didPressCalendarButton), for: .touchUpInside)
-            calendarButton.setImage(UIImage(named: "icn_calendar"), for: .normal)
-            buttons += [calendarButton]
-        }
-
-        let shareButton = CustomButton(type: .system)
-        shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
-        shareButton.setImage(UIImage(named: "icn_share"), for: .normal)
-        buttons += [shareButton]
-
-        let stackView = UIStackView(arrangedSubviews: buttons)
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .lastBaseline
-        stackView.spacing = Constants.buttonSpacing
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
-    }
-
     // MARK: - Actions
 
     func selectTab(_ tab: RaceTabs) {
@@ -148,31 +124,10 @@ class RaceTabBarController: UITabBarController {
     }
 
     fileprivate func didSelectedIndex(_ index: Int) {
-        title = viewControllers?[index].title
-    }
+        guard let vc = viewControllers?[index] else { return }
 
-    @objc func didPressCalendarButton() {
-        guard let race = race, let event = race.calendarEvent else { return }
-
-        ActionSheetUtil.presentActionSheet(withTitle: "Save the race details to your calendar?", buttonTitle: "Save to Calendar", completion: { (action) in
-            CalendarUtil.add(event)
-        })
-    }
-
-    @objc func didPressShareButton() {
-        guard let race = race, let raceUrl = URL(string: race.url) else { return }
-
-        var items: [Any] = [raceUrl]
-        var activities: [UIActivity] = [SafariActivity()]
-
-        // Calendar integration
-        if let event = race.calendarEvent {
-            items += [event]
-            activities += [CalendarActivity()]
-        }
-
-        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: activities)
-        present(activityVC, animated: true)
+        title = vc.title
+        navigationItem.rightBarButtonItem = vc.navigationItem.rightBarButtonItem
     }
 
     // MARK: - Error
@@ -209,7 +164,6 @@ extension RaceTabBarController {
 
             if let race = race {
                 self?.race = race
-                self?.configureBarButtonItems(with: race)
                 self?.configureViewControllers(with: race)
             } else if let error = error {
                 self?.handleError(error)
@@ -217,9 +171,19 @@ extension RaceTabBarController {
         }
     }
 
-    func reloadAllTabs() {
-        DispatchQueue.main.async { [weak self] in
-            self?.loadRaceView()
+    func reloadRaceView() {
+        guard !isLoading else { return }
+
+        raceApi.viewSimple(race: raceId) { [weak self] (race, error) in
+            guard let race = race, let vcs = self?.viewControllers else { return }
+
+            self?.race = race
+
+            for vc in vcs {
+                guard var vcc = vc as? RaceTabbable else { continue }
+                vcc.race = race
+                vcc.reloadContent()
+            }
         }
     }
 }

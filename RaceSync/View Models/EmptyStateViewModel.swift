@@ -37,6 +37,7 @@ enum EmptyState {
 
     case commingSoon
 
+    case noSearchResults
     case errorRaces
     case errorChapters
     case errorUsers
@@ -77,6 +78,8 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "No Matching Aircrafts"
         case .commingSoon:
             text = "Coming Soon"
+        case .noSearchResults:
+            text = "No Results"
         case .errorRaces, .errorAircrafts:
             text = "Error"
         default:

@@ -10,21 +10,15 @@ import UIKit
 import EmptyDataSet_Swift
 import RaceSyncAPI
 
-class RaceRosterViewController: ViewController, Joinable {
+class RaceRosterViewController: ViewController, Joinable, RaceTabbable {
+
+    // MARK: - Public Variables
+
+    var race: Race
 
     // MARK: - Private Variables
 
-    fileprivate var isLoading: Bool {
-        get {
-            guard let tabBarController = tabBarController as? RaceTabBarController else { return false }
-            return tabBarController.isLoading
-        }
-        set { }
-    }
-
-    fileprivate let headerView = RaceHeaderView()
-
-    fileprivate lazy var tableView: UITableView = {
+    lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
@@ -36,9 +30,18 @@ class RaceRosterViewController: ViewController, Joinable {
         return tableView
     }()
 
+    fileprivate var isLoading: Bool {
+        get {
+            guard let tabBarController = tabBarController as? RaceTabBarController else { return false }
+            return tabBarController.isLoading
+        }
+        set { }
+    }
+
+    fileprivate let headerView = RaceHeaderView()
+    
     fileprivate var raceApi = RaceApi()
     fileprivate var userApi = UserApi()
-    fileprivate var race: Race
     fileprivate var myRaceEntry: RaceEntry?
     fileprivate var isRacing: Bool { return myRaceEntry != nil }
     fileprivate var commonUserViewModels = [UserViewModel]()
@@ -68,6 +71,7 @@ class RaceRosterViewController: ViewController, Joinable {
         super.viewDidLoad()
 
         setupLayout()
+        configureNavigationItems()
         populateData()
     }
 
@@ -83,14 +87,21 @@ class RaceRosterViewController: ViewController, Joinable {
 
     fileprivate func setupLayout() {
 
-        title = "Race Roster"
-        tabBarItem = UITabBarItem(title: "Roster", image: UIImage(named: "icn_tab_roster"), selectedImage: UIImage(named: "icn_tab_roster_selected"))
-
         view.backgroundColor = Color.white
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
+        }
+    }
+
+    fileprivate func configureNavigationItems() {
+
+        title = "Race Roster"
+        tabBarItem = UITabBarItem(title: "Roster", image: UIImage(named: "icn_tab_roster"), selectedImage: UIImage(named: "icn_tab_roster_selected"))
+
+        if race.isMyChapter {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressAddButton))
         }
     }
 
@@ -119,8 +130,25 @@ class RaceRosterViewController: ViewController, Joinable {
         } else {
             otherUserViewModels = UserViewModel.viewModels(with: entries)
         }
+    }
 
+    func reloadContent() {
+        populateData()
         tableView.reloadData()
+    }
+
+    fileprivate func reloadRaceView() {
+        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
+        tabBarController.reloadRaceView()
+    }
+
+    // MARK: - Actions
+
+    @objc func didPressAddButton() {
+        let vc = ForceJoinViewController(with: race)
+        vc.delegate = self
+        let nc = NavigationController(rootViewController: vc)
+        present(nc, animated: true, completion: nil)
     }
 }
 
@@ -183,7 +211,7 @@ extension RaceRosterViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier) as! UserTableViewCell
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
-        cell.subtitleLabel.text = viewModel.displayName
+        cell.subtitleLabel.text = viewModel.fullName
 
         if let raceEntry = viewModel.raceEntry {
             cell.channelBadge.titleLabel.text = RaceEntryViewModel.shortChannelLabel(for: raceEntry)
@@ -207,6 +235,13 @@ extension RaceRosterViewController: UITableViewDataSource {
     func userViewModel(at indexPath: IndexPath) -> UserViewModel {
         let viewModels = userViewModels(for: indexPath.section)
         return viewModels[indexPath.row]
+    }
+}
+
+extension RaceRosterViewController: ForceJoinViewControllerDelegate {
+
+    func forceJoinViewControllerDidForce(_ viewController: ForceJoinViewController) {
+        reloadRaceView()
     }
 }
 
@@ -244,9 +279,8 @@ extension RaceRosterViewController: EmptyDataSetDelegate {
         let currentState: JoinState = .join
 
         join(race: race, raceApi: raceApi) { [weak self] (newState) in
-            if let tabBarController = self?.tabBarController as? RaceTabBarController, currentState != newState {
-                tabBarController.reloadAllTabs()
-                self?.tableView.reloadEmptyDataSet()
+            if currentState != newState {
+                self?.reloadRaceView()
             }
         }
     }

@@ -60,7 +60,7 @@ class UserRaceTableViewCell: UITableViewCell, ViewCellInterface {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let imageHeight: CGFloat = UniversalConstants.cellAvatarHeight
-        static let minButtonSize: CGFloat = 72
+        static let minButtonSize: CGFloat = 25
     }
 
     // MARK: - Initializatiom
@@ -103,7 +103,7 @@ class UserRaceTableViewCell: UITableViewCell, ViewCellInterface {
             $0.top.equalTo(labelStackView.snp.bottom).offset(5)
             $0.bottom.equalToSuperview().offset(-Constants.padding)
             $0.leading.equalToSuperview()
-            $0.height.equalTo(25)
+            $0.height.equalTo(Constants.minButtonSize)
         }
 
         containerView.addSubview(joinButton)
@@ -111,7 +111,7 @@ class UserRaceTableViewCell: UITableViewCell, ViewCellInterface {
             $0.top.equalTo(memberBadgeView.snp.top)
             $0.bottom.equalTo(memberBadgeView.snp.bottom)
             $0.leading.equalTo(memberBadgeView.snp.trailing).offset(7)
-            $0.width.height.equalTo(25)
+            $0.width.height.equalTo(Constants.minButtonSize)
         }
 
         contentView.addSubview(containerView)

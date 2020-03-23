@@ -23,6 +23,6 @@ public extension Bundle {
     }
 
     var releaseDescriptionPretty: String {
-        return "v\(releaseVersionNumber) (build #\(buildVersionNumber))"
+        return "v\(releaseVersionNumber) (#\(buildVersionNumber))"
     }
 }

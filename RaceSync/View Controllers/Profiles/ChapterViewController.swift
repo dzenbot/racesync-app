@@ -151,7 +151,8 @@ fileprivate extension ChapterViewController {
     func fetchUsers(_ completion: VoidCompletionBlock? = nil) {
         chapterApi.getUsers(with: chapter.id) { (users, error) in
             if let users = users {
-                self.userViewModels = UserViewModel.viewModels(with: users)
+                let viewModels = UserViewModel.viewModels(with: users)
+                self.userViewModels = viewModels.sorted { $0.username.lowercased() < $1.username.lowercased() }
                 self.tableView.reloadData()
             } else {
                 Clog.log("getMyRaces error : \(error.debugDescription)")
@@ -229,7 +230,7 @@ extension ChapterViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier) as! UserTableViewCell
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
-        cell.subtitleLabel.text = viewModel.displayName
+        cell.subtitleLabel.text = viewModel.fullName
         return cell
     }
 }

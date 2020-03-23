@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		00463F577FF49FF13F8A871B /* Pods_RaceSyncAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D073602CBE253F96567B3B54 /* Pods_RaceSyncAPI.framework */; };
 		460A0880363895A247C9C23A /* Pods_RaceSyncTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D65741DB402E1BEAF04DE6 /* Pods_RaceSyncTests.framework */; };
+		4F00E06424292C9A001DCFC4 /* ChapterUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */; };
 		4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B613B238528C300930D91 /* PasteboardLabel.swift */; };
 		4F0B613F2385DA8F00930D91 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */; };
 		4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */; };
@@ -110,6 +111,8 @@
 		4FAAA88523AA15EA00A004DC /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */; };
 		4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */; };
 		4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */; };
+		4FC50258242700DC0088320B /* ForceJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC50257242700DC0088320B /* ForceJoinViewController.swift */; };
+		4FC5025A2428710D0088320B /* RaceTabbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC502592428710D0088320B /* RaceTabbable.swift */; };
 		4FC51B1D2409B3A700D654D0 /* APIUnitSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC51B1C2409B3A700D654D0 /* APIUnitSystem.swift */; };
 		4FC51B1F2409EA9B00D654D0 /* ManagedChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC51B1E2409EA9B00D654D0 /* ManagedChapter.swift */; };
 		4FC51B212409EC8E00D654D0 /* Chapter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC51B202409EC8E00D654D0 /* Chapter+Extensions.swift */; };
@@ -214,6 +217,7 @@
 		2C16D844D6CFA28756F4CA02 /* Pods_RaceSyncAPITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSyncAPITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39172015E1CE1AD9586A8B50 /* Pods-RaceSyncAPITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPITests/Pods-RaceSyncAPITests.release.xcconfig"; sourceTree = "<group>"; };
 		40DB5CAFF0B302311BAF739B /* Pods-RaceSyncAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPI/Pods-RaceSyncAPI.debug.xcconfig"; sourceTree = "<group>"; };
+		4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterUserTableViewCell.swift; sourceTree = "<group>"; };
 		4F0B613B238528C300930D91 /* PasteboardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardLabel.swift; sourceTree = "<group>"; };
 		4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelHelper.swift; sourceTree = "<group>"; };
@@ -322,6 +326,8 @@
 		4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+LinesCount.swift"; sourceTree = "<group>"; };
 		4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
+		4FC50257242700DC0088320B /* ForceJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceJoinViewController.swift; sourceTree = "<group>"; };
+		4FC502592428710D0088320B /* RaceTabbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceTabbable.swift; sourceTree = "<group>"; };
 		4FC51B1C2409B3A700D654D0 /* APIUnitSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUnitSystem.swift; sourceTree = "<group>"; };
 		4FC51B1E2409EA9B00D654D0 /* ManagedChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedChapter.swift; sourceTree = "<group>"; };
 		4FC51B202409EC8E00D654D0 /* Chapter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Chapter+Extensions.swift"; sourceTree = "<group>"; };
@@ -695,6 +701,8 @@
 				4FD4E1CA237F98A0008816B3 /* RaceDetailViewController.swift */,
 				4FD4E1C8237F987C008816B3 /* RaceRosterViewController.swift */,
 				4FD4E1E02380AC37008816B3 /* RaceResultsViewController.swift */,
+				4FC502592428710D0088320B /* RaceTabbable.swift */,
+				4FC50257242700DC0088320B /* ForceJoinViewController.swift */,
 			);
 			path = Races;
 			sourceTree = "<group>";
@@ -721,6 +729,7 @@
 				4FD53FB023A0D48F00158206 /* UserRaceTableViewCell.swift */,
 				4F86690323877041005E310A /* ChapterTableViewCell.swift */,
 				4FD53FAE23A0B20900158206 /* UserTableViewCell.swift */,
+				4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */,
 				4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */,
 				4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */,
 				4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */,
@@ -1105,6 +1114,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F3D641123FE664A00DE6DF2 /* TextFieldViewController.swift in Sources */,
+				4FC5025A2428710D0088320B /* RaceTabbable.swift in Sources */,
 				4FE490F223A4725D0008C38D /* RaceHeaderView.swift in Sources */,
 				4FD4E1D1237F9DC8008816B3 /* SearchViewController.swift in Sources */,
 				4F8668F423860900005E310A /* UniversalConstants.swift in Sources */,
@@ -1142,6 +1152,7 @@
 				4F8376DC23EE87CC00256AEC /* RotatingIconView.swift in Sources */,
 				4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */,
 				4FD4E1DD237FBE8B008816B3 /* MemberBadgeView.swift in Sources */,
+				4FC50258242700DC0088320B /* ForceJoinViewController.swift in Sources */,
 				4FD4E1DB237FBE36008816B3 /* JoinButton.swift in Sources */,
 				4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */,
 				4FD53FAF23A0B20900158206 /* UserTableViewCell.swift in Sources */,
@@ -1186,6 +1197,7 @@
 				4F5C1E43238CF6BD00D756EB /* ProfileViewController.swift in Sources */,
 				4F8175A32411C39C00685F83 /* RaceListController.swift in Sources */,
 				4FA26835237A80B9008970AC /* ActionButton.swift in Sources */,
+				4F00E06424292C9A001DCFC4 /* ChapterUserTableViewCell.swift in Sources */,
 				4F9DB7B023D618D100570483 /* UISegmentedControl+Extensions.swift in Sources */,
 				4F5C1E45238D1BD200D756EB /* PasteboardButton.swift in Sources */,
 				4FD53FB323A0E9B700158206 /* AvatarImageView.swift in Sources */,
