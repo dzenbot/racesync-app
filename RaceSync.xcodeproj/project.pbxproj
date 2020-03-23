@@ -10,6 +10,9 @@
 		00463F577FF49FF13F8A871B /* Pods_RaceSyncAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D073602CBE253F96567B3B54 /* Pods_RaceSyncAPI.framework */; };
 		460A0880363895A247C9C23A /* Pods_RaceSyncTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D65741DB402E1BEAF04DE6 /* Pods_RaceSyncTests.framework */; };
 		4F00E06424292C9A001DCFC4 /* ChapterUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */; };
+		4F00E072242932D7001DCFC4 /* RateMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E071242932D7001DCFC4 /* RateMe.swift */; };
+		4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */; };
+		4F00E076242932F2001DCFC4 /* RateMeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E074242932F2001DCFC4 /* RateMeConstants.swift */; };
 		4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B613B238528C300930D91 /* PasteboardLabel.swift */; };
 		4F0B613F2385DA8F00930D91 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */; };
 		4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */; };
@@ -218,6 +221,9 @@
 		39172015E1CE1AD9586A8B50 /* Pods-RaceSyncAPITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPITests/Pods-RaceSyncAPITests.release.xcconfig"; sourceTree = "<group>"; };
 		40DB5CAFF0B302311BAF739B /* Pods-RaceSyncAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPI/Pods-RaceSyncAPI.debug.xcconfig"; sourceTree = "<group>"; };
 		4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterUserTableViewCell.swift; sourceTree = "<group>"; };
+		4F00E071242932D7001DCFC4 /* RateMe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMe.swift; sourceTree = "<group>"; };
+		4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeDefaults.swift; sourceTree = "<group>"; };
+		4F00E074242932F2001DCFC4 /* RateMeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeConstants.swift; sourceTree = "<group>"; };
 		4F0B613B238528C300930D91 /* PasteboardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardLabel.swift; sourceTree = "<group>"; };
 		4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelHelper.swift; sourceTree = "<group>"; };
@@ -419,6 +425,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F00E065242930B3001DCFC4 /* RateMe */ = {
+			isa = PBXGroup;
+			children = (
+				4F00E071242932D7001DCFC4 /* RateMe.swift */,
+				4F00E074242932F2001DCFC4 /* RateMeConstants.swift */,
+				4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */,
+			);
+			path = RateMe;
+			sourceTree = "<group>";
+		};
 		4F0B613D2385DA7900930D91 /* UI Extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -599,6 +615,7 @@
 				4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */,
 				4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */,
 				4FEADB732416B3D400F82F0D /* EventCatcher.swift */,
+				4F00E065242930B3001DCFC4 /* RateMe */,
 			);
 			path = Tools;
 			sourceTree = "<group>";
@@ -1115,6 +1132,7 @@
 			files = (
 				4F3D641123FE664A00DE6DF2 /* TextFieldViewController.swift in Sources */,
 				4FC5025A2428710D0088320B /* RaceTabbable.swift in Sources */,
+				4F00E072242932D7001DCFC4 /* RateMe.swift in Sources */,
 				4FE490F223A4725D0008C38D /* RaceHeaderView.swift in Sources */,
 				4FD4E1D1237F9DC8008816B3 /* SearchViewController.swift in Sources */,
 				4F8668F423860900005E310A /* UniversalConstants.swift in Sources */,
@@ -1133,6 +1151,7 @@
 				4FEE0E182414255D00A7BABF /* SettingsController.swift in Sources */,
 				4FA1AB4323CAF803007CF389 /* AircraftPickerController.swift in Sources */,
 				4F68BE6D2399DBCF009D44F7 /* UIViewController+Lookup.swift in Sources */,
+				4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */,
 				4FD4E1E12380AC37008816B3 /* RaceResultsViewController.swift in Sources */,
 				4F3D640F23FC65F700DE6DF2 /* PickerViewController.swift in Sources */,
 				4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */,
@@ -1198,6 +1217,7 @@
 				4F8175A32411C39C00685F83 /* RaceListController.swift in Sources */,
 				4FA26835237A80B9008970AC /* ActionButton.swift in Sources */,
 				4F00E06424292C9A001DCFC4 /* ChapterUserTableViewCell.swift in Sources */,
+				4F00E076242932F2001DCFC4 /* RateMeConstants.swift in Sources */,
 				4F9DB7B023D618D100570483 /* UISegmentedControl+Extensions.swift in Sources */,
 				4F5C1E45238D1BD200D756EB /* PasteboardButton.swift in Sources */,
 				4FD53FB323A0E9B700158206 /* AvatarImageView.swift in Sources */,

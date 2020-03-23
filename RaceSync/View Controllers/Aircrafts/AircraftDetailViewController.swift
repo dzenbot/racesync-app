@@ -280,10 +280,7 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
             guard let strongSelf = self else { return }
             if status {
                 let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: AircraftRow.name)
-                strongSelf.aircraftViewModel = AircraftViewModel(with: updatedAircraft)
-                strongSelf.tableView.reloadData()
-                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didEditAircraft: aircraft.id)
-                viewController.dismiss(animated: true, completion: nil)
+                strongSelf.handleAircraftUpdate(updatedAircraft, from: viewController)
             } else if let error = error {
                 viewController.isLoading = false
                 AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
@@ -326,10 +323,7 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
             guard let strongSelf = self else { return }
             if status {
                 let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: row)
-                strongSelf.aircraftViewModel = AircraftViewModel(with: updatedAircraft)
-                strongSelf.tableView.reloadData()
-                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didEditAircraft: updatedAircraft.id)
-                viewController.dismiss(animated: true, completion: nil)
+                strongSelf.handleAircraftUpdate(updatedAircraft, from: viewController)
             }  else if let error = error {
                 viewController.isLoading = false
                 AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
@@ -370,6 +364,15 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
             break
         }
         return aircraft
+    }
+
+    func handleAircraftUpdate(_ aircraft: Aircraft, from viewController: UIViewController) {
+        aircraftViewModel = AircraftViewModel(with: aircraft)
+        tableView.reloadData()
+        delegate?.aircraftDetailViewController(self, didEditAircraft: aircraft.id)
+        viewController.dismiss(animated: true, completion: nil)
+
+        RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
     }
 }
 

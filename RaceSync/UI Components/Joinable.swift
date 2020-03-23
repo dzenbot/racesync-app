@@ -105,6 +105,8 @@ extension Joinable {
                 if state != newState {
                     race.isJoined = false
                     button.joinState = newState
+
+                    RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
                 }
 
                 button.isLoading = false
@@ -116,6 +118,8 @@ extension Joinable {
                 if state != newState {
                     race.isJoined = true
                     button.joinState = newState
+
+                    RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
                 }
 
                 button.isLoading = false

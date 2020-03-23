@@ -73,6 +73,7 @@ class ForceJoinViewController: ViewController, Shimmable {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
+        static let joinButtonTitle: String = "Force Join"
     }
 
     // MARK: - Initialization
@@ -148,9 +149,11 @@ class ForceJoinViewController: ViewController, Shimmable {
 
                     if state != newState {
                         button.joinState = newState
-                        button.setTitle("Force Join", for: .normal)
+                        button.setTitle(Constants.joinButtonTitle, for: .normal)
                         self.joinedIds = self.joinedIds.filter { $0 != userId }
                         self.didForceJoin = true
+
+                        RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
                     }
                 }
             }) { (action) in
@@ -165,6 +168,8 @@ class ForceJoinViewController: ViewController, Shimmable {
                         button.joinState = newState
                         self.joinedIds += [userId]
                         self.didForceJoin = true
+
+                        RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
                     }
                 }
             }) { (action) in
@@ -310,7 +315,7 @@ extension ForceJoinViewController: UITableViewDataSource {
             cell.joinButton.joinState = .joined
         } else {
             cell.joinButton.joinState = .join
-            cell.joinButton.setTitle("Force Join", for: .normal)
+            cell.joinButton.setTitle(Constants.joinButtonTitle, for: .normal)
         }
 
         return cell

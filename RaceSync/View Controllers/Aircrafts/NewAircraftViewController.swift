@@ -187,6 +187,8 @@ class NewAircraftViewController: ViewController {
             guard let strongSelf = self else { return }
             if let aircraft = aircraft {
                 strongSelf.delegate?.newAircraftViewController(strongSelf, didCreateAircraft: aircraft)
+
+                RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
             } else if let error = error {
                 AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
             }
