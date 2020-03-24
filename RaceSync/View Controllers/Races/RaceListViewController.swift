@@ -259,7 +259,6 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
     @objc fileprivate func didPressSettingsButton(_ sender: Any) {
         let settingsVC = SettingsViewController()
         let settingsNC = NavigationController(rootViewController: settingsVC)
-        settingsNC.modalPresentationStyle = .fullScreen
 
         present(settingsNC, animated: true, completion: nil)
     }
