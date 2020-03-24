@@ -150,7 +150,7 @@ class AircraftPickerViewController: ViewController {
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
-        navigationController?.present(alert, animated: true, completion: nil)
+        navigationController?.present(alert, animated: true)
     }
 
     @objc func didPressCloseButton() {
@@ -165,7 +165,7 @@ class AircraftPickerViewController: ViewController {
         let newAircraftNC = UINavigationController(rootViewController: newAircraftVC)
         newAircraftVC.delegate = self
 
-        navigationController?.present(newAircraftNC, animated: true, completion: nil)
+        navigationController?.present(newAircraftNC, animated: true)
     }
 
     func pickGenericAircraft() {
@@ -252,13 +252,13 @@ extension AircraftPickerViewController: UICollectionViewDataSource {
 extension AircraftPickerViewController: NewAircraftViewControllerDelegate {
 
     func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
-        viewController.dismiss(animated: true, completion: nil)
+        viewController.dismiss(animated: true)
 
         delegate?.aircraftPickerViewController(self, didSelectAircraft: aircraft.id)
     }
 
     func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {
-        viewController.dismiss(animated: true, completion: nil)
+        viewController.dismiss(animated: true)
     }
 
     func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]? {

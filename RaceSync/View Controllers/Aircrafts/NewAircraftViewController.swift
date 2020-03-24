@@ -335,7 +335,7 @@ extension NewAircraftViewController: FormViewControllerDelegate {
             pushPicker(forRow: row, animated: true)
             selectedRow = row
         } else {
-            viewController.dismiss(animated: true, completion: nil)
+            viewController.dismiss(animated: true)
         }
     }
 
@@ -378,7 +378,7 @@ extension NewAircraftViewController: FormViewControllerDelegate {
             pushPicker(forRow: nextRow, animated: true)
             selectedRow = nextRow
         } else {
-            viewController.dismiss(animated: true, completion: nil)
+            viewController.dismiss(animated: true)
         }
     }
 }

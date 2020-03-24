@@ -39,7 +39,7 @@ extension AircraftPickerController: AircraftPickerViewControllerDelegate {
 
     func aircraftPickerViewController(_ viewController: AircraftPickerViewController, didSelectAircraft aircraftId: ObjectId) {
         didSelect?(aircraftId)
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 
     func aircraftPickerViewControllerDidError(_ viewController: AircraftPickerViewController) {
@@ -48,7 +48,7 @@ extension AircraftPickerController: AircraftPickerViewControllerDelegate {
 
     func aircraftPickerViewControllerDidDismiss(_ viewController: AircraftPickerViewController) {
         didCancel?()
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 }
 

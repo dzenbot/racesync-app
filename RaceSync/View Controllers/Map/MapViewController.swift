@@ -165,11 +165,11 @@ class MapViewController: ViewController {
 
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
 
-        present(alert, animated: true, completion: nil)
+        present(alert, animated: true)
     }
 
     @objc func didPressCloseButton() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 
     @objc fileprivate func didChangeSegment() {

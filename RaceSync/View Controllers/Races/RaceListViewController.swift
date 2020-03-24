@@ -249,7 +249,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
         let userNC = NavigationController(rootViewController: userVC)
         userNC.modalPresentationStyle = .fullScreen
 
-        present(userNC, animated: true, completion: nil)
+        present(userNC, animated: true)
     }
 
     @objc fileprivate func didPressSearchButton(_ sender: Any) {
@@ -260,7 +260,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
         let settingsVC = SettingsViewController()
         let settingsNC = NavigationController(rootViewController: settingsVC)
 
-        present(settingsNC, animated: true, completion: nil)
+        present(settingsNC, animated: true)
     }
 
     @objc fileprivate func didPressFilterButton(_ sender: Any) {

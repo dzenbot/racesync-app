@@ -148,7 +148,7 @@ class RaceRosterViewController: ViewController, ViewJoinable, RaceTabbable {
         let vc = ForceJoinViewController(with: race)
         vc.delegate = self
         let nc = NavigationController(rootViewController: vc)
-        present(nc, animated: true, completion: nil)
+        present(nc, animated: true)
     }
 }
 

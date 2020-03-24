@@ -126,7 +126,7 @@ class PickerViewController: FormViewController {
     // MARK: - Actions
 
     @objc func didPressCloseButton() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
         delegate?.formViewControllerDidDismiss(self)
     }
 

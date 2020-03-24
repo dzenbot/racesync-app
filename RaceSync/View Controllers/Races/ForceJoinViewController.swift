@@ -209,7 +209,7 @@ class ForceJoinViewController: ViewController, Shimmable {
     }
 
     @objc fileprivate func didPressCloseButton() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 }
 

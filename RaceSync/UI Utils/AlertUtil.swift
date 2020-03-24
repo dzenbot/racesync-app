@@ -24,7 +24,7 @@ class AlertUtil {
 
         DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
             guard let topMostVC = UIViewController.topMostViewController() else { return }
-            topMostVC.present(alert, animated: true, completion: nil)
+            topMostVC.present(alert, animated: true)
         })
     }
 }

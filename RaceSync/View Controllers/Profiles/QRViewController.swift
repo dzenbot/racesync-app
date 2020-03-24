@@ -172,11 +172,11 @@ class QRViewController: ViewController {
     // MARK: - Actions
 
     @objc func didTapView() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 
     @objc func didTapImageView() {
-        print("didTapImageView")
+        dismiss(animated: true)
     }
 
     @objc func didPressWalletButton() {
@@ -203,7 +203,7 @@ class QRViewController: ViewController {
 
             guard let viewController = PKAddPassesViewController(pass: pass) else { return }
             viewController.delegate = self
-            UIViewController.topMostViewController()?.present(viewController, animated: true, completion: nil)
+            UIViewController.topMostViewController()?.present(viewController, animated: true)
 
             self.pass = pass
         }  catch {

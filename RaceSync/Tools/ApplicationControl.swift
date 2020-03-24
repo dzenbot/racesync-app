@@ -21,7 +21,7 @@ class ApplicationControl {
         APISessionManager.invalidateSession()
 
         let rootViewController = window?.rootViewController
-        rootViewController?.dismiss(animated: true, completion: nil)
+        rootViewController?.dismiss(animated: true)
     }
 
     func logout(switchTo environment: APIEnvironment = .prod) {

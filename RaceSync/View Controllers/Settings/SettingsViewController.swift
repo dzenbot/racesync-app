@@ -89,7 +89,7 @@ class SettingsViewController: ViewController {
     // MARK: - Actions
 
     @objc func didPressCloseButton() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 
     fileprivate func submitFeedback() {

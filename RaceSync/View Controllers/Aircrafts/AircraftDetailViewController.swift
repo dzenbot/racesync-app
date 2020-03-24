@@ -370,7 +370,7 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
         aircraftViewModel = AircraftViewModel(with: aircraft)
         tableView.reloadData()
         delegate?.aircraftDetailViewController(self, didEditAircraft: aircraft.id)
-        viewController.dismiss(animated: true, completion: nil)
+        viewController.dismiss(animated: true)
 
         RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
     }

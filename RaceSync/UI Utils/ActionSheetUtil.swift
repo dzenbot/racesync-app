@@ -19,7 +19,7 @@ class ActionSheetUtil {
         alert.addAction(UIAlertAction(title: buttonTitle ?? "Ok", style: .default, handler: completion))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: cancel))
 
-        topMostVC.present(alert, animated: true, completion: nil)
+        topMostVC.present(alert, animated: true)
     }
 
     static func presentDestructiveActionSheet(withTitle title: String, message: String? = nil, destructiveTitle: String? = nil, completion: AlertCompletionBlock? = nil, cancel: AlertCompletionBlock? = nil) {
@@ -31,6 +31,6 @@ class ActionSheetUtil {
         alert.addAction(UIAlertAction(title: destructiveTitle ?? "Ok", style: .destructive, handler: completion))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: cancel))
         
-        topMostVC.present(alert, animated: true, completion: nil)
+        topMostVC.present(alert, animated: true)
     }
 }

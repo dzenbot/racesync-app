@@ -117,7 +117,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         mapVC.showsDirection = false
         let mapNC = NavigationController(rootViewController: mapVC)
 
-        present(mapNC, animated: true, completion: nil)
+        present(mapNC, animated: true)
     }
 
     override func didSelectRow(at indexPath: IndexPath) {

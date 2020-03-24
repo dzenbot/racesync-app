@@ -709,7 +709,7 @@ fileprivate extension RaceDetailViewController {
         mapVC.showsDirection = true
         let mapNC = NavigationController(rootViewController: mapVC)
 
-        present(mapNC, animated: true, completion: nil)
+        present(mapNC, animated: true)
     }
 }
 

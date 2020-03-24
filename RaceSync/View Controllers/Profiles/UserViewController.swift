@@ -169,7 +169,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
         mapVC.showsDirection = false
         let mapNC = NavigationController(rootViewController: mapVC)
 
-        present(mapNC, animated: true, completion: nil)
+        present(mapNC, animated: true)
     }
 
     override func didSelectRow(at indexPath: IndexPath) {
@@ -185,7 +185,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
     }
 
     @objc func didPressCloseButton() {
-        dismiss(animated: true, completion: nil)
+        dismiss(animated: true)
     }
 
     @objc func didPressAircraftButton() {
