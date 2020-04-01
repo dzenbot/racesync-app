@@ -152,7 +152,7 @@ extension ViewJoinable {
 
     func join(chapter: Chapter, chapterApi: ChapterApi, _ completion: @escaping JoinStateCompletionBlock) {
 
-        chapterApi.resign(chapter: chapter.id) { (status, error) in
+        chapterApi.join(chapter: chapter.id) { (status, error) in
             if status == true {
                 completion(.joined)
             } else if let error = error {
