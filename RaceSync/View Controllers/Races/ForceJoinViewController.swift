@@ -183,7 +183,6 @@ class ForceJoinViewController: ViewController, Shimmable {
         raceApi.forceJoin(race: race.id, pilotId: id) { (status, error) in
             if status == true {
                 completion(.joined)
-                // TODO: Reload race entries
             } else if let error = error {
                 completion(.join)
                 AlertUtil.presentAlertMessage("Couldn't force join this user to the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
@@ -198,7 +197,6 @@ class ForceJoinViewController: ViewController, Shimmable {
         raceApi.forceResign(race: race.id, pilotId: id) { (status, error) in
             if status == true {
                 completion(.join)
-                // TODO: Reload race entries
             } else if let error = error {
                 completion(.joined)
                 AlertUtil.presentAlertMessage("Couldn't remove this user from the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)

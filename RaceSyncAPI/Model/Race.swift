@@ -103,8 +103,6 @@ public class Race: Mappable, Joinable, Descriptable {
         chapterImageFileName <- map["chapterImageFileName"]
 
         ownerId <- map["ownerId"]
-        // TODO: Missing attribute when calling Race/SimpleView
-        // https://github.com/MultiGP/racesync-api/issues/32
         ownerUserName <- map["ownerUserName"]
 
         childRaceCount <- map["childRaceCount"]
