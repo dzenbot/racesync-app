@@ -117,7 +117,7 @@ class ForceJoinViewController: ViewController, Shimmable {
 
     fileprivate func setupLayout() {
 
-        title = "Force Join Pilots"
+        title = "Add Pilots"
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
 
         view.backgroundColor = Color.white
