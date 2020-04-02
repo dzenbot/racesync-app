@@ -41,7 +41,7 @@ class ForceJoinViewController: ViewController, Shimmable {
         let searchBar = UISearchBar(frame: frame)
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = "Search Pilot"
+        searchBar.placeholder = "Filter"
         searchBar.barTintColor = .white
         searchBar.isTranslucent = false
         searchBar.backgroundImage = UIImage()
