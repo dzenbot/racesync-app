@@ -143,7 +143,7 @@ class ForceJoinViewController: ViewController, Shimmable {
         let state = button.joinState
 
         if user.hasJoined(race) || joinedIds.contains(user.id) {
-            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Resign \(viewModel.username) from the race?", message: nil, destructiveTitle: "Yes, resign", completion: { (action) in
+            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Remove \(viewModel.username) from the race?", message: nil, destructiveTitle: "Yes, Remove", completion: { (action) in
                 self.resignUser(with: userId) { (newState) in
                     button.isLoading = false
 
@@ -160,7 +160,7 @@ class ForceJoinViewController: ViewController, Shimmable {
                  button.isLoading = false
             }
         } else {
-            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Force join \(viewModel.username) to the race?", destructiveTitle: "Yes, force join", completion: { (action) in
+            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Add \(viewModel.username) to the race?", destructiveTitle: "Yes, Add", completion: { (action) in
                 self.forceJoinUser(with: userId) { (newState) in
                     button.isLoading = false
 
@@ -185,7 +185,7 @@ class ForceJoinViewController: ViewController, Shimmable {
                 completion(.joined)
             } else if let error = error {
                 completion(.join)
-                AlertUtil.presentAlertMessage("Couldn't force join this user to the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
+                AlertUtil.presentAlertMessage("Couldn't add this user to the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
             } else {
                 completion(.join)
             }

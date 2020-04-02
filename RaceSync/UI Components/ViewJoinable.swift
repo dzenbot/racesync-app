@@ -166,15 +166,15 @@ extension ViewJoinable {
 
     func resign(chapter: Chapter, chapterApi: ChapterApi, _ completion: @escaping JoinStateCompletionBlock) {
 
-        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Resign from this race?",
-                                                      destructiveTitle: "Yes, Resign",
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Leave this chapter?",
+                                                      destructiveTitle: "Yes, Leave",
                                                       completion: { (action) in
                                                         chapterApi.resign(chapter: chapter.id) { (status, error) in
                                                             if status == true {
                                                                 completion(.join)
                                                             } else {
                                                                 completion(.joined)
-                                                                AlertUtil.presentAlertMessage("Couldn't resign from this chapter. Please try again later.", title: "Error", delay: 0.5)
+                                                                AlertUtil.presentAlertMessage("Couldn't leave this chapter. Please try again later.", title: "Error", delay: 0.5)
                                                             }
                                                         }
         }) { (action) in
