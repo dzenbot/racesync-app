@@ -208,6 +208,9 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
             if !race.isMyChapter {
                 count -= 1
             }
+            if race.liveTimeUrl == nil {
+                count -= 1
+            }
             return count
         }
     }
@@ -530,6 +533,16 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
 
 fileprivate extension RaceDetailViewController {
 
+    func reloadRaceView() {
+        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
+        tabBarController.reloadRaceView()
+    }
+
+    func setLoading(_ cell: FormTableViewCell, loading: Bool) {
+        cell.isLoading = loading
+        didTapCell = loading
+    }
+
     func showOwnerProfile(_ cell: FormTableViewCell) {
         guard !didTapCell else { return }
         setLoading(cell, loading: true)
@@ -608,14 +621,9 @@ fileprivate extension RaceDetailViewController {
         }
     }
 
-    func reloadRaceView() {
-        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
-        tabBarController.reloadRaceView()
-    }
-
-    func setLoading(_ cell: FormTableViewCell, loading: Bool) {
-        cell.isLoading = loading
-        didTapCell = loading
+    func openLiveTime(_ cell: FormTableViewCell) {
+        guard let url = race.liveTimeUrl, let URL = URL(string: url) else { return }
+        UIApplication.shared.open(URL, options: [:])
     }
 }
 
@@ -729,6 +737,8 @@ extension RaceDetailViewController: UITableViewDelegate {
             showOwnerProfile(cell)
         } else if row == .status {
             toggleRaceStatus(cell)
+        } else if row == .liveTime {
+            openLiveTime(cell)
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
@@ -758,6 +768,8 @@ extension RaceDetailViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = race.ownerUserName
         } else if row == .status {
             cell.detailTextLabel?.text = race.status.rawValue
+        } else if row == .liveTime {
+            cell.detailTextLabel?.text = ""
         }
 
         cell.isLoading = false
@@ -823,7 +835,7 @@ extension RaceDetailViewController: HeaderStretchable {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case requirements, chapter, owner, status
+    case requirements, chapter, owner, status, liveTime
 
     var title: String {
         switch self {
@@ -831,6 +843,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .chapter:          return "Chapter"
         case .owner:            return "Race Coordinator"
         case .status:           return "Race Status"
+        case .liveTime:         return "Go to LiveFPV.com"
         }
     }
 }

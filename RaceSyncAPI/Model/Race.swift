@@ -23,6 +23,7 @@ public class Race: Mappable, Joinable, Descriptable {
 
     public var url: String = ""
     public var urlName: String = ""
+    public var liveTimeUrl: String?
     public var description: String = ""
     public var content: String = ""
     public var itineraryContent: String = ""
@@ -84,6 +85,7 @@ public class Race: Mappable, Joinable, Descriptable {
         officialStatus <- (map["officialStatus"],EnumTransform<RaceOfficialStatus>())
         url = "\(MGPWeb.getUrl(for: .raceView))=\(id)"
         urlName <- map["urlName"]
+        liveTimeUrl <- map["liveTimeUrl"]
         description <- map["description"]
         content <- map["content"]
         itineraryContent <- map["itineraryContent"]
