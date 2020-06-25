@@ -128,7 +128,10 @@ public class AircraftRaceSpecs: Descriptable {
 
         if strings.count > 0 {
             return "Max \(strings.joined(separator: ", "))"
+        } else if batteries.count == 0 && propSizes.count == 0 {
+            return "Open Class"
+        } else {
+            return "N/A"
         }
-        return "N/A"
     }
 }

@@ -103,11 +103,8 @@ extension ViewJoinable {
                 if status == true {
                     completion(.joined)
 
-                    // when joining a race, we checkin to get a frequency assigned
                     raceApi.checkIn(race: race.id) { (raceEntry, error) in
-                        if let entry = raceEntry, var raceEntries = race.entries {
-                            raceEntries += [entry]
-                        }
+                        // when joining a race, we checkin to get a frequency assigned
                     }
                 } else if let error = error {
                     completion(.join)

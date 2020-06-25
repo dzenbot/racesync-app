@@ -51,6 +51,19 @@ public class APISettings {
             save(newValue.rawValue, key: APISettingsEnvironmentsKey)
         }
     }
+
+    public func invalidateSettings() {
+
+        let settingsKeys = UserDefaults.standard.dictionaryRepresentation().keys.filter { (key) -> Bool in
+            return key.hasPrefix("com.multigp.RaceSync.settings")
+        }
+
+        for key in settingsKeys {
+            UserDefaults.standard.set(nil, forKey: key)
+        }
+
+        UserDefaults.standard.synchronize()
+    }
 }
 
 fileprivate extension APISettings {

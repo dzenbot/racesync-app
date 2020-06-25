@@ -19,6 +19,7 @@ class ApplicationControl {
         guard let window = UIApplication.shared.delegate?.window else { return }
 
         APISessionManager.invalidateSession()
+        APIServices.shared.invalidate()
 
         let rootViewController = window?.rootViewController
         rootViewController?.dismiss(animated: true)

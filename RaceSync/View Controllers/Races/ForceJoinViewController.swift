@@ -180,9 +180,15 @@ class ForceJoinViewController: ViewController, Shimmable {
 
     fileprivate func forceJoinUser(with id: ObjectId, completion: @escaping JoinStateCompletionBlock) {
 
-        raceApi.forceJoin(race: race.id, pilotId: id) { (status, error) in
+        raceApi.forceJoin(race: race.id, pilotId: id) { [weak self] (status, error) in
+            guard let strongSelf = self else { return }
+
             if status == true {
                 completion(.joined)
+
+                strongSelf.raceApi.checkIn(race: strongSelf.race.id, pilotId: id) { (raceEntry, error) in
+                    // when joining a race, we checkin to get a frequency assigned
+                }
             } else if let error = error {
                 completion(.join)
                 AlertUtil.presentAlertMessage("Couldn't add this user to the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)

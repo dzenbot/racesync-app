@@ -63,7 +63,7 @@ fileprivate extension RaceListController {
         raceApi.getMyRaces(filtering: .upcoming) { (races, error) in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
-                return startDate.timeIntervalSinceNow.sign == .plus
+                return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
             }) {
                 let viewModels = RaceViewModel.viewModels(with: upcomingRaces)
                 let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
@@ -91,7 +91,7 @@ fileprivate extension RaceListController {
         raceApi.getMyRaces(filtering: .nearby, latitude: lat, longitude: long) { (races, error) in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
-                return startDate.timeIntervalSinceNow.sign == .plus
+                return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
             }) {
                 let viewModels = RaceViewModel.viewModels(with: upcomingRaces)
                 let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in

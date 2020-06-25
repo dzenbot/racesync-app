@@ -49,6 +49,7 @@ public class APISessionManager {
             valet.set(string: sessionId, forKey: sessionIdKey)
         } else {
             valet.removeObject(forKey: sessionIdKey)
+            valet.removeObject(forKey: sessionEmailKey)
         }
     }
 
