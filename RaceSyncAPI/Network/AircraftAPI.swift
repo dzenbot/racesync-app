@@ -33,6 +33,10 @@ public protocol AircrafApiInterface {
     /**
     */
     func retire(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock)
+
+    /**
+    */
+    func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock)
 }
 
 public class AircraftAPI: AircrafApiInterface {
@@ -78,5 +82,14 @@ public class AircraftAPI: AircrafApiInterface {
         let endpoint = "\(EndPoint.aircraftRetire)?\(ParameterKey.id)=\(aircraftId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
+    }
+
+    public func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
+
+        let endpoint = imageType == .main ? EndPoint.aircraftUploadMainImage : EndPoint.aircraftUploadBackground
+        let url = MGPWebConstant.apiBase.rawValue + "\(endpoint)?\(ParameterKey.id)=\(aircraftId)"
+        guard let data = image.pngData() else { return }
+
+        repositoryAdapter.networkAdapter.httpUpload(data, url: url, method: .post, headers: nil, completion: nil)
     }
 }

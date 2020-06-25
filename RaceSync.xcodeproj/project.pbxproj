@@ -65,6 +65,7 @@
 		4F791C9823A6105700F15FD7 /* ChannelBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9723A6105700F15FD7 /* ChannelBadge.swift */; };
 		4F791C9A23A66BA900F15FD7 /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */; };
 		4F791C9E23A8AB7300F15FD7 /* HeaderStretchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */; };
+		4F7974B524A4A4D4003D623A /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7974B424A4A4D4003D623A /* ImageConstants.swift */; };
 		4F81759C241192AF00685F83 /* Clog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F81759A2411917900685F83 /* Clog.swift */; };
 		4F8175A12411C35A00685F83 /* LeaderboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8175A02411C35A00685F83 /* LeaderboardViewController.swift */; };
 		4F8175A32411C39C00685F83 /* RaceListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8175A22411C39C00685F83 /* RaceListController.swift */; };
@@ -282,6 +283,7 @@
 		4F791C9723A6105700F15FD7 /* ChannelBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelBadge.swift; sourceTree = "<group>"; };
 		4F791C9923A66BA900F15FD7 /* NSAttributedString+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSAttributedString+Extensions.swift"; sourceTree = "<group>"; };
 		4F791C9D23A8AB7300F15FD7 /* HeaderStretchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderStretchable.swift; sourceTree = "<group>"; };
+		4F7974B424A4A4D4003D623A /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
 		4F81759A2411917900685F83 /* Clog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clog.swift; sourceTree = "<group>"; };
 		4F8175A02411C35A00685F83 /* LeaderboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewController.swift; sourceTree = "<group>"; };
 		4F8175A22411C39C00685F83 /* RaceListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceListController.swift; sourceTree = "<group>"; };
@@ -793,6 +795,7 @@
 				4FDD499923B065C9009DD2DB /* RaceConstants.swift */,
 				4FDD499723B0470E009DD2DB /* ChapterConstants.swift */,
 				4FDD499323B045FE009DD2DB /* AircraftConstants.swift */,
+				4F7974B424A4A4D4003D623A /* ImageConstants.swift */,
 				4FA26826237A4079008970AC /* MGPWebConstants.swift */,
 			);
 			path = Constants;
@@ -1275,6 +1278,7 @@
 				4FC51B212409EC8E00D654D0 /* Chapter+Extensions.swift in Sources */,
 				4FC51B232409EEB400D654D0 /* Race+Extensions.swift in Sources */,
 				4F9DB7AE23D614CF00570483 /* APISettings.swift in Sources */,
+				4F7974B524A4A4D4003D623A /* ImageConstants.swift in Sources */,
 				4FC51B1D2409B3A700D654D0 /* APIUnitSystem.swift in Sources */,
 				4FA2682A237A4CE9008970AC /* CompletionBlock.swift in Sources */,
 				4FD4E1BE237DCB24008816B3 /* User.swift in Sources */,
