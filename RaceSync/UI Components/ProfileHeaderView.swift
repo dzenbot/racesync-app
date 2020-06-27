@@ -63,6 +63,15 @@ class ProfileHeaderView: UIView {
         return label
     }()
 
+    fileprivate lazy var cameraButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setImage(UIImage(named: "icn_button_camera"), for: .normal)
+        button.tintColor = Color.white
+        button.isUserInteractionEnabled = false
+//        button.isHidden = true
+        return button
+    }()
+
     fileprivate lazy var topBadgeButton: UIButton = {
         let button = UIButton(type: .system)
         button.tintColor = Color.white
@@ -137,6 +146,12 @@ class ProfileHeaderView: UIView {
             $0.top.equalTo(backgroundImageView.snp.bottom).offset(-Constants.avatarHeight*6/7) // 85%
             $0.centerX.equalToSuperview()
             $0.height.equalTo(Constants.avatarHeight)
+        }
+
+        addSubview(cameraButton)
+        cameraButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(Constants.padding/2)
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
         addSubview(leftBadgeButton)
