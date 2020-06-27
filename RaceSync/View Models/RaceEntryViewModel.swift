@@ -36,11 +36,19 @@ extension RaceEntryViewModel {
     }
 
     static func shortChannelLabel(for raceEntry: RaceEntry) -> String {
-        return "\(raceEntry.band.capitalized)\(raceEntry.channel)"
+        if !raceEntry.band.isEmpty && !raceEntry.channel.isEmpty {
+            return "\(raceEntry.band.capitalized)\(raceEntry.channel)"
+        } else {
+            return raceEntry.frequency
+        }
     }
 
     static func backgroundColor(for raceEntry: RaceEntry) -> UIColor {
-        let channel = "\(VideoChannels.bandTitle(for: raceEntry.band)) \(raceEntry.channel)"
-        return UIColor.randomColor(seed: channel)
+        if !raceEntry.band.isEmpty && !raceEntry.channel.isEmpty {
+            let seed = "\(VideoChannels.bandTitle(for: raceEntry.band)) \(raceEntry.channel)"
+            return UIColor.randomColor(seed: seed)
+        } else {
+            return Color.gray200
+        }
     }
 }
