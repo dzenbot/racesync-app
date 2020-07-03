@@ -23,6 +23,12 @@ class ProfileHeaderView: UIView {
         }
     }
 
+    var isEditable: Bool = false {
+        didSet {
+            cameraButton.isHidden = !isEditable
+        }
+    }
+
     lazy var locationButton: PasteboardButton = {
         let button = PasteboardButton(type: .system)
         button.tintColor = Color.red
@@ -37,10 +43,9 @@ class ProfileHeaderView: UIView {
         let button = CustomButton(type: .system)
         button.setImage(UIImage(named: "icn_button_camera"), for: .normal)
         button.tintColor = Color.white
-        button.isUserInteractionEnabled = true
-        button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
-        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -20)
         button.isHidden = true
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -20)
+        button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
         return button
     }()
 
@@ -132,8 +137,6 @@ class ProfileHeaderView: UIView {
 
     override func layoutSubviews() {
         super.layoutSubviews()
-
-        print("layoutSubviews")
     }
 
     fileprivate func setupLayout() {
@@ -256,7 +259,7 @@ class ProfileHeaderView: UIView {
         rightBadgeButton.setImage(viewModel.rightBadgeImage, for: .normal)
     }
 
-    // MARK: - Action
+    // MARK: - Variables
 
     @objc func didTapCameraButton() {
         print("didTapCameraButton")

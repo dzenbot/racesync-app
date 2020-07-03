@@ -116,9 +116,9 @@ class AircraftDetailViewController: ViewController {
         }
 
         if shouldDisplayHeader {
+            headerView.isEditable = isEditable
             headerView.topLayoutInset = topOffset
             headerView.viewModel = ProfileViewModel(with: aircraft)
-            headerView.cameraButton.isHidden = !isEditable
             tableView.tableHeaderView = headerView
         }
 
