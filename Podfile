@@ -15,7 +15,8 @@ target 'RaceSync' do
   pod 'ShimmerSwift'
   pod 'TUSafariActivity', '~> 1.0'
   pod "PickerView"
-
+  pod 'TOCropViewController'
+  
   # Analytics
   pod 'GoogleAnalytics'
 
