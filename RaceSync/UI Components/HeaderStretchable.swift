@@ -13,7 +13,9 @@ protocol HeaderStretchable {
     var targetHeaderView: UIView { get }
     var targetHeaderViewSize: CGSize { get }
     var topLayoutInset: CGFloat { get }
-    
+
+    var anchoredViews: [UIView]? { get }
+
     func stretchHeaderView(with contentOffset: CGPoint)
 }
 
@@ -25,17 +27,21 @@ extension HeaderStretchable where Self: UIViewController {
         // skipping from doing calculations if not needed
         guard contentOffset.y < -layoutInset else { return }
 
-        let scrollOffset = contentOffset.y
         let scrollRatio = contentOffset.y + layoutInset
+        let movingUp: Bool = scrollRatio < 0
+
         let imageViewSize = targetHeaderViewSize
+        let scrollXOffset = movingUp ? scrollRatio : 0
+        let scrollYOffset = movingUp ? contentOffset.y : -layoutInset
+        let newWidth = movingUp ? imageViewSize.width - scrollRatio*2 : imageViewSize.width
+        let newHeight = movingUp ? imageViewSize.height - scrollRatio : imageViewSize.height
 
-        if scrollRatio < 0 {
-            let newWidth = imageViewSize.width - scrollRatio*2
-            let newHeight = imageViewSize.height - scrollRatio
+        targetHeaderView.layer.frame = CGRect(x: scrollXOffset, y: scrollYOffset, width: newWidth , height: newHeight)
 
-            targetHeaderView.layer.frame = CGRect(x: scrollRatio, y: scrollOffset, width: newWidth , height: newHeight)
-        } else {
-            targetHeaderView.layer.frame = CGRect(x: 0, y: -layoutInset, width: imageViewSize.width, height: imageViewSize.height)
+        if let anchoredViews = anchoredViews {
+            for view in anchoredViews {
+                view.layer.frame.origin.y = layoutInset + UniversalConstants.padding + scrollYOffset
+            }
         }
     }
 }

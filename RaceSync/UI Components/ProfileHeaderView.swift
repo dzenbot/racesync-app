@@ -33,6 +33,17 @@ class ProfileHeaderView: UIView {
         return button
     }()
 
+    lazy var cameraButton: CustomButton = {
+        let button = CustomButton(type: .system)
+        button.setImage(UIImage(named: "icn_button_camera"), for: .normal)
+        button.tintColor = Color.white
+        button.isUserInteractionEnabled = true
+        button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -20)
+        button.isHidden = true
+        return button
+    }()
+
     lazy var backgroundImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -61,15 +72,6 @@ class ProfileHeaderView: UIView {
         label.textColor = Color.black
         label.numberOfLines = 2
         return label
-    }()
-
-    fileprivate lazy var cameraButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setImage(UIImage(named: "icn_button_camera"), for: .normal)
-        button.tintColor = Color.white
-        button.isUserInteractionEnabled = false
-//        button.isHidden = true
-        return button
     }()
 
     fileprivate lazy var topBadgeButton: UIButton = {
@@ -128,6 +130,12 @@ class ProfileHeaderView: UIView {
 
     // MARK: - Layout
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        print("layoutSubviews")
+    }
+
     fileprivate func setupLayout() {
         guard !hasLaidOut else { return }
 
@@ -150,8 +158,8 @@ class ProfileHeaderView: UIView {
 
         addSubview(cameraButton)
         cameraButton.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(Constants.padding/2)
-            $0.trailing.equalToSuperview().offset(-Constants.padding)
+            $0.top.equalToSuperview().offset(Constants.padding)
+            $0.leading.equalToSuperview().offset(Constants.padding)
         }
 
         addSubview(leftBadgeButton)
@@ -246,6 +254,12 @@ class ProfileHeaderView: UIView {
 
         rightBadgeButton.setTitle(viewModel.rightBadgeLabel, for: .normal)
         rightBadgeButton.setImage(viewModel.rightBadgeImage, for: .normal)
+    }
+
+    // MARK: - Action
+
+    @objc func didTapCameraButton() {
+        print("didTapCameraButton")
     }
 }
 

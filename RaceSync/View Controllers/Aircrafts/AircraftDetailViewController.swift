@@ -118,9 +118,9 @@ class AircraftDetailViewController: ViewController {
         if shouldDisplayHeader {
             headerView.topLayoutInset = topOffset
             headerView.viewModel = ProfileViewModel(with: aircraft)
+            headerView.cameraButton.isHidden = !isEditable
             tableView.tableHeaderView = headerView
         }
-
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
@@ -401,5 +401,9 @@ extension AircraftDetailViewController: HeaderStretchable {
 
     var topLayoutInset: CGFloat {
         return topOffset
+    }
+
+    var anchoredViews: [UIView]? {
+        return [headerView.cameraButton]
     }
 }

@@ -196,4 +196,8 @@ extension ProfileViewController: HeaderStretchable {
     var topLayoutInset: CGFloat {
         return topOffset
     }
+
+    var anchoredViews: [UIView]? {
+        return nil
+    }
 }

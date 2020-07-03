@@ -832,6 +832,10 @@ extension RaceDetailViewController: HeaderStretchable {
     var topLayoutInset: CGFloat {
         return topOffset
     }
+
+    var anchoredViews: [UIView]? {
+        return nil
+    }
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
