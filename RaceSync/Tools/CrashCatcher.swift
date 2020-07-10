@@ -21,4 +21,15 @@ class CrashCatcher {
             Clog.log("\(error)", andLevel: .error)
         }
     }
+
+    static func setupUser(_ id: ObjectId, username: String) {
+        let user = User(userId: id)
+        user.username = username
+
+        Client.shared?.user = user
+    }
+
+    static func invalidateUser() {
+        Client.shared?.user = nil
+    }
 }
