@@ -117,6 +117,8 @@ class ProfileHeaderView: UIView {
 
     fileprivate var hasLaidOut: Bool = false
 
+    fileprivate var imagePicker: ImagePickerController?
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let headerHeight: CGFloat = 260
@@ -262,7 +264,22 @@ class ProfileHeaderView: UIView {
     // MARK: - Variables
 
     @objc func didTapCameraButton() {
-        print("didTapCameraButton")
+        let picker = ImagePickerController()
+
+        picker.presentImagePicker(croppingStyle: .default) { [weak self]  (image, error) in
+            self?.uploadImage(image)
+        }
+
+        imagePicker = picker
+    }
+
+    func uploadImage(_ image: UIImage?) {
+        guard let image = image, let id = viewModel?.id else { return }
+
+        let api = AircraftAPI()
+        api.uploadImage(image, imageType: .background, forAircraft: id) { (uploaded, error) in
+            //
+        }
     }
 }
 

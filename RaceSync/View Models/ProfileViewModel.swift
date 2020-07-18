@@ -12,6 +12,7 @@ import RaceSyncAPI
 class ProfileViewModel: Descriptable {
 
     let type: ProfileViewModelType
+    let id: ObjectId
 
     let title: String
     let displayName: String
@@ -32,6 +33,7 @@ class ProfileViewModel: Descriptable {
 
     init(with user: User) {
         self.type = .user
+        self.id = user.id
 
         self.title = ViewModelHelper.titleLabel(for: user.userName, country: user.country)
         self.displayName = user.displayName
@@ -53,6 +55,7 @@ class ProfileViewModel: Descriptable {
 
     init(with chapter: Chapter) {
         self.type = .chapter
+        self.id = chapter.id
 
         self.title = chapter.name
         self.displayName = chapter.description.isEmpty ? chapter.name : chapter.description
@@ -80,6 +83,7 @@ class ProfileViewModel: Descriptable {
 
     init(with aircraft: Aircraft) {
         self.type = .aircraft
+        self.id = aircraft.id
 
         self.title = aircraft.name
         self.displayName = ""

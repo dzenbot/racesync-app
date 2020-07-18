@@ -16,7 +16,7 @@ target 'RaceSync' do
   pod 'TUSafariActivity', '~> 1.0'
   pod "PickerView"
   pod 'TOCropViewController'
-  
+
   # Analytics
   pod 'GoogleAnalytics'
 

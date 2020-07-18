@@ -37,6 +37,14 @@ extension UIImage {
         guard let cgImage2 = ciContext.createCGImage(resultImage, from: inputImage.extent) else { return self }
         return UIImage(cgImage: cgImage2)
     }
+
+    func cropImage(to rect: CGRect) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(CGSize(width: rect.size.width / scale, height: rect.size.height / scale), true, self.scale)
+        draw(at: CGPoint(x: -rect.origin.x, y: -rect.origin.y))
+        let cropImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return cropImage
+    }
 }
 
 /// Static Methods
