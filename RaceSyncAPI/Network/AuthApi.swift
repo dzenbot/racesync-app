@@ -50,6 +50,10 @@ public class AuthApi {
             request.responseJSON(completionHandler: { (response) in
                 Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
 
+                if let code = response.response?.statusCode, code == 401 {
+                    Clog.log("Detected 401. Should log out User!")
+                }
+
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -75,6 +79,10 @@ public class AuthApi {
             Clog.log("Starting request \(String(describing: request.request?.url)))")
             request.responseJSON(completionHandler: { (response) in
                 Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
+
+                if let code = response.response?.statusCode, code == 401 {
+                    Clog.log("Detected 401. Should log out User!")
+                }
 
                 switch response.result {
                 case .success(let value):
