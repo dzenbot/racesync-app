@@ -69,6 +69,10 @@ class ProfileHeaderView: UIView {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .medium)
         button.titleEdgeInsets = UIEdgeInsets(right: -Constants.padding/2)
         button.isUserInteractionEnabled = false
+        button.layer.shadowColor = Color.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 1.0)
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowRadius = 1.0
         return button
     }()
 
@@ -154,7 +158,7 @@ class ProfileHeaderView: UIView {
         addSubview(topBadgeButton)
         topBadgeButton.snp.makeConstraints {
             $0.top.equalTo(backgroundImageView.snp.bottom).offset(-Constants.padding*2)
-            $0.leading.equalToSuperview().offset(Constants.padding)
+            $0.leading.equalToSuperview().offset(Constants.padding/2)
         }
 
         addSubview(headerLabelStackView)
