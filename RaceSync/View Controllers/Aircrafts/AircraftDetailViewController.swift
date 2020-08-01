@@ -333,6 +333,8 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
 
     func updateAircraft(_ aircraft: Aircraft, withItem item: String, forRow row: AircraftRow) -> Aircraft {
         switch row {
+        case .name:
+            aircraft.name = item
         case .type:
             let type = AircraftType(title: item)
             aircraft.type = type
@@ -360,8 +362,6 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
         case .antenna:
             let type = AntennaPolarization(title: item)
             aircraft.antenna = type ?? .both
-        default:
-            break
         }
         return aircraft
     }
