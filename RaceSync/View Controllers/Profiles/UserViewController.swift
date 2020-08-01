@@ -282,6 +282,13 @@ fileprivate extension UserViewController {
                     return c1.titleLabel.lowercased() < c2.titleLabel.lowercased()
                 })
 
+                // first display my managed chapters, then alphabetically
+                if strongSelf.user.isMe, let myManagedChapterIds = APIServices.shared.myManagedChapters?.compactMap({ $0.id }) {
+                    strongSelf.chapterViewModels = strongSelf.chapterViewModels.sorted(by: { (c1, c2) -> Bool in
+                        return myManagedChapterIds.contains(c1.chapter.id)
+                    })
+                }
+
             } else {
                 Clog.log("getChapters error : \(error.debugDescription)")
             }
