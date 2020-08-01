@@ -272,9 +272,16 @@ fileprivate extension UserViewController {
     }
 
     func fetchChapters(_ completion: VoidCompletionBlock? = nil) {
-        chapterApi.getChapters(forUser: user.id) { (chapters, error) in
+        chapterApi.getChapters(forUser: user.id) { [weak self] (chapters, error) in
+            guard let strongSelf = self else { return }
+
             if let chapters = chapters {
-                self.chapterViewModels = ChapterViewModel.viewModels(with: chapters)
+                let chapterViewModels = ChapterViewModel.viewModels(with: chapters)
+
+                strongSelf.chapterViewModels = chapterViewModels.sorted(by: { (c1, c2) -> Bool in
+                    return c1.titleLabel.lowercased() < c2.titleLabel.lowercased()
+                })
+
             } else {
                 Clog.log("getChapters error : \(error.debugDescription)")
             }
