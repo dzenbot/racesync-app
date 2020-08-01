@@ -24,7 +24,6 @@ extension NSAttributedString {
     public convenience init?(HTMLString content: String, font: UIFont? = nil, color: UIColor? = nil) throws {
         guard !content.isEmpty else { return nil }
 
-        let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
         let htmlString = content.toHTML(color)
 
         var options = [NSAttributedString.DocumentReadingOptionKey : Any]()
