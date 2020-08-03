@@ -26,6 +26,7 @@ class ProfileHeaderView: UIView {
     var isEditable: Bool = false {
         didSet {
             cameraButton.isHidden = !isEditable
+            profileAvatarView.isUserInteractionEnabled = isEditable
         }
     }
 
@@ -67,8 +68,10 @@ class ProfileHeaderView: UIView {
 
     // MARK: - Private Variables
 
-    fileprivate lazy var profileImageView: ProfileImageView = {
-        return ProfileImageView()
+    fileprivate lazy var profileAvatarView: ProfileAvatarView = {
+        let view = ProfileAvatarView()
+        view.addTarget(self, action: #selector(didPressAvatarView), for: .touchUpInside)
+        return view
     }()
 
     fileprivate lazy var mainTextLabel: PasteboardLabel = {
@@ -158,8 +161,8 @@ class ProfileHeaderView: UIView {
             $0.height.equalTo(Constants.headerHeight)
         }
 
-        addSubview(profileImageView)
-        profileImageView.snp.makeConstraints {
+        addSubview(profileAvatarView)
+        profileAvatarView.snp.makeConstraints {
             $0.top.equalTo(backgroundImageView.snp.bottom).offset(-Constants.avatarHeight*6/7) // 85%
             $0.centerX.equalToSuperview()
             $0.height.equalTo(Constants.avatarHeight)
@@ -191,7 +194,7 @@ class ProfileHeaderView: UIView {
 
         addSubview(headerLabelStackView)
         headerLabelStackView.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.bottom).offset(Constants.padding)
+            $0.top.equalTo(profileAvatarView.snp.bottom).offset(Constants.padding)
             $0.leading.equalToSuperview().offset(Constants.padding)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
             $0.bottom.equalToSuperview()
@@ -222,7 +225,7 @@ class ProfileHeaderView: UIView {
             case .aircraft:     placeholder = UIImage(named: "placeholder_profile_aircraft")
             }
 
-            profileImageView.imageView.image = placeholder
+            profileAvatarView.imageView.image = placeholder
         }
 
         let headerImageSize = CGSize(width: 0, height: Constants.headerHeight)
@@ -238,7 +241,7 @@ class ProfileHeaderView: UIView {
         let avatarImageSize = CGSize(width: Constants.avatarHeight, height: Constants.avatarHeight)
         let avatarPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: avatarImageSize)
         if let avatarImageUrl = ImageUtil.getSizedUrl(viewModel.pictureUrl, size: avatarImageSize) {
-            profileImageView.imageView.setImage(with: avatarImageUrl, placeholderImage: avatarPlaceholder) { (image) in
+            profileAvatarView.imageView.setImage(with: avatarImageUrl, placeholderImage: avatarPlaceholder) { (image) in
                 handleAvatarImage(image)
             }
         } else {
@@ -265,9 +268,37 @@ class ProfileHeaderView: UIView {
         rightBadgeButton.setImage(viewModel.rightBadgeImage, for: .normal)
     }
 
-    // MARK: - Variables
+    // MARK: - Actions
+
+    @objc fileprivate func didPressAvatarView(_ sender: Any) {
+        guard let topMostVC = UIViewController.topMostViewController() else { return }
+        guard let viewModel = viewModel else { return }
+
+        let alert = UIAlertController(title: "Upload Avatar Image for \(viewModel.title)", message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = Color.blue
+
+        alert.addAction(UIAlertAction(title: "Camera", style: .default) { [weak self] (action) in
+            self?.presentCameraPicker()
+        })
+        alert.addAction(UIAlertAction(title: "Photo Library", style: .default) { [weak self] (action) in
+            self?.presentImagePicker()
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            // Do something?
+        })
+
+        topMostVC.present(alert, animated: true)
+    }
 
     @objc func didTapCameraButton() {
+        presentImagePicker()
+    }
+
+    @objc func presentCameraPicker() {
+        print("presentCameraPicker")
+    }
+
+    @objc func presentImagePicker() {
         let picker = ImagePickerController()
 
         picker.presentImagePicker(croppingStyle: .default) { [weak self]  (image, error) in
@@ -287,49 +318,6 @@ class ProfileHeaderView: UIView {
             } else {
                 print("Upload failed with error \(error.debugDescription)")
             }
-        }
-    }
-}
-
-fileprivate class ProfileImageView: UIView {
-
-    // MARK: - Variables
-
-    let height: CGFloat = 170
-
-    lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = Color.white
-        imageView.layer.cornerRadius = height/2
-        imageView.layer.masksToBounds = true
-        return imageView
-    }()
-
-    // MARK: - Initializatiom
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayout()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    // MARK: - Layout
-
-    func setupLayout() {
-
-        backgroundColor = Color.clear
-
-        layer.shadowColor = Color.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        layer.shadowOpacity = 0.35
-        layer.shadowRadius = 2.5
-
-        addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview()
         }
     }
 }
