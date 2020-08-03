@@ -103,4 +103,6 @@ enum ParameterKey {
     static let antenna = "antenna"
     static let managedChapters = "managedChapters"
     static let chapterName = "chapterName"
+    static let mainImageInput = "mainImageInput"
+    static let backgroundImageInput = "backgroundImageInput"
 }

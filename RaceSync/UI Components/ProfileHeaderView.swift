@@ -278,11 +278,15 @@ class ProfileHeaderView: UIView {
     }
 
     func uploadImage(_ image: UIImage?) {
-        guard let image = image, let id = viewModel?.id else { return }
+        guard let image = image, let viewModel = viewModel else { return }
 
         let api = AircraftAPI()
-        api.uploadImage(image, imageType: .background, forAircraft: id) { (uploaded, error) in
-            //
+        api.uploadBackgroundImage(image, forAircraft: viewModel.id) { (uploaded, error) in
+            if uploaded {
+                print("Uploaded Image!")
+            } else {
+                print("Upload failed with error \(error.debugDescription)")
+            }
         }
     }
 }

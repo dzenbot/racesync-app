@@ -36,7 +36,7 @@ public protocol AircrafApiInterface {
 
     /**
     */
-    func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock)
+    func uploadBackgroundImage(_ image: UIImage, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock?, _ completion: @escaping StatusCompletionBlock)
 }
 
 public class AircraftAPI: AircrafApiInterface {
@@ -84,35 +84,70 @@ public class AircraftAPI: AircrafApiInterface {
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
-    public func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
+    public func uploadMainImage(_ image: UIImage, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock? = nil, _ completion: @escaping StatusCompletionBlock) {
+        let url = MGPWebConstant.apiBase.rawValue + "\(EndPoint.aircraftUploadMainImage)?\(ParameterKey.id)=\(aircraftId)"
+        uploadImage(image, name: ParameterKey.mainImageInput, endpoint: url, progressBlock: progressBlock, completion)
+    }
 
-    let endpoint = imageType == .main ? EndPoint.aircraftUploadMainImage : EndPoint.aircraftUploadBackground
-    let url = MGPWebConstant.apiBase.rawValue + "\(endpoint)?\(ParameterKey.id)=\(aircraftId)"
-    guard let data = image.pngData() else { return }
+    public func uploadBackgroundImage(_ image: UIImage, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock? = nil, _ completion: @escaping StatusCompletionBlock) {
+        let url = MGPWebConstant.apiBase.rawValue + "\(EndPoint.aircraftUploadBackground)?\(ParameterKey.id)=\(aircraftId)"
+        uploadImage(image, name: ParameterKey.backgroundImageInput, endpoint: url, progressBlock: progressBlock, completion)
+    }
 
-    repositoryAdapter.networkAdapter.httpUpload(data, url: url, method: .post, headers: nil) { (request) in
+    public func uploadImage(_ image: UIImage, name: String, endpoint: String, progressBlock: ProgressBlock?, _ completion: @escaping StatusCompletionBlock) {
+        guard let data = image.jpegData(compressionQuality: 0.7) else { return }
 
-        Clog.log("Starting request \(String(describing: request.request?.url)))")
-            request.responseJSON(completionHandler: { (response) in
-                Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
+        Clog.log("Starting request \(endpoint)")
 
-                if let code = response.response?.statusCode, code == 401 {
-                    Clog.log("Detected 401. Should log out User!")
-                }
+        // Multipart
+        repositoryAdapter.networkAdapter.httpMultipartUpload(data, name: name, url: endpoint) { (result) in
+            switch result {
+            case .success(let upload, _, _):
 
-                switch response.result {
-                case .success(let value):
-                    let json = JSON(value)
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+
+                upload.responseString { response in
+                    Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
+
+                    let json = JSON(response.result.value)
                     if let errors = ErrorUtil.errors(fromJSON: json) {
                         completion(false, errors.first)
                     } else {
                         completion(true, nil)
                     }
-                case .failure:
-                    completion(false, response.error as NSError?)
                 }
-            })
+
+            case .failure(let encodingError):
+                print(encodingError)
+            }
         }
+
+        // Non-multipart request implementation
+//        repositoryAdapter.networkAdapter.httpUpload(data, url: endpoint, method: .put) { request in
+//            Clog.log("Starting request \(String(describing: request.request?.url)))")
+//
+//            request.uploadProgress(closure: { (progress) in
+//                let fractionCompleted: Float = Float(progress.fractionCompleted)
+//                print("completion \(fractionCompleted)")
+//                progressBlock?(fractionCompleted)
+//            })
+//            .responseData(completionHandler: { (response) in
+//                Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
+//
+//                if let code = response.response?.statusCode, code == 401 {
+//                    Clog.log("Detected 401. Should log out User!")
+//                }
+//
+//                switch response.result {
+//                case .success:
+//                    completion(true, nil)
+//                case .failure:
+//                    completion(false, ErrorUtil.parseError(response))
+//                }
+//            })
+//        }
     }
 }
 

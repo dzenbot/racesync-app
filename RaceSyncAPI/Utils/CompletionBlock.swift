@@ -13,3 +13,4 @@ public typealias CompletionBlock = (_ error: NSError?) -> Void
 public typealias StatusCompletionBlock = (_ status: Bool, _ error: NSError?) -> Void
 public typealias ObjectCompletionBlock<T> = (_ object: T?, _ error: NSError?) -> Void
 public typealias SimpleObjectCompletionBlock<T> = (_ object: T) -> Void
+public typealias ProgressBlock = (_ fractionCompleted: Float) -> Void

@@ -62,25 +62,24 @@ extension ImagePickerController: UINavigationControllerDelegate, UIImagePickerCo
 
 extension ImagePickerController: TOCropViewControllerDelegate {
 
-    func cropViewController(_ cropViewController: TOCropViewController, didCropImageTo cropRect: CGRect, angle: Int) {
-        //
-    }
-
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
-        //
+        handle(image: image, with: cropRect)
     }
 
     func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
-        
-        let croppedImage = image.cropImage(to: cropRect)
-        completion?(croppedImage, nil)
-
-        DispatchQueue.main.async { [weak self] in
-            self?.imagePicker.dismiss(animated: true)
-        }
+        handle(image: image, with: cropRect)
     }
 
     func cropViewController(_ cropViewController: TOCropViewController, didFinishCancelled cancelled: Bool) {
         cropViewController.navigationController?.popViewController(animated: true)
+    }
+
+    fileprivate func handle(image: UIImage, with cropRect: CGRect) {
+        //let croppedImage = image.cropImage(to: cropRect) // already cropped apparently
+        completion?(image, nil)
+
+        DispatchQueue.main.async { [weak self] in
+            self?.imagePicker.dismiss(animated: true)
+        }
     }
 }

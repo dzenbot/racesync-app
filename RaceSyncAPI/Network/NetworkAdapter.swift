@@ -10,6 +10,7 @@ import Alamofire
 
 typealias DataRequestCompletion = (Alamofire.DataRequest) -> Void
 typealias UploadRequestCompletion = (Alamofire.UploadRequest) -> Void
+typealias UploadMultipartFormResultCompletion = (Alamofire.SessionManager.MultipartFormDataEncodingResult) -> Void
 
 class NetworkAdapter {
 
@@ -55,8 +56,16 @@ class NetworkAdapter {
         }
     }
 
-    func httpUpload(_ data: Data, url: String, method:HTTPMethod, headers: [String:String]?, completion: UploadRequestCompletion?) {
-        formHeaders(headers, authProtected: true) { [unowned self] (headers) in
+    func httpUpload(_ data: Data, url: String, method: HTTPMethod = .post, headers: [String: String]? = nil, completion: UploadRequestCompletion?) {
+
+        var httpHeaders: [String : String] = headers ?? [:]
+        httpHeaders[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
+
+        if let sessionId = APISessionManager.getSessionId() {
+            httpHeaders[ParameterKey.sessionId] = sessionId
+        }
+
+        formHeaders(httpHeaders, authProtected: true) { [unowned self] (headers) in
             let request = self.sessionManager.upload(data, to: url, method: method, headers: headers)
                 .validate(statusCode: 200...302)
                 .validate(contentType: ["application/json"])
@@ -65,13 +74,30 @@ class NetworkAdapter {
         }
     }
 
-    func httpUpload(_ fileURL: URL, url: String, method:HTTPMethod, completion: UploadRequestCompletion?) {
-        formHeaders(nil, authProtected: true) { [unowned self] (headers) in
+    func httpUpload(_ fileURL: URL, url: String, method: HTTPMethod = .put, headers: [String: String]? = nil, completion: UploadRequestCompletion?) {
+        formHeaders(headers, authProtected: true) { [unowned self] (headers) in
             let request = self.sessionManager.upload(fileURL, to: url, method: method, headers: headers)
                 .validate(statusCode: 200...302)
                 .validate(contentType: ["application/json"])
 
             completion?(request)
+        }
+    }
+
+    func httpMultipartUpload(_ data: Data, name: String, url: String, method: HTTPMethod = .post, headers: [String: String]? = nil, completion: UploadMultipartFormResultCompletion?) {
+
+        var httpHeaders: [String : String] = headers ?? [:]
+        httpHeaders[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
+
+        if let sessionId = APISessionManager.getSessionId() {
+            httpHeaders[ParameterKey.sessionId] = sessionId
+        }
+
+        upload(multipartFormData: { multipartFormData in
+            multipartFormData.append(data, withName: name, fileName: "drone-image", mimeType: "image/jpg")
+        }, to: url, method: method, headers: httpHeaders)
+        { (result) in
+            completion?(result)
         }
     }
 

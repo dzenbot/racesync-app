@@ -40,7 +40,6 @@ class ErrorUtil {
     }
 
     static func errors(fromJSON json: JSON) -> [NSError]? {
-        guard json[ParameterKey.errors].count > 0 else { return nil }
 
         var errors = [NSError]()
 
@@ -49,6 +48,12 @@ class ErrorUtil {
                 let error = generateError(description, withCode: .malfunction)
                 errors += [error]
             }
+        }
+
+        // looking for HTTP error exceptions
+        if let rawString = json.rawString(), rawString.count > 0, rawString.contains("Exception") {
+            let error = generateError(rawString, withCode: .malfunction)
+            errors += [error]
         }
 
         return errors.count > 0 ? errors : nil
