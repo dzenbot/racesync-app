@@ -10,22 +10,21 @@ import UIKit
 import TOCropViewController
 import RaceSyncAPI
 
-protocol ImagePickerDelegate {
-
-}
-
 class ImagePickerController: NSObject {
 
     let imagePicker = UIImagePickerController()
     var croppingStyle: TOCropViewCroppingStyle = .circular
     var completion: ObjectCompletionBlock<UIImage>?
+    var customAspectRatio: CGSize = .zero
 
-    func presentImagePicker(croppingStyle: TOCropViewCroppingStyle = .circular, _ completion: ObjectCompletionBlock<UIImage>?) {
+    func presentImagePicker(_ source: UIImagePickerController.SourceType = .photoLibrary,
+                            croppingStyle: TOCropViewCroppingStyle = .circular,
+                            _ completion: ObjectCompletionBlock<UIImage>?) {
 
         self.croppingStyle = croppingStyle
         self.completion = completion
 
-        imagePicker.sourceType = .photoLibrary
+        imagePicker.sourceType = source
         imagePicker.allowsEditing = false
         imagePicker.delegate = self
 
@@ -45,7 +44,6 @@ extension ImagePickerController: UINavigationControllerDelegate, UIImagePickerCo
         cropVC.resetAspectRatioEnabled = false
 
         if croppingStyle == .default {
-            cropVC.customAspectRatio = CGSize(width: 1100, height: 620)
             cropVC.aspectRatioLockDimensionSwapEnabled = false
             cropVC.aspectRatioLockEnabled = true
         }

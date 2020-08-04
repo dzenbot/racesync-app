@@ -31,6 +31,7 @@
 		4F1342832360DA4C00A9DBDE /* RaceSyncAPI.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		4F13428C2360DAD100A9DBDE /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13428B2360DAD100A9DBDE /* LoginViewController.swift */; };
 		4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F13428E236120E700A9DBDE /* LoginViewController.xib */; };
+		4F1571AE24D8D74F004A7CEE /* ProfileBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1571AD24D8D74F004A7CEE /* ProfileBackgroundView.swift */; };
 		4F1E150524107BCE0082C486 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1E150424107BCE0082C486 /* URL+Extensions.swift */; };
 		4F3D640723FB0A4800DE6DF2 /* AircraftPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */; };
 		4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */; };
@@ -252,6 +253,7 @@
 		4F13427E2360DA4C00A9DBDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F13428B2360DAD100A9DBDE /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		4F13428E236120E700A9DBDE /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
+		4F1571AD24D8D74F004A7CEE /* ProfileBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundView.swift; sourceTree = "<group>"; };
 		4F1E150424107BCE0082C486 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftPickerViewController.swift; sourceTree = "<group>"; };
 		4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftDetailViewController.swift; sourceTree = "<group>"; };
@@ -560,6 +562,16 @@
 			path = RaceSyncAPITests;
 			sourceTree = "<group>";
 		};
+		4F1571AC24D8D71E004A7CEE /* Profile Header */ = {
+			isa = PBXGroup;
+			children = (
+				4F0B61442385F66300930D91 /* ProfileHeaderView.swift */,
+				4F7C8E3624D8AE15008FE125 /* ProfileAvatarView.swift */,
+				4F1571AD24D8D74F004A7CEE /* ProfileBackgroundView.swift */,
+			);
+			path = "Profile Header";
+			sourceTree = "<group>";
+		};
 		4F5C1E41238CF68F00D756EB /* Profiles */ = {
 			isa = PBXGroup;
 			children = (
@@ -771,8 +783,7 @@
 			children = (
 				4F9DB7B123D68EB100570483 /* NavigationController.swift */,
 				4FEADB772416BC4500F82F0D /* ViewController.swift */,
-				4F0B61442385F66300930D91 /* ProfileHeaderView.swift */,
-				4F7C8E3624D8AE15008FE125 /* ProfileAvatarView.swift */,
+				4F1571AC24D8D71E004A7CEE /* Profile Header */,
 				4FE490F123A4725D0008C38D /* RaceHeaderView.swift */,
 				4FD53FB223A0E9B700158206 /* AvatarImageView.swift */,
 				4F8668FB23870E1E005E310A /* SegmentedTableViewHeaderView.swift */,
@@ -1064,7 +1075,8 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which sentry-cli >/dev/null; then\nexport SENTRY_ORG=multigp\nexport SENTRY_PROJECT=racesync\nexport SENTRY_AUTH_TOKEN=d651fada4b384049bfaf5b725250c7826f35d91417e94bbb8d842d44c9212576\n\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n  ERROR=$(sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\n  else\n    echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\n  fi\nfi\n\n\n";
+			shellScript = "exit\nif which sentry-cli >/dev/null; then\nexport SENTRY_ORG=multigp\nexport SENTRY_PROJECT=racesync\nexport SENTRY_AUTH_TOKEN=d651fada4b384049bfaf5b725250c7826f35d91417e94bbb8d842d44c9212576\n\nif [ \"${CONFIGURATION}\" = \"Release\" ]; then\n  ERROR=$(sentry-cli upload-dif \"$DWARF_DSYM_FOLDER_PATH\" 2>&1 >/dev/null)\n  if [ ! $? -eq 0 ]; then\n    echo \"warning: sentry-cli - $ERROR\"\n  fi\n  else\n    echo \"warning: sentry-cli not installed, download from https://github.com/getsentry/sentry-cli/releases\"\n  fi\nfi\n\n\n";
+			showEnvVarsInLog = 0;
 		};
 		7F2DC3FC3A2F8DECDD85A749 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1225,6 +1237,7 @@
 				4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */,
 				4F3D640D23FB253900DE6DF2 /* UICollectionView+Extensions.swift in Sources */,
 				4F68BE6B2399CF07009D44F7 /* ActionSheetUtil.swift in Sources */,
+				4F1571AE24D8D74F004A7CEE /* ProfileBackgroundView.swift in Sources */,
 				4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */,
 				4F5001E523823C940025A593 /* FlagEmojiGenerator.swift in Sources */,
 				4F5C1E4B238EEC5200D756EB /* MapViewController.swift in Sources */,

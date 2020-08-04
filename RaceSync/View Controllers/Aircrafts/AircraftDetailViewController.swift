@@ -40,8 +40,35 @@ class AircraftDetailViewController: ViewController {
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
+        let view = UIActivityIndicatorView(style: .whiteLarge)
         view.hidesWhenStopped = true
+        return view
+    }()
+
+    fileprivate lazy var deleteButton: ActionButton = {
+        let button = ActionButton(type: .system)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .regular)
+        button.setTitleColor(Color.red, for: .normal)
+        button.setTitle("Retire Aircraft", for: .normal)
+        button.backgroundColor = Color.white
+        button.layer.cornerRadius = Constants.padding/2
+        button.layer.borderColor = Color.red.cgColor
+        button.layer.borderWidth = 0.5
+        button.addTarget(self, action:#selector(didPressDeleteButton), for: .touchUpInside)
+        return button
+    }()
+
+    fileprivate lazy var deleteButtonView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 96))
+
+        view.addSubview(deleteButton)
+        deleteButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(Constants.padding*2)
+            $0.bottom.equalToSuperview().offset(-Constants.padding)
+            $0.leading.equalToSuperview().offset(Constants.padding*3)
+            $0.trailing.equalToSuperview().offset(-Constants.padding*3)
+        }
+
         return view
     }()
 
@@ -86,7 +113,8 @@ class AircraftDetailViewController: ViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        // required delay for setting up the layout before reloading the tableview
         setupLayout()
         isLoading = true
     }
@@ -98,8 +126,13 @@ class AircraftDetailViewController: ViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        // reloading tableview once the view appears so the content isn't displayed underneath the header view
         isLoading = false
         tableView.reloadData()
+
+        if isEditable {
+            tableView.tableFooterView = deleteButtonView
+        }
     }
 
     // MARK: - Layout
@@ -109,11 +142,6 @@ class AircraftDetailViewController: ViewController {
 
         title = aircraftViewModel.displayName
         view.backgroundColor = Color.white
-
-        if isEditable {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didPressDeleteButton))
-            navigationItem.rightBarButtonItem?.tintColor = Color.red
-        }
 
         if shouldDisplayHeader {
             headerView.isEditable = isEditable

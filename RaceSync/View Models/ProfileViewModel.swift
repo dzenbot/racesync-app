@@ -104,6 +104,8 @@ class ProfileViewModel: Descriptable {
     }
 }
 
-public enum ProfileViewModelType {
-    case user, chapter, aircraft
+public enum ProfileViewModelType: String {
+    case user = "user"
+    case chapter = "chapter"
+    case aircraft = "aircraft"
 }
