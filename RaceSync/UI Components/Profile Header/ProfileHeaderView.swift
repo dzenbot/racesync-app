@@ -48,12 +48,10 @@ class ProfileHeaderView: UIView {
         button.isHidden = true
         button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -20)
         button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
-
         button.layer.shadowColor = Color.black.cgColor
         button.layer.shadowOffset = CGSize(width: 0, height: 2.0)
         button.layer.shadowOpacity = 0.35
         button.layer.shadowRadius = 2.5
-
         return button
     }()
 
@@ -223,16 +221,7 @@ class ProfileHeaderView: UIView {
 
         func handleAvatarImage(_ image: UIImage?) {
             guard image == nil else { return }
-
-            var placeholder: UIImage?
-
-            switch viewModel.type {
-            case .user:         placeholder = UIImage(named: "placeholder_profile_avatar")
-            case .chapter:      placeholder = UIImage(named: "placeholder_profile_avatar")
-            case .aircraft:     placeholder = UIImage(named: "placeholder_profile_aircraft")
-            }
-
-            avatarView.imageView.image = placeholder
+            avatarView.imageView.image = viewModel.type.placeholder
         }
 
         let headerImageSize = CGSize(width: 0, height: Constants.headerHeight)
