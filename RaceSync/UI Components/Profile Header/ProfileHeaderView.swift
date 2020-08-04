@@ -63,13 +63,13 @@ class ProfileHeaderView: UIView {
         return view
     }()
 
-    lazy var backgroundImageView: UIImageView = {
+    lazy var backgroundView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
 
-    var backgroundImageViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight)
+    var backgroundViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight)
 
     func hideLeftBadgeButton(_ hide: Bool) {
         leftBadgeButton.isHidden = hide
@@ -160,8 +160,8 @@ class ProfileHeaderView: UIView {
 
         backgroundColor = Color.white
 
-        addSubview(backgroundImageView)
-        backgroundImageView.snp.makeConstraints {
+        addSubview(backgroundView)
+        backgroundView.snp.makeConstraints {
             $0.top.equalTo(snp.top).offset(-topLayoutInset)
             $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width)
@@ -170,7 +170,7 @@ class ProfileHeaderView: UIView {
 
         addSubview(avatarView)
         avatarView.snp.makeConstraints {
-            $0.top.equalTo(backgroundImageView.snp.bottom).offset(-Constants.avatarHeight*6/7) // 85%
+            $0.top.equalTo(backgroundView.snp.bottom).offset(-Constants.avatarHeight*6/7) // 85%
             $0.centerX.equalToSuperview()
             $0.height.equalTo(Constants.avatarHeight)
         }
@@ -183,19 +183,19 @@ class ProfileHeaderView: UIView {
 
         addSubview(leftBadgeButton)
         leftBadgeButton.snp.makeConstraints {
-            $0.top.equalTo(backgroundImageView.snp.bottom).offset(Constants.padding/2)
+            $0.top.equalTo(backgroundView.snp.bottom).offset(Constants.padding/2)
             $0.leading.equalToSuperview().offset(Constants.padding)
         }
 
         addSubview(rightBadgeButton)
         rightBadgeButton.snp.makeConstraints {
-            $0.top.equalTo(backgroundImageView.snp.bottom).offset(Constants.padding/2)
+            $0.top.equalTo(backgroundView.snp.bottom).offset(Constants.padding/2)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
         addSubview(topBadgeButton)
         topBadgeButton.snp.makeConstraints {
-            $0.top.equalTo(backgroundImageView.snp.bottom).offset(-Constants.padding*2)
+            $0.top.equalTo(backgroundView.snp.bottom).offset(-Constants.padding*2)
             $0.leading.equalToSuperview().offset(Constants.padding/2)
         }
 
@@ -218,7 +218,7 @@ class ProfileHeaderView: UIView {
         func handleBackgroundImage(_ image: UIImage?) {
             guard image == nil else { return }
             let placeholder = UIImage(named: "placeholder_profile_background")
-            backgroundImageView.image = placeholder
+            backgroundView.image = placeholder
         }
 
         func handleAvatarImage(_ image: UIImage?) {
@@ -238,7 +238,7 @@ class ProfileHeaderView: UIView {
         let headerImageSize = CGSize(width: 0, height: Constants.headerHeight)
         let headerPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight))
         if let headerImageUrl = ImageUtil.getSizedUrl(viewModel.backgroundUrl, size: headerImageSize) {
-            backgroundImageView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder) { (image) in
+            backgroundView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder) { (image) in
                 handleBackgroundImage(image)
             }
         } else {
