@@ -125,6 +125,9 @@ public class AircraftAPI: AircrafApiInterface {
         }
 
         // Non-multipart request implementation
+//        guard let fileURL = Bundle.main.url(forResource: "drone2", withExtension: "jpg") else { return }
+//
+//        repositoryAdapter.networkAdapter.httpUpload(fileURL, url: endpoint) { (request) in
 //        repositoryAdapter.networkAdapter.httpUpload(data, url: endpoint, method: .put) { request in
 //            Clog.log("Starting request \(String(describing: request.request?.url)))")
 //
