@@ -419,7 +419,7 @@ extension AircraftDetailViewController: UIScrollViewDelegate {
 
 extension AircraftDetailViewController: HeaderStretchable {
 
-    var targetHeaderView: UIView {
+    var targetHeaderView: StretchableView {
         return headerView.backgroundView
     }
 

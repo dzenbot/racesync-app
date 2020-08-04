@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class ProfileBackgroundView: UIControl {
+class ProfileBackgroundView: DimmableView {
 
     // MARK: - Public Variables
 
@@ -19,6 +19,21 @@ class ProfileBackgroundView: UIControl {
         imageView.contentMode = .scaleAspectFill
         return imageView
     }()
+
+    // MARK: - Private Variables
+
+    fileprivate lazy var backgroundView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Color.black
+        return view
+    }()
+
+    fileprivate lazy var backdropView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Color.white
+        return view
+    }()
+
 
     // MARK: - Initializatiom
 
@@ -36,10 +51,29 @@ class ProfileBackgroundView: UIControl {
     fileprivate func setupLayout() {
 
         backgroundColor = Color.clear
+        dimmableView = imageView
+
+        addSubview(backdropView)
+        backdropView.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview()
+        }
+
+        addSubview(backgroundView)
+        backgroundView.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview()
+        }
 
         addSubview(imageView)
         imageView.snp.makeConstraints {
             $0.top.bottom.leading.trailing.equalToSuperview()
         }
+    }
+}
+
+extension ProfileBackgroundView: StretchableView {
+
+    func changeLayerFrame(_ frame: CGRect) {
+        layer.frame = frame
+        imageView.layer.frame = CGRect(origin: .zero, size: frame.size)
     }
 }

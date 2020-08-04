@@ -808,35 +808,35 @@ extension RaceDetailViewController: MKMapViewDelegate {
 
 // MARK: - ScrollView Delegate
 
-extension RaceDetailViewController: UIScrollViewDelegate {
-
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if canDisplayMap {
-            stretchHeaderView(with: scrollView.contentOffset)
-        }
-    }
-}
+//extension RaceDetailViewController: UIScrollViewDelegate {
+//
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        if canDisplayMap {
+//            stretchHeaderView(with: scrollView.contentOffset)
+//        }
+//    }
+//}
 
 // MARK: - HeaderStretchable
 
-extension RaceDetailViewController: HeaderStretchable {
-
-    var targetHeaderView: UIView {
-        return mapImageView
-    }
-
-    var targetHeaderViewSize: CGSize {
-        return mapViewSize
-    }
-
-    var topLayoutInset: CGFloat {
-        return topOffset
-    }
-
-    var anchoredViews: [UIView]? {
-        return nil
-    }
-}
+//extension RaceDetailViewController: HeaderStretchable {
+//
+//    var targetHeaderView: UIView {
+//        return mapImageView
+//    }
+//
+//    var targetHeaderViewSize: CGSize {
+//        return mapViewSize
+//    }
+//
+//    var topLayoutInset: CGFloat {
+//        return topOffset
+//    }
+//
+//    var anchoredViews: [UIView]? {
+//        return nil
+//    }
+//}
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
     case requirements, chapter, owner, status, liveTime

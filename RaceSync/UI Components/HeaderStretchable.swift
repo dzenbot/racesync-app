@@ -10,7 +10,7 @@ import UIKit
 
 protocol HeaderStretchable {
 
-    var targetHeaderView: UIView { get }
+    var targetHeaderView: StretchableView { get }
     var targetHeaderViewSize: CGSize { get }
     var topLayoutInset: CGFloat { get }
 
@@ -36,7 +36,8 @@ extension HeaderStretchable where Self: UIViewController {
         let newWidth = movingUp ? imageViewSize.width - scrollRatio*2 : imageViewSize.width
         let newHeight = movingUp ? imageViewSize.height - scrollRatio : imageViewSize.height
 
-        targetHeaderView.layer.frame = CGRect(x: scrollXOffset, y: scrollYOffset, width: newWidth , height: newHeight)
+        let newFrame = CGRect(x: scrollXOffset, y: scrollYOffset, width: newWidth , height: newHeight)
+        targetHeaderView.changeLayerFrame(newFrame)
 
         if let anchoredViews = anchoredViews {
             for view in anchoredViews {
@@ -44,4 +45,8 @@ extension HeaderStretchable where Self: UIViewController {
             }
         }
     }
+}
+
+protocol StretchableView {
+    func changeLayerFrame(_ frame: CGRect)
 }

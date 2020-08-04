@@ -28,6 +28,7 @@ class ProfileHeaderView: UIView {
         didSet {
             cameraButton.isHidden = !isEditable
             avatarView.isUserInteractionEnabled = isEditable
+            backgroundView.isUserInteractionEnabled = isEditable
         }
     }
 
@@ -61,10 +62,10 @@ class ProfileHeaderView: UIView {
         return view
     }()
 
-    lazy var backgroundView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        return imageView
+    lazy var backgroundView: ProfileBackgroundView = {
+        let view = ProfileBackgroundView()
+        view.addTarget(self, action: #selector(didPressBackgroundView), for: .touchUpInside)
+        return view
     }()
 
     var backgroundViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight)
@@ -216,7 +217,7 @@ class ProfileHeaderView: UIView {
         func handleBackgroundImage(_ image: UIImage?) {
             guard image == nil else { return }
             let placeholder = UIImage(named: "placeholder_profile_background")
-            backgroundView.image = placeholder
+            backgroundView.imageView.image = placeholder
         }
 
         func handleAvatarImage(_ image: UIImage?) {
@@ -227,7 +228,7 @@ class ProfileHeaderView: UIView {
         let headerImageSize = CGSize(width: 0, height: Constants.headerHeight)
         let headerPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight))
         if let headerImageUrl = ImageUtil.getSizedUrl(viewModel.backgroundUrl, size: headerImageSize) {
-            backgroundView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder) { (image) in
+            backgroundView.imageView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder) { (image) in
                 handleBackgroundImage(image)
             }
         } else {

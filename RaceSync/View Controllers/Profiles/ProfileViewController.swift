@@ -185,7 +185,7 @@ extension ProfileViewController: UIScrollViewDelegate {
 
 extension ProfileViewController: HeaderStretchable {
 
-    var targetHeaderView: UIView {
+    var targetHeaderView: StretchableView {
         return headerView.backgroundView
     }
 
