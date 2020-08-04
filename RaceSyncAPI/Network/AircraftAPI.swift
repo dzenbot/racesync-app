@@ -111,7 +111,7 @@ public class AircraftAPI: AircrafApiInterface {
                 upload.responseString { response in
                     Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
 
-                    let json = JSON(response.result.value)
+                    let json = JSON(response.result.value as Any)
                     if let errors = ErrorUtil.errors(fromJSON: json) {
                         completion(false, errors.first)
                     } else {
