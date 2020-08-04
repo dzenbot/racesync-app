@@ -278,8 +278,18 @@ class ProfileHeaderView: UIView {
     @objc fileprivate func didTapCameraButton() {
         presentUploadSheet(.background)
     }
+}
 
-    fileprivate func presentUploadSheet(_ uploadType: ProfileUploadType) {
+// MARK: - Image Upload
+
+fileprivate enum ProfileUploadType: String {
+    case avatar = "avatar"
+    case background = "background"
+}
+
+fileprivate extension ProfileHeaderView {
+
+    func presentUploadSheet(_ uploadType: ProfileUploadType) {
         guard let topMostVC = UIViewController.topMostViewController() else { return }
         guard let viewModel = viewModel else { return }
 
@@ -299,7 +309,7 @@ class ProfileHeaderView: UIView {
         topMostVC.present(alert, animated: true)
     }
 
-    fileprivate func presentImagePicker(_ source: UIImagePickerController.SourceType = .photoLibrary, uploadType: ProfileUploadType) {
+    func presentImagePicker(_ source: UIImagePickerController.SourceType = .photoLibrary, uploadType: ProfileUploadType) {
         let picker = ImagePickerController()
 
         var croppingStyle: TOCropViewCroppingStyle = .circular
@@ -345,15 +355,4 @@ class ProfileHeaderView: UIView {
             }
         }
     }
-}
-
-// MARK: - Image Upload
-
-fileprivate enum ProfileUploadType: String {
-    case avatar = "avatar"
-    case background = "background"
-}
-
-fileprivate extension ProfileHeaderView {
-
 }
