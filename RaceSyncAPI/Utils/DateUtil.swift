@@ -22,7 +22,11 @@ public class DateUtil {
         guard let date = date else { return nil }
 
         if full {
-            return displayFullDateTimeFormatter.string(from: date)
+            if date.isInThisYear {
+                return displayFullDateTimeFormatter.string(from: date)
+            } else {
+                return displayFullDateTimeYearFormatter.string(from: date)
+            }
         }
         else if date.isInThisYear || date.timeIntervalSinceNow.sign == .plus {
             return displayDateTimeFormatter.string(from: date)
@@ -37,6 +41,14 @@ fileprivate extension DateUtil {
     static let displayFullDateTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMMM d @ h:mm a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        return formatter
+    }()
+
+    static let displayFullDateTimeYearFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MMMM d, yyyy @ h:mm a"
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
         return formatter
