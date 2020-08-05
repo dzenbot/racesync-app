@@ -90,12 +90,23 @@ class NetworkAdapter {
         var httpHeaders: [String : String] = headers ?? [:]
         httpHeaders[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
         httpHeaders[ParameterKey.sessionId] = sessionId
+//        httpHeaders["Authorization"] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE
+//        httpHeaders["Accept-Encoding"] = "gzip, deflate, br"
+//        httpHeaders["Connection"] = "Keep-Alive"
 
-//        guard let fileURL = Bundle.main.url(forResource: "drone2", withExtension: "jpg") else { return }
+        var params = Parameters()
+//        params[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
+//        params[ParameterKey.sessionId] = sessionId
+
+        guard let fileURL = Bundle.main.url(forResource: "drone2", withExtension: "jpg") else { return }
 
         upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data, withName: name)
-//            multipartFormData.append(fileURL, withName: name)
+            multipartFormData.append(data, withName: name, fileName: "", mimeType: "image/jpeg")
+//            multipartFormData.append(fileURL, withName: name, fileName: fileURL.lastPathComponent, mimeType: "image/jpeg")
+
+            for (key, value) in params {
+                multipartFormData.append( Data("\(value)\"".utf8), withName: key)
+            }
 
         }, to: url, method: method, headers: httpHeaders)
         { (result) in
@@ -125,7 +136,7 @@ class NetworkAdapter {
 
         var request = URLRequest(url: URL(string: url)!)
         request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: "Content-Type")
+        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: ParameterKey.contentType)
 
         request.setValue(APIServices.shared.credential.apiKey, forHTTPHeaderField: ParameterKey.apiKey)
         request.setValue(sessionId, forHTTPHeaderField: ParameterKey.sessionId)
@@ -186,13 +197,13 @@ fileprivate extension NetworkAdapter {
 
     func formHeaders(_ headers: [String: String]?, authProtected: Bool, completion: @escaping ([String: String]) -> Void) {
         var headers = SessionManager.defaultHTTPHeaders
-        headers["Content-type"] = "application/json"
+        headers[ParameterKey.contentType] = "application/json"
 
         // The server requires basic authorization header
         // when interacting with test.multigp.com
         // It is a base64 encoded string for "mgp:TestMe!"
         if APIServices.shared.settings.isDev {
-            headers["Authorization"] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE="
+            headers[ParameterKey.authorization] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE="
         }
 
         completion(headers)

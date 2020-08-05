@@ -67,6 +67,8 @@ enum EndPoint {
 enum ParameterKey {
     static let apiKey = "apiKey"
     static let sessionId = "sessionId"
+    static let contentType = "Content-type"
+    static let authorization = "Authorization"
     static let data = "data"
     static let errors = "errors"
     static let id = "id"
