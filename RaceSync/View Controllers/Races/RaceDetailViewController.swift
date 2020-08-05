@@ -426,7 +426,7 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
         titleLabel.text = raceViewModel.titleLabel.uppercased()
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
-        dateButton.setTitle(raceViewModel.dateLabel, for: .normal)
+        dateButton.setTitle(raceViewModel.fullDateLabel, for: .normal)
 
         if canDisplayAddress {
             locationButton.setTitle(raceViewModel.fullLocationLabel, for: .normal)
