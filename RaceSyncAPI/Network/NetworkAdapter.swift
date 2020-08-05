@@ -84,49 +84,30 @@ class NetworkAdapter {
         }
     }
 
-    func httpMultipartUpload(_ data: Data, name: String, url: String, method: HTTPMethod = .post, headers: [String: String]? = nil, completion: UploadMultipartFormResultCompletion?) {
-        guard let sessionId = APISessionManager.getSessionId() else { return }
+    func httpMultipartUpload(_ data: Data,
+                             name: String,
+                             url: String,
+                             method: HTTPMethod = .post,
+                             headers: [String: String]? = nil,
+                             completion: UploadMultipartFormResultCompletion?) {
 
         var httpHeaders: [String : String] = headers ?? [:]
         httpHeaders[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
-        httpHeaders[ParameterKey.sessionId] = sessionId
-//        httpHeaders["Authorization"] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE
-//        httpHeaders["Accept-Encoding"] = "gzip, deflate, br"
-//        httpHeaders["Connection"] = "Keep-Alive"
-
-        var params = Parameters()
-//        params[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
-//        params[ParameterKey.sessionId] = sessionId
+        httpHeaders[ParameterKey.sessionId] = APISessionManager.getSessionId()
+        httpHeaders["Host"] = "www.multigp.com"
+        httpHeaders["Authorization"] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE
+        httpHeaders["Accept-Encoding"] = "gzip, deflate, br"
+        httpHeaders["Connection"] = "Keep-Alive"
 
         guard let fileURL = Bundle.main.url(forResource: "drone2", withExtension: "jpg") else { return }
 
         upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data, withName: name, fileName: "", mimeType: "image/jpeg")
+            multipartFormData.append(data, withName: name, fileName: "drone2.jpg", mimeType: "image/jpeg")
 //            multipartFormData.append(fileURL, withName: name, fileName: fileURL.lastPathComponent, mimeType: "image/jpeg")
-
-            for (key, value) in params {
-                multipartFormData.append( Data("\(value)\"".utf8), withName: key)
-            }
-
         }, to: url, method: method, headers: httpHeaders)
         { (result) in
             completion?(result)
         }
-
-//        upload(multipartFormData: { (form) in
-//              form.append(data, withName: name, fileName: name, mimeType: "image/jpg")
-//            }, to: url, headers: httpHeaders, encodingCompletion: { result in
-//              switch result {
-//              case .success(let upload, _, _):
-//                upload.responseString { response in
-//                  print(response.value)
-//                }
-//              case .failure(let encodingError):
-//                print(encodingError)
-//              }
-//            })
-
-
     }
 
     func customMultipartUpload(_ data: Data, name: String, url: String) {
