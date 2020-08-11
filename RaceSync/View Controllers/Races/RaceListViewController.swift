@@ -332,12 +332,12 @@ fileprivate extension RaceListViewController {
                 self.updateProfilePicture()
                 self.loadRaces()
 
-                let aircraftVC = AircraftListViewController(with: user)
-                aircraftVC.isEditable = user.isMe
-
-                let nc = UINavigationController(rootViewController: aircraftVC)
-                nc.modalPresentationStyle = .fullScreen
-                self.present(nc, animated: true, completion: nil)
+//                let aircraftVC = AircraftListViewController(with: user)
+//                aircraftVC.isEditable = user.isMe
+//
+//                let nc = UINavigationController(rootViewController: aircraftVC)
+//                nc.modalPresentationStyle = .fullScreen
+//                self.present(nc, animated: true, completion: nil)
 
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session

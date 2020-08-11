@@ -41,10 +41,16 @@ class CalendarUtil {
 extension Race {
 
     var calendarEvent: CalendarEvent? {
-        if let startDate = startDate, let address = address, let raceUrl = URL(string: url) {
-            return CalendarEvent(title: name, location: address, description: description, startDate: startDate, url: raceUrl)
+        guard let startDate = startDate, let address = address, let raceUrl = URL(string: url) else {
+            return nil
         }
-        return nil
+
+        guard startDate.timeIntervalSinceNow.sign == .plus else {
+            return nil
+        }
+
+        return CalendarEvent(title: name, location: address, description: description, startDate: startDate, url: raceUrl)
+
     }
 }
 

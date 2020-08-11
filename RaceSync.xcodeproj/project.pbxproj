@@ -121,8 +121,6 @@
 		4FBADDF624D4E2DB00A7D291 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */; };
 		4FC1797D24B0801900D2EA2D /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */; };
 		4FC4C59C24D8F3F2007D3B71 /* DimmableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */; };
-		4FC4C59F24D946A8007D3B71 /* drone.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4FC4C59D24D946A8007D3B71 /* drone.jpg */; };
-		4FC4C5A024D946A8007D3B71 /* drone2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4FC4C59E24D946A8007D3B71 /* drone2.jpg */; };
 		4FC50258242700DC0088320B /* ForceJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC50257242700DC0088320B /* ForceJoinViewController.swift */; };
 		4FC5025A2428710D0088320B /* RaceTabbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC502592428710D0088320B /* RaceTabbable.swift */; };
 		4FC51B1D2409B3A700D654D0 /* APIUnitSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC51B1C2409B3A700D654D0 /* APIUnitSystem.swift */; };
@@ -348,8 +346,6 @@
 		4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
 		4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableView.swift; sourceTree = "<group>"; };
-		4FC4C59D24D946A8007D3B71 /* drone.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = drone.jpg; path = ../../../../../../Desktop/drone.jpg; sourceTree = "<group>"; };
-		4FC4C59E24D946A8007D3B71 /* drone2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; name = drone2.jpg; path = ../../../../../../Desktop/drone2.jpg; sourceTree = "<group>"; };
 		4FC50257242700DC0088320B /* ForceJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceJoinViewController.swift; sourceTree = "<group>"; };
 		4FC502592428710D0088320B /* RaceTabbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceTabbable.swift; sourceTree = "<group>"; };
 		4FC51B1C2409B3A700D654D0 /* APIUnitSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIUnitSystem.swift; sourceTree = "<group>"; };
@@ -511,8 +507,6 @@
 				4F13424B2360B67D00A9DBDE /* Main.storyboard */,
 				4F1342502360B67D00A9DBDE /* LaunchScreen.storyboard */,
 				4F13424E2360B67D00A9DBDE /* Assets.xcassets */,
-				4FC4C59D24D946A8007D3B71 /* drone.jpg */,
-				4FC4C59E24D946A8007D3B71 /* drone2.jpg */,
 				4F9DB79F23D3816800570483 /* RaceSync.entitlements */,
 				4F8175A82412F82900685F83 /* RaceSync-Bridging-Header.h */,
 				4F1342532360B67D00A9DBDE /* Info.plist */,
@@ -1018,11 +1012,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */,
-				4FC4C5A024D946A8007D3B71 /* drone2.jpg in Resources */,
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
 				4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */,
 				4F13424F2360B67D00A9DBDE /* Assets.xcassets in Resources */,
-				4FC4C59F24D946A8007D3B71 /* drone.jpg in Resources */,
 				4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
