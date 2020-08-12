@@ -11,6 +11,11 @@ import SnapKit
 import RaceSyncAPI
 import TOCropViewController
 
+protocol ProfileHeaderViewDelegate {
+    func uploadAvatarImage(_ image: UIImage, for objectId: ObjectId)
+    func uploadBackgroundImage(_ image: UIImage, for objectId: ObjectId)
+}
+
 class ProfileHeaderView: UIView {
 
     // MARK: - Public Variables
@@ -31,6 +36,8 @@ class ProfileHeaderView: UIView {
             backgroundView.isUserInteractionEnabled = isEditable
         }
     }
+
+    var delegate: ProfileHeaderViewDelegate?
 
     lazy var locationButton: PasteboardButton = {
         let button = PasteboardButton(type: .system)
@@ -310,6 +317,8 @@ fileprivate extension ProfileHeaderView {
     }
 
     func presentImagePicker(_ source: UIImagePickerController.SourceType = .photoLibrary, uploadType: ProfileUploadType) {
+        guard let objectId = viewModel?.id else { return }
+
         let picker = ImagePickerController()
 
         var croppingStyle: TOCropViewCroppingStyle = .circular
@@ -320,39 +329,14 @@ fileprivate extension ProfileHeaderView {
         }
 
         picker.presentImagePicker(source, croppingStyle: croppingStyle) { [weak self] (image, error) in
+            guard let image = image else { return }
             if uploadType == .avatar {
-                self?.uploadAvatarImage(image)
+                self?.delegate?.uploadAvatarImage(image, for: objectId)
             } else {
-                self?.uploadBackgroundImage(image)
+                self?.delegate?.uploadBackgroundImage(image, for: objectId)
             }
         }
 
         imagePicker = picker
-    }
-
-    func uploadAvatarImage(_ image: UIImage?) {
-        guard let image = image, let viewModel = viewModel else { return }
-
-        let api = AircraftAPI()
-        api.uploadMainImage(image, forAircraft: viewModel.id) { (uploaded, error) in
-            if uploaded {
-                print("Uploaded Image!")
-            } else {
-                print("Upload failed with error \(error.debugDescription)")
-            }
-        }
-    }
-
-    func uploadBackgroundImage(_ image: UIImage?) {
-        guard let image = image, let viewModel = viewModel else { return }
-
-        let api = AircraftAPI()
-        api.uploadBackgroundImage(image, forAircraft: viewModel.id) { (uploaded, error) in
-            if uploaded {
-                print("Uploaded Image!")
-            } else {
-                print("Upload failed with error \(error.debugDescription)")
-            }
-        }
     }
 }

@@ -99,7 +99,7 @@ class NetworkAdapter {
         httpHeaders["Accept-Encoding"] = "gzip, deflate, br"
         httpHeaders["Connection"] = "Keep-Alive"
 
-        guard let fileURL = Bundle.main.url(forResource: "drone2", withExtension: "jpg") else { return }
+//        guard let fileURL = Bundle.main.url(forResource: "drone2", withExtension: "jpg") else { return }
 
         upload(multipartFormData: { multipartFormData in
             multipartFormData.append(data, withName: name, fileName: "drone2.jpg", mimeType: "image/jpeg")

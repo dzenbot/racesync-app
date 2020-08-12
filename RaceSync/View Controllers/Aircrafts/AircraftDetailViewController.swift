@@ -27,7 +27,11 @@ class AircraftDetailViewController: ViewController {
 
     // MARK: - Private Variables
 
-    fileprivate let headerView = ProfileHeaderView()
+    fileprivate lazy var headerView: ProfileHeaderView = {
+        let view = ProfileHeaderView()
+        view.delegate = self
+        return view
+    }()
 
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -401,6 +405,29 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
         viewController.dismiss(animated: true)
 
         RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
+    }
+}
+
+extension AircraftDetailViewController: ProfileHeaderViewDelegate {
+
+    func uploadAvatarImage(_ image: UIImage, for objectId: ObjectId) {
+        aircraftApi.uploadMainImage(image, forAircraft: objectId) { (uploaded, error) in
+            if uploaded {
+                print("Uploaded Image!")
+            } else {
+                print("Upload failed with error \(error.debugDescription)")
+            }
+        }
+    }
+
+    func uploadBackgroundImage(_ image: UIImage, for objectId: ObjectId) {
+        aircraftApi.uploadBackgroundImage(image, forAircraft: objectId) { (uploaded, error) in
+            if uploaded {
+                print("Uploaded Image!")
+            } else {
+                print("Upload failed with error \(error.debugDescription)")
+            }
+        }
     }
 }
 
