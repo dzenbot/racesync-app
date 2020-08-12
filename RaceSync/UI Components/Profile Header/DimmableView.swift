@@ -8,6 +8,7 @@
 
 import Foundation
 
+// Used for view highlight on touch down. Similar effect than when pressing a UIButton.
 class DimmableView: UIControl {
 
     var didTouch: Bool = false
