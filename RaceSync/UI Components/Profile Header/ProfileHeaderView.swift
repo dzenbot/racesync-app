@@ -64,12 +64,14 @@ class ProfileHeaderView: UIView {
 
     lazy var avatarView: ProfileAvatarView = {
         let view = ProfileAvatarView()
+        view.isUserInteractionEnabled = isEditable
         view.addTarget(self, action: #selector(didPressAvatarView), for: .touchUpInside)
         return view
     }()
 
     lazy var backgroundView: ProfileBackgroundView = {
         let view = ProfileBackgroundView()
+        view.isUserInteractionEnabled = isEditable
         view.addTarget(self, action: #selector(didPressBackgroundView), for: .touchUpInside)
         return view
     }()
@@ -274,14 +276,17 @@ class ProfileHeaderView: UIView {
     // MARK: - Actions
 
     @objc fileprivate func didPressAvatarView(_ sender: Any) {
+        guard isEditable else { return }
         presentUploadSheet(.main)
     }
 
     @objc fileprivate func didPressBackgroundView(_ sender: Any) {
+        guard isEditable else { return }
         presentUploadSheet(.background)
     }
 
     @objc fileprivate func didTapCameraButton() {
+        guard isEditable else { return }
         presentUploadSheet(.background)
     }
 }
@@ -294,7 +299,7 @@ fileprivate extension ProfileHeaderView {
         guard let topMostVC = UIViewController.topMostViewController() else { return }
         guard let viewModel = viewModel else { return }
 
-        let alert = UIAlertController(title: "Upload \(imageType.title.capitalized) for your \(viewModel.type.rawValue.capitalized)", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Upload \(imageType.title) image for your \(viewModel.type.rawValue)", message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = Color.blue
 
         alert.addAction(UIAlertAction(title: "Camera", style: .default) { [weak self] (action) in
