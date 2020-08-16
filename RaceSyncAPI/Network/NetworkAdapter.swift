@@ -51,7 +51,6 @@ class NetworkAdapter {
             let request = self.sessionManager.request(url, method: method, parameters: params, encoding: encoding, headers: headers)
                 .validate(statusCode: 200...302)
                 .validate(contentType: ["application/json"])
-
             completion?(request)
         }
     }
@@ -69,7 +68,6 @@ class NetworkAdapter {
             let request = self.sessionManager.upload(data, to: url, method: method, headers: headers)
                 .validate(statusCode: 200...302)
                 .validate(contentType: ["application/json"])
-
             completion?(request)
         }
     }
@@ -79,7 +77,6 @@ class NetworkAdapter {
             let request = self.sessionManager.upload(fileURL, to: url, method: method, headers: headers)
                 .validate(statusCode: 200...302)
                 .validate(contentType: ["application/json"])
-
             completion?(request)
         }
     }
@@ -94,60 +91,15 @@ class NetworkAdapter {
         var httpHeaders: [String : String] = headers ?? [:]
         httpHeaders[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
         httpHeaders[ParameterKey.sessionId] = APISessionManager.getSessionId()
-        httpHeaders["Host"] = "www.multigp.com"
-        httpHeaders["Authorization"] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE
-        httpHeaders["Accept-Encoding"] = "gzip, deflate, br"
-        httpHeaders["Connection"] = "Keep-Alive"
 
-//        guard let fileURL = Bundle.main.url(forResource: "drone2", withExtension: "jpg") else { return }
+        let fileName = "Image-\(UUID().uuidString).jpg"
 
         upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data, withName: name, fileName: "drone2.jpg", mimeType: "image/jpeg")
-//            multipartFormData.append(fileURL, withName: name, fileName: fileURL.lastPathComponent, mimeType: "image/jpeg")
+            multipartFormData.append(data, withName: name, fileName:fileName, mimeType: "image/jpeg")
         }, to: url, method: method, headers: httpHeaders)
         { (result) in
             completion?(result)
         }
-    }
-
-    func customMultipartUpload(_ data: Data, name: String, url: String) {
-        guard let sessionId = APISessionManager.getSessionId() else { return }
-
-        let boundary = "Boundary-\(UUID().uuidString)"
-
-        var request = URLRequest(url: URL(string: url)!)
-        request.httpMethod = "POST"
-        request.setValue("multipart/form-data; boundary=\(boundary)", forHTTPHeaderField: ParameterKey.contentType)
-
-        request.setValue(APIServices.shared.credential.apiKey, forHTTPHeaderField: ParameterKey.apiKey)
-        request.setValue(sessionId, forHTTPHeaderField: ParameterKey.sessionId)
-
-        let httpBody = NSMutableData()
-
-        httpBody.append(convertFileData(fieldName: name,
-                                        fileName: "drone-main.jpg",
-                                        mimeType: "image/jpg",
-                                        fileData: data,
-                                        using: boundary))
-
-        httpBody.append(Data("--\(boundary)--".utf8))
-        request.httpBody = httpBody as Data
-
-        URLSession.shared.dataTask(with: request) { data, response, error in
-          print("response \(response)")
-        }.resume()
-    }
-
-    func convertFileData(fieldName: String, fileName: String, mimeType: String, fileData: Data, using boundary: String) -> Data {
-      var data = Data()
-
-      data.append(Data("--\(boundary)\r\n".utf8))
-      data.append(Data("Content-Disposition: form-data; name=\"\(fieldName)\"; filename=\"\(fileName)\"\r\n".utf8))
-      data.append(Data("Content-Type: \(mimeType)\r\n\r\n".utf8))
-      data.append(fileData)
-      data.append(Data("\r\n".utf8))
-
-      return data
     }
 
     func httpCancelRequests(with endpoint: String) {

@@ -56,6 +56,11 @@ class ErrorUtil {
             errors += [error]
         }
 
+        if let description = json[ParameterKey.statusDescription].rawValue as? String {
+            let error = generateError(description, withCode: .malfunction)
+            errors += [error]
+        }
+
         return errors.count > 0 ? errors : nil
     }
 

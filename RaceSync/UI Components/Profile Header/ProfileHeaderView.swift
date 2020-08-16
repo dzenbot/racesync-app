@@ -12,8 +12,7 @@ import RaceSyncAPI
 import TOCropViewController
 
 protocol ProfileHeaderViewDelegate {
-    func uploadAvatarImage(_ image: UIImage, for objectId: ObjectId)
-    func uploadBackgroundImage(_ image: UIImage, for objectId: ObjectId)
+    func shouldUploadImage(_ image: UIImage, imageType: ImageType, for objectId: ObjectId)
 }
 
 class ProfileHeaderView: UIView {
@@ -275,7 +274,7 @@ class ProfileHeaderView: UIView {
     // MARK: - Actions
 
     @objc fileprivate func didPressAvatarView(_ sender: Any) {
-        presentUploadSheet(.avatar)
+        presentUploadSheet(.main)
     }
 
     @objc fileprivate func didPressBackgroundView(_ sender: Any) {
@@ -289,25 +288,20 @@ class ProfileHeaderView: UIView {
 
 // MARK: - Image Upload
 
-fileprivate enum ProfileUploadType: String {
-    case avatar = "avatar"
-    case background = "background"
-}
-
 fileprivate extension ProfileHeaderView {
 
-    func presentUploadSheet(_ uploadType: ProfileUploadType) {
+    func presentUploadSheet(_ imageType: ImageType) {
         guard let topMostVC = UIViewController.topMostViewController() else { return }
         guard let viewModel = viewModel else { return }
 
-        let alert = UIAlertController(title: "Upload \(uploadType.rawValue.capitalized) for your \(viewModel.type.rawValue.capitalized)", message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: "Upload \(imageType.title.capitalized) for your \(viewModel.type.rawValue.capitalized)", message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = Color.blue
 
         alert.addAction(UIAlertAction(title: "Camera", style: .default) { [weak self] (action) in
-            self?.presentImagePicker(.camera, uploadType: uploadType)
+            self?.presentImagePicker(.camera, imageType: imageType)
         })
         alert.addAction(UIAlertAction(title: "Photo Library", style: .default) { [weak self] (action) in
-            self?.presentImagePicker(.photoLibrary, uploadType: uploadType)
+            self?.presentImagePicker(.photoLibrary, imageType: imageType)
         })
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
             // Do something?
@@ -316,25 +310,21 @@ fileprivate extension ProfileHeaderView {
         topMostVC.present(alert, animated: true)
     }
 
-    func presentImagePicker(_ source: UIImagePickerController.SourceType = .photoLibrary, uploadType: ProfileUploadType) {
+    func presentImagePicker(_ source: UIImagePickerController.SourceType = .photoLibrary, imageType: ImageType) {
         guard let objectId = viewModel?.id else { return }
 
         let picker = ImagePickerController()
 
         var croppingStyle: TOCropViewCroppingStyle = .circular
 
-        if uploadType == .background {
+        if imageType == .background {
             croppingStyle = .default
-            picker.customAspectRatio = CGSize(width: 1100, height: 620)
+            picker.customAspectRatio = CGSize(width: 1100, height: 360)
         }
 
         picker.presentImagePicker(source, croppingStyle: croppingStyle) { [weak self] (image, error) in
             guard let image = image else { return }
-            if uploadType == .avatar {
-                self?.delegate?.uploadAvatarImage(image, for: objectId)
-            } else {
-                self?.delegate?.uploadBackgroundImage(image, for: objectId)
-            }
+            self?.delegate?.shouldUploadImage(image, imageType: imageType, for: objectId)
         }
 
         imagePicker = picker

@@ -60,8 +60,8 @@ enum EndPoint {
     static let aircraftCreate = "aircraft/create"
     static let aircraftUpdate = "aircraft/update"
     static let aircraftRetire = "aircraft/retire"
-    static let aircraftUploadMainImage = "aircraft/uploadMainImage"
-    static let aircraftUploadBackground = "aircraft/uploadBackground"
+    static let aircraftUploadMainImage = "aircraft/uploadMainImage"     // unused
+    static let aircraftUploadBackground = "aircraft/uploadBackground"   // unused
 }
 
 enum ParameterKey {
@@ -76,6 +76,7 @@ enum ParameterKey {
     static let password = "password"
     static let currentPage = "currentPage"
     static let pageSize = "pageSize"
+    static let url = "url"
     static let pilotId = "pilotId"
     static let joined = "joined"
     static let upcoming = "upcoming"
@@ -105,6 +106,4 @@ enum ParameterKey {
     static let antenna = "antenna"
     static let managedChapters = "managedChapters"
     static let chapterName = "chapterName"
-    static let mainImageInput = "mainImageInput"
-    static let backgroundImageInput = "backgroundImageInput"
 }

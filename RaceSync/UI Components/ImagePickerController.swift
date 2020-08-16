@@ -46,6 +46,7 @@ extension ImagePickerController: UINavigationControllerDelegate, UIImagePickerCo
         if croppingStyle == .default {
             cropVC.aspectRatioLockDimensionSwapEnabled = false
             cropVC.aspectRatioLockEnabled = true
+            cropVC.customAspectRatio = customAspectRatio
         }
 
         DispatchQueue.main.async {
@@ -61,10 +62,6 @@ extension ImagePickerController: UINavigationControllerDelegate, UIImagePickerCo
 extension ImagePickerController: TOCropViewControllerDelegate {
 
     func cropViewController(_ cropViewController: TOCropViewController, didCropTo image: UIImage, with cropRect: CGRect, angle: Int) {
-        handle(image: image, with: cropRect)
-    }
-
-    func cropViewController(_ cropViewController: TOCropViewController, didCropToCircularImage image: UIImage, with cropRect: CGRect, angle: Int) {
         handle(image: image, with: cropRect)
     }
 

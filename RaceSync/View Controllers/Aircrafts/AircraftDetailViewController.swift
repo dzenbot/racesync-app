@@ -405,26 +405,34 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
 
         RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
     }
+
+    func updateAircraftImageUrl(_ url: String, for imageType: ImageType) {
+        guard let aircraft = aircraftViewModel.aircraft else { return }
+
+        if imageType == .main {
+            aircraft.mainImageUrl = url
+        } else {
+            aircraft.backgroundImageUrl = url
+        }
+
+        aircraftViewModel = AircraftViewModel(with: aircraft)
+        headerView.viewModel = ProfileViewModel(with: aircraft)
+
+        delegate?.aircraftDetailViewController(self, didEditAircraft: aircraft.id)
+    }
 }
 
 extension AircraftDetailViewController: ProfileHeaderViewDelegate {
 
-    func uploadAvatarImage(_ image: UIImage, for objectId: ObjectId) {
-        aircraftApi.uploadMainImage(image, forAircraft: objectId) { (uploaded, error) in
-            if uploaded {
-                print("Uploaded Image!")
-            } else {
-                print("Upload failed with error \(error.debugDescription)")
-            }
-        }
-    }
+    func shouldUploadImage(_ image: UIImage, imageType: ImageType, for objectId: ObjectId) {
 
-    func uploadBackgroundImage(_ image: UIImage, for objectId: ObjectId) {
-        aircraftApi.uploadBackgroundImage(image, forAircraft: objectId) { (uploaded, error) in
-            if uploaded {
-                print("Uploaded Image!")
+        aircraftApi.uploadImage(image, imageType: imageType, forAircraft: objectId) { [weak self] (url, error) in
+            if let url = url {
+                self?.updateAircraftImageUrl(url, for: imageType)
+                Clog.log("Uploaded Image at url: \(url)")
             } else {
-                print("Upload failed with error \(error.debugDescription)")
+                AlertUtil.presentAlertMessage(error?.localizedDescription)
+                Clog.log("Upload failed with error \(error.debugDescription)")
             }
         }
     }
