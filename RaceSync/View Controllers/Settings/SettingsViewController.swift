@@ -45,7 +45,7 @@ class SettingsViewController: ViewController {
 
     fileprivate let sections: [Section: [Row]] = [
         .pref: [.measurement],
-        .about: [.submitFeedback, .readRules, .visitSite],
+        .about: [.submitFeedback, .readRules, .visitStore, .visitSite],
         .auth: [.logout]
     ]
 
@@ -92,20 +92,12 @@ class SettingsViewController: ViewController {
         dismiss(animated: true)
     }
 
-    fileprivate func submitFeedback() {
-        if let url = URL(string: MGPWeb.getPrefilledFeedbackFormUrl()) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
+    fileprivate func openWebPage(_ web: MGPWebConstant) {
+        openWebUrl(web.rawValue)
     }
 
-    fileprivate func openSeasonRulesPage() {
-        if let url = URL(string: MGPWebConstant.seasonRules2020.rawValue) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-
-    fileprivate func openHomePage() {
-        if let url = URL(string: MGPWebConstant.home.rawValue) {
+    fileprivate func openWebUrl(_ url: String) {
+        if let url = URL(string: url) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
@@ -137,11 +129,13 @@ extension SettingsViewController: UITableViewDelegate {
                 self?.tableView.reloadData()
             }
         } else if row == .submitFeedback {
-            submitFeedback()
+            openWebUrl(MGPWeb.getPrefilledFeedbackFormUrl())
         } else if row == .readRules {
-            openSeasonRulesPage()
+            openWebPage(.seasonRules2020)
+        } else if row == .visitStore {
+            openWebPage(.shop)
         } else if row == .visitSite {
-            openHomePage()
+            openWebPage(.home)
         } else if row == .logout {
             logout()
         }
@@ -224,6 +218,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
 
     case submitFeedback
     case readRules
+    case visitStore
     case visitSite
 
 //    case switchEnv
@@ -235,7 +230,8 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
 
         case .submitFeedback:       return "Send Feedback"
         case .readRules:            return "2020 Season Rules"
-        case .visitSite:            return "Go to multigp.com"
+        case .visitStore:           return "Visit the MultiGP Shop"
+        case .visitSite:            return "Go to MultiGP.com"
 
 //        case .switchEnv:            return "Switch to"
         case .logout:               return "Logout"
