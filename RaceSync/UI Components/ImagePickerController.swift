@@ -39,9 +39,14 @@ extension ImagePickerController: UINavigationControllerDelegate, UIImagePickerCo
 
         let cropVC = TOCropViewController(croppingStyle: croppingStyle, image: image)
         cropVC.doneButtonTitle = "Upload"
-        cropVC.cancelButtonTitle = "Back"
         cropVC.delegate = self
         cropVC.resetAspectRatioEnabled = false
+
+        if picker.sourceType == .camera {
+            cropVC.cancelButtonTitle = "Cancel"
+        } else {
+            cropVC.cancelButtonTitle = "Back"
+        }
 
         if croppingStyle == .default {
             cropVC.aspectRatioLockDimensionSwapEnabled = false
@@ -66,7 +71,11 @@ extension ImagePickerController: TOCropViewControllerDelegate {
     }
 
     func cropViewController(_ cropViewController: TOCropViewController, didFinishCancelled cancelled: Bool) {
-        cropViewController.navigationController?.popViewController(animated: true)
+        if imagePicker.sourceType == .camera {
+            imagePicker.delegate?.imagePickerControllerDidCancel?(imagePicker)
+        } else {
+            cropViewController.navigationController?.popViewController(animated: true)
+        }
     }
 
     fileprivate func handle(image: UIImage, with cropRect: CGRect) {
