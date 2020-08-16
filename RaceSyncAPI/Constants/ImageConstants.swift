@@ -8,7 +8,28 @@
 
 import Foundation
 
-public enum ImageType: String {
-    case main = "main"
-    case background = "background"
+public enum ImageType {
+    case main
+    case background
+
+    public var title: String {
+        switch self {
+        case .main:         return "avatar"
+        case .background:   return "background"
+        }
+    }
+
+    public var key: String {
+        switch self {
+        case .main:         return "mainImageInput"
+        case .background:   return "backgroundImageInput"
+        }
+    }
+
+    public var endpoint: String {
+        switch self {
+        case .main:         return "uploadMainImage"
+        case .background:   return "uploadBackground"
+        }
+    }
 }
