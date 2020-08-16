@@ -53,10 +53,10 @@ class AircraftDetailViewController: ViewController {
         let button = ActionButton(type: .system)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .regular)
         button.setTitleColor(Color.red, for: .normal)
-        button.setTitle("Retire Aircraft", for: .normal)
+        button.setTitle("Delete", for: .normal)
         button.backgroundColor = Color.white
         button.layer.cornerRadius = Constants.padding/2
-        button.layer.borderColor = Color.red.cgColor
+        button.layer.borderColor = Color.gray100.cgColor
         button.layer.borderWidth = 0.5
         button.addTarget(self, action:#selector(didPressDeleteButton), for: .touchUpInside)
         return button
@@ -68,9 +68,8 @@ class AircraftDetailViewController: ViewController {
         view.addSubview(deleteButton)
         deleteButton.snp.makeConstraints {
             $0.top.equalToSuperview().offset(Constants.padding*2)
-            $0.bottom.equalToSuperview().offset(-Constants.padding)
-            $0.leading.equalToSuperview().offset(Constants.padding*3)
-            $0.trailing.equalToSuperview().offset(-Constants.padding*3)
+            $0.leading.equalToSuperview().offset(Constants.padding)
+            $0.bottom.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
         return view
@@ -202,7 +201,7 @@ class AircraftDetailViewController: ViewController {
     // MARK: - Actions
 
     @objc func didPressDeleteButton() {
-        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to retire \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, retire", completion: { (action) in
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, delete", completion: { (action) in
             self.retireAircraft()
         }, cancel: nil)
     }
