@@ -15,6 +15,7 @@ public enum MGPWebConstant: String {
     case passwordReset = "https://www.multigp.com/initiatepasswordreset"
     case accountRegistration = "https://www.multigp.com/register"
     case termsOfUse = "https://www.multigp.com/terms-of-use/"
+    case shop = "https://www.multigp.com/shop/"
 
     case raceView = "https://www.multigp.com/races/view/?race"
     case chapterView = "https://www.multigp.com/chapters/view/?chapter"
