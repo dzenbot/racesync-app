@@ -138,9 +138,14 @@ extension AircraftListViewController {
         guard shouldReloadAircrafts else { return }
 
         aircraftApi.getAircrafts(forUser: user.id) { [weak self] (aircrafts, error) in
+
             if let aircrafts = aircrafts {
+                let viewModels = AircraftViewModel.viewModels(with: aircrafts)
+
                 self?.aircraftViewModels = [AircraftViewModel]()
-                self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
+                self?.aircraftViewModels += viewModels.sorted(by: { (c1, c2) -> Bool in
+                    return c1.displayName.lowercased() < c2.displayName.lowercased()
+                })
                 self?.isLoading = false
                 self?.collectionView.reloadData()
             } else if let error = error {
