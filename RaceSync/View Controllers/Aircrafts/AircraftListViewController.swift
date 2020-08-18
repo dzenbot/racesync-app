@@ -156,19 +156,44 @@ extension AircraftListViewController {
         shouldReloadAircrafts = false
     }
 
-    func deselectAllItems() {
-        guard let indexPaths = collectionView.indexPathsForSelectedItems else { return }
-        for item in indexPaths {
-            collectionView.deselectItem(at: item, animated: true)
-        }
-    }
-
     func showAircraftDetail(_ aircraftViewModel: AircraftViewModel, isNew: Bool = false, animated: Bool = true) {
         let aircraftDetailVC = AircraftDetailViewController(with: aircraftViewModel)
         aircraftDetailVC.delegate = self
         aircraftDetailVC.isEditable = isEditable
         aircraftDetailVC.isNew = isNew
         navigationController?.pushViewController(aircraftDetailVC, animated: animated)
+    }
+
+    func deleteAircraft(_ viewModel: AircraftViewModel) {
+        let aircraftId = viewModel.aircraftId
+
+        aircraftApi.retire(aircraft: aircraftId) { [weak self] (status, error)  in
+            if status {
+                self?.removeAircraft(withId: aircraftId)
+            } else if let error = error {
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
+            }
+        }
+    }
+
+    func removeAircraft(withId id: ObjectId) {
+        guard let row = aircraftViewModels.firstIndex(where: { $0.aircraftId == id }) else { return }
+
+        let indexPath = IndexPath(row: row, section: 0)
+        aircraftViewModels.remove(at: row)
+
+        collectionView.performBatchUpdates({
+        collectionView.deleteItems(at: [indexPath])
+        }) { (finished) in
+            self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
+        }
+    }
+
+    func deselectAllItems() {
+        guard let indexPaths = collectionView.indexPathsForSelectedItems else { return }
+        for item in indexPaths {
+            collectionView.deselectItem(at: item, animated: true)
+        }
     }
 
     // MARK: - Error
@@ -205,6 +230,7 @@ extension AircraftListViewController: UICollectionViewDataSource {
 
         let viewModel = aircraftViewModels[indexPath.row]
         cell.titleLabel.text = viewModel.displayName
+        cell.delegate = self
 
         if viewModel.isGeneric {
             cell.avatarImageView.imageView.image = UIImage(named: "placeholder_large_aircraft_create")
@@ -216,6 +242,19 @@ extension AircraftListViewController: UICollectionViewDataSource {
     }
 }
 
+extension AircraftListViewController: AircraftCollectionViewCellDelegate {
+
+    func aircraftCollectionViewCellDidLongPress(_ cell: AircraftCollectionViewCell, at point: CGPoint) {
+        let newPoint = cell.convert(point, to: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: newPoint) else { return }
+
+        let aircraftViewModel = aircraftViewModels[indexPath.row]
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, delete", completion: { (action) in
+            self.deleteAircraft(aircraftViewModel)
+        }, cancel: nil)
+    }
+}
+
 extension AircraftListViewController: AircraftDetailViewControllerDelegate {
 
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didEditAircraft aircraftId: ObjectId) {
@@ -223,11 +262,7 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
     }
 
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId) {
-        if let index = aircraftViewModels.firstIndex(where: { $0.aircraftId == aircraftId }) {
-            aircraftViewModels.remove(at: index)
-            collectionView.reloadData()
-        }
-
+        removeAircraft(withId: aircraftId)
         navigationController?.popViewController(animated: true)
     }
 }

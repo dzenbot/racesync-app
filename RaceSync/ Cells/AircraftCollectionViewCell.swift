@@ -9,6 +9,10 @@
 import UIKit
 import SnapKit
 
+protocol AircraftCollectionViewCellDelegate {
+    func aircraftCollectionViewCellDidLongPress(_ cell: AircraftCollectionViewCell, at point: CGPoint)
+}
+
 class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
 
     static var height: CGFloat {
@@ -29,6 +33,8 @@ class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
         return label
     }()
 
+    var delegate: AircraftCollectionViewCellDelegate?
+
     // MARK: - Private Variables
 
     fileprivate lazy var avatarOverlay: UIView = {
@@ -48,6 +54,7 @@ class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupLayout()
+        setupGestureRecognizers()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -71,7 +78,7 @@ class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         contentView.addSubview(avatarImageView)
         avatarImageView.snp.makeConstraints {
             $0.leading.top.equalToSuperview().offset(Constants.padding)
@@ -88,5 +95,21 @@ class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
         avatarOverlay.snp.makeConstraints {
             $0.leading.top.trailing.bottom.equalTo(avatarImageView)
         }
+    }
+
+    fileprivate func setupGestureRecognizers() {
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress(_:)))
+        gestureRecognizer.minimumPressDuration = 0.75
+        gestureRecognizer.delaysTouchesBegan = false
+        contentView.addGestureRecognizer(gestureRecognizer)
+    }
+
+    // MARK: - Actions
+
+    @objc fileprivate func handleLongPress(_ gestureRecognizer: UILongPressGestureRecognizer) {
+        guard gestureRecognizer.state == .began else { return }
+
+        let point = gestureRecognizer.location(in: contentView)
+        delegate?.aircraftCollectionViewCellDidLongPress(self, at: point)
     }
 }

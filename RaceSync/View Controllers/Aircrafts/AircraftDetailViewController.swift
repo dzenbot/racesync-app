@@ -183,7 +183,7 @@ class AircraftDetailViewController: ViewController {
 
     @objc func didPressDeleteButton() {
         ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, delete", completion: { (action) in
-            self.retireAircraft()
+            self.deleteAircraft()
         }, cancel: nil)
     }
 }
@@ -217,7 +217,7 @@ fileprivate extension AircraftDetailViewController {
         customPresentViewController(presenter, viewController: formdNC, animated: true)
     }
 
-    func retireAircraft() {
+    func deleteAircraft() {
         let aircraftId = aircraftViewModel.aircraftId
 
         aircraftApi.retire(aircraft: aircraftId) { [weak self] (status, error)  in
