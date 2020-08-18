@@ -163,6 +163,14 @@ extension AircraftListViewController {
         }
     }
 
+    func showAircraftDetail(_ aircraftViewModel: AircraftViewModel, isNew: Bool = false, animated: Bool = true) {
+        let aircraftDetailVC = AircraftDetailViewController(with: aircraftViewModel)
+        aircraftDetailVC.delegate = self
+        aircraftDetailVC.isEditable = isEditable
+        aircraftDetailVC.isNew = isNew
+        navigationController?.pushViewController(aircraftDetailVC, animated: animated)
+    }
+
     // MARK: - Error
 
     fileprivate func handleError(_ error: Error) {
@@ -176,11 +184,7 @@ extension AircraftListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let viewModel = aircraftViewModels[indexPath.row]
 
-        let aircraftDetailVC = AircraftDetailViewController(with: viewModel)
-        aircraftDetailVC.delegate = self
-        aircraftDetailVC.isEditable = isEditable
-        navigationController?.pushViewController(aircraftDetailVC, animated: true)
-
+        showAircraftDetail(viewModel)
         collectionView.deselectAllItems()
     }
 }
@@ -218,7 +222,7 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
         shouldReloadAircrafts = true
     }
 
-    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didRetireAircraft aircraftId: ObjectId) {
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId) {
         if let index = aircraftViewModels.firstIndex(where: { $0.aircraftId == aircraftId }) {
             aircraftViewModels.remove(at: index)
             collectionView.reloadData()
@@ -231,19 +235,13 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
 extension AircraftListViewController: NewAircraftViewControllerDelegate {
 
     func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
-        navigationController?.popViewController(animated: true)
 
-        let aircraftViewModel = AircraftViewModel(with: aircraft)
-        aircraftViewModels += [aircraftViewModel]
+        let newViewModel = AircraftViewModel(with: aircraft)
 
-        let indexPath = IndexPath(item: aircraftViewModels.count - 1, section: 0)
-        let indexPaths: [IndexPath] = [indexPath]
-
-        collectionView.performBatchUpdates({
-            collectionView.insertItems(at: indexPaths)
-        }, completion: { [weak self] finished in
-            self?.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
-        })
+        // Swap view controller without animation, so the user can now upload an image to the new aircraft
+        // TODO: The aircraft spec list doesn't show entirely. It is covered by the header for whatever reason.
+        navigationController?.popViewController(animated: false)
+        showAircraftDetail(newViewModel, isNew: true, animated: false)
     }
 
     func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {

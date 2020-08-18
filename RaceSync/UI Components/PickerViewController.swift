@@ -160,7 +160,7 @@ extension PickerViewController: PickerViewDelegate {
     func pickerView(_ pickerView: PickerView, didSelectRow row: Int) {
         let item = items[row]
 
-        let enabled = delegate?.formViewController?(self, enableSelectionWithItem: selectedItem ?? "") ?? (item != selectedItem)
+        let enabled = delegate?.formViewController?(self, enableSelectionWithItem: selectedItem ?? item) ?? (item != selectedItem)
         navigationItem.rightBarButtonItem?.isEnabled = enabled
     }
 

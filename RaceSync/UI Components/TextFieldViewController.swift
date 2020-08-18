@@ -37,7 +37,7 @@ class TextFieldViewController: FormViewController {
         let textField = UITextField()
         textField.delegate = self
         textField.keyboardType = .default
-        textField.autocapitalizationType = .sentences
+        textField.autocapitalizationType = .words
         textField.clearButtonMode = .whileEditing
         textField.returnKeyType = self.delegate?.formViewControllerKeyboardReturnKeyType?(self) ?? .done
         textField.textContentType = .nickname

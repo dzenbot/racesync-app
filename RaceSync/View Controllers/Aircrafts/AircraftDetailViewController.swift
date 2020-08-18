@@ -13,7 +13,7 @@ import Presentr
 
 protocol AircraftDetailViewControllerDelegate {
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didEditAircraft aircraftId: ObjectId)
-    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didRetireAircraft aircraftId: ObjectId)
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId)
 }
 
 class AircraftDetailViewController: ViewController {
@@ -21,6 +21,7 @@ class AircraftDetailViewController: ViewController {
     // MARK: - Public Variables
 
     var isEditable: Bool = true
+    var isNew: Bool = false
     var shouldDisplayHeader: Bool = true
 
     var delegate: AircraftDetailViewControllerDelegate?
@@ -136,11 +137,18 @@ class AircraftDetailViewController: ViewController {
         if isEditable {
             tableView.tableFooterView = deleteButtonView
         }
+
+        if isNew {
+            // Promote uploading an aircraft avatar after the creation step
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.headerView.presentUploadSheet(.main)
+            }
+        }
     }
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
         title = aircraftViewModel.displayName
@@ -171,7 +179,18 @@ class AircraftDetailViewController: ViewController {
         }
     }
 
-    fileprivate func presentPicker(forRow row: AircraftRow) {
+    // MARK: - Actions
+
+    @objc func didPressDeleteButton() {
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, delete", completion: { (action) in
+            self.retireAircraft()
+        }, cancel: nil)
+    }
+}
+
+fileprivate extension AircraftDetailViewController {
+
+    func presentPicker(forRow row: AircraftRow) {
         let items = row.aircraftSpecValues
         let selectedItem = row.specValue(from: aircraftViewModel)
         let defaultItem = row.defaultAircraftSpecValue
@@ -185,7 +204,7 @@ class AircraftDetailViewController: ViewController {
         customPresentViewController(presenter, viewController: formdNC, animated: true)
     }
 
-    fileprivate func presentTextField(forRow row: AircraftRow) {
+    func presentTextField(forRow row: AircraftRow) {
         let text = row.specValue(from: aircraftViewModel)
 
         let presenter = Appearance.defaultPresenter()
@@ -198,21 +217,13 @@ class AircraftDetailViewController: ViewController {
         customPresentViewController(presenter, viewController: formdNC, animated: true)
     }
 
-    // MARK: - Actions
-
-    @objc func didPressDeleteButton() {
-        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, delete", completion: { (action) in
-            self.retireAircraft()
-        }, cancel: nil)
-    }
-
     func retireAircraft() {
         let aircraftId = aircraftViewModel.aircraftId
 
         aircraftApi.retire(aircraft: aircraftId) { [weak self] (status, error)  in
             guard let strongSelf = self else { return }
             if status {
-                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didRetireAircraft: aircraftId)
+                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didDeleteAircraft: aircraftId)
             } else if let error = error {
                 AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
             }

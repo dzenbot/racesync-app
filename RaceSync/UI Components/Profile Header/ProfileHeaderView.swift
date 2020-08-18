@@ -289,11 +289,6 @@ class ProfileHeaderView: UIView {
         guard isEditable else { return }
         presentUploadSheet(.background)
     }
-}
-
-// MARK: - Image Upload
-
-fileprivate extension ProfileHeaderView {
 
     func presentUploadSheet(_ imageType: ImageType) {
         guard let topMostVC = UIViewController.topMostViewController() else { return }
@@ -314,6 +309,11 @@ fileprivate extension ProfileHeaderView {
 
         topMostVC.present(alert, animated: true)
     }
+}
+
+// MARK: - Image Upload
+
+fileprivate extension ProfileHeaderView {
 
     func presentImagePicker(_ source: UIImagePickerController.SourceType = .photoLibrary, imageType: ImageType) {
         guard let objectId = viewModel?.id else { return }
