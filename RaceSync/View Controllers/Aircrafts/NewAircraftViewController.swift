@@ -30,7 +30,23 @@ class NewAircraftViewController: ViewController {
         tableView.delegate = self
         tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
         tableView.contentInsetAdjustmentBehavior = .always
-        tableView.tableFooterView = UIView()
+
+        let footerView = UIView()
+        footerView.backgroundColor = .clear
+
+        let footerLabel = UILabel()
+        footerLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        footerLabel.text = "* Required fields"
+        footerLabel.textColor = Color.gray200
+
+        footerView.addSubview(footerLabel)
+        footerLabel.snp.makeConstraints {
+            $0.top.leading.equalToSuperview().offset(Constants.padding)
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
+        }
+
+        tableView.tableFooterView = footerView
+
         return tableView
     }()
 
@@ -113,7 +129,7 @@ class NewAircraftViewController: ViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         title = "New Aircraft"
         view.backgroundColor = Color.white
@@ -128,53 +144,6 @@ class NewAircraftViewController: ViewController {
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
-    }
-
-    fileprivate func presentTextField(forRow row: AircraftRow, animated: Bool = true) {
-
-        let textFieldVC = TextFieldViewController(with: aircraftSpecs.name)
-        textFieldVC.delegate = self
-        textFieldVC.title = row.title
-        textFieldVC.textField.placeholder = row.title
-
-        let formdNC = NavigationController(rootViewController: textFieldVC)
-        customPresentViewController(presenter, viewController: formdNC, animated: animated)
-
-        formNavigationController = formdNC
-    }
-
-    fileprivate func presentPicker(forRow row: AircraftRow, animated: Bool = true) {
-        var items = row.aircraftSpecValues
-        if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
-            items = values
-        }
-
-        let selectedItem = row.displayText(from: aircraftSpecs)
-        let defaultItem = row.defaultAircraftSpecValue
-
-        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
-        pickerVC.delegate = self
-        pickerVC.title = row.title
-
-        let formdNC = NavigationController(rootViewController: pickerVC)
-        customPresentViewController(presenter, viewController: formdNC, animated: animated)
-    }
-
-    fileprivate func pushPicker(forRow row: AircraftRow, animated: Bool = true) {
-        var items = row.aircraftSpecValues
-        if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
-            items = values
-        }
-
-        let selectedItem = row.displayText(from: aircraftSpecs)
-        let defaultItem = row.defaultAircraftSpecValue
-
-        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
-        pickerVC.delegate = self
-        pickerVC.title = row.title
-
-        formNavigationController?.pushViewController(pickerVC, animated: animated)
-        formNavigationController?.delegate = self
     }
 
     // MARK: - Action
@@ -200,10 +169,76 @@ class NewAircraftViewController: ViewController {
     @objc func didPressCloseButton() {
         delegate?.newAircraftViewControllerDidDismiss(self)
     }
+}
+
+fileprivate extension NewAircraftViewController {
+
+    func presentTextField(forRow row: AircraftRow, animated: Bool = true) {
+
+        let textFieldVC = TextFieldViewController(with: aircraftSpecs.name)
+        textFieldVC.delegate = self
+        textFieldVC.title = row.title
+        textFieldVC.textField.placeholder = row.title
+
+        let formdNC = NavigationController(rootViewController: textFieldVC)
+        customPresentViewController(presenter, viewController: formdNC, animated: animated)
+
+        formNavigationController = formdNC
+    }
+
+    func presentPicker(forRow row: AircraftRow, animated: Bool = true) {
+        var items = row.aircraftSpecValues
+        if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
+            items = values
+        }
+
+        let selectedItem = row.displayText(from: aircraftSpecs)
+        let defaultItem = row.defaultAircraftSpecValue
+
+        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
+        pickerVC.delegate = self
+        pickerVC.title = row.title
+
+        let formdNC = NavigationController(rootViewController: pickerVC)
+        customPresentViewController(presenter, viewController: formdNC, animated: animated)
+    }
+
+    func pushPicker(forRow row: AircraftRow, animated: Bool = true) {
+        var items = row.aircraftSpecValues
+        if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
+            items = values
+        }
+
+        let selectedItem = row.displayText(from: aircraftSpecs)
+        let defaultItem = row.defaultAircraftSpecValue
+
+        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
+        pickerVC.delegate = self
+        pickerVC.title = row.title
+
+        formNavigationController?.pushViewController(pickerVC, animated: animated)
+        formNavigationController?.delegate = self
+    }
+
+    func showAircraftDetail(_ aircraftViewModel: AircraftViewModel) {
+        let aircraftDetailVC = AircraftDetailViewController(with: aircraftViewModel)
+        aircraftDetailVC.isEditable = true
+
+        aircraftDetailVC.willMove(toParent: navigationController)
+        navigationController?.addChild(aircraftDetailVC)
+
+        aircraftDetailVC.view.frame = self.view.frame
+        navigationController?.view.addSubview(aircraftDetailVC.view)
+
+        aircraftDetailVC.didMove(toParent: navigationController)
+
+        self.view.removeFromSuperview()
+        navigationController?.removeFromParent()
+    }
 
     // MARK: - Verification
 
-    fileprivate func canCreateAircraft() -> Bool {
+    func canCreateAircraft() -> Bool {
 
         let requiredRows = AircraftRow.allCases.filter({ (row) -> Bool in
             return row.isAircraftSpecRequired
