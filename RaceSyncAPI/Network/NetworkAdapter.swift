@@ -95,7 +95,7 @@ class NetworkAdapter {
         let fileName = "Image-\(UUID().uuidString).jpg"
 
         upload(multipartFormData: { multipartFormData in
-            multipartFormData.append(data, withName: name, fileName:fileName, mimeType: "image/jpeg")
+            multipartFormData.append(data, withName: name, fileName: fileName, mimeType: "image/jpeg")
         }, to: url, method: method, headers: httpHeaders)
         { (result) in
             completion?(result)

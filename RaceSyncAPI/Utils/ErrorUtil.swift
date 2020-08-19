@@ -45,20 +45,19 @@ class ErrorUtil {
 
         for (_, value) in json[ParameterKey.errors] {
             if let content = value.array?.first, let description = content.string {
-                let error = generateError(description, withCode: .malfunction)
-                errors += [error]
+                errors += [generateError(description, withCode: .malfunction)]
             }
         }
 
-        // looking for HTTP error exceptions
-        if let rawString = json.rawString(), rawString.count > 0, rawString.contains("Exception") {
-            let error = generateError(rawString, withCode: .malfunction)
-            errors += [error]
+        // Looking for false status responses
+        if let status = json[ParameterKey.status].rawValue as? Bool, status == false,
+           let description = json[ParameterKey.statusDescription].rawValue as? String {
+            errors += [generateError(description, withCode: .malfunction)]
         }
 
-        if let description = json[ParameterKey.statusDescription].rawValue as? String {
-            let error = generateError(description, withCode: .malfunction)
-            errors += [error]
+        // Looking for HTTP error exceptions
+        if let rawString = json.rawString(), rawString.count > 0, rawString.contains("Exception") {
+            errors += [generateError(rawString, withCode: .malfunction)]
         }
 
         return errors.count > 0 ? errors : nil
