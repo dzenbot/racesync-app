@@ -22,7 +22,7 @@ class AircraftDetailViewController: ViewController {
 
     var isEditable: Bool = true
     var isNew: Bool = false
-    var shouldDisplayHeader: Bool = true
+    var shouldShowHeader: Bool = true
 
     var delegate: AircraftDetailViewControllerDelegate?
 
@@ -154,7 +154,7 @@ class AircraftDetailViewController: ViewController {
         title = aircraftViewModel.displayName
         view.backgroundColor = Color.white
 
-        if shouldDisplayHeader {
+        if shouldShowHeader {
             headerView.isEditable = isEditable
             headerView.topLayoutInset = topOffset
             headerView.viewModel = ProfileViewModel(with: aircraft)
@@ -166,7 +166,7 @@ class AircraftDetailViewController: ViewController {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
 
-        if shouldDisplayHeader {
+        if shouldShowHeader {
             let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             headerView.snp.makeConstraints {
                 $0.size.equalTo(headerViewSize)
@@ -454,7 +454,7 @@ extension AircraftDetailViewController: ProfileHeaderViewDelegate {
 extension AircraftDetailViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if shouldDisplayHeader {
+        if shouldShowHeader {
             stretchHeaderView(with: scrollView.contentOffset)
         }
     }

@@ -15,22 +15,23 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
     // MARK: - Public Variables
 
     var race: Race
+    var shouldShowMap: Bool = false
 
     // MARK: - Private Variables
 
-    fileprivate let mapViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.mapHeight)
-
-    fileprivate lazy var mapImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = Color.clear
-        imageView.isUserInteractionEnabled = true
-        imageView.clipsToBounds = true
+    fileprivate lazy var mapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.isZoomEnabled = false
+        mapView.isScrollEnabled = false
+        mapView.isRotateEnabled = false
+        mapView.isPitchEnabled = false
+        mapView.showsUserLocation = false
+        mapView.delegate = self
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapMapView))
-        imageView.addGestureRecognizer(tapGestureRecognizer)
+        mapView.addGestureRecognizer(tapGestureRecognizer)
 
-        return imageView
+        return mapView
     }()
 
     fileprivate lazy var titleLabel: PasteboardLabel = {
@@ -183,7 +184,7 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate var canDisplayMap: Bool {
-        return raceCoordinates != nil
+        return shouldShowMap && raceCoordinates != nil
     }
 
     fileprivate var canDisplayDescription: Bool {
@@ -275,9 +276,11 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
 
         let contentView = UIView()
 
+        // add temporairly to the view hiearchy so the map is displayed when loading
+        // remove the map once the snapshot has been rendered
         if canDisplayMap {
-            contentView.addSubview(mapImageView)
-            mapImageView.snp.makeConstraints {
+            contentView.addSubview(mapView)
+            mapView.snp.makeConstraints {
                 $0.top.equalToSuperview().offset(-topOffset)
                 $0.leading.trailing.equalToSuperview()
                 $0.height.equalTo(Constants.mapHeight)
@@ -288,7 +291,7 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
             contentView.addSubview(rotatingIconView)
             rotatingIconView.snp.makeConstraints {
                 if canDisplayMap {
-                    $0.top.equalTo(mapImageView.snp.bottom).offset(Constants.padding*1.5)
+                    $0.top.equalTo(mapView.snp.bottom).offset(Constants.padding*1.5)
                 } else {
                     $0.top.equalToSuperview().offset(Constants.padding*1.5)
                 }
@@ -305,11 +308,10 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
                 $0.leading.equalTo(rotatingIconView.snp.trailing).offset(Constants.padding/2)
             } else {
                 if canDisplayMap {
-                    $0.top.equalTo(mapImageView.snp.bottom).offset(Constants.padding*1.5)
+                    $0.top.equalTo(mapView.snp.bottom).offset(Constants.padding*1.5)
                 } else {
                     $0.top.equalToSuperview().offset(Constants.padding*1.5)
                 }
-
                 $0.leading.equalToSuperview().offset(Constants.padding)
             }
 
@@ -454,14 +456,27 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
             }
         }
 
+        if canDisplayMap {
+            guard let coordinates = raceCoordinates else { return }
+
+            let distance = CLLocationDistance(1000)
+            let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: distance, longitudinalMeters: distance)
+
+            let mapRect = MKCoordinateRegion.mapRectForCoordinateRegion(region)
+            let paddedMapRect = mapRect.offsetBy(dx: 0, dy: -1500) // TODO: Convert Screen points to Map points instead of harcoded value
+
+            let location = MKPointAnnotation()
+            location.coordinate = coordinates
+            mapView.addAnnotation(location)
+            mapView.setVisibleMapRect(paddedMapRect, animated: false)
+        }
+
         // lays out the content and helps calculating the content size
         let contentRect: CGRect = scrollView.subviews.reduce(into: .zero) { rect, view in
             rect = rect.union(view.frame)
         }
         
         scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height*3)
-
-        loadMapIfPossible()
     }
 
     func reloadContent() {
@@ -528,6 +543,17 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
 
         let activityVC = UIActivityViewController(activityItems: items, applicationActivities: activities)
         present(activityVC, animated: true)
+    }
+
+    func presentMapView() {
+        guard let coordinates = raceCoordinates, let address = race.address else { return }
+
+        let mapVC = MapViewController(with: coordinates, address: address)
+        mapVC.title = "Race Location"
+        mapVC.showsDirection = true
+        let mapNC = NavigationController(rootViewController: mapVC)
+
+        present(mapNC, animated: true)
     }
 }
 
@@ -627,100 +653,6 @@ fileprivate extension RaceDetailViewController {
     }
 }
 
-// MARK: - Map Logic
-
-fileprivate extension RaceDetailViewController {
-
-    func loadMapIfPossible(_ showMapSnapshot: Bool = false) {
-        guard let coordinates = raceCoordinates else { return }
-
-        let distance = CLLocationDistance(1000)
-        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: distance, longitudinalMeters: distance)
-
-        let mapRect = MKCoordinateRegion.mapRectForCoordinateRegion(region)
-        let paddedMapRect = mapRect.offsetBy(dx: 0, dy: -1500) // TODO: Convert Screen points to Map points instead of harcoded value
-
-        let mapView = MKMapView()
-        mapView.isZoomEnabled = false
-        mapView.isScrollEnabled = false
-        mapView.isRotateEnabled = false
-        mapView.isPitchEnabled = false
-        mapView.showsUserLocation = false
-        mapView.delegate = self
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapMapView))
-        mapView.addGestureRecognizer(tapGestureRecognizer)
-
-        let location = MKPointAnnotation()
-        location.coordinate = coordinates
-        mapView.addAnnotation(location)
-
-        mapView.setVisibleMapRect(paddedMapRect, animated: false)
-
-        // add temporairly to the view hiearchy so the map is displayed when loading
-        // remove the map once the snapshot has been rendered
-        scrollView.addSubview(mapView)
-        mapView.snp.makeConstraints {
-            $0.top.equalToSuperview().offset(-topOffset)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.mapHeight)
-        }
-
-        if showMapSnapshot {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-                self?.loadMapSnapshot(with: mapView, mapRect: paddedMapRect, coordinate: coordinates)
-            }
-        }
-    }
-
-    func loadMapSnapshot(with mapView: MKMapView, mapRect: MKMapRect, coordinate: CLLocationCoordinate2D) {
-
-        let snapShotOptions: MKMapSnapshotter.Options = MKMapSnapshotter.Options()
-        snapShotOptions.mapRect = mapRect
-        snapShotOptions.size = mapViewSize
-        snapShotOptions.scale = UIScreen.main.scale
-        snapShotOptions.showsBuildings = mapView.showsBuildings
-        snapShotOptions.showsPointsOfInterest = mapView.showsPointsOfInterest
-
-        // Set MKMapSnapShotOptions to MKMapSnapShotter.
-        let snapShotter: MKMapSnapshotter = MKMapSnapshotter(options: snapShotOptions)
-
-        snapShotter.start { (snapshot, error) in
-            guard let snapshot = snapshot, error == nil else { return }
-
-            let image = UIGraphicsImageRenderer(size: snapShotOptions.size).image { _ in
-                snapshot.image.draw(at: .zero)
-
-                guard let annotationImage = UIImage(named: "icn_map_annotation") else { return }
-
-                var point = snapshot.point(for: coordinate)
-                let rect = mapView.bounds
-
-                if rect.contains(point) {
-                    point.x -= annotationImage.size.width / 2
-                    point.y -= annotationImage.size.height
-                    annotationImage.draw(at: point)
-                }
-            }
-
-            DispatchQueue.main.async {
-                self.mapImageView.image = image
-                mapView.removeFromSuperview()
-            }
-        }
-    }
-
-    func presentMapView() {
-        guard let coordinates = raceCoordinates, let address = race.address else { return }
-
-        let mapVC = MapViewController(with: coordinates, address: address)
-        mapVC.title = "Race Location"
-        mapVC.showsDirection = true
-        let mapNC = NavigationController(rootViewController: mapVC)
-
-        present(mapNC, animated: true)
-    }
-}
-
 // MARK: - UITableView Delegate
 
 extension RaceDetailViewController: UITableViewDelegate {
@@ -805,38 +737,6 @@ extension RaceDetailViewController: MKMapViewDelegate {
     }
 
 }
-
-// MARK: - ScrollView Delegate
-
-//extension RaceDetailViewController: UIScrollViewDelegate {
-//
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        if canDisplayMap {
-//            stretchHeaderView(with: scrollView.contentOffset)
-//        }
-//    }
-//}
-
-// MARK: - HeaderStretchable
-
-//extension RaceDetailViewController: HeaderStretchable {
-//
-//    var targetHeaderView: UIView {
-//        return mapImageView
-//    }
-//
-//    var targetHeaderViewSize: CGSize {
-//        return mapViewSize
-//    }
-//
-//    var topLayoutInset: CGFloat {
-//        return topOffset
-//    }
-//
-//    var anchoredViews: [UIView]? {
-//        return nil
-//    }
-//}
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
     case requirements, chapter, owner, status, liveTime
