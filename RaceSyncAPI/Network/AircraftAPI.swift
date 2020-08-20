@@ -109,17 +109,16 @@ fileprivate extension AircraftAPI {
                 upload.responseString { response in
                     Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
 
-                    guard let jsonString = response.result.value else {
-                        completion(nil, nil)
-                        return
-                    }
-
-                    let json = JSON.init(parseJSON: jsonString)
-
-                    if let errors = ErrorUtil.errors(fromJSON: json) {
-                        completion(nil, errors.first)
-                    } else {
-                        completion(json[ParameterKey.url].rawValue as? String, nil)
+                    switch response.result {
+                    case .success(let value):
+                        let json = JSON(value)
+                        if let errors = ErrorUtil.errors(fromJSON: json) {
+                            completion(nil, errors.first)
+                        } else {
+                            completion(json[ParameterKey.url].rawValue as? String, nil)
+                        }
+                    case .failure:
+                        completion(nil, response.error as NSError?)
                     }
                 }
 

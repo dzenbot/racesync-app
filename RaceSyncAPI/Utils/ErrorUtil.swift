@@ -56,8 +56,8 @@ class ErrorUtil {
         }
 
         // Looking for HTTP error exceptions
-        if let rawString = json.rawString(), rawString.count > 0, rawString.contains("Exception") {
-            errors += [generateError(rawString, withCode: .malfunction)]
+        if json.isEmpty, let jsonString = json.rawString(), jsonString.contains("Exception") {
+            errors += [generateError(jsonString, withCode: .malfunction)]
         }
 
         return errors.count > 0 ? errors : nil
