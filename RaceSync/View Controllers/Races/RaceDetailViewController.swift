@@ -604,14 +604,14 @@ fileprivate extension RaceDetailViewController {
     func toggleRaceStatus(_ cell: FormTableViewCell) {
         guard !didTapCell else { return }
 
-        if race.status == .open {
-            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close this race?",
+        if race.status == .opened {
+            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close enrollment for this race?",
                                                           destructiveTitle: "Yes, Close",
                                                           completion: { [weak self] (action) in
                                                             self?.closeRace(cell)
             })
         } else {
-            ActionSheetUtil.presentActionSheet(withTitle: "Open this race?",
+            ActionSheetUtil.presentActionSheet(withTitle: "Open enrollment for this race?",
                                                buttonTitle: "Yes, Open",
                                                completion: { [weak self] (action) in
                                                 self?.openRace(cell)
@@ -627,7 +627,7 @@ fileprivate extension RaceDetailViewController {
             self?.setLoading(cell, loading: false)
 
             if status {
-                self?.race.status = .open
+                self?.race.status = .opened
                 self?.reloadRaceView()
             }
         }

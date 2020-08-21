@@ -23,7 +23,7 @@ public enum RaceType: String, EnumTitle {
 }
 
 public enum RaceStatus: String {
-    case open = "Open"
+    case opened = "Opened"
     case closed = "Closed"
 }
 
