@@ -111,8 +111,8 @@ fileprivate extension AircraftAPI {
 
                     switch response.result {
                     case .success(let value):
-                        let json = JSON(value)
-                        if let errors = ErrorUtil.errors(fromJSON: json) {
+                        let json = JSON.init(parseJSON: value)
+                        if let errors = ErrorUtil.errors(fromJSONString: value) {
                             completion(nil, errors.first)
                         } else {
                             completion(json[ParameterKey.url].rawValue as? String, nil)

@@ -39,6 +39,11 @@ class ErrorUtil {
         }
     }
 
+    static func errors(fromJSONString string: String) -> [NSError]? {
+        let json = JSON(string)
+        return errors(fromJSON: json)
+    }
+
     static func errors(fromJSON json: JSON) -> [NSError]? {
 
         var errors = [NSError]()
