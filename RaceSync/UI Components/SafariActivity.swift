@@ -16,6 +16,6 @@ class SafariActivity: TUSafariActivity {
     }
 
     override var activityImage: UIImage? {
-        return UIImage(named: "icn_safari_activity")
+        return UIImage(named: "icn_activity_safari")
     }
 }

@@ -47,7 +47,7 @@ class MapViewController: ViewController {
     }()
 
     fileprivate lazy var navigationBarButtonItem: UIBarButtonItem = {
-        return UIBarButtonItem(image: UIImage(named: "icn_navigation"), style: .done, target: self, action: #selector(didPressDirectionsButton))
+        return UIBarButtonItem(image: UIImage(named: "icn_navbar_directions"), style: .done, target: self, action: #selector(didPressDirectionsButton))
     }()
 
     fileprivate enum Constants {

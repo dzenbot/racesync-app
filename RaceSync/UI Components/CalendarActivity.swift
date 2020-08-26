@@ -26,7 +26,7 @@ class CalendarActivity: UIActivity {
     }
 
     override var activityImage: UIImage? {
-        return UIImage(named: "icn_calendar_activity")
+        return UIImage(named: "icn_activity_calendar")
     }
 
     override func canPerform(withActivityItems activityItems: [Any]) -> Bool {

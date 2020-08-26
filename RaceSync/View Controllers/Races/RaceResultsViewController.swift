@@ -65,7 +65,7 @@ class RaceResultsViewController: ViewController {
     fileprivate func setupLayout() {
 
         title = "Race Results"
-        tabBarItem = UITabBarItem(title: "Results", image: UIImage(named: "icn_tab_results"), tag: 1)
+        tabBarItem = UITabBarItem(title: "Results", image: UIImage(named: "icn_tabbar_results"), tag: 1)
         
         view.backgroundColor = Color.white
 

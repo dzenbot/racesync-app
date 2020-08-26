@@ -92,7 +92,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
     fileprivate lazy var filterButton: CustomButton = {
         let button = CustomButton(type: .system)
         button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_filter"), for: .normal)
+        button.setImage(UIImage(named: "icn_navbar_filter"), for: .normal)
         button.isEnabled = false
         return button
     }()
@@ -100,7 +100,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
     fileprivate lazy var settingsButton: CustomButton = {
         let button = CustomButton(type: .system)
         button.addTarget(self, action: #selector(didPressSettingsButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_settings"), for: .normal)
+        button.setImage(UIImage(named: "icn_navbar_settings"), for: .normal)
         return button
     }()
 

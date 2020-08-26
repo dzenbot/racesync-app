@@ -98,7 +98,7 @@ class RaceRosterViewController: ViewController, ViewJoinable, RaceTabbable {
     fileprivate func configureNavigationItems() {
 
         title = "Race Roster"
-        tabBarItem = UITabBarItem(title: "Roster", image: UIImage(named: "icn_tab_roster"), selectedImage: UIImage(named: "icn_tab_roster_selected"))
+        tabBarItem = UITabBarItem(title: "Roster", image: UIImage(named: "icn_tabbar_roster"), selectedImage: UIImage(named: "icn_tabbar_roster_selected"))
 
         if race.isMyChapter {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressAddButton))

@@ -133,15 +133,15 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
         let shareButton = CustomButton(type: .system)
         shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
-        shareButton.setImage(UIImage(named: "icn_share"), for: .normal)
+        shareButton.setImage(UIImage(named: "icn_navbar_share"), for: .normal)
         buttons += [shareButton]
 
-        let stackView = UIStackView(arrangedSubviews: buttons)
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .lastBaseline
-        stackView.spacing = Constants.buttonSpacing
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
+        let rightStackView = UIStackView(arrangedSubviews: buttons)
+        rightStackView.axis = .horizontal
+        rightStackView.distribution = .fillEqually
+        rightStackView.alignment = .lastBaseline
+        rightStackView.spacing = Constants.buttonSpacing
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightStackView)
 
         if navigationController?.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))

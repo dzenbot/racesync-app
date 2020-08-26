@@ -40,6 +40,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let buttonHeight: CGFloat = 32
+        static let buttonSpacing: CGFloat = 12
     }
 
     // MARK: - Initialization
@@ -98,7 +99,27 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     }
 
     fileprivate func configureBarButtonItems() {
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+
+        var buttons = [UIButton]()
+
+        if chapter.isMyChapter {
+            let addButton = CustomButton(type: .system)
+            addButton.addTarget(self, action: #selector(didPressAddButton), for: .touchUpInside)
+            addButton.setImage(UIImage(named: "icn_navbar_add"), for: .normal)
+            buttons += [addButton]
+        }
+
+        let shareButton = CustomButton(type: .system)
+        shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
+        shareButton.setImage(UIImage(named: "icn_navbar_share"), for: .normal)
+        buttons += [shareButton]
+
+        let rightStackView = UIStackView(arrangedSubviews: buttons)
+        rightStackView.axis = .horizontal
+        rightStackView.distribution = .fillEqually
+        rightStackView.alignment = .lastBaseline
+        rightStackView.spacing = Constants.buttonSpacing
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightStackView)
 
         if navigationController?.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
@@ -115,10 +136,6 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         } else {
             loadUsers()
         }
-    }
-
-    @objc func didPressCloseButton() {
-        dismiss(animated: true)
     }
 
     override func didPressLocationButton() {
@@ -144,6 +161,14 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
                 navigationController?.pushViewController(userVC, animated: true)
             }
         }
+    }
+
+    @objc func didPressAddButton() {
+
+    }
+
+    @objc func didPressCloseButton() {
+        dismiss(animated: true)
     }
 }
 

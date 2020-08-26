@@ -400,20 +400,20 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
     fileprivate func configureNavigationItems() {
 
         title = "Race Details"
-        tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tab_details"), selectedImage: UIImage(named: "icn_tab_details_selected"))
+        tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
 
         var buttons = [UIButton]()
 
         if let _ = race.calendarEvent {
             let calendarButton = CustomButton(type: .system)
             calendarButton.addTarget(self, action: #selector(didPressCalendarButton), for: .touchUpInside)
-            calendarButton.setImage(UIImage(named: "icn_calendar"), for: .normal)
+            calendarButton.setImage(UIImage(named: "icn_navbar_calendar"), for: .normal)
             buttons += [calendarButton]
         }
 
         let shareButton = CustomButton(type: .system)
         shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
-        shareButton.setImage(UIImage(named: "icn_share"), for: .normal)
+        shareButton.setImage(UIImage(named: "icn_navbar_share"), for: .normal)
         buttons += [shareButton]
 
         let stackView = UIStackView(arrangedSubviews: buttons)
