@@ -215,26 +215,31 @@ fileprivate enum Section: Int, EnumTitle, CaseIterable {
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
     case measurement
-
     case submitFeedback
     case readRules
     case visitStore
     case visitSite
-
-//    case switchEnv
     case logout
 
     var title: String {
         switch self {
         case .measurement:          return "Measurement System"
-
         case .submitFeedback:       return "Send Feedback"
         case .readRules:            return "2020 Season Rules"
         case .visitStore:           return "Visit the MultiGP Shop"
         case .visitSite:            return "Go to MultiGP.com"
-
-//        case .switchEnv:            return "Switch to"
         case .logout:               return "Logout"
+        }
+    }
+
+    var imageName: String {
+        switch self {
+        case .measurement:          return "icn_settings_rule"
+        case .submitFeedback:       return "icn_settings_feedback"
+        case .readRules:            return "icn_settings_handbook"
+        case .visitStore:           return "icn_settings_store"
+        case .visitSite:            return "icn_settings_mgp"
+        case .logout:               return "icn_settings_logout"
         }
     }
 }
