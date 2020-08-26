@@ -324,11 +324,21 @@ fileprivate extension RaceListViewController {
 
     func loadMyUser() {
         userApi.getMyUser { (user, error) in
-            APIServices.shared.myUser = user
-            
-            if user != nil {
+
+            if let user = user {
+                APIServices.shared.myUser = user
+                CrashCatcher.setupUser(user.id, username: user.userName)
+
                 self.updateProfilePicture()
                 self.loadRaces()
+
+//                let aircraftVC = AircraftListViewController(with: user)
+//                aircraftVC.isEditable = user.isMe
+//
+//                let nc = UINavigationController(rootViewController: aircraftVC)
+//                nc.modalPresentationStyle = .fullScreen
+//                self.present(nc, animated: true, completion: nil)
+
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session
                 ApplicationControl.shared.invalidateSession()

@@ -33,6 +33,10 @@ public protocol AircrafApiInterface {
     /**
     */
     func retire(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock)
+
+    /**
+    */
+    func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock?, _ completion: @escaping ObjectCompletionBlock<String>)
 }
 
 public class AircraftAPI: AircrafApiInterface {
@@ -79,4 +83,49 @@ public class AircraftAPI: AircrafApiInterface {
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
+
+    public func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock? = nil, _ completion: @escaping ObjectCompletionBlock<String>) {
+        guard let data = image.jpegData(compressionQuality: 0.7) else { return }
+
+        let url = MGPWebConstant.apiBase.rawValue + "aircraft/" + "\(imageType.endpoint)?\(ParameterKey.id)=\(aircraftId)"
+        uploadImage(data, name: imageType.key, endpoint: url, progressBlock: progressBlock, completion)
+    }
 }
+
+fileprivate extension AircraftAPI {
+
+    func uploadImage(_ data: Data, name: String, endpoint: String, progressBlock: ProgressBlock?, _ completion: @escaping ObjectCompletionBlock<String>) {
+        Clog.log("Starting request \(endpoint)")
+
+        // Multipart
+        repositoryAdapter.networkAdapter.httpMultipartUpload(data, name: name, url: endpoint) { (result) in
+            switch result {
+            case .success(let upload, _, _):
+
+                upload.uploadProgress(closure: { (progress) in
+                    print("Upload Progress: \(progress.fractionCompleted)")
+                })
+
+                upload.responseString { response in
+                    Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
+
+                    switch response.result {
+                    case .success(let value):
+                        let json = JSON.init(parseJSON: value)
+                        if let errors = ErrorUtil.errors(fromJSONString: value) {
+                            completion(nil, errors.first)
+                        } else {
+                            completion(json[ParameterKey.url].rawValue as? String, nil)
+                        }
+                    case .failure:
+                        completion(nil, response.error as NSError?)
+                    }
+                }
+
+            case .failure(let encodingError):
+                print(encodingError)
+            }
+        }
+    }
+}
+

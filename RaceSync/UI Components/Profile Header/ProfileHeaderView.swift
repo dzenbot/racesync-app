@@ -9,6 +9,11 @@
 import UIKit
 import SnapKit
 import RaceSyncAPI
+import TOCropViewController
+
+protocol ProfileHeaderViewDelegate {
+    func shouldUploadImage(_ image: UIImage, imageType: ImageType, for objectId: ObjectId)
+}
 
 class ProfileHeaderView: UIView {
 
@@ -23,6 +28,16 @@ class ProfileHeaderView: UIView {
         }
     }
 
+    var isEditable: Bool = false {
+        didSet {
+            cameraButton.isHidden = !isEditable
+            avatarView.isUserInteractionEnabled = isEditable
+            backgroundView.isUserInteractionEnabled = isEditable
+        }
+    }
+
+    var delegate: ProfileHeaderViewDelegate?
+
     lazy var locationButton: PasteboardButton = {
         let button = PasteboardButton(type: .system)
         button.tintColor = Color.red
@@ -33,13 +48,35 @@ class ProfileHeaderView: UIView {
         return button
     }()
 
-    lazy var backgroundImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        return imageView
+    lazy var cameraButton: CustomButton = {
+        let button = CustomButton(type: .system)
+        button.setImage(UIImage(named: "icn_button_camera"), for: .normal)
+        button.tintColor = Color.white
+        button.isHidden = true
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -20)
+        button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
+        button.layer.shadowColor = Color.black.cgColor
+        button.layer.shadowOffset = CGSize(width: 0, height: 2.0)
+        button.layer.shadowOpacity = 0.35
+        button.layer.shadowRadius = 2.5
+        return button
     }()
 
-    var backgroundImageViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight)
+    lazy var avatarView: ProfileAvatarView = {
+        let view = ProfileAvatarView()
+        view.isUserInteractionEnabled = isEditable
+        view.addTarget(self, action: #selector(didPressAvatarView), for: .touchUpInside)
+        return view
+    }()
+
+    lazy var backgroundView: ProfileBackgroundView = {
+        let view = ProfileBackgroundView()
+        view.isUserInteractionEnabled = isEditable
+        view.addTarget(self, action: #selector(didPressBackgroundView), for: .touchUpInside)
+        return view
+    }()
+
+    var backgroundViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight)
 
     func hideLeftBadgeButton(_ hide: Bool) {
         leftBadgeButton.isHidden = hide
@@ -50,10 +87,6 @@ class ProfileHeaderView: UIView {
     }
 
     // MARK: - Private Variables
-
-    fileprivate lazy var profileImageView: ProfileImageView = {
-        return ProfileImageView()
-    }()
 
     fileprivate lazy var mainTextLabel: PasteboardLabel = {
         let label = PasteboardLabel()
@@ -105,6 +138,8 @@ class ProfileHeaderView: UIView {
 
     fileprivate var hasLaidOut: Bool = false
 
+    fileprivate var imagePicker: ImagePickerController?
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let headerHeight: CGFloat = 260
@@ -123,47 +158,57 @@ class ProfileHeaderView: UIView {
 
     // MARK: - Layout
 
+    override func layoutSubviews() {
+        super.layoutSubviews()
+    }
+
     fileprivate func setupLayout() {
         guard !hasLaidOut else { return }
 
         backgroundColor = Color.white
 
-        addSubview(backgroundImageView)
-        backgroundImageView.snp.makeConstraints {
+        addSubview(backgroundView)
+        backgroundView.snp.makeConstraints {
             $0.top.equalTo(snp.top).offset(-topLayoutInset)
             $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width)
             $0.height.equalTo(Constants.headerHeight)
         }
 
-        addSubview(profileImageView)
-        profileImageView.snp.makeConstraints {
-            $0.top.equalTo(backgroundImageView.snp.bottom).offset(-Constants.avatarHeight*6/7) // 85%
+        addSubview(avatarView)
+        avatarView.snp.makeConstraints {
+            $0.top.equalTo(backgroundView.snp.bottom).offset(-Constants.avatarHeight*6/7) // 85%
             $0.centerX.equalToSuperview()
             $0.height.equalTo(Constants.avatarHeight)
         }
 
+        addSubview(cameraButton)
+        cameraButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(Constants.padding)
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
+        }
+
         addSubview(leftBadgeButton)
         leftBadgeButton.snp.makeConstraints {
-            $0.top.equalTo(backgroundImageView.snp.bottom).offset(Constants.padding/2)
+            $0.top.equalTo(backgroundView.snp.bottom).offset(Constants.padding/2)
             $0.leading.equalToSuperview().offset(Constants.padding)
         }
 
         addSubview(rightBadgeButton)
         rightBadgeButton.snp.makeConstraints {
-            $0.top.equalTo(backgroundImageView.snp.bottom).offset(Constants.padding/2)
+            $0.top.equalTo(backgroundView.snp.bottom).offset(Constants.padding/2)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
         addSubview(topBadgeButton)
         topBadgeButton.snp.makeConstraints {
-            $0.top.equalTo(backgroundImageView.snp.bottom).offset(-Constants.padding*2)
+            $0.top.equalTo(backgroundView.snp.bottom).offset(-Constants.padding*2)
             $0.leading.equalToSuperview().offset(Constants.padding/2)
         }
 
         addSubview(headerLabelStackView)
         headerLabelStackView.snp.makeConstraints {
-            $0.top.equalTo(profileImageView.snp.bottom).offset(Constants.padding)
+            $0.top.equalTo(avatarView.snp.bottom).offset(Constants.padding)
             $0.leading.equalToSuperview().offset(Constants.padding)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
             $0.bottom.equalToSuperview()
@@ -180,27 +225,18 @@ class ProfileHeaderView: UIView {
         func handleBackgroundImage(_ image: UIImage?) {
             guard image == nil else { return }
             let placeholder = UIImage(named: "placeholder_profile_background")
-            backgroundImageView.image = placeholder
+            backgroundView.imageView.image = placeholder
         }
 
         func handleAvatarImage(_ image: UIImage?) {
             guard image == nil else { return }
-
-            var placeholder: UIImage?
-
-            switch viewModel.type {
-            case .user:         placeholder = UIImage(named: "placeholder_profile_avatar")
-            case .chapter:      placeholder = UIImage(named: "placeholder_profile_avatar")
-            case .aircraft:     placeholder = UIImage(named: "placeholder_profile_aircraft")
-            }
-
-            profileImageView.imageView.image = placeholder
+            avatarView.imageView.image = viewModel.type.placeholder
         }
 
         let headerImageSize = CGSize(width: 0, height: Constants.headerHeight)
         let headerPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight))
         if let headerImageUrl = ImageUtil.getSizedUrl(viewModel.backgroundUrl, size: headerImageSize) {
-            backgroundImageView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder) { (image) in
+            backgroundView.imageView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder) { (image) in
                 handleBackgroundImage(image)
             }
         } else {
@@ -210,7 +246,7 @@ class ProfileHeaderView: UIView {
         let avatarImageSize = CGSize(width: Constants.avatarHeight, height: Constants.avatarHeight)
         let avatarPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: avatarImageSize)
         if let avatarImageUrl = ImageUtil.getSizedUrl(viewModel.pictureUrl, size: avatarImageSize) {
-            profileImageView.imageView.setImage(with: avatarImageUrl, placeholderImage: avatarPlaceholder) { (image) in
+            avatarView.imageView.setImage(with: avatarImageUrl, placeholderImage: avatarPlaceholder) { (image) in
                 handleAvatarImage(image)
             }
         } else {
@@ -236,47 +272,66 @@ class ProfileHeaderView: UIView {
         rightBadgeButton.setTitle(viewModel.rightBadgeLabel, for: .normal)
         rightBadgeButton.setImage(viewModel.rightBadgeImage, for: .normal)
     }
+
+    // MARK: - Actions
+
+    @objc fileprivate func didPressAvatarView(_ sender: Any) {
+        guard isEditable else { return }
+        presentUploadSheet(.main)
+    }
+
+    @objc fileprivate func didPressBackgroundView(_ sender: Any) {
+        guard isEditable else { return }
+        presentUploadSheet(.background)
+    }
+
+    @objc fileprivate func didTapCameraButton() {
+        guard isEditable else { return }
+        presentUploadSheet(.background)
+    }
+
+    func presentUploadSheet(_ imageType: ImageType) {
+        guard let topMostVC = UIViewController.topMostViewController() else { return }
+        guard let viewModel = viewModel else { return }
+
+        let alert = UIAlertController(title: "Upload \(imageType.title) image for your \(viewModel.type.rawValue)", message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = Color.blue
+
+        alert.addAction(UIAlertAction(title: "Camera", style: .default) { [weak self] (action) in
+            self?.presentImagePicker(.camera, imageType: imageType)
+        })
+        alert.addAction(UIAlertAction(title: "Photo Library", style: .default) { [weak self] (action) in
+            self?.presentImagePicker(.photoLibrary, imageType: imageType)
+        })
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel) { (action) in
+            // Do something?
+        })
+
+        topMostVC.present(alert, animated: true)
+    }
 }
 
-fileprivate class ProfileImageView: UIView {
+// MARK: - Image Upload
 
-    // MARK: - Variables
+fileprivate extension ProfileHeaderView {
 
-    let height: CGFloat = 170
+    func presentImagePicker(_ source: UIImagePickerController.SourceType = .photoLibrary, imageType: ImageType) {
+        guard let objectId = viewModel?.id else { return }
 
-    lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.backgroundColor = Color.white
-        imageView.layer.cornerRadius = height/2
-        imageView.layer.masksToBounds = true
-        return imageView
-    }()
+        let picker = ImagePickerController()
 
-    // MARK: - Initializatiom
+        var croppingStyle: TOCropViewCroppingStyle = .circular
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        setupLayout()
-    }
-
-    required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    // MARK: - Layout
-
-    func setupLayout() {
-
-        backgroundColor = Color.clear
-
-        layer.shadowColor = Color.black.cgColor
-        layer.shadowOffset = CGSize(width: 0, height: 2.0)
-        layer.shadowOpacity = 0.35
-        layer.shadowRadius = 2.5
-
-        addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview()
+        if imageType == .background {
+            croppingStyle = .default
+            picker.customAspectRatio = CGSize(width: 1100, height: 360)
         }
+
+        picker.presentImagePicker(source, croppingStyle: croppingStyle) { [weak self] (image, error) in
+            guard let image = image else { return }
+            self?.delegate?.shouldUploadImage(image, imageType: imageType, for: objectId)
+        }
+
+        imagePicker = picker
     }
 }

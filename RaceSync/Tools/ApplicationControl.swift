@@ -20,7 +20,9 @@ class ApplicationControl {
 
         APISessionManager.invalidateSession()
         APIServices.shared.invalidate()
+        CrashCatcher.invalidateUser()
 
+        // dismisses the presented view and displays the login screen view instead
         let rootViewController = window?.rootViewController
         rootViewController?.dismiss(animated: true)
     }

@@ -21,6 +21,10 @@ class RepositoryAdapter {
             request.responseObject(keyPath: keyPath, completionHandler: { (response: DataResponse<Element>) in
                 Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
 
+                if let code = response.response?.statusCode, code == 401 {
+                    Clog.log("Detected 401. Should log out User!")
+                }
+
                 switch response.result {
                 case .success(let value):
                     let json = JSON(value)
@@ -51,6 +55,10 @@ class RepositoryAdapter {
             Clog.log("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseArray(keyPath: keyPath, completionHandler: { (response: DataResponse<[Element]>) in
                 var log: String = "+ Ended request with code \(String(describing: response.response?.statusCode)) "
+
+                if let code = response.response?.statusCode, code == 401 {
+                    Clog.log("Detected 401. Should log out User!")
+                }
 
                 // patch for when lists are empty
                 switch response.value {
@@ -89,6 +97,10 @@ class RepositoryAdapter {
             Clog.log("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseJSON { (response) in
                 Clog.log("Ended request with code \(String(describing: response.response?.statusCode))")
+
+                if let code = response.response?.statusCode, code == 401 {
+                    Clog.log("Detected 401. Should log out User!")
+                }
 
                 switch response.result {
                 case .success(let value):

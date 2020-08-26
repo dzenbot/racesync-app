@@ -13,7 +13,7 @@ import Presentr
 
 protocol AircraftDetailViewControllerDelegate {
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didEditAircraft aircraftId: ObjectId)
-    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didRetireAircraft aircraftId: ObjectId)
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId)
 }
 
 class AircraftDetailViewController: ViewController {
@@ -21,13 +21,18 @@ class AircraftDetailViewController: ViewController {
     // MARK: - Public Variables
 
     var isEditable: Bool = true
-    var shouldDisplayHeader: Bool = true
+    var isNew: Bool = false
+    var shouldShowHeader: Bool = true
 
     var delegate: AircraftDetailViewControllerDelegate?
 
     // MARK: - Private Variables
 
-    fileprivate let headerView = ProfileHeaderView()
+    fileprivate lazy var headerView: ProfileHeaderView = {
+        let view = ProfileHeaderView()
+        view.delegate = self
+        return view
+    }()
 
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
@@ -40,8 +45,34 @@ class AircraftDetailViewController: ViewController {
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
+        let view = UIActivityIndicatorView(style: .whiteLarge)
         view.hidesWhenStopped = true
+        return view
+    }()
+
+    fileprivate lazy var deleteButton: ActionButton = {
+        let button = ActionButton(type: .system)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 21, weight: .regular)
+        button.setTitleColor(Color.red, for: .normal)
+        button.setTitle("Delete", for: .normal)
+        button.backgroundColor = Color.white
+        button.layer.cornerRadius = Constants.padding/2
+        button.layer.borderColor = Color.gray100.cgColor
+        button.layer.borderWidth = 0.5
+        button.addTarget(self, action:#selector(didPressDeleteButton), for: .touchUpInside)
+        return button
+    }()
+
+    fileprivate lazy var deleteButtonView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: 0, height: 96))
+
+        view.addSubview(deleteButton)
+        deleteButton.snp.makeConstraints {
+            $0.top.equalToSuperview().offset(Constants.padding*2)
+            $0.leading.equalToSuperview().offset(Constants.padding)
+            $0.bottom.trailing.equalToSuperview().offset(-Constants.padding)
+        }
+
         return view
     }()
 
@@ -86,7 +117,8 @@ class AircraftDetailViewController: ViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        // required delay for setting up the layout before reloading the tableview
         setupLayout()
         isLoading = true
     }
@@ -98,36 +130,43 @@ class AircraftDetailViewController: ViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
 
+        // reloading tableview once the view appears so the content isn't displayed underneath the header view
         isLoading = false
         tableView.reloadData()
+
+        if isEditable {
+            tableView.tableFooterView = deleteButtonView
+        }
+
+        if isNew {
+            // Promote uploading an aircraft avatar after the creation step
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { [weak self] in
+                self?.headerView.presentUploadSheet(.main)
+            }
+        }
     }
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
         title = aircraftViewModel.displayName
         view.backgroundColor = Color.white
 
-        if isEditable {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(didPressDeleteButton))
-            navigationItem.rightBarButtonItem?.tintColor = Color.red
-        }
-
-        if shouldDisplayHeader {
+        if shouldShowHeader {
+            headerView.isEditable = isEditable
             headerView.topLayoutInset = topOffset
             headerView.viewModel = ProfileViewModel(with: aircraft)
             tableView.tableHeaderView = headerView
         }
-
 
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
 
-        if shouldDisplayHeader {
+        if shouldShowHeader {
             let headerViewSize = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize)
             headerView.snp.makeConstraints {
                 $0.size.equalTo(headerViewSize)
@@ -140,7 +179,18 @@ class AircraftDetailViewController: ViewController {
         }
     }
 
-    fileprivate func presentPicker(forRow row: AircraftRow) {
+    // MARK: - Actions
+
+    @objc func didPressDeleteButton() {
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, delete", completion: { (action) in
+            self.deleteAircraft()
+        }, cancel: nil)
+    }
+}
+
+fileprivate extension AircraftDetailViewController {
+
+    func presentPicker(forRow row: AircraftRow) {
         let items = row.aircraftSpecValues
         let selectedItem = row.specValue(from: aircraftViewModel)
         let defaultItem = row.defaultAircraftSpecValue
@@ -154,7 +204,7 @@ class AircraftDetailViewController: ViewController {
         customPresentViewController(presenter, viewController: formdNC, animated: true)
     }
 
-    fileprivate func presentTextField(forRow row: AircraftRow) {
+    func presentTextField(forRow row: AircraftRow) {
         let text = row.specValue(from: aircraftViewModel)
 
         let presenter = Appearance.defaultPresenter()
@@ -167,21 +217,13 @@ class AircraftDetailViewController: ViewController {
         customPresentViewController(presenter, viewController: formdNC, animated: true)
     }
 
-    // MARK: - Actions
-
-    @objc func didPressDeleteButton() {
-        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to retire \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, retire", completion: { (action) in
-            self.retireAircraft()
-        }, cancel: nil)
-    }
-
-    func retireAircraft() {
+    func deleteAircraft() {
         let aircraftId = aircraftViewModel.aircraftId
 
         aircraftApi.retire(aircraft: aircraftId) { [weak self] (status, error)  in
             guard let strongSelf = self else { return }
             if status {
-                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didRetireAircraft: aircraftId)
+                strongSelf.delegate?.aircraftDetailViewController(strongSelf, didDeleteAircraft: aircraftId)
             } else if let error = error {
                 AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
             }
@@ -374,6 +416,37 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
 
         RateMe.sharedInstance.userDidPerformEvent(showPrompt: true)
     }
+
+    func updateAircraftImageUrl(_ url: String, for imageType: ImageType) {
+        guard let aircraft = aircraftViewModel.aircraft else { return }
+
+        if imageType == .main {
+            aircraft.mainImageUrl = url
+        } else {
+            aircraft.backgroundImageUrl = url
+        }
+
+        aircraftViewModel = AircraftViewModel(with: aircraft)
+        headerView.viewModel = ProfileViewModel(with: aircraft)
+
+        delegate?.aircraftDetailViewController(self, didEditAircraft: aircraft.id)
+    }
+}
+
+extension AircraftDetailViewController: ProfileHeaderViewDelegate {
+
+    func shouldUploadImage(_ image: UIImage, imageType: ImageType, for objectId: ObjectId) {
+
+        aircraftApi.uploadImage(image, imageType: imageType, forAircraft: objectId) { [weak self] (url, error) in
+            if let url = url {
+                self?.updateAircraftImageUrl(url, for: imageType)
+                Clog.log("Uploaded Image at url: \(url)")
+            } else {
+                AlertUtil.presentAlertMessage(error?.localizedDescription)
+                Clog.log("Upload failed with error \(error.debugDescription)")
+            }
+        }
+    }
 }
 
 // MARK: - ScrollView Delegate
@@ -381,7 +454,7 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
 extension AircraftDetailViewController: UIScrollViewDelegate {
 
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        if shouldDisplayHeader {
+        if shouldShowHeader {
             stretchHeaderView(with: scrollView.contentOffset)
         }
     }
@@ -391,15 +464,19 @@ extension AircraftDetailViewController: UIScrollViewDelegate {
 
 extension AircraftDetailViewController: HeaderStretchable {
 
-    var targetHeaderView: UIView {
-        return headerView.backgroundImageView
+    var targetHeaderView: StretchableView {
+        return headerView.backgroundView
     }
 
     var targetHeaderViewSize: CGSize {
-        return headerView.backgroundImageViewSize
+        return headerView.backgroundViewSize
     }
 
     var topLayoutInset: CGFloat {
         return topOffset
+    }
+
+    var anchoredViews: [UIView]? {
+        return [headerView.cameraButton]
     }
 }

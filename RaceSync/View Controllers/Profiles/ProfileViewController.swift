@@ -185,15 +185,19 @@ extension ProfileViewController: UIScrollViewDelegate {
 
 extension ProfileViewController: HeaderStretchable {
 
-    var targetHeaderView: UIView {
-        return headerView.backgroundImageView
+    var targetHeaderView: StretchableView {
+        return headerView.backgroundView
     }
 
     var targetHeaderViewSize: CGSize {
-        return headerView.backgroundImageViewSize
+        return headerView.backgroundViewSize
     }
 
     var topLayoutInset: CGFloat {
         return topOffset
+    }
+
+    var anchoredViews: [UIView]? {
+        return nil
     }
 }

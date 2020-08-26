@@ -138,9 +138,14 @@ extension AircraftListViewController {
         guard shouldReloadAircrafts else { return }
 
         aircraftApi.getAircrafts(forUser: user.id) { [weak self] (aircrafts, error) in
+
             if let aircrafts = aircrafts {
+                let viewModels = AircraftViewModel.viewModels(with: aircrafts)
+
                 self?.aircraftViewModels = [AircraftViewModel]()
-                self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
+                self?.aircraftViewModels += viewModels.sorted(by: { (c1, c2) -> Bool in
+                    return c1.displayName.lowercased() < c2.displayName.lowercased()
+                })
                 self?.isLoading = false
                 self?.collectionView.reloadData()
             } else if let error = error {
@@ -149,6 +154,39 @@ extension AircraftListViewController {
         }
 
         shouldReloadAircrafts = false
+    }
+
+    func showAircraftDetail(_ aircraftViewModel: AircraftViewModel, isNew: Bool = false, animated: Bool = true) {
+        let aircraftDetailVC = AircraftDetailViewController(with: aircraftViewModel)
+        aircraftDetailVC.delegate = self
+        aircraftDetailVC.isEditable = isEditable
+        aircraftDetailVC.isNew = isNew
+        navigationController?.pushViewController(aircraftDetailVC, animated: animated)
+    }
+
+    func deleteAircraft(_ viewModel: AircraftViewModel) {
+        let aircraftId = viewModel.aircraftId
+
+        aircraftApi.retire(aircraft: aircraftId) { [weak self] (status, error)  in
+            if status {
+                self?.removeAircraft(withId: aircraftId)
+            } else if let error = error {
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
+            }
+        }
+    }
+
+    func removeAircraft(withId id: ObjectId) {
+        guard let row = aircraftViewModels.firstIndex(where: { $0.aircraftId == id }) else { return }
+
+        let indexPath = IndexPath(row: row, section: 0)
+        aircraftViewModels.remove(at: row)
+
+        collectionView.performBatchUpdates({
+        collectionView.deleteItems(at: [indexPath])
+        }) { (finished) in
+            self.collectionView.reloadItems(at: self.collectionView.indexPathsForVisibleItems)
+        }
     }
 
     func deselectAllItems() {
@@ -171,11 +209,7 @@ extension AircraftListViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let viewModel = aircraftViewModels[indexPath.row]
 
-        let aircraftDetailVC = AircraftDetailViewController(with: viewModel)
-        aircraftDetailVC.delegate = self
-        aircraftDetailVC.isEditable = isEditable
-        navigationController?.pushViewController(aircraftDetailVC, animated: true)
-
+        showAircraftDetail(viewModel)
         collectionView.deselectAllItems()
     }
 }
@@ -196,6 +230,7 @@ extension AircraftListViewController: UICollectionViewDataSource {
 
         let viewModel = aircraftViewModels[indexPath.row]
         cell.titleLabel.text = viewModel.displayName
+        cell.delegate = self
 
         if viewModel.isGeneric {
             cell.avatarImageView.imageView.image = UIImage(named: "placeholder_large_aircraft_create")
@@ -207,18 +242,27 @@ extension AircraftListViewController: UICollectionViewDataSource {
     }
 }
 
+extension AircraftListViewController: AircraftCollectionViewCellDelegate {
+
+    func aircraftCollectionViewCellDidLongPress(_ cell: AircraftCollectionViewCell, at point: CGPoint) {
+        let newPoint = cell.convert(point, to: collectionView)
+        guard let indexPath = collectionView.indexPathForItem(at: newPoint) else { return }
+
+        let aircraftViewModel = aircraftViewModels[indexPath.row]
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(aircraftViewModel.displayName)\"?", destructiveTitle: "Yes, delete", completion: { (action) in
+            self.deleteAircraft(aircraftViewModel)
+        }, cancel: nil)
+    }
+}
+
 extension AircraftListViewController: AircraftDetailViewControllerDelegate {
 
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didEditAircraft aircraftId: ObjectId) {
         shouldReloadAircrafts = true
     }
 
-    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didRetireAircraft aircraftId: ObjectId) {
-        if let index = aircraftViewModels.firstIndex(where: { $0.aircraftId == aircraftId }) {
-            aircraftViewModels.remove(at: index)
-            collectionView.reloadData()
-        }
-
+    func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId) {
+        removeAircraft(withId: aircraftId)
         navigationController?.popViewController(animated: true)
     }
 }
@@ -226,19 +270,13 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
 extension AircraftListViewController: NewAircraftViewControllerDelegate {
 
     func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
-        navigationController?.popViewController(animated: true)
 
-        let aircraftViewModel = AircraftViewModel(with: aircraft)
-        aircraftViewModels += [aircraftViewModel]
+        let newViewModel = AircraftViewModel(with: aircraft)
 
-        let indexPath = IndexPath(item: aircraftViewModels.count - 1, section: 0)
-        let indexPaths: [IndexPath] = [indexPath]
-
-        collectionView.performBatchUpdates({
-            collectionView.insertItems(at: indexPaths)
-        }, completion: { [weak self] finished in
-            self?.collectionView.scrollToItem(at: indexPath, at: .bottom, animated: true)
-        })
+        // Swap view controller without animation, so the user can now upload an image to the new aircraft
+        // TODO: The aircraft spec list doesn't show entirely. It is covered by the header for whatever reason.
+        navigationController?.popViewController(animated: false)
+        showAircraftDetail(newViewModel, isNew: true, animated: false)
     }
 
     func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {

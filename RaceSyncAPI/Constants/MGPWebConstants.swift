@@ -11,6 +11,7 @@ import Foundation
 public enum MGPWebConstant: String {
     case home = "https://www.multigp.com/"
     case apiBase = "https://www.multigp.com/mgp/multigpwebservice/"
+//    case apiBase = "https://kriskleva-eval-prod.apigee.net/mgp/multigpwebservice/" // proxy
 
     case passwordReset = "https://www.multigp.com/initiatepasswordreset"
     case accountRegistration = "https://www.multigp.com/register"

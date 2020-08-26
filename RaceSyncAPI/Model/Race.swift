@@ -15,7 +15,7 @@ public class Race: Mappable, Joinable, Descriptable {
     public var name: String = ""
     public var startDate: Date?
     public var mainImageFileName: String?
-    public var status: RaceStatus = .open
+    public var status: RaceStatus = .opened
     public var isJoined: Bool = false
     public var type: String = ""
     public var raceType: RaceType = .normal

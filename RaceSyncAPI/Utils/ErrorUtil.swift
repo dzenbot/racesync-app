@@ -39,16 +39,30 @@ class ErrorUtil {
         }
     }
 
+    static func errors(fromJSONString string: String) -> [NSError]? {
+        let json = JSON(string)
+        return errors(fromJSON: json)
+    }
+
     static func errors(fromJSON json: JSON) -> [NSError]? {
-        guard json[ParameterKey.errors].count > 0 else { return nil }
 
         var errors = [NSError]()
 
         for (_, value) in json[ParameterKey.errors] {
             if let content = value.array?.first, let description = content.string {
-                let error = generateError(description, withCode: .malfunction)
-                errors += [error]
+                errors += [generateError(description, withCode: .malfunction)]
             }
+        }
+
+        // Looking for false status responses
+        if let status = json[ParameterKey.status].rawValue as? Bool, status == false,
+           let description = json[ParameterKey.statusDescription].rawValue as? String {
+            errors += [generateError(description, withCode: .malfunction)]
+        }
+
+        // Looking for HTTP error exceptions
+        if json.isEmpty, let jsonString = json.rawString(), jsonString.contains("Exception") {
+            errors += [generateError(jsonString, withCode: .malfunction)]
         }
 
         return errors.count > 0 ? errors : nil
