@@ -119,6 +119,7 @@
 		4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */; };
 		4FBADDF624D4E2DB00A7D291 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */; };
 		4FC1797D24B0801900D2EA2D /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */; };
+		4FC1C1DC24F70CE300F85F8E /* RaceSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1C1DB24F70CE300F85F8E /* RaceSpecs.swift */; };
 		4FC4C59C24D8F3F2007D3B71 /* DimmableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */; };
 		4FC50258242700DC0088320B /* ForceJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC50257242700DC0088320B /* ForceJoinViewController.swift */; };
 		4FC5025A2428710D0088320B /* RaceTabbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC502592428710D0088320B /* RaceTabbable.swift */; };
@@ -344,6 +345,7 @@
 		4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
+		4FC1C1DB24F70CE300F85F8E /* RaceSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSpecs.swift; sourceTree = "<group>"; };
 		4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableView.swift; sourceTree = "<group>"; };
 		4FC50257242700DC0088320B /* ForceJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceJoinViewController.swift; sourceTree = "<group>"; };
 		4FC502592428710D0088320B /* RaceTabbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceTabbable.swift; sourceTree = "<group>"; };
@@ -718,6 +720,7 @@
 				4FD4E1BD237DCB24008816B3 /* User.swift */,
 				4F5001E823830E180025A593 /* Race.swift */,
 				4FEBB27723A2023A007514B4 /* RaceEntry.swift */,
+				4FC1C1DB24F70CE300F85F8E /* RaceSpecs.swift */,
 				4F8668F523861736005E310A /* Chapter.swift */,
 				4FC51B1E2409EA9B00D654D0 /* ManagedChapter.swift */,
 				4FDD499123B045E7009DD2DB /* Aircraft.swift */,
@@ -1312,6 +1315,7 @@
 				4FA2682A237A4CE9008970AC /* CompletionBlock.swift in Sources */,
 				4FD4E1BE237DCB24008816B3 /* User.swift in Sources */,
 				4FA1FC9123D7B571006D4704 /* APIEnvironment.swift in Sources */,
+				4FC1C1DC24F70CE300F85F8E /* RaceSpecs.swift in Sources */,
 				4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */,
 				4F5C1E40238A7BAF00D756EB /* RepositoryAdapter.swift in Sources */,
 				4F8F2C0C2383DF1E00DC4907 /* RaceApi.swift in Sources */,

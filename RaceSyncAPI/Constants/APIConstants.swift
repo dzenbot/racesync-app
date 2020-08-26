@@ -47,6 +47,7 @@ enum EndPoint {
     static let raceClose = "race/close"
     static let raceCheckIn = "race/checkIn"
     static let raceCheckOut = "race/checkOut"
+    static let raceCreate = "race/create"
 
     static let chapterList = "chapter/list"
     static let chapterFindLocal = "chapter/findLocal"

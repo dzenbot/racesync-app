@@ -97,6 +97,10 @@ public protocol RaceApiInterface {
     func checkOut(race raceId: ObjectId, pilotId: ObjectId?, completion: @escaping ObjectCompletionBlock<RaceEntry>)
 
     /**
+     */
+    func createRace(with specs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>)
+
+    /**
     */
     func cancelAll()
 }
@@ -215,6 +219,14 @@ public class RaceApi: RaceApiInterface {
         params[ParameterKey.pilotId] = pilotId
 
         repositoryAdapter.getObject(endpoint, parameters: params, type: RaceEntry.self, completion)
+    }
+
+    public func createRace(with specs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>) {
+
+        let endpoint = "\(EndPoint.raceCreate)"
+        let params = Parameters()
+
+        repositoryAdapter.getObject(endpoint, parameters: params, type: Race.self, completion)
     }
 
     public func cancelAll() {
