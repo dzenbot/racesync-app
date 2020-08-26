@@ -15,9 +15,6 @@ import CoreLocation
 
 class RaceListViewController: ViewController, ViewJoinable, Shimmable {
 
-    // MARK: - Feature Flags
-    fileprivate var shouldShowSearchButton: Bool = false
-
     // MARK: - Public Variables
 
     lazy var tableView: UITableView = {
@@ -110,10 +107,28 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
     fileprivate lazy var userProfileButton: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(didPressUserProfileButton), for: .touchUpInside)
+        button.isHidden = true
 
         if let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal) {
             button.setImage(placeholder, for: .normal) // 32x32
             button.layer.cornerRadius = placeholder.size.width / 2
+            button.layer.borderWidth = 0.5
+            button.layer.borderColor = Color.gray100.cgColor
+            button.layer.masksToBounds = true
+        }
+        return button
+    }()
+
+    fileprivate lazy var chapterProfileButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.addTarget(self, action: #selector(didPressChapterProfileButton), for: .touchUpInside)
+        button.isHidden = true
+
+        if let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal) {
+            button.setImage(placeholder, for: .normal) // 32x32
+            button.layer.cornerRadius = placeholder.size.width / 2
+            button.layer.borderWidth = 0.5
+            button.layer.borderColor = Color.gray100.cgColor
             button.layer.masksToBounds = true
         }
         return button
@@ -181,19 +196,21 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
 
         title = "Race List"
         navigationItem.titleView = titleView
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: userProfileButton)
         viewName = selectedRaceList.title
 
-        if shouldShowSearchButton {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_search"), style: .done, target: self, action: #selector(didPressSearchButton))
-        } else {
-            let stackView = UIStackView(arrangedSubviews: [filterButton, settingsButton])
-            stackView.axis = .horizontal
-            stackView.distribution = .fillEqually
-            stackView.alignment = .lastBaseline
-            stackView.spacing = Constants.buttonSpacing
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
-        }
+        let leftStackView = UIStackView(arrangedSubviews: [userProfileButton, chapterProfileButton])
+        leftStackView.axis = .horizontal
+        leftStackView.distribution = .fillEqually
+        leftStackView.alignment = .lastBaseline
+        leftStackView.spacing = Constants.buttonSpacing
+        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftStackView)
+
+        let rightStackView = UIStackView(arrangedSubviews: [filterButton, settingsButton])
+        rightStackView.axis = .horizontal
+        rightStackView.distribution = .fillEqually
+        rightStackView.alignment = .lastBaseline
+        rightStackView.spacing = Constants.buttonSpacing
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightStackView)
 
         view.addSubview(headerView)
         headerView.snp.makeConstraints {
@@ -252,8 +269,14 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
         present(userNC, animated: true)
     }
 
-    @objc fileprivate func didPressSearchButton(_ sender: Any) {
-        print("didPressSearchButton")
+    @objc fileprivate func didPressChapterProfileButton() {
+        guard let myChapter = APIServices.shared.myChapter else { return }
+
+        let chapterVC = ChapterViewController(with: myChapter)
+        let chapterNC = NavigationController(rootViewController: chapterVC)
+        chapterNC.modalPresentationStyle = .fullScreen
+
+        present(chapterNC, animated: true)
     }
 
     @objc fileprivate func didPressSettingsButton(_ sender: Any) {
@@ -323,30 +346,28 @@ fileprivate extension RaceListViewController {
     }
 
     func loadMyUser() {
-        userApi.getMyUser { (user, error) in
-
+        userApi.getMyUser { [weak self] (user, error) in
             if let user = user {
                 APIServices.shared.myUser = user
                 CrashCatcher.setupUser(user.id, username: user.userName)
 
-                self.updateProfilePicture()
-                self.loadRaces()
-
-//                let aircraftVC = AircraftListViewController(with: user)
-//                aircraftVC.isEditable = user.isMe
-//
-//                let nc = UINavigationController(rootViewController: aircraftVC)
-//                nc.modalPresentationStyle = .fullScreen
-//                self.present(nc, animated: true, completion: nil)
-
+                self?.updateUserProfileImage()
+                self?.loadRaces()
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session
                 ApplicationControl.shared.invalidateSession()
             }
         }
 
-        chapterApi.getMyManagedChapters { (managedChapters, error) in
+        chapterApi.getMyManagedChapters { [weak self] (managedChapters, error) in
             APIServices.shared.myManagedChapters = managedChapters
+
+            if let managedChapter = managedChapters?.first {
+                self?.chapterApi.getChapter(with: managedChapter.id) { (chapter, error) in
+                    APIServices.shared.myChapter = chapter
+                    self?.updateChapterProfileImage()
+                }
+            }
         }
     }
 
@@ -376,11 +397,20 @@ fileprivate extension RaceListViewController {
         }
     }
 
-    func updateProfilePicture() {
+    func updateUserProfileImage() {
         let userProfileUrl = APIServices.shared.myUser?.profilePictureUrl
         let userUrl = ImageUtil.getSizedUrl(userProfileUrl, size: CGSize(width: 32, height: 32))
         let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
         userProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal)
+        userProfileButton.isHidden = false
+    }
+
+    func updateChapterProfileImage() {
+        let userProfileUrl = APIServices.shared.myChapter?.mainImageUrl
+        let userUrl = ImageUtil.getSizedUrl(userProfileUrl, size: CGSize(width: 32, height: 32))
+        let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
+        chapterProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal)
+        chapterProfileButton.isHidden = false
     }
 }
 

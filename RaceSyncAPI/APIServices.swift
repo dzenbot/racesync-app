@@ -28,9 +28,16 @@ public class APIServices {
         }
     }
 
+    public var myChapter: Chapter? {
+        didSet {
+            Clog.log("Did set my Chapter with id: \(String(describing: myChapter?.id))")
+        }
+    }
+
     public var myManagedChapters: [ManagedChapter]? {
         didSet {
-            
+            let ids = myManagedChapters?.compactMap { $0.id }
+            Clog.log("Did set my Managed Chapters with ids: \(String(describing: ids))")
         }
     }
 

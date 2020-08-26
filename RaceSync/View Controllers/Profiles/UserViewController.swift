@@ -125,7 +125,6 @@ class UserViewController: ProfileViewController, ViewJoinable {
     }
 
     fileprivate func configureBarButtonItems() {
-
         var buttons = [UIButton]()
 
         if user.isMe {

@@ -65,7 +65,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+        configureBarButtonItems()
 
         tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
         tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
@@ -97,6 +97,14 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         }
     }
 
+    fileprivate func configureBarButtonItems() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_share"), style: .done, target: self, action: #selector(didPressShareButton))
+
+        if navigationController?.viewControllers.count == 1 {
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        }
+    }
+
     // MARK: - Actions
 
     override func didChangeSegment() {
@@ -107,6 +115,10 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         } else {
             loadUsers()
         }
+    }
+
+    @objc func didPressCloseButton() {
+        dismiss(animated: true)
     }
 
     override func didPressLocationButton() {
