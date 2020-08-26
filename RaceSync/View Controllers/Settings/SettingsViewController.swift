@@ -232,6 +232,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         }
     }
 
+    // For including icons to each row. Look for icons at https://thenounproject.com/
     var imageName: String {
         switch self {
         case .measurement:          return "icn_settings_rule"
