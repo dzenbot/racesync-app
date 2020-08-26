@@ -36,14 +36,10 @@ public protocol ChapterApiInterface {
     func getMyManagedChapters(_ completion: @escaping ObjectCompletionBlock<[ManagedChapter]>)
 
     /**
-     TODO: API endpoint not yet deployed
-     See https://github.com/MultiGP/racesync-core/pull/7
      */
     func join(chapter chapterId: ObjectId, completion: @escaping StatusCompletionBlock)
 
     /**
-     TODO: API endpoint not yet deployed
-     See https://github.com/MultiGP/racesync-core/pull/7
     */
     func resign(chapter chapterId: ObjectId, completion: @escaping StatusCompletionBlock)
 }
