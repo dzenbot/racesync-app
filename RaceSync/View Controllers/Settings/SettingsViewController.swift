@@ -20,7 +20,7 @@ class SettingsViewController: ViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        tableView.tableHeaderView = headerView
+        tableView.tableFooterView = headerView
         tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
 
         let backgroundView = UIView()
@@ -37,7 +37,7 @@ class SettingsViewController: ViewController {
         view.addSubview(imageView)
         imageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(-50)
+            $0.centerY.equalToSuperview().offset(UIScreen.main.bounds.height/2)
         }
 
         return view
@@ -171,6 +171,7 @@ extension SettingsViewController: UITableViewDataSource {
         cell.textLabel?.text = row.title
         cell.textLabel?.textColor = Color.black
         cell.detailTextLabel?.text = nil
+        cell.imageView?.image = UIImage.init(named: row.imageName)
         cell.accessoryType = .disclosureIndicator
 
         if row == .logout {
@@ -235,7 +236,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
     // For including icons to each row. Look for icons at https://thenounproject.com/
     var imageName: String {
         switch self {
-        case .measurement:          return "icn_settings_rule"
+        case .measurement:          return "icn_settings_ruler"
         case .submitFeedback:       return "icn_settings_feedback"
         case .readRules:            return "icn_settings_handbook"
         case .visitStore:           return "icn_settings_store"
