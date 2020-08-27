@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 import ObjectMapper
 
 public class Race: Mappable, Joinable, Descriptable {
@@ -20,6 +21,8 @@ public class Race: Mappable, Joinable, Descriptable {
     public var type: String = ""
     public var raceType: RaceType = .normal
     public var officialStatus: RaceOfficialStatus  = .normal
+    public var captureTimeEnabled: Bool = true
+    public var scoringDisabled: Bool = false
 
     public var url: String = ""
     public var urlName: String = ""
@@ -83,6 +86,9 @@ public class Race: Mappable, Joinable, Descriptable {
         type <- map["type"]
         raceType <- (map["raceType"],EnumTransform<RaceType>())
         officialStatus <- (map["officialStatus"],EnumTransform<RaceOfficialStatus>())
+        captureTimeEnabled <- map["captureTimeEnabled"]
+        scoringDisabled <- map["scoringDisabled"]
+
         url = "\(MGPWeb.getUrl(for: .raceView))=\(id)"
         urlName <- map["urlName"]
         liveTimeUrl <- map["liveTimeUrl"]

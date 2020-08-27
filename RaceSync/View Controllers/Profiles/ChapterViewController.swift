@@ -37,6 +37,8 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     fileprivate var emptyStateRaces = EmptyStateViewModel(.noRaces)
     fileprivate var emptyStateUsers = EmptyStateViewModel(.commingSoon)
 
+    fileprivate var canCreateRaces: Bool = false
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let buttonHeight: CGFloat = 32
@@ -102,7 +104,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
 
         var buttons = [UIButton]()
 
-        if chapter.isMyChapter {
+        if chapter.isMyChapter && canCreateRaces {
             let addButton = CustomButton(type: .system)
             addButton.addTarget(self, action: #selector(didPressAddButton), for: .touchUpInside)
             addButton.setImage(UIImage(named: "icn_navbar_add"), for: .normal)
@@ -164,7 +166,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     }
 
     @objc func didPressAddButton() {
-
+        // Unimplemented
     }
 
     @objc func didPressCloseButton() {

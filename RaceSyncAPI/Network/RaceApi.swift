@@ -98,7 +98,7 @@ public protocol RaceApiInterface {
 
     /**
      */
-    func createRace(with specs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>)
+    func create(race chapterId: ObjectId, raceSpecs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>)
 
     /**
     */
@@ -205,28 +205,28 @@ public class RaceApi: RaceApiInterface {
 
         let endpoint = "\(EndPoint.raceCheckIn)?\(ParameterKey.id)=\(raceId)"
 
-        var params = Parameters()
-        params[ParameterKey.pilotId] = pilotId
+        var parameters = Parameters()
+        parameters[ParameterKey.pilotId] = pilotId
 
-        repositoryAdapter.getObject(endpoint, parameters: params, type: RaceEntry.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
     }
 
     public func checkOut(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
         let endpoint = "\(EndPoint.raceCheckOut)?\(ParameterKey.id)=\(raceId)"
 
-        var params = Parameters()
-        params[ParameterKey.pilotId] = pilotId
+        var parameters = Parameters()
+        parameters[ParameterKey.pilotId] = pilotId
 
-        repositoryAdapter.getObject(endpoint, parameters: params, type: RaceEntry.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
     }
 
-    public func createRace(with specs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>) {
+    public func create(race chapterId: ObjectId, raceSpecs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endpoint = "\(EndPoint.raceCreate)"
-        let params = Parameters()
+        let endpoint = "\(EndPoint.raceCreate)?\(ParameterKey.chapterId)=\(chapterId)"
+        let parameters = raceSpecs.toParameters()
 
-        repositoryAdapter.getObject(endpoint, parameters: params, type: Race.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
     }
 
     public func cancelAll() {

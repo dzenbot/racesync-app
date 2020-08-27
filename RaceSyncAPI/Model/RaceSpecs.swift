@@ -11,14 +11,15 @@ import Alamofire
 
 public class RaceSpecs: Descriptable {
 
-    public init(with race: Race) {
-
-    }
+    public var name: String?
 
     public init() { }
 
     func toParameters() -> Parameters {
-        let parameters: Parameters = [:]
+        var parameters: Parameters = [:]
+
+        if name != nil { parameters[ParameterKey.name] = name }
+
         return parameters
     }
 }
