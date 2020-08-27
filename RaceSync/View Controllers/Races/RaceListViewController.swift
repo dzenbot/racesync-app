@@ -202,7 +202,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
         leftStackView.axis = .horizontal
         leftStackView.distribution = .fillEqually
         leftStackView.alignment = .lastBaseline
-        leftStackView.spacing = Constants.buttonSpacing
+        leftStackView.spacing = Constants.padding
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftStackView)
 
         let rightStackView = UIStackView(arrangedSubviews: [filterButton, settingsButton])
