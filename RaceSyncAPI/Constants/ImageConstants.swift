@@ -28,8 +28,8 @@ public enum ImageType {
 
     public var endpoint: String {
         switch self {
-        case .main:         return "uploadMainImage"
-        case .background:   return "uploadBackground"
+        case .main:         return EndPoint.aircraftUploadMainImage
+        case .background:   return EndPoint.aircraftUploadBackground
         }
     }
 }

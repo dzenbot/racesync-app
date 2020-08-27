@@ -87,7 +87,7 @@ public class AircraftAPI: AircrafApiInterface {
     public func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock? = nil, _ completion: @escaping ObjectCompletionBlock<String>) {
         guard let data = image.jpegData(compressionQuality: 0.7) else { return }
 
-        let url = MGPWebConstant.apiBase.rawValue + "aircraft/" + "\(imageType.endpoint)?\(ParameterKey.id)=\(aircraftId)"
+        let url = MGPWebConstant.apiBase.rawValue + "\(imageType.endpoint)?\(ParameterKey.id)=\(aircraftId)"
         uploadImage(data, name: imageType.key, endpoint: url, progressBlock: progressBlock, completion)
     }
 }

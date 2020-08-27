@@ -61,8 +61,8 @@ enum EndPoint {
     static let aircraftCreate = "aircraft/create"
     static let aircraftUpdate = "aircraft/update"
     static let aircraftRetire = "aircraft/retire"
-    static let aircraftUploadMainImage = "aircraft/uploadMainImage"     // unused
-    static let aircraftUploadBackground = "aircraft/uploadBackground"   // unused
+    static let aircraftUploadMainImage = "aircraft/uploadMainImage"
+    static let aircraftUploadBackground = "aircraft/uploadBackground"
 }
 
 enum ParameterKey {
