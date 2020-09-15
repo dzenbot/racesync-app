@@ -88,8 +88,7 @@ public class Race: Mappable, Joinable, Descriptable {
         officialStatus <- (map["officialStatus"],EnumTransform<RaceOfficialStatus>())
         captureTimeEnabled <- map["captureTimeEnabled"]
         scoringDisabled <- map["scoringDisabled"]
-
-        url = "\(MGPWeb.getUrl(for: .raceView))=\(id)"
+        url = MGPWeb.getUrl(for: .raceView, value: id)
         urlName <- map["urlName"]
         liveTimeUrl <- map["liveTimeUrl"]
         description <- map["description"]
