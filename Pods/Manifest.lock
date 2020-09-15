@@ -22,7 +22,6 @@ PODS:
   - SwiftValidators (9.0.2)
   - SwiftyJSON (5.0.0)
   - TOCropViewController (2.5.3)
-  - TUSafariActivity (1.0.4)
   - Valet (3.2.8)
 
 DEPENDENCIES:
@@ -43,7 +42,6 @@ DEPENDENCIES:
   - SwiftValidators
   - SwiftyJSON
   - TOCropViewController
-  - TUSafariActivity (~> 1.0)
   - Valet
 
 SPEC REPOS:
@@ -64,7 +62,6 @@ SPEC REPOS:
     - SwiftValidators
     - SwiftyJSON
     - TOCropViewController
-    - TUSafariActivity
     - Valet
 
 EXTERNAL SOURCES:
@@ -94,9 +91,8 @@ SPEC CHECKSUMS:
   SwiftValidators: 9be131cdfadb9a29d31e637c947c7306877bf1d4
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   TOCropViewController: 20a14b6a7a098308bf369e7c8d700dc983a974e6
-  TUSafariActivity: afc55a00965377939107ce4fdc7f951f62454546
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: a6ce84c7b4f3190bc6338e2a7b88bd814cd514af
+PODFILE CHECKSUM: db4d0b6508e5a13e9aa99776f735a5e15586a9b1
 
 COCOAPODS: 1.8.4
