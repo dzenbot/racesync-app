@@ -227,6 +227,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
         let activities: [UIActivity] = [SafariActivity()]
 
         let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: activities)
+        activityVC.excludedActivityTypes = [.addToReadingList]
         present(activityVC, animated: true)
     }
 }

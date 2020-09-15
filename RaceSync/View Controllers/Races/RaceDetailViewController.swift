@@ -542,6 +542,7 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
         }
 
         let activityVC = UIActivityViewController(activityItems: items, applicationActivities: activities)
+        activityVC.excludedActivityTypes = [.addToReadingList]
         present(activityVC, animated: true)
     }
 
