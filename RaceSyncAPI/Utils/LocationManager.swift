@@ -14,7 +14,7 @@ public class LocationManager: CLLocationManager {
 
     public static let shared = LocationManager()
 
-    public var authorizationStatus: CLAuthorizationStatus {
+    public override var authorizationStatus: CLAuthorizationStatus {
         get { return CLLocationManager.authorizationStatus() }
     }
 
