@@ -223,11 +223,13 @@ class UserViewController: ProfileViewController, ViewJoinable {
     }
 
     @objc func didPressShareButton() {
-        let items = [URL(string: user.url)]
-        let activities: [UIActivity] = [SafariActivity()]
+        guard let userURL = URL(string: user.url) else { return }
 
-        let activityVC = UIActivityViewController(activityItems: items as [Any], applicationActivities: activities)
-        activityVC.excludedActivityTypes = [.addToReadingList]
+        let activities: [UIActivity] = [CopyLinkActivity(), MultiGPActivity()]
+
+        let activityVC = UIActivityViewController(activityItems:  [userURL], applicationActivities: activities)
+        activityVC.excludeAllActivityTypes(except: [.airDrop])
+
         present(activityVC, animated: true)
     }
 }
