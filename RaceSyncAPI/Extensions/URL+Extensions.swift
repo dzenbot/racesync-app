@@ -28,4 +28,11 @@ public extension URL {
         // Returns the url from new url components
         return urlComponents.url!
     }
+
+    /// second-level domain [SLD]
+    ///
+    /// i.e. `msk.ru, spb.ru`
+    var SLD: String? {
+        return host?.components(separatedBy: ".").suffix(2).joined(separator: ".")
+    }
 }

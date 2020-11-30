@@ -61,7 +61,7 @@ public class Chapter: Mappable, Joinable, Descriptable {
         id <- map["id"]
         name <- map["name"]
         tier <- map["tier"]
-        url = "\(MGPWeb.getUrl(for: .chapterView))=\(name)"
+        url = MGPWeb.getUrl(for: .chapterView, value: name)
         urlName <- map["urlName"]
         description <- map["description"]
         isJoined <- map["isJoined"]

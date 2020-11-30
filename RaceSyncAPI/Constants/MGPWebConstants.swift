@@ -35,11 +35,17 @@ public class MGPWeb {
         return URL(string: url)!
     }
 
-    public static func getUrl(for constant: MGPWebConstant) -> String {
+    public static func getUrl(for constant: MGPWebConstant, value: String? = nil) -> String {
+
+        var baseUrl = constant.rawValue
         if APIServices.shared.settings.isDev {
-            return constant.rawValue.replacingOccurrences(of: "www", with: "test")
+            baseUrl = constant.rawValue.replacingOccurrences(of: "www", with: "test")
+        }
+
+        if let value = value {
+            return "\(baseUrl)=\(value.replacingOccurrences(of: " ", with: "-", options: .literal, range: nil))"
         } else {
-            return constant.rawValue
+            return baseUrl
         }
     }
 

@@ -530,10 +530,10 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
     }
 
     @objc func didPressShareButton() {
-        guard let raceUrl = URL(string: race.url) else { return }
+        guard let raceURL = URL(string: race.url) else { return }
 
-        var items: [Any] = [raceUrl]
-        var activities: [UIActivity] = [SafariActivity()]
+        var items: [Any] = [raceURL]
+        var activities: [UIActivity] = [CopyLinkActivity(), MultiGPActivity()]
 
         // Calendar integration
         if let event = race.calendarEvent {
@@ -542,6 +542,8 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
         }
 
         let activityVC = UIActivityViewController(activityItems: items, applicationActivities: activities)
+        activityVC.excludeAllActivityTypes(except: [.airDrop])
+
         present(activityVC, animated: true)
     }
 

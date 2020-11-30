@@ -16,5 +16,3 @@ public extension Chapter {
         return chapterIds.contains(id)
     }
 }
-
-
