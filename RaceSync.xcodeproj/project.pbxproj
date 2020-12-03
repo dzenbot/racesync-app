@@ -61,6 +61,9 @@
 		4F6429122402DB00005E8036 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6429112402DB00005E8036 /* ImageConstants.swift */; };
 		4F6429142403AE9A005E8036 /* FormViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6429132403AE9A005E8036 /* FormViewController.swift */; };
 		4F65D8D325749EE600C506C3 /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F65D8D225749EE600C506C3 /* Track.swift */; };
+		4F65D8D82574EA5400C506C3 /* mgp_official_tracks.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F65D8D72574EA5400C506C3 /* mgp_official_tracks.json */; };
+		4F65D8E02574F6CF00C506C3 /* TrackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F65D8DF2574F6CF00C506C3 /* TrackListViewController.swift */; };
+		4F65D8EE257869AD00C506C3 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */; };
 		4F68BE692399CEB5009D44F7 /* AlertUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE682399CEB5009D44F7 /* AlertUtil.swift */; };
 		4F68BE6B2399CF07009D44F7 /* ActionSheetUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */; };
 		4F68BE6D2399DBCF009D44F7 /* UIViewController+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */; };
@@ -290,6 +293,9 @@
 		4F6429112402DB00005E8036 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
 		4F6429132403AE9A005E8036 /* FormViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormViewController.swift; sourceTree = "<group>"; };
 		4F65D8D225749EE600C506C3 /* Track.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
+		4F65D8D72574EA5400C506C3 /* mgp_official_tracks.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = mgp_official_tracks.json; sourceTree = "<group>"; };
+		4F65D8DF2574F6CF00C506C3 /* TrackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListViewController.swift; sourceTree = "<group>"; };
+		4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		4F68BE682399CEB5009D44F7 /* AlertUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertUtil.swift; sourceTree = "<group>"; };
 		4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetUtil.swift; sourceTree = "<group>"; };
 		4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Lookup.swift"; sourceTree = "<group>"; };
@@ -611,6 +617,7 @@
 		4F65D8CD25749E8400C506C3 /* Track Diagrams */ = {
 			isa = PBXGroup;
 			children = (
+				4F65D8DF2574F6CF00C506C3 /* TrackListViewController.swift */,
 				4F65D8CE25749EA000C506C3 /* Models */,
 			);
 			path = "Track Diagrams";
@@ -620,6 +627,8 @@
 			isa = PBXGroup;
 			children = (
 				4F65D8D225749EE600C506C3 /* Track.swift */,
+				4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */,
+				4F65D8D72574EA5400C506C3 /* mgp_official_tracks.json */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1055,6 +1064,7 @@
 			files = (
 				4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */,
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
+				4F65D8D82574EA5400C506C3 /* mgp_official_tracks.json in Resources */,
 				4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */,
 				4F13424F2360B67D00A9DBDE /* Assets.xcassets in Resources */,
 				4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */,
@@ -1259,6 +1269,7 @@
 				4FD4E1CB237F98A0008816B3 /* RaceDetailViewController.swift in Sources */,
 				4FD4E1C1237DDFB4008816B3 /* RaceListViewController.swift in Sources */,
 				4F68BE692399CEB5009D44F7 /* AlertUtil.swift in Sources */,
+				4F65D8EE257869AD00C506C3 /* TrackViewModel.swift in Sources */,
 				4F6C8A96236A9D580017FD78 /* UIColor+Extensions.swift in Sources */,
 				4F2724402517DC5B000C7408 /* UIActivityViewController+Extensions.swift in Sources */,
 				4FA1AB3D23C94F5F007CF389 /* UIEdgeInsets+Extensions.swift in Sources */,
@@ -1274,6 +1285,7 @@
 				4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */,
 				4FEADB782416BC4500F82F0D /* ViewController.swift in Sources */,
 				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
+				4F65D8E02574F6CF00C506C3 /* TrackListViewController.swift in Sources */,
 				4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */,
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,

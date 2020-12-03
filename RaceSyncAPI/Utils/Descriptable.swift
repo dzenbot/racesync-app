@@ -6,7 +6,7 @@
 //  Copyright © 2019 MultiGP Inc. All rights reserved.
 //
 
-import UIKit
+import Foundation
 
 public protocol Descriptable {
     var attributesDescription: NSString { get }

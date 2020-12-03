@@ -41,10 +41,10 @@ class RaceViewModel: Descriptable {
         self.imageUrl = RaceViewModel.imageUrl(for: race)
     }
 
-    static func viewModels(with races:[Race]) -> [RaceViewModel] {
+    static func viewModels(with objects:[Race]) -> [RaceViewModel] {
         var viewModels = [RaceViewModel]()
-        for race in races {
-            viewModels.append(RaceViewModel(with: race))
+        for object in objects {
+            viewModels.append(RaceViewModel(with: object))
         }
         return viewModels
     }

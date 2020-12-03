@@ -30,10 +30,10 @@ class UserViewModel: Descriptable {
         self.pictureUrl = user.profilePictureUrl
     }
 
-    static func viewModels(with users:[User]) -> [UserViewModel] {
+    static func viewModels(with objects:[User]) -> [UserViewModel] {
         var viewModels = [UserViewModel]()
-        for user in users {
-            viewModels.append(UserViewModel(with: user))
+        for object in objects {
+            viewModels.append(UserViewModel(with: object))
         }
         return viewModels
     }
@@ -49,10 +49,10 @@ class UserViewModel: Descriptable {
         self.pictureUrl = raceEntry.profilePictureUrl
     }
 
-    static func viewModels(with raceEntries:[RaceEntry]) -> [UserViewModel] {
+    static func viewModels(with objects:[RaceEntry]) -> [UserViewModel] {
         var viewModels = [UserViewModel]()
-        for raceEntry in raceEntries {
-            viewModels.append(UserViewModel(with: raceEntry))
+        for object in objects {
+            viewModels.append(UserViewModel(with: object))
         }
         return viewModels
     }

@@ -44,8 +44,9 @@ class SettingsViewController: ViewController {
     }()
 
     fileprivate let sections: [Section: [Row]] = [
-        .pref: [.measurement],
-        .about: [.submitFeedback, .readRules, .visitStore, .visitSite],
+        .resources: [.trackLayouts, .buildGuide, .seasonRules, .visitStore],
+        .preferences: [.measurement],
+        .about: [.submitFeedback, .visitSite],
         .auth: [.logout]
     ]
 
@@ -122,21 +123,26 @@ extension SettingsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let section = Section(rawValue: indexPath.section), let rows = sections[section] else { return }
-        let row = rows[indexPath.row]
 
-        if row == .measurement {
+        switch rows[indexPath.row] {
+        case .trackLayouts:
+            let vc = TrackListViewController()
+            navigationController?.pushViewController(vc, animated: true)
+        case .buildGuide:
+            openWebPage(.courseObstaclesDoc)
+        case .seasonRules:
+            openWebPage(.seasonRulesDoc)
+        case .visitStore:
+            openWebPage(.shop)
+        case .measurement:
             settingsController.presentSettingsPicker(.measurement, from: self) { [weak self] in
                 self?.tableView.reloadData()
             }
-        } else if row == .submitFeedback {
+        case .submitFeedback:
             openWebUrl(MGPWeb.getPrefilledFeedbackFormUrl())
-        } else if row == .readRules {
-            openWebPage(.seasonRules2020)
-        } else if row == .visitStore {
-            openWebPage(.shop)
-        } else if row == .visitSite {
+        case .visitSite:
             openWebPage(.home)
-        } else if row == .logout {
+        case .logout:
             logout()
         }
 
@@ -203,11 +209,12 @@ extension SettingsViewController: UITableViewDataSource {
 }
 
 fileprivate enum Section: Int, EnumTitle, CaseIterable {
-    case pref, about, auth
+    case resources, preferences, about, auth
 
     var title: String {
         switch self {
-        case .pref:         return "Preferences"
+        case .resources:    return "Resources"
+        case .preferences:  return "Preferences"
         case .about:        return "About"
         case .auth:         return ""
         }
@@ -215,19 +222,23 @@ fileprivate enum Section: Int, EnumTitle, CaseIterable {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
+    case trackLayouts
+    case buildGuide
+    case seasonRules
     case measurement
     case submitFeedback
-    case readRules
     case visitStore
     case visitSite
     case logout
 
     var title: String {
         switch self {
+        case .trackLayouts:         return "Track Layouts"
+        case .buildGuide:           return "Obstacles Build Guide"
+        case .seasonRules:          return "Season Rules & Regulations"
+        case .visitStore:           return "Visit the MultiGP Shop"
         case .measurement:          return "Measurement System"
         case .submitFeedback:       return "Send Feedback"
-        case .readRules:            return "2020 Season Rules"
-        case .visitStore:           return "Visit the MultiGP Shop"
         case .visitSite:            return "Go to MultiGP.com"
         case .logout:               return "Logout"
         }
@@ -236,10 +247,12 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
     // For including icons to each row. Look for icons at https://thenounproject.com/
     var imageName: String {
         switch self {
+        case .trackLayouts:         return "icn_settings_tracks"
+        case .buildGuide:           return "icn_settings_buildguide"
+        case .seasonRules:          return "icn_settings_handbook"
+        case .visitStore:           return "icn_settings_store"
         case .measurement:          return "icn_settings_ruler"
         case .submitFeedback:       return "icn_settings_feedback"
-        case .readRules:            return "icn_settings_handbook"
-        case .visitStore:           return "icn_settings_store"
         case .visitSite:            return "icn_settings_mgp"
         case .logout:               return "icn_settings_logout"
         }

@@ -65,10 +65,10 @@ class AircraftViewModel: Descriptable {
         self.antennaLabel = ""
     }
 
-    static func viewModels(with aircrafts:[Aircraft]) -> [AircraftViewModel] {
+    static func viewModels(with objects:[Aircraft]) -> [AircraftViewModel] {
         var viewModels = [AircraftViewModel]()
-        for aircraft in aircrafts {
-            viewModels.append(AircraftViewModel(with: aircraft))
+        for object in objects {
+            viewModels.append(AircraftViewModel(with: object))
         }
         return viewModels
     }
