@@ -93,16 +93,6 @@ class SettingsViewController: ViewController {
         dismiss(animated: true)
     }
 
-    fileprivate func openWebPage(_ web: MGPWebConstant) {
-        openWebUrl(web.rawValue)
-    }
-
-    fileprivate func openWebUrl(_ url: String) {
-        if let url = URL(string: url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-
     fileprivate func switchEnvironment() {
         // inverted environment
         let environment = APIServices.shared.settings.isDev ? APIEnvironment.prod : APIEnvironment.dev
@@ -129,19 +119,19 @@ extension SettingsViewController: UITableViewDelegate {
             let vc = TrackListViewController()
             navigationController?.pushViewController(vc, animated: true)
         case .buildGuide:
-            openWebPage(.courseObstaclesDoc)
+            WebViewController.open(.courseObstaclesDoc)
         case .seasonRules:
-            openWebPage(.seasonRulesDoc)
+            WebViewController.open(.seasonRulesDoc)
         case .visitStore:
-            openWebPage(.shop)
+            WebViewController.open(.shop)
         case .measurement:
             settingsController.presentSettingsPicker(.measurement, from: self) { [weak self] in
                 self?.tableView.reloadData()
             }
         case .submitFeedback:
-            openWebUrl(MGPWeb.getPrefilledFeedbackFormUrl())
+            WebViewController.openUrl(MGPWeb.getPrefilledFeedbackFormUrl())
         case .visitSite:
-            openWebPage(.home)
+            WebViewController.open(.home)
         case .logout:
             logout()
         }
