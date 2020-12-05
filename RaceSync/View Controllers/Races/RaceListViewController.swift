@@ -80,7 +80,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
 
     fileprivate lazy var titleView: UIView = {
         let view = UIView()
-        let imageView = UIImageView(image: UIImage(named: "Racesync_Logo_Header"))
+        let imageView = UIImageView(image: UIImage(named: "racesync_Logo_Header"))
         view.addSubview(imageView)
         imageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()

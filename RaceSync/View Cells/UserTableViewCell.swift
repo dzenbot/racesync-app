@@ -31,10 +31,10 @@ class UserTableViewCell: UITableViewCell, ViewCellInterface {
         return label
     }()
 
-    lazy var channelBadge: ChannelBadge = {
-        let channelBadge = ChannelBadge()
-        channelBadge.isHidden = true
-        return channelBadge
+    lazy var textBadge: TextBadge = {
+        let textBadge = TextBadge()
+        textBadge.isHidden = true
+        return textBadge
     }()
 
     // MARK: - Private Variables
@@ -81,8 +81,8 @@ class UserTableViewCell: UITableViewCell, ViewCellInterface {
             $0.centerY.equalToSuperview()
         }
 
-        contentView.addSubview(channelBadge)
-        channelBadge.snp.makeConstraints {
+        contentView.addSubview(textBadge)
+        textBadge.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-Constants.padding/2)
             $0.centerY.equalToSuperview()
         }
@@ -90,7 +90,7 @@ class UserTableViewCell: UITableViewCell, ViewCellInterface {
         contentView.addSubview(labelStackView)
         labelStackView.snp.makeConstraints {
             $0.leading.equalTo(avatarImageView.snp.trailing).offset(Constants.padding)
-            $0.trailing.equalTo(channelBadge.snp.leading).offset(-Constants.padding/2)
+            $0.trailing.equalTo(textBadge.snp.leading).offset(-Constants.padding/2)
             $0.centerY.equalToSuperview()
         }
     }

@@ -16,12 +16,19 @@ class TrackListViewController: ViewController {
     // MARK: - Private Variables
 
     fileprivate var trackList = [TrackViewModel]()
+    fileprivate var sections = [Section]()
 
-    fileprivate lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
+    lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
+        tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
+
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Color.gray20
+        tableView.backgroundView = backgroundView
+
         return tableView
     }()
 
@@ -35,12 +42,12 @@ class TrackListViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loadTracks()
         setupLayout()
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        loadTracks()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -66,35 +73,28 @@ fileprivate extension TrackListViewController {
         guard let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8) else { return }
 
         let json = JSON(parseJSON: jsonString)
-        var objects = [Track]()
 
-        for value in json.arrayValue {
-            if let dict = value.dictionaryObject {
+        // TODO: Move this to Track.swift
+        func getTrackViewModels(with key: String) -> [TrackViewModel] {
+            guard let array = json.dictionaryObject?[key] as? [[String : Any]] else { return [TrackViewModel]() }
+
+            var tracks = [Track]()
+            for dict in array {
                 if let track = Track.init(JSON: dict) {
-                    objects += [track]
+                    tracks += [track]
                 }
             }
+
+            // invert order to show more recent first
+            let sortedTracks = tracks.sorted(by: { (c1, c2) -> Bool in
+                return c1.id.lowercased() > c2.id.lowercased()
+            })
+
+            return TrackViewModel.viewModels(with: sortedTracks)
         }
 
-        trackList = TrackViewModel.viewModels(with: objects)
-        tableView.reloadData()
-
-
-//        guard let path = Bundle.main.path(forResource: "mgp_official_tracks", ofType: "json") else { return }
-//        do {
-//            let text = try String(contentsOfFile: path)
-//            if let dict = try JSONSerialization.jsonObject(with: text.data(using: .utf8)!, options: JSONSerialization.ReadingOptions.allowFragments) as? [String: Any] {
-//                if let data = Track(JSON: dict) {
-//                    print(data.attributesDescription)
-////                    trackList = TrackViewModel.viewModels(with: <#T##[Track]#>)
-//                }
-//            } else {
-//
-//            }
-//        } catch {
-//            print("\(error.localizedDescription)")
-//        }
-
+        sections += [Section(title: "Global Qualifier (GQ)", viewModels: getTrackViewModels(with: "global_quali"))]
+        sections += [Section(title: "Universal Time Trial (UTT)", viewModels: getTrackViewModels(with: "utt"))]
     }
 }
 
@@ -103,25 +103,49 @@ extension TrackListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
+
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return sections[section].title
+    }
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        return UITableView.automaticDimension
+    }
 }
 
 extension TrackListViewController: UITableViewDataSource {
 
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return sections.count
+    }
+
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return trackList.count
+        return sections[section].viewModels.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewModel = trackList[indexPath.row]
+        let viewModel = sections[indexPath.section].viewModels[indexPath.row]
+        return trackTableViewCell(for: viewModel)
+    }
 
-        let cell = UITableViewCell()
-        cell.textLabel?.text = viewModel.titleLabel
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return UserTableViewCell.height
+    }
+
+    func trackTableViewCell(for viewModel: TrackViewModel) -> UserTableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier) as! UserTableViewCell
+        cell.avatarImageView.imageView.image = UIImage(named: "track_thumb_\(viewModel.track.id)")
+        cell.avatarImageView.showShadow = false
+        cell.avatarImageView.imageView.backgroundColor = .clear
+        cell.titleLabel.text = viewModel.titleLabel
+        cell.subtitleLabel.text = viewModel.subtitleLabel
         cell.accessoryType = .disclosureIndicator
 
         return cell
     }
+}
 
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return Constants.cellHeight
-    }
+fileprivate struct Section {
+    let title : String
+    let viewModels : [TrackViewModel]
 }

@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xl9-lg-qP6">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xl9-lg-qP6">
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,28 +11,29 @@
             <objects>
                 <viewController id="xl9-lg-qP6" customClass="LoginViewController" customModule="RaceSync" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="H1y-xF-zMX">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="MultiGP_Logo_Splash" translatesAutoresizingMaskIntoConstraints="NO" id="f4o-uc-HAl">
-                                <rect key="frame" x="141" y="761" width="132" height="101"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="multiGP_Logo_Splash" translatesAutoresizingMaskIntoConstraints="NO" id="f4o-uc-HAl">
+                                <rect key="frame" x="141" y="499" width="318" height="101"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="101" id="gJP-Ax-u2j"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POWERED BY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FDW-Yv-sbc">
-                                <rect key="frame" x="168" y="736" width="78" height="15"/>
+                                <rect key="frame" x="261" y="474" width="78" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Racesync_Logo_Splash" translatesAutoresizingMaskIntoConstraints="NO" id="HUg-Wc-UcN">
-                                <rect key="frame" x="27" y="352" width="360" height="87"/>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="racesync_Logo_Splash" translatesAutoresizingMaskIntoConstraints="NO" id="HUg-Wc-UcN">
+                                <rect key="frame" x="27" y="308" width="546" height="87"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="87" id="FVy-Do-BIx"/>
                                 </constraints>
                             </imageView>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="IAM-58-XBf"/>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="f4o-uc-HAl" firstAttribute="bottom" secondItem="IAM-58-XBf" secondAttribute="bottom" id="EpD-MK-TQF"/>
@@ -48,7 +45,6 @@
                             <constraint firstItem="FDW-Yv-sbc" firstAttribute="centerX" secondItem="f4o-uc-HAl" secondAttribute="centerX" id="wHJ-Tp-doC"/>
                             <constraint firstItem="HUg-Wc-UcN" firstAttribute="centerX" secondItem="FDW-Yv-sbc" secondAttribute="centerX" id="xyA-79-Hc8"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="IAM-58-XBf"/>
                     </view>
                     <connections>
                         <outlet property="mgpLogoLabel" destination="FDW-Yv-sbc" id="dlA-3d-kBd"/>
@@ -64,7 +60,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="MultiGP_Logo_Splash" width="220" height="190"/>
-        <image name="Racesync_Logo_Splash" width="700" height="160"/>
+        <image name="multiGP_Logo_Splash" width="128" height="128"/>
+        <image name="racesync_Logo_Splash" width="128" height="128"/>
     </resources>
 </document>

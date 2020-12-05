@@ -1,134 +1,141 @@
-[
-    {
-        "id": "11",
-        "title": "2020 MultiGP Series Global Qualifier",
-        "leaderboardUrl": "https://www.multigp.com/championships/2020-multigp-series-global-qualifier-results/",
-        "type": "2",
-        "class": "0",
-        "elements": {
-            "gate": 10,
-            "flagCount": 5
+{
+    "utt": [{
+            "id": "01",
+            "title": "UTT 1",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt1/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 0
+            }
+        },
+        {
+            "id": "02",
+            "title": "UTT 2",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt2/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 0
+            }
+        },
+        {
+            "id": "03",
+            "title": "UTT 3 – Bessel Run",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt3/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 0
+            }
+        },
+        {
+            "id": "04",
+            "title": "UTT 4 – High Voltage",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt4/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 0
+            }
+        },
+        {
+            "id": "05",
+            "title": "UTT 5 – Nautilus",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt5/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 0
+            }
+        },
+        {
+            "id": "06",
+            "title": "UTT 6 – Fury",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-6-3-lap-leaderboard/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 2
+            }
+        },
+        {
+            "id": "07",
+            "title": "UTT 7 – Tiny Whutt",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-7-3-lap-leaderboard/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 0
+            }
+        },
+        {
+            "id": "08",
+            "title": "UTT 8 – Revenge",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-8-3-lap-leaderboard/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 5
+            }
+        },
+        {
+            "id": "09",
+            "title": "UTT 9 – Mega UTT",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-9-mega-utt-3-lap-leaderboard/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 2,
+                "flagCount": 4
+            }
+        },
+        {
+            "id": "10",
+            "title": "UTT 10 – Prairie Rage",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-10-prairie-rage-3-lap-leaderboard/",
+            "type": "1",
+            "class": "0",
+            "elements": {
+                "gate": 5,
+                "flagCount": 5
+            }
         }
-    },
-    {
-        "id": "12",
-        "title": "2019 MultiGP Series Global Qualifier",
-        "leaderboardUrl": "https://www.multigp.com/championships/2019-multigp-series-global-qualifier-results/",
-        "type": "2",
-        "class": "0",
-        "elements": {
-            "gate": 10,
-            "flagCount": 5
+    ],
+    "global_quali": [{
+            "id": "11",
+            "title": "2019 MultiGP Series",
+            "subtitle": "(10 gates, 5 flags)",
+            "leaderboardUrl": "https://www.multigp.com/championships/2019-multigp-series-global-qualifier-results/",
+            "type": "2",
+            "class": "0",
+            "elements": {
+                "gate": 10,
+                "flagCount": 5
+            }
+        },
+        {
+            "id": "12",
+            "title": "2020 MultiGP Series",
+            "subtitle": "(10 gates, 5 flags)",
+            "leaderboardUrl": "https://www.multigp.com/championships/2020-multigp-series-global-qualifier-results/",
+            "type": "2",
+            "class": "0",
+            "elements": {
+                "gate": 10,
+                "flagCount": 5
+            }
         }
-    },
-    {
-        "id": "10",
-        "title": "UTT 10 – Prairie Rage",
-        "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-10-prairie-rage-3-lap-leaderboard/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 5
-        }
-    },
-    {
-        "id": "09",
-        "title": "UTT 9 – Mega UTT",
-        "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-9-mega-utt-3-lap-leaderboard/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 2,
-            "flagCount": 4
-        }
-    },
-    {
-        "id": "08",
-        "title": "UTT 8 – Revenge",
-        "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-8-3-lap-leaderboard/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 5
-        }
-    },
-    {
-        "id": "07",
-        "title": "UTT 7 – Tiny Whutt",
-        "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-7-3-lap-leaderboard/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 0
-        }
-    },
-    {
-        "id": "06",
-        "title": "UTT 6 – Fury",
-        "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-6-3-lap-leaderboard/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 2
-        }
-    },
-    {
-        "id": "05",
-        "title": "UTT 5 – Nautilus",
-        "leaderboardUrl": "http://www.multigp.com/leaderboards/utt5/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 0
-        }
-    },
-    {
-        "id": "04",
-        "title": "UTT 4 – High Voltage",
-        "leaderboardUrl": "http://www.multigp.com/leaderboards/utt4/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 0
-        }
-    },
-    {
-        "id": "03",
-        "title": "UTT 3 – Bessel Run",
-        "leaderboardUrl": "http://www.multigp.com/leaderboards/utt3/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 0
-        }
-    },
-    {
-        "id": "02",
-        "title": "UTT 2",
-        "leaderboardUrl": "http://www.multigp.com/leaderboards/utt2/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 0
-        }
-    },
-    {
-        "id": "01",
-        "title": "UTT 1",
-        "leaderboardUrl": "http://www.multigp.com/leaderboards/utt1/",
-        "type": "1",
-        "class": "0",
-        "elements": {
-            "gate": 5,
-            "flagCount": 0
-        }
-    }
-]
+    ],
+    "intl_open": [],
+    "champs_series": [],
+    "canadian_series": []
+}

@@ -14,13 +14,15 @@ class TrackViewModel: Descriptable {
     let track: Track
 
     let titleLabel: String
-    
+    let subtitleLabel: String
+
     // MARK: - Initializatiom
 
     init(with track: Track) {
         self.track = track
 
         self.titleLabel = track.title
+        self.subtitleLabel = track.subtitle
     }
 
     static func viewModels(with objects:[Track]) -> [TrackViewModel] {

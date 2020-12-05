@@ -1,5 +1,5 @@
 //
-//  ChannelBadge.swift
+//  TextBadge.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2019-12-14.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChannelBadge: UIView {
+class TextBadge: UIView {
 
     // MARK: - Public Variables
 

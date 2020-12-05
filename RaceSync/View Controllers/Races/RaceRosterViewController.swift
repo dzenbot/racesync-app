@@ -216,11 +216,11 @@ extension RaceRosterViewController: UITableViewDataSource {
         if let raceEntry = viewModel.raceEntry {
             let title = RaceEntryViewModel.shortChannelLabel(for: raceEntry)
 
-            cell.channelBadge.isHidden = title.isEmpty
-            cell.channelBadge.titleLabel.text = title
-            cell.channelBadge.backgroundColor = RaceEntryViewModel.backgroundColor(for: raceEntry)
+            cell.textBadge.isHidden = title.isEmpty
+            cell.textBadge.titleLabel.text = title
+            cell.textBadge.backgroundColor = RaceEntryViewModel.backgroundColor(for: raceEntry)
         } else {
-            cell.channelBadge.isHidden = true
+            cell.textBadge.isHidden = true
         }
 
         return cell

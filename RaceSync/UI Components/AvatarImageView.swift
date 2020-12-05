@@ -21,10 +21,15 @@ class AvatarImageView: UIView {
         return imageView
     }()
 
+    var showShadow: Bool {
+        didSet {
+            updateShadow()
+        }
+    }
+
     // MARK: - Private Variables
 
     fileprivate let height: CGFloat
-    fileprivate let showShadow: Bool
 
     // MARK: - Initializatiom
 
@@ -45,21 +50,28 @@ class AvatarImageView: UIView {
 
         backgroundColor = Color.clear
 
+        addSubview(imageView)
+        imageView.snp.makeConstraints {
+            $0.top.bottom.leading.trailing.equalToSuperview()
+        }
+
+        updateShadow()
+    }
+
+    override var intrinsicContentSize: CGSize {
+        return CGSize(width: height, height: height)
+    }
+
+    func updateShadow() {
         if showShadow {
             layer.shadowColor = Color.black.cgColor
             layer.shadowOffset = CGSize(width: 0, height: 1.0)
             layer.shadowOpacity = 0.25
             layer.shadowRadius = 1.25
+        } else {
+            layer.shadowOpacity = 0
+            layer.shadowRadius = 0
         }
-
-        addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.top.bottom.leading.trailing.equalToSuperview()
-        }
-    }
-
-    override var intrinsicContentSize: CGSize {
-        return CGSize(width: height, height: height)
     }
 }
 

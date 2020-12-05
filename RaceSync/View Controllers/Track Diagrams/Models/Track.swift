@@ -51,6 +51,7 @@ public class Track: Mappable, Descriptable {
 
     public var id: ObjectId = ""
     public var title: String = ""
+    public var subtitle: String = ""
     public var leaderboardUrl: String = ""
     public var `type`: TrackType = .general
     public var `class`: TrackClass = .open
@@ -77,6 +78,7 @@ public class Track: Mappable, Descriptable {
     public func mapping(map: Map) {
         id <- map["id"]
         title <- map["title"]
+        subtitle <- map["subtitle"]
         leaderboardUrl <- map["leaderboardUrl"]
         `type` <- (map["type"], EnumTransform<TrackType>())
         `class` <- (map["class"], EnumTransform<TrackClass>())
