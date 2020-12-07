@@ -36,6 +36,7 @@
 		4F2724362515D88A000C7408 /* Chapter+UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2724352515D88A000C7408 /* Chapter+UIExtensions.swift */; };
 		4F27243B2517DB1C000C7408 /* CopyLinkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */; };
 		4F2724402517DC5B000C7408 /* UIActivityViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27243F2517DC5B000C7408 /* UIActivityViewController+Extensions.swift */; };
+		4F32F53F257DD0960017AD7B /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F32F53E257DD0960017AD7B /* Credentials.plist */; };
 		4F3D640723FB0A4800DE6DF2 /* AircraftPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */; };
 		4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */; };
 		4F3D640B23FB0C8800DE6DF2 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */; };
@@ -100,7 +101,6 @@
 		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
 		4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APICredential.swift */; };
 		4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A223D397B700570483 /* SettingsViewController.swift */; };
-		4F9DB7A523D3C3A500570483 /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A423D3C3A500570483 /* Credentials.plist */; };
 		4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AB23D5A1DE00570483 /* EmptyStateViewModel.swift */; };
 		4F9DB7AE23D614CF00570483 /* APISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AD23D614CF00570483 /* APISettings.swift */; };
 		4F9DB7B023D618D100570483 /* UISegmentedControl+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */; };
@@ -270,6 +270,7 @@
 		4F2724352515D88A000C7408 /* Chapter+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Chapter+UIExtensions.swift"; sourceTree = "<group>"; };
 		4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyLinkActivity.swift; sourceTree = "<group>"; };
 		4F27243F2517DC5B000C7408 /* UIActivityViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityViewController+Extensions.swift"; sourceTree = "<group>"; };
+		4F32F53E257DD0960017AD7B /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Credentials.plist; path = ../../Credentials.plist; sourceTree = "<group>"; };
 		4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftPickerViewController.swift; sourceTree = "<group>"; };
 		4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftDetailViewController.swift; sourceTree = "<group>"; };
 		4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
@@ -334,7 +335,6 @@
 		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
-		4F9DB7A423D3C3A500570483 /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Credentials.plist; sourceTree = "<group>"; };
 		4F9DB7AB23D5A1DE00570483 /* EmptyStateViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyStateViewModel.swift; sourceTree = "<group>"; };
 		4F9DB7AD23D614CF00570483 /* APISettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISettings.swift; sourceTree = "<group>"; };
 		4F9DB7AF23D618D100570483 /* UISegmentedControl+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UISegmentedControl+Extensions.swift"; sourceTree = "<group>"; };
@@ -571,8 +571,8 @@
 				4FA2682B237A52CD008970AC /* Models */,
 				4FA26828237A4CCE008970AC /* Utils */,
 				4FEBB27B23A30F7D007514B4 /* Extensions */,
-				4F9DB7A423D3C3A500570483 /* Credentials.plist */,
 				4F1342702360DA4B00A9DBDE /* Info.plist */,
+				4F32F53E257DD0960017AD7B /* Credentials.plist */,
 			);
 			path = RaceSyncAPI;
 			sourceTree = "<group>";
@@ -1088,7 +1088,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F9DB7A523D3C3A500570483 /* Credentials.plist in Resources */,
+				4F32F53F257DD0960017AD7B /* Credentials.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

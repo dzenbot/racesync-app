@@ -571,7 +571,7 @@ fileprivate extension RaceDetailViewController {
         didTapCell = loading
     }
 
-    func showOwnerProfile(_ cell: FormTableViewCell) {
+    func showUserProfile(_ cell: FormTableViewCell) {
         guard !didTapCell else { return }
         setLoading(cell, loading: true)
 
@@ -668,7 +668,7 @@ extension RaceDetailViewController: UITableViewDelegate {
         } else if row == .chapter {
             showChapterProfile(cell)
         } else if row == .owner {
-            showOwnerProfile(cell)
+            showUserProfile(cell)
         } else if row == .status {
             toggleRaceStatus(cell)
         } else if row == .liveTime {
