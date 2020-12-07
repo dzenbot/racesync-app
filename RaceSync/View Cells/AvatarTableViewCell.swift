@@ -1,5 +1,5 @@
 //
-//  UserTableViewCell.swift
+//  AvatarTableViewCell.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2019-12-10.
@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class UserTableViewCell: UITableViewCell, ViewCellInterface {
+class AvatarTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Public Variables
 
@@ -39,14 +39,14 @@ class UserTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Private Variables
 
-       fileprivate lazy var labelStackView: UIStackView = {
-           let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
-           stackView.axis = .vertical
-           stackView.distribution = .fillEqually
-           stackView.alignment = .leading
-           stackView.spacing = 2
-           return stackView
-       }()
+    fileprivate lazy var labelStackView: UIStackView = {
+        let stackView = UIStackView(arrangedSubviews: [titleLabel, subtitleLabel])
+        stackView.axis = .vertical
+        stackView.distribution = .fillEqually
+        stackView.alignment = .leading
+        stackView.spacing = 2
+        return stackView
+    }()
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding

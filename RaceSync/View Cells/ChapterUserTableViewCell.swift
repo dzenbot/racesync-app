@@ -8,7 +8,7 @@
 
 import UIKit
 
-class ChapterUserTableViewCell: UserTableViewCell {
+class ChapterUserTableViewCell: AvatarTableViewCell {
 
     let joinButton = JoinButton(type: .system)
 

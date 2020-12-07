@@ -112,11 +112,12 @@ class SettingsViewController: ViewController {
 extension SettingsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        guard let section = Section(rawValue: indexPath.section), let rows = sections[section] else { return }
+        guard let section = Section(rawValue: indexPath.section), let row = sections[section]?[indexPath.row] else { return }
 
-        switch rows[indexPath.row] {
+        switch row {
         case .trackLayouts:
             let vc = TrackListViewController()
+            vc.title = row.title
             navigationController?.pushViewController(vc, animated: true)
         case .buildGuide:
             WebViewController.open(.courseObstaclesDoc)

@@ -11,8 +11,6 @@ import SnapKit
 
 class RaceTableViewCell: UITableViewCell, ViewCellInterface {
 
-    static var identifier: String = "RaceTableViewCell"
-
     // MARK: - Public Variables
 
     static var height: CGFloat {

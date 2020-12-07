@@ -21,9 +21,9 @@ class ChapterViewModel: Descriptable {
     init(with chapter: Chapter) {
         self.chapter = chapter
         self.titleLabel = chapter.name
-        self.locationLabel = ChapterViewModel.locationLabel(for: chapter)
-        self.imageUrl = ChapterViewModel.imageUrl(for: chapter)
-        self.joinState = ChapterViewModel.joinState(for: chapter)
+        self.locationLabel = Self.locationLabel(for: chapter)
+        self.imageUrl = Self.imageUrl(for: chapter)
+        self.joinState = Self.joinState(for: chapter)
     }
 
     static func viewModels(with objects:[Chapter]) -> [ChapterViewModel] {

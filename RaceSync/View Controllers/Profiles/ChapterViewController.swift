@@ -71,7 +71,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         configureBarButtonItems()
 
         tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
-        tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
+        tableView.register(RaceSync.AvatarTableViewCell.self, forCellReuseIdentifier: RaceSync.AvatarTableViewCell.identifier)
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
@@ -285,7 +285,7 @@ extension ChapterViewController: UITableViewDataSource {
             return raceTableViewCell(for: viewModel)
         } else {
             let viewModel = userViewModels[indexPath.row]
-            return userTableViewCell(for: viewModel)
+            return AvatarTableViewCell(for: viewModel)
         }
     }
 
@@ -293,7 +293,7 @@ extension ChapterViewController: UITableViewDataSource {
         if selectedSegment == .left {
             return RaceTableViewCell.height
         } else {
-            return UserTableViewCell.height
+            return RaceSync.AvatarTableViewCell.height
         }
     }
 
@@ -311,8 +311,8 @@ extension ChapterViewController: UITableViewDataSource {
         return cell
     }
 
-    func userTableViewCell(for viewModel: UserViewModel) -> UserTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier) as! UserTableViewCell
+    func AvatarTableViewCell(for viewModel: UserViewModel) -> AvatarTableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: RaceSync.AvatarTableViewCell.identifier) as! AvatarTableViewCell
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
         cell.subtitleLabel.text = viewModel.fullName

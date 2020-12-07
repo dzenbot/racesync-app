@@ -160,7 +160,7 @@
 		4FD4E1E12380AC37008816B3 /* RaceResultsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1E02380AC37008816B3 /* RaceResultsViewController.swift */; };
 		4FD4E1E32381E175008816B3 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1E22381E175008816B3 /* Random.swift */; };
 		4FD53FAD23A0B01E00158206 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD53FAC23A0B01E00158206 /* UserViewModel.swift */; };
-		4FD53FAF23A0B20900158206 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD53FAE23A0B20900158206 /* UserTableViewCell.swift */; };
+		4FD53FAF23A0B20900158206 /* AvatarTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD53FAE23A0B20900158206 /* AvatarTableViewCell.swift */; };
 		4FD53FB123A0D48F00158206 /* UserRaceTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD53FB023A0D48F00158206 /* UserRaceTableViewCell.swift */; };
 		4FD53FB323A0E9B700158206 /* AvatarImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD53FB223A0E9B700158206 /* AvatarImageView.swift */; };
 		4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDC05D723CDB16E00B10881 /* CalendarUtil.swift */; };
@@ -395,7 +395,7 @@
 		4FD4E1E02380AC37008816B3 /* RaceResultsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceResultsViewController.swift; sourceTree = "<group>"; };
 		4FD4E1E22381E175008816B3 /* Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		4FD53FAC23A0B01E00158206 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
-		4FD53FAE23A0B20900158206 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
+		4FD53FAE23A0B20900158206 /* AvatarTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarTableViewCell.swift; sourceTree = "<group>"; };
 		4FD53FB023A0D48F00158206 /* UserRaceTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRaceTableViewCell.swift; sourceTree = "<group>"; };
 		4FD53FB223A0E9B700158206 /* AvatarImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarImageView.swift; sourceTree = "<group>"; };
 		4FDC05D723CDB16E00B10881 /* CalendarUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarUtil.swift; sourceTree = "<group>"; };
@@ -827,10 +827,10 @@
 		4FD4E1E42381E327008816B3 /* View Cells */ = {
 			isa = PBXGroup;
 			children = (
+				4FD53FAE23A0B20900158206 /* AvatarTableViewCell.swift */,
 				4FD4E1D8237FB1EA008816B3 /* RaceTableViewCell.swift */,
 				4FD53FB023A0D48F00158206 /* UserRaceTableViewCell.swift */,
 				4F86690323877041005E310A /* ChapterTableViewCell.swift */,
-				4FD53FAE23A0B20900158206 /* UserTableViewCell.swift */,
 				4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */,
 				4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */,
 				4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */,
@@ -1269,7 +1269,7 @@
 				4F7C8E3724D8AE16008FE125 /* ProfileAvatarView.swift in Sources */,
 				4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */,
 				4F482EFB251158FF00DBA0DF /* SocialActivity.swift in Sources */,
-				4FD53FAF23A0B20900158206 /* UserTableViewCell.swift in Sources */,
+				4FD53FAF23A0B20900158206 /* AvatarTableViewCell.swift in Sources */,
 				4F642910240199AC005E8036 /* AircraftForm.swift in Sources */,
 				4FD4E1D9237FB1EA008816B3 /* RaceTableViewCell.swift in Sources */,
 				4F5C1E4F2390B01700D756EB /* ImageNetworking.swift in Sources */,

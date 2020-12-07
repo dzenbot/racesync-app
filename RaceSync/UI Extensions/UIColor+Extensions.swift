@@ -12,6 +12,11 @@ import Foundation
 import UIKit
 
 extension UIColor {
+
+    static func new(_ hex: String) -> UIColor {
+        return UIColor.init(hex: hex)
+    }
+
     convenience init(hex: String) {
         let hexString: String = hex.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
         let scanner: Scanner = Scanner(string: hexString)

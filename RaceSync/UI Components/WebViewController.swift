@@ -26,7 +26,7 @@ class WebViewController: SFSafariViewController {
     // MARK: - Initialization
 
     init(url URL: URL) {
-        super.init(url: URL, configuration: SFSafariViewController.Configuration())
+        super.init(url: URL, configuration: Self.Configuration())
     }
 
     // MARK: - Lifecycle Methods
