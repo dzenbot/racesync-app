@@ -45,9 +45,9 @@ class TrackDetailViewController: UIViewController {
         view.backgroundColor = Color.white
 
         let label1 = UILabel()
-        label1.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label1.textColor = Color.gray200
-        label1.text = "\(viewModel.track.elementsCount) Elements"
+        label1.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        label1.textColor = Color.blue
+        label1.text = "\(viewModel.track.class.title) Class"
 
         view.addSubview(label1)
         label1.snp.makeConstraints {
@@ -56,9 +56,9 @@ class TrackDetailViewController: UIViewController {
         }
 
         let label2 = UILabel()
-        label2.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        label2.textColor = Color.blue
-        label2.text = "\(viewModel.track.class.title) Class"
+        label2.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label2.textColor = Color.gray200
+        label2.text = "\(viewModel.track.elementsCount) Elements"
         label2.textAlignment = .right
 
         view.addSubview(label2)
@@ -174,16 +174,11 @@ class TrackDetailViewController: UIViewController {
         return tableView
     }()
 
-    fileprivate var tableViewRowCount: Int {
-        get {
-            return Row.allCases.count
-        }
-    }
-
     fileprivate var didTapCell: Bool = false
 
     fileprivate let viewModel: TrackViewModel
     fileprivate var userApi = UserApi()
+    fileprivate var tableViewRows = [Row]()
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -208,8 +203,9 @@ class TrackDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loadRows()
         setupLayout()
-        populateImageGallery()
+        populateContent()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -223,9 +219,6 @@ class TrackDetailViewController: UIViewController {
     // MARK: - Layout
 
     func setupLayout() {
-        title = viewModel.titleLabel
-        view.backgroundColor = Color.white
-
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
@@ -273,7 +266,22 @@ class TrackDetailViewController: UIViewController {
 
 fileprivate extension TrackDetailViewController {
 
-     func populateImageGallery() {
+    func loadRows() {
+        if viewModel.track.videoUrl != nil {
+            tableViewRows += [Row.video]
+        }
+        if viewModel.track.leaderboardUrl != nil {
+            tableViewRows += [Row.leaderboard]
+        }
+        if viewModel.track.designer != nil {
+            tableViewRows += [Row.designer]
+        }
+    }
+
+    func populateContent() {
+        title = viewModel.titleLabel
+        view.backgroundColor = Color.white
+
         let images = loadImages(with: viewModel.track.id)
         guard images.count > 0 else { return }
 
@@ -330,7 +338,7 @@ fileprivate extension TrackDetailViewController {
         }
 
         // reversing the order, to display the non-metric diagram first
-        return urls
+        return urls.sorted(by: { $0.absoluteString < $1.absoluteString })
     }
 
     func loadImages(with id: ObjectId) -> [UIImage] {
@@ -358,8 +366,8 @@ extension TrackDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
-        guard let row = Row(rawValue: indexPath.row) else { return }
 
+        let row = tableViewRows[indexPath.row]
         let track = viewModel.track
 
         if row == .video {
@@ -381,13 +389,13 @@ extension TrackDetailViewController: UITableViewDelegate {
 extension TrackDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewRowCount
+        return tableViewRows.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
-        guard let row = Row(rawValue: indexPath.row) else { return cell }
 
+        let row = tableViewRows[indexPath.row]
         let track = viewModel.track
         cell.textLabel?.text = row.title
 
@@ -422,7 +430,7 @@ extension TrackDetailViewController: UIScrollViewDelegate {
 }
 
 
-fileprivate enum Row: Int, EnumTitle, CaseIterable {
+fileprivate enum Row: Int, EnumTitle {
     case video, leaderboard, designer
 
     var title: String {

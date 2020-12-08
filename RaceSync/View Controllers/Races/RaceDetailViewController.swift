@@ -203,20 +203,14 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
         }
     }
 
-    fileprivate var tableViewRowCount: Int {
-        get {
-            var count = Row.allCases.count
-            if !race.isMyChapter {
-                count -= 1
-            }
-            if race.liveTimeUrl == nil {
-                count -= 1
-            }
-            return count
-        }
-    }
-
     fileprivate var didTapCell: Bool = false
+    fileprivate var tableViewRows = [Row]()
+
+    fileprivate var raceViewModel: RaceViewModel
+    fileprivate let raceApi = RaceApi()
+    fileprivate var chapterApi = ChapterApi()
+    fileprivate var userApi = UserApi()
+    fileprivate var raceCoordinates: CLLocationCoordinate2D?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -226,12 +220,6 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
         static let minButtonSize: CGFloat = 72
         static let buttonSpacing: CGFloat = 12
     }
-
-    fileprivate var raceViewModel: RaceViewModel
-    fileprivate let raceApi = RaceApi()
-    fileprivate var chapterApi = ChapterApi()
-    fileprivate var userApi = UserApi()
-    fileprivate var raceCoordinates: CLLocationCoordinate2D?
 
     // MARK: - Initialization
 
@@ -254,6 +242,7 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
 
         setupLayout()
         configureNavigationItems()
@@ -382,7 +371,7 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
             }
 
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.cellHeight*CGFloat(tableViewRowCount))
+            $0.height.equalTo(Constants.cellHeight*CGFloat(tableViewRows.count))
             $0.bottom.equalToSuperview().offset(-Constants.padding)
         }
 
@@ -422,6 +411,17 @@ class RaceDetailViewController: ViewController, ViewJoinable, RaceTabbable {
         stackView.alignment = .lastBaseline
         stackView.spacing = Constants.buttonSpacing
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
+    }
+
+    fileprivate func loadRows() {
+        tableViewRows += [Row.requirements]
+        if !race.isMyChapter {
+            tableViewRows += [Row.chapter]
+        }
+        tableViewRows += [Row.owner, Row.status]
+        if race.liveTimeUrl != nil {
+            tableViewRows += [Row.liveTime]
+        }
     }
 
     fileprivate func populateContent() {
@@ -661,7 +661,7 @@ extension RaceDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
-        guard let row = Row(rawValue: indexPath.row) else { return }
+        let row = tableViewRows[indexPath.row]
 
         if row == .requirements {
             // TODO: Push AircraftDetailViewController
@@ -684,13 +684,13 @@ extension RaceDetailViewController: UITableViewDelegate {
 extension RaceDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return tableViewRowCount
+        return tableViewRows.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
-        guard let row = Row(rawValue: indexPath.row) else { return cell }
 
+        let row = tableViewRows[indexPath.row]
         cell.textLabel?.text = row.title
 
         if row == .requirements {

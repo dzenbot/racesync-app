@@ -39,7 +39,7 @@ public enum TrackClass: String, EnumTitle {
         case .open:     return "Open"
         case .mega:     return "Mega"
         case .micro:    return "Micro"
-        case .tiny:     return "Tiny"
+        case .tiny:     return "Tiny Whoop"
         }
     }
 }
@@ -114,6 +114,8 @@ public enum TrackElementType: String, EnumTitle {
     case launchGate = "launch_gate"
     case hurtle = "hurtle"
     case splits = "split_s"
+    case megaGate = "mega_gate"
+    case tinyGate = "tiny_gate"
 
     public var title: String {
         switch self {
@@ -127,6 +129,8 @@ public enum TrackElementType: String, EnumTitle {
         case .launchGate:       return "Launch Gate"
         case .hurtle:           return "Hurtle"
         case .splits:           return "Split-S Gate"
+        case .megaGate:         return "Mega Gate"
+        case .tinyGate:         return "Tiny Gate"
         }
     }
 
