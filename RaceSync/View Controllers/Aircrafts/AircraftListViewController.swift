@@ -57,7 +57,7 @@ class AircraftListViewController: ViewController {
     }
 
     fileprivate let user: User
-    fileprivate let aircraftApi = AircraftAPI()
+    fileprivate let aircraftApi = AircraftApi()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
     fileprivate var shouldReloadAircrafts: Bool = true
 

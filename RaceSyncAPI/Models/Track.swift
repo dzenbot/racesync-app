@@ -8,7 +8,6 @@
 
 import Foundation
 import ObjectMapper
-import RaceSyncAPI
 
 public class Track: ImmutableMappable, Descriptable {
 
@@ -40,7 +39,7 @@ public class Track: ImmutableMappable, Descriptable {
         elements = try map.value("elements")
     }
 
-    var elementsCount: Int {
+    public var elementsCount: Int {
         get {
             var count: Int = 0
 
@@ -55,8 +54,8 @@ public class Track: ImmutableMappable, Descriptable {
 }
 
 public struct TrackElement: ImmutableMappable, Descriptable {
-    let type: TrackElementType
-    let count: Int
+    public let type: TrackElementType
+    public let count: Int
 
     // MARK: - Initialization
 
@@ -121,18 +120,5 @@ public enum TrackElementType: String, EnumTitle {
         case .megaGate:         return "Mega Gate"
         case .tinyGate:         return "Tiny Gate"
         }
-    }
-}
-
-public extension TrackElementType {
-
-    func title(with count: Int) -> String {
-        var string = self.title
-        if count > 1 { string += "s" }
-        return string
-    }
-
-    var thumbnail: UIImage? {
-        return UIImage(named: "track_element_\(self.rawValue)")
     }
 }

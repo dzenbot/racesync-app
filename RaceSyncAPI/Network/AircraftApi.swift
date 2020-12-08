@@ -1,5 +1,5 @@
 //
-//  AircraftAPI.swift
+//  AircraftApi.swift
 //  RaceSyncAPI
 //
 //  Created by Ignacio Romero Zurbuchen on 2020-01-08.
@@ -39,7 +39,7 @@ public protocol AircrafApiInterface {
     func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock?, _ completion: @escaping ObjectCompletionBlock<String>)
 }
 
-public class AircraftAPI: AircrafApiInterface {
+public class AircraftApi: AircrafApiInterface {
 
     public init() {}
     fileprivate let repositoryAdapter = RepositoryAdapter()
@@ -92,7 +92,7 @@ public class AircraftAPI: AircrafApiInterface {
     }
 }
 
-fileprivate extension AircraftAPI {
+fileprivate extension AircraftApi {
 
     func uploadImage(_ data: Data, name: String, endpoint: String, progressBlock: ProgressBlock?, _ completion: @escaping ObjectCompletionBlock<String>) {
         Clog.log("Starting request \(endpoint)")

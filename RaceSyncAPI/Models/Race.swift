@@ -7,8 +7,8 @@
 //
 
 import Foundation
-import Alamofire
 import ObjectMapper
+import Alamofire
 
 public class Race: Mappable, Joinable, Descriptable {
 

@@ -94,7 +94,7 @@ class AircraftDetailViewController: ViewController {
     fileprivate var aircraftViewModel: AircraftViewModel {
         didSet { title = aircraftViewModel.displayName }
     }
-    fileprivate let aircraftApi = AircraftAPI()
+    fileprivate let aircraftApi = AircraftApi()
     fileprivate var selectedRow: AircraftRow?
 
     fileprivate enum Constants {

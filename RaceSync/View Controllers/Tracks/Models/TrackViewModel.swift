@@ -56,3 +56,17 @@ extension TrackViewModel {
         return DateUtil.displayDateFormatter.string(from: date)
     }
 }
+
+public extension TrackElementType {
+
+    func title(with count: Int) -> String {
+        var string = self.title
+        if count > 1 { string += "s" }
+        return string
+    }
+
+    var thumbnail: UIImage? {
+        return UIImage(named: "track_element_\(self.rawValue)")
+    }
+}
+

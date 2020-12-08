@@ -67,7 +67,7 @@ class AircraftPickerViewController: ViewController {
     }()
 
     fileprivate let race: Race
-    fileprivate let aircraftApi = AircraftAPI()
+    fileprivate let aircraftApi = AircraftApi()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
 
     fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noMatchingAircrafts)

@@ -15,9 +15,6 @@ class TrackListViewController: ViewController {
 
     // MARK: - Private Variables
 
-    fileprivate var trackList = [TrackViewModel]()
-    fileprivate var sections = [Section]()
-
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
@@ -31,6 +28,8 @@ class TrackListViewController: ViewController {
 
         return tableView
     }()
+
+    fileprivate var sections = [Section]()
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding

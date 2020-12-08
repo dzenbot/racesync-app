@@ -75,7 +75,7 @@ class NewAircraftViewController: ViewController {
         return barButtonItem
     }()
 
-    fileprivate var aircraftAPI = AircraftAPI()
+    fileprivate var aircraftAPI = AircraftApi()
     fileprivate var aircraftSpecs = AircraftSpecs()
     fileprivate var selectedRow: AircraftRow?
     fileprivate var isFormEnabled: Bool = true
