@@ -73,8 +73,8 @@ fileprivate extension TrackListViewController {
         let json = JSON(parseJSON: jsonString)
 
         // TODO: Move this to Track.swift
-        func getTrackViewModels(with key: String) -> [TrackViewModel] {
-            guard let array = json.dictionaryObject?[key] as? [[String : Any]] else { return [TrackViewModel]() }
+        func getTrackViewModels(with type: TrackType) -> [TrackViewModel] {
+            guard let array = json.dictionaryObject?[type.rawValue] as? [[String : Any]] else { return [TrackViewModel]() }
 
             var tracks = [Track]()
             for dict in array {
@@ -91,8 +91,13 @@ fileprivate extension TrackListViewController {
             return TrackViewModel.viewModels(with: sortedTracks)
         }
 
-        sections += [Section(title: "Global Qualifier (GQ)", viewModels: getTrackViewModels(with: "gq"))]
-        sections += [Section(title: "Universal Time Trial (UTT)", viewModels: getTrackViewModels(with: "utt"))]
+        func getSection(for type: TrackType) -> Section {
+            return Section(title: type.title, viewModels: getTrackViewModels(with: type))
+        }
+        
+        sections += [getSection(for: .gq)]
+        sections += [getSection(for: .utt)]
+        sections += [getSection(for: .canada)]
     }
 
     func getViewModel(at indexPath: IndexPath) -> TrackViewModel {

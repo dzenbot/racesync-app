@@ -49,7 +49,6 @@ class FormTableViewCell: UITableViewCell, ViewCellInterface {
     // MARK: - Layout
 
     func setupLayout() {
-
         let selectedBackgroundView = UIView()
         selectedBackgroundView.backgroundColor = Color.gray50
         self.selectedBackgroundView = selectedBackgroundView

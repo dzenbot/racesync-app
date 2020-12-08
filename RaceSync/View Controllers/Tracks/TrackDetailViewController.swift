@@ -16,7 +16,7 @@ class TrackDetailViewController: UIViewController {
 
     fileprivate lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = UIColor(hex: "a1bc94")
+        scrollView.backgroundColor = UIColor(hex: "a0bb93")
         scrollView.isScrollEnabled = true
         scrollView.isPagingEnabled = true
         scrollView.alwaysBounceVertical = false
@@ -267,6 +267,12 @@ class TrackDetailViewController: UIViewController {
 fileprivate extension TrackDetailViewController {
 
     func loadRows() {
+        if viewModel.track.startDate != nil {
+            tableViewRows += [Row.start]
+        }
+        if viewModel.track.endDate != nil {
+            tableViewRows += [Row.end]
+        }
         if viewModel.track.videoUrl != nil {
             tableViewRows += [Row.video]
         }
@@ -318,7 +324,7 @@ fileprivate extension TrackDetailViewController {
 
         for URL in fURLs {
             let url = URL.absoluteString
-            if url.contains("track-diagram-\(id)") {
+            if url.contains("track-\(id)-") {
 
                 // Honor measurement pref
                 let pref = APIServices.shared.settings.measurementSystem
@@ -398,8 +404,15 @@ extension TrackDetailViewController: UITableViewDataSource {
         let row = tableViewRows[indexPath.row]
         let track = viewModel.track
         cell.textLabel?.text = row.title
+        cell.isLoading = false
 
-        if row == .video {
+        if row == .start {
+            cell.detailTextLabel?.text = viewModel.startDateLabel
+            cell.accessoryType = .none
+        } else if row == .end {
+            cell.detailTextLabel?.text = viewModel.endDateLabel
+            cell.accessoryType = .none
+        } else if row == .video {
             if let url = track.videoUrl, let URL = URL(string: url) {
                 cell.detailTextLabel?.text = URL.rootDomain
             }
@@ -410,8 +423,6 @@ extension TrackDetailViewController: UITableViewDataSource {
         } else if row == .designer {
             cell.detailTextLabel?.text = track.designer
         }
-
-        cell.isLoading = false
 
         return cell
     }
@@ -431,10 +442,12 @@ extension TrackDetailViewController: UIScrollViewDelegate {
 
 
 fileprivate enum Row: Int, EnumTitle {
-    case video, leaderboard, designer
+    case start, end, video, leaderboard, designer
 
     var title: String {
         switch self {
+        case .start:        return "Season Start"
+        case .end:          return "Season End"
         case .video:        return "Video Preview"
         case .leaderboard:  return "Leaderboard"
         case .designer:     return "Designer"

@@ -10,71 +10,34 @@ import Foundation
 import ObjectMapper
 import RaceSyncAPI
 
-public enum TrackType: String {
-    case gq = "0"
-    case utt = "1"
-    case io = "2"
-    case champs = "3"
-    case canada = "4"
-
-    var title: String {
-        switch self {
-        case .gq:       return "Global Qualifier (GQ)"
-        case .utt:      return "Universal Time Trial (UTT)"
-        case .io:       return "International Open"
-        case .champs:   return "Championship"
-        case .canada:   return "Canadian Series"
-        }
-    }
-}
-
-public enum TrackClass: String, EnumTitle {
-    case open = "0"
-    case mega = "1"
-    case micro = "2"
-    case tiny = "3"
-
-    public var title: String {
-        switch self {
-        case .open:     return "Open"
-        case .mega:     return "Mega"
-        case .micro:    return "Micro"
-        case .tiny:     return "Tiny Whoop"
-        }
-    }
-}
-
 public class Track: ImmutableMappable, Descriptable {
 
     public let id: ObjectId
     public let title: String
     public let videoUrl: String?
     public let leaderboardUrl: String?
+    public let validationFeetUrl: String?
+    public let validationMetersUrl: String?
+    public let startDate: Date?
+    public let endDate: Date?
     public let designer: String?
-    public let `type`: TrackType
     public let `class`: TrackClass
     public let elements: [TrackElement]
-
-    public let isUTT: Bool
-    public let isGQ: Bool
-    public let isMega: Bool
 
     // MARK: - Initialization
 
     required public init(map: Map) throws {
         id = try map.value("id")
         title = try map.value("title")
-        videoUrl = try map.value("video_url")
-        leaderboardUrl = try map.value("leaderboard_url")
+        videoUrl = try? map.value("videoUrl")
+        leaderboardUrl = try map.value("leaderboardUrl")
+        validationFeetUrl = try? map.value("validationFeetUrl")
+        validationMetersUrl = try? map.value("validationMetersUrl")
+        startDate = try? map.value("startDate", using: MapperUtil.dateTransform)
+        endDate = try? map.value("endDate", using: MapperUtil.dateTransform)
         designer = try map.value("designer")
+        `class` = try map.value("class", using: EnumTransform<TrackClass>())
         elements = try map.value("elements")
-
-        `type` = try map.value("type")
-        `class` = try map.value("class")
-
-        isUTT = (`type` == .utt)
-        isGQ = (`type` == .gq)
-        isMega = (`class` == .mega)
     }
 
     var elementsCount: Int {
@@ -100,6 +63,32 @@ public struct TrackElement: ImmutableMappable, Descriptable {
     public init(map: Map) throws {
         type = try map.value("type")
         count = try map.value("count")
+    }
+}
+
+public enum TrackType: String, EnumTitle {
+    case gq, utt, canada
+
+    public var title: String {
+        switch self {
+        case .gq:       return "Global Qualifier (GQ)"
+        case .utt:      return "Universal Time Trial (UTT)"
+        case .canada:   return "Canadian Series"
+        }
+    }
+}
+
+public enum TrackClass: String, EnumTitle {
+    case open = "0"
+    case mega = "1"
+    case tiny = "2"
+
+    public var title: String {
+        switch self {
+        case .open:     return "Open"
+        case .mega:     return "Mega"
+        case .tiny:     return "Tiny Whoop"
+        }
     }
 }
 
@@ -133,14 +122,17 @@ public enum TrackElementType: String, EnumTitle {
         case .tinyGate:         return "Tiny Gate"
         }
     }
+}
 
-    public func title(with count: Int) -> String {
+public extension TrackElementType {
+
+    func title(with count: Int) -> String {
         var string = self.title
         if count > 1 { string += "s" }
         return string
     }
 
-    public var image: UIImage? {
+    var thumbnail: UIImage? {
         return UIImage(named: "track_element_\(self.rawValue)")
     }
 }

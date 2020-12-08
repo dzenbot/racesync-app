@@ -16,6 +16,9 @@ class TrackViewModel: Descriptable {
     let titleLabel: String
     let subtitleLabel: String?
 
+    let startDateLabel: String?
+    let endDateLabel: String?
+
     // MARK: - Initializatiom
 
     init(with track: Track) {
@@ -23,6 +26,8 @@ class TrackViewModel: Descriptable {
 
         self.titleLabel = track.title
         self.subtitleLabel = Self.subtitleLabelString(for: track)
+        self.startDateLabel = Self.dateLabelString(for: track.startDate) // "Saturday, September 14th"
+        self.endDateLabel = Self.dateLabelString(for: track.endDate)
     }
 
     static func viewModels(with objects:[Track]) -> [TrackViewModel] {
@@ -44,5 +49,10 @@ extension TrackViewModel {
         }
 
         return strings.joined(separator: ", ")
+    }
+
+    static func dateLabelString(for date: Date?) -> String? {
+        guard let date = date else { return nil }
+        return DateUtil.displayDateFormatter.string(from: date)
     }
 }

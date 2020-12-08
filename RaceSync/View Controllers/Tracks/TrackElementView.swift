@@ -28,7 +28,7 @@ class TrackElementView: UIView {
     }()
 
     lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: element.type.image)
+        let imageView = UIImageView(image: element.type.thumbnail)
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 3
         return imageView

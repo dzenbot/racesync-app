@@ -36,7 +36,7 @@ public class DateUtil {
     }
 }
 
-fileprivate extension DateUtil {
+public extension DateUtil {
 
     static let displayFullDateTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
