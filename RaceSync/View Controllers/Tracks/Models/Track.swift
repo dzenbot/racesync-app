@@ -28,13 +28,13 @@ public enum TrackType: String {
     }
 }
 
-public enum TrackClass: String {
+public enum TrackClass: String, EnumTitle {
     case open = "0"
     case mega = "1"
     case micro = "2"
     case tiny = "3"
 
-    var title: String {
+    public var title: String {
         switch self {
         case .open:     return "Open"
         case .mega:     return "Mega"
@@ -53,7 +53,7 @@ public class Track: ImmutableMappable, Descriptable {
     public let designer: String?
     public let `type`: TrackType
     public let `class`: TrackClass
-    public let elements: TrackElements
+    public let elements: [TrackElement]
 
     public let isUTT: Bool
     public let isGQ: Bool
@@ -76,39 +76,14 @@ public class Track: ImmutableMappable, Descriptable {
         isGQ = (`type` == .gq)
         isMega = (`class` == .mega)
     }
-}
 
-public struct TrackElements: ImmutableMappable, Descriptable {
-    let gates: Int
-    let flags: Int
-    let towerGates: Int
-    let doubleGates: Int
-    let ladderGates: Int
-    let toplessLadderGates: Int
-    let diveGates: Int
-    let launchGates: Int
-    let hurtles: Int
-
-    public init(map: Map) throws {
-        gates = try map.value("gates") ?? 0
-        flags = try map.value("flags") ?? 0
-        towerGates = try map.value("tower_gates") ?? 0
-        doubleGates = try map.value("double_gates") ?? 0
-        ladderGates = try map.value("ladder_gates") ?? 0
-        toplessLadderGates = try map.value("topless_ladder_gates") ?? 0
-        diveGates = try map.value("dive_gates") ?? 0
-        launchGates = try map.value("launch_gates") ?? 0
-        hurtles = try map.value("hurtles") ?? 0
-    }
-
-    var totalCount: Int {
+    var elementsCount: Int {
         get {
-            let mirror = Mirror(reflecting: self)
             var count: Int = 0
 
-            for child in mirror.children  {
-                if let integer = child.value as? Int {
-                    count += integer
+            for e in elements {
+                if e.count > 0 {
+                    count += e.count
                 }
             }
             return count
@@ -116,14 +91,52 @@ public struct TrackElements: ImmutableMappable, Descriptable {
     }
 }
 
-public enum TrackElement: String {
-    case gate
-    case flag
-    case towerGate
-    case doubleGates
-    case ladderGate
-    case toplessLadderGate
-    case diveGate
-    case launchGate
-    case hurtle
+public struct TrackElement: ImmutableMappable, Descriptable {
+    let type: TrackElementType
+    let count: Int
+
+    // MARK: - Initialization
+
+    public init(map: Map) throws {
+        type = try map.value("type")
+        count = try map.value("count")
+    }
+}
+
+public enum TrackElementType: String, EnumTitle {
+    case gate = "gate"
+    case flag = "flag"
+    case towerGate = "tower_gate"
+    case doubleGate = "double_gate"
+    case ladderGate = "ladder_gate"
+    case toplessLadderGate = "topless_ladder_gate"
+    case diveGate = "dive_gate"
+    case launchGate = "launch_gate"
+    case hurtle = "hurtle"
+    case splits = "split_s"
+
+    public var title: String {
+        switch self {
+        case .gate:             return "Gate"
+        case .flag:             return "Flag"
+        case .towerGate:        return "Tower Gate"
+        case .doubleGate:       return "Double Gate"
+        case .ladderGate:       return "Ladder Gate"
+        case .toplessLadderGate:return "Topless Ladder Gate"
+        case .diveGate:         return "Dive Gate"
+        case .launchGate:       return "Launch Gate"
+        case .hurtle:           return "Hurtle"
+        case .splits:           return "Split-S Gate"
+        }
+    }
+
+    public func title(with count: Int) -> String {
+        var string = self.title
+        if count > 1 { string += "s" }
+        return string
+    }
+
+    public var image: UIImage? {
+        return UIImage(named: "track_element_\(self.rawValue)")
+    }
 }

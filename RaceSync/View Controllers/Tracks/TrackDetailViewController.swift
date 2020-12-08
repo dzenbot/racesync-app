@@ -44,55 +44,103 @@ class TrackDetailViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = Color.white
 
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.textColor = Color.gray200
-        label.text = "\(viewModel.track.elements.totalCount) Elements"
+        let label1 = UILabel()
+        label1.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label1.textColor = Color.gray200
+        label1.text = "\(viewModel.track.elementsCount) Elements"
 
-        view.addSubview(label)
-        label.snp.makeConstraints {
+        view.addSubview(label1)
+        label1.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(Constants.padding)
             $0.top.equalToSuperview()
         }
 
-        let elements = viewModel.track.elements
-        var subviews = [TrackElementView]()
-        subviews += [TrackElementView(element: .gate, count: elements.gates)]
-        subviews += [TrackElementView(element: .flag, count: elements.flags)]
+        let label2 = UILabel()
+        label2.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        label2.textColor = Color.blue
+        label2.text = "\(viewModel.track.class.title) Class"
+        label2.textAlignment = .right
 
-        subviews.forEach {
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapElementView(_:)))
-            $0.addGestureRecognizer(tapGesture)
+        view.addSubview(label2)
+        label2.snp.makeConstraints {
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
+            $0.top.equalToSuperview()
         }
 
-        let stackView = UIStackView(arrangedSubviews: subviews)
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .lastBaseline
-        stackView.spacing = Constants.padding/2
+        var subviews = [TrackElementView]()
+        for e in viewModel.track.elements {
+            let view = TrackElementView(element: e)
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapElementView(_:)))
+            view.addGestureRecognizer(tapGesture)
 
-        view.addSubview(stackView)
-        stackView.snp.makeConstraints {
-            $0.top.equalTo(label.snp.bottom).offset(Constants.padding)
-            $0.leading.equalToSuperview().offset(Constants.padding)
-            $0.trailing.bottom.equalToSuperview().offset(-Constants.padding)
+            subviews += [view]
+        }
+
+        func newStackView() -> UIStackView {
+            let view = UIStackView()
+            view.axis = .horizontal
+            view.distribution = .fillEqually
+            view.alignment = .leading
+            view.spacing = Constants.padding/2
+            return view
+        }
+
+        var stackView = newStackView()
+        var row: Int = 0
+
+        for i in 0..<subviews.count {
+            let subview = subviews[i]
+            stackView.addArrangedSubview(subview)
+
+            func addStackView(isLast: Bool = false) {
+                view.addSubview(stackView)
+                stackView.snp.makeConstraints {
+                    $0.top.equalTo(label1.snp.bottom).offset(Constants.padding+(Constants.padding/2+subview.intrinsicContentSize.height)*CGFloat(row))
+                    $0.leading.equalToSuperview().offset(Constants.padding)
+
+                    if isLast {
+                        $0.bottom.equalToSuperview().offset(-Constants.padding)
+                        $0.width.equalTo(subview.intrinsicContentSize.width+Constants.padding/4)
+                    } else {
+                        $0.trailing.bottom.equalToSuperview().offset(-Constants.padding)
+                    }
+                }
+            }
+
+            let index = i+1
+
+            // last item
+            if index.isMultiple(of: 2) {
+                addStackView()
+
+                stackView = newStackView()
+                row += 1
+            } else if index == subviews.count {
+                addStackView(isLast: true)
+            }
         }
 
         return view
     }()
 
+    fileprivate var tableViewHeaderHeight: CGFloat {
+        get {
+            var height: CGFloat = Constants.scrollHeight
+            height += pageControl.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+            height += elementsView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+            height += Constants.padding * 3
+            return height
+        }
+    }
+
     fileprivate lazy var tableHeaderView: UIView = {
-        let width = UIScreen.main.bounds.width
-        let scrollViewHeight: CGFloat = 200
-        let height = 240 + elementsView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: width, height: height))
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: Constants.scrollWidth, height: tableViewHeaderHeight))
         view.backgroundColor = Color.white
 
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
             $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(scrollViewHeight)
-            $0.width.equalTo(width)
+            $0.height.equalTo(Constants.scrollHeight)
         }
 
         view.addSubview(pageControl)
@@ -120,7 +168,7 @@ class TrackDetailViewController: UIViewController {
 
         tableHeaderView.snp.makeConstraints {
             $0.width.equalToSuperview()
-            $0.height.equalTo(360)
+            $0.height.equalTo(tableViewHeaderHeight)
         }
 
         return tableView
@@ -140,6 +188,8 @@ class TrackDetailViewController: UIViewController {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = 50
+        static let scrollHeight: CGFloat = 200
+        static let scrollWidth: CGFloat = UIScreen.main.bounds.width
     }
 
     // MARK: - Initialization
@@ -241,9 +291,9 @@ fileprivate extension TrackDetailViewController {
             imageView.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(hOffset)
                 $0.top.bottom.width.height.equalToSuperview()
-
-                hOffset += UIScreen.main.bounds.width
             }
+
+            hOffset += Constants.scrollWidth
         }
 
         scrollView.setNeedsLayout()
@@ -280,7 +330,7 @@ fileprivate extension TrackDetailViewController {
         }
 
         // reversing the order, to display the non-metric diagram first
-        return urls.reduce([],{ [$1] + $0 })
+        return urls
     }
 
     func loadImages(with id: ObjectId) -> [UIImage] {

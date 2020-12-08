@@ -5,10 +5,15 @@
             "leaderboard_url": "http://www.multigp.com/leaderboards/utt1/",
             "type": "1",
             "class": "0",
-            "elements": {
-                "gates": 5,
-                "flags": 0
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "2",
@@ -16,10 +21,15 @@
             "leaderboard_url": "http://www.multigp.com/leaderboards/utt2/",
             "type": "1",
             "class": "0",
-            "elements": {
-                "gates": 5,
-                "flags": 0
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "3",
@@ -27,10 +37,15 @@
             "leaderboard_url": "http://www.multigp.com/leaderboards/utt3/",
             "type": "1",
             "class": "0",
-            "elements": {
-                "gates": 5,
-                "flags": 0
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "4",
@@ -38,10 +53,15 @@
             "leaderboard_url": "http://www.multigp.com/leaderboards/utt4/",
             "type": "1",
             "class": "0",
-            "elements": {
-                "gates": 5,
-                "flags": 0
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "5",
@@ -49,10 +69,15 @@
             "leaderboard_url": "http://www.multigp.com/leaderboards/utt5/",
             "type": "1",
             "class": "0",
-            "elements": {
-                "gates": 5,
-                "flags": 0
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "6",
@@ -61,10 +86,15 @@
             "designer": "Nytfury",
             "type": "1",
             "class": "0",
-            "elements": {
-                "gates": 5,
-                "flags": 2
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "7",
@@ -73,10 +103,15 @@
             "designer": "JesseP",
             "type": "1",
             "class": "3",
-            "elements": {
-                "gates": 5,
-                "flags": 0
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "8",
@@ -85,10 +120,15 @@
             "designer": "Rambozo",
             "type": "1",
             "class": "0",
-            "elements": {
-                "gates": 5,
-                "flags": 5
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "9",
@@ -97,10 +137,15 @@
             "designer": "Old_Man_FPV",
             "type": "1",
             "class": "1",
-            "elements": {
-                "gates": 2,
-                "flags": 4
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         },
         {
             "id": "10",
@@ -109,10 +154,15 @@
             "designer": "RagingCanadian",
             "type": "1",
             "class": "0",
-            "elements": {
-                "gates": 5,
-                "flags": 5
+            "elements": [{
+                "type": "gate",
+                "count": 2
+            },
+            {
+                "type": "flag",
+                "count": 2
             }
+        ]
         }
     ],
     "gq": [{
@@ -123,10 +173,19 @@
             "designer": "Kruel",
             "type": "2",
             "class": "0",
-            "elements": {
-                "gates": 10,
-                "flags": 5
+            "elements": [{
+                "type": "gate",
+                "count": 6
+            },
+            {
+                "type": "flag",
+                "count": 5
+            },
+            {
+                "type": "double_gate",
+                "count": 2
             }
+        ]
         },
         {
             "id": "12",
@@ -136,10 +195,19 @@
             "designer": "Kruel",
             "type": "2",
             "class": "0",
-            "elements": {
-                "gates": 10,
-                "flags": 5
-            }
+            "elements": [{
+                    "type": "gate",
+                    "count": 6
+                },
+                {
+                    "type": "flag",
+                    "count": 5
+                },
+                {
+                    "type": "double_gate",
+                    "count": 2
+                }
+            ]
         }
     ],
     "io": [],

@@ -15,36 +15,26 @@ class TrackElementView: UIView {
 
     lazy var countLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 23, weight: .bold)
+        label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         label.textColor = Color.black
         return label
     }()
 
     lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textColor = Color.black
         return label
     }()
 
     lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: elementImage)
+        let imageView = UIImageView(image: element.type.image)
         imageView.clipsToBounds = true
+        imageView.layer.cornerRadius = 3
         return imageView
     }()
 
-    var elementImage: UIImage? {
-        get {
-            switch element {
-            case .gate:     return UIImage(named: "track_element_gate")
-            case .flag:     return UIImage(named: "track_element_flag")
-            default:        return nil
-            }
-        }
-    }
-
     fileprivate let element: TrackElement
-    fileprivate let count: Int
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -52,9 +42,8 @@ class TrackElementView: UIView {
 
     // MARK: - Initialization
 
-    init(element: TrackElement, count: Int) {
+    init(element: TrackElement) {
         self.element = element
-        self.count = count
         super.init(frame: .zero)
 
         setupLayout()
@@ -68,20 +57,21 @@ class TrackElementView: UIView {
 
     func setupLayout() {
         backgroundColor = Color.gray20
+        layer.cornerRadius = 6
 
-        countLabel.text = String(count)
-        titleLabel.text = element.rawValue.capitalized
+        countLabel.text = String(element.count)
+        titleLabel.text = element.type.title(with: element.count)
 
         addSubview(countLabel)
         countLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(Constants.padding)
-            $0.top.equalToSuperview().offset(Constants.padding/2)
+            $0.leading.equalToSuperview().offset(Constants.padding/2)
+            $0.top.equalToSuperview().offset(Constants.padding*3/4)
         }
 
         addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(Constants.padding)
-            $0.bottom.equalToSuperview().offset(-Constants.padding/2)
+            $0.leading.equalToSuperview().offset(Constants.padding/2)
+            $0.bottom.equalToSuperview().offset(-Constants.padding*3/4)
         }
 
         addSubview(imageView)

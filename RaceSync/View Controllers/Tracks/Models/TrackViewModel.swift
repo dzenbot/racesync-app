@@ -37,23 +37,10 @@ class TrackViewModel: Descriptable {
 extension TrackViewModel {
 
     static func subtitleLabelString(for track: Track) -> String? {
-
         var strings = [String]()
-        let elements = track.elements
 
-        if elements.gates > 0 {
-            var string = "\(elements.gates) gate"
-            if elements.gates > 1 {
-                string += "s"
-            }
-            strings += [string]
-        }
-        if elements.flags > 0 {
-            var string = "\(elements.flags) flag"
-            if elements.flags > 1 {
-                string += "s"
-            }
-            strings += [string]
+        for e in track.elements {
+            strings += ["\(e.count) \(e.type.title(with: e.count))"]
         }
 
         return strings.joined(separator: ", ")
