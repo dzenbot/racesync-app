@@ -37,9 +37,9 @@ class TrackViewModel: Descriptable {
 extension TrackViewModel {
 
     static func subtitleLabelString(for track: Track) -> String? {
-        guard let elements = track.elements else { return nil }
 
         var strings = [String]()
+        let elements = track.elements
 
         if elements.gates > 0 {
             var string = "\(elements.gates) gate"
@@ -56,30 +56,6 @@ extension TrackViewModel {
             strings += [string]
         }
 
-
-//        } else if elements.gates > 0 {
-//            strings += ["\(elements.gates) gate"]
-//        }
-//
-//        if elements.flags > 1 {
-//            strings += ["\(elements.flags) flags"]
-//        } else if elements.flags > 0 {
-//            strings += ["\(elements.flags) flag"]
-//        }
-
         return strings.joined(separator: ", ")
     }
 }
-
-
-//public struct TrackElements {
-//    let gate: Int
-//    let flag: Int
-//    let tower_gate: Int
-//    let double_gate: Int
-//    let ladder_gate: Int
-//    let topless_ladder_gate: Int
-//    let dive_gate: Int
-//    let launch_gate: Int
-//    let hurtle: Int
-//}
