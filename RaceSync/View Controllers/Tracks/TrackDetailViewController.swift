@@ -45,9 +45,9 @@ class TrackDetailViewController: UIViewController {
         view.backgroundColor = Color.white
 
         let label1 = UILabel()
-        label1.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        label1.textColor = Color.blue
-        label1.text = "\(viewModel.track.class.title) Class"
+        label1.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label1.textColor = Color.gray200
+        label1.text = "\(viewModel.track.elementsCount) Elements"
 
         view.addSubview(label1)
         label1.snp.makeConstraints {
@@ -56,9 +56,9 @@ class TrackDetailViewController: UIViewController {
         }
 
         let label2 = UILabel()
-        label2.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label2.textColor = Color.gray200
-        label2.text = "\(viewModel.track.elementsCount) Elements"
+        label2.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        label2.textColor = Color.blue
+        label2.text = "\(viewModel.track.class.title) Class"
         label2.textAlignment = .right
 
         view.addSubview(label2)
@@ -454,8 +454,8 @@ fileprivate enum Row: Int, EnumTitle {
 
     var title: String {
         switch self {
-        case .start:        return "Season Start"
-        case .end:          return "Season End"
+        case .start:        return "Start of Season"
+        case .end:          return "End of Season"
         case .video:        return "Video Preview"
         case .leaderboard:  return "Leaderboard"
         case .designer:     return "Designer"

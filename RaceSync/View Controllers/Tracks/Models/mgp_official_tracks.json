@@ -6,11 +6,7 @@
             "class": "0",
             "elements": [{
                     "type": "gate",
-                    "count": 2
-                },
-                {
-                    "type": "flag",
-                    "count": 2
+                    "count": 5
                 }
             ]
         },
@@ -18,14 +14,11 @@
             "id": "2",
             "title": "UTT #2 – Tsunami",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt2/",
+            "designer": "BrainDraindx",
             "class": "0",
             "elements": [{
                     "type": "gate",
-                    "count": 2
-                },
-                {
-                    "type": "flag",
-                    "count": 2
+                    "count": 5
                 }
             ]
         },
@@ -36,11 +29,7 @@
             "class": "0",
             "elements": [{
                     "type": "gate",
-                    "count": 2
-                },
-                {
-                    "type": "flag",
-                    "count": 2
+                    "count": 5
                 }
             ]
         },
@@ -51,11 +40,7 @@
             "class": "0",
             "elements": [{
                     "type": "gate",
-                    "count": 2
-                },
-                {
-                    "type": "flag",
-                    "count": 2
+                    "count": 5
                 }
             ]
         },
@@ -63,14 +48,11 @@
             "id": "5",
             "title": "UTT #5 – Nautilus",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt5/",
+            "designer": "HarmJoy",
             "class": "0",
             "elements": [{
                     "type": "gate",
-                    "count": 2
-                },
-                {
-                    "type": "flag",
-                    "count": 2
+                    "count": 5
                 }
             ]
         },
@@ -198,10 +180,20 @@
                     "count": 2
                 }
             ]
+        },
+        {
+            "id": "15",
+            "title": "2021 MultiGP Series",
+            "videoUrl": "",
+            "leaderboardUrl": "",
+            "validationFeetUrl": "",
+            "startDate": "2020-04-03 12:01 AM",
+            "endDate": "2020-09-06 11:59 PM",
+            "designer": "",
+            "class": "0",
+            "elements": []
         }
     ],
-    "io": [],
-    "champs": [],
     "canada": [{
             "id": "13",
             "title": "2019 Canadian MultiGP Series",

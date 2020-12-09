@@ -42,7 +42,8 @@ public class Track: ImmutableMappable, Descriptable {
     public var elementsCount: Int {
         get {
             var count: Int = 0
-
+            if elements.count == count { return count }
+            
             for e in elements {
                 if e.count > 0 {
                     count += e.count
