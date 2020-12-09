@@ -54,5 +54,4 @@ class TextBadge: UIView {
             $0.centerY.equalToSuperview()
         }
     }
-
 }

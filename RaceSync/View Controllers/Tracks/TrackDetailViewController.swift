@@ -52,7 +52,7 @@ class TrackDetailViewController: UIViewController {
         view.addSubview(label1)
         label1.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(Constants.padding)
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().offset(Constants.padding/2)
         }
 
         let label2 = UILabel()
@@ -64,7 +64,7 @@ class TrackDetailViewController: UIViewController {
         view.addSubview(label2)
         label2.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-Constants.padding)
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().offset(Constants.padding/2)
         }
 
         var subviews = [TrackElementView]()
@@ -125,10 +125,13 @@ class TrackDetailViewController: UIViewController {
 
     fileprivate var tableViewHeaderHeight: CGFloat {
         get {
-            var height: CGFloat = Constants.scrollHeight
+            var height: CGFloat = 0
+            height += Constants.scrollHeight
+            height += Constants.padding
             height += pageControl.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+            height += Constants.padding
             height += elementsView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-            height += Constants.padding * 3
+            height += Constants.padding
             return height
         }
     }
@@ -146,7 +149,7 @@ class TrackDetailViewController: UIViewController {
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(scrollView.snp.bottom).offset(Constants.padding/2)
+            $0.top.equalTo(scrollView.snp.bottom)
         }
 
         view.addSubview(elementsView)

@@ -83,14 +83,14 @@ class AvatarTableViewCell: UITableViewCell, ViewCellInterface {
 
         contentView.addSubview(textBadge)
         textBadge.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-Constants.padding/2)
+            $0.trailing.equalToSuperview()
             $0.centerY.equalToSuperview()
         }
 
         contentView.addSubview(labelStackView)
         labelStackView.snp.makeConstraints {
             $0.leading.equalTo(avatarImageView.snp.trailing).offset(Constants.padding)
-            $0.trailing.equalTo(textBadge.snp.leading).offset(-Constants.padding/2)
+            $0.trailing.equalTo(textBadge.snp.leading)
             $0.centerY.equalToSuperview()
         }
     }
