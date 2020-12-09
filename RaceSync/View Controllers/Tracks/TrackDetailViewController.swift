@@ -265,10 +265,14 @@ class TrackDetailViewController: UIViewController {
     }
 
     @objc func didTapPageControl(_ sender: Any) -> () {
-        autoChangePages(false)
-
         let x = CGFloat(pageControl.currentPage) * scrollView.frame.size.width
-        scrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
+        let newOffset = CGPoint(x: x, y: 0)
+
+        UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseInOut, .beginFromCurrentState], animations: {
+            self.scrollView.contentOffset = newOffset
+        }, completion: nil)
+
+        autoChangePages(false)
     }
 
     @objc func didTapElementView(_ sender: Any) -> () {
@@ -284,8 +288,8 @@ class TrackDetailViewController: UIViewController {
         guard (enable && timer == nil) || (!enable && timer != nil) else { return }
 
         if enable {
-            timer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
-            timer?.schedule(deadline: .now(), repeating: .seconds(5))
+            timer = DispatchSource.makeTimerSource(flags: [], queue: .main)
+            timer?.schedule(deadline: .now() + .seconds(3), repeating: .seconds(5))
             timer?.setEventHandler {
                 self.scrollToNextPage()
             }
@@ -309,7 +313,7 @@ class TrackDetailViewController: UIViewController {
         let newOffset = CGPoint(x: nextPos, y: 0)
 
         if animated {
-            UIView.animate(withDuration: 0.75, delay: 4, options: [.curveEaseInOut, .allowUserInteraction]) {
+            UIView.animate(withDuration: 0.75, delay: 0, options: [.curveEaseInOut, .beginFromCurrentState]) {
                 self.scrollView.contentOffset = newOffset
             } completion: { (finished) in
                 self.pageControl.currentPage = nextPage
