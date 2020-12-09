@@ -165,7 +165,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
         super.init(nibName: nil, bundle: nil)
 
         self.segmentedControl.setItems(types.compactMap { $0.title })
-        self.segmentedControl.selectedSegmentIndex = 0
+        self.segmentedControl.selectedSegmentIndex = types.last!.rawValue
     }
 
     required init?(coder aDecoder: NSCoder) {
