@@ -34,7 +34,7 @@ class TrackDetailViewController: UIViewController {
     fileprivate lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
         control.backgroundColor = Color.white
-        control.hidesForSinglePage = false
+        control.hidesForSinglePage = true
         control.pageIndicatorTintColor = Color.gray50
         control.currentPageIndicatorTintColor = Color.gray100
         return control
