@@ -14,6 +14,22 @@ class TrackDetailViewController: UIViewController {
 
     // MARK: - Private Variables
 
+    fileprivate lazy var tableView: UITableView = {
+        let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
+        tableView.tableHeaderView = tableHeaderView
+
+        tableHeaderView.snp.makeConstraints {
+            $0.width.equalToSuperview()
+            $0.height.equalTo(tableViewHeaderHeight)
+        }
+
+        return tableView
+    }()
+
     fileprivate lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = UIColor(hex: "a0bb93")
@@ -38,6 +54,35 @@ class TrackDetailViewController: UIViewController {
         control.pageIndicatorTintColor = Color.gray50
         control.currentPageIndicatorTintColor = Color.gray100
         return control
+    }()
+
+    fileprivate lazy var tableHeaderView: UIView = {
+        // needs to define the frame else the tableview doesn't lay out properly
+        var frame = CGRect.zero
+        frame.size.height = tableViewHeaderHeight
+
+        let view = UIView(frame: frame)
+        view.backgroundColor = Color.white
+
+        view.addSubview(scrollView)
+        scrollView.snp.makeConstraints {
+            $0.top.leading.trailing.equalToSuperview()
+            $0.height.equalTo(Constants.scrollHeight)
+        }
+
+        view.addSubview(pageControl)
+        pageControl.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(scrollView.snp.bottom)
+        }
+
+        view.addSubview(elementsView)
+        elementsView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(pageControl.snp.bottom)
+        }
+
+        return view
     }()
 
     fileprivate lazy var elementsView: UIView = {
@@ -136,53 +181,13 @@ class TrackDetailViewController: UIViewController {
         }
     }
 
-    fileprivate lazy var tableHeaderView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: Constants.scrollWidth, height: tableViewHeaderHeight))
-        view.backgroundColor = Color.white
-
-        view.addSubview(scrollView)
-        scrollView.snp.makeConstraints {
-            $0.top.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.scrollHeight)
-        }
-
-        view.addSubview(pageControl)
-        pageControl.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(scrollView.snp.bottom)
-        }
-
-        view.addSubview(elementsView)
-        elementsView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(pageControl.snp.bottom)
-        }
-
-        return view
-    }()
-
-    fileprivate lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
-        tableView.tableHeaderView = tableHeaderView
-
-        tableHeaderView.snp.makeConstraints {
-            $0.width.equalToSuperview()
-            $0.height.equalTo(tableViewHeaderHeight)
-        }
-
-        return tableView
-    }()
-
     fileprivate var didTapCell: Bool = false
 
     fileprivate let viewModel: TrackViewModel
     fileprivate var userApi = UserApi()
     fileprivate var tableViewRows = [Row]()
     fileprivate var trackImages = [UIImage]()
+    fileprivate var timer : DispatchSourceTimer? = nil
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -210,6 +215,7 @@ class TrackDetailViewController: UIViewController {
         loadRows()
         setupLayout()
         populateContent()
+        autoChangePages()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -248,6 +254,8 @@ class TrackDetailViewController: UIViewController {
     }
 
     @objc func didTapScrollView(_ sender: Any) -> () {
+        autoChangePages(false)
+
         let image = trackImages[pageControl.currentPage]
         let vc = FullscreenImageViewController(image: image)
         vc.modalTransitionStyle = .crossDissolve
@@ -257,13 +265,14 @@ class TrackDetailViewController: UIViewController {
     }
 
     @objc func didTapPageControl(_ sender: Any) -> () {
+        autoChangePages(false)
+
         let x = CGFloat(pageControl.currentPage) * scrollView.frame.size.width
         scrollView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
     }
 
     @objc func didTapElementView(_ sender: Any) -> () {
-        print("did tap element view!")
-
+        autoChangePages(false)
     }
 
     func setLoading(_ cell: FormTableViewCell, loading: Bool) {
@@ -271,9 +280,50 @@ class TrackDetailViewController: UIViewController {
         didTapCell = loading
     }
 
+    func autoChangePages(_ enable: Bool = true) {
+        guard (enable && timer == nil) || (!enable && timer != nil) else { return }
+
+        if enable {
+            timer = DispatchSource.makeTimerSource(flags: [], queue: DispatchQueue.main)
+            timer?.schedule(deadline: .now(), repeating: .seconds(5))
+            timer?.setEventHandler {
+                self.scrollToNextPage()
+            }
+            timer?.resume()
+        } else {
+            timer?.cancel()
+            timer = nil
+        }
+    }
+
+    func scrollToNextPage(_ animated: Bool = true) {
+
+        let currentPage: Int = Int(scrollView.contentOffset.x / Constants.scrollWidth)
+        var nextPage = currentPage + 1
+
+        if currentPage == pageControl.numberOfPages-1 {
+            nextPage = 0
+        }
+
+        let nextPos = Constants.scrollWidth * CGFloat(nextPage)
+        let newOffset = CGPoint(x: nextPos, y: 0)
+
+        if animated {
+            UIView.animate(withDuration: 0.75, delay: 4, options: [.curveEaseInOut, .allowUserInteraction]) {
+                self.scrollView.contentOffset = newOffset
+            } completion: { (finished) in
+                self.pageControl.currentPage = nextPage
+            }
+        } else {
+            scrollView.contentOffset = newOffset
+            pageControl.currentPage = nextPage
+        }
+    }
 }
 
 fileprivate extension TrackDetailViewController {
+
+    // MARK: - Data Source
 
     func loadRows() {
         if viewModel.track.startDate != nil {
@@ -384,6 +434,8 @@ extension TrackDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
 
+        autoChangePages(false)
+
         let row = tableViewRows[indexPath.row]
         let track = viewModel.track
 
@@ -448,6 +500,10 @@ extension TrackDetailViewController: UIScrollViewDelegate {
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
         let pageNumber = round(scrollView.contentOffset.x / scrollView.frame.size.width)
         pageControl.currentPage = Int(pageNumber)
+    }
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        autoChangePages(false)
     }
 }
 
