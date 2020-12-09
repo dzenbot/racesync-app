@@ -179,6 +179,7 @@ class TrackDetailViewController: UIViewController {
     fileprivate let viewModel: TrackViewModel
     fileprivate var userApi = UserApi()
     fileprivate var tableViewRows = [Row]()
+    fileprivate var trackImages = [UIImage]()
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -244,7 +245,12 @@ class TrackDetailViewController: UIViewController {
     }
 
     @objc func didTapScrollView(_ sender: Any) -> () {
-        print("Open image at index \(pageControl.currentPage)")
+        let image = trackImages[pageControl.currentPage]
+        let vc = FullscreenImageViewController(image: image)
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+
+        UIViewController.topMostViewController()?.present(vc, animated: true, completion: nil)
     }
 
     @objc func didTapPageControl(_ sender: Any) -> () {
@@ -316,6 +322,8 @@ fileprivate extension TrackDetailViewController {
 
         pageControl.numberOfPages = images.count
         pageControl.addTarget(self, action: #selector(didTapPageControl(_:)), for: .valueChanged)
+
+        trackImages.append(contentsOf: images)
     }
 
     func getTrackImageURLs(with id: ObjectId) -> [URL] {

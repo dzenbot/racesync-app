@@ -11,7 +11,7 @@ import SnapKit
 import PickerView
 import Presentr
 
-class TextFieldViewController: FormViewController {
+class TextFieldViewController: FormBaseViewController {
 
     // MARK: - Public Variables
 

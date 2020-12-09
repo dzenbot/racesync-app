@@ -61,9 +61,9 @@ class SettingsController {
     }
 }
 
-extension SettingsController: FormViewControllerDelegate {
+extension SettingsController: FormBaseViewControllerDelegate {
 
-    func formViewController(_ viewController: FormViewController, didSelectItem item: String) {
+    func formViewController(_ viewController: FormBaseViewController, didSelectItem item: String) {
 
         let settings = APIServices.shared.settings
 
@@ -89,7 +89,7 @@ extension SettingsController: FormViewControllerDelegate {
         viewController.dismiss(animated: true)
     }
 
-    func formViewControllerDidDismiss(_ viewController: FormViewController) {
+    func formViewControllerDidDismiss(_ viewController: FormBaseViewController) {
         // invalidate variables after we dismiss
         completion = nil
         settingsType = nil

@@ -36,5 +36,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) { }
 
+    func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
+        if let vc = UIViewController.topMostViewController() {
+            if vc.responds(to: Selector(("canRotate"))) && !vc.isBeingDismissed {
+                return .allButUpsideDown
+            }
+        }
+        return .portrait;
+    }
 }
 
