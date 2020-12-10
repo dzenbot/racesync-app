@@ -20,7 +20,6 @@ target 'RaceSync' do
   pod 'TOCropViewController'
 
   # Analytics
-  pod 'GoogleAnalytics'
 
   target 'RaceSyncTests' do
     inherit! :search_paths

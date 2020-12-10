@@ -77,10 +77,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 
 
-## GoogleAnalytics
-
-Copyright 2016 Google
-
 ## PickerView
 
 Copyright (c) 2015 Filipe Alvarenga <ofilipealvarenga@gmail.com>
