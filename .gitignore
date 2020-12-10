@@ -6,4 +6,5 @@ xcuserdata
 *.zip
 basic/composer.lock
 
-RaceSyncAPI/Credentials.plistrace-track-diagrams.psd
+RaceSyncAPI/Credentials.plist
+race-track-diagrams.psd
