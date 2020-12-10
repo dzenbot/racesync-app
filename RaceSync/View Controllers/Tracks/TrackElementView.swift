@@ -87,5 +87,24 @@ class TrackElementView: UIView {
         let height = imageView.frame.height + Constants.padding
         return CGSize(width: width, height: height)
     }
+}
 
+class TrackElementDummyView: UIView {
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+
+        backgroundColor = Color.gray20.withAlphaComponent(0.5)
+        layer.cornerRadius = 6
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    override var intrinsicContentSize: CGSize {
+        let width = UIScreen.main.bounds.width/2 - UniversalConstants.padding*1.5
+        let height = 55 + UniversalConstants.padding
+        return CGSize(width: width, height: height)
+    }
 }

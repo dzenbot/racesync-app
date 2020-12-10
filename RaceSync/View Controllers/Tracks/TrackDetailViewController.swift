@@ -112,13 +112,18 @@ class TrackDetailViewController: UIViewController {
             $0.top.equalToSuperview().offset(Constants.padding/2)
         }
 
-        var subviews = [TrackElementView]()
+        var subviews = [UIView]()
         for e in viewModel.track.elements {
             let view = TrackElementView(element: e)
             let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapElementView(_:)))
             view.addGestureRecognizer(tapGesture)
-
             subviews += [view]
+        }
+
+        // adding an empty dummy view for the cases when the elements count is an off number
+        // this is just to balance things visually
+        if subviews.count%2 != 0 {
+            subviews += [TrackElementDummyView()]
         }
 
         func newStackView() -> UIStackView {
@@ -137,18 +142,12 @@ class TrackDetailViewController: UIViewController {
             let subview = subviews[i]
             stackView.addArrangedSubview(subview)
 
-            func addStackView(isLast: Bool = false) {
-                view.addSubview(stackView)
-                stackView.snp.makeConstraints {
+            func addStackView(_ aStackView: UIStackView) {
+                view.addSubview(aStackView)
+                aStackView.snp.makeConstraints {
                     $0.top.equalTo(label1.snp.bottom).offset(Constants.padding+(Constants.padding/2+subview.intrinsicContentSize.height)*CGFloat(row))
                     $0.leading.equalToSuperview().offset(Constants.padding)
-
-                    if isLast {
-                        $0.bottom.equalToSuperview().offset(-Constants.padding)
-                        $0.width.equalTo(subview.intrinsicContentSize.width+Constants.padding/4)
-                    } else {
-                        $0.trailing.bottom.equalToSuperview().offset(-Constants.padding)
-                    }
+                    $0.trailing.bottom.equalToSuperview().offset(-Constants.padding)
                 }
             }
 
@@ -156,12 +155,12 @@ class TrackDetailViewController: UIViewController {
 
             // last item
             if index.isMultiple(of: 2) {
-                addStackView()
+                addStackView(stackView)
 
-                stackView = newStackView()
-                row += 1
-            } else if index == subviews.count {
-                addStackView(isLast: true)
+                if index != subviews.count {
+                    stackView = newStackView()
+                    row += 1
+                }
             }
         }
 

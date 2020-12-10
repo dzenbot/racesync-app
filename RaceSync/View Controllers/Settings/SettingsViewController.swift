@@ -224,7 +224,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
 
     var title: String {
         switch self {
-        case .trackLayouts:         return "Official Track Layouts"
+        case .trackLayouts:         return "MultiGP Track Designs"
         case .buildGuide:           return "Obstacles Build Guide"
         case .seasonRules:          return "Season Rules & Regulations"
         case .visitStore:           return "Visit the MultiGP Shop"
