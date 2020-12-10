@@ -632,19 +632,11 @@
 				4F65D8DF2574F6CF00C506C3 /* TrackListViewController.swift */,
 				4F65D907257B134700C506C3 /* TrackDetailViewController.swift */,
 				4F6881B9257EEC0500D33672 /* TrackElementView.swift */,
-				4F6881B1257ECAE500D33672 /* Track-Diagrams */,
-				4F65D8CE25749EA000C506C3 /* Models */,
-			);
-			path = Tracks;
-			sourceTree = "<group>";
-		};
-		4F65D8CE25749EA000C506C3 /* Models */ = {
-			isa = PBXGroup;
-			children = (
 				4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */,
 				4F65D8D72574EA5400C506C3 /* mgp_official_tracks.json */,
+				4F6881B1257ECAE500D33672 /* Track-Diagrams */,
 			);
-			path = Models;
+			path = Tracks;
 			sourceTree = "<group>";
 		};
 		4F6C8A94236A9D2B0017FD78 /* UI Utils */ = {

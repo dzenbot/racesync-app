@@ -15,7 +15,7 @@ class SimpleTableViewCell: UITableViewCell, ViewCellInterface {
 
     lazy var iconImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.backgroundColor = Color.white
+        imageView.backgroundColor = Color.clear
         imageView.clipsToBounds = true
         return imageView
     }()
