@@ -14,7 +14,7 @@ enum ProfileSegment: Int {
     case left, right
 }
 
-class ProfileViewController: ViewController, Shimmable {
+class ProfileViewController: UIViewController, Shimmable {
 
     // MARK: - Public Variables
 

@@ -12,7 +12,7 @@ import SnapKit
 import SwiftValidators
 import RaceSyncAPI
 
-class LoginViewController: ViewController {
+class LoginViewController: UIViewController {
 
     // MARK: - Private Variables
 

@@ -11,7 +11,6 @@ import Foundation
 public class StringConstants {
     public static let Copyright = "Copyright © 2020 MultiGP Inc."
     public static let ApplicationID = "1491110680"
-    public static let GoogleAnalyticsID = "217966259"
     public static let SentryClientDSN = "https://4dbd7fdde60b4c828846d94fecc814c1@sentry.io/3036524"
 }
 

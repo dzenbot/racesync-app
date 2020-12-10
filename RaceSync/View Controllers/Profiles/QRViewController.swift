@@ -12,7 +12,7 @@ import SnapKit
 import QRCode
 import PassKit
 
-class QRViewController: ViewController {
+class QRViewController: UIViewController {
 
     // MARK: - Feature Flags
     fileprivate var isPassKitEnabled: Bool = false

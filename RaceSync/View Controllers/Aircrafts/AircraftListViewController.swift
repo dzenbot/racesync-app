@@ -11,7 +11,7 @@ import SnapKit
 import RaceSyncAPI
 import EmptyDataSet_Swift
 
-class AircraftListViewController: ViewController {
+class AircraftListViewController: UIViewController {
 
     // MARK: - Public Variables
 

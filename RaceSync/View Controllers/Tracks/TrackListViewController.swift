@@ -11,7 +11,7 @@ import SnapKit
 import RaceSyncAPI
 import SwiftyJSON
 
-class TrackListViewController: ViewController {
+class TrackListViewController: UIViewController {
 
     // MARK: - Private Variables
 

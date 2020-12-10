@@ -178,7 +178,6 @@
 		4FE96E9224E3E687009A7F53 /* HeaderStretchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE96E9124E3E687009A7F53 /* HeaderStretchable.swift */; };
 		4FEADB7224147D2D00F82F0D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB7124147D2D00F82F0D /* LocationManager.swift */; };
 		4FEADB742416B3D400F82F0D /* EventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB732416B3D400F82F0D /* EventTracker.swift */; };
-		4FEADB782416BC4500F82F0D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB772416BC4500F82F0D /* ViewController.swift */; };
 		4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27523A1F9DA007514B4 /* UITabBarController+Extensions.swift */; };
 		4FEBB27823A2023A007514B4 /* RaceEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27723A2023A007514B4 /* RaceEntry.swift */; };
 		4FEBB27A23A2DAFF007514B4 /* DescriptableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27923A2DAFF007514B4 /* DescriptableTests.swift */; };
@@ -417,7 +416,6 @@
 		4FE96E9124E3E687009A7F53 /* HeaderStretchable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HeaderStretchable.swift; sourceTree = "<group>"; };
 		4FEADB7124147D2D00F82F0D /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		4FEADB732416B3D400F82F0D /* EventTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTracker.swift; sourceTree = "<group>"; };
-		4FEADB772416BC4500F82F0D /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		4FEBB27523A1F9DA007514B4 /* UITabBarController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITabBarController+Extensions.swift"; sourceTree = "<group>"; };
 		4FEBB27723A2023A007514B4 /* RaceEntry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceEntry.swift; sourceTree = "<group>"; };
 		4FEBB27923A2DAFF007514B4 /* DescriptableTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DescriptableTests.swift; sourceTree = "<group>"; };
@@ -848,7 +846,6 @@
 			children = (
 				4F1571AC24D8D71E004A7CEE /* Profile Header */,
 				4F9DB7B123D68EB100570483 /* NavigationController.swift */,
-				4FEADB772416BC4500F82F0D /* ViewController.swift */,
 				4F64F67F257B97E000574F4D /* WebViewController.swift */,
 				4FE490F123A4725D0008C38D /* RaceHeaderView.swift */,
 				4FD53FB223A0E9B700158206 /* AvatarImageView.swift */,
@@ -1297,7 +1294,6 @@
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
 				4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */,
-				4FEADB782416BC4500F82F0D /* ViewController.swift in Sources */,
 				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
 				4F65D8E02574F6CF00C506C3 /* TrackListViewController.swift in Sources */,
 				4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */,

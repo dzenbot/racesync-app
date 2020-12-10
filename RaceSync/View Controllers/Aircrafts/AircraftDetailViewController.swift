@@ -16,7 +16,7 @@ protocol AircraftDetailViewControllerDelegate {
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId)
 }
 
-class AircraftDetailViewController: ViewController {
+class AircraftDetailViewController: UIViewController {
 
     // MARK: - Public Variables
 

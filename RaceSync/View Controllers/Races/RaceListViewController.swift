@@ -13,7 +13,7 @@ import ShimmerSwift
 import EmptyDataSet_Swift
 import CoreLocation
 
-class RaceListViewController: ViewController, ViewJoinable, Shimmable {
+class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
 
     // MARK: - Public Variables
 
@@ -196,7 +196,6 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
 
         title = "Race List"
         navigationItem.titleView = titleView
-        viewName = selectedRaceList.title
 
         let leftStackView = UIStackView(arrangedSubviews: [userProfileButton, chapterProfileButton])
         leftStackView.axis = .horizontal
@@ -239,10 +238,6 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
     @objc fileprivate func didChangeSegment() {
         // Cancelling previous race API requests to avoid overlaps
         raceApi.cancelAll()
-
-        // analytics
-        viewName = selectedRaceList.title
-        trackScreenChange()
 
         // This should be triggered just once, when first requesting access to the user's location
         // and display the shimmer while retrieving the location and loading the nearby races.

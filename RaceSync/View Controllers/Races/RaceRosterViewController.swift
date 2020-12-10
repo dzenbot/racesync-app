@@ -10,7 +10,7 @@ import UIKit
 import EmptyDataSet_Swift
 import RaceSyncAPI
 
-class RaceRosterViewController: ViewController, ViewJoinable, RaceTabbable {
+class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     // MARK: - Public Variables
 

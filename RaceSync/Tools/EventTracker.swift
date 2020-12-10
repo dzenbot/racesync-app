@@ -12,45 +12,7 @@ import RaceSyncAPI
 class EventTracker {
 
     static func configure() {
-        configureAnalytics()
         configureRater()
-    }
-
-    // MARK: - Analytics
-
-    fileprivate static let isAnalyticsEnabled: Bool = false
-    fileprivate static let showLogs: Bool = true
-
-    fileprivate static func configureAnalytics() {
-        guard isAnalyticsEnabled, let gai = GAI.sharedInstance() else {
-            return
-        }
-
-        gai.tracker(withTrackingId: StringConstants.GoogleAnalyticsID)
-        // Optional: automatically report uncaught exceptions.
-        gai.trackUncaughtExceptions = true
-
-        // Optional: set Logger to VERBOSE for debug information.
-        // Remove before app release.
-        #if DEBUG
-        if showLogs {
-            gai.logger.logLevel = .verbose
-        }
-        #endif
-    }
-
-    static func trackScreenView(withName name: String) {
-        let gai = GAI.sharedInstance()
-
-        guard let tracker = gai?.defaultTracker else { return }
-        tracker.set(kGAIScreenName, value: name)
-
-        guard let builder = GAIDictionaryBuilder.createScreenView() else { return }
-        tracker.send(builder.build() as [NSObject : AnyObject])
-
-        gai?.dispatch()
-
-        Clog.log("Tracking Screen with name : \(name)")
     }
 
     // MARK: - AppStore Rater

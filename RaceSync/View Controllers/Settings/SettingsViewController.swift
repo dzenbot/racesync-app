@@ -11,7 +11,7 @@ import SnapKit
 import RaceSyncAPI
 import Presentr
 
-class SettingsViewController: ViewController {
+class SettingsViewController: UIViewController {
 
     // MARK: - Private Variables
 

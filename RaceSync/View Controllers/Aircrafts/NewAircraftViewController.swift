@@ -18,7 +18,7 @@ protocol NewAircraftViewControllerDelegate {
     func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]?
 }
 
-class NewAircraftViewController: ViewController {
+class NewAircraftViewController: UIViewController {
 
     var delegate: NewAircraftViewControllerDelegate?
 

@@ -17,7 +17,7 @@ protocol AircraftPickerViewControllerDelegate {
     func aircraftPickerViewControllerDidDismiss(_ viewController: AircraftPickerViewController)
 }
 
-class AircraftPickerViewController: ViewController {
+class AircraftPickerViewController: UIViewController {
 
     // MARK: - Public Variables
 
