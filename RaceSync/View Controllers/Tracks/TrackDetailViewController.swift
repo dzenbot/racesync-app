@@ -115,8 +115,6 @@ class TrackDetailViewController: UIViewController {
         var subviews = [UIView]()
         for e in viewModel.track.elements {
             let view = TrackElementView(element: e)
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapElementView(_:)))
-            view.addGestureRecognizer(tapGesture)
             subviews += [view]
         }
 
@@ -180,6 +178,17 @@ class TrackDetailViewController: UIViewController {
         }
     }
 
+    fileprivate lazy var verificationButton: JoinButton = {
+        let button = JoinButton(type: .system)
+        button.addTarget(self, action: #selector(didPressVerificationButton), for: .touchUpInside)
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -10)
+        button.joinState = .joined
+        button.setTitle("Verify", for: .normal)
+        button.setImage(nil, for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 6, left: Constants.padding, bottom: 6, right: Constants.padding)
+        return button
+    }()
+
     fileprivate var didTapCell: Bool = false
 
     fileprivate let viewModel: TrackViewModel
@@ -232,6 +241,10 @@ class TrackDetailViewController: UIViewController {
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
+
+        if viewModel.track.validationFeetUrl != nil {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: verificationButton)
+        }
     }
 
     // MARK: - Actions
@@ -274,8 +287,14 @@ class TrackDetailViewController: UIViewController {
         autoChangePages(false)
     }
 
-    @objc func didTapElementView(_ sender: Any) -> () {
-        autoChangePages(false)
+    @objc func didPressVerificationButton(_ sender: JoinButton) {
+        let pref = APIServices.shared.settings.measurementSystem
+
+        if pref == .imperial, let url = viewModel.track.validationFeetUrl {
+            WebViewController.openUrl(url)
+        } else if let url = viewModel.track.validationMetersUrl {
+            WebViewController.openUrl(url)
+        }
     }
 
     func setLoading(_ cell: FormTableViewCell, loading: Bool) {
@@ -300,7 +319,6 @@ class TrackDetailViewController: UIViewController {
     }
 
     func scrollToNextPage(_ animated: Bool = true) {
-
         let currentPage: Int = Int(scrollView.contentOffset.x / Constants.scrollWidth)
         var nextPage = currentPage + 1
 
@@ -436,8 +454,6 @@ extension TrackDetailViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
-
-        autoChangePages(false)
 
         let row = tableViewRows[indexPath.row]
         let track = viewModel.track
