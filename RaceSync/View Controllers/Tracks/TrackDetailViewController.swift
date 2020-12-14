@@ -50,9 +50,9 @@ class TrackDetailViewController: UIViewController {
     fileprivate lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
         control.backgroundColor = Color.white
-        control.hidesForSinglePage = true
         control.pageIndicatorTintColor = Color.gray50
         control.currentPageIndicatorTintColor = Color.gray100
+        control.hidesForSinglePage = false
         return control
     }()
 
@@ -222,8 +222,7 @@ class TrackDetailViewController: UIViewController {
 
         loadRows()
         setupLayout()
-        populateContent()
-        autoChangePages()
+        populateScrollView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -268,8 +267,7 @@ class TrackDetailViewController: UIViewController {
     @objc func didTapScrollView(_ sender: Any) -> () {
         autoChangePages(false)
 
-        let image = trackImages[pageControl.currentPage]
-        let vc = FullscreenImageViewController(image: image)
+        let vc = GalleryViewController(delegate: self, dataSource: self)
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
 
@@ -364,7 +362,7 @@ fileprivate extension TrackDetailViewController {
         }
     }
 
-    func populateContent() {
+    func populateScrollView() {
         title = viewModel.titleLabel
         view.backgroundColor = Color.white
 
@@ -392,12 +390,14 @@ fileprivate extension TrackDetailViewController {
 
         scrollView.setNeedsLayout()
         scrollView.layoutIfNeeded()
-        scrollView.contentSize = CGSize(width: hOffset, height: scrollView.frame.size.height)
+        scrollView.contentSize = CGSize(width: hOffset, height: view.bounds.height)
 
         pageControl.numberOfPages = images.count
         pageControl.addTarget(self, action: #selector(didTapPageControl(_:)), for: .valueChanged)
 
         trackImages.append(contentsOf: images)
+
+        autoChangePages()
     }
 
     func getTrackImageURLs(with id: ObjectId) -> [URL] {
@@ -526,6 +526,28 @@ extension TrackDetailViewController: UIScrollViewDelegate {
     }
 }
 
+extension TrackDetailViewController: GalleryViewControllerDelegate, GalleryViewControllerDataSource {
+
+    func galleryDidTapToClose(gallery: GalleryViewController) {
+        gallery.dismiss(animated: true, completion: nil)
+    }
+
+    func galleryDidTapToShare(gallery: GalleryViewController) {
+        //
+    }
+
+    func numberOfImagesInGallery(gallery: GalleryViewController) -> Int {
+        return trackImages.count
+    }
+
+    func imageInGallery(gallery: GalleryViewController, for index: Int) -> UIImage? {
+        return trackImages[index]
+    }
+
+    func titleForGallery(gallery: GalleryViewController) -> String? {
+        return viewModel.titleLabel
+    }
+}
 
 fileprivate enum Row: Int, EnumTitle {
     case start, end, video, leaderboard, designer
