@@ -30,6 +30,7 @@ class GalleryViewController: UIViewController {
         }
     }
 
+    var image: UIImage?
     weak var delegate: GalleryViewControllerDelegate?
     weak var dataSource: GalleryViewControllerDataSource?
 
@@ -56,7 +57,7 @@ class GalleryViewController: UIViewController {
         scrollView.maximumZoomScale = 3
         scrollView.minimumZoomScale = 1
         scrollView.zoomScale = scrollView.minimumZoomScale
-        scrollView.alwaysBounceVertical = false
+        scrollView.alwaysBounceVertical = true
         scrollView.alwaysBounceHorizontal = true
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
@@ -84,12 +85,11 @@ class GalleryViewController: UIViewController {
                                                        NSAttributedString.Key.foregroundColor: Color.white]
 
         let bar = UINavigationBar()
-        if let title = dataSource?.titleForGallery(gallery: self) {
-            let navigationItem = UINavigationItem(title: title)
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_share"), style: .done, target: self, action: #selector(didPressShareButton))
-            bar.setItems([navigationItem], animated: false)
-        }
+        let title = dataSource?.titleForGallery(gallery: self) ?? ""
+        let navigationItem = UINavigationItem(title: title)
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_share"), style: .done, target: self, action: #selector(didPressShareButton))
+        bar.setItems([navigationItem], animated: false)
 
         return bar
     }()
@@ -118,6 +118,11 @@ class GalleryViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.dataSource = dataSource
         self.delegate = delegate
+    }
+
+    public init(image: UIImage) {
+        super.init(nibName: nil, bundle: nil)
+        self.image = image
     }
 
     required init?(coder: NSCoder) {
@@ -169,12 +174,13 @@ class GalleryViewController: UIViewController {
     }
 
     func populateScrollView() {
-        guard let imageCount: Int = dataSource?.numberOfImagesInGallery(gallery: self), imageCount > 0 else { return }
+        let imageCount = availableImageCount()
+        guard imageCount > 0 else { return }
 
         var hOffset: CGFloat = 0
 
         for i in 0..<imageCount {
-            guard let image = dataSource?.imageInGallery(gallery: self, for: i) else { continue }
+            guard let image = image(atIndex: i) else { continue }
 
             let imageView = UIImageView.init(image: image)
             imageView.contentMode = .scaleAspectFit
@@ -194,14 +200,35 @@ class GalleryViewController: UIViewController {
         scrollView.layoutIfNeeded()
         scrollView.contentSize = appropriateScrollViewContentSize()
 
-        pageControl.numberOfPages = imageCount
+        pageControl.numberOfPages = (imageCount > 1) ? imageCount : 0
         pageControl.addTarget(self, action: #selector(didTapPageControl(_:)), for: .valueChanged)
     }
 
-    func appropriateScrollViewContentSize() -> CGSize {
-        guard let imageCount: Int = dataSource?.numberOfImagesInGallery(gallery: self), imageCount > 0 else { return .zero }
+    func availableImageCount() -> Int {
+        if let dataSource = dataSource {
+            return dataSource.numberOfImagesInGallery(gallery: self)
+        } else if image != nil {
+            return 1
+        } else {
+            return 0
+        }
+    }
 
-        var hOffset: CGFloat = Constants.scrollWidth * CGFloat(imageCount)
+    func image(atIndex index: Int) -> UIImage? {
+        if let dataSource = dataSource {
+            return dataSource.imageInGallery(gallery: self, for: index)
+        } else if let image = image {
+            return image
+        } else {
+            return nil
+        }
+    }
+
+    func appropriateScrollViewContentSize() -> CGSize {
+        let imageCount = availableImageCount()
+        guard imageCount > 0 else { return .zero }
+
+        let hOffset: CGFloat = Constants.scrollWidth * CGFloat(imageCount)
         return CGSize(width: hOffset, height: view.bounds.height)
     }
 

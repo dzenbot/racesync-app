@@ -115,6 +115,10 @@ class TrackDetailViewController: UIViewController {
         var subviews = [UIView]()
         for e in viewModel.track.elements {
             let view = TrackElementView(element: e)
+
+            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTrackElementView(_:)))
+            view.addGestureRecognizer(tapGesture)
+
             subviews += [view]
         }
 
@@ -295,6 +299,17 @@ class TrackDetailViewController: UIViewController {
         }
     }
 
+    @objc func didTapTrackElementView(_ sender: Any) -> () {
+        guard let gesture = sender as? UIGestureRecognizer, let elementView = gesture.view as? TrackElementView else { return }
+        guard let image = loadImage(with: "sepc_obstacle_\(elementView.element.type.rawValue)", subdirectory: "Track-Diagrams") else { return }
+
+        let vc = GalleryViewController(image: image)
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+
+        UIViewController.topMostViewController()?.present(vc, animated: true, completion: nil)
+    }
+
     func setLoading(_ cell: FormTableViewCell, loading: Bool) {
         cell.isLoading = loading
         didTapCell = loading
@@ -402,10 +417,10 @@ fileprivate extension TrackDetailViewController {
 
     func getTrackImageURLs(with id: ObjectId) -> [URL] {
         var urls = [URL]()
-        guard let fURLs = Bundle.main.urls(forResourcesWithExtension: "jpg", subdirectory: "Track-Diagrams") else { return urls }
+        guard let furls = Bundle.main.urls(forResourcesWithExtension: "jpg", subdirectory: "Track-Diagrams") else { return urls }
 
-        for URL in fURLs {
-            let url = URL.absoluteString
+        for furl in furls {
+            let url = furl.absoluteString
             if url.contains("track-\(id)-") {
 
                 // Honor measurement pref
@@ -415,12 +430,12 @@ fileprivate extension TrackDetailViewController {
 
                 if isImperial || isMetric {
                     if pref == .imperial && isImperial {
-                        urls += [URL]
+                        urls += [furl]
                     } else if pref == .metric && isMetric {
-                        urls += [URL]
+                        urls += [furl]
                     }
                 } else {
-                    urls += [URL]
+                    urls += [furl]
                 }
             }
         }
@@ -431,10 +446,10 @@ fileprivate extension TrackDetailViewController {
 
     func loadImages(with id: ObjectId) -> [UIImage] {
         var images = [UIImage]()
-        let imageURLs = getTrackImageURLs(with: id)
+        let furls = getTrackImageURLs(with: id)
 
-        for URL in imageURLs {
-            if let imageData = try? Data(contentsOf: URL) {
+        for url in furls {
+            if let imageData = try? Data(contentsOf: url) {
                 let image = UIImage(data:imageData)!
                 images.append(image)
             }
@@ -442,9 +457,13 @@ fileprivate extension TrackDetailViewController {
         return images
     }
 
-    func loadImage(with name: String) -> UIImage? {
-        guard let path = Bundle.main.path(forResource: name, ofType: "jpg") else { return nil }
-        return UIImage.init(contentsOfFile: path)
+    func loadImage(with name: String, subdirectory: String? = nil) -> UIImage? {
+        guard let url = Bundle.main.url(forResource: name, withExtension: "jpg", subdirectory: subdirectory) else { return nil }
+
+        if let imageData = try? Data(contentsOf: url) {
+            return UIImage(data:imageData)!
+        }
+        return nil
     }
 }
 

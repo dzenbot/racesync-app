@@ -12,6 +12,10 @@ import RaceSyncAPI
 
 class TrackElementView: UIView {
 
+    // MARK: - Public Variables
+
+    let element: TrackElement
+
     // MARK: - Private Variables
 
     lazy var countLabel: UILabel = {
@@ -35,7 +39,6 @@ class TrackElementView: UIView {
         return imageView
     }()
 
-    fileprivate let element: TrackElement
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
