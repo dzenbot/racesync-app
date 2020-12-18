@@ -90,8 +90,6 @@ class GalleryViewController: UIViewController {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = 50
-        static let scrollHeight: CGFloat = 200
-        static let scrollWidth: CGFloat = UIScreen.main.bounds.width
     }
 
     // MARK: - Initialization
@@ -153,21 +151,34 @@ class GalleryViewController: UIViewController {
     func populateScrollView() {
         guard images.count > 0 else { return }
 
+        let screenWidth = UIScreen.main.bounds.width
+        let screenHeight = UIScreen.main.bounds.height
         var hOffset: CGFloat = 0
 
         for i in 0..<images.count {
             let imageView = UIImageView.init(image: images[i])
             imageView.contentMode = .scaleAspectFit
+            imageView.backgroundColor = .red
             imageView.clipsToBounds = true
             imageView.tag = i
 
             scrollView.addSubview(imageView)
+
+            var rect = CGRect.zero
+            rect.size.width = screenWidth
+            rect.size.height = imageView.frame.height * screenWidth / imageView.frame.width
+            rect.origin.y = screenHeight/2 - rect.size.height/2
+            rect.origin.x = hOffset
+
+//            imageView.frame = rect
+
             imageView.snp.makeConstraints {
-                $0.leading.equalToSuperview().offset(hOffset)
-                $0.top.bottom.width.height.equalToSuperview()
+                $0.size.equalTo(rect.size)
+                $0.centerY.equalToSuperview()
+                $0.leading.equalTo(hOffset)
             }
 
-            hOffset += Constants.scrollWidth
+            hOffset += screenWidth
         }
 
         pageControl.numberOfPages = (images.count > 1) ? images.count : 0
@@ -179,14 +190,14 @@ class GalleryViewController: UIViewController {
         scrollView.contentSize = appropriateScrollViewContentSize()
 
         if initialPage > 0 {
-            scrollView.contentOffset = CGPoint(x: Constants.scrollWidth*CGFloat(initialPage), y: 0)
+            scrollView.contentOffset = CGPoint(x: screenWidth*CGFloat(initialPage), y: 0)
         }
     }
 
     func appropriateScrollViewContentSize() -> CGSize {
         guard images.count > 0 else { return .zero }
 
-        let hOffset: CGFloat = Constants.scrollWidth * CGFloat(images.count)
+        let hOffset: CGFloat = UIScreen.main.bounds.width * CGFloat(images.count)
         return CGSize(width: hOffset, height: view.bounds.height)
     }
 
@@ -234,7 +245,7 @@ class GalleryViewController: UIViewController {
         if scrollView.zoomScale > scrollView.minimumZoomScale {
             scrollView.setZoomScale(scrollView.minimumZoomScale, animated: true)
         } else {
-            let touchPoint = recognizer.location(in: view)
+            let touchPoint = recognizer.location(in: scrollView)
             let scrollViewSize = scrollView.bounds.size
 
             let width = scrollViewSize.width / scrollView.maximumZoomScale
