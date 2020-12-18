@@ -9,30 +9,12 @@
 import UIKit
 import SnapKit
 
-@objc protocol GalleryViewControllerDelegate: UINavigationControllerDelegate {
-    func galleryDidTapToClose(gallery: GalleryViewController)
-    func galleryDidTapToShare(gallery: GalleryViewController)
-}
-
-@objc protocol GalleryViewControllerDataSource {
-    func numberOfImagesInGallery(gallery: GalleryViewController) -> Int
-    func imageInGallery(gallery: GalleryViewController, for index:Int) -> UIImage?
-    func titleForGallery(gallery: GalleryViewController) -> String?
-}
-
 class GalleryViewController: UIViewController {
 
     // MARK: - Public Variables
 
-    var currentPage: Int = 0 {
-        didSet {
-            // move to specific offset and update page control
-        }
-    }
-
-    var image: UIImage?
-    weak var delegate: GalleryViewControllerDelegate?
-    weak var dataSource: GalleryViewControllerDataSource?
+    var images: [UIImage]
+    var initialPage: Int
 
     // MARK: - Private Variables
 
@@ -76,17 +58,17 @@ class GalleryViewController: UIViewController {
 
     fileprivate lazy var navigationBar: UINavigationBar = {
         let navigationBarAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [Self.self])
-        let backgroundImage = UIImage.image(withColor: Color.black, imageSize: CGSize(width: 44, height: 44))
+        let backgroundImage = UIImage.image(withColor: Color.clear, imageSize: CGSize(width: 44, height: 44))
 
         navigationBarAppearance.tintColor = Color.white
-        navigationBarAppearance.barTintColor = Color.black
+        navigationBarAppearance.barTintColor = Color.clear
         navigationBarAppearance.setBackgroundImage(backgroundImage, for: .default)
         navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
                                                        NSAttributedString.Key.foregroundColor: Color.white]
 
         let bar = UINavigationBar()
-        let title = dataSource?.titleForGallery(gallery: self) ?? ""
-        let navigationItem = UINavigationItem(title: title)
+        bar.clipsToBounds = true
+        let navigationItem = UINavigationItem(title: title ?? "")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_share"), style: .done, target: self, action: #selector(didPressShareButton))
         bar.setItems([navigationItem], animated: false)
@@ -114,15 +96,10 @@ class GalleryViewController: UIViewController {
 
     // MARK: - Initialization
 
-    public init(delegate: GalleryViewControllerDelegate, dataSource: GalleryViewControllerDataSource) {
+    public init(images: [UIImage], initialPage: Int = 0) {
+        self.images = images
+        self.initialPage = initialPage
         super.init(nibName: nil, bundle: nil)
-        self.dataSource = dataSource
-        self.delegate = delegate
-    }
-
-    public init(image: UIImage) {
-        super.init(nibName: nil, bundle: nil)
-        self.image = image
     }
 
     required init?(coder: NSCoder) {
@@ -174,15 +151,12 @@ class GalleryViewController: UIViewController {
     }
 
     func populateScrollView() {
-        let imageCount = availableImageCount()
-        guard imageCount > 0 else { return }
+        guard images.count > 0 else { return }
 
         var hOffset: CGFloat = 0
 
-        for i in 0..<imageCount {
-            guard let image = image(atIndex: i) else { continue }
-
-            let imageView = UIImageView.init(image: image)
+        for i in 0..<images.count {
+            let imageView = UIImageView.init(image: images[i])
             imageView.contentMode = .scaleAspectFit
             imageView.clipsToBounds = true
             imageView.tag = i
@@ -196,39 +170,23 @@ class GalleryViewController: UIViewController {
             hOffset += Constants.scrollWidth
         }
 
+        pageControl.numberOfPages = (images.count > 1) ? images.count : 0
+        pageControl.currentPage = initialPage
+        pageControl.addTarget(self, action: #selector(didTapPageControl(_:)), for: .valueChanged)
+
         scrollView.setNeedsLayout()
         scrollView.layoutIfNeeded()
         scrollView.contentSize = appropriateScrollViewContentSize()
 
-        pageControl.numberOfPages = (imageCount > 1) ? imageCount : 0
-        pageControl.addTarget(self, action: #selector(didTapPageControl(_:)), for: .valueChanged)
-    }
-
-    func availableImageCount() -> Int {
-        if let dataSource = dataSource {
-            return dataSource.numberOfImagesInGallery(gallery: self)
-        } else if image != nil {
-            return 1
-        } else {
-            return 0
-        }
-    }
-
-    func image(atIndex index: Int) -> UIImage? {
-        if let dataSource = dataSource {
-            return dataSource.imageInGallery(gallery: self, for: index)
-        } else if let image = image {
-            return image
-        } else {
-            return nil
+        if initialPage > 0 {
+            scrollView.contentOffset = CGPoint(x: Constants.scrollWidth*CGFloat(initialPage), y: 0)
         }
     }
 
     func appropriateScrollViewContentSize() -> CGSize {
-        let imageCount = availableImageCount()
-        guard imageCount > 0 else { return .zero }
+        guard images.count > 0 else { return .zero }
 
-        let hOffset: CGFloat = Constants.scrollWidth * CGFloat(imageCount)
+        let hOffset: CGFloat = Constants.scrollWidth * CGFloat(images.count)
         return CGSize(width: hOffset, height: view.bounds.height)
     }
 
@@ -290,11 +248,11 @@ class GalleryViewController: UIViewController {
     }
 
     @objc fileprivate func didPressCloseButton() {
-        delegate?.galleryDidTapToClose(gallery: self)
+        dismiss(animated: true, completion: nil)
     }
 
     @objc fileprivate func didPressShareButton() {
-        delegate?.galleryDidTapToShare(gallery: self)
+        //
     }
 
     func dismiss() {
@@ -315,11 +273,7 @@ extension GalleryViewController: UIScrollViewDelegate {
     }
 
     func viewForZooming(in scrollView: UIScrollView) -> UIView? {
-        if pageControl.currentPage >= 0 && pageControl.currentPage < pageControl.numberOfPages {
-            return scrollView.subviews[pageControl.currentPage]
-        } else {
-            return nil
-        }
+        return scrollView.subviews[pageControl.currentPage]
     }
 
     func scrollViewWillBeginZooming(_ scrollView: UIScrollView, with view: UIView?) {
@@ -344,7 +298,8 @@ extension GalleryViewController: UIScrollViewDelegate {
     func hide(_ hide: Bool, views: [UIView], except view: UIView?) {
         for v in views {
             guard v != view else { continue }
-            v.isHidden = hide
+//            v.isHidden = hide
+            v.alpha = hide ? 0.5 : 1
         }
     }
 
