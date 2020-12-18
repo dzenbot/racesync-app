@@ -57,6 +57,10 @@
 		4F5C1E4B238EEC5200D756EB /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4A238EEC5200D756EB /* MapViewController.swift */; };
 		4F5C1E4D2390600400D756EB /* APISessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4C2390600400D756EB /* APISessionManager.swift */; };
 		4F5C1E4F2390B01700D756EB /* ImageNetworking.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */; };
+		4F6055F6258C9B5C008AF93F /* SwiftPhotoGalleryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6055F2258C9B5C008AF93F /* SwiftPhotoGalleryCell.swift */; };
+		4F6055F7258C9B5C008AF93F /* PanDirectionGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6055F3258C9B5C008AF93F /* PanDirectionGestureRecognizer.swift */; };
+		4F6055F8258C9B5C008AF93F /* SwiftPhotoGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6055F4258C9B5C008AF93F /* SwiftPhotoGallery.swift */; };
+		4F605603258C9FB4008AF93F /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F605602258C9FB4008AF93F /* UIScrollView+Extensions.swift */; };
 		4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64290D24019090005E8036 /* NewAircraftViewController.swift */; };
 		4F642910240199AC005E8036 /* AircraftForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64290F240199AC005E8036 /* AircraftForm.swift */; };
 		4F6429122402DB00005E8036 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6429112402DB00005E8036 /* ImageConstants.swift */; };
@@ -294,6 +298,10 @@
 		4F5C1E4A238EEC5200D756EB /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		4F5C1E4C2390600400D756EB /* APISessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APISessionManager.swift; sourceTree = "<group>"; };
 		4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNetworking.swift; sourceTree = "<group>"; };
+		4F6055F2258C9B5C008AF93F /* SwiftPhotoGalleryCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPhotoGalleryCell.swift; sourceTree = "<group>"; };
+		4F6055F3258C9B5C008AF93F /* PanDirectionGestureRecognizer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PanDirectionGestureRecognizer.swift; sourceTree = "<group>"; };
+		4F6055F4258C9B5C008AF93F /* SwiftPhotoGallery.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftPhotoGallery.swift; sourceTree = "<group>"; };
+		4F605602258C9FB4008AF93F /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		4F64290D24019090005E8036 /* NewAircraftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAircraftViewController.swift; sourceTree = "<group>"; };
 		4F64290F240199AC005E8036 /* AircraftForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftForm.swift; sourceTree = "<group>"; };
 		4F6429112402DB00005E8036 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
@@ -482,6 +490,7 @@
 			children = (
 				4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */,
 				4F6C8A95236A9D580017FD78 /* UIColor+Extensions.swift */,
+				4F605602258C9FB4008AF93F /* UIScrollView+Extensions.swift */,
 				4F5C1E3D238A770B00D756EB /* UITableViewCell+Reuse.swift */,
 				4F5C1E48238DD82500D756EB /* UIView+RecognizerBlock.swift */,
 				4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */,
@@ -622,6 +631,16 @@
 				4FD4E1CE237F992B008816B3 /* QRViewController.swift */,
 			);
 			path = Profiles;
+			sourceTree = "<group>";
+		};
+		4F6055F0258C9B5C008AF93F /* SwiftPhotoGallery */ = {
+			isa = PBXGroup;
+			children = (
+				4F6055F4258C9B5C008AF93F /* SwiftPhotoGallery.swift */,
+				4F6055F2258C9B5C008AF93F /* SwiftPhotoGalleryCell.swift */,
+				4F6055F3258C9B5C008AF93F /* PanDirectionGestureRecognizer.swift */,
+			);
+			path = SwiftPhotoGallery;
 			sourceTree = "<group>";
 		};
 		4F65D8CD25749E8400C506C3 /* Tracks */ = {
@@ -844,6 +863,7 @@
 		4FD4E1E52381E8C6008816B3 /* UI Components */ = {
 			isa = PBXGroup;
 			children = (
+				4F6055F0258C9B5C008AF93F /* SwiftPhotoGallery */,
 				4F1571AC24D8D71E004A7CEE /* Profile Header */,
 				4F9DB7B123D68EB100570483 /* NavigationController.swift */,
 				4F64F67F257B97E000574F4D /* WebViewController.swift */,
@@ -1253,6 +1273,7 @@
 				4FE96E9224E3E687009A7F53 /* HeaderStretchable.swift in Sources */,
 				4FEADB742416B3D400F82F0D /* EventTracker.swift in Sources */,
 				4FEBB27623A1F9DA007514B4 /* UITabBarController+Extensions.swift in Sources */,
+				4F6055F8258C9B5C008AF93F /* SwiftPhotoGallery.swift in Sources */,
 				4F9DB7B523D6BAC200570483 /* CrashCatcher.swift in Sources */,
 				4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */,
 				4F5C1E3E238A770B00D756EB /* UITableViewCell+Reuse.swift in Sources */,
@@ -1291,11 +1312,14 @@
 				4F2724362515D88A000C7408 /* Chapter+UIExtensions.swift in Sources */,
 				4F3D640B23FB0C8800DE6DF2 /* AircraftListViewController.swift in Sources */,
 				4FD53FB123A0D48F00158206 /* UserRaceTableViewCell.swift in Sources */,
+				4F6055F6258C9B5C008AF93F /* SwiftPhotoGalleryCell.swift in Sources */,
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
+				4F605603258C9FB4008AF93F /* UIScrollView+Extensions.swift in Sources */,
 				4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */,
 				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
 				4F65D8E02574F6CF00C506C3 /* TrackListViewController.swift in Sources */,
+				4F6055F7258C9B5C008AF93F /* PanDirectionGestureRecognizer.swift in Sources */,
 				4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */,
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,

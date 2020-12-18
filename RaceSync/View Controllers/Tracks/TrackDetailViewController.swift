@@ -271,7 +271,7 @@ class TrackDetailViewController: UIViewController {
     @objc func didTapScrollView(_ sender: Any) -> () {
         autoChangePages(false)
 
-        let vc = GalleryViewController(images: trackImages, initialPage: pageControl.currentPage)
+        let vc = SwiftPhotoGallery(images: trackImages, initialPage: pageControl.currentPage)
         vc.title = viewModel.titleLabel
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
@@ -304,7 +304,7 @@ class TrackDetailViewController: UIViewController {
         guard let gesture = sender as? UIGestureRecognizer, let elementView = gesture.view as? TrackElementView else { return }
         guard let image = loadImage(with: "sepc_obstacle_\(elementView.element.type.rawValue)", subdirectory: "Track-Diagrams") else { return }
 
-        let vc = GalleryViewController(images: [image])
+        let vc = SwiftPhotoGallery(images: [image])
         vc.title = viewModel.titleLabel
         vc.modalTransitionStyle = .crossDissolve
         vc.modalPresentationStyle = .fullScreen
