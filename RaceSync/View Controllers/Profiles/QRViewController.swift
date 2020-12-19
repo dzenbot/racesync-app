@@ -63,6 +63,7 @@ class QRViewController: UIViewController {
         button.imageEdgeInsets = UIEdgeInsets(left: -50)
         button.titleEdgeInsets = UIEdgeInsets(left: -30)
         button.layer.cornerRadius = Constants.cornerRadius/2
+        button.layer.masksToBounds = true
         return button
     }()
 

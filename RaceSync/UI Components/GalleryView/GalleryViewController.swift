@@ -310,7 +310,10 @@ class GalleryViewController: UIViewController {
     }
 
     @objc fileprivate func didPressShareButton() {
-        //
+        let activityVC = UIActivityViewController(activityItems: images, applicationActivities: nil)
+        activityVC.excludedActivityTypes = [.assignToContact, .openInIBooks, .markupAsPDF]
+
+        UIViewController.topMostViewController()?.present(activityVC, animated: true)
     }
 
     @objc func handleTapGesture(_ sender: UIGestureRecognizer) {
