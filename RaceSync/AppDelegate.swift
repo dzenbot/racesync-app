@@ -12,6 +12,7 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    var restrictRotation: UIInterfaceOrientationMask = .portrait
 
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         Appearance.configureUIAppearance()
@@ -37,12 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) { }
 
     func application(_ application: UIApplication, supportedInterfaceOrientationsFor window: UIWindow?) -> UIInterfaceOrientationMask {
-        if let vc = UIViewController.topMostViewController() {
-            if vc.responds(to: Selector(("canRotate"))) && !vc.isBeingDismissed {
-                return .allButUpsideDown
-            }
-        }
-        return .portrait;
+        return restrictRotation;
     }
 }
 

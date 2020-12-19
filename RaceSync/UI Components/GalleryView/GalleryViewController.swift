@@ -30,9 +30,9 @@ class GalleryViewController: UIViewController {
         // Set up collection view
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.register(GalleryViewCell.self, forCellWithReuseIdentifier: "GalleryViewCell")
-        collectionView.register(GalleryViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "GalleryViewCell")
-        collectionView.register(GalleryViewCell.self, forSupplementaryViewOfKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "GalleryViewCell")
+        collectionView.register(cellType: GalleryViewCell.self)
+        collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .footer)
+        collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .header)
         collectionView.dataSource = self
         collectionView.delegate = self
         collectionView.backgroundColor = Color.clear
@@ -134,12 +134,34 @@ class GalleryViewController: UIViewController {
         setupLayout()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+//            appDelegate.restrictRotation = supportedInterfaceOrientations
+//        }
+    }
+
     override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+
         if currentPage < 0 {
             currentPage = initialPage
         }
 
         isViewFirstAppearing = false
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+//            appDelegate.restrictRotation = .portrait
+//        }
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
 
     override func viewWillLayoutSubviews() {
@@ -224,6 +246,7 @@ class GalleryViewController: UIViewController {
     }
 
     fileprivate func getImage(currentPage: Int) -> UIImage {
+        guard currentPage >= 0 && currentPage < numberOfImages else { return UIImage() }
         return images[currentPage]
     }
 
@@ -296,7 +319,8 @@ class GalleryViewController: UIViewController {
 }
 
 
-// MARK: UICollectionViewDataSource Methods
+// MARK: UICollectionViewDataSource
+
 extension GalleryViewController: UICollectionViewDataSource {
 
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -304,29 +328,29 @@ extension GalleryViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
+        let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as GalleryViewCell
         cell.image = getImage(currentPage: indexPath.row)
         return cell
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
-        var cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionFooter, withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
-
         switch kind {
         case UICollectionView.elementKindSectionFooter:
+            let cell = collectionView.dequeueReusableSupplementaryView(ofKind: .footer, for: indexPath) as GalleryViewCell
             cell.image = getImage(currentPage: 0)
+            return cell
         case UICollectionView.elementKindSectionHeader:
-            cell = collectionView.dequeueReusableSupplementaryView(ofKind: UICollectionView.elementKindSectionHeader, withReuseIdentifier: "GalleryViewCell", for: indexPath) as! GalleryViewCell
+            let cell = collectionView.dequeueReusableSupplementaryView(ofKind: .header, for: indexPath) as GalleryViewCell
             if isViewFirstAppearing {
                 cell.image = getImage(currentPage: 0)
             } else {
                 cell.image = getImage(currentPage: numberOfImages - 1)
             }
+            return cell
         default:
             assertionFailure("Unexpected element kind")
+            return UICollectionReusableView()
         }
-
-        return cell
     }
 
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
@@ -341,7 +365,7 @@ extension GalleryViewController: UICollectionViewDataSource {
 }
 
 
-// MARK: UICollectionViewDelegate Methods
+// MARK: UICollectionViewDelegate
 
 extension GalleryViewController: UICollectionViewDelegate {
 
@@ -380,7 +404,7 @@ extension GalleryViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: UIGestureRecognizerDelegate Methods
+// MARK: UIGestureRecognizerDelegate
 
 extension GalleryViewController: UIGestureRecognizerDelegate {
 

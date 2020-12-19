@@ -1,10 +1,11 @@
 //
 //  GalleryViewCell.swift
-//  https://github.com/justinvallely/SwiftPhotoGallery
+//  RaceSync
 //
-//  Modified by Ignacio Romero Zurbuchen on 2020-12-18.
-//  Created by Justin Vallely on 9/10/15.
+//  Created by Ignacio Romero Zurbuchen on 2020-12-18.
+//  Copyright © 2020 MultiGP Inc. All rights reserved.
 //
+//  Inspired by https://github.com/justinvallely/SwiftPhotoGallery
 
 import UIKit
 import SnapKit
@@ -92,7 +93,6 @@ class GalleryViewCell: UICollectionViewCell {
         scrollView.setZoomScale(scrollView.minimumZoomScale, animated: false)
     }
 
-
     // MARK: - Actions
 
     @objc
@@ -102,7 +102,8 @@ class GalleryViewCell: UICollectionViewCell {
 }
 
 
-// MARK: UIScrollViewDelegate Methods
+// MARK: UIScrollViewDelegate
+
 extension GalleryViewCell: UIScrollViewDelegate {
 
     public func viewForZooming(in scrollView: UIScrollView) -> UIView? {

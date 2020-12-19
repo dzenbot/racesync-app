@@ -60,6 +60,7 @@
 		4F6055F6258C9B5C008AF93F /* GalleryViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6055F2258C9B5C008AF93F /* GalleryViewCell.swift */; };
 		4F605603258C9FB4008AF93F /* UIScrollView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F605602258C9FB4008AF93F /* UIScrollView+Extensions.swift */; };
 		4F60562A258D59EC008AF93F /* GalleryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F605629258D59EC008AF93F /* GalleryViewController.swift */; };
+		4F605635258D89B5008AF93F /* CollectionViewCell+Reuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F605634258D89B5008AF93F /* CollectionViewCell+Reuse.swift */; };
 		4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64290D24019090005E8036 /* NewAircraftViewController.swift */; };
 		4F642910240199AC005E8036 /* AircraftForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64290F240199AC005E8036 /* AircraftForm.swift */; };
 		4F6429122402DB00005E8036 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6429112402DB00005E8036 /* ImageConstants.swift */; };
@@ -299,6 +300,7 @@
 		4F6055F2258C9B5C008AF93F /* GalleryViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GalleryViewCell.swift; sourceTree = "<group>"; };
 		4F605602258C9FB4008AF93F /* UIScrollView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Extensions.swift"; sourceTree = "<group>"; };
 		4F605629258D59EC008AF93F /* GalleryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewController.swift; sourceTree = "<group>"; };
+		4F605634258D89B5008AF93F /* CollectionViewCell+Reuse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CollectionViewCell+Reuse.swift"; sourceTree = "<group>"; };
 		4F64290D24019090005E8036 /* NewAircraftViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewAircraftViewController.swift; sourceTree = "<group>"; };
 		4F64290F240199AC005E8036 /* AircraftForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftForm.swift; sourceTree = "<group>"; };
 		4F6429112402DB00005E8036 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
@@ -488,6 +490,7 @@
 				4F6C8A95236A9D580017FD78 /* UIColor+Extensions.swift */,
 				4F605602258C9FB4008AF93F /* UIScrollView+Extensions.swift */,
 				4F5C1E3D238A770B00D756EB /* UITableViewCell+Reuse.swift */,
+				4F605634258D89B5008AF93F /* CollectionViewCell+Reuse.swift */,
 				4F5C1E48238DD82500D756EB /* UIView+RecognizerBlock.swift */,
 				4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */,
 				4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */,
@@ -1257,6 +1260,7 @@
 				4F68BE6D2399DBCF009D44F7 /* UIViewController+Lookup.swift in Sources */,
 				4F64F680257B97E000574F4D /* WebViewController.swift in Sources */,
 				4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */,
+				4F605635258D89B5008AF93F /* CollectionViewCell+Reuse.swift in Sources */,
 				4FD4E1E12380AC37008816B3 /* RaceResultsViewController.swift in Sources */,
 				4F3D640F23FC65F700DE6DF2 /* PickerViewController.swift in Sources */,
 				4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */,
