@@ -93,7 +93,7 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         let button = CustomButton(type: .system)
         button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
         button.setImage(UIImage(named: "icn_navbar_filter"), for: .normal)
-        button.isEnabled = false
+        button.isEnabled = (selectedRaceList == .nearby)
         return button
     }()
 
@@ -141,6 +141,7 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     fileprivate let raceListController: RaceListController
+    fileprivate var initialSelectType: RaceListType
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate let chapterApi = ChapterApi()
@@ -159,13 +160,14 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
 
     // MARK: - Lifecycle Methods
 
-    init(_ types: [RaceListType]) {
+    init(_ types: [RaceListType], selectedType: RaceListType) {
         self.raceListController = RaceListController(types)
+        self.initialSelectType = selectedType
 
         super.init(nibName: nil, bundle: nil)
 
         self.segmentedControl.setItems(types.compactMap { $0.title })
-        self.segmentedControl.selectedSegmentIndex = types.last!.rawValue
+        self.segmentedControl.selectedSegmentIndex = selectedType.rawValue
     }
 
     required init?(coder aDecoder: NSCoder) {
