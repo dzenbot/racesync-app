@@ -137,9 +137,7 @@ class GalleryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-//            appDelegate.restrictRotation = supportedInterfaceOrientations
-//        }
+        AppUtil.lockOrientation(.all)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -155,9 +153,7 @@ class GalleryViewController: UIViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
 
-//        if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
-//            appDelegate.restrictRotation = .portrait
-//        }
+        AppUtil.lockOrientation(.portrait, andRotateTo: .portrait)
     }
 
     override func viewDidDisappear(_ animated: Bool) {

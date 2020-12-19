@@ -237,6 +237,20 @@ class TrackDetailViewController: UIViewController {
         super.viewDidAppear(animated)
     }
 
+    // MARK: Rotation Handling
+
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        get {
+            return .portrait
+        }
+    }
+
+    override var shouldAutorotate: Bool {
+        get {
+            return true
+        }
+    }
+
     // MARK: - Layout
 
     func setupLayout() {

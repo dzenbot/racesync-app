@@ -142,6 +142,7 @@
 		4FC51B1F2409EA9B00D654D0 /* ManagedChapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC51B1E2409EA9B00D654D0 /* ManagedChapter.swift */; };
 		4FC51B212409EC8E00D654D0 /* Chapter+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC51B202409EC8E00D654D0 /* Chapter+Extensions.swift */; };
 		4FC51B232409EEB400D654D0 /* Race+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC51B222409EEB400D654D0 /* Race+Extensions.swift */; };
+		4FC57C33258E1362006E210F /* AppUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC57C32258E1362006E210F /* AppUtil.swift */; };
 		4FC9A1B623D7CFBC00069FDE /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */; };
 		4FCAF9FA23AB226500ACE7D3 /* MapperUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9F923AB226500ACE7D3 /* MapperUtil.swift */; };
 		4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */; };
@@ -384,6 +385,7 @@
 		4FC51B1E2409EA9B00D654D0 /* ManagedChapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagedChapter.swift; sourceTree = "<group>"; };
 		4FC51B202409EC8E00D654D0 /* Chapter+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Chapter+Extensions.swift"; sourceTree = "<group>"; };
 		4FC51B222409EEB400D654D0 /* Race+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Race+Extensions.swift"; sourceTree = "<group>"; };
+		4FC57C32258E1362006E210F /* AppUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppUtil.swift; sourceTree = "<group>"; };
 		4FCAF9F923AB226500ACE7D3 /* MapperUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapperUtil.swift; sourceTree = "<group>"; };
 		4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCellShimmerView.swift; sourceTree = "<group>"; };
 		4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmable.swift; sourceTree = "<group>"; };
@@ -671,6 +673,7 @@
 				4F714DE223CD5EAA000C4036 /* SafariActivity.swift */,
 				4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */,
 				4F482EFA251158FF00DBA0DF /* SocialActivity.swift */,
+				4FC57C32258E1362006E210F /* AppUtil.swift */,
 			);
 			path = "UI Utils";
 			sourceTree = "<group>";
@@ -1312,6 +1315,7 @@
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
 				4F605603258C9FB4008AF93F /* UIScrollView+Extensions.swift in Sources */,
+				4FC57C33258E1362006E210F /* AppUtil.swift in Sources */,
 				4F60562A258D59EC008AF93F /* GalleryViewController.swift in Sources */,
 				4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */,
 				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
