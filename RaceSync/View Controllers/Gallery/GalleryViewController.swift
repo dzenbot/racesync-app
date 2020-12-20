@@ -29,7 +29,6 @@ class GalleryViewController: UIViewController {
 
         // Set up collection view
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.register(cellType: GalleryViewCell.self)
         collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .footer)
         collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .header)
@@ -44,11 +43,12 @@ class GalleryViewController: UIViewController {
 
     fileprivate lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
-        control.translatesAutoresizingMaskIntoConstraints = false
+        control.backgroundColor = Color.clear
         control.numberOfPages = numberOfImages
         control.currentPageIndicatorTintColor = Color.white.withAlphaComponent(0.9)
         control.pageIndicatorTintColor = Color.white.withAlphaComponent(0.3)
-        control.isHidden = numberOfImages <= 1
+        control.hidesForSinglePage = true
+        control.addTarget(self, action: #selector(didTapPageControl), for: .valueChanged)
         return control
     }()
 
@@ -74,11 +74,7 @@ class GalleryViewController: UIViewController {
 
     fileprivate var currentPage: Int {
         set(page) {
-            if page < numberOfImages {
-                scrollToImage(withIndex: page, animated: false)
-            } else {
-                scrollToImage(withIndex: numberOfImages - 1, animated: false)
-            }
+            setCurrentPage(page, animated: false)
             updatePageControl()
         }
         get {
@@ -92,6 +88,14 @@ class GalleryViewController: UIViewController {
         }
     }
 
+    fileprivate var numberOfImages: Int {
+        return images.count
+    }
+
+    fileprivate var isChromeHidden: Bool {
+        return navigationBar.alpha < 1
+    }
+
     fileprivate lazy var tapGesture: UITapGestureRecognizer = {
         let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
         gestureRecognizer.delegate = self
@@ -103,7 +107,7 @@ class GalleryViewController: UIViewController {
     fileprivate var deviceInRotation = false
     fileprivate var pageBeforeRotation: Int = 0
     fileprivate var needsLayout = true
-    fileprivate var timer : DispatchSourceTimer? = nil
+    fileprivate var timer: DispatchSourceTimer? = nil
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -137,7 +141,7 @@ class GalleryViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        AppUtil.lockOrientation(.all)
+        AppUtil.lockOrientation(.allButUpsideDown)
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -152,8 +156,6 @@ class GalleryViewController: UIViewController {
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-
-        AppUtil.lockOrientation(.portrait, andRotateTo: .portrait)
     }
 
     override func viewDidDisappear(_ animated: Bool) {
@@ -203,18 +205,6 @@ class GalleryViewController: UIViewController {
         needsLayout = true
     }
 
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        get {
-            return .allButUpsideDown
-        }
-    }
-
-    override var shouldAutorotate: Bool {
-        get {
-            return true
-        }
-    }
-
     // MARK: - Layout
 
     func setupLayout() {
@@ -226,8 +216,9 @@ class GalleryViewController: UIViewController {
 
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.bottom.equalToSuperview().offset(-Constants.padding)
+            $0.height.equalTo(30)
         }
 
         view.addSubview(navigationBar)
@@ -237,10 +228,6 @@ class GalleryViewController: UIViewController {
         }
     }
 
-    fileprivate var numberOfImages: Int {
-        return images.count
-    }
-
     fileprivate func getImage(currentPage: Int) -> UIImage {
         guard currentPage >= 0 && currentPage < numberOfImages else { return UIImage() }
         return images[currentPage]
@@ -248,6 +235,14 @@ class GalleryViewController: UIViewController {
 
     fileprivate func updatePageControl() {
         pageControl.currentPage = currentPage
+    }
+
+    fileprivate func setCurrentPage(_ page: Int, animated: Bool) {
+        if page < numberOfImages {
+            scrollToImage(withIndex: page, animated: animated)
+        } else {
+            scrollToImage(withIndex: numberOfImages - 1, animated: animated)
+        }
     }
 
     fileprivate func scrollToImage(withIndex: Int, animated: Bool = false) {
@@ -262,10 +257,6 @@ class GalleryViewController: UIViewController {
             let indexPaths: [IndexPath] = imageIndexes.map({IndexPath(item: $0, section: 0)})
             collectionView.reloadItems(at: indexPaths)
         }
-    }
-
-    fileprivate var isChromeHidden: Bool {
-        return navigationBar.alpha < 1
     }
 
     fileprivate func toggleChrome() {
@@ -301,7 +292,14 @@ class GalleryViewController: UIViewController {
 
     // MARK: - Actions
 
+    @objc func didTapPageControl(_ sender: Any) -> () {
+        setCurrentPage(pageControl.currentPage, animated: true)
+    }
+
     @objc fileprivate func didPressCloseButton() {
+        // force the device orientation before dimissing, so there is no delay due to the animation
+        AppUtil.lockOrientation(.portrait, andRotateTo: .portrait)
+
         dismiss(animated: true, completion: nil)
     }
 
@@ -387,7 +385,7 @@ extension GalleryViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         guard let cell = view as? GalleryViewCell else { return }
-        collectionView.layoutIfNeeded()
+//        collectionView.layoutIfNeeded()
         cell.configureForNewImage(animated: false)
         cell.doubleTapGesture.delegate = self
     }

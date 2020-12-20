@@ -53,6 +53,7 @@ class TrackDetailViewController: UIViewController {
         control.pageIndicatorTintColor = Color.gray50
         control.currentPageIndicatorTintColor = Color.gray100
         control.hidesForSinglePage = false
+        control.addTarget(self, action: #selector(didTapPageControl(_:)), for: .valueChanged)
         return control
     }()
 
@@ -237,20 +238,6 @@ class TrackDetailViewController: UIViewController {
         super.viewDidAppear(animated)
     }
 
-    // MARK: Rotation Handling
-
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        get {
-            return .portrait
-        }
-    }
-
-    override var shouldAutorotate: Bool {
-        get {
-            return true
-        }
-    }
-
     // MARK: - Layout
 
     func setupLayout() {
@@ -424,7 +411,6 @@ fileprivate extension TrackDetailViewController {
         scrollView.contentSize = CGSize(width: hOffset, height: view.bounds.height)
 
         pageControl.numberOfPages = images.count
-        pageControl.addTarget(self, action: #selector(didTapPageControl(_:)), for: .valueChanged)
 
         trackImages.append(contentsOf: images)
 
