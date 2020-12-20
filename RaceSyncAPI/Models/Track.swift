@@ -13,6 +13,7 @@ public class Track: ImmutableMappable, Descriptable {
 
     public let id: ObjectId
     public let title: String
+    public let description: String?
     public let videoUrl: String?
     public let leaderboardUrl: String?
     public let validationFeetUrl: String?
@@ -28,6 +29,7 @@ public class Track: ImmutableMappable, Descriptable {
     required public init(map: Map) throws {
         id = try map.value("id")
         title = try map.value("title")
+        description = try map.value("description")
         videoUrl = try? map.value("videoUrl")
         leaderboardUrl = try map.value("leaderboardUrl")
         validationFeetUrl = try? map.value("validationFeetUrl")

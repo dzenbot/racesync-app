@@ -47,6 +47,23 @@ class TrackDetailViewController: UIViewController {
         return scrollView
     }()
 
+    fileprivate lazy var descriptionTextView: UITextView = {
+        let textView = UITextView()
+        textView.textColor = Color.gray400
+        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        textView.textAlignment = .justified
+        textView.isEditable = false
+        textView.isScrollEnabled = false
+        textView.textContainerInset = Constants.contentInsets
+        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
+        textView.text = viewModel.track.description
+
+        viewModel.track.description?.toHTMLAttributedString(textView.font, color: textView.textColor) { [weak self] (att) in
+            textView.attributedText = att
+        }
+        return textView
+    }()
+
     fileprivate lazy var pageControl: UIPageControl = {
         let control = UIPageControl()
         control.backgroundColor = Color.white
@@ -58,12 +75,12 @@ class TrackDetailViewController: UIViewController {
     }()
 
     fileprivate lazy var tableHeaderView: UIView = {
-        // needs to define the frame else the tableview doesn't lay out properly
+        // need to define the height else the tableview doesn't lay out properly
         var frame = CGRect.zero
         frame.size.height = tableViewHeaderHeight
 
         let view = UIView(frame: frame)
-        view.backgroundColor = Color.white
+        view.backgroundColor = Color.clear
 
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
@@ -75,12 +92,27 @@ class TrackDetailViewController: UIViewController {
         pageControl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
             $0.top.equalTo(scrollView.snp.bottom)
+            $0.height.equalTo(Constants.pageControlHeight)
+        }
+
+        if let text = viewModel.track.description, !text.isEmpty {
+            view.addSubview(descriptionTextView)
+            descriptionTextView.snp.makeConstraints {
+                $0.top.equalTo(pageControl.snp.bottom)
+                $0.leading.trailing.equalToSuperview()
+                $0.width.equalTo(Constants.screenWidth)
+            }
         }
 
         view.addSubview(elementsView)
         elementsView.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(pageControl.snp.bottom)
+
+            if let text = viewModel.track.description, !text.isEmpty {
+                $0.top.equalTo(descriptionTextView.snp.bottom).offset(Constants.padding)
+            } else {
+                $0.top.equalTo(pageControl.snp.bottom)
+            }
         }
 
         return view
@@ -175,18 +207,26 @@ class TrackDetailViewController: UIViewController {
             var height: CGFloat = 0
             height += Constants.scrollHeight
             height += Constants.padding
-            height += pageControl.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-            height += Constants.padding
-            height += elementsView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
-            height += Constants.padding
-            return height
+            height += Constants.pageControlHeight
+            height += descriptionTextViewHeight
+            height += elementsView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height 
+            return CGFloat(Int(height))
+        }
+    }
+
+    fileprivate var descriptionTextViewHeight: CGFloat {
+        get {
+            guard let text = viewModel.track.description, !text.isEmpty else { return 0 }
+            let contentWidth = Constants.screenWidth - Constants.padding
+            let height = descriptionTextView.sizeThatFits(CGSize(width: contentWidth, height: Constants.screenHeight)).height
+            return CGFloat(Int(height))
         }
     }
 
     fileprivate lazy var verificationButton: JoinButton = {
         let button = JoinButton(type: .system)
         button.addTarget(self, action: #selector(didPressVerificationButton), for: .touchUpInside)
-        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -10)
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -Constants.padding)
         button.joinState = .joined
         button.setTitle("Verify", for: .normal)
         button.setImage(nil, for: .normal)
@@ -206,7 +246,10 @@ class TrackDetailViewController: UIViewController {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = 50
         static let scrollHeight: CGFloat = 200
-        static let scrollWidth: CGFloat = UIScreen.main.bounds.width
+        static let pageControlHeight: CGFloat = 32
+        static let screenWidth: CGFloat = UIScreen.main.bounds.width
+        static let screenHeight: CGFloat = UIScreen.main.bounds.height
+        static let contentInsets = UIEdgeInsets(top: padding/2, left: 10, bottom: padding/2, right: padding/2)
     }
 
     // MARK: - Initialization
@@ -335,14 +378,14 @@ class TrackDetailViewController: UIViewController {
     }
 
     func scrollToNextPage(_ animated: Bool = true) {
-        let currentPage: Int = Int(scrollView.contentOffset.x / Constants.scrollWidth)
+        let currentPage: Int = Int(scrollView.contentOffset.x / Constants.screenWidth)
         var nextPage = currentPage + 1
 
         if currentPage == pageControl.numberOfPages-1 {
             nextPage = 0
         }
 
-        let nextPos = Constants.scrollWidth * CGFloat(nextPage)
+        let nextPos = Constants.screenWidth * CGFloat(nextPage)
         let newOffset = CGPoint(x: nextPos, y: 0)
 
         if animated {
@@ -403,7 +446,7 @@ fileprivate extension TrackDetailViewController {
                 $0.top.bottom.width.height.equalToSuperview()
             }
 
-            hOffset += Constants.scrollWidth
+            hOffset += Constants.screenWidth
         }
 
         scrollView.setNeedsLayout()

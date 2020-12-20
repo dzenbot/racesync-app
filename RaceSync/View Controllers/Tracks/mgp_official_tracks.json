@@ -121,6 +121,7 @@
         {
             "id": "10",
             "title": "UTT #10 – Prairie Rage",
+            "description": "Obstacles must be traversed in the direction indicated by arrows. Obstacles must be traversed in this numerical sequence: 1-12.<br />If any obstacle is entered out of sequence or direction at any time the run is invalid.<br /><strong><a href=\"https://www.multigp.com/universal-time-trial-utt/\">UTT Rules & Regulations</a></strong>",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-10-prairie-rage-3-lap-leaderboard/",
             "designer": "RagingCanadian",
             "class": "0",

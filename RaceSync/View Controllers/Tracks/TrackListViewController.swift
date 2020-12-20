@@ -121,11 +121,7 @@ extension TrackListViewController: UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if section == 1 {
-            return "MultiGP chapters everywhere are running Time Trials using any of the following standardized and universal time trial tracks. Since the dimensions are the same for everyone, we can rank performance."
-        } else {
-            return nil
-        }
+        return nil
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -325,8 +325,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             contentView.addSubview(descriptionTextView)
             descriptionTextView.snp.makeConstraints {
                 $0.top.equalTo(buttonStackView.snp.bottom).offset(Constants.padding)
-                $0.leading.equalToSuperview()
-                $0.trailing.equalToSuperview()
+                $0.leading.trailing.equalToSuperview()
                 $0.width.equalTo(view.bounds.width)
             }
         }
@@ -338,8 +337,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             } else {
                 $0.top.equalTo(buttonStackView.snp.bottom).offset(Constants.padding)
             }
-            $0.leading.equalToSuperview()
-            $0.trailing.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(view.bounds.width)
         }
 
@@ -347,8 +345,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             contentView.addSubview(itineraryTextView)
             itineraryTextView.snp.makeConstraints {
                 $0.top.equalTo(contentTextView.snp.bottom).offset(Constants.padding/2)
-                $0.leading.equalToSuperview()
-                $0.trailing.equalToSuperview()
+                $0.leading.trailing.equalToSuperview()
                 $0.width.equalTo(view.bounds.width)
             }
 
