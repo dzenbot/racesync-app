@@ -346,7 +346,7 @@ class TrackDetailViewController: UIViewController {
 
     @objc func didTapTrackElementView(_ sender: Any) -> () {
         guard let gesture = sender as? UIGestureRecognizer, let elementView = gesture.view as? TrackElementView else { return }
-        guard let image = loadImage(with: "sepc_obstacle_\(elementView.element.type.rawValue)", subdirectory: "track-images") else { return }
+        guard let image = loadImage(with: "spec_obstacle_\(elementView.element.type.rawValue)", subdirectory: "track-images") else { return }
 
         let vc = GalleryViewController(images: [image])
         vc.title = "Specs: \(elementView.element.type.title)"
