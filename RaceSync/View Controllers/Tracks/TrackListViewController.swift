@@ -66,7 +66,7 @@ class TrackListViewController: UIViewController {
 fileprivate extension TrackListViewController {
 
     func loadTracks() {
-        guard let path = Bundle.main.path(forResource: "mgp_official_tracks", ofType: "json") else { return }
+        guard let path = Bundle.main.path(forResource: "track-list", ofType: "json") else { return }
         guard let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8) else { return }
 
         let json = JSON(parseJSON: jsonString)
