@@ -99,15 +99,15 @@ class TrackElementViewCell: UICollectionViewCell {
 
     override var isHighlighted: Bool {
        didSet {
-           if isHighlighted {
-               UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-                self.contentView.backgroundColor = Color.gray50
-               }, completion: nil)
-           } else {
-               UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
-                self.contentView.backgroundColor = Color.gray20
-               }, completion: nil)
-           }
+        let alpha: CGFloat = isHighlighted ? 0.6 : 1
+        let alpha2: CGFloat = isHighlighted ? 0.8 : 1
+
+        UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseInOut, animations: {
+         self.imageView.alpha = alpha
+         self.countLabel.alpha = alpha
+         self.titleLabel.alpha = alpha
+         self.contentView.alpha = alpha2
+        }, completion: nil)
        }
    }
 }
