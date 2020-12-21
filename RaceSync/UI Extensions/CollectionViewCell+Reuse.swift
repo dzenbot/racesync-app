@@ -19,26 +19,26 @@ enum CollectionViewSectionType {
     }
 }
 
-extension UICollectionViewCell: Reusable { }
+extension UICollectionReusableView: Reusable { }
 
 extension UICollectionView {
 
-    func register<T: UICollectionViewCell>(cellType: T.Type) {
+    func register<T: UICollectionReusableView>(cellType: T.Type) {
         register(cellType.self, forCellWithReuseIdentifier: cellType.reuseIdentifier)
     }
 
-    func register<T: UICollectionViewCell>(cellType: T.Type, forSupplementaryViewOf kind: CollectionViewSectionType) {
+    func register<T: UICollectionReusableView>(cellType: T.Type, forSupplementaryViewOf kind: CollectionViewSectionType) {
         register(cellType.self, forSupplementaryViewOfKind: kind.string, withReuseIdentifier: cellType.reuseIdentifier)
     }
 
-    func dequeueReusableCell<T: UICollectionViewCell>(forIndexPath indexPath: IndexPath) -> T {
+    func dequeueReusableCell<T: UICollectionReusableView>(forIndexPath indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableCell(withReuseIdentifier: T.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Could not dequeue cell with identifier: \(T.reuseIdentifier)")
         }
         return cell
     }
 
-    func dequeueReusableSupplementaryView<T: UICollectionViewCell>(ofKind elementKind: CollectionViewSectionType, for indexPath: IndexPath) -> T {
+    func dequeueReusableSupplementaryView<T: UICollectionReusableView>(ofKind elementKind: CollectionViewSectionType, for indexPath: IndexPath) -> T {
         guard let cell = dequeueReusableSupplementaryView(ofKind: elementKind.string, withReuseIdentifier: T.reuseIdentifier, for: indexPath) as? T else {
             fatalError("Could not dequeue supplementary view with identifier: \(T.reuseIdentifier)")
         }

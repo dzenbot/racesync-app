@@ -1,8 +1,8 @@
 //
-//  TrackElementView.swift
+//  TrackElementViewCell.swift
 //  RaceSync
 //
-//  Created by Ignacio Romero Zurbuchen on 2020-12-07.
+//  Created by Ignacio Romero Zurbuchen on 2020-12-20.
 //  Copyright © 2020 MultiGP Inc. All rights reserved.
 //
 
@@ -10,11 +10,27 @@ import UIKit
 import SnapKit
 import RaceSyncAPI
 
-class TrackElementView: UIView {
+class TrackElementViewCell: UICollectionViewCell {
 
     // MARK: - Public Variables
 
-    let element: TrackElement
+    var element: TrackElement? {
+        didSet {
+            if let e = element {
+                imageView.image = e.type.thumbnail
+                countLabel.text = String(e.count)
+                titleLabel.text = e.type.title(with: e.count)
+            } else {
+                imageView.image = nil
+                countLabel.text = nil
+                titleLabel.text = nil
+            }
+        }
+    }
+
+    static var minimumContentHeight: CGFloat {
+        return Constants.imageHeight + Constants.padding
+    }
 
     // MARK: - Private Variables
 
@@ -33,23 +49,21 @@ class TrackElementView: UIView {
     }()
 
     lazy var imageView: UIImageView = {
-        let imageView = UIImageView(image: element.type.thumbnail)
+        let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 3
         return imageView
     }()
 
-
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
+        static let imageHeight: CGFloat = 55
     }
 
     // MARK: - Initialization
 
-    init(element: TrackElement) {
-        self.element = element
-        super.init(frame: .zero)
-
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         setupLayout()
     }
 
@@ -60,54 +74,40 @@ class TrackElementView: UIView {
     // MARK: - Layout
 
     func setupLayout() {
-        backgroundColor = Color.gray20
-        layer.cornerRadius = 6
+        backgroundColor = Color.white
+        contentView.backgroundColor = Color.gray20
+        contentView.layer.cornerRadius = 6
 
-        countLabel.text = String(element.count)
-        titleLabel.text = element.type.title(with: element.count)
-
-        addSubview(countLabel)
+        contentView.addSubview(countLabel)
         countLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(Constants.padding/2)
             $0.top.equalToSuperview().offset(Constants.padding*3/4)
         }
 
-        addSubview(titleLabel)
+        contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
             $0.leading.equalToSuperview().offset(Constants.padding/2)
             $0.bottom.equalToSuperview().offset(-Constants.padding*3/4)
         }
 
-        addSubview(imageView)
+        contentView.addSubview(imageView)
         imageView.snp.makeConstraints {
             $0.trailing.equalToSuperview().offset(-Constants.padding/2)
             $0.centerY.equalToSuperview()
         }
     }
 
-    override var intrinsicContentSize: CGSize {
-        let width = UIScreen.main.bounds.width/2 - Constants.padding*1.5
-        let height = imageView.frame.height + Constants.padding
-        return CGSize(width: width, height: height)
-    }
-}
-
-class TrackElementDummyView: UIView {
-
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-
-        backgroundColor = Color.gray20.withAlphaComponent(0.5)
-        layer.cornerRadius = 6
-    }
-
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-
-    override var intrinsicContentSize: CGSize {
-        let width = UIScreen.main.bounds.width/2 - UniversalConstants.padding*1.5
-        let height = 55 + UniversalConstants.padding
-        return CGSize(width: width, height: height)
-    }
+    override var isHighlighted: Bool {
+       didSet {
+           if isHighlighted {
+               UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                self.contentView.backgroundColor = Color.gray50
+               }, completion: nil)
+           } else {
+               UIView.animate(withDuration: 0.2, delay: 0, options: .curveEaseOut, animations: {
+                self.contentView.backgroundColor = Color.gray20
+               }, completion: nil)
+           }
+       }
+   }
 }

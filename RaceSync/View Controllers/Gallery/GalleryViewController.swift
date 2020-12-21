@@ -20,14 +20,12 @@ class GalleryViewController: UIViewController {
     // MARK: - Private Variables
 
     fileprivate lazy var collectionView: UICollectionView = {
-        // Set up flow layout
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = view.bounds.size
         layout.scrollDirection = UICollectionView.ScrollDirection.horizontal
         layout.minimumInteritemSpacing = 0
         layout.minimumLineSpacing = 0
 
-        // Set up collection view
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
         collectionView.register(cellType: GalleryViewCell.self)
         collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .footer)
@@ -316,7 +314,7 @@ class GalleryViewController: UIViewController {
 }
 
 
-// MARK: UICollectionViewDataSource
+// MARK: UICollectionView DataSource
 
 extension GalleryViewController: UICollectionViewDataSource {
 
@@ -361,20 +359,9 @@ extension GalleryViewController: UICollectionViewDataSource {
     }
 }
 
-
-// MARK: UICollectionViewDelegate
+// MARK: UICollectionView Delegate
 
 extension GalleryViewController: UICollectionViewDelegate {
-
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        hideChrome(false)
-    }
-
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        // If the scroll animation ended, update the page control to reflect the current page we are on
-        updatePageControl()
-        hideChrome(true, delay: 2, animated: true)
-    }
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? GalleryViewCell {
@@ -385,7 +372,6 @@ extension GalleryViewController: UICollectionViewDelegate {
 
     func collectionView(_ collectionView: UICollectionView, willDisplaySupplementaryView view: UICollectionReusableView, forElementKind elementKind: String, at indexPath: IndexPath) {
         guard let cell = view as? GalleryViewCell else { return }
-//        collectionView.layoutIfNeeded()
         cell.configureForNewImage(animated: false)
         cell.doubleTapGesture.delegate = self
     }
@@ -401,7 +387,22 @@ extension GalleryViewController: UICollectionViewDelegate {
     }
 }
 
-// MARK: UIGestureRecognizerDelegate
+// MARK: UIScrollView Delegate
+
+extension GalleryViewController: UIScrollViewDelegate {
+
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        hideChrome(false)
+    }
+
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        // If the scroll animation ended, update the page control to reflect the current page we are on
+        updatePageControl()
+        hideChrome(true, delay: 2, animated: true)
+    }
+}
+
+// MARK: UIGestureRecognizer Delegate
 
 extension GalleryViewController: UIGestureRecognizerDelegate {
 

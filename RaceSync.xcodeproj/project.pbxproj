@@ -71,7 +71,6 @@
 		4F65D8EE257869AD00C506C3 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */; };
 		4F65D908257B134700C506C3 /* TrackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F65D907257B134700C506C3 /* TrackDetailViewController.swift */; };
 		4F6881B2257ECAE500D33672 /* track-images in Resources */ = {isa = PBXBuildFile; fileRef = 4F6881B1257ECAE500D33672 /* track-images */; };
-		4F6881BA257EEC0500D33672 /* TrackElementView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6881B9257EEC0500D33672 /* TrackElementView.swift */; };
 		4F68BE692399CEB5009D44F7 /* AlertUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE682399CEB5009D44F7 /* AlertUtil.swift */; };
 		4F68BE6B2399CF07009D44F7 /* ActionSheetUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */; };
 		4F68BE6D2399DBCF009D44F7 /* UIViewController+Lookup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */; };
@@ -175,6 +174,8 @@
 		4FDD499623B0461D009DD2DB /* Season.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD499523B0461D009DD2DB /* Season.swift */; };
 		4FDD499823B0470E009DD2DB /* ChapterConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD499723B0470E009DD2DB /* ChapterConstants.swift */; };
 		4FDD499A23B065C9009DD2DB /* RaceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD499923B065C9009DD2DB /* RaceConstants.swift */; };
+		4FDF005725902D6D006964DB /* TrackElementViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDF005625902D6D006964DB /* TrackElementViewCell.swift */; };
+		4FDF0062259045C5006964DB /* TrackElementHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDF0061259045C5006964DB /* TrackElementHeaderView.swift */; };
 		4FE271C2258036D100EC121B /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE271C1258036D100EC121B /* Track.swift */; };
 		4FE272362580A36D00EC121B /* SimpleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE272352580A36D00EC121B /* SimpleTableViewCell.swift */; };
 		4FE490F223A4725D0008C38D /* RaceHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE490F123A4725D0008C38D /* RaceHeaderView.swift */; };
@@ -312,7 +313,6 @@
 		4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		4F65D907257B134700C506C3 /* TrackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailViewController.swift; sourceTree = "<group>"; };
 		4F6881B1257ECAE500D33672 /* track-images */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = folder; name = "track-images"; path = "RaceSync/track-images"; sourceTree = SOURCE_ROOT; };
-		4F6881B9257EEC0500D33672 /* TrackElementView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackElementView.swift; sourceTree = "<group>"; };
 		4F68BE682399CEB5009D44F7 /* AlertUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertUtil.swift; sourceTree = "<group>"; };
 		4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionSheetUtil.swift; sourceTree = "<group>"; };
 		4F68BE6C2399DBCF009D44F7 /* UIViewController+Lookup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Lookup.swift"; sourceTree = "<group>"; };
@@ -417,6 +417,8 @@
 		4FDD499523B0461D009DD2DB /* Season.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Season.swift; sourceTree = "<group>"; };
 		4FDD499723B0470E009DD2DB /* ChapterConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterConstants.swift; sourceTree = "<group>"; };
 		4FDD499923B065C9009DD2DB /* RaceConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceConstants.swift; sourceTree = "<group>"; };
+		4FDF005625902D6D006964DB /* TrackElementViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackElementViewCell.swift; sourceTree = "<group>"; };
+		4FDF0061259045C5006964DB /* TrackElementHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackElementHeaderView.swift; sourceTree = "<group>"; };
 		4FE271C1258036D100EC121B /* Track.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Track.swift; sourceTree = "<group>"; };
 		4FE272352580A36D00EC121B /* SimpleTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimpleTableViewCell.swift; sourceTree = "<group>"; };
 		4FE490F123A4725D0008C38D /* RaceHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceHeaderView.swift; sourceTree = "<group>"; };
@@ -648,7 +650,8 @@
 			children = (
 				4F65D8DF2574F6CF00C506C3 /* TrackListViewController.swift */,
 				4F65D907257B134700C506C3 /* TrackDetailViewController.swift */,
-				4F6881B9257EEC0500D33672 /* TrackElementView.swift */,
+				4FDF005625902D6D006964DB /* TrackElementViewCell.swift */,
+				4FDF0061259045C5006964DB /* TrackElementHeaderView.swift */,
 				4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */,
 				4F65D8D72574EA5400C506C3 /* track-list.json */,
 				4F6881B1257ECAE500D33672 /* track-images */,
@@ -1300,7 +1303,6 @@
 				4FE272362580A36D00EC121B /* SimpleTableViewCell.swift in Sources */,
 				4F68BE692399CEB5009D44F7 /* AlertUtil.swift in Sources */,
 				4F65D8EE257869AD00C506C3 /* TrackViewModel.swift in Sources */,
-				4F6881BA257EEC0500D33672 /* TrackElementView.swift in Sources */,
 				4F6C8A96236A9D580017FD78 /* UIColor+Extensions.swift in Sources */,
 				4F2724402517DC5B000C7408 /* UIActivityViewController+Extensions.swift in Sources */,
 				4FA1AB3D23C94F5F007CF389 /* UIEdgeInsets+Extensions.swift in Sources */,
@@ -1316,6 +1318,7 @@
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
 				4F605603258C9FB4008AF93F /* UIScrollView+Extensions.swift in Sources */,
 				4FC57C33258E1362006E210F /* AppUtil.swift in Sources */,
+				4FDF005725902D6D006964DB /* TrackElementViewCell.swift in Sources */,
 				4F60562A258D59EC008AF93F /* GalleryViewController.swift in Sources */,
 				4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */,
 				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
@@ -1324,6 +1327,7 @@
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,
 				4FD4E1C9237F987C008816B3 /* RaceRosterViewController.swift in Sources */,
+				4FDF0062259045C5006964DB /* TrackElementHeaderView.swift in Sources */,
 				4F8668FC23870E1E005E310A /* SegmentedTableViewHeaderView.swift in Sources */,
 				4F8175A12411C35A00685F83 /* LeaderboardViewController.swift in Sources */,
 				4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */,

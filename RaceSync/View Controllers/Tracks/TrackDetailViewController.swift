@@ -35,8 +35,8 @@ class TrackDetailViewController: UIViewController {
         scrollView.backgroundColor = UIColor(hex: "a0bb93")
         scrollView.isScrollEnabled = true
         scrollView.isPagingEnabled = true
-        scrollView.alwaysBounceVertical = false
         scrollView.alwaysBounceHorizontal = true
+        scrollView.alwaysBounceVertical = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.delegate = self
@@ -49,19 +49,38 @@ class TrackDetailViewController: UIViewController {
 
     fileprivate lazy var descriptionTextView: UITextView = {
         let textView = UITextView()
+        textView.layoutManager.delegate = self
         textView.textColor = Color.gray400
         textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         textView.textAlignment = .justified
         textView.isEditable = false
         textView.isScrollEnabled = false
-        textView.textContainerInset = Constants.contentInsets
+        textView.textContainerInset = UIEdgeInsets(Constants.padding/2, Constants.padding, Constants.padding, Constants.padding)
         textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
-        textView.text = viewModel.track.description
+        textView.text = viewModel.track.description?.stripHTML() // adding raw text to allow calculating the height before laying out
 
         viewModel.track.description?.toHTMLAttributedString(textView.font, color: textView.textColor) { [weak self] (att) in
             textView.attributedText = att
         }
         return textView
+    }()
+
+    fileprivate lazy var collectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
+        layout.minimumInteritemSpacing = Constants.padding/2
+        layout.minimumLineSpacing = Constants.padding/2
+        layout.sectionInset = UIEdgeInsets(Constants.padding/2, Constants.padding, Constants.padding, Constants.padding)
+
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        collectionView.register(cellType: TrackElementViewCell.self)
+        collectionView.register(cellType: TrackElementHeaderView.self, forSupplementaryViewOf: .header)
+        collectionView.dataSource = self
+        collectionView.delegate = self
+        collectionView.backgroundColor = Color.white
+        collectionView.isPagingEnabled = false
+        collectionView.isScrollEnabled = false
+        return collectionView
     }()
 
     fileprivate lazy var pageControl: UIPageControl = {
@@ -80,7 +99,7 @@ class TrackDetailViewController: UIViewController {
         frame.size.height = tableViewHeaderHeight
 
         let view = UIView(frame: frame)
-        view.backgroundColor = Color.clear
+        view.backgroundColor = Color.white
 
         view.addSubview(scrollView)
         scrollView.snp.makeConstraints {
@@ -91,111 +110,24 @@ class TrackDetailViewController: UIViewController {
         view.addSubview(pageControl)
         pageControl.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(scrollView.snp.bottom)
+            $0.top.equalTo(scrollView.snp.bottom).offset(Constants.padding)
             $0.height.equalTo(Constants.pageControlHeight)
+        }
+
+        view.addSubview(collectionView)
+        collectionView.snp.makeConstraints {
+            $0.leading.trailing.equalToSuperview()
+
+            $0.top.equalTo(pageControl.snp.bottom)
+            $0.size.equalTo(collectionViewContentSize(collectionView))
         }
 
         if let text = viewModel.track.description, !text.isEmpty {
             view.addSubview(descriptionTextView)
             descriptionTextView.snp.makeConstraints {
-                $0.top.equalTo(pageControl.snp.bottom)
+                $0.top.equalTo(collectionView.snp.bottom)
                 $0.leading.trailing.equalToSuperview()
                 $0.width.equalTo(Constants.screenWidth)
-            }
-        }
-
-        view.addSubview(elementsView)
-        elementsView.snp.makeConstraints {
-            $0.leading.trailing.equalToSuperview()
-
-            if let text = viewModel.track.description, !text.isEmpty {
-                $0.top.equalTo(descriptionTextView.snp.bottom).offset(Constants.padding)
-            } else {
-                $0.top.equalTo(pageControl.snp.bottom)
-            }
-        }
-
-        return view
-    }()
-
-    fileprivate lazy var elementsView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Color.white
-
-        let label1 = UILabel()
-        label1.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label1.textColor = Color.gray200
-        label1.text = "\(viewModel.track.elementsCount) Elements"
-
-        view.addSubview(label1)
-        label1.snp.makeConstraints {
-            $0.leading.equalToSuperview().offset(Constants.padding)
-            $0.top.equalToSuperview().offset(Constants.padding/2)
-        }
-
-        let label2 = UILabel()
-        label2.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
-        label2.textColor = Color.blue
-        label2.text = "\(viewModel.track.class.title) Class"
-        label2.textAlignment = .right
-
-        view.addSubview(label2)
-        label2.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-Constants.padding)
-            $0.top.equalToSuperview().offset(Constants.padding/2)
-        }
-
-        var subviews = [UIView]()
-        for e in viewModel.track.elements {
-            let view = TrackElementView(element: e)
-
-            let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapTrackElementView(_:)))
-            view.addGestureRecognizer(tapGesture)
-
-            subviews += [view]
-        }
-
-        // adding an empty dummy view for the cases when the elements count is an off number
-        // this is just to balance things visually
-        if subviews.count%2 != 0 {
-            subviews += [TrackElementDummyView()]
-        }
-
-        func newStackView() -> UIStackView {
-            let view = UIStackView()
-            view.axis = .horizontal
-            view.distribution = .fillEqually
-            view.alignment = .leading
-            view.spacing = Constants.padding/2
-            return view
-        }
-
-        var stackView = newStackView()
-        var row: Int = 0
-
-        for i in 0..<subviews.count {
-            let subview = subviews[i]
-            stackView.addArrangedSubview(subview)
-
-            func addStackView(_ aStackView: UIStackView) {
-                view.addSubview(aStackView)
-                aStackView.snp.makeConstraints {
-                    $0.top.equalTo(label1.snp.bottom).offset(Constants.padding+(Constants.padding/2+subview.intrinsicContentSize.height)*CGFloat(row))
-                    $0.leading.equalToSuperview().offset(Constants.padding)
-                    $0.trailing.bottom.equalToSuperview().offset(-Constants.padding)
-                }
-            }
-
-            let index = i+1
-
-            // last item
-            if index.isMultiple(of: 2) {
-                addStackView(stackView)
-
-                if index != subviews.count {
-                    stackView = newStackView()
-                    row += 1
-                }
             }
         }
 
@@ -206,10 +138,9 @@ class TrackDetailViewController: UIViewController {
         get {
             var height: CGFloat = 0
             height += Constants.scrollHeight
-            height += Constants.padding
-            height += Constants.pageControlHeight
+            height += Constants.pageControlHeight + Constants.padding
             height += descriptionTextViewHeight
-            height += elementsView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height 
+            height += collectionViewContentSize(collectionView).height
             return CGFloat(Int(height))
         }
     }
@@ -246,10 +177,9 @@ class TrackDetailViewController: UIViewController {
         static let padding: CGFloat = UniversalConstants.padding
         static let cellHeight: CGFloat = 50
         static let scrollHeight: CGFloat = 200
-        static let pageControlHeight: CGFloat = 32
+        static let pageControlHeight: CGFloat = 10
         static let screenWidth: CGFloat = UIScreen.main.bounds.width
         static let screenHeight: CGFloat = UIScreen.main.bounds.height
-        static let contentInsets = UIEdgeInsets(top: padding/2, left: 10, bottom: padding/2, right: padding/2)
     }
 
     // MARK: - Initialization
@@ -342,18 +272,6 @@ class TrackDetailViewController: UIViewController {
         } else if let url = viewModel.track.validationMetersUrl {
             WebViewController.openUrl(url)
         }
-    }
-
-    @objc func didTapTrackElementView(_ sender: Any) -> () {
-        guard let gesture = sender as? UIGestureRecognizer, let elementView = gesture.view as? TrackElementView else { return }
-        guard let image = loadImage(with: "spec_obstacle_\(elementView.element.type.rawValue)", subdirectory: "track-images") else { return }
-
-        let vc = GalleryViewController(images: [image])
-        vc.title = "Specs: \(elementView.element.type.title)"
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .fullScreen
-
-        UIViewController.topMostViewController()?.present(vc, animated: true, completion: nil)
     }
 
     func setLoading(_ cell: FormTableViewCell, loading: Bool) {
@@ -538,6 +456,8 @@ extension TrackDetailViewController: UITableViewDelegate {
     }
 }
 
+// MARK: - UITableView DataSource
+
 extension TrackDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -578,6 +498,8 @@ extension TrackDetailViewController: UITableViewDataSource {
     }
 }
 
+// MARK: UIScrollView Delegate
+
 extension TrackDetailViewController: UIScrollViewDelegate {
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
@@ -587,6 +509,95 @@ extension TrackDetailViewController: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
         autoChangePages(false)
+    }
+}
+
+// MARK: UICollectionView DataSource
+
+extension TrackDetailViewController: UICollectionViewDataSource {
+
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return viewModel.track.elements.count
+    }
+
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as TrackElementViewCell
+        cell.element = viewModel.track.elements[indexPath.row]
+        return cell
+    }
+
+    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: .header, for: indexPath) as TrackElementHeaderView
+        headerView.leftLabel.text = "\(viewModel.track.elementsCount) Elements"
+        headerView.rightLabel.text = "\(viewModel.track.class.title) Class"
+        return headerView
+    }
+
+    @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+        return collectionViewHeaderSize()
+    }
+}
+
+// MARK: UICollectionView Delegate
+
+extension TrackDetailViewController: UICollectionViewDelegateFlowLayout {
+
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        collectionView.deselectItem(at: indexPath, animated: true)
+
+        let element = viewModel.track.elements[indexPath.row]
+        guard let image = loadImage(with: "spec_obstacle_\(element.type.rawValue)", subdirectory: "track-images") else { return }
+
+        let vc = GalleryViewController(images: [image])
+        vc.title = element.type.title
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+
+        UIViewController.topMostViewController()?.present(vc, animated: true, completion: nil)
+    }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard let flowLayout = collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
+
+        var width: CGFloat = 0
+        width += Constants.screenWidth/2 // 2 items per row
+        width -= flowLayout.minimumInteritemSpacing/2 + flowLayout.sectionInset.left
+
+        var size: CGSize = .zero
+        size.width = width
+        size.height = TrackElementViewCell.minimumContentHeight
+        return size
+    }
+
+    func collectionViewContentSize(_ collectionView: UICollectionView) -> CGSize {
+        guard let flowLayout = collectionView.collectionViewLayout as? UICollectionViewFlowLayout else { return .zero }
+
+        let elementsCount = viewModel.track.elements.count
+        let rowsCount = CGFloat(elementsCount/2 + elementsCount%2)
+
+        var height: CGFloat = 0
+        height += TrackElementViewCell.minimumContentHeight * rowsCount // rows height
+        height += flowLayout.minimumLineSpacing * (rowsCount-1) // spacing
+        height += flowLayout.sectionInset.top + flowLayout.sectionInset.bottom // margin
+        height += collectionViewHeaderSize().height // header height
+
+        var size: CGSize = .zero
+        size.width = Constants.screenWidth
+        size.height = height
+        return size
+    }
+
+    func collectionViewHeaderSize() -> CGSize {
+        return CGSize(width: Constants.screenWidth, height: Constants.padding*2)
+    }
+}
+
+// MARK: NSLayoutManager Delegate
+
+extension TrackDetailViewController: NSLayoutManagerDelegate {
+
+    func layoutManager(_ layoutManager: NSLayoutManager, lineSpacingAfterGlyphAt glyphIndex: Int, withProposedLineFragmentRect rect: CGRect) -> CGFloat {
+        return 5
     }
 }
 
