@@ -545,11 +545,13 @@
 				4F0B613D2385DA7900930D91 /* UI Extensions */,
 				4F2724342515D85D000C7408 /* RaceSyncAPI Extensions */,
 				4F9DB7B323D6BAA000570483 /* Tools */,
+				4FA26825237A4005008970AC /* Constants */,
 				4F13424B2360B67D00A9DBDE /* Main.storyboard */,
 				4F1342502360B67D00A9DBDE /* LaunchScreen.storyboard */,
 				4F13424E2360B67D00A9DBDE /* Assets.xcassets */,
 				4F9DB79F23D3816800570483 /* RaceSync.entitlements */,
 				4F8175A82412F82900685F83 /* RaceSync-Bridging-Header.h */,
+				4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */,
 				4F1342532360B67D00A9DBDE /* Info.plist */,
 			);
 			path = RaceSync;
@@ -668,7 +670,6 @@
 				4FD4E1C2237F960A008816B3 /* CustomButton.swift */,
 				4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */,
 				4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */,
-				4F8668F323860900005E310A /* UniversalConstants.swift */,
 				4FDC05D723CDB16E00B10881 /* CalendarUtil.swift */,
 				4F68BE682399CEB5009D44F7 /* AlertUtil.swift */,
 				4F68BE6A2399CF07009D44F7 /* ActionSheetUtil.swift */,
@@ -718,7 +719,6 @@
 				4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */,
 				4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */,
 				4FEADB732416B3D400F82F0D /* EventTracker.swift */,
-				4FA26825237A4005008970AC /* Resources */,
 				4F00E065242930B3001DCFC4 /* RateMe */,
 			);
 			path = Tools;
@@ -760,15 +760,15 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		4FA26825237A4005008970AC /* Resources */ = {
+		4FA26825237A4005008970AC /* Constants */ = {
 			isa = PBXGroup;
 			children = (
+				4F8668F323860900005E310A /* UniversalConstants.swift */,
 				4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */,
 				4FA1FC8E23D74D29006D4704 /* StringConstants.swift */,
 				4F6429112402DB00005E8036 /* ImageConstants.swift */,
-				4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */,
 			);
-			path = Resources;
+			path = Constants;
 			sourceTree = "<group>";
 		};
 		4FA26828237A4CCE008970AC /* Utils */ = {
