@@ -282,6 +282,7 @@ class GalleryViewController: UIViewController {
         }
 
         if delay > 0 {
+            // timer used to delay the fade-out animation. This was needed since UIView's animation API delay didn't affect the status bar.
             timer = DispatchSource.makeTimerSource(flags: [], queue: .main)
             timer?.schedule(deadline: .now() + delay)
             timer?.setEventHandler {

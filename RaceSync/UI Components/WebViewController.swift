@@ -12,6 +12,8 @@ import RaceSyncAPI
 
 class WebViewController: SFSafariViewController {
 
+    // MARK: - Public Static Convenience Methods
+
     static func open(_ web: MGPWebConstant) {
         openUrl(web.rawValue)
     }
@@ -38,10 +40,22 @@ class WebViewController: SFSafariViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        AppUtil.lockOrientation(.allButUpsideDown)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+    }
+
+    override func dismiss(animated flag: Bool, completion: (() -> Void)? = nil) {
+        AppUtil.lockOrientation(.portrait, andRotateTo: .portrait)
+
+        super.dismiss(animated: flag, completion: completion)
     }
 
     // MARK: - Layout
