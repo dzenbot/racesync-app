@@ -60,7 +60,7 @@ class ChapterTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         self.accessoryType = .disclosureIndicator
 

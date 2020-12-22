@@ -108,7 +108,7 @@ class AircraftPickerViewController: UIViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         title = Constants.title
         view.backgroundColor = Color.white

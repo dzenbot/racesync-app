@@ -103,7 +103,7 @@ class TextFieldViewController: FormBaseViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         view.backgroundColor = Color.white
 
         textField.text = item

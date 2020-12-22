@@ -189,7 +189,7 @@ class LoginViewController: UIViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         title = "Login"
 

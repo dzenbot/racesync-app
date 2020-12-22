@@ -43,10 +43,9 @@ class SearchViewController: UIViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
     }
-
 }
 
 extension SearchViewController: UITableViewDelegate {

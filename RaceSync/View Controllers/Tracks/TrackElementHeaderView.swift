@@ -29,6 +29,8 @@ class TrackElementHeaderView: UICollectionReusableView {
         return label
     }()
 
+    // MARK: - Private Variables
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
     }
@@ -46,7 +48,7 @@ class TrackElementHeaderView: UICollectionReusableView {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         backgroundColor = Color.white
 
         addSubview(leftLabel)

@@ -21,7 +21,7 @@ class TableViewCellShimmerView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         guard let image = UIImage(named: "placeholder_shimmer_list") else { return }
 
         let cellHeight = image.size.height

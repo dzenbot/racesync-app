@@ -34,21 +34,21 @@ class TrackElementViewCell: UICollectionViewCell {
 
     // MARK: - Private Variables
 
-    lazy var countLabel: UILabel = {
+    fileprivate lazy var countLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 22, weight: .bold)
         label.textColor = Color.black
         return label
     }()
 
-    lazy var titleLabel: UILabel = {
+    fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
         label.textColor = Color.black
         return label
     }()
 
-    lazy var imageView: UIImageView = {
+    fileprivate lazy var imageView: UIImageView = {
         let imageView = UIImageView()
         imageView.clipsToBounds = true
         imageView.layer.cornerRadius = 3
@@ -73,7 +73,7 @@ class TrackElementViewCell: UICollectionViewCell {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         backgroundColor = Color.white
         contentView.backgroundColor = Color.gray20
         contentView.layer.cornerRadius = 6

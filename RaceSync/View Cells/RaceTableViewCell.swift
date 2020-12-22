@@ -94,7 +94,7 @@ class RaceTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         let selectedBackgroundView = UIView()
         selectedBackgroundView.backgroundColor = Color.gray50

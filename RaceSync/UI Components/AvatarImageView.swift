@@ -46,7 +46,7 @@ class AvatarImageView: UIView {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         backgroundColor = Color.clear
 

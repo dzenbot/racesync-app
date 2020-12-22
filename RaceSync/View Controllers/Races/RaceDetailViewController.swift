@@ -243,10 +243,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-
         setupLayout()
-        configureNavigationItems()
-        populateContent()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -260,10 +257,12 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     // MARK: - Layout
 
     fileprivate func setupLayout() {
-
-        view.backgroundColor = Color.white
+        loadRows()
+        populateContent()
+        configureNavigationItems()
 
         let contentView = UIView()
+        view.backgroundColor = Color.white
 
         // add temporairly to the view hiearchy so the map is displayed when loading
         // remove the map once the snapshot has been rendered
@@ -383,33 +382,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         }
     }
 
-    fileprivate func configureNavigationItems() {
-
-        title = "Race Details"
-        tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
-
-        var buttons = [UIButton]()
-
-        if let _ = race.calendarEvent {
-            let calendarButton = CustomButton(type: .system)
-            calendarButton.addTarget(self, action: #selector(didPressCalendarButton), for: .touchUpInside)
-            calendarButton.setImage(UIImage(named: "icn_navbar_calendar"), for: .normal)
-            buttons += [calendarButton]
-        }
-
-        let shareButton = CustomButton(type: .system)
-        shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
-        shareButton.setImage(UIImage(named: "icn_navbar_share"), for: .normal)
-        buttons += [shareButton]
-
-        let stackView = UIStackView(arrangedSubviews: buttons)
-        stackView.axis = .horizontal
-        stackView.distribution = .fillEqually
-        stackView.alignment = .lastBaseline
-        stackView.spacing = Constants.buttonSpacing
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
-    }
-
     fileprivate func loadRows() {
         tableViewRows += [Row.requirements]
         if !race.isMyChapter {
@@ -476,7 +448,33 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height*3)
     }
 
-    func reloadContent() {
+    fileprivate func configureNavigationItems() {
+        title = "Race Details"
+        tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
+
+        var buttons = [UIButton]()
+
+        if let _ = race.calendarEvent {
+            let calendarButton = CustomButton(type: .system)
+            calendarButton.addTarget(self, action: #selector(didPressCalendarButton), for: .touchUpInside)
+            calendarButton.setImage(UIImage(named: "icn_navbar_calendar"), for: .normal)
+            buttons += [calendarButton]
+        }
+
+        let shareButton = CustomButton(type: .system)
+        shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
+        shareButton.setImage(UIImage(named: "icn_navbar_share"), for: .normal)
+        buttons += [shareButton]
+
+        let stackView = UIStackView(arrangedSubviews: buttons)
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.alignment = .lastBaseline
+        stackView.spacing = Constants.buttonSpacing
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
+    }
+
+    public func reloadContent() {
 
         let viewModel = RaceViewModel(with: race)
 

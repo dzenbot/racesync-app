@@ -45,7 +45,7 @@ class SegmentedTableViewHeaderView: UITableViewHeaderFooterView {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         backgroundView = UIView()
         backgroundView?.backgroundColor = Color.navigationBarColor
 

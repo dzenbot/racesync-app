@@ -205,7 +205,7 @@ class GalleryViewController: UIViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {

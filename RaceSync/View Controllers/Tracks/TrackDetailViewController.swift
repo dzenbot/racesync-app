@@ -213,7 +213,7 @@ class TrackDetailViewController: UIViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
@@ -226,7 +226,7 @@ class TrackDetailViewController: UIViewController {
 
     // MARK: - Actions
 
-    func showUserProfile(_ cell: FormTableViewCell) {
+    fileprivate func showUserProfile(_ cell: FormTableViewCell) {
         guard !didTapCell, let username = viewModel.track.designer else { return }
         setLoading(cell, loading: true)
 
@@ -279,7 +279,7 @@ class TrackDetailViewController: UIViewController {
         didTapCell = loading
     }
 
-    func autoChangePages(_ enable: Bool = true) {
+    fileprivate func autoChangePages(_ enable: Bool = true) {
         guard (enable && timer == nil) || (!enable && timer != nil) else { return }
 
         if enable {
@@ -295,7 +295,7 @@ class TrackDetailViewController: UIViewController {
         }
     }
 
-    func scrollToNextPage(_ animated: Bool = true) {
+    fileprivate func scrollToNextPage(_ animated: Bool = true) {
         let currentPage: Int = Int(scrollView.contentOffset.x / Constants.screenWidth)
         var nextPage = currentPage + 1
 

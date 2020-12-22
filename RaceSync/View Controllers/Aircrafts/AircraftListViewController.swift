@@ -103,7 +103,7 @@ class AircraftListViewController: UIViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         title = user.isMe ? "My Aircrafts" : "Aircrafts"
         view.backgroundColor = Color.white
