@@ -32,10 +32,11 @@ class GalleryViewController: UIViewController {
         collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .header)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = Color.clear
-        collectionView.isPagingEnabled = true
-        collectionView.contentSize = CGSize(width: 1000, height: 1)
+        collectionView.backgroundColor = Color.red
+        collectionView.isPagingEnabled = numberOfImages > 1
         collectionView.addGestureRecognizer(tapGesture)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
         return collectionView
     }()
 
@@ -104,7 +105,7 @@ class GalleryViewController: UIViewController {
     fileprivate var isViewFirstAppearing = true
     fileprivate var deviceInRotation = false
     fileprivate var pageBeforeRotation: Int = 0
-    fileprivate var needsLayout = true
+    fileprivate var needsLayout = false
     fileprivate var timer: DispatchSourceTimer? = nil
 
     fileprivate enum Constants {
@@ -168,11 +169,9 @@ class GalleryViewController: UIViewController {
         super.viewDidLayoutSubviews()
 
         if needsLayout {
-            let desiredIndexPath = IndexPath(item: pageBeforeRotation, section: 0)
+            collectionView.collectionViewLayout.invalidateLayout()
 
-            if pageBeforeRotation >= 0 {
-                scrollToImage(withIndex: pageBeforeRotation, animated: false)
-            }
+            let desiredIndexPath = IndexPath(item: pageBeforeRotation, section: 0)
 
             collectionView.reloadItems(at: [desiredIndexPath])
 
@@ -181,6 +180,10 @@ class GalleryViewController: UIViewController {
                     cell.configureForNewImage(animated: false)
                     cell.doubleTapGesture.delegate = self
                 }
+            }
+
+            if pageBeforeRotation >= 0 {
+                scrollToImage(withIndex: pageBeforeRotation, animated: false)
             }
 
             needsLayout = false
@@ -222,7 +225,7 @@ class GalleryViewController: UIViewController {
         view.addSubview(navigationBar)
         navigationBar.snp.makeConstraints {
             $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top) //view.safeAreaInsets.top
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
     }
 
@@ -257,11 +260,13 @@ class GalleryViewController: UIViewController {
         }
     }
 
-    fileprivate func toggleChrome() {
-        hideChrome(!isChromeHidden, animated: true)
+    fileprivate func toggleChrome(animated: Bool = false) {
+        hideChrome(!isChromeHidden, animated: animated)
     }
 
     fileprivate func hideChrome(_ hide: Bool, delay: TimeInterval = 0, animated: Bool = false) {
+        guard hide != isChromeHidden else { return }
+
         timer?.cancel()
         timer = nil
 
@@ -309,7 +314,7 @@ class GalleryViewController: UIViewController {
     }
 
     @objc func handleTapGesture(_ sender: UIGestureRecognizer) {
-        hideChrome(!isChromeHidden)
+        toggleChrome()
     }
 }
 
@@ -329,6 +334,7 @@ extension GalleryViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard numberOfImages > 1 else { return UICollectionReusableView() }
         switch kind {
         case UICollectionView.elementKindSectionFooter:
             let cell = collectionView.dequeueReusableSupplementaryView(ofKind: .footer, for: indexPath) as GalleryViewCell
@@ -349,19 +355,19 @@ extension GalleryViewController: UICollectionViewDataSource {
     }
 
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
-        guard isRevolvingCarouselEnabled else { return .zero }
+        guard numberOfImages > 1 && isRevolvingCarouselEnabled else { return .zero }
         return UIScreen.main.bounds.size
     }
 
     @objc func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
-        guard isRevolvingCarouselEnabled else { return .zero }
+        guard numberOfImages > 1 && isRevolvingCarouselEnabled else { return .zero }
         return UIScreen.main.bounds.size
     }
 }
 
 // MARK: UICollectionView Delegate
 
-extension GalleryViewController: UICollectionViewDelegate {
+extension GalleryViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
         if let cell = cell as? GalleryViewCell {
@@ -385,6 +391,10 @@ extension GalleryViewController: UICollectionViewDelegate {
         }
         deviceInRotation = false
     }
+
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return UIScreen.main.bounds.size
+    }
 }
 
 // MARK: UIScrollView Delegate
@@ -392,7 +402,7 @@ extension GalleryViewController: UICollectionViewDelegate {
 extension GalleryViewController: UIScrollViewDelegate {
 
     func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        hideChrome(false)
+        //hideChrome(false)
     }
 
     func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {

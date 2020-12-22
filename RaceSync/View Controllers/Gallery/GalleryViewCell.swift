@@ -28,22 +28,23 @@ class GalleryViewCell: UICollectionViewCell {
 
     // MARK: - Private Variables
 
-    fileprivate lazy var imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
-    }()
-
     fileprivate lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: bounds)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = Color.clear
+        scrollView.backgroundColor = Color.green
         scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.delegate = self
         scrollView.addGestureRecognizer(doubleTapGesture)
+        scrollView.delegate = self
         return scrollView
+    }()
+
+    fileprivate lazy var imageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.backgroundColor = Color.blue
+        return imageView
     }()
 
     // MARK: - Initialization
