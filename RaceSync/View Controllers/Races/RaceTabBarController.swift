@@ -210,8 +210,8 @@ extension RaceTabBarController: EmptyDataSetDelegate {
     }
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
-        guard let url = URL(string: MGPWeb.getPrefilledFeedbackFormUrl()) else { return }
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        guard let url = MGPWeb.getPrefilledFeedbackFormUrl() else { return }
+        WebViewController.openUrl(url)
     }
 }
 

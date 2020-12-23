@@ -130,7 +130,8 @@ extension SettingsViewController: UITableViewDelegate {
                 self?.tableView.reloadData()
             }
         case .submitFeedback:
-            WebViewController.openUrl(MGPWeb.getPrefilledFeedbackFormUrl())
+            guard let url = MGPWeb.getPrefilledFeedbackFormUrl() else { return }
+            WebViewController.openUrl(url)
         case .visitSite:
             WebViewController.open(.home)
         case .logout:

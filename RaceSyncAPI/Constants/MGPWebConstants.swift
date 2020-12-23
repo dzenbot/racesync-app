@@ -21,9 +21,7 @@ public enum MGPWebConstant: String {
     case chapterView = "https://www.multigp.com/chapters/view/?chapter"
     case userView = "https://www.multigp.com/pilots/view/?pilot"
 
-    case feedbackForm = "https://forms.gle/v7jYpjxW7fzBVzir7"
     case feedbackPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSfY9qr-5I7JYtQ5s5UsVflMyXu-iW3-InzG03qAJOwGv9P1Tg/viewform"
-
     case utt1LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSelYrIpRIe9fklG2Bqkqqxe_U94OelGqQZe8WkVtFFqXBP1Cw/viewform"
     case utt3LapsPrefilledForm = ""
 
@@ -55,27 +53,25 @@ public class MGPWeb {
         }
     }
 
-    public static func getPrefilledFeedbackFormUrl() -> String {
-        guard let user = APIServices.shared.myUser else { return MGPWebConstant.feedbackForm.rawValue }
+    public static func getPrefilledFeedbackFormUrl() -> String? {
+        guard var urlComponents = URLComponents(string: MGPWebConstant.feedbackPrefilledForm.rawValue) else { return nil }
+        var queryItems = [URLQueryItem]()
 
-        let fullname = "\(user.firstName)+\(user.lastName)"
+        guard let user = APIServices.shared.myUser else { return nil }
+
+        let fullname = "\(user.firstName) \(user.lastName)"
         let username = user.userName
 
-        var url = MGPWebConstant.feedbackPrefilledForm.rawValue
-        url += "?"
-        url += "entry.3082215=\(fullname)"
+        queryItems.append(URLQueryItem(name: "entry.3082215", value: fullname))
 
         if let email = APISessionManager.getSessionEmail() {
-            url += "&"
-            url += "entry.1185283391=\(email)"
+            queryItems.append(URLQueryItem(name: "entry.1185283391", value: email))
         }
 
-        url += "&"
-        url += "entry.1807575595=\(username)"
+        queryItems.append(URLQueryItem(name: "entry.1807575595", value: username))
 
-        url = url.replacingOccurrences(of: " ", with: "+")
-
-        return url
+        urlComponents.queryItems = queryItems
+        return urlComponents.url?.absoluteString
     }
 
     public static func getPrefilledUTT1LapPrefilledFormUrl(_ track: Track) -> String? {
@@ -91,15 +87,18 @@ public class MGPWeb {
         let dateString = formatter.string(from: Date())
 
         // Append the new query item in the existing query items array
-        queryItems.append(URLQueryItem(name: "entry.348091437", value: "Yes"))
+        queryItems.append(URLQueryItem(name: "entry.348091437", value: "Yes"))          // needs to accept form first
         queryItems.append(URLQueryItem(name: "entry.1800936478", value: fullname))
 
-        queryItems.append(URLQueryItem(name: "entry.1639711361", value: track.title)) // track name
-        queryItems.append(URLQueryItem(name: "entry.1305427815", value: dateString)) // date of event (today)
+        queryItems.append(URLQueryItem(name: "entry.1639711361", value: track.title))   // track name
+        queryItems.append(URLQueryItem(name: "entry.1305427815", value: dateString))    // date of event (today)
 
         queryItems.append(URLQueryItem(name: "entry.111335806", value: chapter.name))
         queryItems.append(URLQueryItem(name: "entry.167275231", value: chapter.phone))
-        queryItems.append(URLQueryItem(name: "entry.1231628105", value: "")) // email
+
+        if let email = APISessionManager.getSessionEmail() {
+            queryItems.append(URLQueryItem(name: "entry.1231628105", value: email))
+        }
 
         urlComponents.queryItems = queryItems
         return urlComponents.url?.absoluteString
