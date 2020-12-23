@@ -32,7 +32,7 @@ class GalleryViewController: UIViewController {
         collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .header)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.backgroundColor = Color.red
+        collectionView.backgroundColor = Color.clear
         collectionView.isPagingEnabled = numberOfImages > 1
         collectionView.addGestureRecognizer(tapGesture)
         collectionView.showsVerticalScrollIndicator = false

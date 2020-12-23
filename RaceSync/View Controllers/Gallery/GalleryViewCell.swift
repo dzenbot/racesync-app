@@ -29,11 +29,10 @@ class GalleryViewCell: UICollectionViewCell {
     // MARK: - Private Variables
 
     fileprivate lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView(frame: bounds)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
-        scrollView.backgroundColor = Color.green
+        scrollView.backgroundColor = Color.clear
         scrollView.contentInsetAdjustmentBehavior = .never
         scrollView.addGestureRecognizer(doubleTapGesture)
         scrollView.delegate = self
@@ -42,8 +41,8 @@ class GalleryViewCell: UICollectionViewCell {
 
     fileprivate lazy var imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = Color.blue
+        imageView.backgroundColor = Color.clear
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
 
@@ -52,7 +51,7 @@ class GalleryViewCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
 
-        contentView.addSubview(scrollView)
+        addSubview(scrollView)
         scrollView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
@@ -73,15 +72,21 @@ class GalleryViewCell: UICollectionViewCell {
         imageView.image = image
         imageView.sizeToFit()
 
-        setZoomScale()
-        scrollViewDidZoom(scrollView)
-
         if animated {
             imageView.alpha = 0.0
             UIView.animate(withDuration: 0.5) {
                 self.imageView.alpha = 1.0
             }
         }
+
+        setNeedsLayout()
+    }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+
+        setZoomScale()
+        scrollViewDidZoom(scrollView)
     }
 
     fileprivate func setZoomScale() {
@@ -91,13 +96,12 @@ class GalleryViewCell: UICollectionViewCell {
         let heightScale = scrollViewSize.height / imageViewSize.height
 
         scrollView.minimumZoomScale = min(widthScale, heightScale)
-        scrollView.setZoomScale(scrollView.minimumZoomScale, animated: false)
+        scrollView.zoomScale = scrollView.minimumZoomScale
     }
 
     // MARK: - Actions
 
-    @objc
-    fileprivate func handleDoubleTapGesture(recognizer: UITapGestureRecognizer) {
+    @objc fileprivate func handleDoubleTapGesture(recognizer: UITapGestureRecognizer) {
         scrollView.toggleZoom(with: recognizer, animated: true)
     }
 }
