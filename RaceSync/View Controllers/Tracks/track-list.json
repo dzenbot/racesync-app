@@ -67,7 +67,7 @@
             "class": "0",
             "elements": [{
                     "type": "gate",
-                    "count": 2
+                    "count": 5
                 },
                 {
                     "type": "flag",
