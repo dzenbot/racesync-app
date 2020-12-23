@@ -23,7 +23,7 @@ public enum MGPWebConstant: String {
 
     case feedbackPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSfY9qr-5I7JYtQ5s5UsVflMyXu-iW3-InzG03qAJOwGv9P1Tg/viewform"
     case utt1LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSelYrIpRIe9fklG2Bqkqqxe_U94OelGqQZe8WkVtFFqXBP1Cw/viewform"
-    case utt3LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSc-s-dmFFQZXWYpx5jcgNNVQfMDKklhBNuRIM8XrOKJFF7-XQ/viewform"
+    case utt3LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLScZCVu5TOacjjXrSWb3dof2t3amD6LA3biaNETWgyc9zK7LVA/viewform"
 
     case courseObstaclesDoc = "https://www.multigp.com/multigp-drone-race-course-obstacles/"
     case seasonRulesDoc = "http://docs.google.com/document/d/1GROA7Z6KgINhVDonuZ359zxOzWmmwbPV6H5xsU_wvgY/"
