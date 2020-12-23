@@ -78,7 +78,7 @@ fileprivate extension TrackListViewController {
             var tracks = [Track]()
             for dict in array {
                 if let track = Track.init(JSON: dict) {
-                    if track.elementsCount == 0 { continue }
+                    if track.elementsCount == 0 { continue } // skip track with no elements (dummies)
                     tracks += [track]
                 }
             }

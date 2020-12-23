@@ -165,6 +165,12 @@ class TrackDetailViewController: UIViewController {
         return button
     }()
 
+    fileprivate var isTrackVerifiable: Bool {
+        guard viewModel.track.validationFeetUrl != nil else { return false }
+        guard let endDate = viewModel.track.endDate else { return false }
+        return !endDate.isPassed
+    }
+
     fileprivate var didTapCell: Bool = false
 
     fileprivate let viewModel: TrackViewModel
@@ -220,7 +226,7 @@ class TrackDetailViewController: UIViewController {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
 
-        if viewModel.track.validationFeetUrl != nil {
+        if isTrackVerifiable {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: verificationButton)
         }
 

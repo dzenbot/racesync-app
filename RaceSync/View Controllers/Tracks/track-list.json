@@ -188,11 +188,13 @@
         {
             "id": "15",
             "title": "2021 MultiGP Series",
+            "description": "",
             "videoUrl": "",
             "leaderboardUrl": "",
             "validationFeetUrl": "",
-            "startDate": "2020-04-03 12:01 AM",
-            "endDate": "2020-09-06 11:59 PM",
+            "validationMetersUrl": "",
+            "startDate": "2021-04-03 12:01 AM",
+            "endDate": "2021-09-07 11:59 PM",
             "designer": "",
             "class": "0",
             "elements": []
