@@ -6,7 +6,7 @@
 //  Copyright © 2020 MultiGP Inc. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 // Used for view highlight on touch down. Similar effect than when pressing a UIButton.
 class DimmableView: UIControl {

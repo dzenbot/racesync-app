@@ -36,13 +36,13 @@ class AircraftViewModel: Descriptable {
         self.imageUrl = aircraft.mainImageUrl
         self.isGeneric = false
 
-        self.typeLabel = AircraftViewModel.typeLabelString(for: aircraft)
-        self.sizeLabel = AircraftViewModel.sizeLabelString(for: aircraft)
-        self.batteryLabel = AircraftViewModel.batteryLabelString(for: aircraft)
-        self.propSizeLabel = AircraftViewModel.propSizeLabelString(for: aircraft)
+        self.typeLabel = Self.typeLabelString(for: aircraft)
+        self.sizeLabel = Self.sizeLabelString(for: aircraft)
+        self.batteryLabel = Self.batteryLabelString(for: aircraft)
+        self.propSizeLabel = Self.propSizeLabelString(for: aircraft)
         self.videoTxTypeLabel = aircraft.videoTxType.title
-        self.videoTxPowerLabel = AircraftViewModel.videoTxPowerLabelString(for: aircraft)
-        self.videoRxChannelsLabel = AircraftViewModel.videoRxLabelString(for: aircraft)
+        self.videoTxPowerLabel = Self.videoTxPowerLabelString(for: aircraft)
+        self.videoRxChannelsLabel = Self.videoRxLabelString(for: aircraft)
         self.videoTxChannelsLabel = aircraft.videoTxChannels.title
         self.antennaLabel = aircraft.antenna.title
     }
@@ -65,10 +65,10 @@ class AircraftViewModel: Descriptable {
         self.antennaLabel = ""
     }
 
-    static func viewModels(with aircrafts:[Aircraft]) -> [AircraftViewModel] {
+    static func viewModels(with objects:[Aircraft]) -> [AircraftViewModel] {
         var viewModels = [AircraftViewModel]()
-        for aircraft in aircrafts {
-            viewModels.append(AircraftViewModel(with: aircraft))
+        for object in objects {
+            viewModels.append(AircraftViewModel(with: object))
         }
         return viewModels
     }

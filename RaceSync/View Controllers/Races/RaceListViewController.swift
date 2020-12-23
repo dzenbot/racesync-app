@@ -13,7 +13,7 @@ import ShimmerSwift
 import EmptyDataSet_Swift
 import CoreLocation
 
-class RaceListViewController: ViewController, ViewJoinable, Shimmable {
+class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
 
     // MARK: - Public Variables
 
@@ -80,7 +80,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
 
     fileprivate lazy var titleView: UIView = {
         let view = UIView()
-        let imageView = UIImageView(image: UIImage(named: "Racesync_Logo_Header"))
+        let imageView = UIImageView(image: UIImage(named: "racesync_logo_header"))
         view.addSubview(imageView)
         imageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
@@ -93,7 +93,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
         let button = CustomButton(type: .system)
         button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
         button.setImage(UIImage(named: "icn_navbar_filter"), for: .normal)
-        button.isEnabled = false
+        button.isEnabled = (selectedRaceList == .nearby)
         return button
     }()
 
@@ -141,6 +141,7 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
     }
 
     fileprivate let raceListController: RaceListController
+    fileprivate var initialSelectType: RaceListType
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate let chapterApi = ChapterApi()
@@ -159,13 +160,14 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
 
     // MARK: - Lifecycle Methods
 
-    init(_ types: [RaceListType]) {
+    init(_ types: [RaceListType], selectedType: RaceListType) {
         self.raceListController = RaceListController(types)
+        self.initialSelectType = selectedType
 
         super.init(nibName: nil, bundle: nil)
 
         self.segmentedControl.setItems(types.compactMap { $0.title })
-        self.segmentedControl.selectedSegmentIndex = 0
+        self.segmentedControl.selectedSegmentIndex = selectedType.rawValue
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -196,7 +198,6 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
 
         title = "Race List"
         navigationItem.titleView = titleView
-        viewName = selectedRaceList.title
 
         let leftStackView = UIStackView(arrangedSubviews: [userProfileButton, chapterProfileButton])
         leftStackView.axis = .horizontal
@@ -239,10 +240,6 @@ class RaceListViewController: ViewController, ViewJoinable, Shimmable {
     @objc fileprivate func didChangeSegment() {
         // Cancelling previous race API requests to avoid overlaps
         raceApi.cancelAll()
-
-        // analytics
-        viewName = selectedRaceList.title
-        trackScreenChange()
 
         // This should be triggered just once, when first requesting access to the user's location
         // and display the shimmer while retrieving the location and loading the nearby races.

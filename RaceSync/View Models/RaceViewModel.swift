@@ -30,21 +30,21 @@ class RaceViewModel: Descriptable {
     init(with race: Race) {
         self.race = race
         self.titleLabel = race.name
-        self.dateLabel = RaceViewModel.dateLabelString(for: race) // "Sat Sept 14 @ 9:00 AM"
-        self.fullDateLabel = RaceViewModel.fullDateLabelString(for: race) // "Saturday, September 14th @ 9:00 AM"
-        self.locationLabel = RaceViewModel.locationLabelString(for: race)
-        self.fullLocationLabel = RaceViewModel.fullLocationLabelString(for: race)
-        self.distanceLabel = RaceViewModel.distanceLabelString(for: race) // "309.4 mi" or "122 kms"
-        self.distance = RaceViewModel.distance(for: race)
-        self.joinState = RaceViewModel.joinState(for: race)
+        self.dateLabel = Self.dateLabelString(for: race) // "Sat Sept 14 @ 9:00 AM"
+        self.fullDateLabel = Self.fullDateLabelString(for: race) // "Saturday, September 14th @ 9:00 AM"
+        self.locationLabel = Self.locationLabelString(for: race)
+        self.fullLocationLabel = Self.fullLocationLabelString(for: race)
+        self.distanceLabel = Self.distanceLabelString(for: race) // "309.4 mi" or "122 kms"
+        self.distance = Self.distance(for: race)
+        self.joinState = Self.joinState(for: race)
         self.participantCount = Int(race.participantCount) ?? 0
-        self.imageUrl = RaceViewModel.imageUrl(for: race)
+        self.imageUrl = Self.imageUrl(for: race)
     }
 
-    static func viewModels(with races:[Race]) -> [RaceViewModel] {
+    static func viewModels(with objects:[Race]) -> [RaceViewModel] {
         var viewModels = [RaceViewModel]()
-        for race in races {
-            viewModels.append(RaceViewModel(with: race))
+        for object in objects {
+            viewModels.append(RaceViewModel(with: object))
         }
         return viewModels
     }

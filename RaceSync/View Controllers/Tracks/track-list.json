@@ -1,0 +1,252 @@
+{
+    "utt": [{
+            "id": "1",
+            "title": "(UTT1)",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt1/",
+            "designer": "Jefte",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 5
+                }
+            ]
+        },
+        {
+            "id": "2",
+            "title": "Tsunami (UTT2)",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt2/",
+            "designer": "HarmJoy",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 5
+                }
+            ]
+        },
+        {
+            "id": "3",
+            "title": "Bessel Run (UTT3)",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt3/",
+            "designer": "MAD_AIR",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 5
+                }
+            ]
+        },
+        {
+            "id": "4",
+            "title": "High Voltage (UTT4)",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt4/",
+            "designer": "hyper-quad",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 5
+                }
+            ]
+        },
+        {
+            "id": "5",
+            "title": "Nautilus (UTT5)",
+            "leaderboardUrl": "http://www.multigp.com/leaderboards/utt5/",
+            "designer": "HarmJoy",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 5
+                }
+            ]
+        },
+        {
+            "id": "6",
+            "title": "Fury (UTT6)",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-6-3-lap-leaderboard/",
+            "designer": "Nytfury",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 5
+                },
+                {
+                    "type": "flag",
+                    "count": 2
+                }
+            ]
+        },
+        {
+            "id": "7",
+            "title": "Tiny Whutt (UTT7)",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-7-3-lap-leaderboard/",
+            "designer": "JesseP",
+            "class": "2",
+            "elements": [{
+                "type": "tiny_gate",
+                "count": 5
+            }]
+        },
+        {
+            "id": "8",
+            "title": "Revenge (UTT8)",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-8-3-lap-leaderboard/",
+            "designer": "Rambozo",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 5
+                },
+                {
+                    "type": "flag",
+                    "count": 5
+                }
+            ]
+        },
+        {
+            "id": "9",
+            "title": "Mega (UTT9)",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-9-mega-utt-3-lap-leaderboard/",
+            "designer": "Old_Man_FPV",
+            "class": "1",
+            "elements": [{
+                    "type": "mega_gate",
+                    "count": 2
+                },
+                {
+                    "type": "flag",
+                    "count": 4
+                }
+            ]
+        },
+        {
+            "id": "10",
+            "title": "Prairie Rage (UTT10)",
+            "description": "Obstacles must be traversed in the direction indicated by arrows. Obstacles must be traversed in this numerical sequence: 1-12.<br />If any obstacle is entered out of sequence or direction at any time the run is invalid.<br /><strong><a href=\"https://www.multigp.com/universal-time-trial-utt/\">UTT Rules & Regulations</a></strong>",
+            "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-10-prairie-rage-3-lap-leaderboard/",
+            "designer": "RagingCanadian",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 5
+                },
+                {
+                    "type": "flag",
+                    "count": 5
+                }
+            ]
+        }
+    ],
+    "gq": [{
+            "id": "11",
+            "title": "2019 MultiGP Series",
+            "videoUrl": "https://www.youtube.com/watch?v=-4pZ-z_AQU0",
+            "leaderboardUrl": "https://www.multigp.com/championships/2019-multigp-series-global-qualifier-results/",
+            "startDate": "2019-03-21 12:01 AM",
+            "endDate": "2019-09-02 11:59 PM",
+            "designer": "Kruel",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 6
+                },
+                {
+                    "type": "flag",
+                    "count": 5
+                },
+                {
+                    "type": "double_gate",
+                    "count": 2
+                }
+            ]
+        },
+        {
+            "id": "12",
+            "title": "2020 MultiGP Series",
+            "description": "The lines are for measuring purposes only. Obstacles must be traversed in this numerical sequence: 1-10. Obstacles may only be entered in the sequence and direction specified.<br />Minimum requirements for flags: Banner/Fabric must be a minimum of 5'x1' and the top of the banner must be elevated to a minimum of 8ft off the ground.<br /><strong><a href=\"https://www.multigp.com/2020-rules-and-season-start/\">2020 Season Rules & Changes</a></strong>",
+            "videoUrl": "https://www.youtube.com/watch?v=0FSZo4OxDbQ",
+            "leaderboardUrl": "https://www.multigp.com/championships/2020-multigp-series-global-qualifier-results/",
+            "validationFeetUrl": "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-feet/",
+            "validationMetersUrl": "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-meters/",
+            "startDate": "2020-03-20 12:01 AM",
+            "endDate": "2020-09-07 11:59 PM",
+            "designer": "Kruel",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 6
+                },
+                {
+                    "type": "flag",
+                    "count": 5
+                },
+                {
+                    "type": "double_gate",
+                    "count": 2
+                }
+            ]
+        },
+        {
+            "id": "15",
+            "title": "2021 MultiGP Series",
+            "description": "",
+            "videoUrl": "",
+            "leaderboardUrl": "",
+            "validationFeetUrl": "",
+            "validationMetersUrl": "",
+            "startDate": "2021-04-03 12:01 AM",
+            "endDate": "2021-09-07 11:59 PM",
+            "designer": "",
+            "class": "0",
+            "elements": []
+        }
+    ],
+    "canada": [{
+            "id": "13",
+            "title": "2019 Canadian MultiGP Series",
+            "videoUrl": "https://www.youtube.com/watch?v=dPzuRZijg-0",
+            "leaderboardUrl": "http://multigpcanada.ca/2019-ranking/",
+            "designer": "trojanGoat",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 6
+                },
+                {
+                    "type": "flag",
+                    "count": 5
+                },
+                {
+                    "type": "double_gate",
+                    "count": 2
+                }
+            ]
+        },
+        {
+            "id": "14",
+            "title": "2020 Canadian MultiGP Series",
+            "videoUrl": "https://youtu.be/-ZnN4byq3bQ",
+            "leaderboardUrl": "http://multigpcanada.ca/ranking/",
+            "startDate": "2020-06-18 12:01 AM",
+            "endDate": "2020-09-20 11:59 PM",
+            "designer": "PacoFPV",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 8
+                },
+                {
+                    "type": "flag",
+                    "count": 10
+                },
+                {
+                    "type": "double_gate",
+                    "count": 1
+                },
+                {
+                    "type": "dive_gate",
+                    "count": 1
+                }
+            ]
+        }
+    ]
+}

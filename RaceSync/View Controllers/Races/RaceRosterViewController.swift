@@ -10,7 +10,7 @@ import UIKit
 import EmptyDataSet_Swift
 import RaceSyncAPI
 
-class RaceRosterViewController: ViewController, ViewJoinable, RaceTabbable {
+class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     // MARK: - Public Variables
 
@@ -26,7 +26,7 @@ class RaceRosterViewController: ViewController, ViewJoinable, RaceTabbable {
         tableView.emptyDataSetSource = self
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = Color.gray50
-        tableView.register(UserTableViewCell.self, forCellReuseIdentifier: UserTableViewCell.identifier)
+        tableView.register(AvatarTableViewCell.self, forCellReuseIdentifier: AvatarTableViewCell.identifier)
         return tableView
     }()
 
@@ -200,15 +200,15 @@ extension RaceRosterViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let viewModel = userViewModel(at: indexPath)
-        return userTableViewCell(for: viewModel)
+        return avatarTableViewCell(for: viewModel)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return UserTableViewCell.height
+        return AvatarTableViewCell.height
     }
 
-    func userTableViewCell(for viewModel: UserViewModel) -> UserTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UserTableViewCell.identifier) as! UserTableViewCell
+    func avatarTableViewCell(for viewModel: UserViewModel) -> AvatarTableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: AvatarTableViewCell.identifier) as! AvatarTableViewCell
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
         cell.subtitleLabel.text = viewModel.fullName
@@ -216,11 +216,11 @@ extension RaceRosterViewController: UITableViewDataSource {
         if let raceEntry = viewModel.raceEntry {
             let title = RaceEntryViewModel.shortChannelLabel(for: raceEntry)
 
-            cell.channelBadge.isHidden = title.isEmpty
-            cell.channelBadge.titleLabel.text = title
-            cell.channelBadge.backgroundColor = RaceEntryViewModel.backgroundColor(for: raceEntry)
+            cell.textBadge.isHidden = title.isEmpty
+            cell.textBadge.titleLabel.text = title
+            cell.textBadge.backgroundColor = RaceEntryViewModel.backgroundColor(for: raceEntry)
         } else {
-            cell.channelBadge.isHidden = true
+            cell.textBadge.isHidden = true
         }
 
         return cell

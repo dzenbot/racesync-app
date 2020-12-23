@@ -8,7 +8,7 @@
 
 import UIKit
 
-class SearchViewController: ViewController {
+class SearchViewController: UIViewController {
 
     // MARK: - Private Variables
 
@@ -43,10 +43,9 @@ class SearchViewController: ViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
     }
-
 }
 
 extension SearchViewController: UITableViewDelegate {

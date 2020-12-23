@@ -16,7 +16,7 @@ protocol ForceJoinViewControllerDelegate {
     func forceJoinViewControllerDidForce(_ viewController: ForceJoinViewController)
 }
 
-class ForceJoinViewController: ViewController, Shimmable {
+class ForceJoinViewController: UIViewController, Shimmable {
 
     // MARK: - Public Variables
 

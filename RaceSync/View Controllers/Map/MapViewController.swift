@@ -10,7 +10,7 @@ import UIKit
 import MapKit
 import RaceSyncAPI
 
-class MapViewController: ViewController {
+class MapViewController: UIViewController {
 
     var showsDirection: Bool = true {
         didSet {

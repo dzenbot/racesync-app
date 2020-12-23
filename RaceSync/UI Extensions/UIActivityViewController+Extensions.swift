@@ -6,7 +6,7 @@
 //  Copyright © 2020 MultiGP Inc. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 extension UIActivityViewController {
 

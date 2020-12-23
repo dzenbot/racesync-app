@@ -12,7 +12,7 @@ import SnapKit
 import SwiftValidators
 import RaceSyncAPI
 
-class LoginViewController: ViewController {
+class LoginViewController: UIViewController {
 
     // MARK: - Private Variables
 
@@ -189,7 +189,7 @@ class LoginViewController: ViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         title = "Login"
 

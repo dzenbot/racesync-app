@@ -11,7 +11,7 @@ import SnapKit
 import RaceSyncAPI
 import EmptyDataSet_Swift
 
-class AircraftListViewController: ViewController {
+class AircraftListViewController: UIViewController {
 
     // MARK: - Public Variables
 
@@ -57,7 +57,7 @@ class AircraftListViewController: ViewController {
     }
 
     fileprivate let user: User
-    fileprivate let aircraftApi = AircraftAPI()
+    fileprivate let aircraftApi = AircraftApi()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
     fileprivate var shouldReloadAircrafts: Bool = true
 
@@ -103,7 +103,7 @@ class AircraftListViewController: ViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         title = user.isMe ? "My Aircrafts" : "Aircrafts"
         view.backgroundColor = Color.white
@@ -328,8 +328,8 @@ extension AircraftListViewController: EmptyDataSetDelegate {
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
 
         if emptyStateError != nil {
-            guard let url = URL(string: MGPWeb.getPrefilledFeedbackFormUrl()) else { return }
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+            guard let url = MGPWeb.getPrefilledFeedbackFormUrl() else { return }
+            WebViewController.openUrl(url)
         } else {
             didPressCreateButton()
         }

@@ -22,9 +22,9 @@ class RaceEntryViewModel: Descriptable {
     init(with raceEntry: RaceEntry) {
         self.raceEntry = raceEntry
         self.bandLabel = VideoChannels.bandTitle(for: raceEntry.band)
-        self.channelLabel = RaceEntryViewModel.channelLabel(for: raceEntry)
+        self.channelLabel = Self.channelLabel(for: raceEntry)
         self.antennaLabel = AntennaPolarization.both.title
-        self.shortChannelLabel = RaceEntryViewModel.shortChannelLabel(for: raceEntry)
+        self.shortChannelLabel = Self.shortChannelLabel(for: raceEntry)
         self.avatarUrl = raceEntry.profilePictureUrl
     }
 }

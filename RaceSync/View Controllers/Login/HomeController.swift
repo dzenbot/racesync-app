@@ -15,11 +15,11 @@ class HomeController {
     static func homeViewController() -> UIViewController {
         if isV2enabled {
 
-            let racesVC = RaceListViewController([.joined, .nearby])
+            let racesVC = RaceListViewController([.joined, .nearby], selectedType: .nearby)
             racesVC.tabBarItem = UITabBarItem(title: "Races", image: UIImage(named: "icn_tab_race"), tag: 0)
             let racesNC = NavigationController(rootViewController: racesVC)
 
-            let qualisVC = RaceListViewController([.openQuali, .megaQuali])
+            let qualisVC = RaceListViewController([.openQuali, .megaQuali], selectedType: .openQuali)
             qualisVC.tabBarItem = UITabBarItem(title: "Qualifiers", image: UIImage(named: "icn_tab_race"), tag: 1)
             let qualisNC = NavigationController(rootViewController: qualisVC)
 
@@ -32,7 +32,7 @@ class HomeController {
 
             return tabBarController
         } else {
-            let raceListVC = RaceListViewController([.joined, .nearby])
+            let raceListVC = RaceListViewController([.joined, .nearby], selectedType: .nearby)
             let raceListNC = NavigationController(rootViewController: raceListVC)
             return raceListNC
         }

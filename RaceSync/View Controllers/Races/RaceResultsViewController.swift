@@ -10,7 +10,7 @@ import UIKit
 import EmptyDataSet_Swift
 import RaceSyncAPI
 
-class RaceResultsViewController: ViewController {
+class RaceResultsViewController: UIViewController {
 
     // MARK: - Private Variables
 

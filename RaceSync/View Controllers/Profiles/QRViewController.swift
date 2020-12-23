@@ -12,7 +12,7 @@ import SnapKit
 import QRCode
 import PassKit
 
-class QRViewController: ViewController {
+class QRViewController: UIViewController {
 
     // MARK: - Feature Flags
     fileprivate var isPassKitEnabled: Bool = false
@@ -63,6 +63,7 @@ class QRViewController: ViewController {
         button.imageEdgeInsets = UIEdgeInsets(left: -50)
         button.titleEdgeInsets = UIEdgeInsets(left: -30)
         button.layer.cornerRadius = Constants.cornerRadius/2
+        button.layer.masksToBounds = true
         return button
     }()
 

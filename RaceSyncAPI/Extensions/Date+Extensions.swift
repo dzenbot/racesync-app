@@ -47,6 +47,10 @@ public extension Date {
         return diff <= (60 * 60 * 24)
     }
 
+    var isPassed: Bool {
+        return self < Date()
+    }
+
     var isInPastHour: Bool {
         return Calendar.current.isDate(self, equalTo: Date(), toGranularity: .hour)
     }

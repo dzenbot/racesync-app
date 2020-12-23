@@ -276,13 +276,19 @@ class ProfileHeaderView: UIView {
     // MARK: - Actions
 
     @objc fileprivate func didPressAvatarView(_ sender: Any) {
-        guard isEditable else { return }
-        presentUploadSheet(.main)
+        if isEditable {
+            presentUploadSheet(.main)
+        } else {
+            presentGallery(.main)
+        }
     }
 
     @objc fileprivate func didPressBackgroundView(_ sender: Any) {
-        guard isEditable else { return }
-        presentUploadSheet(.background)
+        if isEditable {
+            presentUploadSheet(.background)
+        } else {
+            presentGallery(.background)
+        }
     }
 
     @objc fileprivate func didTapCameraButton() {
@@ -308,6 +314,24 @@ class ProfileHeaderView: UIView {
         })
 
         topMostVC.present(alert, animated: true)
+    }
+
+    func presentGallery(_ imageType: ImageType) {
+        if imageType == .main, let image = avatarView.imageView.image {
+            presentGallery(with: image)
+        } else if imageType == .background, let image = backgroundView.imageView.image {
+            presentGallery(with: image)
+        }
+    }
+
+    func presentGallery(with image: UIImage) {
+        guard let topMostVC = UIViewController.topMostViewController() else { return }
+
+        let vc = GalleryViewController(images: [image])
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+
+        topMostVC.present(vc, animated: true, completion: nil)
     }
 }
 

@@ -11,7 +11,7 @@ import SnapKit
 import PickerView
 import Presentr
 
-class PickerViewController: FormViewController {
+class PickerViewController: FormBaseViewController {
 
     // MARK: - Public Variables
 
@@ -95,7 +95,7 @@ class PickerViewController: FormViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         view.backgroundColor = Color.white
 
@@ -114,7 +114,7 @@ class PickerViewController: FormViewController {
         configureButtonBarItems()
     }
 
-    func configureButtonBarItems() {
+    fileprivate func configureButtonBarItems() {
         if let nc = navigationController, nc.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         }

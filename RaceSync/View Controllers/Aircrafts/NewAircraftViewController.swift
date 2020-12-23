@@ -18,7 +18,7 @@ protocol NewAircraftViewControllerDelegate {
     func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]?
 }
 
-class NewAircraftViewController: ViewController {
+class NewAircraftViewController: UIViewController {
 
     var delegate: NewAircraftViewControllerDelegate?
 
@@ -75,7 +75,7 @@ class NewAircraftViewController: ViewController {
         return barButtonItem
     }()
 
-    fileprivate var aircraftAPI = AircraftAPI()
+    fileprivate var aircraftAPI = AircraftApi()
     fileprivate var aircraftSpecs = AircraftSpecs()
     fileprivate var selectedRow: AircraftRow?
     fileprivate var isFormEnabled: Bool = true
@@ -306,9 +306,9 @@ extension NewAircraftViewController: UITableViewDataSource {
 
 // MARK: - TextFieldViewController Delegate
 
-extension NewAircraftViewController: FormViewControllerDelegate {
+extension NewAircraftViewController: FormBaseViewControllerDelegate {
 
-    func formViewController(_ viewController: FormViewController, didSelectItem item: String) {
+    func formViewController(_ viewController: FormBaseViewController, didSelectItem item: String) {
         guard let currentRow = selectedRow else { return }
 
         if viewController.formType == .textfield {
@@ -329,7 +329,7 @@ extension NewAircraftViewController: FormViewControllerDelegate {
         }
     }
 
-    func formViewController(_ viewController: FormViewController, enableSelectionWithItem item: String) -> Bool {
+    func formViewController(_ viewController: FormBaseViewController, enableSelectionWithItem item: String) -> Bool {
         guard let currentRow = selectedRow else { return false }
 
         if viewController is TextFieldViewController {
@@ -344,7 +344,7 @@ extension NewAircraftViewController: FormViewControllerDelegate {
         return true
     }
 
-    func formViewControllerRightBarButtonTitle(_ viewController: FormViewController) -> String {
+    func formViewControllerRightBarButtonTitle(_ viewController: FormBaseViewController) -> String {
         guard let currentRow = selectedRow else { return "" }
 
         if isFormEnabled, currentRow.rawValue != AircraftRow.allCases.count-1 {
@@ -353,16 +353,16 @@ extension NewAircraftViewController: FormViewControllerDelegate {
         return "OK"
     }
 
-    func formViewControllerKeyboardReturnKeyType(_ viewController: FormViewController) -> UIReturnKeyType {
+    func formViewControllerKeyboardReturnKeyType(_ viewController: FormBaseViewController) -> UIReturnKeyType {
         return isFormEnabled ? .next : .done
     }
 
-    func formViewControllerDidDismiss(_ viewController: FormViewController) {
+    func formViewControllerDidDismiss(_ viewController: FormBaseViewController) {
         isFormEnabled = false
         selectedRow = nil
     }
 
-    func handleTextfieldVC(_ viewController: FormViewController, selection item: String) {
+    func handleTextfieldVC(_ viewController: FormBaseViewController, selection item: String) {
         aircraftSpecs.name = item
 
         if isFormEnabled {
@@ -374,7 +374,7 @@ extension NewAircraftViewController: FormViewControllerDelegate {
         }
     }
 
-    func handlePickerVC(_ viewController: FormViewController, selection item: String) {
+    func handlePickerVC(_ viewController: FormBaseViewController, selection item: String) {
         guard let currentRow = selectedRow else { return }
 
         switch currentRow {

@@ -16,7 +16,7 @@ protocol AircraftDetailViewControllerDelegate {
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId)
 }
 
-class AircraftDetailViewController: ViewController {
+class AircraftDetailViewController: UIViewController {
 
     // MARK: - Public Variables
 
@@ -94,7 +94,7 @@ class AircraftDetailViewController: ViewController {
     fileprivate var aircraftViewModel: AircraftViewModel {
         didSet { title = aircraftViewModel.displayName }
     }
-    fileprivate let aircraftApi = AircraftAPI()
+    fileprivate let aircraftApi = AircraftApi()
     fileprivate var selectedRow: AircraftRow?
 
     fileprivate enum Constants {
@@ -283,9 +283,9 @@ extension AircraftDetailViewController: UITableViewDataSource {
 
 // MARK: - TextFieldViewController Delegate
 
-extension AircraftDetailViewController: FormViewControllerDelegate {
+extension AircraftDetailViewController: FormBaseViewControllerDelegate {
 
-    func formViewController(_ viewController: FormViewController, didSelectItem item: String) {
+    func formViewController(_ viewController: FormBaseViewController, didSelectItem item: String) {
 
         if viewController.formType == .textfield {
             handleTextfieldVC(viewController, selection: item)
@@ -294,7 +294,7 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
         }
     }
 
-    func formViewController(_ viewController: FormViewController, enableSelectionWithItem item: String) -> Bool {
+    func formViewController(_ viewController: FormBaseViewController, enableSelectionWithItem item: String) -> Bool {
         guard let row = selectedRow else { return false }
         guard item.count >= Aircraft.nameMinLength else { return false }
         guard item.count < Aircraft.nameMaxLength else { return false }
@@ -306,11 +306,11 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
         return true
     }
 
-    func formViewControllerDidDismiss(_ viewController: FormViewController) {
+    func formViewControllerDidDismiss(_ viewController: FormBaseViewController) {
         //
     }
 
-    func handleTextfieldVC(_ viewController: FormViewController, selection item: String) {
+    func handleTextfieldVC(_ viewController: FormBaseViewController, selection item: String) {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
         let specs = AircraftSpecs()
@@ -330,7 +330,7 @@ extension AircraftDetailViewController: FormViewControllerDelegate {
         }
     }
 
-    func handlePickerVC(_ viewController: FormViewController, selection item: String) {
+    func handlePickerVC(_ viewController: FormBaseViewController, selection item: String) {
         guard let row = selectedRow else { return }
         guard let aircraft = aircraftViewModel.aircraft else { return }
 

@@ -17,7 +17,7 @@ protocol AircraftPickerViewControllerDelegate {
     func aircraftPickerViewControllerDidDismiss(_ viewController: AircraftPickerViewController)
 }
 
-class AircraftPickerViewController: ViewController {
+class AircraftPickerViewController: UIViewController {
 
     // MARK: - Public Variables
 
@@ -67,7 +67,7 @@ class AircraftPickerViewController: ViewController {
     }()
 
     fileprivate let race: Race
-    fileprivate let aircraftApi = AircraftAPI()
+    fileprivate let aircraftApi = AircraftApi()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
 
     fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noMatchingAircrafts)
@@ -108,7 +108,7 @@ class AircraftPickerViewController: ViewController {
 
     // MARK: - Layout
 
-    func setupLayout() {
+    fileprivate func setupLayout() {
 
         title = Constants.title
         view.backgroundColor = Color.white

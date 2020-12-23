@@ -60,10 +60,10 @@ extension NSAttributedString {
     }
 }
 
-extension String {
+public extension String {
 
     // Asynchrounsly parse HTML String into NSAttributedString
-    public func toHTMLAttributedString(_ font: UIFont? = nil, color: UIColor? = nil, completion: @escaping SimpleObjectCompletionBlock<NSAttributedString?>) {
+    func toHTMLAttributedString(_ font: UIFont? = nil, color: UIColor? = nil, completion: @escaping SimpleObjectCompletionBlock<NSAttributedString?>) {
         guard !isEmpty else { completion(nil); return }
 
         let htmlString = toHTML(color)
@@ -113,7 +113,7 @@ extension String {
         }
     }
 
-    public func toHTML(_ textColor: UIColor?) -> String {
+    func toHTML(_ textColor: UIColor?) -> String {
 
         let maxWidth = UIScreen.main.bounds.width - UniversalConstants.padding*2
         let colorString: String = (textColor != nil) ? textColor!.toHexString() : Color.black.toHexString()
@@ -131,5 +131,10 @@ extension String {
         """
 
         return htmlString
+    }
+
+    func stripHTML() -> String {
+        let newString = replacingOccurrences(of: "<br />", with: "\n", options: .regularExpression, range: nil)
+        return newString.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression, range: nil)
     }
 }
