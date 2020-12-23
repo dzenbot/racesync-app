@@ -141,16 +141,16 @@ class GalleryViewController: UIViewController {
         super.viewWillAppear(animated)
 
         AppUtil.lockOrientation(.allButUpsideDown)
-    }
-
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
 
         if currentPage < 0 {
             currentPage = initialPage
         }
 
         isViewFirstAppearing = false
+    }
+
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
     }
 
     override func viewWillDisappear(_ animated: Bool) {
