@@ -33,12 +33,12 @@ class TrackDetailViewController: UIViewController {
     fileprivate lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = UIColor(hex: "a0bb93")
-        scrollView.isScrollEnabled = true
-        scrollView.isPagingEnabled = true
         scrollView.alwaysBounceHorizontal = true
         scrollView.alwaysBounceVertical = false
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
+        scrollView.isPagingEnabled = true
+        scrollView.isScrollEnabled = true
         scrollView.delegate = self
 
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(didTapScrollView(_:)))
@@ -198,9 +198,7 @@ class TrackDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        loadRows()
         setupLayout()
-        populateScrollView()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -214,6 +212,9 @@ class TrackDetailViewController: UIViewController {
     // MARK: - Layout
 
     fileprivate func setupLayout() {
+        title = viewModel.titleLabel
+        view.backgroundColor = Color.white
+
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
             $0.top.leading.trailing.bottom.equalToSuperview()
@@ -222,6 +223,9 @@ class TrackDetailViewController: UIViewController {
         if viewModel.track.validationFeetUrl != nil {
             navigationItem.rightBarButtonItem = UIBarButtonItem(customView: verificationButton)
         }
+
+        loadRows()
+        populateScrollView()
     }
 
     // MARK: - Actions
@@ -342,9 +346,6 @@ fileprivate extension TrackDetailViewController {
     }
 
     func populateScrollView() {
-        title = viewModel.titleLabel
-        view.backgroundColor = Color.white
-
         let images = loadImages(with: viewModel.track.id)
         guard images.count > 0 else { return }
 
@@ -356,26 +357,23 @@ fileprivate extension TrackDetailViewController {
             let imageView = UIImageView.init(image: image)
             imageView.contentMode = .scaleAspectFill
             imageView.clipsToBounds = true
-            imageView.tag = i
 
             scrollView.addSubview(imageView)
             imageView.snp.makeConstraints {
                 $0.leading.equalToSuperview().offset(hOffset)
-                $0.top.bottom.width.height.equalToSuperview()
+                $0.width.height.equalToSuperview()
             }
 
             hOffset += Constants.screenWidth
         }
 
-        scrollView.setNeedsLayout()
-        scrollView.layoutIfNeeded()
-        scrollView.contentSize = CGSize(width: hOffset, height: view.bounds.height)
-
         pageControl.numberOfPages = images.count
-
         trackImages.append(contentsOf: images)
 
         autoChangePages()
+
+        scrollView.contentSize = CGSize(width: hOffset, height: Constants.scrollHeight)
+        scrollView.setNeedsLayout()
     }
 
     func getTrackImageURLs(with id: ObjectId) -> [URL] {
