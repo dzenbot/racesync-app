@@ -27,16 +27,17 @@ class GalleryViewController: UIViewController {
         layout.minimumLineSpacing = 0
 
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: layout)
+        collectionView.showsVerticalScrollIndicator = false
+        collectionView.showsHorizontalScrollIndicator = false
         collectionView.register(cellType: GalleryViewCell.self)
         collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .footer)
         collectionView.register(cellType: GalleryViewCell.self, forSupplementaryViewOf: .header)
-        collectionView.dataSource = self
-        collectionView.delegate = self
         collectionView.backgroundColor = Color.clear
         collectionView.isPagingEnabled = numberOfImages > 1
         collectionView.addGestureRecognizer(tapGesture)
-        collectionView.showsVerticalScrollIndicator = false
-        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.addGestureRecognizer(longPressGesture)
+        collectionView.dataSource = self
+        collectionView.delegate = self
         return collectionView
     }()
 
@@ -67,8 +68,19 @@ class GalleryViewController: UIViewController {
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_share"), style: .done, target: self, action: #selector(didPressShareButton))
         bar.setItems([navigationItem], animated: false)
-
         return bar
+    }()
+
+    fileprivate lazy var tapGesture: UITapGestureRecognizer = {
+        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
+        gestureRecognizer.delegate = self
+        return gestureRecognizer
+    }()
+
+    fileprivate lazy var longPressGesture: UILongPressGestureRecognizer = {
+        let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPressGesture))
+        gestureRecognizer.delegate = self
+        return gestureRecognizer
     }()
 
     fileprivate var currentPage: Int {
@@ -94,12 +106,6 @@ class GalleryViewController: UIViewController {
     fileprivate var isChromeHidden: Bool {
         return navigationBar.alpha < 1
     }
-
-    fileprivate lazy var tapGesture: UITapGestureRecognizer = {
-        let gestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleTapGesture))
-        gestureRecognizer.delegate = self
-        return gestureRecognizer
-    }()
 
     fileprivate var isRevolvingCarouselEnabled: Bool = true
     fileprivate var isViewFirstAppearing = true
@@ -314,8 +320,14 @@ class GalleryViewController: UIViewController {
         UIViewController.topMostViewController()?.present(activityVC, animated: true)
     }
 
-    @objc func handleTapGesture(_ sender: UIGestureRecognizer) {
+    @objc fileprivate func handleTapGesture(_ sender: UIGestureRecognizer) {
+        guard sender.state == .ended else { return }
         toggleChrome()
+    }
+
+    @objc fileprivate func handleLongPressGesture(_ sender: UIGestureRecognizer) {
+        guard sender.state == .began else { return }
+        didPressShareButton()
     }
 }
 
