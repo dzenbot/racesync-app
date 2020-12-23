@@ -24,6 +24,7 @@ public class Chapter: Mappable, Joinable, Descriptable {
     public var raceCount: String?
     public var memberCount: String?
 
+    public var phone: String = ""
     public var websiteUrl: String = ""
     public var facebookUrl: String?
     public var googleUrl: String?
@@ -82,6 +83,7 @@ public class Chapter: Mappable, Joinable, Descriptable {
         raceCount <- map["raceCount"]
         memberCount <- map["memberCount"]
 
+        phone <- map["phone"]
         websiteUrl <- map["url"]
         facebookUrl <- map["facebookUrl"]
         googleUrl <- map["googleUrl"]

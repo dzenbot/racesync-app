@@ -56,18 +56,6 @@ public class Track: ImmutableMappable, Descriptable {
     }
 }
 
-public struct TrackElement: ImmutableMappable, Descriptable {
-    public let type: TrackElementType
-    public let count: Int
-
-    // MARK: - Initialization
-
-    public init(map: Map) throws {
-        type = try map.value("type")
-        count = try map.value("count")
-    }
-}
-
 public enum TrackType: String, EnumTitle {
     case gq, utt, canada
 
@@ -93,6 +81,19 @@ public enum TrackClass: String, EnumTitle {
         }
     }
 }
+
+public struct TrackElement: ImmutableMappable, Descriptable {
+    public let type: TrackElementType
+    public let count: Int
+
+    // MARK: - Initialization
+
+    public init(map: Map) throws {
+        type = try map.value("type")
+        count = try map.value("count")
+    }
+}
+
 
 public enum TrackElementType: String, EnumTitle {
     case gate = "gate"
