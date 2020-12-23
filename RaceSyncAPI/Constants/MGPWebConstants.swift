@@ -23,7 +23,7 @@ public enum MGPWebConstant: String {
 
     case feedbackPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSfY9qr-5I7JYtQ5s5UsVflMyXu-iW3-InzG03qAJOwGv9P1Tg/viewform"
     case utt1LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSelYrIpRIe9fklG2Bqkqqxe_U94OelGqQZe8WkVtFFqXBP1Cw/viewform"
-    case utt3LapsPrefilledForm = ""
+    case utt3LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSc-s-dmFFQZXWYpx5jcgNNVQfMDKklhBNuRIM8XrOKJFF7-XQ/viewform"
 
     case courseObstaclesDoc = "https://www.multigp.com/multigp-drone-race-course-obstacles/"
     case seasonRulesDoc = "http://docs.google.com/document/d/1GROA7Z6KgINhVDonuZ359zxOzWmmwbPV6H5xsU_wvgY/"
@@ -75,9 +75,17 @@ public class MGPWeb {
     }
 
     public static func getPrefilledUTT1LapPrefilledFormUrl(_ track: Track) -> String? {
-        guard var urlComponents = URLComponents(string: MGPWebConstant.utt1LapPrefilledForm.rawValue) else { return nil }
+        return getPrefilledUTTFormUrl(MGPWebConstant.utt1LapPrefilledForm.rawValue, track: track)
+    }
+
+    public static func getPrefilledUTT3LapPrefilledFormUrl(_ track: Track) -> String? {
+        return getPrefilledUTTFormUrl(MGPWebConstant.utt3LapPrefilledForm.rawValue, track: track)
+    }
+
+    public static func getPrefilledUTTFormUrl(_ formUrl: String, track: Track) -> String? {
+        guard var urlComponents = URLComponents(string: formUrl) else { return nil }
         var queryItems = [URLQueryItem]()
-        
+
         guard let user = APIServices.shared.myUser, let chapter = APIServices.shared.myChapter else { return nil }
 
         let fullname = "\(user.firstName) \(user.lastName)"
@@ -102,9 +110,5 @@ public class MGPWeb {
 
         urlComponents.queryItems = queryItems
         return urlComponents.url?.absoluteString
-    }
-
-    public static func getPrefilledUTT3LapsPrefilledFormUrl() -> String {
-        return ""
     }
 }

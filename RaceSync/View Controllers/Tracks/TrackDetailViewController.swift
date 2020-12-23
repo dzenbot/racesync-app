@@ -303,8 +303,22 @@ class TrackDetailViewController: UIViewController {
     }
 
     @objc func didPressSubmitButton(_ sender: JoinButton) {
-        guard let url = MGPWeb.getPrefilledUTT1LapPrefilledFormUrl(viewModel.track) else { return }
-        WebViewController.openUrl(url)
+        let sheetTitle = "Submit UTT Lap Times"
+
+        let alert = UIAlertController(title: sheetTitle, message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = Color.blue
+
+        alert.addAction(UIAlertAction(title: "1 Lap UTT", style: .default, handler: { [weak self] (actionButton) in
+            guard let track = self?.viewModel.track, let url = MGPWeb.getPrefilledUTT1LapPrefilledFormUrl(track) else { return }
+            WebViewController.openUrl(url)
+        }))
+        alert.addAction(UIAlertAction(title: "3 Lap UTT", style: .default, handler: { [weak self] (actionButton) in
+            guard let track = self?.viewModel.track, let url = MGPWeb.getPrefilledUTT3LapPrefilledFormUrl(track) else { return }
+            WebViewController.openUrl(url)
+        }))
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+
+        UIViewController.topMostViewController()?.present(alert, animated: true)
     }
 
     func setLoading(_ cell: FormTableViewCell, loading: Bool) {
