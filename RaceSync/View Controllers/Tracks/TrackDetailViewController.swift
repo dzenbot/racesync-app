@@ -154,9 +154,9 @@ class TrackDetailViewController: UIViewController {
         }
     }
 
-    fileprivate lazy var verificationButton: JoinButton = {
+    fileprivate lazy var verifyButton: JoinButton = {
         let button = JoinButton(type: .system)
-        button.addTarget(self, action: #selector(didPressVerificationButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didPressVerifyButton), for: .touchUpInside)
         button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -Constants.padding)
         button.joinState = .joined
         button.setTitle("Verify", for: .normal)
@@ -165,19 +165,35 @@ class TrackDetailViewController: UIViewController {
         return button
     }()
 
-    fileprivate var isTrackVerifiable: Bool {
+    fileprivate var isVerificationEnabled: Bool {
         guard viewModel.track.validationFeetUrl != nil else { return false }
         guard let endDate = viewModel.track.endDate else { return false }
         return !endDate.isPassed
     }
 
-    fileprivate var didTapCell: Bool = false
+    fileprivate lazy var submitButton: JoinButton = {
+        let button = JoinButton(type: .system)
+        button.addTarget(self, action: #selector(didPressSubmitButton), for: .touchUpInside)
+        button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -Constants.padding)
+        button.joinState = .joined
+        button.setTitle("Submit Times", for: .normal)
+        button.setImage(nil, for: .normal)
+        button.contentEdgeInsets = UIEdgeInsets(top: 6, left: Constants.padding, bottom: 6, right: Constants.padding)
+        return button
+    }()
+
+    fileprivate var isSubmissionEnabled: Bool {
+        guard viewModel.track.title.contains("UTT") else { return false } // only for UTT
+        guard let _ = MGPWeb.getPrefilledUTT1LapPrefilledFormUrl(viewModel.track) else { return false }
+        return true
+    }
 
     fileprivate let viewModel: TrackViewModel
     fileprivate var userApi = UserApi()
     fileprivate var tableViewRows = [Row]()
     fileprivate var trackImages = [UIImage]()
     fileprivate var timer : DispatchSourceTimer? = nil
+    fileprivate var didTapCell: Bool = false
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -226,8 +242,10 @@ class TrackDetailViewController: UIViewController {
             $0.top.leading.trailing.bottom.equalToSuperview()
         }
 
-        if isTrackVerifiable {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: verificationButton)
+        if isVerificationEnabled {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: verifyButton)
+        } else if isSubmissionEnabled {
+            navigationItem.rightBarButtonItem = UIBarButtonItem(customView: submitButton)
         }
 
         loadRows()
@@ -274,7 +292,7 @@ class TrackDetailViewController: UIViewController {
         autoChangePages(false)
     }
 
-    @objc func didPressVerificationButton(_ sender: JoinButton) {
+    @objc func didPressVerifyButton(_ sender: JoinButton) {
         let pref = APIServices.shared.settings.measurementSystem
 
         if pref == .imperial, let url = viewModel.track.validationFeetUrl {
@@ -282,6 +300,11 @@ class TrackDetailViewController: UIViewController {
         } else if let url = viewModel.track.validationMetersUrl {
             WebViewController.openUrl(url)
         }
+    }
+
+    @objc func didPressSubmitButton(_ sender: JoinButton) {
+        guard let url = MGPWeb.getPrefilledUTT1LapPrefilledFormUrl(viewModel.track) else { return }
+        WebViewController.openUrl(url)
     }
 
     func setLoading(_ cell: FormTableViewCell, loading: Bool) {
