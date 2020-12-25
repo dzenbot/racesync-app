@@ -69,7 +69,7 @@ class QRViewController: UIViewController {
 
     fileprivate lazy var buttonStackView: UIStackView = {
         let stackView = UIStackView(arrangedSubviews: actionButtons())
-        stackView.backgroundColor = Color.white
+        stackView.backgroundColor = Color.clear
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .center
