@@ -9,8 +9,10 @@
 import WatchKit
 import Foundation
 
+class MainInterfaceController: WKInterfaceController {
 
-class InterfaceController: WKInterfaceController {
+    @IBOutlet var imageView: WKInterfaceImage?
+    @IBOutlet var label: WKInterfaceLabel?
 
     override func awake(withContext context: Any?) {
         // Configure interface objects here.

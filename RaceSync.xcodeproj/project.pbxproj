@@ -104,7 +104,7 @@
 		4F95B74C2596967E00631A27 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B74A2596967E00631A27 /* Interface.storyboard */; };
 		4F95B74E2596968100631A27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B74D2596968100631A27 /* Assets.xcassets */; };
 		4F95B7552596968100631A27 /* RaceSyncWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4F95B7542596968100631A27 /* RaceSyncWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
-		4F95B75A2596968100631A27 /* InterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7592596968100631A27 /* InterfaceController.swift */; };
+		4F95B75A2596968100631A27 /* MainInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7592596968100631A27 /* MainInterfaceController.swift */; };
 		4F95B75C2596968100631A27 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B75B2596968100631A27 /* ExtensionDelegate.swift */; };
 		4F95B75E2596968100631A27 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B75D2596968100631A27 /* NotificationController.swift */; };
 		4F95B7602596968100631A27 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B75F2596968100631A27 /* ComplicationController.swift */; };
@@ -394,13 +394,12 @@
 		4F95B74D2596968100631A27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F95B74F2596968100631A27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F95B7542596968100631A27 /* RaceSyncWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "RaceSyncWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F95B7592596968100631A27 /* InterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InterfaceController.swift; sourceTree = "<group>"; };
+		4F95B7592596968100631A27 /* MainInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInterfaceController.swift; sourceTree = "<group>"; };
 		4F95B75B2596968100631A27 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
 		4F95B75D2596968100631A27 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
 		4F95B75F2596968100631A27 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		4F95B7612596968200631A27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F95B7632596968200631A27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4F95B7642596968200631A27 /* PushNotificationPayload.apns */ = {isa = PBXFileReference; lastKnownFileType = text; path = PushNotificationPayload.apns; sourceTree = "<group>"; };
 		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -794,13 +793,12 @@
 		4F95B7582596968100631A27 /* RaceSyncWatch Extension */ = {
 			isa = PBXGroup;
 			children = (
-				4F95B7592596968100631A27 /* InterfaceController.swift */,
+				4F95B7592596968100631A27 /* MainInterfaceController.swift */,
 				4F95B75B2596968100631A27 /* ExtensionDelegate.swift */,
 				4F95B75D2596968100631A27 /* NotificationController.swift */,
 				4F95B75F2596968100631A27 /* ComplicationController.swift */,
 				4F95B7612596968200631A27 /* Assets.xcassets */,
 				4F95B7632596968200631A27 /* Info.plist */,
-				4F95B7642596968200631A27 /* PushNotificationPayload.apns */,
 			);
 			path = "RaceSyncWatch Extension";
 			sourceTree = "<group>";
@@ -1595,7 +1593,7 @@
 				4F95B75E2596968100631A27 /* NotificationController.swift in Sources */,
 				4F95B7602596968100631A27 /* ComplicationController.swift in Sources */,
 				4F95B75C2596968100631A27 /* ExtensionDelegate.swift in Sources */,
-				4F95B75A2596968100631A27 /* InterfaceController.swift in Sources */,
+				4F95B75A2596968100631A27 /* MainInterfaceController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
