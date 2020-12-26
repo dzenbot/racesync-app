@@ -398,13 +398,11 @@ fileprivate extension RaceListViewController {
         let userProfileUrl = APIServices.shared.myUser?.profilePictureUrl
         let userUrl = ImageUtil.getSizedUrl(userProfileUrl, size: CGSize(width: 32, height: 32))
         let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
-        userProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal)
+        
         userProfileButton.isHidden = false
-
         userProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal, renderingMode: .alwaysOriginal) { (image) in
             DispatchQueue.main.async {
-                let newImage = image?.roundedImage(with: CGSize(width: 40, height: 40), cornerRadius: 20)
-                ApplicationControl.shared.saveWatchQRImage(with: newImage)
+                ApplicationControl.shared.saveWatchQRImage(with: image?.rounded())
             }
         }
     }
