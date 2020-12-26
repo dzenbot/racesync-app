@@ -18,6 +18,10 @@ class MainInterfaceController: WKInterfaceController {
 
     override func awake(withContext context: Any?) {
         WatchSessionManager.sharedManager.add(self)
+
+        if let userInfo = WatchSessionManager.sharedManager.storedUserInfo, let model = UserViewModel(userInfo) {
+            updateInterface(with: model)
+        }
     }
     
     override func willActivate() {
@@ -28,11 +32,7 @@ class MainInterfaceController: WKInterfaceController {
         // This method is called when watch view controller is no longer visible
     }
 
-}
-
-extension MainInterfaceController: WatchSessionManagerDelegate {
-
-    func sessionDidReceiveUserContext(_ model: UserViewModel) {
+    func updateInterface(with model: UserViewModel) {
         idLabel?.setText(model.id)
         nameLabel?.setText(model.name)
         qrImageView?.setImage(model.qrImg)
@@ -40,5 +40,12 @@ extension MainInterfaceController: WatchSessionManagerDelegate {
         if let img = model.avatarImg {
             avatarImageView?.setImage(img)
         }
+    }
+}
+
+extension MainInterfaceController: WatchSessionManagerDelegate {
+
+    func sessionDidReceiveUserContext(_ model: UserViewModel) {
+        updateInterface(with: model)
     }
 }

@@ -19,6 +19,7 @@ class WatchSessionManager: NSObject {
     static let sharedManager = WatchSessionManager()
 
     fileprivate var delegates: [WatchSessionManagerDelegate] = [WatchSessionManagerDelegate]()
+    fileprivate static let UserInfoKey = "com.multigp.RaceSyncApp.watchkitapp.userInfo"
 
     private override init() {
         super.init()
@@ -43,6 +44,12 @@ class WatchSessionManager: NSObject {
             }
         }
     }
+
+    var storedUserInfo: [String : Any]? {
+        get {
+            return UserDefaults.standard.dictionary(forKey: WatchSessionManager.UserInfoKey)
+        }
+    }
 }
 
 extension WatchSessionManager: WCSessionDelegate {
@@ -63,5 +70,8 @@ extension WatchSessionManager: WCSessionDelegate {
         delegates.forEach { (delegate) in
             delegate.sessionDidReceiveUserContext(userViewModel)
         }
+
+        UserDefaults.standard.setValue(userInfo, forKey: WatchSessionManager.UserInfoKey)
+        UserDefaults.standard.synchronize()
     }
 }
