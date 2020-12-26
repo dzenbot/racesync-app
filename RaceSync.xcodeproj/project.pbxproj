@@ -110,6 +110,8 @@
 		4F95B7602596968100631A27 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B75F2596968100631A27 /* ComplicationController.swift */; };
 		4F95B7622596968200631A27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B7612596968200631A27 /* Assets.xcassets */; };
 		4F95B7672596968200631A27 /* RaceSyncWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4F95B7482596967E00631A27 /* RaceSyncWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4F95B7C62596DBDF00631A27 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7C52596DBDF00631A27 /* WatchSessionManager.swift */; };
+		4F95B7E825972E0900631A27 /* UserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7E725972E0900631A27 /* UserViewModel.swift */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
 		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
 		4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APICredential.swift */; };
@@ -400,6 +402,8 @@
 		4F95B75F2596968100631A27 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
 		4F95B7612596968200631A27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F95B7632596968200631A27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F95B7C52596DBDF00631A27 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
+		4F95B7E725972E0900631A27 /* UserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewModel.swift; sourceTree = "<group>"; };
 		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -731,6 +735,7 @@
 		4F6C8A94236A9D2B0017FD78 /* UI Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4FC57C32258E1362006E210F /* AppUtil.swift */,
 				4F6C8A97236A9E840017FD78 /* Color.swift */,
 				4FD4E1DE237FEC0A008816B3 /* Appearance.swift */,
 				4FA26834237A80B9008970AC /* ActionButton.swift */,
@@ -744,7 +749,6 @@
 				4F714DE223CD5EAA000C4036 /* SafariActivity.swift */,
 				4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */,
 				4F482EFA251158FF00DBA0DF /* SocialActivity.swift */,
-				4FC57C32258E1362006E210F /* AppUtil.swift */,
 			);
 			path = "UI Utils";
 			sourceTree = "<group>";
@@ -793,8 +797,10 @@
 		4F95B7582596968100631A27 /* RaceSyncWatch Extension */ = {
 			isa = PBXGroup;
 			children = (
-				4F95B7592596968100631A27 /* MainInterfaceController.swift */,
 				4F95B75B2596968100631A27 /* ExtensionDelegate.swift */,
+				4F95B7592596968100631A27 /* MainInterfaceController.swift */,
+				4F95B7C52596DBDF00631A27 /* WatchSessionManager.swift */,
+				4F95B7E725972E0900631A27 /* UserViewModel.swift */,
 				4F95B75D2596968100631A27 /* NotificationController.swift */,
 				4F95B75F2596968100631A27 /* ComplicationController.swift */,
 				4F95B7612596968200631A27 /* Assets.xcassets */,
@@ -1591,9 +1597,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F95B75E2596968100631A27 /* NotificationController.swift in Sources */,
+				4F95B7E825972E0900631A27 /* UserViewModel.swift in Sources */,
 				4F95B7602596968100631A27 /* ComplicationController.swift in Sources */,
 				4F95B75C2596968100631A27 /* ExtensionDelegate.swift in Sources */,
 				4F95B75A2596968100631A27 /* MainInterfaceController.swift in Sources */,
+				4F95B7C62596DBDF00631A27 /* WatchSessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

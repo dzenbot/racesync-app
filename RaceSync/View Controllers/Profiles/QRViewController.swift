@@ -15,6 +15,7 @@ import PassKit
 class QRViewController: UIViewController {
 
     // MARK: - Feature Flags
+    
     fileprivate var isPassKitEnabled: Bool = false
 
     // MARK: - Private Variables
@@ -111,17 +112,6 @@ class QRViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        title = "QR Code"
-
-        view.backgroundColor = Color.black.withAlphaComponent(0.7)
-
-        var qrCode = QRCode(userId)
-        qrCode?.size = Constants.qrSize
-        qrImageView.image = qrCode?.image
-        qrCodeLabel.text = userId
-
-        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapView)))
-
         setupLayout()
     }
 
@@ -136,6 +126,14 @@ class QRViewController: UIViewController {
     // MARK: - Layout
 
     fileprivate func setupLayout() {
+
+        title = "QR Code"
+
+        view.backgroundColor = Color.black.withAlphaComponent(0.7)
+        view.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(didTapView)))
+
+        qrImageView.image = getQRImage(with: userId)
+        qrCodeLabel.text = userId
 
         view.addSubview(qrImageView)
         qrImageView.snp.makeConstraints {
@@ -168,6 +166,14 @@ class QRViewController: UIViewController {
             $0.width.equalTo(Constants.imageSize.width)
             $0.height.equalTo(Constants.buttonHeight)
         }
+    }
+
+    func getQRImage(with userId: String) -> UIImage? {
+        var qrCode = QRCode(userId)
+        qrCode?.size = Constants.qrSize
+        qrCode?.color = CIColor(color: Color.black)
+        qrCode?.backgroundColor = CIColor(color: Color.white)
+        return qrCode?.image
     }
 
     // MARK: - Actions

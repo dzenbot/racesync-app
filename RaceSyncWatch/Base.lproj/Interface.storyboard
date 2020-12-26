@@ -9,25 +9,40 @@
         <!--MainInterfaceController-->
         <scene sceneID="bSw-JN-vz9">
             <objects>
-                <controller identifier="MainInterfaceController" id="Vk1-88-Z94" customClass="MainInterfaceController" customModule="RaceSyncWatch">
+                <controller identifier="MainInterfaceController" id="Vk1-88-Z94" customClass="MainInterfaceController" customModule="RaceSyncWatch_Extension">
                     <items>
-                        <imageView width="1" alignment="left" id="AXV-Hc-Wrz"/>
-                        <button alignment="left" id="qHz-YK-G0P">
-                            <group key="contentGroup" width="1" height="32" alignment="left" id="hly-Re-RE7">
-                                <items>
-                                    <label width="1" height="1" alignment="left" text="Pilot id" textAlignment="center" numberOfLines="0" id="1u7-GW-FYd"/>
-                                </items>
-                                <color key="backgroundColor" red="0.1333333333" green="0.1333333333" blue="0.13725490200000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </group>
-                        </button>
+                        <group width="1" alignment="left" id="b0w-aR-fEm">
+                            <items>
+                                <imageView width="40" height="40" alignment="left" image="placeholder_avatar" id="4Hx-lC-hcD"/>
+                                <group width="4" alignment="left" id="6fS-FD-2Tz"/>
+                                <group width="1" height="40" alignment="left" layout="vertical" spacing="0.0" id="qVy-3P-wcj">
+                                    <items>
+                                        <label alignment="left" text="Pilot Name" numberOfLines="0" id="Q2M-vg-PkL">
+                                            <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                        </label>
+                                        <label alignment="left" verticalAlignment="bottom" alpha="0.80000000000000004" text="Pilot ID" id="GR5-Mb-tha">
+                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                        </label>
+                                    </items>
+                                    <edgeInsets key="margins" left="0.0" right="0.0" top="4" bottom="6"/>
+                                </group>
+                            </items>
+                        </group>
+                        <imageView width="1" height="100" alignment="left" verticalAlignment="bottom" image="placeholder_medium" contentMode="scaleAspectFit" id="AXV-Hc-Wrz"/>
                     </items>
                     <connections>
-                        <outlet property="imageView" destination="AXV-Hc-Wrz" id="lSe-8L-10J"/>
-                        <outlet property="label" destination="1u7-GW-FYd" id="TRs-oM-5sl"/>
+                        <outlet property="avatarImageView" destination="4Hx-lC-hcD" id="Mmb-Os-MQy"/>
+                        <outlet property="idLabel" destination="GR5-Mb-tha" id="cvp-K9-NsM"/>
+                        <outlet property="nameLabel" destination="Q2M-vg-PkL" id="cJt-he-qKB"/>
+                        <outlet property="qrImageView" destination="AXV-Hc-Wrz" id="7YA-7C-euB"/>
                     </connections>
                 </controller>
             </objects>
-            <point key="canvasLocation" x="34" y="-14"/>
+            <point key="canvasLocation" x="34" y="-16"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="placeholder_avatar" width="40" height="40"/>
+        <image name="placeholder_medium" width="50" height="50"/>
+    </resources>
 </document>

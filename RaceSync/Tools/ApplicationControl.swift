@@ -8,12 +8,21 @@
 
 import UIKit
 import RaceSyncAPI
+import WatchConnectivity
+import QRCode
 
-class ApplicationControl {
+class ApplicationControl: NSObject {
+
+    // MARK: - Public Variables
 
     static let shared = ApplicationControl()
 
+    // MARK: - Private Variables
+
     fileprivate let authApi = AuthApi()
+    fileprivate var avatarImage: UIImage? = nil
+
+    // MARK: - Public Methods
 
     func invalidateSession() {
         guard let window = UIApplication.shared.delegate?.window else { return }
@@ -37,5 +46,59 @@ class ApplicationControl {
                 APIServices.shared.settings.environment = environment
             }
         }
+    }
+
+    func saveWatchQRImage(with userImage: UIImage?) {
+        guard WCSession.isSupported() else { return }
+
+        self.avatarImage = userImage
+
+        WCSession.default.delegate = self
+        WCSession.default.activate()
+    }
+
+    // MARK: - Private Methods
+
+    fileprivate func getQRImage(with userId: String) -> UIImage? {
+        var qrCode = QRCode(userId)
+        qrCode?.size = CGSize(width: 100, height: 100)
+        qrCode?.color = CIColor(color: Color.black)
+        qrCode?.backgroundColor = CIColor(color: Color.white)
+        return qrCode?.image
+    }
+}
+
+extension ApplicationControl: WCSessionDelegate {
+
+    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
+
+        if activationState == .activated, let user = APIServices.shared.myUser {
+            guard let qrImg = getQRImage(with: user.id), let qrData = qrImg.jpegData(compressionQuality: 0.7) else { return }
+
+            var userInfo: [String: Any] = [
+                "id": user.id,
+                "name": user.userName,
+                "qr-data" : qrData,
+                "force_send" : UUID().uuidString
+            ]
+
+            if let avatarImg = avatarImage, let avatarData = avatarImg.jpegData(compressionQuality: 0.7) {
+                userInfo["avatar-data"] = avatarData
+            }
+
+            do {
+                try WCSession.default.updateApplicationContext(userInfo)
+            }  catch {
+                Clog.log("could not update context: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    func sessionDidBecomeInactive(_ session: WCSession) {
+        //
+    }
+
+    func sessionDidDeactivate(_ session: WCSession) {
+        //
     }
 }

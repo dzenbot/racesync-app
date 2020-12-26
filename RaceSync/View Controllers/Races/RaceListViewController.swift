@@ -400,6 +400,13 @@ fileprivate extension RaceListViewController {
         let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
         userProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal)
         userProfileButton.isHidden = false
+
+        userProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal, renderingMode: .alwaysOriginal) { (image) in
+            DispatchQueue.main.async {
+                let newImage = image?.roundedImage(with: CGSize(width: 40, height: 40), cornerRadius: 20)
+                ApplicationControl.shared.saveWatchQRImage(with: newImage)
+            }
+        }
     }
 
     func updateChapterProfileImage() {

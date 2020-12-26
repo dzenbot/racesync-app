@@ -7,15 +7,17 @@
 //
 
 import WatchKit
-import Foundation
 
 class MainInterfaceController: WKInterfaceController {
 
-    @IBOutlet var imageView: WKInterfaceImage?
-    @IBOutlet var label: WKInterfaceLabel?
+    @IBOutlet var nameLabel: WKInterfaceLabel?
+    @IBOutlet var idLabel: WKInterfaceLabel?
+
+    @IBOutlet var avatarImageView: WKInterfaceImage?
+    @IBOutlet var qrImageView: WKInterfaceImage?
 
     override func awake(withContext context: Any?) {
-        // Configure interface objects here.
+        WatchSessionManager.sharedManager.add(self)
     }
     
     override func willActivate() {
@@ -26,4 +28,17 @@ class MainInterfaceController: WKInterfaceController {
         // This method is called when watch view controller is no longer visible
     }
 
+}
+
+extension MainInterfaceController: WatchSessionManagerDelegate {
+
+    func sessionDidReceiveUserContext(_ model: UserViewModel) {
+        idLabel?.setText(model.id)
+        nameLabel?.setText(model.name)
+        qrImageView?.setImage(model.qrImg)
+
+        if let img = model.avatarImg {
+            avatarImageView?.setImage(img)
+        }
+    }
 }
