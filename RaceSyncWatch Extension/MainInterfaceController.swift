@@ -7,6 +7,7 @@
 //
 
 import WatchKit
+import UIKit
 
 class MainInterfaceController: WKInterfaceController {
 
@@ -39,6 +40,8 @@ class MainInterfaceController: WKInterfaceController {
 
         if let img = model.avatarImg {
             avatarImageView?.setImage(img)
+        } else {
+            avatarImageView?.setImage(UIImage(named: "watch_placeholder_small"))
         }
     }
 }

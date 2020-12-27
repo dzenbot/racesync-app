@@ -48,8 +48,31 @@
             </objects>
             <point key="canvasLocation" x="34" y="-16"/>
         </scene>
+        <!--Onboard Interface Controller-->
+        <scene sceneID="6on-Vu-sRm">
+            <objects>
+                <controller id="zhe-g7-d36" customClass="OnboardInterfaceController" customModule="RaceSyncWatch_Extension">
+                    <items>
+                        <group width="1" alignment="center" layout="vertical" id="RR4-OD-QL1">
+                            <items>
+                                <imageView alignment="center" image="watch_mgp_logo" id="20J-7f-Y5g"/>
+                                <label alignment="center" text="Please sign in or register using the RaceSync app on your phone to begin using Racync for Apple Watch." textAlignment="center" numberOfLines="0" id="TkS-3z-Tsh">
+                                    <color key="textColor" white="0.90127354452054798" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                </label>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="messageLabel" destination="TkS-3z-Tsh" id="Vje-4j-vTT"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="332" y="-16"/>
+        </scene>
     </scenes>
     <resources>
+        <image name="watch_mgp_logo" width="40" height="40"/>
         <image name="watch_placeholder_large" width="100" height="100"/>
         <image name="watch_placeholder_small" width="40" height="40"/>
     </resources>

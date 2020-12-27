@@ -6,7 +6,6 @@
 //  Copyright © 2020 MultiGP Inc. All rights reserved.
 //
 
-import UIKit
 import WatchKit
 import WatchConnectivity
 

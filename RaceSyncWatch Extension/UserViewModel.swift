@@ -6,6 +6,7 @@
 //  Copyright © 2020 MultiGP Inc. All rights reserved.
 //
 
+import WatchKit
 import UIKit
 
 class UserViewModel: NSObject {
