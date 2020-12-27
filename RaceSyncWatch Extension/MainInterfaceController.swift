@@ -18,11 +18,13 @@ class MainInterfaceController: WKInterfaceController {
     @IBOutlet var qrImageView: WKInterfaceImage?
 
     override func awake(withContext context: Any?) {
-        WatchSessionManager.sharedManager.add(self)
-
         if let userInfo = WatchSessionManager.sharedManager.storedUserInfo, let model = UserViewModel(userInfo) {
             updateInterface(with: model)
+        } else {
+            presentController(withName: String(describing: OnboardInterfaceController.self), context: context)
         }
+
+        WatchSessionManager.sharedManager.add(self)
     }
     
     override func willActivate() {

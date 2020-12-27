@@ -14,7 +14,7 @@ class OnboardInterfaceController: WKInterfaceController {
     @IBOutlet var messageLabel: WKInterfaceLabel?
 
     override func awake(withContext context: Any?) {
-        
+        WatchSessionManager.sharedManager.add(self)
     }
 
     override func willActivate() {
@@ -23,5 +23,12 @@ class OnboardInterfaceController: WKInterfaceController {
 
     override func didDeactivate() {
         // This method is called when watch view controller is no longer visible
+    }
+}
+
+extension OnboardInterfaceController: WatchSessionManagerDelegate {
+
+    func sessionDidReceiveUserContext(_ model: UserViewModel) {
+        dismiss()
     }
 }
