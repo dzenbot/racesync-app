@@ -43,7 +43,7 @@ class MainInterfaceController: WKInterfaceController {
         if let img = model.avatarImg {
             avatarImageView?.setImage(img)
         } else {
-            avatarImageView?.setImage(UIImage(named: "watch_placeholder_small"))
+            avatarImageView?.setImage(#imageLiteral(resourceName: "watch_placeholder_small"))
         }
     }
 }
