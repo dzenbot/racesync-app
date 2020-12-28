@@ -402,7 +402,7 @@ fileprivate extension RaceListViewController {
         userProfileButton.isHidden = false
         userProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal, renderingMode: .alwaysOriginal) { (image) in
             DispatchQueue.main.async {
-                ApplicationControl.shared.saveWatchQRImage(with: image?.rounded())
+                ApplicationControl.shared.saveWatchQRImage(with: image?.rounded(Color.black))
             }
         }
     }

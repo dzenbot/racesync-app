@@ -46,67 +46,21 @@ extension UIImage {
         return cropImage
     }
 
-    func rounded() -> UIImage? {
-//        var returnImage: UIImage? // Image, to return
-//        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-////        let maskingColors: [CGFloat] = [100, 255, 100, 255, 100, 255] // We should replace white color.
-////        let maskImage = cgImage! //
-//
-//        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-//
-//        UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius).addClip()
-//        draw(in: rect)
-//
-//        returnImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//
-////        let noAlphaImage = UIGraphicsGetImageFromCurrentImageContext() // new image, without transparent elements.
-////        UIGraphicsEndImageContext()
-////
-////        let noAlphaCGRef = noAlphaImage?.cgImage // get CGImage.
-////
-////        if let imgRefCopy = noAlphaCGRef?.copy(maskingColorComponents: maskingColors) { // Magic.
-////            UIGraphicsBeginImageContextWithOptions(size, false, 0)
-////            let context = UIGraphicsGetCurrentContext()!
-////            context.clip(to: rect, mask: maskImage) // Remove background from image with mask.
-////            context.setFillColor(UIColor.clear.cgColor) // set new color. We remove white color, and set red.
-////            context.fill(rect)
-////            context.draw(imgRefCopy, in: rect) // draw new image
-////            let finalImage = UIGraphicsGetImageFromCurrentImageContext()
-////            returnImage = finalImage! // YEAH!
-////            UIGraphicsEndImageContext()
-////        }
-//
-//        return returnImage
-
-
-
-//        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
-//
-//        let layer = CALayer()
-//        layer.frame = rect
-//        layer.contents = cgImage
-//        layer.masksToBounds = true
-//        layer.backgroundColor = UIColor.clear.cgColor
-//
-//        layer.cornerRadius = size.width/2
-//
-//        UIGraphicsBeginImageContextWithOptions(size, false, 0)
-//        let context = UIGraphicsGetCurrentContext()
-//        context?.setFillColor(UIColor.clear.cgColor)
-//
-//        layer.render(in: context!)
-//        let roundedImage = UIGraphicsGetImageFromCurrentImageContext()
-//        UIGraphicsEndImageContext()
-//
-//        return roundedImage
-
-
+    func rounded(_ backgroundColor: UIColor? = nil) -> UIImage? {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
         UIGraphicsBeginImageContextWithOptions(size, false, 0)
-        defer { UIGraphicsEndImageContext() }
-        UIBezierPath(ovalIn: rect).addClip()
+        let context = UIGraphicsGetCurrentContext()!
+
+        if let color = backgroundColor {
+            color.setFill()
+            self.draw(in: rect)
+            context.fill(rect)
+        }
+
+        let path = UIBezierPath(ovalIn: rect)
+        path.addClip()
+
         UIImage(cgImage: cgImage!, scale: scale, orientation: imageOrientation).draw(in: rect)
         return UIGraphicsGetImageFromCurrentImageContext()
     }
