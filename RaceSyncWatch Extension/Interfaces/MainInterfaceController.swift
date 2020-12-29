@@ -13,8 +13,7 @@ class MainInterfaceController: WKInterfaceController {
 
     @IBOutlet var nameLabel: WKInterfaceLabel?
     @IBOutlet var idLabel: WKInterfaceLabel?
-
-    @IBOutlet var avatarImageView: WKInterfaceImage?
+    @IBOutlet var thumbImageView: WKInterfaceImage?
     @IBOutlet var qrImageView: WKInterfaceImage?
 
     var isVisible: Bool = false
@@ -51,9 +50,9 @@ class MainInterfaceController: WKInterfaceController {
         qrImageView?.setImage(user.qrImg)
 
         if let img = user.avatarImg {
-            avatarImageView?.setImage(img)
+            thumbImageView?.setImage(img)
         } else {
-            avatarImageView?.setImage(UIImage(named: "watch_placeholder_small"))
+            thumbImageView?.setImage(UIImage(named: "watch_placeholder_small"))
         }
     }
 
@@ -61,7 +60,7 @@ class MainInterfaceController: WKInterfaceController {
         idLabel?.setText(nil)
         nameLabel?.setText(nil)
         qrImageView?.setImage(nil)
-        avatarImageView?.setImage(nil)
+        thumbImageView?.setImage(nil)
     }
 }
 
@@ -74,6 +73,7 @@ extension MainInterfaceController: WatchSessionManagerDelegate {
     func sessionWasInvalidated() {
         invalidateInterface()
 
+        // only present when view if first responder
         if isVisible {
             presentController(withName: String(describing: OnboardInterfaceController.self), context: nil)
         }

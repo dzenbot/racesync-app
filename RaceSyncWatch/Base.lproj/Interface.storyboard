@@ -39,10 +39,10 @@
                         </imageView>
                     </items>
                     <connections>
-                        <outlet property="avatarImageView" destination="4Hx-lC-hcD" id="Mmb-Os-MQy"/>
                         <outlet property="idLabel" destination="GR5-Mb-tha" id="cvp-K9-NsM"/>
                         <outlet property="nameLabel" destination="Q2M-vg-PkL" id="cJt-he-qKB"/>
                         <outlet property="qrImageView" destination="AXV-Hc-Wrz" id="7YA-7C-euB"/>
+                        <outlet property="thumbImageView" destination="4Hx-lC-hcD" id="Xbh-RO-6PG"/>
                     </connections>
                 </controller>
             </objects>
