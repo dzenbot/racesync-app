@@ -43,19 +43,23 @@ class WatchSessionManager: NSObject {
         WCSession.default.activate()
     }
 
-    func handleIncomingContext(_ userInfo: [String : Any]) {
+    fileprivate func handleIncomingContext(_ userInfo: [String : Any]) {
         if let userViewModel = WatchUser(userInfo) {
             cacheUser(userInfo)
 
             delegates.forEach { (delegate) in
                 delegate.sessionDidReceiveUserContext(userViewModel)
             }
-        } else if let invalidate = userInfo[WParameterKey.invalidate] as? Bool, invalidate == true {
-            invalidateCache()
+        } else if let flag = userInfo[WParameterKey.invalidate] as? Bool, flag == true {
+            invalidate()
+        }
+    }
 
-            delegates.forEach { (delegate) in
-                delegate.sessionWasInvalidated()
-            }
+    fileprivate func invalidate() {
+        invalidateCache()
+
+        delegates.forEach { (delegate) in
+            delegate.sessionWasInvalidated()
         }
     }
 
@@ -96,7 +100,9 @@ class WatchSessionManager: NSObject {
 extension WatchSessionManager: WCSessionDelegate {
 
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        //
+        if !session.isReachable {
+            invalidate()
+        }
     }
 
     func session(_ session: WCSession, didReceiveApplicationContext userInfo: [String : Any]) {
