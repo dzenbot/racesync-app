@@ -20,7 +20,6 @@ class ApplicationControl: NSObject {
     // MARK: - Private Variables
 
     fileprivate let authApi = AuthApi()
-    fileprivate var avatarImage: UIImage? = nil
 
     // MARK: - Public Methods
 
@@ -47,17 +46,43 @@ class ApplicationControl: NSObject {
             }
         }
     }
+}
 
-    func saveWatchQRImage(with userImage: UIImage?) {
+// MARK: - WatchOS Connectivity Integration
+
+extension ApplicationControl {
+
+    func startWatchConnection() {
         guard WCSession.isSupported() else { return }
-
-        self.avatarImage = userImage
-
         WCSession.default.delegate = self
         WCSession.default.activate()
     }
 
     // MARK: - Private Methods
+
+    fileprivate func sendUserDataToWatch() {
+        guard let user = APIServices.shared.myUser, let qrImg = getQRImage(with: user.id) else { return }
+
+        // If the dictionary doesn't change, subsequent calls to updateApplicationContext won't trigger
+        // a corresponding call to didReceiveApplicationContext. Passing a unique Date() helps forcing an update.
+        var userInfo: [String: Any] = [
+            "id": user.id,
+            "name": user.userName,
+            "qr-data" : qrImg.jpegData(compressionQuality: 0.7)!,
+            "force_send" : Date()
+        ]
+
+        if let userProfileUrl = APIServices.shared.myUser?.miniProfilePictureUrl,
+           let img = ImageNetworking.cachedImage(for: userProfileUrl)?.rounded(Color.yellow) {
+            userInfo["avatar-data"] = img.jpegData(compressionQuality: 0.7)!
+        }
+
+        do {
+            try WCSession.default.updateApplicationContext(userInfo)
+        }  catch {
+            Clog.log("could not update context: \(error.localizedDescription)")
+        }
+    }
 
     fileprivate func getQRImage(with userId: String) -> UIImage? {
         var qrCode = QRCode(userId)
@@ -71,27 +96,15 @@ class ApplicationControl: NSObject {
 extension ApplicationControl: WCSessionDelegate {
 
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-
-        if activationState == .activated, let user = APIServices.shared.myUser {
-            guard let qrImg = getQRImage(with: user.id), let qrData = qrImg.jpegData(compressionQuality: 0.7) else { return }
-
-            var userInfo: [String: Any] = [
-                "id": user.id,
-                "name": user.userName,
-                "qr-data" : qrData,
-                "force_send" : UUID().uuidString
-            ]
-
-            if let avatarImg = avatarImage, let avatarData = avatarImg.jpegData(compressionQuality: 0.7) {
-                userInfo["avatar-data"] = avatarData
-            }
-
-            do {
-                try WCSession.default.updateApplicationContext(userInfo)
-            }  catch {
-                Clog.log("could not update context: \(error.localizedDescription)")
+        if activationState == .activated, WCSession.default.isWatchAppInstalled {
+            DispatchQueue.main.async {
+                self.sendUserDataToWatch()
             }
         }
+    }
+
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        //
     }
 
     func sessionDidBecomeInactive(_ session: WCSession) {

@@ -395,24 +395,25 @@ fileprivate extension RaceListViewController {
     }
 
     func updateUserProfileImage() {
-        let userProfileUrl = APIServices.shared.myUser?.profilePictureUrl
-        let userUrl = ImageUtil.getSizedUrl(userProfileUrl, size: CGSize(width: 32, height: 32))
+        let imageUrl = APIServices.shared.myUser?.miniProfilePictureUrl
         let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
         
         userProfileButton.isHidden = false
-        userProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal, renderingMode: .alwaysOriginal) { (image) in
+        userProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, renderingMode: .alwaysOriginal) { (image) in
+
+            // We do this here, to be guaranteed a user profile's image
             DispatchQueue.main.async {
-                ApplicationControl.shared.saveWatchQRImage(with: image?.rounded(Color.black))
+                ApplicationControl.shared.startWatchConnection()
             }
         }
     }
 
     func updateChapterProfileImage() {
-        let userProfileUrl = APIServices.shared.myChapter?.mainImageUrl
-        let userUrl = ImageUtil.getSizedUrl(userProfileUrl, size: CGSize(width: 32, height: 32))
+        let imageUrl = APIServices.shared.myChapter?.miniProfilePictureUrl
         let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
-        chapterProfileButton.setImage(with: userUrl, placeholderImage: placeholder, forState: .normal)
+
         chapterProfileButton.isHidden = false
+        chapterProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, renderingMode: .alwaysOriginal)
     }
 }
 

@@ -21,7 +21,6 @@
 		4F0B61472385F69E00930D91 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B61462385F69E00930D91 /* ProfileViewModel.swift */; };
 		4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1342472360B67D00A9DBDE /* AppDelegate.swift */; };
 		4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F13424B2360B67D00A9DBDE /* Main.storyboard */; };
-		4F13424F2360B67D00A9DBDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F13424E2360B67D00A9DBDE /* Assets.xcassets */; };
 		4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F1342502360B67D00A9DBDE /* LaunchScreen.storyboard */; };
 		4F13425D2360B67E00A9DBDE /* RaceSyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13425C2360B67E00A9DBDE /* RaceSyncTests.swift */; };
 		4F1342762360DA4C00A9DBDE /* RaceSyncAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */; };
@@ -145,6 +144,9 @@
 		4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */; };
 		4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */; };
 		4FBADDF624D4E2DB00A7D291 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */; };
+		4FBE7602259B341E00312B66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B74D2596968100631A27 /* Assets.xcassets */; };
+		4FBE7608259B348200312B66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F13424E2360B67D00A9DBDE /* Assets.xcassets */; };
+		4FBE760F259B387E00312B66 /* User+UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBE760E259B387E00312B66 /* User+UIExtensions.swift */; };
 		4FC1797D24B0801900D2EA2D /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */; };
 		4FC4C59C24D8F3F2007D3B71 /* DimmableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */; };
 		4FC50258242700DC0088320B /* ForceJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC50257242700DC0088320B /* ForceJoinViewController.swift */; };
@@ -439,6 +441,7 @@
 		4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+LinesCount.swift"; sourceTree = "<group>"; };
 		4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		4FBE760E259B387E00312B66 /* User+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+UIExtensions.swift"; sourceTree = "<group>"; };
 		4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
 		4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableView.swift; sourceTree = "<group>"; };
 		4FC50257242700DC0088320B /* ForceJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceJoinViewController.swift; sourceTree = "<group>"; };
@@ -696,6 +699,7 @@
 			isa = PBXGroup;
 			children = (
 				4F2724352515D88A000C7408 /* Chapter+UIExtensions.swift */,
+				4FBE760E259B387E00312B66 /* User+UIExtensions.swift */,
 			);
 			path = "RaceSyncAPI Extensions";
 			sourceTree = "<group>";
@@ -1239,8 +1243,8 @@
 				4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */,
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
 				4F65D8D82574EA5400C506C3 /* track-list.json in Resources */,
+				4FBE7608259B348200312B66 /* Assets.xcassets in Resources */,
 				4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */,
-				4F13424F2360B67D00A9DBDE /* Assets.xcassets in Resources */,
 				4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1280,6 +1284,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FBE7602259B341E00312B66 /* Assets.xcassets in Resources */,
 				4F95B7622596968200631A27 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1489,6 +1494,7 @@
 				4FD4E1C9237F987C008816B3 /* RaceRosterViewController.swift in Sources */,
 				4FDF0062259045C5006964DB /* TrackElementHeaderView.swift in Sources */,
 				4F8668FC23870E1E005E310A /* SegmentedTableViewHeaderView.swift in Sources */,
+				4FBE760F259B387E00312B66 /* User+UIExtensions.swift in Sources */,
 				4F8175A12411C35A00685F83 /* LeaderboardViewController.swift in Sources */,
 				4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */,
 				4FD4E1CD237F98E7008816B3 /* RaceTabBarController.swift in Sources */,

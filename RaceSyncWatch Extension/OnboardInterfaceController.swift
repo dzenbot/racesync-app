@@ -14,7 +14,7 @@ class OnboardInterfaceController: WKInterfaceController {
     @IBOutlet var messageLabel: WKInterfaceLabel?
 
     override func awake(withContext context: Any?) {
-        WatchSessionManager.sharedManager.add(self)
+        WatchSessionManager.shared.add(self)
     }
 
     override func willActivate() {

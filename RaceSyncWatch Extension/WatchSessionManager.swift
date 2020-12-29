@@ -15,7 +15,7 @@ protocol WatchSessionManagerDelegate {
 
 class WatchSessionManager: NSObject {
 
-    static let sharedManager = WatchSessionManager()
+    static let shared = WatchSessionManager()
 
     fileprivate var delegates: [WatchSessionManagerDelegate] = [WatchSessionManagerDelegate]()
     fileprivate static let UserInfoKey = "com.multigp.RaceSyncApp.watchkitapp.userInfo"
@@ -24,11 +24,21 @@ class WatchSessionManager: NSObject {
         super.init()
     }
 
-    private let session: WCSession = WCSession.default
+    func startWatchConnection() {
+        guard WCSession.isSupported() else { return }
+        WCSession.default.delegate = self
+        WCSession.default.activate()
+    }
 
-    func startSession() {
-        session.delegate = self
-        session.activate()
+    func handleIncomingContext(_ userInfo: [String : Any]) {
+        guard let userViewModel = UserViewModel(userInfo) else { return }
+
+        delegates.forEach { (delegate) in
+            delegate.sessionDidReceiveUserContext(userViewModel)
+        }
+
+        UserDefaults.standard.setValue(userInfo, forKey: WatchSessionManager.UserInfoKey)
+        UserDefaults.standard.synchronize()
     }
 
     func add<T>(_ delegate: T) where T: WatchSessionManagerDelegate, T: Equatable {
@@ -57,20 +67,15 @@ extension WatchSessionManager: WCSessionDelegate {
         //
     }
 
-    func session(_ session: WCSession, didReceiveUserInfo userInfo: [String : Any] = [:]) {
-        print("didReceiveUserInfo \(userInfo)")
-    }
-
     func session(_ session: WCSession, didReceiveApplicationContext userInfo: [String : Any]) {
         print("didReceiveApplicationContext!")
 
-        guard let userViewModel = UserViewModel(userInfo) else { return }
-
-        delegates.forEach { (delegate) in
-            delegate.sessionDidReceiveUserContext(userViewModel)
+        DispatchQueue.main.async {
+            self.handleIncomingContext(userInfo)
         }
+    }
 
-        UserDefaults.standard.setValue(userInfo, forKey: WatchSessionManager.UserInfoKey)
-        UserDefaults.standard.synchronize()
+    func sessionReachabilityDidChange(_ session: WCSession) {
+        //
     }
 }

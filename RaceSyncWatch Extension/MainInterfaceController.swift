@@ -18,13 +18,13 @@ class MainInterfaceController: WKInterfaceController {
     @IBOutlet var qrImageView: WKInterfaceImage?
 
     override func awake(withContext context: Any?) {
-        if let userInfo = WatchSessionManager.sharedManager.storedUserInfo, let model = UserViewModel(userInfo) {
+        if let userInfo = WatchSessionManager.shared.storedUserInfo, let model = UserViewModel(userInfo) {
             updateInterface(with: model)
         } else {
             presentController(withName: String(describing: OnboardInterfaceController.self), context: context)
         }
 
-        WatchSessionManager.sharedManager.add(self)
+        WatchSessionManager.shared.add(self)
     }
     
     override func willActivate() {
@@ -43,7 +43,7 @@ class MainInterfaceController: WKInterfaceController {
         if let img = model.avatarImg {
             avatarImageView?.setImage(img)
         } else {
-            avatarImageView?.setImage(#imageLiteral(resourceName: "watch_placeholder_small"))
+            avatarImageView?.setImage(UIImage(named: "watch_placeholder_small"))
         }
     }
 }
