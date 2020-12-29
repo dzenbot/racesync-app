@@ -66,4 +66,8 @@ extension UIColor {
 
         return UIColor(hue: hue, saturation: 0.9, brightness: 0.8, alpha: 1)
     }
+
+    static func randomColor() -> UIColor {
+        return randomColor(seed: UUID().uuidString)
+    }
 }

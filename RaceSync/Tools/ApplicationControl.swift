@@ -29,6 +29,7 @@ class ApplicationControl: NSObject {
         APISessionManager.invalidateSession()
         APIServices.shared.invalidate()
         CrashCatcher.invalidateUser()
+        invalidateWatchSession()
 
         // dismisses the presented view and displays the login screen view instead
         let rootViewController = window?.rootViewController
@@ -54,8 +55,22 @@ extension ApplicationControl {
 
     func startWatchConnection() {
         guard WCSession.isSupported() else { return }
-        WCSession.default.delegate = self
-        WCSession.default.activate()
+
+        if WCSession.default.activationState != .activated {
+            WCSession.default.delegate = self
+            WCSession.default.activate()
+        } else {
+            sendUserDataToWatch() // assume we're just re-starting the connection, but still need to update the Watch
+        }
+    }
+
+    func invalidateWatchSession() {
+        let userInfo: [String: Any] = [
+            WParameterKey.invalidate: true,
+            WParameterKey.forceSend : Date()
+        ]
+
+        sendUserInfoToWatch(userInfo)
     }
 
     // MARK: - Private Methods
@@ -66,21 +81,25 @@ extension ApplicationControl {
         // If the dictionary doesn't change, subsequent calls to updateApplicationContext won't trigger
         // a corresponding call to didReceiveApplicationContext. Passing a unique Date() helps forcing an update.
         var userInfo: [String: Any] = [
-            "id": user.id,
-            "name": user.userName,
-            "qr-data" : qrImg.jpegData(compressionQuality: 0.7)!,
-            "force_send" : Date()
+            WParameterKey.id: user.id,
+            WParameterKey.name: user.userName,
+            WParameterKey.qrData: qrImg.jpegData(compressionQuality: 0.7)!,
+            WParameterKey.forceSend: Date()
         ]
 
         if let userProfileUrl = APIServices.shared.myUser?.miniProfilePictureUrl,
-           let img = ImageNetworking.cachedImage(for: userProfileUrl)?.rounded(Color.yellow) {
-            userInfo["avatar-data"] = img.jpegData(compressionQuality: 0.7)!
+           let img = ImageNetworking.cachedImage(for: userProfileUrl)?.rounded(Color.clear) {
+            userInfo[WParameterKey.avatarData] = img.jpegData(compressionQuality: 0.7)!
         }
 
+        sendUserInfoToWatch(userInfo)
+    }
+
+    fileprivate func sendUserInfoToWatch(_ userInfo: [String: Any]) {
         do {
             try WCSession.default.updateApplicationContext(userInfo)
         }  catch {
-            Clog.log("could not update context: \(error.localizedDescription)")
+            Clog.log("WCSession: could not update context with error \(error.localizedDescription)")
         }
     }
 
@@ -97,7 +116,7 @@ extension ApplicationControl: WCSessionDelegate {
 
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if activationState == .activated, WCSession.default.isWatchAppInstalled {
-            DispatchQueue.main.async {
+            DispatchQueue.main.async { // these delegate methods are not thread safe
                 self.sendUserDataToWatch()
             }
         }

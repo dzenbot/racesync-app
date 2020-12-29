@@ -10,19 +10,32 @@ import WatchKit
 import WatchConnectivity
 
 protocol WatchSessionManagerDelegate {
-    func sessionDidReceiveUserContext(_ userViewModel: UserViewModel)
+    func sessionDidReceiveUserContext(_ user: WatchUser)
+    func sessionWasInvalidated()
 }
 
 class WatchSessionManager: NSObject {
 
+    // MARK: - Public Variables
+
     static let shared = WatchSessionManager()
 
-    fileprivate var delegates: [WatchSessionManagerDelegate] = [WatchSessionManagerDelegate]()
-    fileprivate static let UserInfoKey = "com.multigp.RaceSyncApp.watchkitapp.userInfo"
+    var cachedUser: WatchUser? {
+        guard let userInfo = cachedUserInfo else { return nil }
+        return WatchUser(userInfo)
+    }
 
-    private override init() {
+    // MARK: - Private Variables
+
+    fileprivate var delegates: [WatchSessionManagerDelegate] = [WatchSessionManagerDelegate]()
+
+    // MARK: - Initialization
+
+    override init() {
         super.init()
     }
+
+    // MARK: - Life Cycle
 
     func startWatchConnection() {
         guard WCSession.isSupported() else { return }
@@ -31,15 +44,22 @@ class WatchSessionManager: NSObject {
     }
 
     func handleIncomingContext(_ userInfo: [String : Any]) {
-        guard let userViewModel = UserViewModel(userInfo) else { return }
+        if let userViewModel = WatchUser(userInfo) {
+            cacheUser(userInfo)
 
-        delegates.forEach { (delegate) in
-            delegate.sessionDidReceiveUserContext(userViewModel)
+            delegates.forEach { (delegate) in
+                delegate.sessionDidReceiveUserContext(userViewModel)
+            }
+        } else if let invalidate = userInfo[WParameterKey.invalidate] as? Bool, invalidate == true {
+            invalidateCache()
+
+            delegates.forEach { (delegate) in
+                delegate.sessionWasInvalidated()
+            }
         }
-
-        UserDefaults.standard.setValue(userInfo, forKey: WatchSessionManager.UserInfoKey)
-        UserDefaults.standard.synchronize()
     }
+
+    // MARK: - Delegates
 
     func add<T>(_ delegate: T) where T: WatchSessionManagerDelegate, T: Equatable {
         delegates.append(delegate)
@@ -54,10 +74,22 @@ class WatchSessionManager: NSObject {
         }
     }
 
-    var storedUserInfo: [String : Any]? {
-        get {
-            return UserDefaults.standard.dictionary(forKey: WatchSessionManager.UserInfoKey)
-        }
+    // MARK: - Delegates
+
+    fileprivate static let UserInfoKey = "com.multigp.RaceSyncApp.watchkitapp.userInfo"
+
+    fileprivate var cachedUserInfo: [String : Any]? {
+        get { return UserDefaults.standard.dictionary(forKey: WatchSessionManager.UserInfoKey) }
+    }
+
+    fileprivate func cacheUser(_ userInfo: [String : Any]) {
+        UserDefaults.standard.setValue(userInfo, forKey: WatchSessionManager.UserInfoKey)
+        UserDefaults.standard.synchronize()
+    }
+
+    fileprivate func invalidateCache() {
+        UserDefaults.standard.setValue(nil, forKey: WatchSessionManager.UserInfoKey)
+        UserDefaults.standard.synchronize()
     }
 }
 

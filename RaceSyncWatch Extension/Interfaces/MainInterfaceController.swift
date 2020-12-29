@@ -17,9 +17,11 @@ class MainInterfaceController: WKInterfaceController {
     @IBOutlet var avatarImageView: WKInterfaceImage?
     @IBOutlet var qrImageView: WKInterfaceImage?
 
+    var isVisible: Bool = false
+
     override func awake(withContext context: Any?) {
-        if let userInfo = WatchSessionManager.shared.storedUserInfo, let model = UserViewModel(userInfo) {
-            updateInterface(with: model)
+        if let user = WatchSessionManager.shared.cachedUser {
+            updateInterface(with: user)
         } else {
             presentController(withName: String(describing: OnboardInterfaceController.self), context: context)
         }
@@ -35,22 +37,45 @@ class MainInterfaceController: WKInterfaceController {
         // This method is called when watch view controller is no longer visible
     }
 
-    func updateInterface(with model: UserViewModel) {
-        idLabel?.setText(model.id)
-        nameLabel?.setText(model.name)
-        qrImageView?.setImage(model.qrImg)
+    override func didAppear() {
+        isVisible = true
+    }
 
-        if let img = model.avatarImg {
+    override func willDisappear() {
+        isVisible = false
+    }
+
+    func updateInterface(with user: WatchUser) {
+        idLabel?.setText(user.id)
+        nameLabel?.setText(user.name)
+        qrImageView?.setImage(user.qrImg)
+
+        if let img = user.avatarImg {
             avatarImageView?.setImage(img)
         } else {
             avatarImageView?.setImage(UIImage(named: "watch_placeholder_small"))
         }
     }
+
+    func invalidateInterface() {
+        idLabel?.setText(nil)
+        nameLabel?.setText(nil)
+        qrImageView?.setImage(nil)
+        avatarImageView?.setImage(nil)
+    }
 }
 
 extension MainInterfaceController: WatchSessionManagerDelegate {
 
-    func sessionDidReceiveUserContext(_ model: UserViewModel) {
-        updateInterface(with: model)
+    func sessionDidReceiveUserContext(_ user: WatchUser) {
+        updateInterface(with: user)
+    }
+
+    func sessionWasInvalidated() {
+        invalidateInterface()
+
+        if isVisible {
+            presentController(withName: String(describing: OnboardInterfaceController.self), context: nil)
+        }
     }
 }

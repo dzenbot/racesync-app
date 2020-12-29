@@ -28,7 +28,11 @@ class OnboardInterfaceController: WKInterfaceController {
 
 extension OnboardInterfaceController: WatchSessionManagerDelegate {
 
-    func sessionDidReceiveUserContext(_ model: UserViewModel) {
+    func sessionDidReceiveUserContext(_ user: WatchUser) {
         dismiss()
+    }
+
+    func sessionWasInvalidated() {
+        //
     }
 }
