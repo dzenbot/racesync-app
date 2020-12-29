@@ -13,7 +13,7 @@
                     <items>
                         <group width="1" alignment="left" id="b0w-aR-fEm">
                             <items>
-                                <imageView width="40" height="40" alignment="left" image="watch_placeholder_small" contentMode="scaleAspectFit" id="4Hx-lC-hcD">
+                                <imageView width="40" height="40" alignment="left" contentMode="scaleAspectFit" id="4Hx-lC-hcD">
                                     <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </imageView>
                                 <group width="4" alignment="left" id="6fS-FD-2Tz">
@@ -21,10 +21,10 @@
                                 </group>
                                 <group width="1" height="40" alignment="left" layout="vertical" spacing="0.0" id="qVy-3P-wcj">
                                     <items>
-                                        <label alignment="left" text="Pilot Name" numberOfLines="0" id="Q2M-vg-PkL">
+                                        <label alignment="left" numberOfLines="0" id="Q2M-vg-PkL">
                                             <fontDescription key="font" style="UICTFontTextStyleBody"/>
                                         </label>
-                                        <label alignment="left" verticalAlignment="bottom" alpha="0.80000000000000004" text="Pilot ID" id="GR5-Mb-tha">
+                                        <label alignment="left" verticalAlignment="bottom" alpha="0.80000000000000004" id="GR5-Mb-tha">
                                             <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
                                         </label>
                                     </items>
@@ -34,7 +34,7 @@
                             </items>
                             <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </group>
-                        <imageView width="1" height="100" alignment="left" verticalAlignment="bottom" image="watch_placeholder_large" contentMode="scaleAspectFit" id="AXV-Hc-Wrz">
+                        <imageView width="1" height="100" alignment="left" verticalAlignment="bottom" contentMode="scaleAspectFit" id="AXV-Hc-Wrz">
                             <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         </imageView>
                     </items>
@@ -74,7 +74,5 @@
     <color key="tintColor" red="0.55294117649999996" green="0.094117647060000004" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
     <resources>
         <image name="watch_mgp_logo" width="45" height="45"/>
-        <image name="watch_placeholder_large" width="100" height="100"/>
-        <image name="watch_placeholder_small" width="40" height="40"/>
     </resources>
 </document>
