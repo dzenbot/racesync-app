@@ -21,7 +21,6 @@
 		4F0B61472385F69E00930D91 /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B61462385F69E00930D91 /* ProfileViewModel.swift */; };
 		4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1342472360B67D00A9DBDE /* AppDelegate.swift */; };
 		4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F13424B2360B67D00A9DBDE /* Main.storyboard */; };
-		4F13424F2360B67D00A9DBDE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F13424E2360B67D00A9DBDE /* Assets.xcassets */; };
 		4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F1342502360B67D00A9DBDE /* LaunchScreen.storyboard */; };
 		4F13425D2360B67E00A9DBDE /* RaceSyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13425C2360B67E00A9DBDE /* RaceSyncTests.swift */; };
 		4F1342762360DA4C00A9DBDE /* RaceSyncAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */; };
@@ -101,6 +100,18 @@
 		4F8F2C112384903F00DC4907 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C102384903F00DC4907 /* RaceViewModel.swift */; };
 		4F8F2C132385136300DC4907 /* NumberUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C122385136300DC4907 /* NumberUtil.swift */; };
 		4F91BC8A2398FBCE00539E95 /* ViewJoinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F91BC892398FBCE00539E95 /* ViewJoinable.swift */; };
+		4F95B74C2596967E00631A27 /* Interface.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B74A2596967E00631A27 /* Interface.storyboard */; };
+		4F95B74E2596968100631A27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B74D2596968100631A27 /* Assets.xcassets */; };
+		4F95B7552596968100631A27 /* RaceSyncWatch Extension.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 4F95B7542596968100631A27 /* RaceSyncWatch Extension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4F95B75A2596968100631A27 /* MainInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7592596968100631A27 /* MainInterfaceController.swift */; };
+		4F95B75C2596968100631A27 /* ExtensionDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B75B2596968100631A27 /* ExtensionDelegate.swift */; };
+		4F95B75E2596968100631A27 /* NotificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B75D2596968100631A27 /* NotificationController.swift */; };
+		4F95B7602596968100631A27 /* ComplicationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B75F2596968100631A27 /* ComplicationController.swift */; };
+		4F95B7622596968200631A27 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B7612596968200631A27 /* Assets.xcassets */; };
+		4F95B7672596968200631A27 /* RaceSyncWatch.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 4F95B7482596967E00631A27 /* RaceSyncWatch.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		4F95B7C62596DBDF00631A27 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7C52596DBDF00631A27 /* WatchSessionManager.swift */; };
+		4F95B7E825972E0900631A27 /* WatchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7E725972E0900631A27 /* WatchUser.swift */; };
+		4F95B7EF2598232400631A27 /* OnboardInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7EE2598232400631A27 /* OnboardInterfaceController.swift */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
 		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
 		4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APICredential.swift */; };
@@ -133,6 +144,11 @@
 		4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */; };
 		4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */; };
 		4FBADDF624D4E2DB00A7D291 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */; };
+		4FBE7602259B341E00312B66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B74D2596968100631A27 /* Assets.xcassets */; };
+		4FBE7608259B348200312B66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F13424E2360B67D00A9DBDE /* Assets.xcassets */; };
+		4FBE760F259B387E00312B66 /* User+UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBE760E259B387E00312B66 /* User+UIExtensions.swift */; };
+		4FBE761E259BBA6100312B66 /* WatchSessionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */; };
+		4FBE7624259BBD9A00312B66 /* WatchSessionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */; };
 		4FC1797D24B0801900D2EA2D /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */; };
 		4FC4C59C24D8F3F2007D3B71 /* DimmableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */; };
 		4FC50258242700DC0088320B /* ForceJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC50257242700DC0088320B /* ForceJoinViewController.swift */; };
@@ -222,6 +238,20 @@
 			remoteGlobalIDString = 4F13426C2360DA4B00A9DBDE;
 			remoteInfo = RaceSyncAPI;
 		};
+		4F95B7562596968100631A27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F13423C2360B67D00A9DBDE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4F95B7532596968100631A27;
+			remoteInfo = "RaceSyncWatch Extension";
+		};
+		4F95B7652596968200631A27 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F13423C2360B67D00A9DBDE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4F95B7472596967E00631A27;
+			remoteInfo = RaceSyncWatch;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -234,6 +264,28 @@
 				4F1342832360DA4C00A9DBDE /* RaceSyncAPI.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F95B7682596968200631A27 /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				4F95B7672596968200631A27 /* RaceSyncWatch.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F95B76B2596968200631A27 /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				4F95B7552596968100631A27 /* RaceSyncWatch Extension.appex in Embed App Extensions */,
+			);
+			name = "Embed App Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -344,6 +396,20 @@
 		4F8F2C102384903F00DC4907 /* RaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceViewModel.swift; sourceTree = "<group>"; };
 		4F8F2C122385136300DC4907 /* NumberUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NumberUtil.swift; sourceTree = "<group>"; };
 		4F91BC892398FBCE00539E95 /* ViewJoinable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewJoinable.swift; sourceTree = "<group>"; };
+		4F95B7482596967E00631A27 /* RaceSyncWatch.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaceSyncWatch.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F95B74B2596967E00631A27 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Interface.storyboard; sourceTree = "<group>"; };
+		4F95B74D2596968100631A27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F95B74F2596968100631A27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F95B7542596968100631A27 /* RaceSyncWatch Extension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = "RaceSyncWatch Extension.appex"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F95B7592596968100631A27 /* MainInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainInterfaceController.swift; sourceTree = "<group>"; };
+		4F95B75B2596968100631A27 /* ExtensionDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionDelegate.swift; sourceTree = "<group>"; };
+		4F95B75D2596968100631A27 /* NotificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationController.swift; sourceTree = "<group>"; };
+		4F95B75F2596968100631A27 /* ComplicationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComplicationController.swift; sourceTree = "<group>"; };
+		4F95B7612596968200631A27 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F95B7632596968200631A27 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F95B7C52596DBDF00631A27 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
+		4F95B7E725972E0900631A27 /* WatchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchUser.swift; sourceTree = "<group>"; };
+		4F95B7EE2598232400631A27 /* OnboardInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardInterfaceController.swift; sourceTree = "<group>"; };
 		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -377,6 +443,8 @@
 		4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+LinesCount.swift"; sourceTree = "<group>"; };
 		4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
+		4FBE760E259B387E00312B66 /* User+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+UIExtensions.swift"; sourceTree = "<group>"; };
+		4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionConstants.swift; sourceTree = "<group>"; };
 		4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
 		4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableView.swift; sourceTree = "<group>"; };
 		4FC50257242700DC0088320B /* ForceJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceJoinViewController.swift; sourceTree = "<group>"; };
@@ -474,6 +542,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F95B7512596968100631A27 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -516,6 +591,8 @@
 				4F13425B2360B67E00A9DBDE /* RaceSyncTests */,
 				4F13426E2360DA4B00A9DBDE /* RaceSyncAPI */,
 				4F13427B2360DA4C00A9DBDE /* RaceSyncAPITests */,
+				4F95B7492596967E00631A27 /* RaceSyncWatch */,
+				4F95B7582596968100631A27 /* RaceSyncWatch Extension */,
 				4F1342452360B67D00A9DBDE /* Products */,
 				8CA907F11021D980864A2634 /* Pods */,
 				630E12C4F78138F076CDB368 /* Frameworks */,
@@ -529,6 +606,8 @@
 				4F1342582360B67E00A9DBDE /* RaceSyncTests.xctest */,
 				4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */,
 				4F1342752360DA4C00A9DBDE /* RaceSyncAPITests.xctest */,
+				4F95B7482596967E00631A27 /* RaceSyncWatch.app */,
+				4F95B7542596968100631A27 /* RaceSyncWatch Extension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -623,6 +702,7 @@
 			isa = PBXGroup;
 			children = (
 				4F2724352515D88A000C7408 /* Chapter+UIExtensions.swift */,
+				4FBE760E259B387E00312B66 /* User+UIExtensions.swift */,
 			);
 			path = "RaceSyncAPI Extensions";
 			sourceTree = "<group>";
@@ -664,6 +744,7 @@
 		4F6C8A94236A9D2B0017FD78 /* UI Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4FC57C32258E1362006E210F /* AppUtil.swift */,
 				4F6C8A97236A9E840017FD78 /* Color.swift */,
 				4FD4E1DE237FEC0A008816B3 /* Appearance.swift */,
 				4FA26834237A80B9008970AC /* ActionButton.swift */,
@@ -677,7 +758,6 @@
 				4F714DE223CD5EAA000C4036 /* SafariActivity.swift */,
 				4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */,
 				4F482EFA251158FF00DBA0DF /* SocialActivity.swift */,
-				4FC57C32258E1362006E210F /* AppUtil.swift */,
 			);
 			path = "UI Utils";
 			sourceTree = "<group>";
@@ -711,6 +791,28 @@
 				4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */,
 			);
 			path = "View Models";
+			sourceTree = "<group>";
+		};
+		4F95B7492596967E00631A27 /* RaceSyncWatch */ = {
+			isa = PBXGroup;
+			children = (
+				4F95B74A2596967E00631A27 /* Interface.storyboard */,
+				4F95B74D2596968100631A27 /* Assets.xcassets */,
+				4F95B74F2596968100631A27 /* Info.plist */,
+			);
+			path = RaceSyncWatch;
+			sourceTree = "<group>";
+		};
+		4F95B7582596968100631A27 /* RaceSyncWatch Extension */ = {
+			isa = PBXGroup;
+			children = (
+				4FBE7615259BB9C700312B66 /* Interfaces */,
+				4FBE7616259BB9DC00312B66 /* Notifications */,
+				4FBE7617259BB9E800312B66 /* Complications */,
+				4F95B7612596968200631A27 /* Assets.xcassets */,
+				4F95B7632596968200631A27 /* Info.plist */,
+			);
+			path = "RaceSyncWatch Extension";
 			sourceTree = "<group>";
 		};
 		4F9DB7B323D6BAA000570483 /* Tools */ = {
@@ -806,6 +908,43 @@
 				4FA26830237A58E1008970AC /* ApiError.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4FBE7615259BB9C700312B66 /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				4F95B75B2596968100631A27 /* ExtensionDelegate.swift */,
+				4F95B7592596968100631A27 /* MainInterfaceController.swift */,
+				4F95B7EE2598232400631A27 /* OnboardInterfaceController.swift */,
+				4FBE7634259BBEA100312B66 /* Connectivity */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
+		4FBE7616259BB9DC00312B66 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				4F95B75D2596968100631A27 /* NotificationController.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
+		4FBE7617259BB9E800312B66 /* Complications */ = {
+			isa = PBXGroup;
+			children = (
+				4F95B75F2596968100631A27 /* ComplicationController.swift */,
+			);
+			path = Complications;
+			sourceTree = "<group>";
+		};
+		4FBE7634259BBEA100312B66 /* Connectivity */ = {
+			isa = PBXGroup;
+			children = (
+				4F95B7E725972E0900631A27 /* WatchUser.swift */,
+				4F95B7C52596DBDF00631A27 /* WatchSessionManager.swift */,
+				4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */,
+			);
+			path = Connectivity;
 			sourceTree = "<group>";
 		};
 		4FD4E1D2237F9DEF008816B3 /* Search */ = {
@@ -970,11 +1109,13 @@
 				4F1342872360DA4C00A9DBDE /* Embed Frameworks */,
 				3B4D116BF1F8D1B8A506C31E /* [CP] Embed Pods Frameworks */,
 				4F81759D241195AD00685F83 /* Upload Symbols with sentry-cli */,
+				4F95B7682596968200631A27 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				4F1342812360DA4C00A9DBDE /* PBXTargetDependency */,
+				4F95B7662596968200631A27 /* PBXTargetDependency */,
 			);
 			name = RaceSync;
 			productName = RaceSync;
@@ -1039,13 +1180,47 @@
 			productReference = 4F1342752360DA4C00A9DBDE /* RaceSyncAPITests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		4F95B7472596967E00631A27 /* RaceSyncWatch */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F95B76F2596968200631A27 /* Build configuration list for PBXNativeTarget "RaceSyncWatch" */;
+			buildPhases = (
+				4F95B7462596967E00631A27 /* Resources */,
+				4F95B76B2596968200631A27 /* Embed App Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4F95B7572596968100631A27 /* PBXTargetDependency */,
+			);
+			name = RaceSyncWatch;
+			productName = RaceSyncWatch;
+			productReference = 4F95B7482596967E00631A27 /* RaceSyncWatch.app */;
+			productType = "com.apple.product-type.application.watchapp2";
+		};
+		4F95B7532596968100631A27 /* RaceSyncWatch Extension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F95B76E2596968200631A27 /* Build configuration list for PBXNativeTarget "RaceSyncWatch Extension" */;
+			buildPhases = (
+				4F95B7502596968100631A27 /* Sources */,
+				4F95B7512596968100631A27 /* Frameworks */,
+				4F95B7522596968100631A27 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RaceSyncWatch Extension";
+			productName = "RaceSyncWatch Extension";
+			productReference = 4F95B7542596968100631A27 /* RaceSyncWatch Extension.appex */;
+			productType = "com.apple.product-type.watchkit2-extension";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
 		4F13423C2360B67D00A9DBDE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1030;
+				LastSwiftUpdateCheck = 1230;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "MultiGP Inc.";
 				TargetAttributes = {
@@ -1063,6 +1238,12 @@
 					4F1342742360DA4C00A9DBDE = {
 						CreatedOnToolsVersion = 10.3;
 						TestTargetID = 4F1342432360B67D00A9DBDE;
+					};
+					4F95B7472596967E00631A27 = {
+						CreatedOnToolsVersion = 12.3;
+					};
+					4F95B7532596968100631A27 = {
+						CreatedOnToolsVersion = 12.3;
 					};
 				};
 			};
@@ -1083,6 +1264,8 @@
 				4F1342572360B67E00A9DBDE /* RaceSyncTests */,
 				4F13426C2360DA4B00A9DBDE /* RaceSyncAPI */,
 				4F1342742360DA4C00A9DBDE /* RaceSyncAPITests */,
+				4F95B7472596967E00631A27 /* RaceSyncWatch */,
+				4F95B7532596968100631A27 /* RaceSyncWatch Extension */,
 			);
 		};
 /* End PBXProject section */
@@ -1096,8 +1279,8 @@
 				4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */,
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
 				4F65D8D82574EA5400C506C3 /* track-list.json in Resources */,
+				4FBE7608259B348200312B66 /* Assets.xcassets in Resources */,
 				4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */,
-				4F13424F2360B67D00A9DBDE /* Assets.xcassets in Resources */,
 				4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1121,6 +1304,24 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F95B7462596967E00631A27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F95B74E2596968100631A27 /* Assets.xcassets in Resources */,
+				4F95B74C2596967E00631A27 /* Interface.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4F95B7522596968100631A27 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FBE7602259B341E00312B66 /* Assets.xcassets in Resources */,
+				4F95B7622596968200631A27 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1280,6 +1481,7 @@
 				4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */,
 				4F5C1E3E238A770B00D756EB /* UITableViewCell+Reuse.swift in Sources */,
 				4FA1FC8B23D6D7C0006D4704 /* ApplicationControl.swift in Sources */,
+				4FBE7624259BBD9A00312B66 /* WatchSessionConstants.swift in Sources */,
 				4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */,
 				4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */,
 				4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */,
@@ -1329,6 +1531,7 @@
 				4FD4E1C9237F987C008816B3 /* RaceRosterViewController.swift in Sources */,
 				4FDF0062259045C5006964DB /* TrackElementHeaderView.swift in Sources */,
 				4F8668FC23870E1E005E310A /* SegmentedTableViewHeaderView.swift in Sources */,
+				4FBE760F259B387E00312B66 /* User+UIExtensions.swift in Sources */,
 				4F8175A12411C35A00685F83 /* LeaderboardViewController.swift in Sources */,
 				4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */,
 				4FD4E1CD237F98E7008816B3 /* RaceTabBarController.swift in Sources */,
@@ -1435,6 +1638,21 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		4F95B7502596968100631A27 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F95B75E2596968100631A27 /* NotificationController.swift in Sources */,
+				4F95B7E825972E0900631A27 /* WatchUser.swift in Sources */,
+				4F95B7EF2598232400631A27 /* OnboardInterfaceController.swift in Sources */,
+				4F95B7602596968100631A27 /* ComplicationController.swift in Sources */,
+				4F95B75C2596968100631A27 /* ExtensionDelegate.swift in Sources */,
+				4F95B75A2596968100631A27 /* MainInterfaceController.swift in Sources */,
+				4FBE761E259BBA6100312B66 /* WatchSessionConstants.swift in Sources */,
+				4F95B7C62596DBDF00631A27 /* WatchSessionManager.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -1458,6 +1676,16 @@
 			target = 4F13426C2360DA4B00A9DBDE /* RaceSyncAPI */;
 			targetProxy = 4F1342802360DA4C00A9DBDE /* PBXContainerItemProxy */;
 		};
+		4F95B7572596968100631A27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4F95B7532596968100631A27 /* RaceSyncWatch Extension */;
+			targetProxy = 4F95B7562596968100631A27 /* PBXContainerItemProxy */;
+		};
+		4F95B7662596968200631A27 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4F95B7472596967E00631A27 /* RaceSyncWatch */;
+			targetProxy = 4F95B7652596968200631A27 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -1475,6 +1703,14 @@
 				4F1342512360B67D00A9DBDE /* Base */,
 			);
 			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		4F95B74A2596967E00631A27 /* Interface.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F95B74B2596967E00631A27 /* Base */,
+			);
+			name = Interface.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -1609,7 +1845,7 @@
 				CODE_SIGN_ENTITLEMENTS = RaceSync/RaceSync.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
@@ -1641,7 +1877,7 @@
 				CODE_SIGN_ENTITLEMENTS = RaceSync/RaceSync.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 23;
+				CURRENT_PROJECT_VERSION = 24;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
@@ -1804,6 +2040,100 @@
 			};
 			name = Release;
 		};
+		4F95B7692596968200631A27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 24;
+				DEVELOPMENT_TEAM = TJ4PB66YQS;
+				IBSC_MODULE = RaceSyncWatch_Extension;
+				INFOPLIST_FILE = RaceSyncWatch/Info.plist;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		4F95B76A2596968200631A27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 24;
+				DEVELOPMENT_TEAM = TJ4PB66YQS;
+				IBSC_MODULE = RaceSyncWatch_Extension;
+				INFOPLIST_FILE = RaceSyncWatch/Info.plist;
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
+		4F95B76C2596968200631A27 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 24;
+				DEVELOPMENT_TEAM = TJ4PB66YQS;
+				INFOPLIST_FILE = "RaceSyncWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Debug;
+		};
+		4F95B76D2596968200631A27 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 24;
+				DEVELOPMENT_TEAM = TJ4PB66YQS;
+				INFOPLIST_FILE = "RaceSyncWatch Extension/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.3;
+				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp.watchkitextension;
+				PRODUCT_NAME = "${TARGET_NAME}";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 7.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1848,6 +2178,24 @@
 			buildConfigurations = (
 				4F1342892360DA4C00A9DBDE /* Debug */,
 				4F13428A2360DA4C00A9DBDE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F95B76E2596968200631A27 /* Build configuration list for PBXNativeTarget "RaceSyncWatch Extension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F95B76C2596968200631A27 /* Debug */,
+				4F95B76D2596968200631A27 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F95B76F2596968200631A27 /* Build configuration list for PBXNativeTarget "RaceSyncWatch" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F95B7692596968200631A27 /* Debug */,
+				4F95B76A2596968200631A27 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

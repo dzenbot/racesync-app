@@ -13,7 +13,7 @@ extension UIImage {
 
     func image(withColor color: UIColor) -> UIImage? {
 
-        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
         let context = UIGraphicsGetCurrentContext()!
 
         let rect = CGRect(origin: CGPoint.zero, size: size)
@@ -44,6 +44,25 @@ extension UIImage {
         let cropImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return cropImage
+    }
+
+    func rounded(_ backgroundColor: UIColor? = nil) -> UIImage? {
+        let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
+
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+        let context = UIGraphicsGetCurrentContext()!
+
+        if let color = backgroundColor {
+            color.setFill()
+            self.draw(in: rect)
+            context.fill(rect)
+        }
+
+        let path = UIBezierPath(ovalIn: rect)
+        path.addClip()
+
+        UIImage(cgImage: cgImage!, scale: scale, orientation: imageOrientation).draw(in: rect)
+        return UIGraphicsGetImageFromCurrentImageContext()
     }
 }
 

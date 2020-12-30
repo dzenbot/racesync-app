@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder.WatchKit.Storyboard" version="3.0" toolsVersion="17701" targetRuntime="watchKit" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Vk1-88-Z94">
+    <device id="watch38"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBWatchKitPlugin" version="17500"/>
+    </dependencies>
+    <scenes>
+        <!--MainInterfaceController-->
+        <scene sceneID="bSw-JN-vz9">
+            <objects>
+                <controller identifier="MainInterfaceController" id="Vk1-88-Z94" customClass="MainInterfaceController" customModule="RaceSyncWatch_Extension">
+                    <items>
+                        <group width="1" alignment="left" id="b0w-aR-fEm">
+                            <items>
+                                <imageView width="40" height="40" alignment="left" contentMode="scaleAspectFit" id="4Hx-lC-hcD">
+                                    <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </imageView>
+                                <group width="4" alignment="left" id="6fS-FD-2Tz">
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </group>
+                                <group width="1" height="40" alignment="left" layout="vertical" spacing="0.0" id="qVy-3P-wcj">
+                                    <items>
+                                        <label alignment="left" numberOfLines="0" id="Q2M-vg-PkL">
+                                            <fontDescription key="font" style="UICTFontTextStyleBody"/>
+                                        </label>
+                                        <label alignment="left" verticalAlignment="bottom" alpha="0.80000000000000004" id="GR5-Mb-tha">
+                                            <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                        </label>
+                                    </items>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <edgeInsets key="margins" left="0.0" right="0.0" top="4" bottom="6"/>
+                                </group>
+                            </items>
+                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </group>
+                        <imageView width="1" height="100" alignment="left" verticalAlignment="bottom" contentMode="scaleAspectFit" id="AXV-Hc-Wrz">
+                            <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </imageView>
+                    </items>
+                    <connections>
+                        <outlet property="idLabel" destination="GR5-Mb-tha" id="cvp-K9-NsM"/>
+                        <outlet property="nameLabel" destination="Q2M-vg-PkL" id="cJt-he-qKB"/>
+                        <outlet property="qrImageView" destination="AXV-Hc-Wrz" id="7YA-7C-euB"/>
+                        <outlet property="thumbImageView" destination="4Hx-lC-hcD" id="Xbh-RO-6PG"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="34" y="-16"/>
+        </scene>
+        <!--RaceSync-->
+        <scene sceneID="6on-Vu-sRm">
+            <objects>
+                <controller identifier="OnboardInterfaceController" title="RaceSync" id="zhe-g7-d36" customClass="OnboardInterfaceController" customModule="RaceSyncWatch_Extension">
+                    <items>
+                        <group width="1" alignment="center" verticalAlignment="center" layout="vertical" id="RR4-OD-QL1">
+                            <items>
+                                <imageView alignment="center" image="watch_mgp_logo" id="20J-7f-Y5g"/>
+                                <label alignment="center" text="Please sign in or register using the RaceSync app on your phone to begin using Racync for Apple Watch." textAlignment="center" numberOfLines="0" id="TkS-3z-Tsh">
+                                    <color key="textColor" white="0.90127354452054798" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <fontDescription key="font" style="UICTFontTextStyleFootnote"/>
+                                </label>
+                            </items>
+                        </group>
+                    </items>
+                    <connections>
+                        <outlet property="messageLabel" destination="TkS-3z-Tsh" id="Vje-4j-vTT"/>
+                    </connections>
+                </controller>
+            </objects>
+            <point key="canvasLocation" x="332" y="-16"/>
+        </scene>
+    </scenes>
+    <color key="tintColor" red="0.55294117649999996" green="0.094117647060000004" blue="0.1058823529" alpha="1" colorSpace="calibratedRGB"/>
+    <resources>
+        <image name="watch_mgp_logo" width="45" height="45"/>
+    </resources>
+</document>

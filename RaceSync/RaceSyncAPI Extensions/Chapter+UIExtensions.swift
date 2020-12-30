@@ -11,6 +11,11 @@ import RaceSyncAPI
 
 extension Chapter {
 
+    var miniProfilePictureUrl: String? {
+        guard let url = APIServices.shared.myChapter?.mainImageUrl else { return nil }
+        return ImageUtil.getSizedUrl(url, size: CGSize(width: 32, height: 32))
+    }
+
     func socialActivities() -> [SocialActivity] {
 
         var activities = [SocialActivity]()

@@ -315,14 +315,11 @@ class LoginViewController: UIViewController {
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
-
         guard !isKeyboardVisible else { return }
         guard let keyboardFrame = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue,
             let animationDuration = notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? Double else { return }
 
         let keyboardRect = keyboardFrame.cgRectValue
-
-        guard keyboardRect.intersects(loginFormView.frame) else { return }
 
         let intersection = keyboardRect.intersection(loginFormView.frame)
 
