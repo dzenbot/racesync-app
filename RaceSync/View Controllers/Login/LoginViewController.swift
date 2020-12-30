@@ -405,6 +405,10 @@ class LoginViewController: UIViewController {
 
 extension LoginViewController: UITextFieldDelegate {
 
+    func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
+        return true
+    }
+
     func textFieldDidBeginEditing(_ textField: UITextField) {
         //
     }
