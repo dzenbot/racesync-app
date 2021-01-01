@@ -87,6 +87,11 @@ extension ApplicationControl {
             WParameterKey.forceSend: Date()
         ]
 
+        // Use emojis for countries
+        if let country = user.country, !country.isEmpty {
+            userInfo[WParameterKey.name] = "\(user.userName) \(FlagEmojiGenerator.flag(country: country))"
+        }
+
         if let userProfileUrl = APIServices.shared.myUser?.miniProfilePictureUrl,
            let img = ImageNetworking.cachedImage(for: userProfileUrl)?.rounded(Color.black) {
             userInfo[WParameterKey.avatarData] = img.jpegData(compressionQuality: 0.7)!
