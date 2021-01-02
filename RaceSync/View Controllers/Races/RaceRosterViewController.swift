@@ -26,7 +26,7 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
         tableView.emptyDataSetSource = self
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = Color.gray50
-        tableView.register(AvatarTableViewCell.self, forCellReuseIdentifier: AvatarTableViewCell.identifier)
+        tableView.register(cellType: AvatarTableViewCell.self)
         return tableView
     }()
 
@@ -203,16 +203,16 @@ extension RaceRosterViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewModel = userViewModel(at: indexPath)
-        return avatarTableViewCell(for: viewModel)
+        return avatarTableViewCell(for: indexPath)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return AvatarTableViewCell.height
     }
 
-    func avatarTableViewCell(for viewModel: UserViewModel) -> AvatarTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AvatarTableViewCell.identifier) as! AvatarTableViewCell
+    func avatarTableViewCell(for indexPath: IndexPath) -> AvatarTableViewCell {
+        let viewModel = userViewModel(at: indexPath)
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as AvatarTableViewCell
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
         cell.subtitleLabel.text = viewModel.fullName

@@ -162,7 +162,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
+        tableView.register(cellType: FormTableViewCell.self)
 
         let separatorLine = UIView()
         separatorLine.backgroundColor = Color.gray100
@@ -683,7 +683,7 @@ extension RaceDetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
 
         let row = tableViewRows[indexPath.row]
         cell.textLabel?.text = row.title

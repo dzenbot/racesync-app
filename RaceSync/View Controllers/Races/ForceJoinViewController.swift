@@ -24,7 +24,7 @@ class ForceJoinViewController: UIViewController, Shimmable {
 
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
-        tableView.register(ChapterUserTableViewCell.self, forCellReuseIdentifier: ChapterUserTableViewCell.identifier)
+        tableView.register(cellType: ChapterUserTableViewCell.self)
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
@@ -278,13 +278,7 @@ extension ForceJoinViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if isSearching {
-            let viewModels = searchResult[indexPath.row]
-            return tableViewCell(for: viewModels)
-        } else {
-            let viewModels = sections[indexPath.section].viewModels
-            return tableViewCell(for: viewModels[indexPath.row])
-        }
+        return chapterUserViewCell(for: indexPath)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -303,9 +297,9 @@ extension ForceJoinViewController: UITableViewDataSource {
         return sections[section].letter
     }
 
-    fileprivate func tableViewCell(for viewModel: UserViewModel) -> ChapterUserTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ChapterUserTableViewCell.identifier) as! ChapterUserTableViewCell
-        guard let user = viewModel.user else { return cell }
+    fileprivate func chapterUserViewCell(for indexPath: IndexPath) -> ChapterUserTableViewCell {
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ChapterUserTableViewCell
+        guard let viewModel = userViewModel(for: indexPath), let user = viewModel.user else { return cell }
 
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
@@ -324,6 +318,15 @@ extension ForceJoinViewController: UITableViewDataSource {
         }
 
         return cell
+    }
+
+    fileprivate func userViewModel(for indexPath: IndexPath) -> UserViewModel? {
+        if isSearching {
+            return searchResult[indexPath.row]
+        } else {
+            let viewModels = sections[indexPath.section].viewModels
+            return viewModels[indexPath.row]
+        }
     }
 }
 

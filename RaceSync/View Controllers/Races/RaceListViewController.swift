@@ -23,7 +23,7 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         tableView.delegate = self
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
-        tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
+        tableView.register(cellType: RaceTableViewCell.self)
         tableView.refreshControl = self.refreshControl
         tableView.tableFooterView = UIView()
 
@@ -434,11 +434,7 @@ extension RaceListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: RaceTableViewCell.identifier) as? RaceTableViewCell else {
-            return UITableViewCell()
-        }
-
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as RaceTableViewCell
         let viewModel = raceList[indexPath.row]
 
         cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
