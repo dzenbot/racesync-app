@@ -13,6 +13,18 @@ class AvatarTableViewCell: UITableViewCell, ViewCellInterface {
 
     // MARK: - Public Variables
 
+    var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                accessoryView = spinnerView
+                spinnerView.startAnimating()
+            } else {
+                accessoryView = nil
+                accessoryType = .disclosureIndicator
+            }
+        }
+    }
+
     lazy var avatarImageView: AvatarImageView = {
         return AvatarImageView(withHeight: Constants.imageHeight)
     }()
@@ -46,6 +58,11 @@ class AvatarTableViewCell: UITableViewCell, ViewCellInterface {
         stackView.alignment = .leading
         stackView.spacing = 2
         return stackView
+    }()
+
+    fileprivate lazy var spinnerView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .white)
+        return view
     }()
 
     fileprivate enum Constants {
@@ -83,7 +100,7 @@ class AvatarTableViewCell: UITableViewCell, ViewCellInterface {
 
         contentView.addSubview(textBadge)
         textBadge.snp.makeConstraints {
-            $0.trailing.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-Constants.padding/2)
             $0.centerY.equalToSuperview()
         }
 
