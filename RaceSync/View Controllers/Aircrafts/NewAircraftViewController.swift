@@ -26,9 +26,9 @@ class NewAircraftViewController: UIViewController {
 
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
+        tableView.register(cellType: FormTableViewCell.self)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
         tableView.contentInsetAdjustmentBehavior = .always
 
         let footerView = UIView()
@@ -280,7 +280,7 @@ extension NewAircraftViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
         guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
 
         if row.isAircraftSpecRequired {

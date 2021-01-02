@@ -38,7 +38,7 @@ class AircraftDetailViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
+        tableView.register(cellType: FormTableViewCell.self)
         tableView.contentInsetAdjustmentBehavior = .always
         tableView.tableFooterView = UIView()
         return tableView
@@ -256,7 +256,7 @@ extension AircraftDetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
         guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
 
         if row.isAircraftSpecRequired, isEditable {

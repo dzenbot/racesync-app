@@ -282,7 +282,7 @@ extension ForceJoinViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return ChapterUserTableViewCell.height
+        return UniversalConstants.cellHeight
     }
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {

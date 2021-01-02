@@ -19,7 +19,7 @@ class TrackDetailViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
+        tableView.register(cellType: FormTableViewCell.self)
         tableView.tableHeaderView = tableHeaderView
 
         tableHeaderView.snp.makeConstraints {
@@ -506,7 +506,7 @@ extension TrackDetailViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
 
         let row = tableViewRows[indexPath.row]
         let track = viewModel.track

@@ -207,7 +207,7 @@ extension RaceRosterViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return AvatarTableViewCell.height
+        return UniversalConstants.cellHeight
     }
 
     func avatarTableViewCell(for indexPath: IndexPath) -> AvatarTableViewCell {

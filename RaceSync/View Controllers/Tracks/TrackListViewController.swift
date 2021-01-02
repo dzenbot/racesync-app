@@ -20,7 +20,7 @@ class TrackListViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        tableView.register(SimpleTableViewCell.self, forCellReuseIdentifier: SimpleTableViewCell.identifier)
+        tableView.register(cellType: SimpleTableViewCell.self)
 
         let backgroundView = UIView()
         backgroundView.backgroundColor = Color.gray20
@@ -140,16 +140,16 @@ extension TrackListViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let viewModel = getViewModel(at: indexPath)
-        return trackTableViewCell(for: viewModel)
+        return trackTableViewCell(for: indexPath)
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return SimpleTableViewCell.height
+        return UniversalConstants.cellHeight
     }
 
-    func trackTableViewCell(for viewModel: TrackViewModel) -> SimpleTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: SimpleTableViewCell.identifier) as! SimpleTableViewCell
+    func trackTableViewCell(for indexPath: IndexPath) -> SimpleTableViewCell {
+        let viewModel = getViewModel(at: indexPath)
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as SimpleTableViewCell
         cell.iconImageView.image = UIImage(named: "track_thumb_\(viewModel.track.id)")
         cell.titleLabel.text = viewModel.titleLabel
         cell.subtitleLabel.text = viewModel.subtitleLabel

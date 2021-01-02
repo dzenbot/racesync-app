@@ -21,7 +21,7 @@ class SettingsViewController: UIViewController {
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         tableView.tableFooterView = headerView
-        tableView.register(FormTableViewCell.self, forCellReuseIdentifier: FormTableViewCell.identifier)
+        tableView.register(cellType: FormTableViewCell.self)
 
         let backgroundView = UIView()
         backgroundView.backgroundColor = Color.gray20
@@ -159,7 +159,7 @@ extension SettingsViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: FormTableViewCell.identifier) as! FormTableViewCell
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
 
         guard let section = Section(rawValue: indexPath.section), let rows = sections[section] else { return cell }
         let row = rows[indexPath.row]

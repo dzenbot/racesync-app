@@ -35,9 +35,9 @@ class AircraftListViewController: UIViewController {
 
     fileprivate lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout:collectionViewLayout)
+        collectionView.register(cellType: AircraftCollectionViewCell.self)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(AircraftCollectionViewCell.self, forCellWithReuseIdentifier: AircraftCollectionViewCell.identifier)
         collectionView.backgroundColor = Color.white
         collectionView.alwaysBounceVertical = true
         collectionView.emptyDataSetSource = self
@@ -225,9 +225,7 @@ extension AircraftListViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AircraftCollectionViewCell.identifier, for: indexPath) as! AircraftCollectionViewCell
-
+        let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as AircraftCollectionViewCell
         let viewModel = aircraftViewModels[indexPath.row]
         cell.titleLabel.text = viewModel.displayName
         cell.delegate = self

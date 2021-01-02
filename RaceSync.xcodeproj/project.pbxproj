@@ -123,7 +123,6 @@
 		4F9DB7B523D6BAC200570483 /* CrashCatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */; };
 		4FA1AB3523C6AD5B007CF389 /* AircraftApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3423C6AD5B007CF389 /* AircraftApi.swift */; };
 		4FA1AB3723C7149D007CF389 /* AircraftCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */; };
-		4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3A23C948BA007CF389 /* ViewCellInterface.swift */; };
 		4FA1AB3D23C94F5F007CF389 /* UIEdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3C23C94F5F007CF389 /* UIEdgeInsets+Extensions.swift */; };
 		4FA1AB3F23C9538A007CF389 /* AircraftViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3E23C9538A007CF389 /* AircraftViewModel.swift */; };
 		4FA1AB4123CAC956007CF389 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4023CAC956007CF389 /* Dictionary+Extensions.swift */; };
@@ -420,7 +419,6 @@
 		4F9DB7B423D6BAC200570483 /* CrashCatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CrashCatcher.swift; sourceTree = "<group>"; };
 		4FA1AB3423C6AD5B007CF389 /* AircraftApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftApi.swift; sourceTree = "<group>"; };
 		4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftCollectionViewCell.swift; sourceTree = "<group>"; };
-		4FA1AB3A23C948BA007CF389 /* ViewCellInterface.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewCellInterface.swift; sourceTree = "<group>"; };
 		4FA1AB3C23C94F5F007CF389 /* UIEdgeInsets+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIEdgeInsets+Extensions.swift"; sourceTree = "<group>"; };
 		4FA1AB3E23C9538A007CF389 /* AircraftViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftViewModel.swift; sourceTree = "<group>"; };
 		4FA1AB4023CAC956007CF389 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
@@ -999,7 +997,6 @@
 				4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */,
 				4FA1AB3623C7149D007CF389 /* AircraftCollectionViewCell.swift */,
 				4FCAF9FB23AC803700ACE7D3 /* TableViewCellShimmerView.swift */,
-				4FA1AB3A23C948BA007CF389 /* ViewCellInterface.swift */,
 			);
 			path = "View Cells";
 			sourceTree = "<group>";
@@ -1525,7 +1522,6 @@
 				4F64290E24019090005E8036 /* NewAircraftViewController.swift in Sources */,
 				4F9DB7B223D68EB200570483 /* NavigationController.swift in Sources */,
 				4F65D8E02574F6CF00C506C3 /* TrackListViewController.swift in Sources */,
-				4FA1AB3B23C948BA007CF389 /* ViewCellInterface.swift in Sources */,
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,
 				4FD4E1C9237F987C008816B3 /* RaceRosterViewController.swift in Sources */,

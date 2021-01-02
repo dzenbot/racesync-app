@@ -70,8 +70,8 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
 
         configureBarButtonItems()
 
-        tableView.register(RaceTableViewCell.self, forCellReuseIdentifier: RaceTableViewCell.identifier)
-        tableView.register(AvatarTableViewCell.self, forCellReuseIdentifier: AvatarTableViewCell.identifier)
+        tableView.register(cellType: RaceTableViewCell.self)
+        tableView.register(cellType: AvatarTableViewCell.self)
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
@@ -281,24 +281,19 @@ extension ChapterViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if selectedSegment == .left {
-            let viewModel = raceViewModels[indexPath.row]
-            return raceTableViewCell(for: viewModel)
+            return raceTableViewCell(for: indexPath)
         } else {
-            let viewModel = userViewModels[indexPath.row]
-            return avatarTableViewCell(for: viewModel)
+            return avatarTableViewCell(for: indexPath)
         }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if selectedSegment == .left {
-            return RaceTableViewCell.height
-        } else {
-            return AvatarTableViewCell.height
-        }
+        return UniversalConstants.cellHeight
     }
 
-    func raceTableViewCell(for viewModel: RaceViewModel) -> RaceTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: RaceTableViewCell.identifier) as! RaceTableViewCell
+    func raceTableViewCell(for indexPath: IndexPath) -> RaceTableViewCell {
+        let viewModel = raceViewModels[indexPath.row]
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as RaceTableViewCell
         cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
         cell.joinButton.type = .race
@@ -311,8 +306,9 @@ extension ChapterViewController: UITableViewDataSource {
         return cell
     }
 
-    func avatarTableViewCell(for viewModel: UserViewModel) -> AvatarTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: AvatarTableViewCell.identifier) as! AvatarTableViewCell
+    func avatarTableViewCell(for indexPath: IndexPath) -> AvatarTableViewCell {
+        let viewModel = userViewModels[indexPath.row]
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as AvatarTableViewCell
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
         cell.subtitleLabel.text = viewModel.fullName

@@ -13,7 +13,7 @@ protocol AircraftCollectionViewCellDelegate {
     func aircraftCollectionViewCellDidLongPress(_ cell: AircraftCollectionViewCell, at point: CGPoint)
 }
 
-class AircraftCollectionViewCell: UICollectionViewCell, ViewCellInterface {
+class AircraftCollectionViewCell: UICollectionViewCell {
 
     static var height: CGFloat {
         return ((UIScreen.main.bounds.width - (Constants.padding * 3)) / 2)

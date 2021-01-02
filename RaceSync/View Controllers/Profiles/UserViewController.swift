@@ -94,8 +94,8 @@ class UserViewController: ProfileViewController, ViewJoinable {
             headerView.hideRightBadgeButton(true)
         }
 
-        tableView.register(UserRaceTableViewCell.self, forCellReuseIdentifier: UserRaceTableViewCell.identifier)
-        tableView.register(ChapterTableViewCell.self, forCellReuseIdentifier: ChapterTableViewCell.identifier)
+        tableView.register(cellType: UserRaceTableViewCell.self)
+        tableView.register(cellType: ChapterTableViewCell.self)
         tableView.dataSource = self
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
@@ -314,24 +314,19 @@ extension UserViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if selectedSegment == .left {
-            let viewModel = raceViewModels[indexPath.row]
-            return userRaceTableViewCell(for: viewModel)
+            return userRaceTableViewCell(for: indexPath)
         } else {
-            let viewModel = chapterViewModels[indexPath.row]
-            return chapterTableViewCell(for: viewModel)
+            return chapterTableViewCell(for: indexPath)
         }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if selectedSegment == .left {
-            return UserRaceTableViewCell.height
-        } else {
-            return ChapterTableViewCell.height
-        }
+        return UniversalConstants.cellHeight
     }
 
-    func userRaceTableViewCell(for viewModel: RaceViewModel) -> UserRaceTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: UserRaceTableViewCell.identifier) as! UserRaceTableViewCell
+    func userRaceTableViewCell(for indexPath: IndexPath) -> UserRaceTableViewCell {
+        let viewModel = raceViewModels[indexPath.row]
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as UserRaceTableViewCell
         cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
         cell.joinButton.type = .race
@@ -343,8 +338,9 @@ extension UserViewController: UITableViewDataSource {
         return cell
     }
 
-    func chapterTableViewCell(for viewModel: ChapterViewModel) -> ChapterTableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: ChapterTableViewCell.identifier) as! ChapterTableViewCell
+    func chapterTableViewCell(for indexPath: IndexPath) -> ChapterTableViewCell {
+        let viewModel = chapterViewModels[indexPath.row]
+        let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ChapterTableViewCell
         cell.titleLabel.text = viewModel.titleLabel
         cell.subtitleLabel.text = viewModel.locationLabel
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))

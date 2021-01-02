@@ -49,9 +49,9 @@ class AircraftPickerViewController: UIViewController {
 
     fileprivate lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout:collectionViewLayout)
+        collectionView.register(cellType: AircraftCollectionViewCell.self)
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(AircraftCollectionViewCell.self, forCellWithReuseIdentifier: AircraftCollectionViewCell.identifier)
         collectionView.backgroundColor = Color.white
         collectionView.emptyDataSetSource = self
         collectionView.emptyDataSetDelegate = self
@@ -238,13 +238,11 @@ extension AircraftPickerViewController: UICollectionViewDataSource {
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: AircraftCollectionViewCell.identifier, for: indexPath) as! AircraftCollectionViewCell
+        let cell = collectionView.dequeueReusableCell(forIndexPath: indexPath) as AircraftCollectionViewCell
 
         let viewModel = aircraftViewModels[indexPath.row]
         cell.titleLabel.text = viewModel.displayName
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_large_aircraft"))
-
         return cell
     }
 }
