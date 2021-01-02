@@ -156,8 +156,12 @@ extension RaceRosterViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let viewModel = userViewModel(at: indexPath)
+        let cell = tableView.cellForRow(at: indexPath) as! AvatarTableViewCell
+        cell.isLoading = true
 
         userApi.searchUser(with: viewModel.username) { (user, error) in
+            cell.isLoading = false
+
             if let user = user {
                 let userVC = UserViewController(with: user)
                 self.navigationController?.pushViewController(userVC, animated: true)

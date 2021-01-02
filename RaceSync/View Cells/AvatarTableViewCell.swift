@@ -84,7 +84,6 @@ class AvatarTableViewCell: UITableViewCell, ViewCellInterface {
     // MARK: - Layout
 
     open func setupLayout() {
-
         let selectedBackgroundView = UIView()
         selectedBackgroundView.backgroundColor = Color.gray50
         self.selectedBackgroundView = selectedBackgroundView
@@ -100,7 +99,7 @@ class AvatarTableViewCell: UITableViewCell, ViewCellInterface {
 
         contentView.addSubview(textBadge)
         textBadge.snp.makeConstraints {
-            $0.trailing.equalToSuperview().offset(-Constants.padding/2)
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
             $0.centerY.equalToSuperview()
         }
 

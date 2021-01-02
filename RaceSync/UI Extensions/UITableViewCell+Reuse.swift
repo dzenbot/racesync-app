@@ -23,7 +23,7 @@ extension UITableViewCell: Reusable { }
 extension UITableView {
 
     func register<T: UITableViewCell>(cellType: T.Type) {
-        self.register(cellType.self, forCellReuseIdentifier: cellType.reuseIdentifier)
+        register(cellType.self, forCellReuseIdentifier: cellType.reuseIdentifier)
     }
 
     func dequeueReusableCell<T: UITableViewCell>(forIndexPath indexPath: IndexPath) -> T {
