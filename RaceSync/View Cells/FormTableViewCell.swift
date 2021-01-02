@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FormTableViewCell: UITableViewCell, ViewCellInterface {
+class FormTableViewCell: UITableViewCell {
 
     // MARK: - Public Variables
 

@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class SimpleTableViewCell: UITableViewCell, ViewCellInterface {
+class SimpleTableViewCell: UITableViewCell {
 
     // MARK: - Public Variables
 

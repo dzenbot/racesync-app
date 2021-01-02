@@ -280,10 +280,7 @@ extension AircraftPickerViewController: EmptyDataSetSource {
     }
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
-        if let nc = navigationController {
-            return -nc.navigationBar.frame.height
-        }
-        return 0
+        return -(navigationController?.navigationBar.frame.height ?? 0)
     }
 }
 

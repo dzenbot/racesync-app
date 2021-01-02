@@ -9,7 +9,7 @@
 import UIKit
 import SnapKit
 
-class AvatarTableViewCell: UITableViewCell, ViewCellInterface {
+class AvatarTableViewCell: UITableViewCell {
 
     // MARK: - Public Variables
 

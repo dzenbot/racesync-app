@@ -15,15 +15,9 @@ class AircraftListViewController: UIViewController {
 
     // MARK: - Public Variables
 
-    var isEditable: Bool = true {
-        didSet {
-            canAddAircraft = isEditable
-        }
-    }
+    var isEditable: Bool = true
 
     // MARK: - Private Variables
-
-    fileprivate var canAddAircraft: Bool = true
 
     fileprivate lazy var collectionViewLayout: UICollectionViewLayout = {
         let layout = UICollectionViewFlowLayout()
@@ -62,6 +56,7 @@ class AircraftListViewController: UIViewController {
     fileprivate var shouldReloadAircrafts: Bool = true
 
     fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noAircrafts)
+    fileprivate var emptyStateMyAircrafts = EmptyStateViewModel(.noMyAircrafts)
     fileprivate var emptyStateError: EmptyStateViewModel?
 
     fileprivate enum Constants {
@@ -108,13 +103,14 @@ class AircraftListViewController: UIViewController {
         title = user.isMe ? "My Aircrafts" : "Aircrafts"
         view.backgroundColor = Color.white
 
-        if canAddAircraft {
+        if isEditable {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressCreateButton))
         }
 
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.leading.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
         }
 
         view.addSubview(activityIndicatorView)
@@ -291,25 +287,35 @@ extension AircraftListViewController: EmptyDataSetSource {
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
         if emptyStateError != nil {
             return emptyStateError?.title
+        } else if isEditable {
+            return emptyStateMyAircrafts.title
+        } else {
+            return emptyStateAircrafts.title
         }
-
-        return emptyStateAircrafts.title
     }
 
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
         if emptyStateError != nil {
             return emptyStateError?.description
+        } else if isEditable {
+            return emptyStateMyAircrafts.description
+        } else {
+            return emptyStateAircrafts.description
         }
-
-        return emptyStateAircrafts.description
     }
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
         if emptyStateError != nil {
             return emptyStateError?.buttonTitle(state)
+        } else if isEditable {
+            return emptyStateMyAircrafts.buttonTitle(state)
+        } else {
+            return emptyStateAircrafts.buttonTitle(state)
         }
+    }
 
-        return emptyStateAircrafts.buttonTitle(state)
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        return -(navigationController?.navigationBar.frame.height ?? 0)
     }
 }
 
