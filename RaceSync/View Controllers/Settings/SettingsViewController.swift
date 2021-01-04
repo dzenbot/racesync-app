@@ -229,7 +229,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .buildGuide:           return "Obstacles Build Guide"
         case .seasonRules:          return "Season Rules & Regulations"
         case .visitStore:           return "Visit the MultiGP Shop"
-        case .measurement:          return "Measurement System"
+        case .measurement:          return APISettingsType.measurement.title
         case .submitFeedback:       return "Send Feedback"
         case .visitSite:            return "Go to MultiGP.com"
         case .logout:               return "Logout"

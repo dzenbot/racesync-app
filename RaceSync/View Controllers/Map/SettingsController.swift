@@ -15,11 +15,11 @@ class SettingsController {
     // MARK: - Public Variables
 
     var completion: VoidCompletionBlock?
-    var settingsType: SettingsType?
+    var settingsType: APISettingsType?
 
     // MARK: - Presentation
 
-    func presentSettingsPicker(_ type: SettingsType, from presentingVC: UIViewController, completion: VoidCompletionBlock?) {
+    func presentSettingsPicker(_ type: APISettingsType, from presentingVC: UIViewController, completion: VoidCompletionBlock?) {
         self.settingsType = type
         self.completion = completion
 
@@ -93,16 +93,5 @@ extension SettingsController: FormBaseViewControllerDelegate {
         // invalidate variables after we dismiss
         completion = nil
         settingsType = nil
-    }
-}
-
-enum SettingsType: Int, EnumTitle {
-    case searchRadius, measurement
-
-   var title: String {
-        switch self {
-        case .searchRadius:     return "Search Radius"
-        case .measurement:      return "Measurement Unit"
-        }
     }
 }

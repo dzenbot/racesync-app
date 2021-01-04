@@ -9,6 +9,17 @@
 import Foundation
 import CoreGraphics
 
+public enum APISettingsType: Int, EnumTitle {
+    case searchRadius, measurement
+
+    public var title: String {
+        switch self {
+        case .searchRadius:     return "Search Radius"
+        case .measurement:      return "Measurement System"
+        }
+    }
+}
+
 public class APISettings {
 
     public var searchRadius: String {
