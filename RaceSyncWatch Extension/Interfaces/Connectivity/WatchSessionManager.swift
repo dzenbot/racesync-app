@@ -27,7 +27,7 @@ class WatchSessionManager: NSObject {
 
     // MARK: - Private Variables
 
-    fileprivate var delegates: [WatchSessionManagerDelegate] = [WatchSessionManagerDelegate]()
+    fileprivate var delegates = [WatchSessionManagerDelegate]()
 
     // MARK: - Initialization
 
@@ -70,8 +70,8 @@ class WatchSessionManager: NSObject {
     }
 
     func remove<T>(_ delegate: T) where T: WatchSessionManagerDelegate, T: Equatable {
-        for (index, dataSourceDelegate) in delegates.enumerated() {
-            if let dataSourceDelegate = dataSourceDelegate as? T, dataSourceDelegate == delegate {
+        for (index, aDelegate) in delegates.enumerated() {
+            if let aDelegate = aDelegate as? T, aDelegate == delegate {
                 delegates.remove(at: index)
                 break
             }

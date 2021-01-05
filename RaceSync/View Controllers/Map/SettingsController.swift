@@ -15,11 +15,11 @@ class SettingsController {
     // MARK: - Public Variables
 
     var completion: VoidCompletionBlock?
-    var settingsType: SettingsType?
+    var settingsType: APISettingsType?
 
     // MARK: - Presentation
 
-    func presentSettingsPicker(_ type: SettingsType, from presentingVC: UIViewController, completion: VoidCompletionBlock?) {
+    func presentSettingsPicker(_ type: APISettingsType, from presentingVC: UIViewController, completion: VoidCompletionBlock?) {
         self.settingsType = type
         self.completion = completion
 
@@ -28,6 +28,8 @@ class SettingsController {
             presentSearchRadiusPicker(from: presentingVC)
         case .measurement:
             presentMeasurementUnitPicker(from: presentingVC)
+        default:
+            return
         }
     }
 
@@ -72,13 +74,13 @@ extension SettingsController: FormBaseViewControllerDelegate {
         } else if settingsType == .measurement, let system = APIMeasurementSystem(title: item) {
 
             let previousUnit = settings.lengthUnit
-            APIServices.shared.settings.measurementSystem = system
+            settings.measurementSystem = system
             let newUnit = settings.lengthUnit
 
             // To make values compatible, we user similar lenghts instead of converting and having values with decimals
             if let idx = previousUnit.supportedValues.firstIndex(of: settings.searchRadius) {
                 let value = newUnit.supportedValues[idx]
-                APIServices.shared.settings.searchRadius = value
+                settings.update(searchRadius: value)
             }
         }
 
@@ -93,16 +95,5 @@ extension SettingsController: FormBaseViewControllerDelegate {
         // invalidate variables after we dismiss
         completion = nil
         settingsType = nil
-    }
-}
-
-enum SettingsType: Int, EnumTitle {
-    case searchRadius, measurement
-
-   var title: String {
-        switch self {
-        case .searchRadius:     return "Search Radius"
-        case .measurement:      return "Measurement Unit"
-        }
     }
 }
