@@ -6,10 +6,9 @@
             "designer": "Jefte",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "2",
@@ -18,10 +17,9 @@
             "designer": "HarmJoy",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "3",
@@ -30,10 +28,9 @@
             "designer": "MAD_AIR",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "4",
@@ -42,10 +39,9 @@
             "designer": "hyper-quad",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "5",
@@ -54,10 +50,9 @@
             "designer": "HarmJoy",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "6",
@@ -198,6 +193,80 @@
             "designer": "",
             "class": "0",
             "elements": []
+        }
+    ],
+    "champs": [{
+            "id": "16",
+            "title": "2018 MultiGP Championship",
+            "leaderboardUrl": "https://www.multigp.com/2018-multigp-championship-results/",
+            "designer": "Kruel",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 7
+                },
+                {
+                    "type": "flag",
+                    "count": 13
+                },
+                {
+                    "type": "double_gate",
+                    "count": 2
+                },
+                {
+                    "type": "hurtle",
+                    "count": 2
+                },
+                {
+                    "type": "offset_gate",
+                    "count": 2
+                },
+                {
+                    "type": "dive_gate",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "id": "17",
+            "title": "2019 MultiGP Championship",
+            "leaderboardUrl": "https://www.multigp.com/2019-multigp-championship-results/",
+            "designer": "Kruel",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 12
+                },
+                {
+                    "type": "flag",
+                    "count": 1
+                },
+                {
+                    "type": "double_gate",
+                    "count": 3
+                }
+            ]
+        },
+        {
+            "id": "18",
+            "title": "2021 MultiGP Drone Racing Championship",
+            "videoUrl": "",
+            "leaderboardUrl": "",
+            "designer": "",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 0
+                },
+                {
+                    "type": "flag",
+                    "count": 0
+                },
+                {
+                    "type": "double_gate",
+                    "count": 0
+                }
+            ]
         }
     ],
     "canada": [{

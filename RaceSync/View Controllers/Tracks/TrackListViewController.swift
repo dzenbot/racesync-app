@@ -97,6 +97,7 @@ fileprivate extension TrackListViewController {
         
         sections += [getSection(for: .gq)]
         sections += [getSection(for: .utt)]
+        sections += [getSection(for: .champs)]
         sections += [getSection(for: .canada)]
     }
 

@@ -44,7 +44,7 @@ public class Track: ImmutableMappable, Descriptable {
     public var elementsCount: Int {
         get {
             var count: Int = 0
-            if elements.count == count { return count }
+            if elements.count == count { return count } //preventively return zero
             
             for e in elements {
                 if e.count > 0 {
@@ -57,12 +57,13 @@ public class Track: ImmutableMappable, Descriptable {
 }
 
 public enum TrackType: String, EnumTitle {
-    case gq, utt, canada
+    case gq, utt, champs, canada
 
     public var title: String {
         switch self {
         case .gq:       return "Global Qualifier (GQ)"
         case .utt:      return "Universal Time Trial (UTT)"
+        case .champs:   return "MultiGP Drone Racing Championship"
         case .canada:   return "Canadian Series"
         }
     }
@@ -101,7 +102,8 @@ public enum TrackElementType: String, EnumTitle {
     case towerGate = "tower_gate"
     case doubleGate = "double_gate"
     case ladderGate = "ladder_gate"
-    case toplessLadderGate = "topless_ladder_gate"
+    case toplessLadder = "topless_ladder_gate"
+    case offsetGate = "offset_gate"
     case diveGate = "dive_gate"
     case launchGate = "launch_gate"
     case hurtle = "hurtle"
@@ -113,10 +115,11 @@ public enum TrackElementType: String, EnumTitle {
         switch self {
         case .gate:             return "Gate"
         case .flag:             return "Flag"
-        case .towerGate:        return "Tower Gate"
+        case .towerGate:        return "Tower"
         case .doubleGate:       return "Double Gate"
-        case .ladderGate:       return "Ladder Gate"
-        case .toplessLadderGate:return "Topless Ladder Gate"
+        case .ladderGate:       return "Ladder"
+        case .toplessLadder:    return "Topless Ladder"
+        case .offsetGate:       return "Offset Gate"
         case .diveGate:         return "Dive Gate"
         case .launchGate:       return "Launch Gate"
         case .hurtle:           return "Hurtle"
