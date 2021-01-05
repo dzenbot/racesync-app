@@ -28,6 +28,8 @@ class SettingsController {
             presentSearchRadiusPicker(from: presentingVC)
         case .measurement:
             presentMeasurementUnitPicker(from: presentingVC)
+        default:
+            return
         }
     }
 
@@ -72,13 +74,13 @@ extension SettingsController: FormBaseViewControllerDelegate {
         } else if settingsType == .measurement, let system = APIMeasurementSystem(title: item) {
 
             let previousUnit = settings.lengthUnit
-            APIServices.shared.settings.measurementSystem = system
+            settings.measurementSystem = system
             let newUnit = settings.lengthUnit
 
             // To make values compatible, we user similar lenghts instead of converting and having values with decimals
             if let idx = previousUnit.supportedValues.firstIndex(of: settings.searchRadius) {
                 let value = newUnit.supportedValues[idx]
-                APIServices.shared.settings.searchRadius = value
+                settings.update(searchRadius: value)
             }
         }
 

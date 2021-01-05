@@ -180,6 +180,8 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         super.viewDidLoad()
 
         setupLayout()
+
+        APIServices.shared.settings.add(self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -284,9 +286,8 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     @objc fileprivate func didPressFilterButton(_ sender: Any) {
-        settingsController.presentSettingsPicker(.searchRadius, from: self) { [weak self] in
-            self?.isLoading(true)
-            self?.loadRaces(forceReload: true)
+        settingsController.presentSettingsPicker(.searchRadius, from: self) {
+            // event handled by the APISettingsDelegate implementation
         }
     }
 
@@ -492,6 +493,20 @@ extension RaceListViewController: EmptyDataSetSource {
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
         return -(navigationController?.navigationBar.frame.height ?? 0)
+    }
+}
+
+extension RaceListViewController: APISettingsDelegate {
+
+    func didUpdate(settings: APISettingsType, with value: Any) {
+        guard selectedRaceList == .nearby else { return }
+
+        if settings == .measurement {
+            loadRaces()
+        } else if settings == .searchRadius {
+            isLoading(true)
+            loadRaces(forceReload: true)
+        }
     }
 }
 
