@@ -14,7 +14,7 @@ class TrackViewModel: Descriptable {
 
     let track: Track
     let titleLabel: String
-    let subtitleLabel: String?
+    let subtitleLabel: String
     let startDateLabel: String?
     let endDateLabel: String?
 
@@ -41,7 +41,7 @@ class TrackViewModel: Descriptable {
 extension TrackViewModel {
 
     /// Returns a string appending a list of localized element names and count
-    static func subtitleLabelString(for track: Track) -> String? {
+    static func subtitleLabelString(for track: Track) -> String {
         var strings = [String]()
 
         for e in track.elements {

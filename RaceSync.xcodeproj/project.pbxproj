@@ -979,8 +979,8 @@
 				4F714DE423CD769F000C4036 /* Map */,
 				4FD4E1D2237F9DEF008816B3 /* Search */,
 				4F6055F0258C9B5C008AF93F /* Gallery */,
-				4F1342672360DA3200A9DBDE /* Login */,
 				4FA1AB4623CC51D7007CF389 /* Settings */,
+				4F1342672360DA3200A9DBDE /* Login */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";

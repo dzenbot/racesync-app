@@ -21,6 +21,7 @@ class TrackListViewController: UIViewController {
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         tableView.register(cellType: SimpleTableViewCell.self)
+        tableView.tableHeaderView = self.searchBar
 
         let backgroundView = UIView()
         backgroundView.backgroundColor = Color.gray20
@@ -29,7 +30,30 @@ class TrackListViewController: UIViewController {
         return tableView
     }()
 
+    lazy var searchBar: UISearchBar = {
+        let size: CGSize = CGSize(width: UIScreen.main.bounds.width, height: 56)
+        let frame = CGRect(origin: .zero, size: size)
+
+        let searchBar = UISearchBar(frame: frame)
+        searchBar.delegate = self
+        searchBar.searchBarStyle = .minimal
+        searchBar.placeholder = "Search"
+        searchBar.barTintColor = .white
+        searchBar.isTranslucent = false
+        searchBar.backgroundImage = UIImage()
+        return searchBar
+    }()
+
     fileprivate var sections = [Section]()
+    fileprivate var searchResult = [TrackViewModel]()
+    fileprivate var trackViewModels = [TrackViewModel]()
+
+    fileprivate var emptyStateSearch = EmptyStateViewModel(.noSearchResults)
+
+    fileprivate var isSearching: Bool {
+        guard let text = searchBar.text else { return false }
+        return !text.isEmpty
+    }
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -99,11 +123,18 @@ fileprivate extension TrackListViewController {
         sections += [getSection(for: .utt)]
         sections += [getSection(for: .champs)]
         sections += [getSection(for: .canada)]
+
+        // used for search
+        trackViewModels = sections.compactMap { $0.viewModels }.flatMap( { $0 })
     }
 
-    func getViewModel(at indexPath: IndexPath) -> TrackViewModel {
-        let section = sections[indexPath.section]
-        return section.viewModels[indexPath.row]
+    func trackViewModel(at indexPath: IndexPath) -> TrackViewModel {
+        if isSearching {
+            return searchResult[indexPath.row]
+        } else {
+            let section = sections[indexPath.section]
+            return section.viewModels[indexPath.row]
+        }
     }
 }
 
@@ -112,13 +143,9 @@ extension TrackListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let viewModel = getViewModel(at: indexPath)
+        let viewModel = trackViewModel(at: indexPath)
         let vc = TrackDetailViewController(with: viewModel)
         navigationController?.pushViewController(vc, animated: true)
-    }
-
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return sections[section].title
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
@@ -133,10 +160,12 @@ extension TrackListViewController: UITableViewDelegate {
 extension TrackListViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
+        if isSearching { return 1 }
         return sections.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        guard !isSearching else { return searchResult.count }
         return sections[section].viewModels.count
     }
 
@@ -148,14 +177,55 @@ extension TrackListViewController: UITableViewDataSource {
         return UniversalConstants.cellHeight
     }
 
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        guard !isSearching else { return nil }
+        return sections[section].title
+    }
+
     func trackTableViewCell(for indexPath: IndexPath) -> SimpleTableViewCell {
-        let viewModel = getViewModel(at: indexPath)
+        let viewModel = trackViewModel(at: indexPath)
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as SimpleTableViewCell
         cell.iconImageView.image = UIImage(named: "track_thumb_\(viewModel.track.id)")
         cell.titleLabel.text = viewModel.titleLabel
         cell.subtitleLabel.text = viewModel.subtitleLabel
         cell.accessoryType = .disclosureIndicator
         return cell
+    }
+}
+
+extension TrackListViewController: UISearchBarDelegate {
+
+    func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
+        searchBar.setShowsCancelButton(true, animated: true)
+        return true
+    }
+
+    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
+
+    }
+
+    func searchBarShouldEndEditing(_ searchBar: UISearchBar) -> Bool {
+        return true
+    }
+
+    func searchBarTextDidEndEditing(_ searchBar: UISearchBar) {
+        searchBar.setShowsCancelButton(false, animated: true)
+    }
+
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        let query = searchText.lowercased()
+        if !query.isEmpty {
+            searchResult = trackViewModels.filter({
+                $0.titleLabel.localizedCaseInsensitiveContains(query)
+            })
+        }
+        tableView.reloadData()
+    }
+
+    func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        searchBar.text = nil
+        searchBar.resignFirstResponder()
+        tableView.reloadData()
     }
 }
 

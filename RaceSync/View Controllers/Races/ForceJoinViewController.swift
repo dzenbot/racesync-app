@@ -273,7 +273,6 @@ extension ForceJoinViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         guard !isSearching else { return searchResult.count }
-        guard sections.count > 0 else { return 0 }
         return sections[section].viewModels.count
     }
 
@@ -287,13 +286,11 @@ extension ForceJoinViewController: UITableViewDataSource {
 
     func sectionIndexTitles(for tableView: UITableView) -> [String]? {
         guard !isSearching else { return nil }
-        guard sections.count > 0 else { return nil }
         return sections.map { $0.letter }
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
         guard !isSearching else { return nil }
-        guard sections.count > 0 else { return nil }
         return sections[section].letter
     }
 
