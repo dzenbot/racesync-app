@@ -249,24 +249,41 @@
         },
         {
             "id": "18",
+            "title": "2020 MultiGP Championship",
+            "leaderboardUrl": "https://www.multigp.com/event/the-2020-multigp-drone-racing-championship-presented-by-racedayquads-com/",
+            "designer": "Jeffpv",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 12
+                },
+                {
+                    "type": "flag",
+                    "count": 5
+                },
+                {
+                    "type": "double_gate",
+                    "count": 4
+                },
+                {
+                    "type": "offset_gate",
+                    "count": 1
+                },
+                {
+                    "type": "dive_gate",
+                    "count": 2
+                }
+            ]
+        },
+        {
+            "id": "18",
             "title": "2021 MultiGP Drone Racing Championship",
+            "description": "",
             "videoUrl": "",
             "leaderboardUrl": "",
             "designer": "",
             "class": "0",
-            "elements": [{
-                    "type": "gate",
-                    "count": 0
-                },
-                {
-                    "type": "flag",
-                    "count": 0
-                },
-                {
-                    "type": "double_gate",
-                    "count": 0
-                }
-            ]
+            "elements": []
         }
     ],
     "canada": [{
@@ -316,6 +333,18 @@
                     "count": 1
                 }
             ]
+        },
+        {
+            "id": "19",
+            "title": "20201 Canadian MultiGP Series",
+            "description": "",
+            "videoUrl": "",
+            "leaderboardUrl": "",
+            "startDate": "",
+            "endDate": "",
+            "designer": "",
+            "class": "0",
+            "elements": []
         }
     ]
 }
