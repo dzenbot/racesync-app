@@ -149,6 +149,7 @@
 		4FBE761E259BBA6100312B66 /* WatchSessionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */; };
 		4FBE7624259BBD9A00312B66 /* WatchSessionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */; };
 		4FC1797D24B0801900D2EA2D /* ImagePickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */; };
+		4FC3F17725A7AB3B0039B94C /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC3F17625A7AB3B0039B94C /* String+Extensions.swift */; };
 		4FC4C59C24D8F3F2007D3B71 /* DimmableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */; };
 		4FC50258242700DC0088320B /* ForceJoinViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC50257242700DC0088320B /* ForceJoinViewController.swift */; };
 		4FC5025A2428710D0088320B /* RaceTabbable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FC502592428710D0088320B /* RaceTabbable.swift */; };
@@ -444,6 +445,7 @@
 		4FBE760E259B387E00312B66 /* User+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+UIExtensions.swift"; sourceTree = "<group>"; };
 		4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionConstants.swift; sourceTree = "<group>"; };
 		4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePickerController.swift; sourceTree = "<group>"; };
+		4FC3F17625A7AB3B0039B94C /* String+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Extensions.swift"; sourceTree = "<group>"; };
 		4FC4C59B24D8F3F2007D3B71 /* DimmableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DimmableView.swift; sourceTree = "<group>"; };
 		4FC50257242700DC0088320B /* ForceJoinViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ForceJoinViewController.swift; sourceTree = "<group>"; };
 		4FC502592428710D0088320B /* RaceTabbable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceTabbable.swift; sourceTree = "<group>"; };
@@ -1051,6 +1053,7 @@
 				4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */,
 				4F1E150424107BCE0082C486 /* URL+Extensions.swift */,
 				4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */,
+				4FC3F17625A7AB3B0039B94C /* String+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1618,6 +1621,7 @@
 				4F5C1E4D2390600400D756EB /* APISessionManager.swift in Sources */,
 				4FDD499623B0461D009DD2DB /* Season.swift in Sources */,
 				4F00E078242963F1001DCFC4 /* Joinable.swift in Sources */,
+				4FC3F17725A7AB3B0039B94C /* String+Extensions.swift in Sources */,
 				4FD4E1BC237DCAA3008816B3 /* UserApi.swift in Sources */,
 				4F8668FA23868359005E310A /* ChapterApi.swift in Sources */,
 				4FDD499823B0470E009DD2DB /* ChapterConstants.swift in Sources */,

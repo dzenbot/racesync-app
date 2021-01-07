@@ -262,10 +262,3 @@ fileprivate struct Section {
     let title : String
     let viewModels : [TrackViewModel]
 }
-
-fileprivate extension String {
-
-    func lowercasedWords() -> [String] {
-        return self.lowercased().components(separatedBy: " ")
-    }
-}
