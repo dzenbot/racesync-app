@@ -350,7 +350,7 @@ extension ForceJoinViewController: UISearchBarDelegate {
         let query = searchText.lowercased()
         if !query.isEmpty {
             searchResult = userViewModels.filter({
-                $0.username.lowercased().contains(query) || $0.fullName.lowercased().contains(query)
+                $0.username.localizedCaseInsensitiveContains(query) || $0.fullName.localizedCaseInsensitiveContains(query)
             })
         }
         tableView.reloadData()
@@ -374,7 +374,7 @@ extension ForceJoinViewController: EmptyDataSetSource {
     }
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
-        return -scrollView.frame.height/5
+        return -scrollView.frame.height/10
     }
 }
 

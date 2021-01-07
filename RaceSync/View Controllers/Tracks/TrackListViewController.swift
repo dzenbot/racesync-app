@@ -10,6 +10,7 @@ import UIKit
 import SnapKit
 import RaceSyncAPI
 import SwiftyJSON
+import EmptyDataSet_Swift
 
 class TrackListViewController: UIViewController {
 
@@ -21,6 +22,7 @@ class TrackListViewController: UIViewController {
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         tableView.register(cellType: SimpleTableViewCell.self)
+        tableView.emptyDataSetSource = self
         tableView.tableHeaderView = self.searchBar
 
         let backgroundView = UIView()
@@ -213,12 +215,24 @@ extension TrackListViewController: UISearchBarDelegate {
     }
 
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let query = searchText.lowercased()
-        if !query.isEmpty {
+        let keywords = searchText.lowercasedWords().filter({ $0 != ""})
+
+        if !keywords.isEmpty {
             searchResult = trackViewModels.filter({
-                $0.titleLabel.localizedCaseInsensitiveContains(query)
+                let words = $0.titleLabel.lowercasedWords()
+                var arr = [String]()
+
+                for keyword in keywords {
+                    for word in words {
+                        if word.hasPrefix(keyword) {
+                            arr.append(keyword)
+                        }
+                    }
+                }
+                return arr.count == keywords.count // matching words
             })
         }
+
         tableView.reloadData()
     }
 
@@ -229,7 +243,29 @@ extension TrackListViewController: UISearchBarDelegate {
     }
 }
 
+extension TrackListViewController: EmptyDataSetSource {
+
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        if isSearching {
+            return emptyStateSearch.title
+        } else {
+            return nil
+        }
+    }
+
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        return -scrollView.frame.height/10
+    }
+}
+
 fileprivate struct Section {
     let title : String
     let viewModels : [TrackViewModel]
+}
+
+fileprivate extension String {
+
+    func lowercasedWords() -> [String] {
+        return self.lowercased().components(separatedBy: " ")
+    }
 }
