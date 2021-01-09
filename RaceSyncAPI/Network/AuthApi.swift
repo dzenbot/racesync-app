@@ -32,7 +32,7 @@ public protocol AuthApiInterface {
     func logout(_ completion: @escaping StatusCompletionBlock)
 }
 
-public class AuthApi {
+public class AuthApi: AuthApiInterface {
 
     public init() {}
     fileprivate let repositoryAdapter = RepositoryAdapter()
