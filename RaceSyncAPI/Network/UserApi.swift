@@ -42,6 +42,7 @@ public class UserApi: UserApiInterface {
 
         repositoryAdapter.getObject(endpoint, type: User.self) { (user, error) in
             if error?.code == ErrorCode.undefined.rawValue { APISessionManager.invalidateSession()}
+            if user != nil { APIServices.shared.myUser = user }
             completion(user, error)
         }
     }

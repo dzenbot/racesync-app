@@ -72,7 +72,7 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
 
     fileprivate lazy var refreshControl: UIRefreshControl = {
         let refreshControl = UIRefreshControl()
-        refreshControl.backgroundColor = .white
+        refreshControl.backgroundColor = Color.white
         refreshControl.tintColor = Color.blue
         refreshControl.addTarget(self, action: #selector(didPullRefreshControl), for: .valueChanged)
         return refreshControl
@@ -346,7 +346,6 @@ fileprivate extension RaceListViewController {
     func loadMyUser() {
         userApi.getMyUser { [weak self] (user, error) in
             if let user = user {
-                APIServices.shared.myUser = user
                 CrashCatcher.setupUser(user.id, username: user.userName)
 
                 self?.updateUserProfileImage()
