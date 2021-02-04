@@ -600,6 +600,7 @@ fileprivate extension RaceDetailViewController {
 
     func toggleRaceStatus(_ cell: FormTableViewCell) {
         guard !didTapCell else { return }
+        guard race.isMyChapter else { return } // only allow interacting if the user can manage the race
 
         if race.status == .opened {
             ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close enrollment for this race?",
