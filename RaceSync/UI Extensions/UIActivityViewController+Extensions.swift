@@ -46,8 +46,6 @@ extension UIActivity.ActivityType {
         .postToTencentWeibo,
         .airDrop,
         .openInIBooks,
-        .markupAsPDF,
-        .addToReadingList,
-        .assignToContact
+        .markupAsPDF
     ]
 }

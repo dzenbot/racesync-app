@@ -8,9 +8,6 @@
 
 import UIKit
 
-import Foundation
-import UIKit
-
 extension UIColor {
 
     static func new(_ hex: String) -> UIColor {
