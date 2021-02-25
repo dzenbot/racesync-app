@@ -39,7 +39,8 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate let headerView = RaceHeaderView()
-    
+    fileprivate var didTapCell: Bool = false
+
     fileprivate var raceApi = RaceApi()
     fileprivate var userApi = UserApi()
     fileprivate var myRaceEntry: RaceEntry?
@@ -152,24 +153,43 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 }
 
-extension RaceRosterViewController: UITableViewDelegate {
+fileprivate extension RaceRosterViewController {
 
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    func setLoading(_ cell: AvatarTableViewCell, loading: Bool) {
+        cell.isLoading = loading
+        didTapCell = loading
+    }
+    
+    func canInteract(with cell: AvatarTableViewCell) -> Bool {
+        guard !cell.isLoading else { return false }
+        guard !didTapCell else { return false }
+        return true
+    }
+
+    func showUserProfile(forUserAt indexPath: IndexPath) {
         let viewModel = userViewModel(at: indexPath)
         let cell = tableView.cellForRow(at: indexPath) as! AvatarTableViewCell
-        cell.isLoading = true
 
-        userApi.searchUser(with: viewModel.username) { (user, error) in
-            cell.isLoading = false
+        guard canInteract(with: cell) else { return }
+        setLoading(cell, loading: true)
 
+        // needs to search for a User since we don't have its id
+        userApi.searchUser(with: viewModel.username) { [weak self] (user, error) in
             if let user = user {
                 let userVC = UserViewController(with: user)
-                self.navigationController?.pushViewController(userVC, animated: true)
+                self?.navigationController?.pushViewController(userVC, animated: true)
             } else if let _ = error {
                 // handle error
             }
+            self?.setLoading(cell, loading: false)
         }
+    }
+}
 
+extension RaceRosterViewController: UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        showUserProfile(forUserAt: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 

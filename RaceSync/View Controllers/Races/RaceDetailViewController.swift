@@ -203,8 +203,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         }
     }
 
-    fileprivate var didTapCell: Bool = false
     fileprivate var tableViewRows = [Row]()
+    fileprivate var didTapCell: Bool = false
 
     fileprivate var raceViewModel: RaceViewModel
     fileprivate let raceApi = RaceApi()
@@ -566,40 +566,45 @@ fileprivate extension RaceDetailViewController {
         didTapCell = loading
     }
 
+    func canInteract(with cell: FormTableViewCell) -> Bool {
+        guard !cell.isLoading else { return false }
+        guard !didTapCell else { return false }
+        return true
+    }
+
     func showUserProfile(_ cell: FormTableViewCell) {
-        guard !didTapCell else { return }
+        guard canInteract(with: cell) else { return }
         setLoading(cell, loading: true)
 
         userApi.getUser(with: race.ownerId) { [weak self] (user, error) in
-            self?.setLoading(cell, loading: false)
-
             if let user = user {
                 let userVC = UserViewController(with: user)
                 self?.navigationController?.pushViewController(userVC, animated: true)
             } else if let _ = error {
                 // handle error
             }
+            self?.setLoading(cell, loading: false)
         }
     }
 
     func showChapterProfile(_ cell: FormTableViewCell) {
-        guard !didTapCell else { return }
+        guard canInteract(with: cell) else { return }
         setLoading(cell, loading: true)
 
         chapterApi.getChapter(with: race.chapterId) { [weak self] (chapter, error) in
-            self?.setLoading(cell, loading: false)
-
             if let chapter = chapter {
                 let chapterVC = ChapterViewController(with: chapter)
                 self?.navigationController?.pushViewController(chapterVC, animated: true)
             } else if let _ = error {
                 // handle error
             }
+            self?.setLoading(cell, loading: false)
         }
     }
 
     func toggleRaceStatus(_ cell: FormTableViewCell) {
-        guard !didTapCell else { return }
+        guard canInteract(with: cell) else { return }
+        guard race.isMyChapter else { return } // only allow interacting if the user can manage the race
 
         if race.status == .opened {
             ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close enrollment for this race?",
@@ -617,30 +622,29 @@ fileprivate extension RaceDetailViewController {
     }
 
     func openRace(_ cell: FormTableViewCell) {
-        guard !didTapCell else { return }
+        guard canInteract(with: cell) else { return }
         setLoading(cell, loading: true)
 
         raceApi.open(race: race.id) { [weak self] (status, error) in
-            self?.setLoading(cell, loading: false)
-
             if status {
                 self?.race.status = .opened
                 self?.reloadRaceView()
             }
+            self?.setLoading(cell, loading: false)
         }
     }
 
     func closeRace(_ cell: FormTableViewCell) {
-        guard !didTapCell else { return }
+        guard canInteract(with: cell) else { return }
         setLoading(cell, loading: true)
 
         raceApi.close(race: race.id) { [weak self] (status, error) in
-            self?.setLoading(cell, loading: false)
-
             if status {
                 self?.race.status = .closed
                 self?.reloadRaceView()
             }
+
+            self?.setLoading(cell, loading: false)
         }
     }
 

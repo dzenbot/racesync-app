@@ -51,7 +51,7 @@ public class APIServices {
         NetworkActivityIndicatorManager.shared.isEnabled = true
     }
 
-    // MARK: - Initialization
+    // MARK: - Invalidation
 
     public func invalidate() {
         myUser = nil

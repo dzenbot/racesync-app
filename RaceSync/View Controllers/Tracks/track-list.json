@@ -6,10 +6,9 @@
             "designer": "Jefte",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "2",
@@ -18,10 +17,9 @@
             "designer": "HarmJoy",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "3",
@@ -30,10 +28,9 @@
             "designer": "MAD_AIR",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "4",
@@ -42,10 +39,9 @@
             "designer": "hyper-quad",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "5",
@@ -54,10 +50,9 @@
             "designer": "HarmJoy",
             "class": "0",
             "elements": [{
-                    "type": "gate",
-                    "count": 5
-                }
-            ]
+                "type": "gate",
+                "count": 5
+            }]
         },
         {
             "id": "6",
@@ -200,6 +195,89 @@
             "elements": []
         }
     ],
+    "champs": [{
+            "id": "16",
+            "title": "2019 MGP Championship - Sport",
+            "leaderboardUrl": "https://www.multigp.com/2019-multigp-championship-results/",
+            "designer": "Kruel",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 12
+                },
+                {
+                    "type": "flag",
+                    "count": 1
+                },
+                {
+                    "type": "double_gate",
+                    "count": 3
+                }
+            ]
+        },
+        {
+            "id": "17",
+            "title": "2019 MGP Championship - Pro",
+            "leaderboardUrl": "https://www.multigp.com/2019-multigp-championship-results/",
+            "designer": "Kruel",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 11
+                },
+                {
+                    "type": "flag",
+                    "count": 4
+                },
+                {
+                    "type": "double_gate",
+                    "count": 4
+                },
+                {
+                    "type": "dive_gate",
+                    "count": 1
+                }
+            ]
+        },
+        {
+            "id": "18",
+            "title": "2020 MGP Championship - Pro",
+            "leaderboardUrl": "https://www.multigp.com/event/the-2020-multigp-drone-racing-championship-presented-by-racedayquads-com/",
+            "designer": "Jeffpv",
+            "class": "0",
+            "elements": [{
+                    "type": "gate",
+                    "count": 12
+                },
+                {
+                    "type": "flag",
+                    "count": 5
+                },
+                {
+                    "type": "double_gate",
+                    "count": 4
+                },
+                {
+                    "type": "offset_gate",
+                    "count": 1
+                },
+                {
+                    "type": "dive_gate",
+                    "count": 2
+                }
+            ]
+        },
+        {
+            "id": "18",
+            "title": "2021 MultiGP Drone Racing Championship",
+            "description": "",
+            "videoUrl": "",
+            "leaderboardUrl": "",
+            "designer": "",
+            "class": "0",
+            "elements": []
+        }
+    ],
     "canada": [{
             "id": "13",
             "title": "2019 Canadian MultiGP Series",
@@ -247,6 +325,18 @@
                     "count": 1
                 }
             ]
+        },
+        {
+            "id": "19",
+            "title": "20201 Canadian MultiGP Series",
+            "description": "",
+            "videoUrl": "",
+            "leaderboardUrl": "",
+            "startDate": "",
+            "endDate": "",
+            "designer": "",
+            "class": "0",
+            "elements": []
         }
     ]
 }

@@ -13,10 +13,8 @@ import RaceSyncAPI
 class TrackViewModel: Descriptable {
 
     let track: Track
-
     let titleLabel: String
-    let subtitleLabel: String?
-
+    let subtitleLabel: String
     let startDateLabel: String?
     let endDateLabel: String?
 
@@ -42,7 +40,8 @@ class TrackViewModel: Descriptable {
 
 extension TrackViewModel {
 
-    static func subtitleLabelString(for track: Track) -> String? {
+    /// Returns a string appending a list of localized element names and count
+    static func subtitleLabelString(for track: Track) -> String {
         var strings = [String]()
 
         for e in track.elements {
@@ -52,6 +51,7 @@ extension TrackViewModel {
         return strings.joined(separator: ", ")
     }
 
+    /// Returns a pretty  formated date without time (MMM d, yyyy)
     static func dateLabelString(for date: Date?) -> String? {
         guard let date = date else { return nil }
         return DateUtil.displayDateFormatter.string(from: date)
@@ -60,12 +60,14 @@ extension TrackViewModel {
 
 public extension TrackElementType {
 
+    /// Returns the title of an element, pluralized if needed
     func title(with count: Int) -> String {
         var string = self.title
-        if count > 1 { string += "s" }
+        if count > 1 { string += "s" } // plural
         return string
     }
 
+    /// Returns the thumnail of an element, if available
     var thumbnail: UIImage? {
         return UIImage(named: "track_element_\(self.rawValue)")
     }
