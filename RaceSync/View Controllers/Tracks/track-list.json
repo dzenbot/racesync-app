@@ -183,16 +183,32 @@
         {
             "id": "15",
             "title": "2021 MultiGP Series",
-            "description": "",
-            "videoUrl": "",
-            "leaderboardUrl": "",
+            "description": "The lines are for measuring purposes only. Obstacles must be traversed in this numerical sequence: 1-10. Obstacles may only be entered in the sequence and direction specified.<br />Minimum requirements for flags: Banner/Fabric must be a minimum of 5'x1' and the top of the banner must be elevated to a minimum of 8ft off the ground.<br /><strong><a href=\"https://www.multigp.com/2021-rules-and-season-start/\">2021 Season Rules & Changes</a></strong>",
+            "videoUrl": "https://www.youtube.com/watch?v=GTwCHtSElfM",
+            "leaderboardUrl": "https://www.multigp.com/championships/2021-multigp-series-global-qualifier-leaderboard/",
             "validationFeetUrl": "",
             "validationMetersUrl": "",
-            "startDate": "2021-04-03 12:01 AM",
-            "endDate": "2021-09-07 11:59 PM",
+            "startDate": "2021-03-20 12:01 AM",
+            "endDate": "2021-09-06 11:59 PM",
             "designer": "",
             "class": "0",
-            "elements": []
+            "elements": [{
+                "type": "gate",
+                "count": 6
+            },
+            {
+                "type": "flag",
+                "count": 5
+            },
+            {
+                "type": "double_gate",
+                "count": 2
+            },
+            {
+                "type": "hurtle",
+                "count": 1
+            }
+            ]
         }
     ],
     "champs": [{
