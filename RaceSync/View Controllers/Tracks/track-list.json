@@ -183,14 +183,14 @@
         {
             "id": "15",
             "title": "2021 MultiGP Series",
-            "description": "The lines are for measuring purposes only. Obstacles must be traversed in this numerical sequence: 1-10. Obstacles may only be entered in the sequence and direction specified.<br />Minimum requirements for flags: Banner/Fabric must be a minimum of 5'x1' and the top of the banner must be elevated to a minimum of 8ft off the ground.<br /><strong><a href=\"https://www.multigp.com/2021-rules-and-season-start/\">2021 Season Rules & Changes</a></strong>",
+            "description": "<b>Requirements:</b><br />• The minimum field size is 200x100ft (60x30m)<br />• Guy wires are NOT required for the double gates<br />• The hurdle must be a minimum of 5'x10'.<br />• A flag's babric must be a minimum of 5'x1' and the top of the banner must be elevated to a minimum of 8' off the ground.<br /><a href=\"https://www.multigp.com/2021-rules-and-season-start/\"><b>2021 MultiGP Rules and Regulations</b></a>.",
             "videoUrl": "https://www.youtube.com/watch?v=GTwCHtSElfM",
             "leaderboardUrl": "https://www.multigp.com/championships/2021-multigp-series-global-qualifier-leaderboard/",
-            "validationFeetUrl": "",
-            "validationMetersUrl": "",
+            "validationFeetUrl": null,
+            "validationMetersUrl": null,
             "startDate": "2021-03-20 12:01 AM",
             "endDate": "2021-09-06 11:59 PM",
-            "designer": "",
+            "designer": "AyyyKayyyFPV",
             "class": "0",
             "elements": [{
                 "type": "gate",
