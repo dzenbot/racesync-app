@@ -139,8 +139,8 @@ class TrackDetailViewController: UIViewController {
             var height: CGFloat = 0
             height += Constants.scrollHeight
             height += Constants.pageControlHeight + Constants.padding
-            height += descriptionTextViewHeight
             height += collectionViewContentSize(collectionView).height
+            height += descriptionTextViewHeight
             return CGFloat(Int(height))
         }
     }
@@ -167,6 +167,7 @@ class TrackDetailViewController: UIViewController {
 
     fileprivate var isVerificationEnabled: Bool {
         guard viewModel.track.validationFeetUrl != nil else { return false }
+        guard let myChapters = APIServices.shared.myManagedChapters, myChapters.count > 0 else { return false }
         guard let endDate = viewModel.track.endDate else { return false }
         return !endDate.isPassed
     }
