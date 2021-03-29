@@ -11,14 +11,13 @@ import RaceSyncAPI
 import CoreLocation
 
 enum RaceListType: Int, EnumTitle {
-    case joined, nearby, openQuali, megaQuali
+    case joined, nearby, schedule
 
     var title: String {
         switch self {
         case .joined:       return "Joined Races"
         case .nearby:       return "Nearby Races"
-        case .openQuali:    return "GQ Schedule"
-        case .megaQuali:    return "Mega Schedule"
+        case .schedule:     return "GQ Schedule"
         }
     }
 }
