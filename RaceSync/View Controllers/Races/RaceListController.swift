@@ -40,8 +40,8 @@ class RaceListController {
             getJoinedRaces(forceFetch, completion)
         case .nearby:
             getNearbydRaces(forceFetch, completion)
-        default:
-            return
+        case .schedule:
+            getScheduleRaces(forceFetch, completion)
         }
     }
 
@@ -110,5 +110,15 @@ fileprivate extension RaceListController {
                 completion(nil, error)
             }
         }
+    }
+
+    func getScheduleRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+        if let viewModels = raceList[.schedule], !forceFetch {
+            completion(viewModels, nil)
+        }
+
+//        raceApi.getRaces(forUser: "", filtering: .upcoming) { (races, error) in
+//
+//        }
     }
 }
