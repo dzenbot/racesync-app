@@ -41,7 +41,7 @@ class RaceListController {
         case .nearby:
             getNearbydRaces(forceFetch, completion)
         case .schedule:
-            getScheduleRaces(forceFetch, completion)
+            getScheduledRaces(forceFetch, completion)
         }
     }
 
@@ -112,7 +112,7 @@ fileprivate extension RaceListController {
         }
     }
 
-    func getScheduleRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+    func getScheduledRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
         if let viewModels = raceList[.schedule], !forceFetch {
             completion(viewModels, nil)
         }
