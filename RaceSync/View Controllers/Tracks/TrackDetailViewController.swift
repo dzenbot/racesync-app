@@ -166,8 +166,13 @@ class TrackDetailViewController: UIViewController {
     }()
 
     fileprivate var isVerificationEnabled: Bool {
-        guard viewModel.track.validationFeetUrl != nil else { return false }
-        guard let myChapters = APIServices.shared.myManagedChapters, myChapters.count > 0 else { return false }
+        // make sure the validation urls are available
+        guard viewModel.track.validationFeetUrl != nil || viewModel.track.validationMetersUrl != nil else { return false }
+
+        // make sure the current user manages at least 1 chapter
+        guard APIServices.shared.myChapter != nil else { return false }
+
+        // make sure the track's season end date hasn't passed yet
         guard let endDate = viewModel.track.endDate else { return false }
         return !endDate.isPassed
     }
