@@ -11,14 +11,13 @@ import RaceSyncAPI
 import CoreLocation
 
 enum RaceListType: Int, EnumTitle {
-    case joined, nearby, openQuali, megaQuali
+    case joined, nearby, schedule
 
     var title: String {
         switch self {
         case .joined:       return "Joined Races"
         case .nearby:       return "Nearby Races"
-        case .openQuali:    return "GQ Schedule"
-        case .megaQuali:    return "Mega Schedule"
+        case .schedule:     return "GQ Schedule"
         }
     }
 }
@@ -41,8 +40,8 @@ class RaceListController {
             getJoinedRaces(forceFetch, completion)
         case .nearby:
             getNearbydRaces(forceFetch, completion)
-        default:
-            return
+        case .schedule:
+            getScheduledRaces(forceFetch, completion)
         }
     }
 
@@ -111,5 +110,15 @@ fileprivate extension RaceListController {
                 completion(nil, error)
             }
         }
+    }
+
+    func getScheduledRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+        if let viewModels = raceList[.schedule], !forceFetch {
+            completion(viewModels, nil)
+        }
+
+//        raceApi.getRaces(forUser: "", filtering: .upcoming) { (races, error) in
+//
+//        }
     }
 }
