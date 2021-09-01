@@ -183,7 +183,7 @@
         {
             "id": "15",
             "title": "2021 MultiGP Series",
-            "description": "<b>Requirements:</b><br />• The minimum field size is 200x100ft (60x30m)<br />• Guy wires are NOT required for the double gates<br />• The hurdle must be a minimum of 5'x10'.<br />• A flag's babric must be a minimum of 5'x1' and the top of the banner must be elevated to a minimum of 8' off the ground.<br /><a href=\"https://docs.google.com/document/d/1x-otorbEruq5oD6b1yzoBTHO9SwUNmb2itguUoY8x3s/\"><b>2021 MultiGP Rules and Regulations</b></a>.",
+            "description": "<b>Requirements:</b><br />• The minimum field size is 200x100ft (60x30m)<br />• Guy wires are NOT required for the double gates<br />• The hurdle must be a minimum of 5'x10'.<br />• A flag's fabric must be a minimum of 5'x1' and the top of the banner must be elevated to a minimum of 8' off the ground.<br /><a href=\"https://docs.google.com/document/d/1x-otorbEruq5oD6b1yzoBTHO9SwUNmb2itguUoY8x3s/\"><b>2021 MultiGP Rules and Regulations</b></a>.",
             "videoUrl": "https://www.youtube.com/watch?v=GTwCHtSElfM",
             "leaderboardUrl": "https://www.multigp.com/championships/2021-multigp-series-global-qualifier-leaderboard/",
             "validationFeetUrl": "https://www.multigp.com/2021-qualifier-track-dimension-worksheet-feet/",
@@ -344,15 +344,27 @@
         },
         {
             "id": "19",
-            "title": "20201 Canadian MultiGP Series",
+            "title": "2021 Canadian MultiGP Series",
             "description": "",
-            "videoUrl": "",
-            "leaderboardUrl": "",
-            "startDate": "",
-            "endDate": "",
-            "designer": "",
+            "videoUrl": "https://youtu.be/5loy8l_w830",
+            "leaderboardUrl": "http://multigpcanada.ca/ranking/",
+            "startDate": "2021-08-20 12:01 AM",
+            "endDate": "2021-10-03 11:59 PM",
+            "designer": "fpvsloth",
             "class": "0",
-            "elements": []
+            "elements": [{
+                "type": "gate",
+                "count": 7
+            },
+            {
+                "type": "flag",
+                "count": 6
+            },
+            {
+                "type": "double_gate",
+                "count": 2
+            }
+        ]
         }
     ]
 }

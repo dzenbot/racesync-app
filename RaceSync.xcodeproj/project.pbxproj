@@ -14,6 +14,8 @@
 		4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */; };
 		4F00E076242932F2001DCFC4 /* RateMeConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E074242932F2001DCFC4 /* RateMeConstants.swift */; };
 		4F00E078242963F1001DCFC4 /* Joinable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E077242963F1001DCFC4 /* Joinable.swift */; };
+		4F03693626D457CB00E30821 /* AppIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F03693526D457CB00E30821 /* AppIconViewController.swift */; };
+		4F03693D26D457DE00E30821 /* AppIconManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F03693C26D457DE00E30821 /* AppIconManager.swift */; };
 		4F0B613C238528C300930D91 /* PasteboardLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B613B238528C300930D91 /* PasteboardLabel.swift */; };
 		4F0B613F2385DA8F00930D91 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */; };
 		4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */; };
@@ -36,6 +38,10 @@
 		4F27243B2517DB1C000C7408 /* CopyLinkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */; };
 		4F2724402517DC5B000C7408 /* UIActivityViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27243F2517DC5B000C7408 /* UIActivityViewController+Extensions.swift */; };
 		4F32F53F257DD0960017AD7B /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F32F53E257DD0960017AD7B /* Credentials.plist */; };
+		4F39978026D453D2006B1075 /* AppIcon-Blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F39977A26D453D2006B1075 /* AppIcon-Blue@2x.png */; };
+		4F39978126D453D2006B1075 /* AppIcon-White@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F39977B26D453D2006B1075 /* AppIcon-White@3x.png */; };
+		4F39978226D453D2006B1075 /* AppIcon-White@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F39977C26D453D2006B1075 /* AppIcon-White@2x.png */; };
+		4F39978326D453D2006B1075 /* AppIcon-Blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F39977D26D453D2006B1075 /* AppIcon-Blue@3x.png */; };
 		4F3D640723FB0A4800DE6DF2 /* AircraftPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */; };
 		4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */; };
 		4F3D640B23FB0C8800DE6DF2 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */; };
@@ -112,6 +118,10 @@
 		4F95B7C62596DBDF00631A27 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7C52596DBDF00631A27 /* WatchSessionManager.swift */; };
 		4F95B7E825972E0900631A27 /* WatchUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7E725972E0900631A27 /* WatchUser.swift */; };
 		4F95B7EF2598232400631A27 /* OnboardInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7EE2598232400631A27 /* OnboardInterfaceController.swift */; };
+		4F9979BD26D57CFF00496451 /* AppIcon-IO2021@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9979B926D57CFF00496451 /* AppIcon-IO2021@3x.png */; };
+		4F9979BE26D57CFF00496451 /* AppIcon-KRU@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9979BA26D57CFF00496451 /* AppIcon-KRU@2x.png */; };
+		4F9979BF26D57CFF00496451 /* AppIcon-KRU@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */; };
+		4F9979C026D57CFF00496451 /* AppIcon-IO2021@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9979BC26D57CFF00496451 /* AppIcon-IO2021@2x.png */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
 		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
 		4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APICredential.swift */; };
@@ -303,6 +313,8 @@
 		4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeDefaults.swift; sourceTree = "<group>"; };
 		4F00E074242932F2001DCFC4 /* RateMeConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeConstants.swift; sourceTree = "<group>"; };
 		4F00E077242963F1001DCFC4 /* Joinable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Joinable.swift; sourceTree = "<group>"; };
+		4F03693526D457CB00E30821 /* AppIconViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconViewController.swift; sourceTree = "<group>"; };
+		4F03693C26D457DE00E30821 /* AppIconManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIconManager.swift; sourceTree = "<group>"; };
 		4F0B613B238528C300930D91 /* PasteboardLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardLabel.swift; sourceTree = "<group>"; };
 		4F0B613E2385DA8F00930D91 /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
 		4F0B61422385EEFF00930D91 /* ViewModelHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModelHelper.swift; sourceTree = "<group>"; };
@@ -331,6 +343,10 @@
 		4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyLinkActivity.swift; sourceTree = "<group>"; };
 		4F27243F2517DC5B000C7408 /* UIActivityViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityViewController+Extensions.swift"; sourceTree = "<group>"; };
 		4F32F53E257DD0960017AD7B /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Credentials.plist; path = ../../Credentials.plist; sourceTree = "<group>"; };
+		4F39977A26D453D2006B1075 /* AppIcon-Blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Blue@2x.png"; sourceTree = "<group>"; };
+		4F39977B26D453D2006B1075 /* AppIcon-White@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-White@3x.png"; sourceTree = "<group>"; };
+		4F39977C26D453D2006B1075 /* AppIcon-White@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-White@2x.png"; sourceTree = "<group>"; };
+		4F39977D26D453D2006B1075 /* AppIcon-Blue@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Blue@3x.png"; sourceTree = "<group>"; };
 		4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftPickerViewController.swift; sourceTree = "<group>"; };
 		4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftDetailViewController.swift; sourceTree = "<group>"; };
 		4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
@@ -410,6 +426,10 @@
 		4F95B7C52596DBDF00631A27 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		4F95B7E725972E0900631A27 /* WatchUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchUser.swift; sourceTree = "<group>"; };
 		4F95B7EE2598232400631A27 /* OnboardInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardInterfaceController.swift; sourceTree = "<group>"; };
+		4F9979B926D57CFF00496451 /* AppIcon-IO2021@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-IO2021@3x.png"; sourceTree = "<group>"; };
+		4F9979BA26D57CFF00496451 /* AppIcon-KRU@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-KRU@2x.png"; sourceTree = "<group>"; };
+		4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-KRU@3x.png"; sourceTree = "<group>"; };
+		4F9979BC26D57CFF00496451 /* AppIcon-IO2021@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-IO2021@2x.png"; sourceTree = "<group>"; };
 		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -508,6 +528,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		370DB022DF98C379304057AE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		4F1342412360B67D00A9DBDE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -628,6 +655,7 @@
 				4F13424B2360B67D00A9DBDE /* Main.storyboard */,
 				4F1342502360B67D00A9DBDE /* LaunchScreen.storyboard */,
 				4F13424E2360B67D00A9DBDE /* Assets.xcassets */,
+				4F39977726D453D2006B1075 /* AppIcons */,
 				4F9DB79F23D3816800570483 /* RaceSync.entitlements */,
 				4F8175A82412F82900685F83 /* RaceSync-Bridging-Header.h */,
 				4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */,
@@ -705,6 +733,30 @@
 				4FBE760E259B387E00312B66 /* User+UIExtensions.swift */,
 			);
 			path = "RaceSyncAPI Extensions";
+			sourceTree = "<group>";
+		};
+		4F39976526D45073006B1075 /* App Icon */ = {
+			isa = PBXGroup;
+			children = (
+				4F03693526D457CB00E30821 /* AppIconViewController.swift */,
+				4F03693C26D457DE00E30821 /* AppIconManager.swift */,
+			);
+			path = "App Icon";
+			sourceTree = "<group>";
+		};
+		4F39977726D453D2006B1075 /* AppIcons */ = {
+			isa = PBXGroup;
+			children = (
+				4F39977A26D453D2006B1075 /* AppIcon-Blue@2x.png */,
+				4F39977D26D453D2006B1075 /* AppIcon-Blue@3x.png */,
+				4F39977C26D453D2006B1075 /* AppIcon-White@2x.png */,
+				4F39977B26D453D2006B1075 /* AppIcon-White@3x.png */,
+				4F9979BC26D57CFF00496451 /* AppIcon-IO2021@2x.png */,
+				4F9979B926D57CFF00496451 /* AppIcon-IO2021@3x.png */,
+				4F9979BA26D57CFF00496451 /* AppIcon-KRU@2x.png */,
+				4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */,
+			);
+			path = AppIcons;
 			sourceTree = "<group>";
 		};
 		4F5C1E41238CF68F00D756EB /* Profiles */ = {
@@ -981,6 +1033,7 @@
 				4F714DE423CD769F000C4036 /* Map */,
 				4FD4E1D2237F9DEF008816B3 /* Search */,
 				4F6055F0258C9B5C008AF93F /* Gallery */,
+				4F39976526D45073006B1075 /* App Icon */,
 				4FA1AB4623CC51D7007CF389 /* Settings */,
 				4F1342672360DA3200A9DBDE /* Login */,
 			);
@@ -1186,6 +1239,7 @@
 			buildPhases = (
 				4F95B7462596967E00631A27 /* Resources */,
 				4F95B76B2596968200631A27 /* Embed App Extensions */,
+				370DB022DF98C379304057AE /* Frameworks */,
 			);
 			buildRules = (
 			);
@@ -1277,11 +1331,19 @@
 			files = (
 				4F6881B2257ECAE500D33672 /* track-images in Resources */,
 				4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */,
+				4F39978226D453D2006B1075 /* AppIcon-White@2x.png in Resources */,
+				4F39978126D453D2006B1075 /* AppIcon-White@3x.png in Resources */,
+				4F39978026D453D2006B1075 /* AppIcon-Blue@2x.png in Resources */,
+				4F39978326D453D2006B1075 /* AppIcon-Blue@3x.png in Resources */,
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
+				4F9979BE26D57CFF00496451 /* AppIcon-KRU@2x.png in Resources */,
+				4F9979BD26D57CFF00496451 /* AppIcon-IO2021@3x.png in Resources */,
 				4F65D8D82574EA5400C506C3 /* track-list.json in Resources */,
+				4F9979C026D57CFF00496451 /* AppIcon-IO2021@2x.png in Resources */,
 				4FBE7608259B348200312B66 /* Assets.xcassets in Resources */,
 				4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */,
 				4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */,
+				4F9979BF26D57CFF00496451 /* AppIcon-KRU@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1444,6 +1506,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F03693D26D457DE00E30821 /* AppIconManager.swift in Sources */,
 				4F3D641123FE664A00DE6DF2 /* TextFieldViewController.swift in Sources */,
 				4FC5025A2428710D0088320B /* RaceTabbable.swift in Sources */,
 				4F00E072242932D7001DCFC4 /* RateMe.swift in Sources */,
@@ -1558,6 +1621,7 @@
 				4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */,
 				4FA1FC8F23D74D29006D4704 /* StringConstants.swift in Sources */,
 				4FD53FAD23A0B01E00158206 /* UserViewModel.swift in Sources */,
+				4F03693626D457CB00E30821 /* AppIconViewController.swift in Sources */,
 				4FA1AB3F23C9538A007CF389 /* AircraftViewModel.swift in Sources */,
 				4F86690423877041005E310A /* ChapterTableViewCell.swift in Sources */,
 			);
@@ -1845,7 +1909,7 @@
 				CODE_SIGN_ENTITLEMENTS = RaceSync/RaceSync.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
@@ -1855,7 +1919,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp;
 				PRODUCT_NAME = RaceSync;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1877,7 +1941,7 @@
 				CODE_SIGN_ENTITLEMENTS = RaceSync/RaceSync.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 28;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
@@ -1887,7 +1951,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp;
 				PRODUCT_NAME = RaceSync;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1956,7 +2020,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -1989,7 +2053,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2050,11 +2114,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				IBSC_MODULE = RaceSyncWatch_Extension;
 				INFOPLIST_FILE = RaceSyncWatch/Info.plist;
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2073,11 +2137,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				IBSC_MODULE = RaceSyncWatch_Extension;
 				INFOPLIST_FILE = RaceSyncWatch/Info.plist;
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2093,7 +2157,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				INFOPLIST_FILE = "RaceSyncWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2101,7 +2165,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -2117,7 +2181,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 26;
+				CURRENT_PROJECT_VERSION = 28;
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				INFOPLIST_FILE = "RaceSyncWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2125,7 +2189,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.3.1;
+				MARKETING_VERSION = 1.3.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;

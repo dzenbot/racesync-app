@@ -46,7 +46,22 @@ extension UIImage {
         return cropImage
     }
 
-    func rounded(_ backgroundColor: UIColor? = nil) -> UIImage? {
+    func rounded(with cornerRadius: CGFloat) -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(size, false, 0)
+
+        let rect = CGRect(origin: .zero, size: size)
+        let path = UIBezierPath(roundedRect: rect, cornerRadius: cornerRadius)
+        path.addClip()
+
+        draw(in: rect)
+
+        let roundedImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+
+        return roundedImage
+    }
+
+    func circular(with backgroundColor: UIColor? = nil) -> UIImage? {
         let rect = CGRect(x: 0, y: 0, width: size.width, height: size.height)
 
         UIGraphicsBeginImageContextWithOptions(size, false, 0)

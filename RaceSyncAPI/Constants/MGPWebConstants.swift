@@ -12,6 +12,9 @@ public enum MGPWebConstant: String {
     case home = "https://www.multigp.com/"
     case apiBase = "https://www.multigp.com/mgp/multigpwebservice/"
 
+    case s3Url = "https://multigp-storage-new.s3.us-east-2.amazonaws.com"
+    case imgixUrl = "https://multigp.imgix.net"
+
     case passwordReset = "https://www.multigp.com/initiatepasswordreset"
     case accountRegistration = "https://www.multigp.com/register"
     case termsOfUse = "https://www.multigp.com/terms-of-use/"

@@ -201,17 +201,17 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         title = "Race List"
         navigationItem.titleView = titleView
 
-        let leftStackView = UIStackView(arrangedSubviews: [userProfileButton, chapterProfileButton])
+        let leftStackView = UIStackView(arrangedSubviews: [settingsButton, filterButton])
         leftStackView.axis = .horizontal
         leftStackView.distribution = .fillEqually
-        leftStackView.alignment = .lastBaseline
+        leftStackView.alignment = .leading
         leftStackView.spacing = Constants.padding
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftStackView)
 
-        let rightStackView = UIStackView(arrangedSubviews: [filterButton, settingsButton])
+        let rightStackView = UIStackView(arrangedSubviews: [chapterProfileButton, userProfileButton])
         rightStackView.axis = .horizontal
         rightStackView.distribution = .fillEqually
-        rightStackView.alignment = .lastBaseline
+        rightStackView.alignment = .trailing
         rightStackView.spacing = Constants.buttonSpacing
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightStackView)
 

@@ -84,7 +84,7 @@ class RaceTabBarController: UITabBarController {
 
     fileprivate func setupLayout() {
 
-        title = "Event Details"
+        title = ""
         view.backgroundColor = Color.white
 
         tabBar.isHidden = true

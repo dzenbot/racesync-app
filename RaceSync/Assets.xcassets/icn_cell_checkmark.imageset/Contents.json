@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icn_cell_checkmark.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

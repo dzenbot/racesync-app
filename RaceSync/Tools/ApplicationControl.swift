@@ -93,7 +93,7 @@ extension ApplicationControl {
         }
 
         if let userProfileUrl = APIServices.shared.myUser?.miniProfilePictureUrl,
-           let img = ImageNetworking.cachedImage(for: userProfileUrl)?.rounded(Color.black) {
+           let img = ImageNetworking.cachedImage(for: userProfileUrl)?.circular(with: Color.black) {
             userInfo[WParameterKey.avatarData] = img.jpegData(compressionQuality: 0.7)!
         }
 

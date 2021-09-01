@@ -45,7 +45,7 @@ class SettingsViewController: UIViewController {
 
     fileprivate let sections: [Section: [Row]] = [
         .resources: [.trackLayouts, .buildGuide, .seasonRules, .visitStore],
-        .preferences: [.measurement],
+        .preferences: [.measurement, .appicon],
         .about: [.submitFeedback, .visitSite],
         .auth: [.logout]
     ]
@@ -129,6 +129,10 @@ extension SettingsViewController: UITableViewDelegate {
             settingsController.presentSettingsPicker(.measurement, from: self) { [weak self] in
                 self?.tableView.reloadData()
             }
+        case .appicon:
+            let vc = AppIconViewController()
+            vc.title = row.title
+            navigationController?.pushViewController(vc, animated: true)
         case .submitFeedback:
             guard let url = MGPWeb.getPrefilledFeedbackFormUrl() else { return }
             WebViewController.openUrl(url)
@@ -218,6 +222,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
     case buildGuide
     case seasonRules
     case measurement
+    case appicon
     case submitFeedback
     case visitStore
     case visitSite
@@ -230,6 +235,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .seasonRules:          return "Season Rules & Regulations"
         case .visitStore:           return "Visit the MultiGP Shop"
         case .measurement:          return APISettingsType.measurement.title
+        case .appicon:              return "App Icon"
         case .submitFeedback:       return "Send Feedback"
         case .visitSite:            return "Go to MultiGP.com"
         case .logout:               return "Logout"
@@ -244,6 +250,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .seasonRules:          return "icn_settings_handbook"
         case .visitStore:           return "icn_settings_store"
         case .measurement:          return "icn_settings_ruler"
+        case .appicon:              return "icn_settings_appicn"
         case .submitFeedback:       return "icn_settings_feedback"
         case .visitSite:            return "icn_settings_mgp"
         case .logout:               return "icn_settings_logout"

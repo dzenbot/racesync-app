@@ -20,7 +20,7 @@ public class ImageUtil {
     static public func getSizedURL(_ url: String?, size: CGSize, scale: CGFloat = UIScreen.main.scale) -> URL? {
         guard let url = url else { return nil }
 
-        let newUrl = url.replacingOccurrences(of: ImageUtil.s3Url, with: ImageUtil.imgixUrl)
+        let newUrl = url.replacingOccurrences(of: MGPWebConstant.s3Url.rawValue, with: MGPWebConstant.imgixUrl.rawValue)
         var components = URLComponents(string: newUrl)
 
         var queryItems = [URLQueryItem]()
@@ -35,9 +35,6 @@ public class ImageUtil {
 }
 
 fileprivate extension ImageUtil {
-
-    static let s3Url = "https://s3.amazonaws.com/multigp-storage"
-    static let imgixUrl = "https://multigp.imgix.net"
 
     enum ParameterKey {
         static let width = "w"
