@@ -40,7 +40,7 @@ public extension DateUtil {
 
     static let displayFullDateTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
-        formatter.dateFormat = "EEEE, MMMM d @ h:mm a"
+        formatter.dateFormat = "EEEE, MMM d @ h:mm a"
         formatter.amSymbol = "AM"
         formatter.pmSymbol = "PM"
         return formatter
