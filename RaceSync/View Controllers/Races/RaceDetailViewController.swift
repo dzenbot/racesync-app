@@ -65,7 +65,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }()
 
     fileprivate lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [joinButton, memberBadgeView])
+        var subviews = [UIView]()
+        subviews += [joinButton, memberBadgeView]
+        if canDisplayFunFly { subviews += [funflyBadge] }
+
+        let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .trailing
@@ -97,9 +101,23 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return button
     }()
 
+    fileprivate lazy var funflyBadge: CustomButton = {
+        let button = CustomButton()
+
+        button.setTitle("Fun Fly", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        button.setTitleColor(Color.white, for: .normal)
+        button.tintColor = Color.white
+        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 12)
+
+        button.backgroundColor = Color.lightBlue
+        button.layer.cornerRadius = 6
+
+        return button
+    }()
+
     fileprivate lazy var headerLabelStackView: UIStackView = {
         var subviews = [UIView]()
-
         if canDisplayAddress { subviews += [locationButton] }
         subviews += [dateButton]
 
@@ -192,6 +210,10 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate var canDisplayItinerary: Bool {
         return raceViewModel.race.itineraryContent.count > 0
+    }
+
+    fileprivate var canDisplayFunFly: Bool {
+        return raceViewModel.race.scoringDisabled
     }
 
     fileprivate var topOffset: CGFloat {
