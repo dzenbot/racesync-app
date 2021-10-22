@@ -43,7 +43,6 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
     fileprivate lazy var segmentedControl: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
         segmentedControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
-        segmentedControl.tintColor = Color.blue
         return segmentedControl
     }()
 

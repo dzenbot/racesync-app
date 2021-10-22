@@ -42,7 +42,6 @@ class MapViewController: UIViewController {
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
         segmentedControl.selectedSegmentIndex = initialSelectedMapSegment.rawValue
-        segmentedControl.tintColor = Color.blue
         return segmentedControl
     }()
 

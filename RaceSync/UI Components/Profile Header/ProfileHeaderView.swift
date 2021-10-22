@@ -76,7 +76,7 @@ class ProfileHeaderView: UIView {
         return view
     }()
 
-    var backgroundViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight)
+    var backgroundViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.backgroundImageHeight)
 
     func hideLeftBadgeButton(_ hide: Bool) {
         leftBadgeButton.isHidden = hide
@@ -131,6 +131,7 @@ class ProfileHeaderView: UIView {
         let stackView = UIStackView(arrangedSubviews: [mainTextLabel, locationButton])
         stackView.axis = .vertical
         stackView.distribution = .fill
+
         stackView.alignment = .leading
         stackView.spacing = Constants.padding*1.5
         return stackView
@@ -142,8 +143,8 @@ class ProfileHeaderView: UIView {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let headerHeight: CGFloat = 260
-        static let avatarHeight: CGFloat = 170
+        static let backgroundImageHeight: CGFloat = CGFloat(Int(UIScreen.main.bounds.size.height/3))
+        static let avatarImageHeight: CGFloat = 170
     }
 
     // MARK: - Initialization
@@ -172,14 +173,14 @@ class ProfileHeaderView: UIView {
             $0.top.equalTo(snp.top).offset(-topLayoutInset)
             $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width)
-            $0.height.equalTo(Constants.headerHeight)
+            $0.height.equalTo(Constants.backgroundImageHeight)
         }
 
         addSubview(avatarView)
         avatarView.snp.makeConstraints {
-            $0.top.equalTo(backgroundView.snp.bottom).offset(-Constants.avatarHeight*6/7) // 85%
+            $0.top.equalTo(backgroundView.snp.bottom).offset(-Constants.avatarImageHeight*6/7) // 85%
             $0.centerX.equalToSuperview()
-            $0.height.equalTo(Constants.avatarHeight)
+            $0.height.equalTo(Constants.avatarImageHeight)
         }
 
         addSubview(cameraButton)
@@ -233,8 +234,8 @@ class ProfileHeaderView: UIView {
             avatarView.imageView.image = viewModel.type.placeholder
         }
 
-        let headerImageSize = CGSize(width: 0, height: Constants.headerHeight)
-        let headerPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: CGSize(width: UIScreen.main.bounds.width, height: Constants.headerHeight))
+        let headerImageSize = CGSize(width: 0, height: Constants.backgroundImageHeight)
+        let headerPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: CGSize(width: UIScreen.main.bounds.width, height: Constants.backgroundImageHeight))
         if let headerImageUrl = ImageUtil.getSizedUrl(viewModel.backgroundUrl, size: headerImageSize) {
             backgroundView.imageView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder) { (image) in
                 handleBackgroundImage(image)
@@ -243,7 +244,7 @@ class ProfileHeaderView: UIView {
             handleBackgroundImage(nil)
         }
 
-        let avatarImageSize = CGSize(width: Constants.avatarHeight, height: Constants.avatarHeight)
+        let avatarImageSize = CGSize(width: Constants.avatarImageHeight, height: Constants.avatarImageHeight)
         let avatarPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: avatarImageSize)
         if let avatarImageUrl = ImageUtil.getSizedUrl(viewModel.pictureUrl, size: avatarImageSize) {
             avatarView.imageView.setImage(with: avatarImageUrl, placeholderImage: avatarPlaceholder) { (image) in
