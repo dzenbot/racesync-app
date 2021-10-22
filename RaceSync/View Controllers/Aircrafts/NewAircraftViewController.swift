@@ -393,15 +393,6 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
         case .videoTx:
             let type = VideoTxType(title: item)
             aircraftSpecs.videoTxType = type?.rawValue
-        case .videoTxPower:
-            let type = VideoTxPower(title: item)
-            aircraftSpecs.videoTxPower = type?.rawValue
-        case .videoTxChannels:
-            let type = VideoChannels(title: item)
-            aircraftSpecs.videoTxChannels = type?.rawValue
-        case .videoRxChannels:
-            let type = VideoChannels(title: item)
-            aircraftSpecs.videoRxChannels = type?.rawValue
         case .antenna:
             let type = AntennaPolarization(title: item)
             aircraftSpecs.antenna = type?.rawValue

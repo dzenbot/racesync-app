@@ -59,14 +59,6 @@ class ProfileViewController: UIViewController, Shimmable {
 
     // MARK: - Private Variables
 
-    fileprivate var topOffset: CGFloat {
-        get {
-            let status_height = UIApplication.shared.statusBarFrame.height
-            let navi_height = navigationController?.navigationBar.frame.size.height ?? 44
-            return status_height + navi_height
-        }
-    }
-
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
     }

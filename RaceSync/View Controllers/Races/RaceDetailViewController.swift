@@ -216,14 +216,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return raceViewModel.race.scoringDisabled
     }
 
-    fileprivate var topOffset: CGFloat {
-        get {
-            let status_height = UIApplication.shared.statusBarFrame.height
-            let navi_height = navigationController?.navigationBar.frame.size.height ?? 44
-            return status_height + navi_height
-        }
-    }
-
     fileprivate var tableViewRows = [Row]()
     fileprivate var didTapCell: Bool = false
 
