@@ -40,7 +40,7 @@ class AircraftListViewController: UIViewController {
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        return UIActivityIndicatorView(style: .whiteLarge)
+        return UIActivityIndicatorView(style: .large)
     }()
 
     fileprivate var isLoading: Bool = false {

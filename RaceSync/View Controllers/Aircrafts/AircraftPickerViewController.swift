@@ -26,7 +26,7 @@ class AircraftPickerViewController: UIViewController {
     var isLoading: Bool = false {
         didSet {
             if isLoading {
-                let view = UIActivityIndicatorView(style: .gray)
+                let view = UIActivityIndicatorView(style: .medium)
                 view.startAnimating()
                 navigationItem.rightBarButtonItem = UIBarButtonItem(customView: view)
             }
@@ -63,7 +63,7 @@ class AircraftPickerViewController: UIViewController {
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        return UIActivityIndicatorView(style: .whiteLarge)
+        return UIActivityIndicatorView(style: .large)
     }()
 
     fileprivate let race: Race
