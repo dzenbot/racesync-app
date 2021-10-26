@@ -102,6 +102,7 @@
 		4F86690223876E71005E310A /* ChapterViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F86690123876E71005E310A /* ChapterViewModel.swift */; };
 		4F86690423877041005E310A /* ChapterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F86690323877041005E310A /* ChapterTableViewCell.swift */; };
 		4F8669062388D3BC005E310A /* AuthApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8669052388D3BC005E310A /* AuthApi.swift */; };
+		4F87E4352727976E0061425B /* NetworkProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87E4342727976E0061425B /* NetworkProxy.swift */; };
 		4F8F2C0C2383DF1E00DC4907 /* RaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */; };
 		4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */; };
 		4F8F2C112384903F00DC4907 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C102384903F00DC4907 /* RaceViewModel.swift */; };
@@ -409,6 +410,7 @@
 		4F86690123876E71005E310A /* ChapterViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterViewModel.swift; sourceTree = "<group>"; };
 		4F86690323877041005E310A /* ChapterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterTableViewCell.swift; sourceTree = "<group>"; };
 		4F8669052388D3BC005E310A /* AuthApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthApi.swift; sourceTree = "<group>"; };
+		4F87E4342727976E0061425B /* NetworkProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProxy.swift; sourceTree = "<group>"; };
 		4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceApi.swift; sourceTree = "<group>"; };
 		4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		4F8F2C102384903F00DC4907 /* RaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceViewModel.swift; sourceTree = "<group>"; };
@@ -913,6 +915,7 @@
 				4FA1AB3423C6AD5B007CF389 /* AircraftApi.swift */,
 				4F5C1E3F238A7BAF00D756EB /* RepositoryAdapter.swift */,
 				4FA268232378F9DD008970AC /* NetworkAdapter.swift */,
+				4F87E4342727976E0061425B /* NetworkProxy.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -1660,6 +1663,7 @@
 				4FC9A1B623D7CFBC00069FDE /* Bundle+Extensions.swift in Sources */,
 				4F81759C241192AF00685F83 /* Clog.swift in Sources */,
 				4FEBB27823A2023A007514B4 /* RaceEntry.swift in Sources */,
+				4F87E4352727976E0061425B /* NetworkProxy.swift in Sources */,
 				4FD4E1E32381E175008816B3 /* Random.swift in Sources */,
 				4FEADB7224147D2D00F82F0D /* LocationManager.swift in Sources */,
 				4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */,
