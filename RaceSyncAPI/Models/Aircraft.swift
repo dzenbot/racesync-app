@@ -22,9 +22,9 @@ public class Aircraft: Mappable, Descriptable {
     public var size: AircraftSize?
     public var battery: BatterySize?
     public var propSize: PropellerSize?
-    public var videoTxType: VideoTxType = .´5800mhz´
+    public var videoTxType: VideoTxType = .´5800mhz´ // Analog 5.8GHz default
     public var videoTxPower: VideoTxPower?
-    public var videoTxChannels: VideoChannels = .raceband40
+    public var videoTxChannels: VideoChannels = .raceband40 // Raceband default
     public var videoRxChannels: VideoChannels?
     public var antenna: AntennaPolarization = .both
 
