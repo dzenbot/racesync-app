@@ -97,7 +97,7 @@ public enum VideoTxType: String, EnumTitle {
         case .´2400mhz´:    return "2.4 GHz"
         case .´5800mhz´:    return "5.8 GHz"
         case .HDZero:       return "HDZero"
-        case .DJI:          return "DJI 25MB"
+        case .DJI:          return "DJI FPV"
         }
     }
 }

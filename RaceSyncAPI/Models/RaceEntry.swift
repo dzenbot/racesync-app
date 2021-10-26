@@ -28,6 +28,7 @@ public class RaceEntry: Mappable, Descriptable {
     public var groupSlot: String = ""
     public var band: String = ""
     public var channel: String = ""
+    public var videoTxType: VideoTxType = .´5800mhz´ // Analog 5.8GHz default
 
     public var aircraftId: String = ""
     public var aircraftName: String = ""
@@ -63,6 +64,7 @@ public class RaceEntry: Mappable, Descriptable {
         groupSlot <- map["groupSlot"]
         band <- map["band"]
         channel <- map["channel"]
+        videoTxType <- (map["videoTransmitter"],EnumTransform<VideoTxType>())
 
         aircraftId <- map["aircraftId"]
         aircraftName <- map["aircraftName"]
