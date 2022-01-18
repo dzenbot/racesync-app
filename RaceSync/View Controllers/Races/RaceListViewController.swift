@@ -155,6 +155,7 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         static let padding: CGFloat = UniversalConstants.padding
         static let headerHeight: CGFloat = 50
         static let buttonSpacing: CGFloat = 12
+        static let miniProfileSize: CGSize = CGSize(width: 32, height: 32)
     }
 
     // MARK: - Lifecycle Methods
@@ -398,7 +399,7 @@ fileprivate extension RaceListViewController {
         let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
         
         userProfileButton.isHidden = false
-        userProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, renderingMode: .alwaysOriginal) { (image) in
+        userProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize) { (image) in
 
             // We do this here, to be guaranteed a user profile's image
             DispatchQueue.main.async {
@@ -412,7 +413,7 @@ fileprivate extension RaceListViewController {
         let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
 
         chapterProfileButton.isHidden = false
-        chapterProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, renderingMode: .alwaysOriginal)
+        chapterProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize)
     }
 }
 

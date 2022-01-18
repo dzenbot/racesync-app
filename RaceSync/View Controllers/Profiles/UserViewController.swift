@@ -62,6 +62,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
         static let padding: CGFloat = UniversalConstants.padding
         static let buttonHeight: CGFloat = 32
         static let buttonSpacing: CGFloat = 12
+        static let avatarImageSize = CGSize(width: 50, height: 50)
     }
 
     // MARK: - Initialization
@@ -334,7 +335,7 @@ extension UserViewController: UITableViewDataSource {
         cell.joinButton.joinState = viewModel.joinState
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.memberBadgeView.count = viewModel.participantCount
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
         return cell
     }
 
@@ -343,7 +344,7 @@ extension UserViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ChapterTableViewCell
         cell.titleLabel.text = viewModel.titleLabel
         cell.subtitleLabel.text = viewModel.locationLabel
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
         return cell
     }
 }

@@ -234,10 +234,12 @@ class ProfileHeaderView: UIView {
             avatarView.imageView.image = viewModel.type.placeholder
         }
 
-        let headerImageSize = CGSize(width: 0, height: Constants.backgroundImageHeight)
-        let headerPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: CGSize(width: UIScreen.main.bounds.width, height: Constants.backgroundImageHeight))
+        let headerImageSize = CGSize(width: UIScreen.main.bounds.width*3, height: Constants.backgroundImageHeight)
+        let headerPlaceholderSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.backgroundImageHeight)
+        let headerPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: headerPlaceholderSize)
+
         if let headerImageUrl = ImageUtil.getSizedUrl(viewModel.backgroundUrl, size: headerImageSize) {
-            backgroundView.imageView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder) { (image) in
+            backgroundView.imageView.setImage(with: headerImageUrl, placeholderImage: headerPlaceholder, size: headerImageSize) { (image) in
                 handleBackgroundImage(image)
             }
         } else {
@@ -246,8 +248,9 @@ class ProfileHeaderView: UIView {
 
         let avatarImageSize = CGSize(width: Constants.avatarImageHeight, height: Constants.avatarImageHeight)
         let avatarPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: avatarImageSize)
+
         if let avatarImageUrl = ImageUtil.getSizedUrl(viewModel.pictureUrl, size: avatarImageSize) {
-            avatarView.imageView.setImage(with: avatarImageUrl, placeholderImage: avatarPlaceholder) { (image) in
+            avatarView.imageView.setImage(with: avatarImageUrl, placeholderImage: avatarPlaceholder, size: avatarImageSize) { (image) in
                 handleAvatarImage(image)
             }
         } else {
