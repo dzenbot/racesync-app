@@ -31,7 +31,7 @@ class AppIconManager {
 }
 
 enum AppIcon: Int, CaseIterable, EnumTitle {
-   case `default`, blue, white, io2021, kru
+   case `default`, blue, white, io2022, kru
 
     var title: String {
         switch self {
@@ -41,8 +41,8 @@ enum AppIcon: Int, CaseIterable, EnumTitle {
             return "Blue"
         case .white:
             return "White"
-        case .io2021:
-            return "International Open 2021"
+        case .io2022:
+            return "International Open 2022"
         case .kru:
             return "KwadsRUs (Vancouver, BC)"
         }
@@ -65,8 +65,8 @@ enum AppIcon: Int, CaseIterable, EnumTitle {
             return "Blue"
         case .white:
             return "White"
-        case .io2021:
-            return "IO2021"
+        case .io2022:
+            return "IO2022"
         case .kru:
             return "KRU"
         }
@@ -80,8 +80,8 @@ enum AppIcon: Int, CaseIterable, EnumTitle {
             return "AppIcon-Blue"
         case .white:
             return "AppIcon-White"
-        case .io2021:
-            return "AppIcon-IO2021"
+        case .io2022:
+            return "AppIcon-IO2022"
         case .kru:
             return "AppIcon-KRU"
         }
