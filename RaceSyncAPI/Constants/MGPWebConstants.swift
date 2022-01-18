@@ -31,7 +31,7 @@ public enum MGPWebConstant: String {
     case utt3LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLScZCVu5TOacjjXrSWb3dof2t3amD6LA3biaNETWgyc9zK7LVA/viewform"
 
     case courseObstaclesDoc = "https://www.multigp.com/multigp-drone-race-course-obstacles/"
-    case seasonRulesDoc = "http://docs.google.com/document/d/1GROA7Z6KgINhVDonuZ359zxOzWmmwbPV6H5xsU_wvgY/"
+    case seasonRulesDoc = "https://docs.google.com/document/d/1x-otorbEruq5oD6b1yzoBTHO9SwUNmb2itguUoY8x3s/"
 
     case gqValidationFeet = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-feet/"
     case gqValidationMeters = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-meters/"
