@@ -42,7 +42,7 @@ extension ChapterViewModel {
     }
 
     static func imageUrl(for chapter: Chapter) -> String? {
-        return ImageUtil.getSizedUrl(chapter.mainImageUrl, size: CGSize(width: 50, height: 50))
+        return ImageUtil.getImageUrl(for: chapter.mainImageUrl)
     }
 
     static func joinState(for chapter: Chapter) -> JoinState {

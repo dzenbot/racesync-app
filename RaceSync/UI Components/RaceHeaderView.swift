@@ -160,7 +160,7 @@ class RaceHeaderView: UIView {
         
         let avatarImageSize = CGSize(width: Constants.avatarHeight, height: Constants.avatarHeight)
         let avatarPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: avatarImageSize)
-        if let avatarImageUrl = ImageUtil.getSizedUrl(viewModel.avatarUrl, size: avatarImageSize) {
+        if let avatarImageUrl = ImageUtil.getImageUrl(for: viewModel.avatarUrl) {
             avatarImageView.imageView.setImage(with: avatarImageUrl, placeholderImage: avatarPlaceholder, size: avatarImageSize) { (image) in
                 handleAvatarImage(image)
             }

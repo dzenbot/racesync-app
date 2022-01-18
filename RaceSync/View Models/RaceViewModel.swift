@@ -76,7 +76,7 @@ extension RaceViewModel {
     }
 
     static func imageUrl(for race: Race) -> String? {
-        return ImageUtil.getSizedUrl(race.chapterImageFileName, size: CGSize(width: 50, height: 50))
+        return ImageUtil.getImageUrl(for: race.chapterImageFileName)
     }
 
     static func joinState(for race: Race) -> JoinState {
