@@ -29,7 +29,7 @@ class AppIconViewController: UIViewController {
     }()
 
     fileprivate lazy var sections: [Section: [AppIcon]] = {
-        var list = [Section.mgp: [AppIcon.default, .blue, .white, .io2021]]
+        var list = [Section.mgp: [AppIcon.default, .blue, .white, .io2022]]
 
         if isChapterIconEnabled {
             list += [Section.chapters: [AppIcon.kru]]
