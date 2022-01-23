@@ -57,7 +57,7 @@ enum AppIcon: Int, CaseIterable, EnumTitle {
         }
     }
 
-    fileprivate var name: String? {
+    var name: String? {
         switch self {
         case .default:
             return nil

@@ -64,12 +64,16 @@ class SettingsViewController: UIViewController {
 
         title = "Settings"
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        let closeBtn = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        navigationItem.leftBarButtonItem = closeBtn
 
         setupLayout()
     }
 
     override func viewWillAppear(_ animated: Bool) {
+
+        tableView.reloadData()
+
         super.viewWillAppear(animated)
     }
 
@@ -184,6 +188,9 @@ extension SettingsViewController: UITableViewDataSource {
 
         if row == .measurement {
             cell.detailTextLabel?.text = settings.measurementSystem.title
+        } else if row == .appicon {
+            let appIcon = AppIconManager.current()
+            cell.detailTextLabel?.text = appIcon.name
         } else if row == .submitFeedback {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
         }
