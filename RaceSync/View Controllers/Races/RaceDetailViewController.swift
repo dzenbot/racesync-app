@@ -15,7 +15,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     // MARK: - Public Variables
 
     var race: Race
-    var shouldShowMap: Bool = false
+    var shouldShowMap: Bool = true
 
     // MARK: - Private Variables
 
