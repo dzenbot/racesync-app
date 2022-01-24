@@ -11,7 +11,7 @@ import UIKit
 class HomeController {
 
     static func homeViewController() -> UIViewController {
-        let raceListVC = RaceListViewController([.joined, .nearby], selectedType: .nearby)
+        let raceListVC = RaceListViewController([.joined, .nearby, .gq], selectedType: .nearby)
         let raceListNC = NavigationController(rootViewController: raceListVC)
         return raceListNC
     }

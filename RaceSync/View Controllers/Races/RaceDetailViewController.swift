@@ -192,7 +192,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return tableView
     }()
 
-    fileprivate var canDisplayRaceIcon: Bool {
+    fileprivate var canDisplayGQIcon: Bool {
         return race.officialStatus == .approved
     }
 
@@ -288,7 +288,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             }
         }
 
-        if canDisplayRaceIcon {
+        if canDisplayGQIcon {
             contentView.addSubview(rotatingIconView)
             rotatingIconView.snp.makeConstraints {
                 if canDisplayMap {
@@ -304,7 +304,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            if canDisplayRaceIcon {
+            if canDisplayGQIcon {
                 $0.top.equalTo(rotatingIconView.snp.top)
                 $0.leading.equalTo(rotatingIconView.snp.trailing).offset(Constants.padding/2)
             } else {

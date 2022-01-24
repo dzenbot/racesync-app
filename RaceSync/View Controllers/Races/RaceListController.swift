@@ -11,13 +11,13 @@ import RaceSyncAPI
 import CoreLocation
 
 enum RaceListType: Int, EnumTitle {
-    case joined, nearby, schedule
+    case joined, nearby, gq
 
     var title: String {
         switch self {
-        case .joined:       return "Joined Races"
-        case .nearby:       return "Nearby Races"
-        case .schedule:     return "GQ Schedule"
+        case .joined:   return "Joined Races"
+        case .nearby:   return "Nearby Races"
+        case .gq:       return "Global Qualifier"
         }
     }
 }
@@ -40,8 +40,8 @@ class RaceListController {
             getJoinedRaces(forceFetch, completion)
         case .nearby:
             getNearbydRaces(forceFetch, completion)
-        case .schedule:
-            getScheduledRaces(forceFetch, completion)
+        case .gq:
+            getGQRaces(forceFetch, completion)
         }
     }
 
@@ -59,7 +59,7 @@ fileprivate extension RaceListController {
             completion(viewModels, nil)
         }
 
-        raceApi.getMyRaces(filtering: .upcoming) { (races, error) in
+        raceApi.getMyRaces(filter: .upcoming) { (races, error) in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
@@ -87,7 +87,7 @@ fileprivate extension RaceListController {
         let lat = coordinate?.latitude.string
         let long = coordinate?.longitude.string
 
-        raceApi.getMyRaces(filtering: .nearby, latitude: lat, longitude: long) { (races, error) in
+        raceApi.getMyRaces(filter: .nearby, latitude: lat, longitude: long) { (races, error) in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
@@ -112,13 +112,27 @@ fileprivate extension RaceListController {
         }
     }
 
-    func getScheduledRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceList[.schedule], !forceFetch {
+    func getGQRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+        if let viewModels = raceList[.gq], !forceFetch {
             completion(viewModels, nil)
         }
 
-//        raceApi.getRaces(forUser: "", filtering: .upcoming) { (races, error) in
-//
-//        }
+        raceApi.getRaces(filter: .gq) { (races, error) in
+            if let seasonRaces = races?.filter({ (race) -> Bool in
+                guard let startDate = race.startDate else { return false }
+                return startDate.isInThisYear || startDate.timeIntervalSinceNow.sign == .plus
+            }) {
+                let viewModels = RaceViewModel.viewModels(with: seasonRaces)
+                let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
+                    guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
+                    return date1 > date2
+                })
+
+                self.raceList[.gq] = sortedViewModels
+                completion(sortedViewModels, nil)
+            } else {
+                completion(nil, error)
+            }
+        }
     }
 }
