@@ -88,6 +88,7 @@ enum ParameterKey {
     static let limit = "limit"
     static let orderByDistance = "orderByDistance"
     static let nearBy = "nearBy"
+    static let qualifier = "qualifier"
     static let latitude = "latitude"
     static let longitude = "longitude"
     static let radius = "radius"
