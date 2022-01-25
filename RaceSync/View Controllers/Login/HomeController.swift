@@ -7,11 +7,22 @@
 //
 
 import UIKit
+import RaceSyncAPI
 
 class HomeController {
 
     static func homeViewController() -> UIViewController {
-        let raceListVC = RaceListViewController([.joined, .nearby, .gq], selectedType: .nearby)
+
+        var listTypes = [RaceListType]()
+        let selectedType: RaceListType = .nearby
+
+        if SeasonScheduler.isActive() {
+            listTypes = [.joined, .nearby, .series]
+        } else {
+            listTypes = [.joined, .nearby]
+        }
+
+        let raceListVC = RaceListViewController(listTypes, selectedType: selectedType)
         let raceListNC = NavigationController(rootViewController: raceListVC)
         return raceListNC
     }

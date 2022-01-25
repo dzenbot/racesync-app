@@ -10,12 +10,15 @@ import Foundation
 
 public class DateUtil {
 
-    public static let standardFormat: String = "yyyy-MM-dd h:mm a"
+    public static let standardDateFormat: String = "yyyy-MM-dd h:mm a"
+    public static var standardDateFormatter: DateFormatter = {
+        let dateFormater: DateFormatter = DateFormatter()
+        dateFormater.dateFormat = standardDateFormat
+        return dateFormater
+    }()
 
     public static func deserializeJSONDate(_ jsonDate: String) -> Date? {
-        let dateFor: DateFormatter = DateFormatter()
-        dateFor.dateFormat = standardFormat
-        return dateFor.date(from: jsonDate)
+        return standardDateFormatter.date(from: jsonDate)
     }
 
     public static func localizedString(from date: Date?, full: Bool = false) -> String? {

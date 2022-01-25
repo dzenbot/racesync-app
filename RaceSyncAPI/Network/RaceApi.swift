@@ -16,7 +16,7 @@ public enum RaceListFilter: String {
     case upcoming = "upcoming"
     case past = "past"
     case nearby = "nearby"
-    case gq = "qualifier"
+    case series = "qualifier"
     case all = "all"
 }
 

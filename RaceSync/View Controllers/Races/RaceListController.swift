@@ -11,13 +11,13 @@ import RaceSyncAPI
 import CoreLocation
 
 enum RaceListType: Int, EnumTitle {
-    case joined, nearby, gq
+    case joined, nearby, series
 
     var title: String {
         switch self {
         case .joined:   return "Joined Races"
         case .nearby:   return "Nearby Races"
-        case .gq:       return "Global Qualifier"
+        case .series:       return "Global Qualifier"
         }
     }
 }
@@ -40,8 +40,8 @@ class RaceListController {
             getJoinedRaces(forceFetch, completion)
         case .nearby:
             getNearbydRaces(forceFetch, completion)
-        case .gq:
-            getGQRaces(forceFetch, completion)
+        case .series:
+            getSeriesRaces(forceFetch, completion)
         }
     }
 
@@ -112,23 +112,23 @@ fileprivate extension RaceListController {
         }
     }
 
-    func getGQRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceList[.gq], !forceFetch {
+    func getSeriesRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+        if let viewModels = raceList[.series], !forceFetch {
             completion(viewModels, nil)
         }
 
         raceApi.getRaces(filter: .gq) { (races, error) in
-            if let seasonRaces = races?.filter({ (race) -> Bool in
+            if let seriesRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
-                return startDate.isInThisYear || startDate.timeIntervalSinceNow.sign == .plus
+                return startDate.isInThisYear
             }) {
-                let viewModels = RaceViewModel.viewModels(with: seasonRaces)
+                let viewModels = RaceViewModel.viewModels(with: seriesRaces)
                 let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
                     guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
                     return date1 > date2
                 })
 
-                self.raceList[.gq] = sortedViewModels
+                self.raceList[.series] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
