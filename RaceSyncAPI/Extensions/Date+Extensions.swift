@@ -22,6 +22,14 @@ public extension Date {
         return Calendar.current.isDate(self, equalTo: date, toGranularity: .year)
     }
 
+    func isInSameYear(asYear: String) -> Bool {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+
+        let date = dateFormatter.date(from: asYear)!
+        return isInSameYear(date: date)
+    }
+
     func isInSameDay(date: Date) -> Bool {
         return Calendar.current.isDate(self, equalTo: date, toGranularity: .day)
     }
@@ -65,5 +73,11 @@ public extension Date {
 
     func minuteFromNow() -> Int {
         return Int(ceil(self.timeIntervalSinceNow / 60))
+    }
+
+    func thisYear() -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy"
+        return dateFormatter.string(from: self)
     }
 }
