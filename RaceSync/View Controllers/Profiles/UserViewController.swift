@@ -250,7 +250,7 @@ fileprivate extension UserViewController {
     }
 
     func fetchRaces(_ completion: VoidCompletionBlock? = nil) {
-        raceApi.getRaces(forUser: user.id, filter: .all) { (races, error) in
+        raceApi.getRaces(forUser: user.id, filters: [.joined]) { (races, error) in
             if let races = races {
                 let sortedRaces = races.sorted(by: { $0.startDate?.compare($1.startDate ?? Date()) == .orderedDescending })
                 self.raceViewModels = RaceViewModel.viewModels(with: sortedRaces)
@@ -351,24 +351,28 @@ extension UserViewController: UITableViewDataSource {
 
 extension UserViewController: EmptyDataSetSource {
 
-    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedSegment == .left {
-            return user.isMe ? emptyStateMyRaces.title : emptyStateRaces.title
-        } else if selectedSegment == .right {
-            return user.isMe ? emptyStateMyChapters.title : emptyStateChapters.title
+    func getEmptyStateViewModel() -> EmptyStateViewModel {
+        if user.isMe {
+            if selectedSegment == .left {
+                return emptyStateMyRaces
+            } else {
+                return emptyStateMyChapters
+            }
         } else {
-            return nil
+            if selectedSegment == .left {
+                return emptyStateRaces
+            } else {
+                return emptyStateChapters
+            }
         }
     }
 
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return getEmptyStateViewModel().title
+    }
+
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedSegment == .left {
-            return user.isMe ? emptyStateMyRaces.description : emptyStateRaces.description
-        } else if selectedSegment == .right {
-            return user.isMe ? emptyStateMyChapters.description : emptyStateChapters.description
-        } else {
-            return nil
-        }
+        return getEmptyStateViewModel().description
     }
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {

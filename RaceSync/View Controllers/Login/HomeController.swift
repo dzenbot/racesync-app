@@ -19,7 +19,7 @@ class HomeController {
     }
 
     static func availableLists() -> [RaceListType] {
-        if SeasonScheduler.isActive() {
+        if SeasonScheduler.isActive() || true {
             return [.joined, .nearby, .series]
         } else {
             return [.joined, .nearby]

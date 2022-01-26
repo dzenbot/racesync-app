@@ -150,6 +150,7 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
+    fileprivate var emptyStateSeriesRaces = EmptyStateViewModel(.noSeriesRaces)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -264,7 +265,6 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         let userVC = UserViewController(with: myUser)
         let userNC = NavigationController(rootViewController: userVC)
         userNC.modalPresentationStyle = .fullScreen
-
         present(userNC, animated: true)
     }
 
@@ -274,14 +274,12 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         let chapterVC = ChapterViewController(with: myChapter)
         let chapterNC = NavigationController(rootViewController: chapterVC)
         chapterNC.modalPresentationStyle = .fullScreen
-
         present(chapterNC, animated: true)
     }
 
     @objc fileprivate func didPressSettingsButton(_ sender: Any) {
         let settingsVC = SettingsViewController()
         let settingsNC = NavigationController(rootViewController: settingsVC)
-
         present(settingsNC, animated: true)
     }
 
@@ -303,6 +301,11 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         }
     }
 
+    @objc fileprivate func didPressShowPastSeriesButton(_ sender: Any) {
+        raceListController.showLastYearSeries = true
+        loadRaces(forceReload: true)
+    }
+
     @objc fileprivate func didPullRefreshControl() {
         loadRaces(forceReload: true)
     }
@@ -316,19 +319,20 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
     @objc fileprivate func didSwipeHorizontally(_ sender: Any) {
         guard let swipeGesture = sender as? UISwipeGestureRecognizer else { return }
 
-        if swipeGesture.direction == .left && selectedRaceList.rawValue != 1 {
-            toggleSegmentedControl()
-        } else if swipeGesture.direction == .right && selectedRaceList.rawValue != 0 {
-            toggleSegmentedControl()
+        var newIndex = segmentedControl.selectedSegmentIndex
+
+        if swipeGesture.direction == .left {
+            newIndex -= 1
+        } else if swipeGesture.direction == .right {
+            newIndex += 1
         }
+
+        guard newIndex >= 0 && newIndex <= segmentedControl.numberOfSegments else { return }
+        segmentedControl.setSelectedSegment(newIndex)
     }
 
-    fileprivate func toggleSegmentedControl() {
-        var nextSegment = 0
-        if selectedRaceList.rawValue == 0 {
-            nextSegment += 1
-        }
-        segmentedControl.setSelectedSegment(nextSegment)
+    fileprivate func selectSegment(_ type: RaceListType) {
+        segmentedControl.setSelectedSegment(type.rawValue)
     }
 }
 
@@ -448,6 +452,8 @@ extension RaceListViewController: UITableViewDataSource {
 
         if selectedRaceList == .joined {
             cell.subtitleLabel.text = viewModel.locationLabel
+        } else if selectedRaceList == .series {
+            cell.subtitleLabel.text = viewModel.chapterLabel
         } else {
             cell.subtitleLabel.text = viewModel.distanceLabel
         }
@@ -462,20 +468,20 @@ extension RaceListViewController: UITableViewDataSource {
 
 extension RaceListViewController: EmptyDataSetSource {
 
-    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedRaceList == .joined {
-            return emptyStateJoinedRaces.title
-        } else {
-            return emptyStateNearbyRaces.title
+    func getEmptyStateViewModel() -> EmptyStateViewModel {
+        switch selectedRaceList {
+        case .joined:   return emptyStateJoinedRaces
+        case .nearby:   return emptyStateNearbyRaces
+        case .series:   return emptyStateSeriesRaces
         }
     }
 
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return getEmptyStateViewModel().title
+    }
+
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedRaceList == .joined {
-            return emptyStateJoinedRaces.description
-        } else {
-            return emptyStateNearbyRaces.description
-        }
+        return getEmptyStateViewModel().description
     }
 
     func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
@@ -483,11 +489,7 @@ extension RaceListViewController: EmptyDataSetSource {
     }
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
-        if selectedRaceList == .joined {
-            return emptyStateJoinedRaces.buttonTitle(state)
-        } else {
-            return emptyStateNearbyRaces.buttonTitle(state)
-        }
+        return getEmptyStateViewModel().buttonTitle(state)
     }
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
@@ -518,9 +520,11 @@ extension RaceListViewController: EmptyDataSetDelegate {
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
 
         if selectedRaceList == .joined {
-            toggleSegmentedControl()
+            selectSegment(.nearby)
         } else if selectedRaceList == .nearby {
             didPressFilterButton(button)
+        } else if selectedRaceList == .series {
+            didPressShowPastSeriesButton(button)
         }
     }
 }

@@ -17,7 +17,7 @@ enum RaceListType: Int, EnumTitle {
         switch self {
         case .joined:   return "Joined Races"
         case .nearby:   return "Nearby Races"
-        case .series:       return "Global Qualifier"
+        case .series:   return "Global Qualifier"
         }
     }
 }
@@ -31,6 +31,10 @@ class RaceListController {
     }
 
     func shouldShowShimmer(for listType: RaceListType) -> Bool {
+        if listType == .series, showLastYearSeries, raceList[listType]?.count == 0 {
+            return true
+        }
+
         return raceList[listType] == nil
     }
 
@@ -50,6 +54,10 @@ class RaceListController {
     fileprivate let raceApi = RaceApi()
     fileprivate var raceListType: [RaceListType]
     fileprivate var raceList = [RaceListType: [RaceViewModel]]()
+
+    // MARK: - Private Variables
+
+    var showLastYearSeries: Bool = false
 }
 
 fileprivate extension RaceListController {
@@ -59,7 +67,7 @@ fileprivate extension RaceListController {
             completion(viewModels, nil)
         }
 
-        raceApi.getMyRaces(filter: .upcoming) { (races, error) in
+        raceApi.getMyRaces(filters: [.joined, .upcoming]) { (races, error) in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
@@ -87,7 +95,7 @@ fileprivate extension RaceListController {
         let lat = coordinate?.latitude.string
         let long = coordinate?.longitude.string
 
-        raceApi.getMyRaces(filter: .nearby, latitude: lat, longitude: long) { (races, error) in
+        raceApi.getMyRaces(filters: [.nearby, .upcoming], latitude: lat, longitude: long) { (races, error) in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
@@ -117,10 +125,21 @@ fileprivate extension RaceListController {
             completion(viewModels, nil)
         }
 
-        raceApi.getRaces(filter: .gq) { (races, error) in
+        var filters: [RaceListFilter] = [.series, .upcoming]
+        if showLastYearSeries {
+            filters = [.series, .past]
+        }
+
+        raceApi.getRaces(filters: filters) { (races, error) in
             if let seriesRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
-                return startDate.isInThisYear
+
+                if self.showLastYearSeries {
+                    return startDate.isInLastYear
+
+                } else {
+                    return startDate.isInThisYear
+                }
             }) {
                 let viewModels = RaceViewModel.viewModels(with: seriesRaces)
                 let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in

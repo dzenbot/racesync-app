@@ -23,6 +23,7 @@ class RaceViewModel: Descriptable {
     let distance: Double
     let joinState: JoinState
     let participantCount: Int
+    let chapterLabel: String
     let imageUrl: String?
 
     // MARK: - Initializatiom
@@ -38,6 +39,7 @@ class RaceViewModel: Descriptable {
         self.distance = Self.distance(for: race)
         self.joinState = Self.joinState(for: race)
         self.participantCount = Int(race.participantCount) ?? 0
+        self.chapterLabel = race.chapterName
         self.imageUrl = Self.imageUrl(for: race)
     }
 

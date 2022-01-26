@@ -38,6 +38,10 @@ public extension Date {
         return isInSameYear(date: Date())
     }
 
+    var isInLastYear: Bool {
+        return isInSameYear(asYear: Date().lastYear()) 
+    }
+
     var isInThisWeek: Bool {
         return isInSameWeek(date: Date())
     }
@@ -79,5 +83,10 @@ public extension Date {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy"
         return dateFormatter.string(from: self)
+    }
+
+    func lastYear() -> String {
+        let thisYear = (thisYear() as NSString).integerValue
+        return String(thisYear - 1)
     }
 }
