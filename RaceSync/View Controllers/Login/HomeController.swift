@@ -13,17 +13,16 @@ class HomeController {
 
     static func homeViewController() -> UIViewController {
 
-        var listTypes = [RaceListType]()
-        let selectedType: RaceListType = .nearby
-
-        if SeasonScheduler.isActive() {
-            listTypes = [.joined, .nearby, .series]
-        } else {
-            listTypes = [.joined, .nearby]
-        }
-
-        let raceListVC = RaceListViewController(listTypes, selectedType: selectedType)
+        let raceListVC = RaceListViewController(availableLists(), selectedType: .nearby)
         let raceListNC = NavigationController(rootViewController: raceListVC)
         return raceListNC
+    }
+
+    static func availableLists() -> [RaceListType] {
+        if SeasonScheduler.isActive() {
+            return [.joined, .nearby, .series]
+        } else {
+            return [.joined, .nearby]
+        }
     }
 }
