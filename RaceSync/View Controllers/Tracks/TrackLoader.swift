@@ -36,7 +36,7 @@ class TrackLoader {
         let track = thisYearSeriesTrack()
         guard let startDate = track?.startDate, let endDate = track?.endDate else { return false }
 
-        guard let startDateBuffer = startDate.daysFromNow(-65) else { return false }
+        guard let startDateBuffer = startDate.daysFromNow(-30) else { return false }
         guard let endDateBuffer = endDate.daysFromNow(30) else { return false }
 
         return startDateBuffer.isPassed && !endDateBuffer.isPassed
