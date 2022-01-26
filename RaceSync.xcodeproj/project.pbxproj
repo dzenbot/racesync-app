@@ -218,6 +218,7 @@
 		4FEBB27F23A310BB007514B4 /* User+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27E23A310BB007514B4 /* User+Extensions.swift */; };
 		4FEE0E182414255D00A7BABF /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEE0E172414255D00A7BABF /* SettingsController.swift */; };
 		4FFF07EC279FE4AF00EFC30D /* SeasonScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF07EB279FE4AF00EFC30D /* SeasonScheduler.swift */; };
+		4FFF07EE27A0F87100EFC30D /* TrackLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF07ED27A0F87100EFC30D /* TrackLoader.swift */; };
 		557B42DEFCE17185D9C5ECDB /* Pods_RaceSyncAPITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C16D844D6CFA28756F4CA02 /* Pods_RaceSyncAPITests.framework */; };
 		9545A27A3685C3F227C6CCDC /* Pods_RaceSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03ADD4F5A98600BFEB5B6C6E /* Pods_RaceSync.framework */; };
 /* End PBXBuildFile section */
@@ -526,6 +527,7 @@
 		4FEBB27E23A310BB007514B4 /* User+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Extensions.swift"; sourceTree = "<group>"; };
 		4FEE0E172414255D00A7BABF /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SettingsController.swift; path = "RaceSync/View Controllers/Map/SettingsController.swift"; sourceTree = SOURCE_ROOT; };
 		4FFF07EB279FE4AF00EFC30D /* SeasonScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonScheduler.swift; sourceTree = "<group>"; };
+		4FFF07ED27A0F87100EFC30D /* TrackLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackLoader.swift; sourceTree = "<group>"; };
 		53D65741DB402E1BEAF04DE6 /* Pods_RaceSyncTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSyncTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		935E289DD2B5422FABA6329D /* Pods-RaceSyncTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncTests/Pods-RaceSyncTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9C8FF42CD75D17C9607E692D /* Pods-RaceSyncTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncTests/Pods-RaceSyncTests.release.xcconfig"; sourceTree = "<group>"; };
@@ -794,6 +796,7 @@
 				4FDF005625902D6D006964DB /* TrackElementViewCell.swift */,
 				4FDF0061259045C5006964DB /* TrackElementHeaderView.swift */,
 				4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */,
+				4FFF07ED27A0F87100EFC30D /* TrackLoader.swift */,
 				4F65D8D72574EA5400C506C3 /* track-list.json */,
 				4F6881B1257ECAE500D33672 /* track-images */,
 			);
@@ -1610,6 +1613,7 @@
 				4FD4E1CD237F98E7008816B3 /* RaceTabBarController.swift in Sources */,
 				4F3D640723FB0A4800DE6DF2 /* AircraftPickerViewController.swift in Sources */,
 				4FCAF9FE23AC8B8400ACE7D3 /* Shimmable.swift in Sources */,
+				4FFF07EE27A0F87100EFC30D /* TrackLoader.swift in Sources */,
 				4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */,
 				4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */,
 				4F3D640D23FB253900DE6DF2 /* UICollectionView+Extensions.swift in Sources */,
