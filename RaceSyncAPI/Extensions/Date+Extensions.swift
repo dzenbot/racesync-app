@@ -39,7 +39,7 @@ public extension Date {
     }
 
     var isInLastYear: Bool {
-        return isInSameYear(asYear: Date().lastYear()) 
+        return isInSameYear(asYear: Date().lastYear())
     }
 
     var isInThisWeek: Bool {
@@ -71,12 +71,16 @@ public extension Date {
         return Calendar.current.isDate(self, equalTo: Date(), toGranularity: .weekOfYear)
     }
 
-    func daysFromNow() -> Int {
+    func dayFromNow() -> Int {
         return Int(abs(ceil(self.timeIntervalSinceNow / (60 * 60 * 24))))
     }
 
     func minuteFromNow() -> Int {
         return Int(ceil(self.timeIntervalSinceNow / 60))
+    }
+
+    func daysFromNow(_ days: Int) -> Date? {
+        return Calendar.current.date(byAdding: .day, value: days, to: self)
     }
 
     func thisYear() -> String {
