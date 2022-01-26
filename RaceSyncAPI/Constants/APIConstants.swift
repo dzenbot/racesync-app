@@ -10,7 +10,7 @@ import Foundation
 
 public typealias ObjectId = String
 
-public let StandardPageSize: Int = 50
+public let StandardPageSize: Int = 100
 
 public protocol EnumTitle: CaseIterable {
     var title: String { get }
