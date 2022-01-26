@@ -10,8 +10,8 @@ import Foundation
 import RaceSyncAPI
 
 public class SeasonConstants {
-    public static let seasonStart: String = "\(Date().thisYear())-03-20 12:01 AM"
-    public static let seasonEnd: String = "\(Date().thisYear())-09-07 11:59 PM"
+    public static let seasonStart: String = "\(Date().thisYear())-04-01 12:01 AM"
+    public static let seasonEnd: String = "\(Date().thisYear())-07-18 11:59 PM"
 }
 
 class SeasonScheduler {
@@ -23,4 +23,3 @@ class SeasonScheduler {
         return seasonStartDate.isPassed && !seasonEndDate.isPassed
     }
 }
-
