@@ -240,7 +240,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         self.race = race
         self.raceViewModel = RaceViewModel(with: race)
 
-        if let latitude = CLLocationDegrees(race.latitude), let longitude = CLLocationDegrees(race.longitude) {
+        if race.courseId != nil, let latitude = CLLocationDegrees(race.latitude), let longitude = CLLocationDegrees(race.longitude) {
             self.raceCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         }
 
