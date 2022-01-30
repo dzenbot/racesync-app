@@ -322,9 +322,9 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         var newIndex = segmentedControl.selectedSegmentIndex
 
         if swipeGesture.direction == .left {
-            newIndex -= 1
-        } else if swipeGesture.direction == .right {
             newIndex += 1
+        } else if swipeGesture.direction == .right {
+            newIndex -= 1
         }
 
         guard newIndex >= 0 && newIndex <= segmentedControl.numberOfSegments else { return }
