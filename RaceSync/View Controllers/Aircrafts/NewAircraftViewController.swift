@@ -70,7 +70,7 @@ class NewAircraftViewController: UIViewController {
     }()
 
     fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(didPressCreateButton))
+        let barButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didPressSaveButton))
         barButtonItem.isEnabled = false
         return barButtonItem
     }()
@@ -133,8 +133,8 @@ class NewAircraftViewController: UIViewController {
 
         title = "New Aircraft"
         view.backgroundColor = Color.white
-
         navigationItem.rightBarButtonItem = rightBarButtonItem
+        navigationItem.rightBarButtonItem?.isEnabled = canCreateAircraft()
 
         if let nc = navigationController, nc.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
@@ -148,7 +148,7 @@ class NewAircraftViewController: UIViewController {
 
     // MARK: - Action
 
-    @objc func didPressCreateButton() {
+    @objc func didPressSaveButton() {
 
         isLoading = true
 

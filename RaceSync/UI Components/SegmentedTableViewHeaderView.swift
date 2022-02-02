@@ -18,7 +18,7 @@ class SegmentedTableViewHeaderView: UITableViewHeaderFooterView {
     }
 
     lazy var segmentedControl: UISegmentedControl = {
-        let items = ["Item 1", "Item 2"]
+        let items = ["Item 1", "Item 2"] // pre-loading elements
         let segmentedControl = UISegmentedControl(items: items)
         segmentedControl.selectedSegmentIndex = 0
         return segmentedControl
