@@ -62,8 +62,10 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         var text: String?
 
         switch emptyState {
-        case .noJoinedRaces, .noNearbydRaces, .noSeriesRaces:
+        case .noJoinedRaces, .noNearbydRaces:
             text = "No Races Found"
+        case .noSeriesRaces:
+            text = "No GQ Found"
         case .noRaceRegisters:
             text = "No Registered Pilots"
         case .noRaceResults:
@@ -106,11 +108,11 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         case .noRaces:
             text = "There are no races available yet."
         case .noJoinedRaces, .noMyProfileRaces:
-            text = "You haven't joined any new races yet."
+            text = "You haven't joined any upcoming races yet."
         case .noSeriesRaces:
-            text = "There are no GQ races available yet."
+            text = "There are no \(Date().thisYear()) GQ available yet."
         case .noNearbydRaces:
-            text = "There are no races in a \(settings.searchRadius)\(settings.lengthUnit.symbol) radius."
+            text = "There are no races available in a \(settings.searchRadius)\(settings.lengthUnit.symbol) radius."
         case .noRaceRegisters:
             text = "There are no registered pilots for this race yet."
         case .noRaceResults:
@@ -162,7 +164,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         case .noNearbydRaces:
             text = "Adjust Radius"
         case .noSeriesRaces:
-            text = "Show \(Date().lastYear()) GQ Races"
+            text = "Show \(Date().lastYear()) GQ"
         case .noRaceRegisters:
             text = "Join Race"
         case .noMyAircrafts, .noMatchingAircrafts:
