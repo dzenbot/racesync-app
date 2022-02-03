@@ -87,6 +87,8 @@ public enum VideoTxType: String, EnumTitle {
     case ´1300mhz´ = "1"
     case ´2400mhz´ = "2"
     case ´5800mhz´ = "3"
+    case HDZero = "4"
+    case DJI = "5"
 
     public var title: String {
         switch self {
@@ -94,6 +96,8 @@ public enum VideoTxType: String, EnumTitle {
         case .´1300mhz´:    return "1.3 GHz"
         case .´2400mhz´:    return "2.4 GHz"
         case .´5800mhz´:    return "5.8 GHz"
+        case .HDZero:       return "HDZero"
+        case .DJI:          return "DJI FPV"
         }
     }
 }
@@ -162,6 +166,7 @@ public enum VideoChannels: String, EnumTitle {
         case "E":           return "Boscam E"
         case "F":           return "IRC / FS"
         case "R":           return "Race Band"
+        case "D":           return "DJI FPV"
         default:            return ""
         }
     }

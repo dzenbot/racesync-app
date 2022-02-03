@@ -62,6 +62,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
         static let padding: CGFloat = UniversalConstants.padding
         static let buttonHeight: CGFloat = 32
         static let buttonSpacing: CGFloat = 12
+        static let avatarImageSize = CGSize(width: 50, height: 50)
     }
 
     // MARK: - Initialization
@@ -249,7 +250,7 @@ fileprivate extension UserViewController {
     }
 
     func fetchRaces(_ completion: VoidCompletionBlock? = nil) {
-        raceApi.getRaces(forUser: user.id, filtering: .all) { (races, error) in
+        raceApi.getRaces(forUser: user.id, filters: [.joined]) { (races, error) in
             if let races = races {
                 let sortedRaces = races.sorted(by: { $0.startDate?.compare($1.startDate ?? Date()) == .orderedDescending })
                 self.raceViewModels = RaceViewModel.viewModels(with: sortedRaces)
@@ -334,7 +335,7 @@ extension UserViewController: UITableViewDataSource {
         cell.joinButton.joinState = viewModel.joinState
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.memberBadgeView.count = viewModel.participantCount
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
         return cell
     }
 
@@ -343,31 +344,35 @@ extension UserViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ChapterTableViewCell
         cell.titleLabel.text = viewModel.titleLabel
         cell.subtitleLabel.text = viewModel.locationLabel
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
         return cell
     }
 }
 
 extension UserViewController: EmptyDataSetSource {
 
-    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedSegment == .left {
-            return user.isMe ? emptyStateMyRaces.title : emptyStateRaces.title
-        } else if selectedSegment == .right {
-            return user.isMe ? emptyStateMyChapters.title : emptyStateChapters.title
+    func getEmptyStateViewModel() -> EmptyStateViewModel {
+        if user.isMe {
+            if selectedSegment == .left {
+                return emptyStateMyRaces
+            } else {
+                return emptyStateMyChapters
+            }
         } else {
-            return nil
+            if selectedSegment == .left {
+                return emptyStateRaces
+            } else {
+                return emptyStateChapters
+            }
         }
     }
 
+    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
+        return getEmptyStateViewModel().title
+    }
+
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        if selectedSegment == .left {
-            return user.isMe ? emptyStateMyRaces.description : emptyStateRaces.description
-        } else if selectedSegment == .right {
-            return user.isMe ? emptyStateMyChapters.description : emptyStateChapters.description
-        } else {
-            return nil
-        }
+        return getEmptyStateViewModel().description
     }
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {

@@ -45,7 +45,7 @@ class AircraftDetailViewController: UIViewController {
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .whiteLarge)
+        let view = UIActivityIndicatorView(style: .large)
         view.hidesWhenStopped = true
         return view
     }()
@@ -80,14 +80,6 @@ class AircraftDetailViewController: UIViewController {
         didSet {
             if isLoading { activityIndicatorView.startAnimating() }
             else { activityIndicatorView.stopAnimating() }
-        }
-    }
-
-    fileprivate var topOffset: CGFloat {
-        get {
-            let status_height = UIApplication.shared.statusBarFrame.height
-            let navi_height = navigationController?.navigationBar.frame.size.height ?? 44
-            return status_height + navi_height
         }
     }
 
@@ -347,12 +339,6 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
             specs.propSize = PropellerSize(title: item)?.rawValue
         case .videoTx:
             specs.videoTxType = VideoTxType(title: item)?.rawValue
-        case .videoTxPower:
-            specs.videoTxPower = VideoTxPower(title: item)?.rawValue
-        case .videoTxChannels:
-            specs.videoTxChannels = VideoChannels(title: item)?.rawValue
-        case .videoRxChannels:
-            specs.videoRxChannels = VideoChannels(title: item)?.rawValue
         case .antenna:
             specs.antenna = AntennaPolarization(title: item)?.rawValue
         default:
@@ -392,15 +378,6 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         case .videoTx:
             let type = VideoTxType(title: item)
             aircraft.videoTxType = type ?? .´5800mhz´
-        case .videoTxPower:
-            let type = VideoTxPower(title: item)
-            aircraft.videoTxPower = type
-        case .videoTxChannels:
-            let type = VideoChannels(title: item)
-            aircraft.videoTxChannels = type ?? .raceband40
-        case .videoRxChannels:
-            let type = VideoChannels(title: item)
-            aircraft.videoRxChannels = type
         case .antenna:
             let type = AntennaPolarization(title: item)
             aircraft.antenna = type ?? .both

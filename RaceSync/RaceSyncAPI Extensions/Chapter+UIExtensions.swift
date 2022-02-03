@@ -13,7 +13,7 @@ extension Chapter {
 
     var miniProfilePictureUrl: String? {
         guard let url = APIServices.shared.myChapter?.mainImageUrl else { return nil }
-        return ImageUtil.getSizedUrl(url, size: CGSize(width: 32, height: 32))
+        return ImageUtil.getImageUrl(for: url)
     }
 
     func socialActivities() -> [SocialActivity] {

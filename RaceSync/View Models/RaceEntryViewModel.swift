@@ -21,7 +21,7 @@ class RaceEntryViewModel: Descriptable {
 
     init(with raceEntry: RaceEntry) {
         self.raceEntry = raceEntry
-        self.bandLabel = VideoChannels.bandTitle(for: raceEntry.band)
+        self.bandLabel = Self.bandLabel(for: raceEntry)
         self.channelLabel = Self.channelLabel(for: raceEntry)
         self.antennaLabel = AntennaPolarization.both.title
         self.shortChannelLabel = Self.shortChannelLabel(for: raceEntry)
@@ -31,15 +31,27 @@ class RaceEntryViewModel: Descriptable {
 
 extension RaceEntryViewModel {
 
+    static func bandLabel(for raceEntry: RaceEntry) -> String {
+        if raceEntry.videoTxType == .DJI || raceEntry.videoTxType == .HDZero {
+            return raceEntry.videoTxType.title
+        } else {
+            return VideoChannels.bandTitle(for: raceEntry.band)
+        }
+    }
+
     static func channelLabel(for raceEntry: RaceEntry) -> String {
         return "\(raceEntry.channel) (\(raceEntry.frequency))"
     }
 
     static func shortChannelLabel(for raceEntry: RaceEntry) -> String {
-        if !raceEntry.band.isEmpty && !raceEntry.channel.isEmpty {
-            return "\(raceEntry.band.capitalized)\(raceEntry.channel)"
+        guard !raceEntry.channel.isEmpty else { return raceEntry.frequency }
+
+        if raceEntry.videoTxType == .DJI {
+            return "DJI\(raceEntry.channel)"
+        } else if raceEntry.videoTxType == .HDZero {
+            return "HDZ\(raceEntry.channel)"
         } else {
-            return raceEntry.frequency
+            return "\(raceEntry.band.capitalized)\(raceEntry.channel)"
         }
     }
 

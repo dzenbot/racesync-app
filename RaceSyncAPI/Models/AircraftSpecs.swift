@@ -35,9 +35,6 @@ public class AircraftSpecs: Descriptable {
         self.propSize = raceSpecs.propSizes.first
 
         self.videoTxType = VideoTxType.´5800mhz´.rawValue
-        self.videoTxPower = VideoTxPower.´25mw´.rawValue
-        self.videoTxChannels = VideoChannels.raceband40.rawValue
-        self.videoRxChannels = VideoChannels.raceband40.rawValue
         self.antenna = AntennaPolarization.both.rawValue
     }
 
@@ -53,9 +50,6 @@ public class AircraftSpecs: Descriptable {
         if propSize != nil { parameters[ParameterKey.propSize] = propSize }
 
         if videoTxType != nil { parameters[ParameterKey.videoTransmitter] = videoTxType }
-        if videoTxPower != nil { parameters[ParameterKey.videoTransmitterPower] = videoTxPower }
-        if videoTxChannels != nil { parameters[ParameterKey.videoTransmitterChannels] = videoTxChannels }
-        if videoRxChannels != nil { parameters[ParameterKey.videoReceiverChannels] = videoRxChannels }
         if antenna != nil { parameters[ParameterKey.antenna] = antenna }
 
         return parameters

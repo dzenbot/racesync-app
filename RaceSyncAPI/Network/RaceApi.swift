@@ -12,11 +12,12 @@ import SwiftyJSON
 
 // MARK: - Interface
 
-public enum RaceListFiltering: String {
+public enum RaceListFilter: String {
     case upcoming = "upcoming"
     case past = "past"
     case nearby = "nearby"
-    case all = "all"
+    case series = "qualifier"
+    case joined = "joined"
 }
 
 public protocol RaceApiInterface {
@@ -24,19 +25,25 @@ public protocol RaceApiInterface {
     /**
      Gets a filtered set of races related to the authenticated User.
 
-     - parameter filtering: The amount filterying type, such as upcoming, past, nearby and all
+     - parameter filters: The list of compounding filters to compose the race query
+     - parameter latitude: The coordinate longitude (Optional)
+     - parameter longitude: The coordinate longitude (Optional)
      - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
      */
-    func getMyRaces(filtering: RaceListFiltering, latitude: String?, longitude: String?, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getMyRaces(filters: [RaceListFilter], latitude: String?, longitude: String?, completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets a filtered set of races related to a specific User.
 
-    - parameter userId: The User id.
-    - parameter filtering: The amount filterying type, such as upcoming, past, nearby and all
+    - parameter userId: The User id (Optional)
+    - parameter filters: The list of compounding filters to compose the race query
+    - parameter latitude: The coordinate longitude (Optional)
+    - parameter longitude: The coordinate longitude (Optional)
+    - parameter currentPage: The current page cursor position. Default is 0
+    - parameter pageSize: The amount of objects to be returned by page. Default is 25.
     - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
     */
-    func getRaces(forUser userId: ObjectId, filtering: RaceListFiltering, latitude: String?, longitude: String?, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getRaces(forUser userId: ObjectId, filters: [RaceListFilter], latitude: String?, longitude: String?, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets the races belonging to a specific chapter.
@@ -111,24 +118,24 @@ public class RaceApi: RaceApiInterface {
 
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func getMyRaces(filtering: RaceListFiltering,
+    public func getMyRaces(filters: [RaceListFilter],
                            latitude: String? = nil,
                            longitude: String? = nil,
                            completion: @escaping ObjectCompletionBlock<[Race]>) {
-        guard let myUser = APIServices.shared.myUser else { return }
-        let lat = latitude ?? myUser.latitude
-        let long = longitude ?? myUser.longitude
-        getRaces(forUser: myUser.id, filtering: filtering, latitude: lat, longitude: long, completion: completion)
+        guard let user = APIServices.shared.myUser else { return }
+        let lat = latitude ?? user.latitude
+        let long = longitude ?? user.longitude
+        getRaces(forUser: user.id, filters: filters, latitude: lat, longitude: long, completion: completion)
     }
 
-    public func getRaces(forUser userId: ObjectId,
-                         filtering: RaceListFiltering,
+    public func getRaces(forUser userId: ObjectId = "",
+                         filters: [RaceListFilter],
                          latitude: String? = nil, longitude: String? = nil,
                          currentPage: Int = 0, pageSize: Int = StandardPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
-        let parameters = parametersForRaces(with: userId, filtering: filtering, latitude: latitude, longitude: longitude)
+        let parameters = parametersForRaces(with: userId, filters: filters, latitude: latitude, longitude: longitude)
         repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Race.self, completion)
     }
 
@@ -236,13 +243,13 @@ public class RaceApi: RaceApiInterface {
 
 fileprivate extension RaceApi {
 
-    func parametersForRaces(with userId: ObjectId,
-                            filtering: RaceListFiltering,
+    func parametersForRaces(with userId: ObjectId = "",
+                            filters: [RaceListFilter],
                             latitude: String? = nil, longitude: String? = nil) -> Parameters {
-        
+
         var parameters: Parameters = [:]
 
-        if filtering == .nearby {
+        if filters.contains(.nearby) {
             let settings = APIServices.shared.settings
             let lengthUnit = settings.lengthUnit
             var radiusString = settings.searchRadius
@@ -255,14 +262,20 @@ fileprivate extension RaceApi {
             if let lat = latitude { nearbyDict[ParameterKey.latitude] = lat }
             if let long = longitude { nearbyDict[ParameterKey.longitude] = long }
             parameters[ParameterKey.nearBy] = nearbyDict
-            parameters[ParameterKey.upcoming] = [ParameterKey.limit: StandardPageSize]
-        } else {
+        }
+
+        if filters.contains(.joined) {
             parameters[ParameterKey.joined] = [ParameterKey.pilotId : userId]
-            if filtering == .upcoming {
-                 parameters[ParameterKey.upcoming] = [ParameterKey.limit: StandardPageSize]
-            } else if filtering == .past {
-                parameters[ParameterKey.past] = [ParameterKey.limit: StandardPageSize]
-            }
+        }
+
+        if filters.contains(.series) {
+            parameters[ParameterKey.isQualifier] = true
+        }
+
+        if filters.contains(.upcoming) {
+            parameters[ParameterKey.upcoming] = [ParameterKey.limit: StandardPageSize]
+        } else if filters.contains(.past) {
+            parameters[ParameterKey.past] = [ParameterKey.limit: StandardPageSize]
         }
 
         return parameters

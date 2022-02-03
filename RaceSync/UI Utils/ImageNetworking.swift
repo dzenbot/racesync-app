@@ -17,23 +17,21 @@ class ImageNetworking {
     static func cachedImage(for urlString: String) -> UIImage? {
         let imageDownloader = UIImageView.af_sharedImageDownloader
         guard let url = URL(string: urlString) else { return nil }
-        return imageDownloader.imageCache?.image(for: URLRequest(url: url), withIdentifier: Self.originalFilter.identifier)
-    }
 
-    fileprivate static var originalFilter: ImageFilter {
-        return DynamicImageFilter("OriginalFilterImage") { image in
-            return image.withRenderingMode(.alwaysOriginal)
-        }
+        let image = imageDownloader.imageCache?.image(for: URLRequest(url: url), withIdentifier: urlString.hashValue.string)
+        return image
     }
 }
 
 extension UIImageView {
 
-    func setImage(with urlString: String?, placeholderImage: UIImage?, renderingMode: UIImage.RenderingMode = .alwaysOriginal, completion: ImageBlock? = nil) {
+    func setImage(with urlString: String?, placeholderImage: UIImage?, size: CGSize = .zero, completion: ImageBlock? = nil) {
         image = placeholderImage
 
+        let filter = AspectScaledImageFilter(size: size)
+
         if let urlString = urlString, let url = URL(string: urlString), url.host != nil {
-            af_setImage(withURL: url, placeholderImage: placeholderImage, filter: ImageNetworking.originalFilter,
+            af_setImage(withURL: url, placeholderImage: placeholderImage, filter: filter,
             completion: { response in
                 switch response.result {
                 case .success(let image):
@@ -49,9 +47,12 @@ extension UIImageView {
 }
 
 extension UIButton {
-    func setImage(with urlString: String?, placeholderImage: UIImage?, forState state: UIControl.State = .normal, renderingMode: UIImage.RenderingMode = .alwaysOriginal, completion: ImageBlock? = nil) {
+    func setImage(with urlString: String?, placeholderImage: UIImage?, forState state: UIControl.State = .normal, size: CGSize = .zero, completion: ImageBlock? = nil) {
+
+        let filter = AspectScaledImageFilter(size: size)
+
         if let urlString = urlString, let url = URL(string: urlString) {
-            af_setImage(for: state, url: url, placeholderImage: placeholderImage, filter: ImageNetworking.originalFilter,
+            af_setImage(for: state, url: url, placeholderImage: placeholderImage, filter: filter,
             completion: { response in
                 switch response.result {
                 case .success(let image):
@@ -62,6 +63,25 @@ extension UIButton {
             })
         } else {
             setImage(placeholderImage, for: state)
+        }
+    }
+}
+
+struct AspectScaledImageFilter: ImageFilter, Sizable {
+
+    public let size: CGSize
+
+    public init(size: CGSize) {
+        self.size = size
+    }
+
+    public var filter: (Image) -> Image {
+        return { image in
+            if self.size != .zero {
+                return image.af_imageAspectScaled(toFit: self.size).withRenderingMode(.alwaysOriginal)
+            } else {
+                return image.withRenderingMode(.alwaysOriginal)
+            }
         }
     }
 }

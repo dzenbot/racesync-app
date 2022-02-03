@@ -64,13 +64,13 @@ class NewAircraftViewController: UIViewController {
     }
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
+        let view = UIActivityIndicatorView(style: .medium)
         view.hidesWhenStopped = true
         return view
     }()
 
     fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(didPressCreateButton))
+        let barButtonItem = UIBarButtonItem(title: "Save", style: .done, target: self, action: #selector(didPressSaveButton))
         barButtonItem.isEnabled = false
         return barButtonItem
     }()
@@ -133,8 +133,8 @@ class NewAircraftViewController: UIViewController {
 
         title = "New Aircraft"
         view.backgroundColor = Color.white
-
         navigationItem.rightBarButtonItem = rightBarButtonItem
+        navigationItem.rightBarButtonItem?.isEnabled = canCreateAircraft()
 
         if let nc = navigationController, nc.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
@@ -148,7 +148,7 @@ class NewAircraftViewController: UIViewController {
 
     // MARK: - Action
 
-    @objc func didPressCreateButton() {
+    @objc func didPressSaveButton() {
 
         isLoading = true
 
@@ -393,15 +393,6 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
         case .videoTx:
             let type = VideoTxType(title: item)
             aircraftSpecs.videoTxType = type?.rawValue
-        case .videoTxPower:
-            let type = VideoTxPower(title: item)
-            aircraftSpecs.videoTxPower = type?.rawValue
-        case .videoTxChannels:
-            let type = VideoChannels(title: item)
-            aircraftSpecs.videoTxChannels = type?.rawValue
-        case .videoRxChannels:
-            let type = VideoChannels(title: item)
-            aircraftSpecs.videoRxChannels = type?.rawValue
         case .antenna:
             let type = AntennaPolarization(title: item)
             aircraftSpecs.antenna = type?.rawValue

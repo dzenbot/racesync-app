@@ -10,7 +10,7 @@ import Foundation
 
 public typealias ObjectId = String
 
-public let StandardPageSize: Int = 50
+public let StandardPageSize: Int = 100
 
 public protocol EnumTitle: CaseIterable {
     var title: String { get }
@@ -88,6 +88,7 @@ enum ParameterKey {
     static let limit = "limit"
     static let orderByDistance = "orderByDistance"
     static let nearBy = "nearBy"
+    static let isQualifier = "isQualifier"
     static let latitude = "latitude"
     static let longitude = "longitude"
     static let radius = "radius"

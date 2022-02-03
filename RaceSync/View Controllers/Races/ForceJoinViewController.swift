@@ -74,6 +74,7 @@ class ForceJoinViewController: UIViewController, Shimmable {
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let joinButtonTitle: String = "Force Join"
+        static let avatarImageSize = CGSize(width: 50, height: 50)
     }
 
     // MARK: - Initialization
@@ -299,7 +300,7 @@ extension ForceJoinViewController: UITableViewDataSource {
         guard let viewModel = userViewModel(for: indexPath), let user = viewModel.user else { return cell }
 
         cell.titleLabel.text = viewModel.pilotName
-        cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
         cell.subtitleLabel.text = viewModel.fullName
 
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)

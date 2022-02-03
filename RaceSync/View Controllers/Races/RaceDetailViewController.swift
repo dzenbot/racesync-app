@@ -15,7 +15,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     // MARK: - Public Variables
 
     var race: Race
-    var shouldShowMap: Bool = false
+    var shouldShowMap: Bool = true
 
     // MARK: - Private Variables
 
@@ -65,7 +65,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }()
 
     fileprivate lazy var buttonStackView: UIStackView = {
-        let stackView = UIStackView(arrangedSubviews: [joinButton, memberBadgeView])
+        var subviews = [UIView]()
+        subviews += [joinButton, memberBadgeView]
+        if canDisplayFunFly { subviews += [funflyBadge] }
+
+        let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .trailing
@@ -80,7 +84,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         button.titleLabel?.numberOfLines = 2
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
-        button.imageView?.tintColor = button.tintColor
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.addTarget(self, action: #selector(didPressLocationButton), for: .touchUpInside)
         return button
@@ -91,16 +94,30 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.tintColor = Color.black
         button.shouldHighlight = true
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        button.titleLabel?.numberOfLines = 1
         button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
-        button.imageView?.tintColor = button.tintColor
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
         return button
     }()
 
+    fileprivate lazy var funflyBadge: CustomButton = {
+        let button = CustomButton()
+
+        button.setTitle("Fun Fly", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        button.setTitleColor(Color.white, for: .normal)
+        button.tintColor = Color.white
+        button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 12)
+
+        button.backgroundColor = Color.lightBlue
+        button.layer.cornerRadius = 6
+
+        return button
+    }()
+
     fileprivate lazy var headerLabelStackView: UIStackView = {
         var subviews = [UIView]()
-
         if canDisplayAddress { subviews += [locationButton] }
         subviews += [dateButton]
 
@@ -175,7 +192,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return tableView
     }()
 
-    fileprivate var canDisplayRaceIcon: Bool {
+    fileprivate var canDisplayGQIcon: Bool {
         return race.officialStatus == .approved
     }
 
@@ -195,12 +212,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return raceViewModel.race.itineraryContent.count > 0
     }
 
-    fileprivate var topOffset: CGFloat {
-        get {
-            let status_height = UIApplication.shared.statusBarFrame.height
-            let navi_height = navigationController?.navigationBar.frame.size.height ?? 44
-            return status_height + navi_height
-        }
+    fileprivate var canDisplayFunFly: Bool {
+        return raceViewModel.race.scoringDisabled
     }
 
     fileprivate var tableViewRows = [Row]()
@@ -227,7 +240,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         self.race = race
         self.raceViewModel = RaceViewModel(with: race)
 
-        if let latitude = CLLocationDegrees(race.latitude), let longitude = CLLocationDegrees(race.longitude) {
+        if race.courseId != nil, let latitude = CLLocationDegrees(race.latitude), let longitude = CLLocationDegrees(race.longitude) {
             self.raceCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
         }
 
@@ -275,7 +288,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             }
         }
 
-        if canDisplayRaceIcon {
+        if canDisplayGQIcon {
             contentView.addSubview(rotatingIconView)
             rotatingIconView.snp.makeConstraints {
                 if canDisplayMap {
@@ -291,7 +304,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         contentView.addSubview(titleLabel)
         titleLabel.snp.makeConstraints {
-            if canDisplayRaceIcon {
+            if canDisplayGQIcon {
                 $0.top.equalTo(rotatingIconView.snp.top)
                 $0.leading.equalTo(rotatingIconView.snp.trailing).offset(Constants.padding/2)
             } else {
@@ -649,8 +662,8 @@ fileprivate extension RaceDetailViewController {
     }
 
     func openLiveTime(_ cell: FormTableViewCell) {
-        guard let url = race.liveTimeUrl, let URL = URL(string: url) else { return }
-        UIApplication.shared.open(URL, options: [:])
+        guard let url = race.liveTimeUrl else { return }
+        WebViewController.openUrl(url)
     }
 }
 

@@ -277,13 +277,11 @@ class LoginViewController: UIViewController {
     }
 
     @objc func didPressPasswordRecoveryButton() {
-        let url = MGPWeb.getURL(for: .passwordReset)
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        WebViewController.open(.passwordReset)
     }
 
     @objc func didPressCreateAccountButton() {
-        let url = MGPWeb.getURL(for: .accountRegistration)
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        WebViewController.open(.accountRegistration)
     }
 
     @objc func didPressLoginButton() {
@@ -310,8 +308,7 @@ class LoginViewController: UIViewController {
     }
 
     @objc func didPressLegalButton() {
-        let url = MGPWeb.getURL(for: .termsOfUse)
-        UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        WebViewController.open(.termsOfUse)
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {

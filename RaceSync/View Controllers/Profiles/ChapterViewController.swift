@@ -43,6 +43,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         static let padding: CGFloat = UniversalConstants.padding
         static let buttonHeight: CGFloat = 32
         static let buttonSpacing: CGFloat = 12
+        static let avatarImageSize = CGSize(width: 50, height: 50)
     }
 
     // MARK: - Initialization
@@ -301,7 +302,7 @@ extension ChapterViewController: UITableViewDataSource {
         cell.joinButton.joinState = viewModel.joinState
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.memberBadgeView.count = viewModel.participantCount
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
         cell.subtitleLabel.text = viewModel.locationLabel
         return cell
     }
@@ -310,7 +311,7 @@ extension ChapterViewController: UITableViewDataSource {
         let viewModel = userViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as AvatarTableViewCell
         cell.titleLabel.text = viewModel.pilotName
-        cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
         cell.subtitleLabel.text = viewModel.fullName
         return cell
     }

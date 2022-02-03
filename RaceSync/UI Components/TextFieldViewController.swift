@@ -49,7 +49,7 @@ class TextFieldViewController: FormBaseViewController {
     // MARK: - Private Variables
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
+        let view = UIActivityIndicatorView(style: .medium)
         view.hidesWhenStopped = true
         return view
     }()
