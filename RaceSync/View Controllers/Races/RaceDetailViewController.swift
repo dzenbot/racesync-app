@@ -662,8 +662,8 @@ fileprivate extension RaceDetailViewController {
     }
 
     func openLiveTime(_ cell: FormTableViewCell) {
-        guard let url = race.liveTimeUrl, let URL = URL(string: url) else { return }
-        UIApplication.shared.open(URL, options: [:])
+        guard let url = race.liveTimeUrl else { return }
+        WebViewController.openUrl(url)
     }
 }
 
