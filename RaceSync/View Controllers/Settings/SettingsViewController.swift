@@ -183,7 +183,7 @@ extension SettingsViewController: UITableViewDataSource {
         if row == .logout {
             cell.textLabel?.textColor = Color.red
             cell.textLabel?.textAlignment = .center
-            cell.accessoryType = .none
+            cell.detailTextLabel?.text = APIServices.shared.credential.email
         }
 
         if row == .measurement {
