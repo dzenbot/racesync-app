@@ -181,7 +181,6 @@ extension SettingsViewController: UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
 
         if row == .logout {
-            cell.textLabel?.textColor = Color.red
             cell.textLabel?.textAlignment = .center
             cell.detailTextLabel?.text = APIServices.shared.credential.email
         }
@@ -193,6 +192,8 @@ extension SettingsViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = appIcon.name
         } else if row == .submitFeedback {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
+        } else if row == .logout {
+            cell.detailTextLabel?.text = APIServices.shared.credential.email
         }
 
         return cell
