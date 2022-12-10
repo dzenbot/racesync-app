@@ -164,7 +164,7 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         case .noNearbydRaces:
             text = "Adjust Radius"
         case .noSeriesRaces:
-            text = "Show \(Date().lastYear()) GQ"
+            text = "View \(Date().lastYear()) GQ Races"
         case .noRaceRegisters:
             text = "Join Race"
         case .noMyAircrafts, .noMatchingAircrafts:

@@ -31,7 +31,7 @@ class RaceListController {
     }
 
     func shouldShowShimmer(for listType: RaceListType) -> Bool {
-        if listType == .series, showLastYearSeries, raceList[listType]?.count == 0 {
+        if listType == .series, showPastSeries, raceList[listType]?.count == 0 {
             return true
         }
 
@@ -57,7 +57,7 @@ class RaceListController {
 
     // MARK: - Private Variables
 
-    var showLastYearSeries: Bool = false
+    var showPastSeries: Bool = false
 }
 
 fileprivate extension RaceListController {
@@ -125,20 +125,19 @@ fileprivate extension RaceListController {
             completion(viewModels, nil)
         }
 
-        var filters: [RaceListFilter] = [.series, .upcoming]
-        if showLastYearSeries {
+        var filters: [RaceListFilter] = [.series]
+        if showPastSeries {
             filters = [.series, .past]
         }
 
-        raceApi.getRaces(filters: filters) { (races, error) in
+        // One day, the API will support pagination
+        raceApi.getRaces(filters: filters, pageSize: 150) { (races, error) in
             if let seriesRaces = races?.filter({ (race) -> Bool in
-                guard let startDate = race.startDate else { return false }
-
-                if self.showLastYearSeries {
-                    return startDate.isInLastYear
-
-                } else {
+                if !self.showPastSeries {
+                    guard let startDate = race.startDate else { return false }
                     return startDate.isInThisYear
+                } else {
+                    return true
                 }
             }) {
                 let viewModels = RaceViewModel.viewModels(with: seriesRaces)

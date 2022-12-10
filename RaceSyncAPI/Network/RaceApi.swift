@@ -135,8 +135,8 @@ public class RaceApi: RaceApiInterface {
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
-        let parameters = parametersForRaces(with: userId, filters: filters, latitude: latitude, longitude: longitude)
-        repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Race.self, completion)
+        let parameters = parametersForRaces(with: userId, filters: filters, latitude: latitude, longitude: longitude, pageSize: pageSize)
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
     public func getRaces(forChapter chapterId: ObjectId,
@@ -245,7 +245,8 @@ fileprivate extension RaceApi {
 
     func parametersForRaces(with userId: ObjectId = "",
                             filters: [RaceListFilter],
-                            latitude: String? = nil, longitude: String? = nil) -> Parameters {
+                            latitude: String? = nil, longitude: String? = nil,
+                            pageSize: Int = StandardPageSize) -> Parameters {
 
         var parameters: Parameters = [:]
 
@@ -273,9 +274,9 @@ fileprivate extension RaceApi {
         }
 
         if filters.contains(.upcoming) {
-            parameters[ParameterKey.upcoming] = [ParameterKey.limit: StandardPageSize]
+            parameters[ParameterKey.upcoming] = [ParameterKey.limit: pageSize]
         } else if filters.contains(.past) {
-            parameters[ParameterKey.past] = [ParameterKey.limit: StandardPageSize]
+            parameters[ParameterKey.past] = [ParameterKey.limit: pageSize]
         }
 
         return parameters

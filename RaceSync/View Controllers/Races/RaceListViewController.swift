@@ -302,7 +302,7 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     @objc fileprivate func didPressShowPastSeriesButton(_ sender: Any) {
-        raceListController.showLastYearSeries = true
+        raceListController.showPastSeries = true
         loadRaces(forceReload: true)
     }
 
