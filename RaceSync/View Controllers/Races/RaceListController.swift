@@ -131,13 +131,14 @@ fileprivate extension RaceListController {
         }
 
         // One day, the API will support pagination
+        // TODO: The race/list API should accept a year parameter, so only specific year's series races are returned
         raceApi.getRaces(filters: filters, pageSize: 150) { (races, error) in
             if let seriesRaces = races?.filter({ (race) -> Bool in
-                if !self.showPastSeries {
-                    guard let startDate = race.startDate else { return false }
-                    return startDate.isInThisYear
+                guard let startDate = race.startDate else { return false }
+                if self.showPastSeries {
+                    return startDate.isInLastYear
                 } else {
-                    return true
+                    return startDate.isInThisYear
                 }
             }) {
                 let viewModels = RaceViewModel.viewModels(with: seriesRaces)
