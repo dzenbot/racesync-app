@@ -85,6 +85,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.titleLabel?.numberOfLines = 2
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
+        button.imageView?.tintColor = button.tintColor
         button.addTarget(self, action: #selector(didPressLocationButton), for: .touchUpInside)
         return button
     }()
@@ -97,6 +98,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.titleLabel?.numberOfLines = 1
         button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
+        button.imageView?.tintColor = button.tintColor
         button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
         return button
     }()
