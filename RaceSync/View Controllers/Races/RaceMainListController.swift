@@ -75,12 +75,7 @@ fileprivate extension RaceMainListController {
                 guard let startDate = race.startDate else { return false }
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
             }) {
-                let viewModels = RaceViewModel.viewModels(with: upcomingRaces)
-                let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
-                    guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
-                    return date1 < date2
-                })
-
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .descending)
                 self.raceList[.joined] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
@@ -103,18 +98,7 @@ fileprivate extension RaceMainListController {
                 guard let startDate = race.startDate else { return false }
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
             }) {
-                let viewModels = RaceViewModel.viewModels(with: upcomingRaces)
-                let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
-                    if r1.distance < r2.distance {
-                        return true
-                    }
-                    if r1.distance == r2.distance {
-                        guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
-                        return date1 < date2
-                    }
-                    return false
-                })
-
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .distance)
                 self.raceList[.nearby] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
