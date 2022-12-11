@@ -204,10 +204,10 @@
 		4FDD499A23B065C9009DD2DB /* RaceConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDD499923B065C9009DD2DB /* RaceConstants.swift */; };
 		4FDF005725902D6D006964DB /* TrackElementViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDF005625902D6D006964DB /* TrackElementViewCell.swift */; };
 		4FDF0062259045C5006964DB /* TrackElementHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FDF0061259045C5006964DB /* TrackElementHeaderView.swift */; };
-		4FE271C2258036D100EC121B /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE271C1258036D100EC121B /* Track.swift */; };
 		4FE272362580A36D00EC121B /* SimpleTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE272352580A36D00EC121B /* SimpleTableViewCell.swift */; };
 		4FE490F223A4725D0008C38D /* RaceHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE490F123A4725D0008C38D /* RaceHeaderView.swift */; };
 		4FE490F423A4A0B00008C38D /* RaceEntryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE490F323A4A0B00008C38D /* RaceEntryViewModel.swift */; };
+		4FE4C0A02945619B00F47F0A /* Track.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE271C1258036D100EC121B /* Track.swift */; };
 		4FE96E9224E3E687009A7F53 /* HeaderStretchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FE96E9124E3E687009A7F53 /* HeaderStretchable.swift */; };
 		4FEADB7224147D2D00F82F0D /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB7124147D2D00F82F0D /* LocationManager.swift */; };
 		4FEADB742416B3D400F82F0D /* EventTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEADB732416B3D400F82F0D /* EventTracker.swift */; };
@@ -793,8 +793,7 @@
 				4F65D907257B134700C506C3 /* TrackDetailViewController.swift */,
 				4FDF005625902D6D006964DB /* TrackElementViewCell.swift */,
 				4FDF0061259045C5006964DB /* TrackElementHeaderView.swift */,
-				4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */,
-				4FFF07ED27A0F87100EFC30D /* TrackLoader.swift */,
+				4FE4C09E2945613600F47F0A /* Models */,
 				4F65D8D72574EA5400C506C3 /* track-list.json */,
 				4F6881B1257ECAE500D33672 /* track-images */,
 			);
@@ -963,9 +962,9 @@
 				4FEBB27723A2023A007514B4 /* RaceEntry.swift */,
 				4F8668F523861736005E310A /* Chapter.swift */,
 				4FC51B1E2409EA9B00D654D0 /* ManagedChapter.swift */,
+				4FE271C1258036D100EC121B /* Track.swift */,
 				4FDD499123B045E7009DD2DB /* Aircraft.swift */,
 				4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */,
-				4FE271C1258036D100EC121B /* Track.swift */,
 				4FDD499523B0461D009DD2DB /* Season.swift */,
 				4FA26830237A58E1008970AC /* ApiError.swift */,
 			);
@@ -1102,6 +1101,15 @@
 				4FA26826237A4079008970AC /* MGPWebConstants.swift */,
 			);
 			path = Constants;
+			sourceTree = "<group>";
+		};
+		4FE4C09E2945613600F47F0A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */,
+				4FFF07ED27A0F87100EFC30D /* TrackLoader.swift */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		4FEBB27B23A30F7D007514B4 /* Extensions */ = {
@@ -1651,7 +1659,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4FCAF9FA23AB226500ACE7D3 /* MapperUtil.swift in Sources */,
-				4FE271C2258036D100EC121B /* Track.swift in Sources */,
 				4F8669062388D3BC005E310A /* AuthApi.swift in Sources */,
 				4F6C8A8F23657DE00017FD78 /* APICredential.swift in Sources */,
 				4F5001E923830E180025A593 /* Race.swift in Sources */,
@@ -1674,6 +1681,7 @@
 				4FA2682F237A5897008970AC /* ErrorUtil.swift in Sources */,
 				4F8F2C132385136300DC4907 /* NumberUtil.swift in Sources */,
 				4F8668F823864389005E310A /* Descriptable.swift in Sources */,
+				4FE4C0A02945619B00F47F0A /* Track.swift in Sources */,
 				4FDD499223B045E7009DD2DB /* Aircraft.swift in Sources */,
 				4FDD499423B045FE009DD2DB /* AircraftConstants.swift in Sources */,
 				4FEBB27D23A30F99007514B4 /* Date+Extensions.swift in Sources */,

@@ -223,6 +223,20 @@
             "designer": "",
             "class": "0",
             "elements": []
+        },
+        {
+            "id": "23",
+            "title": "2023 MultiGP Series",
+            "description": "",
+            "videoUrl": "",
+            "leaderboardUrl": "",
+            "validationFeetUrl": "",
+            "validationMetersUrl": "",
+            "startDate": "2022-04-01 12:01 AM",
+            "endDate": "2022-07-17 11:59 PM",
+            "designer": "",
+            "class": "0",
+            "elements": []
         }
 
     ],
@@ -378,6 +392,38 @@
             {
                 "type": "double_gate",
                 "count": 2
+            }
+        ]
+        },
+        {
+            "id": "22",
+            "title": "2022 Canadian MultiGP Series",
+            "description": "It's now that time of the year where all active MultiGP chapters in Canada come together with the Canadian Series. This year's track was designed by Chris \"DCH\" Chu and it is now available on Velocidrone for you to practice!",
+            "videoUrl": "https://www.youtube.com/watch?v=tDWLYzNGc3k",
+            "leaderboardUrl": "https://bit.ly/3cVeRuT",
+            "startDate": "2022-06-01 12:01 AM",
+            "endDate": "2022-08-31 11:59 PM",
+            "designer": "DCHFPV",
+            "class": "0",
+            "elements": [{
+                "type": "gate",
+                "count": 8
+            },
+            {
+                "type": "flag",
+                "count": 5
+            },
+            {
+                "type": "double_gate",
+                "count": 1
+            },
+            {
+                "type": "hurdle",
+                "count": 1
+            },
+            {
+                "type": "dive_gate",
+                "count": 1
             }
         ]
         }
