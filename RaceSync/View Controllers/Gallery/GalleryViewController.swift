@@ -58,7 +58,7 @@ class GalleryViewController: UIViewController {
         let backIndicatorImage = UIImage(named: "icn_navbar_back")
         let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
         let textAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
-                              NSAttributedString.Key.foregroundColor: foregroundColor]
+                              NSAttributedString.Key.foregroundColor: Color.black]
 
         let navigationItem = UINavigationItem(title: title ?? "")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))

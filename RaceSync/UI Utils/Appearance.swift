@@ -56,7 +56,7 @@ fileprivate extension Appearance {
         let backIndicatorImage = UIImage(named: "icn_navbar_back")
         let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
         let textAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
-                              NSAttributedString.Key.foregroundColor: foregroundColor]
+                              NSAttributedString.Key.foregroundColor: Color.black]
 
         if #available(iOS 15.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
