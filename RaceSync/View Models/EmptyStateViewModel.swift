@@ -33,9 +33,9 @@ enum EmptyState {
     case noMyProfileRaces
     case noMyProfileChapters
 
-    case noAircrafts
-    case noMyAircrafts
-    case noMatchingAircrafts
+    case noAircraft
+    case noMyAircraft
+    case noMatchingAircraft
 
     case commingSoon
 
@@ -43,7 +43,7 @@ enum EmptyState {
     case errorRaces
     case errorChapters
     case errorUsers
-    case errorAircrafts
+    case errorAircraft
 
     case noInternet
 }
@@ -76,15 +76,15 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "No Races"
         case .noChapters, .noMyProfileChapters, .noProfileChapters:
             text = "No Chapters"
-        case .noAircrafts, .noMyAircrafts:
-            text = "No Aircrafts"
-        case .noMatchingAircrafts:
-            text = "No Matching Aircrafts"
+        case .noAircraft, .noMyAircraft:
+            text = "No Aircraft"
+        case .noMatchingAircraft:
+            text = "No Matching Aircraft"
         case .commingSoon:
             text = "Coming Soon"
         case .noSearchResults:
             text = "No Results"
-        case .errorRaces, .errorAircrafts:
+        case .errorRaces, .errorAircraft:
             text = "Error"
         default:
             return nil
@@ -125,18 +125,18 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "This user hasn't joined any chapters yet."
         case .noMyProfileChapters:
             text = "You haven't joined any chapters yet."
-        case .noAircrafts:
-            text = "This user doesn't have any aircrafts yet."
-        case .noMyAircrafts:
-            text = "You don't have any aircrafts yet."
-        case .noMatchingAircrafts:
-            text = "You don't have any aircrafts matching the race requirements."
+        case .noAircraft:
+            text = "This user doesn't have any aircraft yet."
+        case .noMyAircraft:
+            text = "You don't have any aircraft yet."
+        case .noMatchingAircraft:
+            text = "You don't have any aircraft matching the race requirements."
         case .commingSoon:
             text = "This section is under development."
         case .errorRaces:
             text = "Could not load the race details.\nPlease try again later or report a bug."
-        case .errorAircrafts:
-            text = "Could not load the aircrafts.\nPlease try again later or report a bug."
+        case .errorAircraft:
+            text = "Could not load the aircraft.\nPlease try again later or report a bug."
         default:
             return nil
         }
@@ -167,9 +167,9 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
             text = "View \(Date().lastYear()) GQ Races"
         case .noRaceRegisters:
             text = "Join Race"
-        case .noMyAircrafts, .noMatchingAircrafts:
+        case .noMyAircraft, .noMatchingAircraft:
             text = "Add Aircraft"
-        case .errorRaces, .errorAircrafts:
+        case .errorRaces, .errorAircraft:
             text = "Send Bug Report"
         default:
             return nil

@@ -12,7 +12,7 @@ As a racer:
 * Instantly join races and access their information
 * Check the video frequency assigned to you during the race
 * See who joined the races
-* Add or edit aircrafts from your profile
+* Add or edit aircraft from your profile
 * Conveniently use your MultiGP QR code for special events
 
 As a chapter Organizer:

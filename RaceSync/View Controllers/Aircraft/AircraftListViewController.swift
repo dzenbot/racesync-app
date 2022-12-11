@@ -53,10 +53,10 @@ class AircraftListViewController: UIViewController {
     fileprivate let user: User
     fileprivate let aircraftApi = AircraftApi()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
-    fileprivate var shouldReloadAircrafts: Bool = true
+    fileprivate var shouldReloadAircraft: Bool = true
 
-    fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noAircrafts)
-    fileprivate var emptyStateMyAircrafts = EmptyStateViewModel(.noMyAircrafts)
+    fileprivate var emptyStateAircraft = EmptyStateViewModel(.noAircraft)
+    fileprivate var emptyStateMyAircraft = EmptyStateViewModel(.noMyAircraft)
     fileprivate var emptyStateError: EmptyStateViewModel?
 
     fileprivate enum Constants {
@@ -89,7 +89,7 @@ class AircraftListViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        fetchAircrafts()
+        fetchAircraft()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -100,7 +100,7 @@ class AircraftListViewController: UIViewController {
 
     fileprivate func setupLayout() {
 
-        title = user.isMe ? "My Aircrafts" : "Aircrafts"
+        title = user.isMe ? "My Aircraft" : "Aircraft"
         view.backgroundColor = Color.white
 
         if isEditable {
@@ -130,13 +130,13 @@ class AircraftListViewController: UIViewController {
 
 extension AircraftListViewController {
 
-    func fetchAircrafts() {
-        guard shouldReloadAircrafts else { return }
+    func fetchAircraft() {
+        guard shouldReloadAircraft else { return }
 
-        aircraftApi.getAircrafts(forUser: user.id) { [weak self] (aircrafts, error) in
+        aircraftApi.getAircraft(forUser: user.id) { [weak self] (aircraft, error) in
 
-            if let aircrafts = aircrafts {
-                let viewModels = AircraftViewModel.viewModels(with: aircrafts)
+            if let aircraft = aircraft {
+                let viewModels = AircraftViewModel.viewModels(with: aircraft)
 
                 self?.aircraftViewModels = [AircraftViewModel]()
                 self?.aircraftViewModels += viewModels.sorted(by: { (c1, c2) -> Bool in
@@ -149,7 +149,7 @@ extension AircraftListViewController {
             }
         }
 
-        shouldReloadAircrafts = false
+        shouldReloadAircraft = false
     }
 
     func showAircraftDetail(_ aircraftViewModel: AircraftViewModel, isNew: Bool = false, animated: Bool = true) {
@@ -195,7 +195,7 @@ extension AircraftListViewController {
     // MARK: - Error
 
     fileprivate func handleError(_ error: Error) {
-        emptyStateError = EmptyStateViewModel(.errorAircrafts)
+        emptyStateError = EmptyStateViewModel(.errorAircraft)
         collectionView.reloadEmptyDataSet()
     }
 }
@@ -252,7 +252,7 @@ extension AircraftListViewController: AircraftCollectionViewCellDelegate {
 extension AircraftListViewController: AircraftDetailViewControllerDelegate {
 
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didEditAircraft aircraftId: ObjectId) {
-        shouldReloadAircrafts = true
+        shouldReloadAircraft = true
     }
 
     func aircraftDetailViewController(_ viewController: AircraftDetailViewController, didDeleteAircraft aircraftId: ObjectId) {
@@ -288,9 +288,9 @@ extension AircraftListViewController: EmptyDataSetSource {
         if emptyStateError != nil {
             return emptyStateError?.title
         } else if isEditable {
-            return emptyStateMyAircrafts.title
+            return emptyStateMyAircraft.title
         } else {
-            return emptyStateAircrafts.title
+            return emptyStateAircraft.title
         }
     }
 
@@ -298,9 +298,9 @@ extension AircraftListViewController: EmptyDataSetSource {
         if emptyStateError != nil {
             return emptyStateError?.description
         } else if isEditable {
-            return emptyStateMyAircrafts.description
+            return emptyStateMyAircraft.description
         } else {
-            return emptyStateAircrafts.description
+            return emptyStateAircraft.description
         }
     }
 
@@ -308,9 +308,9 @@ extension AircraftListViewController: EmptyDataSetSource {
         if emptyStateError != nil {
             return emptyStateError?.buttonTitle(state)
         } else if isEditable {
-            return emptyStateMyAircrafts.buttonTitle(state)
+            return emptyStateMyAircraft.buttonTitle(state)
         } else {
-            return emptyStateAircrafts.buttonTitle(state)
+            return emptyStateAircraft.buttonTitle(state)
         }
     }
 

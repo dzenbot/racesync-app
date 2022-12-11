@@ -70,7 +70,7 @@ class AircraftPickerViewController: UIViewController {
     fileprivate let aircraftApi = AircraftApi()
     fileprivate var aircraftViewModels = [AircraftViewModel]()
 
-    fileprivate var emptyStateAircrafts = EmptyStateViewModel(.noMatchingAircrafts)
+    fileprivate var emptyStateAircraft = EmptyStateViewModel(.noMatchingAircraft)
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -95,7 +95,7 @@ class AircraftPickerViewController: UIViewController {
         super.viewDidLoad()
 
         setupLayout()
-        fetchMyAircrafts()
+        fetchMyAircraft()
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -191,13 +191,13 @@ class AircraftPickerViewController: UIViewController {
 
 extension AircraftPickerViewController {
 
-    func fetchMyAircrafts() {
+    func fetchMyAircraft() {
         activityIndicatorView.startAnimating()
 
         let specs = AircraftRaceSpecs(with: race)
-        aircraftApi.getMyAircrafts(forRaceSpecs: specs) { [weak self] (aircrafts, error) in
-            if let aircrafts = aircrafts {
-                self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircrafts)
+        aircraftApi.getMyAircraft(forRaceSpecs: specs) { [weak self] (aircrafts, error) in
+            if let aircraft = aircraft {
+                self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircraft)
                 self?.activityIndicatorView.stopAnimating()
                 self?.collectionView.reloadData()
             } else if error != nil {
@@ -268,15 +268,15 @@ extension AircraftPickerViewController: NewAircraftViewControllerDelegate {
 extension AircraftPickerViewController: EmptyDataSetSource {
 
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        return emptyStateAircrafts.title
+        return emptyStateAircraft.title
     }
 
     func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        return emptyStateAircrafts.description
+        return emptyStateAircraft.description
     }
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
-        return emptyStateAircrafts.buttonTitle(state)
+        return emptyStateAircraft.buttonTitle(state)
     }
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {

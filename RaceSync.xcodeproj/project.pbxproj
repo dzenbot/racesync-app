@@ -885,7 +885,7 @@
 			path = Tools;
 			sourceTree = "<group>";
 		};
-		4FA1AB3123C6ACFD007CF389 /* Aircrafts */ = {
+		4FA1AB3123C6ACFD007CF389 /* Aircraft */ = {
 			isa = PBXGroup;
 			children = (
 				4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */,
@@ -895,7 +895,7 @@
 				4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */,
 				4F64290F240199AC005E8036 /* AircraftForm.swift */,
 			);
-			path = Aircrafts;
+			path = Aircraft;
 			sourceTree = "<group>";
 		};
 		4FA1AB4623CC51D7007CF389 /* Settings */ = {
@@ -1037,7 +1037,7 @@
 				4FD4E1D3237F9DF8008816B3 /* Races */,
 				4F81759E2411C2CA00685F83 /* Leaderboards */,
 				4F5C1E41238CF68F00D756EB /* Profiles */,
-				4FA1AB3123C6ACFD007CF389 /* Aircrafts */,
+				4FA1AB3123C6ACFD007CF389 /* Aircraft */,
 				4F65D8CD25749E8400C506C3 /* Tracks */,
 				4F714DE423CD769F000C4036 /* Map */,
 				4FD4E1D2237F9DEF008816B3 /* Search */,

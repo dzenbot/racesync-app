@@ -34,7 +34,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
         button.titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
         button.setTitleColor(Color.white, for: .normal)
 
-        let title = user.isMe ? "My Aircrafts" : "Aircrafts"
+        let title = user.isMe ? "My Aircraft" : "Aircraft"
         button.setTitle(title, for: .normal)
 
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 12, bottom: 5, right: 12)
