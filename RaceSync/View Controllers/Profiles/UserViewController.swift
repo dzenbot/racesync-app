@@ -162,14 +162,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
     }
 
     override func didPressLocationButton() {
-        guard let coordinates = userCoordinates else { return }
-
-        let mapVC = MapViewController(with: coordinates, address: profileViewModel.locationName)
-        mapVC.title = "User Location"
-        mapVC.showsDirection = false
-        let mapNC = NavigationController(rootViewController: mapVC)
-
-        present(mapNC, animated: true)
+        // Let's not display a user's location on a map
     }
 
     override func didSelectRow(at indexPath: IndexPath) {
