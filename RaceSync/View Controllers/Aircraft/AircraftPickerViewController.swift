@@ -195,7 +195,7 @@ extension AircraftPickerViewController {
         activityIndicatorView.startAnimating()
 
         let specs = AircraftRaceSpecs(with: race)
-        aircraftApi.getMyAircraft(forRaceSpecs: specs) { [weak self] (aircrafts, error) in
+        aircraftApi.getMyAircraft(forRaceSpecs: specs) { [weak self] (aircraft, error) in
             if let aircraft = aircraft {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircraft)
                 self?.activityIndicatorView.stopAnimating()
