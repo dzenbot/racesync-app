@@ -630,13 +630,8 @@ fileprivate extension RaceDetailViewController {
 
         raceApi.getRaces(forSeason: seasonId) { [weak self] (races, error) in
             if let races = races {
-                let viewModels = RaceViewModel.viewModels(with: races)
-                let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
-                    guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
-                    return date1 > date2
-                })
-
-                let raceListVC = RaceListViewController(sortedViewModels)
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
+                let raceListVC = RaceListViewController(sortedViewModels, seasonId: seasonId)
                 raceListVC.title = self?.race.seasonName
                 self?.navigationController?.pushViewController(raceListVC, animated: true)
             } else if let _ = error {

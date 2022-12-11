@@ -50,6 +50,14 @@ class RaceViewModel: Descriptable {
         }
         return viewModels
     }
+
+    static func sortedViewModels(with objects:[Race]) -> [RaceViewModel] {
+        let viewModels = Self.viewModels(with: objects)
+        return viewModels.sorted(by: { (r1, r2) -> Bool in
+            guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
+            return date1 > date2
+        })
+    }
 }
 
 extension RaceViewModel {

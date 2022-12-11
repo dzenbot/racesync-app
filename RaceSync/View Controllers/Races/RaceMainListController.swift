@@ -144,12 +144,7 @@ fileprivate extension RaceMainListController {
                     return startDate.isInThisYear
                 }
             }) {
-                let viewModels = RaceViewModel.viewModels(with: seriesRaces)
-                let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
-                    guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
-                    return date1 > date2
-                })
-
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: seriesRaces)
                 self.raceList[.series] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {

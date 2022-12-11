@@ -29,12 +29,15 @@ class RaceListViewController: UIViewController, ViewJoinable {
 
     // MARK: - Private Variables
 
-    fileprivate var raceList = [RaceViewModel]()
-    
+    fileprivate var raceList: [RaceViewModel]
+    fileprivate var seasonId: ObjectId?
+    fileprivate let raceApi = RaceApi()
+
     // MARK: - Initialization
 
-    init(_ raceViewModels: [RaceViewModel]) {
+    init(_ raceViewModels: [RaceViewModel], seasonId: ObjectId) {
         self.raceList = raceViewModels
+        self.seasonId = seasonId
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -79,18 +82,31 @@ class RaceListViewController: UIViewController, ViewJoinable {
         guard let objectId = sender.objectId, let race = raceList.race(withId: objectId) else { return }
         let joinState = sender.joinState
 
-//        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
-//            if joinState != newState {
-//                // reload races to reflect race changes, specially join counts
-//                self?.loadRaces(forceReload: true)
-//            }
-//        }
+        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
+            if joinState != newState {
+                // reload races to reflect race changes, specially join counts
+                self?.reloadRaces()
+            }
+        }
     }
 
     fileprivate func openRaceDetail(_ viewModel: RaceViewModel) {
         let eventTVC = RaceTabBarController(with: viewModel.race.id)
         eventTVC.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(eventTVC, animated: true)
+    }
+
+    @objc func reloadRaces() {
+        if let seasonId = seasonId {
+            raceApi.getRaces(forSeason: seasonId) { [weak self] (races, error) in
+                if let races = races {
+                    self?.raceList = RaceViewModel.sortedViewModels(with: races)
+                    self?.tableView.reloadData()
+                } else if let _ = error {
+                    // handle error
+                }
+            }
+        }
     }
 }
 
