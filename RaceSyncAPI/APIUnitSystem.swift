@@ -39,8 +39,8 @@ public enum APIUnitSystem: Int, EnumTitle {
 
     public var supportedValues: [String] {
         switch self {
-        case .miles:        return ["100", "200", "500", "2000"]
-        case .kilometers:   return ["150", "300", "750", "3000"]
+        case .miles:        return ["100", "200", "500", "2000", "3000"]
+        case .kilometers:   return ["150", "300", "750", "3000", "4500"]
         }
     }
 
