@@ -624,6 +624,28 @@ fileprivate extension RaceDetailViewController {
         }
     }
 
+    func showSeasonRaces(_ cell: FormTableViewCell) {
+        guard canInteract(with: cell), let seasonId = race.seasonId else { return }
+        setLoading(cell, loading: true)
+
+        raceApi.getRaces(forSeason: seasonId) { [weak self] (races, error) in
+            if let races = races {
+                let viewModels = RaceViewModel.viewModels(with: races)
+                let sortedViewModels = viewModels.sorted(by: { (r1, r2) -> Bool in
+                    guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
+                    return date1 > date2
+                })
+
+                let raceListVC = RaceListViewController(sortedViewModels)
+                raceListVC.title = self?.race.seasonName
+                self?.navigationController?.pushViewController(raceListVC, animated: true)
+            } else if let _ = error {
+                // handle error
+            }
+            self?.setLoading(cell, loading: false)
+        }
+    }
+
     func toggleRaceStatus(_ cell: FormTableViewCell) {
         guard canInteract(with: cell) else { return }
         guard race.isMyChapter else { return } // only allow interacting if the user can manage the race
@@ -686,10 +708,12 @@ extension RaceDetailViewController: UITableViewDelegate {
 
         if row == .requirements {
             // TODO: Push AircraftDetailViewController
-        } else if row == .chapter {
-            showChapterProfile(cell)
         } else if row == .owner {
             showUserProfile(cell)
+        } else if row == .chapter {
+            showChapterProfile(cell)
+        } else if row == .season {
+            showSeasonRaces(cell)
         } else if row == .status {
             toggleRaceStatus(cell)
         } else if row == .liveTime {

@@ -10,7 +10,7 @@ import UIKit
 import RaceSyncAPI
 import CoreLocation
 
-enum RaceListType: Int, EnumTitle {
+enum RaceFilter: Int, EnumTitle {
     case joined, nearby, series
 
     var title: String {
@@ -22,6 +22,7 @@ enum RaceListType: Int, EnumTitle {
     }
 }
 
+// 
 class RaceMainListController {
 
     // MARK: - Public Variables
@@ -31,18 +32,18 @@ class RaceMainListController {
     // MARK: - Private Variables
 
     fileprivate let raceApi = RaceApi()
-    fileprivate var raceListType: [RaceListType]
-    fileprivate var raceList = [RaceListType: [RaceViewModel]]()
+    fileprivate var raceFilter: [RaceFilter]
+    fileprivate var raceList = [RaceFilter: [RaceViewModel]]()
 
     // MARK: - Initialization
 
-    init(_ types: [RaceListType]) {
-        raceListType = types
+    init(_ types: [RaceFilter]) {
+        raceFilter = types
     }
 
     // MARK: - Actions
 
-    func shouldShowShimmer(for listType: RaceListType) -> Bool {
+    func shouldShowShimmer(for listType: RaceFilter) -> Bool {
         if listType == .series, showPastSeries, raceList[listType]?.count == 0 {
             return true
         }
@@ -50,7 +51,7 @@ class RaceMainListController {
         return raceList[listType] == nil
     }
 
-    func raceViewModels(for listType: RaceListType, forceFetch: Bool = false, completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+    func raceViewModels(for listType: RaceFilter, forceFetch: Bool = false, completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
         switch listType {
         case .joined:
             getJoinedRaces(forceFetch, completion)

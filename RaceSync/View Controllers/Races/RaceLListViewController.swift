@@ -11,9 +11,6 @@ import RaceSyncAPI
 import SnapKit
 import UIKit
 
-/**
- Generic display of pre-loaded races.
- */
 class RaceListViewController: UIViewController, ViewJoinable {
 
     // MARK: - Public Variables
@@ -75,18 +72,6 @@ class RaceListViewController: UIViewController, ViewJoinable {
 
     // MARK: - Actions
 
-    @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
-        guard let objectId = sender.objectId, let race = raceList.race(withId: objectId) else { return }
-        let joinState = sender.joinState
-
-//        toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
-//            if joinState != newState {
-//                // reload races to reflect race changes, specially join counts
-//                self?.loadRaces(forceReload: true)
-//            }
-//        }
-    }
-
     fileprivate func openRaceDetail(_ viewModel: RaceViewModel) {
         let eventTVC = RaceTabBarController(with: viewModel.race.id)
         eventTVC.hidesBottomBarWhenPushed = true
@@ -138,3 +123,5 @@ extension RaceListViewController: UITableViewDataSource {
         return cell
     }
 }
+
+
