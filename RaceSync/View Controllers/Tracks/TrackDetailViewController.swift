@@ -327,6 +327,17 @@ class TrackDetailViewController: UIViewController {
         UIViewController.topMostViewController()?.present(alert, animated: true)
     }
 
+    func didPressTrackElement(at indexPath: IndexPath) {
+        let element = viewModel.track.elements[indexPath.row]
+        guard let image = loadImage(with: "spec_obstacle_\(element.type.rawValue)", subdirectory: "track-images") else { return }
+
+        let vc = GalleryViewController(images: [image])
+        vc.title = element.type.title
+        vc.modalTransitionStyle = .crossDissolve
+        vc.modalPresentationStyle = .fullScreen
+        UIViewController.topMostViewController()?.present(vc, animated: true, completion: nil)
+    }
+
     func setLoading(_ cell: FormTableViewCell, loading: Bool) {
         cell.isLoading = loading
         didTapCell = loading
@@ -591,16 +602,7 @@ extension TrackDetailViewController: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         collectionView.deselectItem(at: indexPath, animated: true)
-
-        let element = viewModel.track.elements[indexPath.row]
-        guard let image = loadImage(with: "spec_obstacle_\(element.type.rawValue)", subdirectory: "track-images") else { return }
-
-        let vc = GalleryViewController(images: [image])
-        vc.title = element.type.title
-        vc.modalTransitionStyle = .crossDissolve
-        vc.modalPresentationStyle = .fullScreen
-
-        UIViewController.topMostViewController()?.present(vc, animated: true, completion: nil)
+        didPressTrackElement(at: indexPath)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {

@@ -53,22 +53,41 @@ class GalleryViewController: UIViewController {
     }()
 
     fileprivate lazy var navigationBar: UINavigationBar = {
-        let navigationBarAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [Self.self])
-        let backgroundImage = UIImage.image(withColor: Color.clear, imageSize: CGSize(width: 44, height: 44))
+        let foregroundColor = Color.white
+        let backgroundColor = Color.clear
+        let backIndicatorImage = UIImage(named: "icn_navbar_back")
+        let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
+        let textAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
+                              NSAttributedString.Key.foregroundColor: foregroundColor]
 
-        navigationBarAppearance.tintColor = Color.white
-        navigationBarAppearance.barTintColor = Color.clear
-        navigationBarAppearance.setBackgroundImage(backgroundImage, for: .default)
-        navigationBarAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
-                                                       NSAttributedString.Key.foregroundColor: Color.white]
-
-        let bar = UINavigationBar()
-        bar.clipsToBounds = true
         let navigationItem = UINavigationItem(title: title ?? "")
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_share"), style: .done, target: self, action: #selector(didPressShareButton))
-        bar.setItems([navigationItem], animated: false)
-        return bar
+
+        if #available(iOS 15.0, *) {
+            let navigationBarAppearance = UINavigationBarAppearance()
+            navigationBarAppearance.configureWithTransparentBackground()
+            navigationBarAppearance.titleTextAttributes = textAttributes
+            navigationItem.standardAppearance = navigationBarAppearance
+        }
+
+        let barAppearance = UINavigationBar.appearance(whenContainedInInstancesOf: [Self.self])
+        barAppearance.barTintColor = backgroundColor
+        barAppearance.tintColor = foregroundColor
+        barAppearance.barStyle = .default
+        barAppearance.setBackgroundImage(backgroundImage, for: .default)
+        barAppearance.isOpaque = false
+        barAppearance.isTranslucent = true
+        barAppearance.backIndicatorImage = backIndicatorImage?.withRenderingMode(.alwaysTemplate)
+        barAppearance.backIndicatorTransitionMaskImage = backIndicatorImage
+        barAppearance.titleTextAttributes = textAttributes
+
+        let navBar = UINavigationBar()
+        navBar.tintColor = Color.white
+        navBar.clipsToBounds = true
+        navBar.setItems([navigationItem], animated: false)
+
+        return navBar
     }()
 
     fileprivate lazy var tapGesture: UITapGestureRecognizer = {

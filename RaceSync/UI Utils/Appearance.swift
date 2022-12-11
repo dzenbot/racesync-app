@@ -55,13 +55,15 @@ fileprivate extension Appearance {
         let backgroundColor = Color.navigationBarColor
         let backIndicatorImage = UIImage(named: "icn_navbar_back")
         let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
-
+        let textAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
+                              NSAttributedString.Key.foregroundColor: foregroundColor]
 
         if #available(iOS 15.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()
             navigationBarAppearance.configureWithTransparentBackground()
             navigationBarAppearance.backgroundColor = backgroundColor
             navigationBarAppearance.shadowColor = Color.gray100
+            navigationBarAppearance.titleTextAttributes = textAttributes
             UINavigationBar.appearance().standardAppearance = navigationBarAppearance
             UINavigationBar.appearance().compactAppearance = navigationBarAppearance
             UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
@@ -77,8 +79,7 @@ fileprivate extension Appearance {
         barAppearance.isTranslucent = true
         barAppearance.backIndicatorImage = backIndicatorImage?.withRenderingMode(.alwaysTemplate)
         barAppearance.backIndicatorTransitionMaskImage = backIndicatorImage
-        barAppearance.titleTextAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
-                                                       NSAttributedString.Key.foregroundColor: Color.black]
+        barAppearance.titleTextAttributes = textAttributes
     }
 
     static func configureTabBarAppearance() {
