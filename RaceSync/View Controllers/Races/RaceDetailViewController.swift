@@ -398,9 +398,18 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func loadRows() {
-        tableViewRows += [Row.requirements]
-        tableViewRows += [Row.chapter]
-        tableViewRows += [Row.owner, Row.status]
+        tableViewRows = [Row.requirements, Row.owner]
+
+        if race.chapterName != "" {
+            tableViewRows += [Row.chapter]
+        }
+
+        if race.seasonName != "" {
+            tableViewRows += [Row.season]
+        }
+
+        tableViewRows += [Row.status]
+
         if race.liveTimeUrl != nil {
             tableViewRows += [Row.liveTime]
         }
@@ -712,6 +721,8 @@ extension RaceDetailViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = race.chapterName
         } else if row == .owner {
             cell.detailTextLabel?.text = race.ownerUserName
+        } else if row == .season {
+            cell.detailTextLabel?.text = race.seasonName
         } else if row == .status {
             cell.detailTextLabel?.text = race.status.rawValue
         } else if row == .liveTime {
@@ -753,13 +764,14 @@ extension RaceDetailViewController: MKMapViewDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case requirements, chapter, owner, status, liveTime
+    case requirements, chapter, owner, season, status, liveTime
 
     var title: String {
         switch self {
         case .requirements:     return "Class"
         case .chapter:          return "Chapter"
         case .owner:            return "Coordinator"
+        case .season:           return "Season"
         case .status:           return "Race Status"
         case .liveTime:         return "Go to LiveFPV.com"
         }
