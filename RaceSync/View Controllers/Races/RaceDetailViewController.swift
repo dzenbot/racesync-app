@@ -399,9 +399,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate func loadRows() {
         tableViewRows += [Row.requirements]
-        if !race.isMyChapter {
-            tableViewRows += [Row.chapter]
-        }
+        tableViewRows += [Row.chapter]
         tableViewRows += [Row.owner, Row.status]
         if race.liveTimeUrl != nil {
             tableViewRows += [Row.liveTime]
@@ -759,9 +757,9 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
 
     var title: String {
         switch self {
-        case .requirements:     return "Aircraft Specs"
+        case .requirements:     return "Class"
         case .chapter:          return "Chapter"
-        case .owner:            return "Race Coordinator"
+        case .owner:            return "Coordinator"
         case .status:           return "Race Status"
         case .liveTime:         return "Go to LiveFPV.com"
         }
