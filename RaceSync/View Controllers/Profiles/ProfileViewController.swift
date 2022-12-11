@@ -112,7 +112,7 @@ class ProfileViewController: UIViewController, Shimmable {
 
         view.addSubview(shimmeringView)
         shimmeringView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaInsets.top).offset(headerViewSize.height + SegmentedTableViewHeaderView.headerHeight + topOffset)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top).offset(headerViewSize.height + Constants.padding*2 + SegmentedTableViewHeaderView.headerHeight)
             $0.leading.trailing.bottom.equalToSuperview()
         }
     }

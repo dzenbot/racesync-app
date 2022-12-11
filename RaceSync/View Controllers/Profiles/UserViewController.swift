@@ -385,5 +385,9 @@ extension UserViewController: EmptyDataSetDelegate {
     func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
         return true
     }
+
+    func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
+        return !shimmeringView.isShimmering
+    }
 }
 
