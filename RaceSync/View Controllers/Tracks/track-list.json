@@ -213,16 +213,32 @@
         {
             "id": "21",
             "title": "2022 MultiGP Series",
-            "description": "",
-            "videoUrl": "",
-            "leaderboardUrl": "",
-            "validationFeetUrl": "",
-            "validationMetersUrl": "",
+            "description": "We are happy to announce the track diagram for the 2022 MultiGP Global Qualifier Track designed by AyyKayyy aka Anthony Knight. This track is also available on Velocidrone under pilot name TC_AyyyKayyy.",
+            "videoUrl": "https://www.youtube.com/watch?v=5cCdoAna4hw",
+            "leaderboardUrl": "https://www.multigp.com/2022-multigp-series-global-qualifier-leaderboard/",
+            "validationFeetUrl": "https://www.multigp.com/2022-qualifier-track-dimension-worksheet-feet/",
+            "validationMetersUrl": "https://www.multigp.com/2022-qualifier-track-dimensions-worksheet-meters/",
             "startDate": "2022-04-01 12:01 AM",
             "endDate": "2022-07-18 11:59 PM",
-            "designer": "",
+            "designer": "AyyyKayyyFPV",
             "class": "0",
-            "elements": []
+            "elements": [{
+                "type": "gate",
+                "count": 8
+            },
+            {
+                "type": "flag",
+                "count": 5
+            },
+            {
+                "type": "double_gate",
+                "count": 1
+            },
+            {
+                "type": "hurdle",
+                "count": 1
+            }
+            ]
         },
         {
             "id": "23",
@@ -426,6 +442,20 @@
                 "count": 1
             }
         ]
+        },
+        {
+            "id": "24",
+            "title": "2023 Canadian MultiGP Series",
+            "description": "",
+            "videoUrl": "",
+            "leaderboardUrl": "",
+            "validationFeetUrl": "",
+            "validationMetersUrl": "",
+            "startDate": "2023-06-01 12:01 AM",
+            "endDate": "2023-08-31 11:59 PM",
+            "designer": "",
+            "class": "0",
+            "elements": []
         }
     ]
 }
