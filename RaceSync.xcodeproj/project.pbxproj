@@ -471,6 +471,7 @@
 		4FA213F22947A7C600C8E45A /* AppIcon-CFPV@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-CFPV@3x.png"; sourceTree = "<group>"; };
 		4FA213F52947AB5900C8E45A /* AppIcon-FMR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-FMR@2x.png"; sourceTree = "<group>"; };
 		4FA213F62947AB5900C8E45A /* AppIcon-FMR@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-FMR@3x.png"; sourceTree = "<group>"; };
+		4FA213F92947E1F900C8E45A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
 		4FA268192378BE4A008970AC /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		4FA268212378F8A0008970AC /* APIServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		4FA268232378F9DD008970AC /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
@@ -683,6 +684,7 @@
 				4F9DB79F23D3816800570483 /* RaceSync.entitlements */,
 				4F8175A82412F82900685F83 /* RaceSync-Bridging-Header.h */,
 				4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */,
+				4FA213F92947E1F900C8E45A /* README.md */,
 				4F1342532360B67D00A9DBDE /* Info.plist */,
 			);
 			path = RaceSync;
