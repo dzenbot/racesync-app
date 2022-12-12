@@ -29,8 +29,8 @@ class AppIconViewController: UIViewController {
     }()
 
     fileprivate lazy var sections: [Section: [AppIcon]] = {
-        var list = [Section.mgp: [AppIcon.default, .blue, .white, .io2022]]
-        list += [Section.chapters: [AppIcon.kru]]
+        var list = [Section.mgp: [AppIcon.default, .blue, .white]]
+        list += [Section.chapters: [AppIcon.kru, .ottfpv, .s3]]
         return list
     }()
 

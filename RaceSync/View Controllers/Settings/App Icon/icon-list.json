@@ -1,0 +1,30 @@
+{
+    "official": [
+        {
+            "title": "Red (Default)",
+            "name": null,
+        },
+        {
+            "title": "Blue",
+            "name": "Blue",
+        },
+        {
+            "title": "White",
+            "name": "White",
+        }
+    ],
+    "chapter": [
+        {
+            "title": "KwadsRUs Racing Club",
+            "name": "KRU",
+        },
+        {
+            "title": "Ottawa FPV Riders",
+            "name": "OTTFPV",
+        },
+        {
+            "title": "Safety Third Racing",
+            "name": "S3",
+        }
+    ]
+}

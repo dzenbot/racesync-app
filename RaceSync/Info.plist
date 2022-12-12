@@ -17,18 +17,25 @@
 					<string>AppIcon-Blue</string>
 				</array>
 			</dict>
-			<key>IO2022</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>AppIcon-IO2022</string>
-				</array>
-			</dict>
 			<key>KRU</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>AppIcon-KRU</string>
+				</array>
+			</dict>
+			<key>OTTFPV</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-OTTFPV</string>
+				</array>
+			</dict>
+			<key>S3</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-S3</string>
 				</array>
 			</dict>
 			<key>White</key>

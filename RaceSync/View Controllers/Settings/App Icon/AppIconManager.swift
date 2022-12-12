@@ -31,7 +31,7 @@ class AppIconManager {
 }
 
 enum AppIcon: Int, CaseIterable, EnumTitle {
-   case `default`, blue, white, io2022, kru
+   case `default`, blue, white, kru, ottfpv, s3
 
     var title: String {
         switch self {
@@ -41,10 +41,12 @@ enum AppIcon: Int, CaseIterable, EnumTitle {
             return "Blue"
         case .white:
             return "White"
-        case .io2022:
-            return "International Open 2022"
         case .kru:
-            return "KwadsRUs (Vancouver, BC)"
+            return "KwadsRUs Racing Club"
+        case .ottfpv:
+            return "Ottawa FPV Riders"
+        case .s3:
+            return "Safety Third Racing"
         }
     }
 
@@ -53,7 +55,7 @@ enum AppIcon: Int, CaseIterable, EnumTitle {
         case .default:
             return UIImage(named: "AppIcon60x60") // Default app icon
         default:
-            return UIImage(named: self.filename)
+            return UIImage(named: filename)
         }
     }
 
@@ -65,25 +67,17 @@ enum AppIcon: Int, CaseIterable, EnumTitle {
             return "Blue"
         case .white:
             return "White"
-        case .io2022:
-            return "IO2022"
         case .kru:
             return "KRU"
+        case .ottfpv:
+            return "OTTFPV"
+        case .s3:
+            return "S3"
         }
     }
 
     fileprivate var filename: String {
-        switch self {
-        case .default:
-            return ""
-        case .blue:
-            return "AppIcon-Blue"
-        case .white:
-            return "AppIcon-White"
-        case .io2022:
-            return "AppIcon-IO2022"
-        case .kru:
-            return "AppIcon-KRU"
-        }
+        let name = "AppIcon-\(name!)"
+        return name
     }
 }
