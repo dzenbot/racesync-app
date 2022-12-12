@@ -34,6 +34,8 @@ public enum MGPWebConstant: String {
 
     case gqValidationFeet = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-feet/"
     case gqValidationMeters = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-meters/"
+
+    case supportEmail = "mobile@multigp.com"
 }
 
 public class MGPWeb {

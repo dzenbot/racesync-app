@@ -30,20 +30,11 @@ class AppIconViewController: UIViewController {
 
     fileprivate lazy var sections: [Section: [AppIcon]] = {
         var list = [Section.mgp: [AppIcon.default, .blue, .white, .io2022]]
-
-        if isChapterIconEnabled {
-            list += [Section.chapters: [AppIcon.kru]]
-        }
+        list += [Section.chapters: [AppIcon.kru]]
         return list
     }()
 
     fileprivate let appIconManager = AppIconManager()
-
-    fileprivate var isChapterIconEnabled: Bool {
-        if let myUser = APIServices.shared.myUser, myUser.id == "20676" {
-            return true
-        } else { return false }
-    }
     
     // MARK: - Lifecycle Methods
 
@@ -137,7 +128,7 @@ extension AppIconViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if let section = Section(rawValue: section), section == .chapters {
-            return "Want to include your chapter's icon? Contact us at ios@multigp.com"
+            return "Want to include your Tier 1 chapter's icon? Contact us at \(MGPWebConstant.supportEmail.rawValue)"
         } else {
             return nil
         }
