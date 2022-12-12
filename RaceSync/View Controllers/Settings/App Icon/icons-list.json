@@ -1,0 +1,32 @@
+[
+    {
+        "title": "Red (Default)",
+        "type": 1,
+        "name": null,
+    },
+    {
+        "title": "Blue",
+        "type": 1,
+        "name": "Blue",
+    },
+    {
+        "title": "White",
+        "type": 1,
+        "name": "White",
+    },
+    {
+        "title": "KwadsRUs Racing Club",
+        "type": 2,
+        "name": "KRU",
+    },
+    {
+        "title": "Ottawa FPV Riders",
+        "type": 2,
+        "name": "OTTFPV",
+    },
+    {
+        "title": "Safety Third Racing",
+        "type": 2,
+        "name": "S3",
+    },
+]

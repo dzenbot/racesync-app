@@ -71,7 +71,7 @@
 		4F6429122402DB00005E8036 /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6429112402DB00005E8036 /* ImageConstants.swift */; };
 		4F6429142403AE9A005E8036 /* FormBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6429132403AE9A005E8036 /* FormBaseViewController.swift */; };
 		4F64F680257B97E000574F4D /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F64F67F257B97E000574F4D /* WebViewController.swift */; };
-		4F65D8D82574EA5400C506C3 /* track-list.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F65D8D72574EA5400C506C3 /* track-list.json */; };
+		4F65D8D82574EA5400C506C3 /* tracks-list.json in Resources */ = {isa = PBXBuildFile; fileRef = 4F65D8D72574EA5400C506C3 /* tracks-list.json */; };
 		4F65D8E02574F6CF00C506C3 /* TrackListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F65D8DF2574F6CF00C506C3 /* TrackListViewController.swift */; };
 		4F65D8EE257869AD00C506C3 /* TrackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */; };
 		4F65D908257B134700C506C3 /* TrackDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F65D907257B134700C506C3 /* TrackDetailViewController.swift */; };
@@ -143,9 +143,10 @@
 		4FA1FC9123D7B571006D4704 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC9023D7B571006D4704 /* APIEnvironment.swift */; };
 		4FA213E72946ADD400C8E45A /* AppIcon-OTTFPV@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213E52946ADD300C8E45A /* AppIcon-OTTFPV@2x.png */; };
 		4FA213E82946ADD400C8E45A /* AppIcon-OTTFPV@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213E62946ADD300C8E45A /* AppIcon-OTTFPV@3x.png */; };
-		4FA213EA2946B11E00C8E45A /* icon-list.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213E92946B11E00C8E45A /* icon-list.json */; };
+		4FA213EA2946B11E00C8E45A /* icons-list.json in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213E92946B11E00C8E45A /* icons-list.json */; };
 		4FA213ED2946B5A300C8E45A /* AppIcon-S3@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213EB2946B5A200C8E45A /* AppIcon-S3@3x.png */; };
 		4FA213EE2946B5A300C8E45A /* AppIcon-S3@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213EC2946B5A200C8E45A /* AppIcon-S3@2x.png */; };
+		4FA213F02946C9FA00C8E45A /* AppIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA213EF2946C9FA00C8E45A /* AppIcon.swift */; };
 		4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268192378BE4A008970AC /* APIConstants.swift */; };
 		4FA268222378F8A0008970AC /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268212378F8A0008970AC /* APIServices.swift */; };
 		4FA268242378F9DD008970AC /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268232378F9DD008970AC /* NetworkAdapter.swift */; };
@@ -383,7 +384,7 @@
 		4F6429112402DB00005E8036 /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
 		4F6429132403AE9A005E8036 /* FormBaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormBaseViewController.swift; sourceTree = "<group>"; };
 		4F64F67F257B97E000574F4D /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
-		4F65D8D72574EA5400C506C3 /* track-list.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "track-list.json"; sourceTree = "<group>"; };
+		4F65D8D72574EA5400C506C3 /* tracks-list.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "tracks-list.json"; sourceTree = "<group>"; };
 		4F65D8DF2574F6CF00C506C3 /* TrackListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackListViewController.swift; sourceTree = "<group>"; };
 		4F65D8ED257869AD00C506C3 /* TrackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackViewModel.swift; sourceTree = "<group>"; };
 		4F65D907257B134700C506C3 /* TrackDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackDetailViewController.swift; sourceTree = "<group>"; };
@@ -458,9 +459,10 @@
 		4FA1FC9023D7B571006D4704 /* APIEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIEnvironment.swift; sourceTree = "<group>"; };
 		4FA213E52946ADD300C8E45A /* AppIcon-OTTFPV@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-OTTFPV@2x.png"; sourceTree = "<group>"; };
 		4FA213E62946ADD300C8E45A /* AppIcon-OTTFPV@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-OTTFPV@3x.png"; sourceTree = "<group>"; };
-		4FA213E92946B11E00C8E45A /* icon-list.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "icon-list.json"; sourceTree = "<group>"; };
+		4FA213E92946B11E00C8E45A /* icons-list.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "icons-list.json"; sourceTree = "<group>"; };
 		4FA213EB2946B5A200C8E45A /* AppIcon-S3@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-S3@3x.png"; sourceTree = "<group>"; };
 		4FA213EC2946B5A200C8E45A /* AppIcon-S3@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-S3@2x.png"; sourceTree = "<group>"; };
+		4FA213EF2946C9FA00C8E45A /* AppIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIcon.swift; sourceTree = "<group>"; };
 		4FA268192378BE4A008970AC /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		4FA268212378F8A0008970AC /* APIServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		4FA268232378F9DD008970AC /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
@@ -754,8 +756,9 @@
 			children = (
 				4F03693526D457CB00E30821 /* AppIconViewController.swift */,
 				4F03693C26D457DE00E30821 /* AppIconManager.swift */,
+				4FA213EF2946C9FA00C8E45A /* AppIcon.swift */,
 				4F39977726D453D2006B1075 /* AppIcons */,
-				4FA213E92946B11E00C8E45A /* icon-list.json */,
+				4FA213E92946B11E00C8E45A /* icons-list.json */,
 			);
 			path = "App Icon";
 			sourceTree = "<group>";
@@ -805,7 +808,7 @@
 				4FDF005625902D6D006964DB /* TrackElementViewCell.swift */,
 				4FDF0061259045C5006964DB /* TrackElementHeaderView.swift */,
 				4FE4C09E2945613600F47F0A /* Models */,
-				4F65D8D72574EA5400C506C3 /* track-list.json */,
+				4F65D8D72574EA5400C506C3 /* tracks-list.json */,
 				4F6881B1257ECAE500D33672 /* track-images */,
 			);
 			path = Tracks;
@@ -1369,8 +1372,8 @@
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
 				4FA213ED2946B5A300C8E45A /* AppIcon-S3@3x.png in Resources */,
 				4F9979BE26D57CFF00496451 /* AppIcon-KRU@2x.png in Resources */,
-				4FA213EA2946B11E00C8E45A /* icon-list.json in Resources */,
-				4F65D8D82574EA5400C506C3 /* track-list.json in Resources */,
+				4FA213EA2946B11E00C8E45A /* icons-list.json in Resources */,
+				4F65D8D82574EA5400C506C3 /* tracks-list.json in Resources */,
 				4FBE7608259B348200312B66 /* Assets.xcassets in Resources */,
 				4FA213E72946ADD400C8E45A /* AppIcon-OTTFPV@2x.png in Resources */,
 				4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */,
@@ -1655,6 +1658,7 @@
 				4FD53FB323A0E9B700158206 /* AvatarImageView.swift in Sources */,
 				4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */,
 				4FA1FC8F23D74D29006D4704 /* StringConstants.swift in Sources */,
+				4FA213F02946C9FA00C8E45A /* AppIcon.swift in Sources */,
 				4FD53FAD23A0B01E00158206 /* UserViewModel.swift in Sources */,
 				4F03693626D457CB00E30821 /* AppIconViewController.swift in Sources */,
 				4FA1AB3F23C9538A007CF389 /* AircraftViewModel.swift in Sources */,

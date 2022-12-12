@@ -29,13 +29,12 @@ class AppIconViewController: UIViewController {
     }()
 
     fileprivate lazy var sections: [Section: [AppIcon]] = {
-        var list = [Section.mgp: [AppIcon.default, .blue, .white]]
-        list += [Section.chapters: [AppIcon.kru, .ottfpv, .s3]]
+        var list = [Section: [AppIcon]]()
+        list += [Section.mgp: AppIconManager.icons.filter({ (icon) -> Bool in return icon.type == 1 })]
+        list += [Section.chapters: AppIconManager.icons.filter({ (icon) -> Bool in return icon.type == 2 })]
         return list
     }()
 
-    fileprivate let appIconManager = AppIconManager()
-    
     // MARK: - Lifecycle Methods
 
     override func viewDidLoad() {
@@ -62,7 +61,7 @@ class AppIconViewController: UIViewController {
     }
 
     fileprivate func getAppIcon(at indexPath: IndexPath) -> AppIcon {
-        guard let section = Section(rawValue: indexPath.section), let rows = sections[section] else { return .default }
+        guard let section = Section(rawValue: indexPath.section), let rows = sections[section] else { return AppIcon() }
         return rows[indexPath.row]
     }
 }
@@ -72,12 +71,10 @@ extension AppIconViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let currentAppIcon = AppIconManager.current()
-        let appIcon = getAppIcon(at: indexPath)
+        let icon = getAppIcon(at: indexPath)
+        guard !icon.isSelected() else { return }
 
-        guard appIcon != currentAppIcon else { return }
-
-        AppIconManager.setIcon(appIcon) { (didSet) in
+        AppIconManager.selectIcon(icon) { (didSet) in
             tableView.reloadData()
         }
     }
@@ -100,17 +97,17 @@ extension AppIconViewController: UITableViewDataSource {
 
     func iconTableViewCell(for indexPath: IndexPath) -> FormTableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
-        let appIcon = getAppIcon(at: indexPath)
+        let icon = getAppIcon(at: indexPath)
 
-        cell.textLabel?.text = appIcon.title
-        cell.imageView?.image = appIcon.preview?.rounded(with: 60 / 4)
+        cell.textLabel?.text = icon.title
+        cell.imageView?.image = icon.preview?.rounded(with: 60 / 4)
         cell.imageView?.layer.shadowColor = Color.black.cgColor
         cell.imageView?.layer.shadowOffset = CGSize(width: 0, height: 2.0)
         cell.imageView?.layer.shadowOpacity = 0.2
         cell.imageView?.layer.shadowRadius = 3
         cell.accessoryType = .none
 
-        if AppIconManager.current() == appIcon {
+        if icon.isSelected() {
             let imageView = UIImageView(image: UIImage(named: "icn_cell_checkmark"))
             imageView.tintColor = Color.blue
             cell.accessoryView = imageView
@@ -128,7 +125,7 @@ extension AppIconViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if let section = Section(rawValue: section), section == .chapters {
-            return "Want to include your Tier 1 chapter's icon? Contact us at \(MGPWebConstant.supportEmail.rawValue)"
+            return "Do you want to include your Tier 1 chapter's icon?\nContact us at \(MGPWebConstant.supportEmail.rawValue)"
         } else {
             return nil
         }

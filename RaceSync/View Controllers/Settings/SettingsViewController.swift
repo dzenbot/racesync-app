@@ -187,9 +187,9 @@ extension SettingsViewController: UITableViewDataSource {
 
         if row == .measurement {
             cell.detailTextLabel?.text = settings.measurementSystem.title
-        } else if row == .appicon {
-            let appIcon = AppIconManager.current()
-            cell.detailTextLabel?.text = appIcon.name
+        } else if row == .appicon { // TODO: Implement UIApplication.shared.supportsAlternateIcons
+            let icon = AppIconManager.selectedIcon()
+            cell.detailTextLabel?.text = icon.title
         } else if row == .submitFeedback {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
         } else if row == .logout {

@@ -21,7 +21,7 @@ class TrackLoader {
 fileprivate extension TrackLoader {
 
     static func loadTracksJSON() -> JSON? {
-        guard let path = Bundle.main.path(forResource: "track-list", ofType: "json") else { return nil }
+        guard let path = Bundle.main.path(forResource: "tracks-list", ofType: "json") else { return nil }
         guard let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8) else { return nil }
         return JSON(parseJSON: jsonString)
     }
