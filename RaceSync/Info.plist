@@ -17,6 +17,20 @@
 					<string>AppIcon-Blue</string>
 				</array>
 			</dict>
+			<key>CFPV</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-CFPV</string>
+				</array>
+			</dict>
+			<key>FMR</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-FMR</string>
+				</array>
+			</dict>
 			<key>KRU</key>
 			<dict>
 				<key>CFBundleIconFiles</key>

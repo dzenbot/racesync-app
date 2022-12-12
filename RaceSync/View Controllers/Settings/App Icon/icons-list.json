@@ -29,4 +29,14 @@
         "type": 2,
         "name": "S3",
     },
+    {
+        "title": "ChicagolandFPV",
+        "type": 2,
+        "name": "CFPV",
+    },
+    {
+        "title": "Fayetteville Multirotor Racing",
+        "type": 2,
+        "name": "FMR",
+    },
 ]

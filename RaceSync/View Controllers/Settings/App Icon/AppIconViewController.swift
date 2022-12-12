@@ -12,6 +12,8 @@ import RaceSyncAPI
 
 class AppIconViewController: UIViewController {
 
+    var isChapterIconAllowed: Bool = true
+
     // MARK: - Private Variables
 
     fileprivate lazy var tableView: UITableView = {
@@ -31,7 +33,14 @@ class AppIconViewController: UIViewController {
     fileprivate lazy var sections: [Section: [AppIcon]] = {
         var list = [Section: [AppIcon]]()
         list += [Section.mgp: AppIconManager.icons.filter({ (icon) -> Bool in return icon.type == 1 })]
-        list += [Section.chapters: AppIconManager.icons.filter({ (icon) -> Bool in return icon.type == 2 })]
+
+        if isChapterIconAllowed {
+            let chapterIcons = AppIconManager.icons.filter({ (icon) -> Bool in return icon.type == 2 }).sorted(by: { r1, r2 in
+                return r1.title < r2.title
+            })
+            list +=  [Section.chapters: chapterIcons]
+        }
+
         return list
     }()
 
