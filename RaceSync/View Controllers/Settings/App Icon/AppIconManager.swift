@@ -7,8 +7,7 @@
 //
 
 import Foundation
-import RaceSyncAPI
-import UIKit
+import SwiftyJSON
 
 class AppIconManager {
 
@@ -29,5 +28,39 @@ class AppIconManager {
             }
             completion?(error != nil)
         }
+    }
+}
+
+extension AppIcon {
+
+    func isSelected() -> Bool {
+        return name == AppIconManager.selectedIcon().name
+    }
+}
+
+class AppIconLoader {
+
+    static func loadAppIcons() -> [AppIcon] {
+        guard let json = loadIconsJSON() else { return [AppIcon]() }
+        return parseIconsJSON(json: json)
+    }
+
+    fileprivate static func loadIconsJSON() -> JSON? {
+        guard let path = Bundle.main.path(forResource: "icons-list", ofType: "json") else { return nil }
+        guard let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8) else { return nil }
+        return JSON(parseJSON: jsonString)
+    }
+
+    fileprivate static func parseIconsJSON(json: JSON) -> [AppIcon] {
+        var icons = [AppIcon]()
+        guard let array = json.arrayObject else { return icons }
+
+        for object in array {
+            guard let dict = object as? [String: Any] else { break }
+            if let icon = AppIcon.init(JSON: dict) {
+                icons += [icon]
+            }
+        }
+        return icons
     }
 }
