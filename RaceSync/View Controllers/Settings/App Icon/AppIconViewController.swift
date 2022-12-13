@@ -134,7 +134,7 @@ extension AppIconViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if let section = Section(rawValue: section), section == .chapters {
-            return "Do you want to include your Tier 1 chapter's icon?\nContact us at \(MGPWebConstant.supportEmail.rawValue)"
+            return "Do you want to include your chapter's icon?\nContact us at \(MGPWebConstant.supportEmail.rawValue)"
         } else {
             return nil
         }
