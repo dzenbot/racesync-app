@@ -49,14 +49,18 @@ extension ViewJoinable {
         button.isLoading = true
         let state = button.joinState
 
-        if state == .joined {
-            resign(race: race, raceApi: raceApi) { (newState) in
-                self.handleStateChange(state, newState: newState, in: button, with: race, completion)
+        if let startDate = race.startDate, !startDate.isPassed {
+            if state == .joined {
+                resign(race: race, raceApi: raceApi) { (newState) in
+                    self.handleStateChange(state, newState: newState, in: button, with: race, completion)
+                }
+            } else if state == .join  {
+                join(race: race, raceApi: raceApi) { (newState) in
+                    self.handleStateChange(state, newState: newState, in: button, with: race, completion)
+                }
             }
-        } else if state == .join  {
-            join(race: race, raceApi: raceApi) { (newState) in
-                self.handleStateChange(state, newState: newState, in: button, with: race, completion)
-            }
+        } else {
+            AlertUtil.presentAlertMessage("Cannot join a race in the past.\nIf you think this is a mistake, contact the race coordinator \"\(race.ownerUserName)\"", title: "Uh Oh", delay: 0.5)
         }
     }
 
