@@ -282,7 +282,12 @@ extension RaceRosterViewController: EmptyDataSetSource {
     }
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
-        emptyStateRaceRegisters.buttonTitle(state)
+        guard let startDate = race.startDate else { return nil }
+        if race.status == .opened && !startDate.isPassed {
+            return emptyStateRaceRegisters.buttonTitle(state)
+        } else {
+            return nil
+        }
     }
 
     func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor? {
@@ -309,5 +314,9 @@ extension RaceRosterViewController: EmptyDataSetDelegate {
                 self?.reloadRaceView()
             }
         }
+    }
+
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        return -(view.safeAreaInsets.top + view.safeAreaInsets.bottom)
     }
 }
