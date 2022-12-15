@@ -18,6 +18,8 @@ enum PlaceholderImg {
     static let profileBkgd = UIImage(named: "placeholder_profile_background")
 
     static let largeAircraft = UIImage(named: "placeholder_large_aircraft")
+    static let largeNewAircraft = UIImage(named: "placeholder_large_aircraft_create")
+
     static let shimmerList = UIImage(named: "placeholder_shimmer_list")
 }
 

@@ -227,7 +227,7 @@ extension AircraftListViewController: UICollectionViewDataSource {
         cell.delegate = self
 
         if viewModel.isGeneric {
-            cell.avatarImageView.imageView.image = UIImage(named: "placeholder_large_aircraft_create")
+            cell.avatarImageView.imageView.image = PlaceholderImg.largeNewAircraft
         } else {
             cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.largeAircraft)
         }
