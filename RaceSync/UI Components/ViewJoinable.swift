@@ -60,7 +60,10 @@ extension ViewJoinable {
                 }
             }
         } else {
-            AlertUtil.presentAlertMessage("Cannot join a race in the past.\nIf you think this is a mistake, contact the race coordinator \"\(race.ownerUserName)\"", title: "Uh Oh", delay: 0.5)
+            AlertUtil.presentAlertMessage("Cannot join a race in the past.\nIf you think this is a mistake, contact the race coordinator \"\(race.ownerUserName)\"",
+                                          title: "Uh Oh",
+                                          delay: 0.5,
+                                          completion: { _ in button.isLoading = false })
         }
     }
 
