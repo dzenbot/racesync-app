@@ -485,7 +485,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         let shareButton = CustomButton(type: .system)
         shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
-        shareButton.setImage(UIImage(named: "icn_navbar_share"), for: .normal)
+        shareButton.setImage(ButtonImg.share, for: .normal)
         buttons += [shareButton]
 
         let stackView = UIStackView(arrangedSubviews: buttons)

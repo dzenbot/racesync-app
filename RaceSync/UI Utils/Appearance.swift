@@ -53,7 +53,7 @@ fileprivate extension Appearance {
     static func configureNavigationBarAppearance() {
         let foregroundColor = Color.blue
         let backgroundColor = Color.navigationBarColor
-        let backIndicatorImage = UIImage(named: "icn_navbar_back")
+        let backIndicatorImage = ButtonImg.back
         let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
         let textAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
                               NSAttributedString.Key.foregroundColor: Color.black]

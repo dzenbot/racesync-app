@@ -104,7 +104,7 @@ class AircraftListViewController: UIViewController {
         view.backgroundColor = Color.white
 
         if isEditable {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressCreateButton))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: ButtonImg.add, style: .done, target: self, action: #selector(didPressCreateButton))
         }
 
         view.addSubview(collectionView)
@@ -229,7 +229,7 @@ extension AircraftListViewController: UICollectionViewDataSource {
         if viewModel.isGeneric {
             cell.avatarImageView.imageView.image = UIImage(named: "placeholder_large_aircraft_create")
         } else {
-            cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_large_aircraft"))
+            cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.largeAircraft)
         }
 
         return cell

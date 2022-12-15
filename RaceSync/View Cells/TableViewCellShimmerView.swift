@@ -22,7 +22,7 @@ class TableViewCellShimmerView: UIView {
     }
 
     fileprivate func setupLayout() {
-        guard let image = UIImage(named: "placeholder_shimmer_list") else { return }
+        guard let image = PlaceholderImg.shimmerList else { return }
 
         let cellHeight = image.size.height
         let screenHeight = UIScreen.main.bounds.height

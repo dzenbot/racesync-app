@@ -64,7 +64,7 @@ class SettingsViewController: UIViewController {
 
         title = "Settings"
 
-        let closeBtn = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        let closeBtn = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.leftBarButtonItem = closeBtn
 
         setupLayout()

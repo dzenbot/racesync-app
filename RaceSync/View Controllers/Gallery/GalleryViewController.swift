@@ -55,14 +55,14 @@ class GalleryViewController: UIViewController {
     fileprivate lazy var navigationBar: UINavigationBar = {
         let foregroundColor = Color.white
         let backgroundColor = Color.clear
-        let backIndicatorImage = UIImage(named: "icn_navbar_back")
+        let backIndicatorImage = ButtonImg.back
         let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
         let textAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
                               NSAttributedString.Key.foregroundColor: Color.black]
 
         let navigationItem = UINavigationItem(title: title ?? "")
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
-        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_share"), style: .done, target: self, action: #selector(didPressShareButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: ButtonImg.share, style: .done, target: self, action: #selector(didPressShareButton))
 
         if #available(iOS 15.0, *) {
             let navigationBarAppearance = UINavigationBarAppearance()

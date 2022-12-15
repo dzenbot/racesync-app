@@ -112,7 +112,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         button.addTarget(self, action: #selector(didPressUserProfileButton), for: .touchUpInside)
         button.isHidden = true
 
-        if let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal) {
+        if let placeholder = PlaceholderImg.small?.withRenderingMode(.alwaysOriginal) {
             button.setImage(placeholder, for: .normal) // 32x32
             button.layer.cornerRadius = placeholder.size.width / 2
             button.layer.borderWidth = 0.5
@@ -127,7 +127,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         button.addTarget(self, action: #selector(didPressChapterProfileButton), for: .touchUpInside)
         button.isHidden = true
 
-        if let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal) {
+        if let placeholder = PlaceholderImg.small?.withRenderingMode(.alwaysOriginal) {
             button.setImage(placeholder, for: .normal) // 32x32
             button.layer.cornerRadius = placeholder.size.width / 2
             button.layer.borderWidth = 0.5
@@ -404,7 +404,7 @@ fileprivate extension RaceMainListViewController {
 
     func updateUserProfileImage() {
         let imageUrl = APIServices.shared.myUser?.miniProfilePictureUrl
-        let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
+        let placeholder = PlaceholderImg.small?.withRenderingMode(.alwaysOriginal)
         
         userProfileButton.isHidden = false
         userProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize) { (image) in
@@ -418,7 +418,7 @@ fileprivate extension RaceMainListViewController {
 
     func updateChapterProfileImage() {
         let imageUrl = APIServices.shared.myChapter?.miniProfilePictureUrl
-        let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
+        let placeholder = PlaceholderImg.small?.withRenderingMode(.alwaysOriginal)
 
         chapterProfileButton.isHidden = false
         chapterProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize)
@@ -456,7 +456,7 @@ extension RaceMainListViewController: UITableViewDataSource {
         cell.joinButton.joinState = viewModel.joinState
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.memberBadgeView.count = viewModel.participantCount
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.medium)
 
         if selectedRaceList == .joined {
             cell.subtitleLabel.text = viewModel.locationLabel

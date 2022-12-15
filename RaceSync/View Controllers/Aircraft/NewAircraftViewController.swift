@@ -137,7 +137,7 @@ class NewAircraftViewController: UIViewController {
         navigationItem.rightBarButtonItem?.isEnabled = canCreateAircraft()
 
         if let nc = navigationController, nc.viewControllers.count == 1 {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
         }
 
         view.addSubview(tableView)

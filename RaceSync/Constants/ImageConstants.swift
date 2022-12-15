@@ -8,20 +8,22 @@
 
 import UIKit
 
-public class PlaceholderImage {
-    public static let Small = UIImage(named: "placeholder_small")
-    public static let Medium = UIImage(named: "placeholder_medium")
-    public static let Large = UIImage(named: "placeholder_large")
+enum PlaceholderImg {
+    static let small = UIImage(named: "placeholder_small")
+    static let medium = UIImage(named: "placeholder_medium")
+    static let large = UIImage(named: "placeholder_large")
 
-    public static let ProfileAvatar = UIImage(named: "placeholder_profile_avatar")
-    public static let ProfileAircraft = UIImage(named: "placeholder_profile_aircraft")
-    public static let ProfileBackground = UIImage(named: "placeholder_profile_background")
+    static let profileAvatar = UIImage(named: "placeholder_profile_avatar")
+    static let profileAircraft = UIImage(named: "placeholder_profile_aircraft")
+    static let profileBkgd = UIImage(named: "placeholder_profile_background")
 
-    public static let LargeAircraft = UIImage(named: "placeholder_large_aircraft")
-
-    public static let ShimmerList = UIImage(named: "placeholder_shimmer_list")
+    static let largeAircraft = UIImage(named: "placeholder_large_aircraft")
+    static let shimmerList = UIImage(named: "placeholder_shimmer_list")
 }
 
-public class ButtonImage {
-    public static let Close = UIImage(named: "icn_navbar_close")
+enum ButtonImg {
+    static let back = UIImage(named: "icn_navbar_back")
+    static let close = UIImage(named: "icn_navbar_close")
+    static let add = UIImage(named: "icn_navbar_add")
+    static let share = UIImage(named: "icn_navbar_share")
 }

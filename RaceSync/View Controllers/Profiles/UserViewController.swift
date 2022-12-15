@@ -134,7 +134,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
         let shareButton = CustomButton(type: .system)
         shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
-        shareButton.setImage(UIImage(named: "icn_navbar_share"), for: .normal)
+        shareButton.setImage(ButtonImg.share, for: .normal)
         buttons += [shareButton]
 
         let rightStackView = UIStackView(arrangedSubviews: buttons)
@@ -145,7 +145,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightStackView)
 
         if navigationController?.viewControllers.count == 1 {
-            navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+            navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
         }
     }
 
@@ -328,7 +328,7 @@ extension UserViewController: UITableViewDataSource {
         cell.joinButton.joinState = viewModel.joinState
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.memberBadgeView.count = viewModel.participantCount
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
         return cell
     }
 
@@ -337,7 +337,7 @@ extension UserViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ChapterTableViewCell
         cell.titleLabel.text = viewModel.titleLabel
         cell.subtitleLabel.text = viewModel.locationLabel
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
         return cell
     }
 }

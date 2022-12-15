@@ -59,7 +59,7 @@ class AircraftPickerViewController: UIViewController {
     }()
 
     fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
-        return UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressCreateButton))
+        return UIBarButtonItem(image: ButtonImg.add, style: .done, target: self, action: #selector(didPressCreateButton))
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
@@ -113,7 +113,7 @@ class AircraftPickerViewController: UIViewController {
         title = Constants.title
         view.backgroundColor = Color.white
 
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.rightBarButtonItem = rightBarButtonItem
 
         view.addSubview(collectionView)
@@ -242,7 +242,7 @@ extension AircraftPickerViewController: UICollectionViewDataSource {
 
         let viewModel = aircraftViewModels[indexPath.row]
         cell.titleLabel.text = viewModel.displayName
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_large_aircraft"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.largeAircraft)
         return cell
     }
 }
