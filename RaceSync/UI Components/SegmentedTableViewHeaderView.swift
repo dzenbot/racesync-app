@@ -28,7 +28,7 @@ class SegmentedTableViewHeaderView: UITableViewHeaderFooterView {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let height: CGFloat = 32 + padding // slightly higher than native height
+        static let height: CGFloat = 32 + padding * 2 // slightly higher than native height
     }
 
     // MARK: - Initializers
@@ -50,7 +50,7 @@ class SegmentedTableViewHeaderView: UITableViewHeaderFooterView {
 
         addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints {
-            $0.top.equalToSuperview()
+            $0.top.equalToSuperview().offset(Constants.padding)
             $0.leading.equalToSuperview().offset(Constants.padding)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
             $0.bottom.equalTo(self.snp.bottom).offset(-Constants.padding)
