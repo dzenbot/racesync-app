@@ -102,7 +102,7 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
         tabBarItem = UITabBarItem(title: "Roster", image: UIImage(named: "icn_tabbar_roster"), selectedImage: UIImage(named: "icn_tabbar_roster_selected"))
 
         if race.isMyChapter {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_add"), style: .done, target: self, action: #selector(didPressAddButton))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: ButtonImg.add, style: .done, target: self, action: #selector(didPressAddButton))
         }
     }
 
@@ -234,7 +234,7 @@ extension RaceRosterViewController: UITableViewDataSource {
         let viewModel = userViewModel(at: indexPath)
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as AvatarTableViewCell
         cell.titleLabel.text = viewModel.pilotName
-        cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"))
+        cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: PlaceholderImg.medium)
         cell.subtitleLabel.text = viewModel.fullName
 
         if let raceEntry = viewModel.raceEntry {
@@ -282,7 +282,12 @@ extension RaceRosterViewController: EmptyDataSetSource {
     }
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
-        emptyStateRaceRegisters.buttonTitle(state)
+        guard let startDate = race.startDate else { return nil }
+        if race.status == .opened && !startDate.isPassed {
+            return emptyStateRaceRegisters.buttonTitle(state)
+        } else {
+            return nil
+        }
     }
 
     func backgroundColor(forEmptyDataSet scrollView: UIScrollView) -> UIColor? {
@@ -309,5 +314,9 @@ extension RaceRosterViewController: EmptyDataSetDelegate {
                 self?.reloadRaceView()
             }
         }
+    }
+
+    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+        return -(view.safeAreaInsets.top + view.safeAreaInsets.bottom)
     }
 }

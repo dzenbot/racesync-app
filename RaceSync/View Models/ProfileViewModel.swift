@@ -111,9 +111,9 @@ public enum ProfileViewModelType: String {
 
     var placeholder: UIImage? {
         switch self {
-        case .user:         return PlaceholderImage.ProfileAvatar
-        case .chapter:      return PlaceholderImage.ProfileAvatar
-        case .aircraft:     return PlaceholderImage.ProfileAircraft
+        case .user:         return PlaceholderImg.profileAvatar
+        case .chapter:      return PlaceholderImg.profileAvatar
+        case .aircraft:     return PlaceholderImg.profileAircraft
         }
     }
 }

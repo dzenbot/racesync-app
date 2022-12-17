@@ -2,18 +2,19 @@
 //  RaceListViewController.swift
 //  RaceSync
 //
-//  Created by Ignacio Romero Zurbuchen on 2019-11-14.
-//  Copyright © 2019 MultiGP Inc. All rights reserved.
+//  Created by Ignacio Romero Zurbuchen on 2022-12-11.
+//  Copyright © 2022 MultiGP Inc. All rights reserved.
 //
 
-import UIKit
+import Foundation
 import RaceSyncAPI
 import SnapKit
-import ShimmerSwift
-import EmptyDataSet_Swift
-import CoreLocation
+import UIKit
 
-class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
+/**
+ Generic display of pre-loaded races.
+ */
+class RaceListViewController: UIViewController, ViewJoinable {
 
     // MARK: - Public Variables
 
@@ -21,157 +22,27 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.emptyDataSetSource = self
-        tableView.emptyDataSetDelegate = self
         tableView.register(cellType: RaceTableViewCell.self)
-        tableView.refreshControl = self.refreshControl
         tableView.tableFooterView = UIView()
-
-        for direction in [UISwipeGestureRecognizer.Direction.left, UISwipeGestureRecognizer.Direction.right] {
-            let gesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeHorizontally(_:)))
-            gesture.direction = direction
-            tableView.addGestureRecognizer(gesture)
-        }
-
         return tableView
     }()
 
-    var shimmeringView: ShimmeringView = defaultShimmeringView()
-
     // MARK: - Private Variables
 
-    fileprivate lazy var segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl()
-        segmentedControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
-        return segmentedControl
-    }()
-
-    fileprivate lazy var headerView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Color.white
-
-        view.addSubview(segmentedControl)
-        segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(11)
-            $0.leading.equalToSuperview().offset(Constants.padding)
-            $0.trailing.equalToSuperview().offset(-Constants.padding)
-            $0.bottom.equalTo(view.snp.bottom).offset(-11)
-        }
-
-        let separatorLine = UIView()
-        separatorLine.backgroundColor = Color.gray100
-        view.addSubview(separatorLine)
-        separatorLine.snp.makeConstraints {
-            $0.height.equalTo(0.5)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(view.snp.bottom)
-        }
-        return view
-    }()
-
-    fileprivate lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.backgroundColor = Color.white
-        refreshControl.tintColor = Color.blue
-        refreshControl.addTarget(self, action: #selector(didPullRefreshControl), for: .valueChanged)
-        return refreshControl
-    }()
-
-    fileprivate lazy var titleView: UIView = {
-        let view = UIView()
-        let imageView = UIImageView(image: UIImage(named: "racesync_logo_header"))
-        view.addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.snp.top).offset(4)
-        }
-        return view
-    }()
-
-    fileprivate lazy var filterButton: CustomButton = {
-        let button = CustomButton(type: .system)
-        button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_navbar_filter"), for: .normal)
-        button.isEnabled = (selectedRaceList == .nearby)
-        return button
-    }()
-
-    fileprivate lazy var settingsButton: CustomButton = {
-        let button = CustomButton(type: .system)
-        button.addTarget(self, action: #selector(didPressSettingsButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_navbar_settings"), for: .normal)
-        return button
-    }()
-
-    fileprivate lazy var userProfileButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(didPressUserProfileButton), for: .touchUpInside)
-        button.isHidden = true
-
-        if let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal) {
-            button.setImage(placeholder, for: .normal) // 32x32
-            button.layer.cornerRadius = placeholder.size.width / 2
-            button.layer.borderWidth = 0.5
-            button.layer.borderColor = Color.gray100.cgColor
-            button.layer.masksToBounds = true
-        }
-        return button
-    }()
-
-    fileprivate lazy var chapterProfileButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.addTarget(self, action: #selector(didPressChapterProfileButton), for: .touchUpInside)
-        button.isHidden = true
-
-        if let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal) {
-            button.setImage(placeholder, for: .normal) // 32x32
-            button.layer.cornerRadius = placeholder.size.width / 2
-            button.layer.borderWidth = 0.5
-            button.layer.borderColor = Color.gray100.cgColor
-            button.layer.masksToBounds = true
-        }
-        return button
-    }()
-
-    fileprivate var selectedRaceList: RaceListType {
-        get {
-            return RaceListType(rawValue: segmentedControl.selectedSegmentIndex)!
-        }
-    }
-
-    fileprivate let raceListController: RaceListController
-    fileprivate var initialSelectType: RaceListType
+    fileprivate var raceList: [RaceViewModel]
+    fileprivate var seasonId: ObjectId?
     fileprivate let raceApi = RaceApi()
-    fileprivate let userApi = UserApi()
-    fileprivate let chapterApi = ChapterApi()
-    fileprivate var raceList = [RaceViewModel]()
 
-    fileprivate var settingsController = SettingsController()
+    // MARK: - Initialization
 
-    fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
-    fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
-    fileprivate var emptyStateSeriesRaces = EmptyStateViewModel(.noSeriesRaces)
-
-    fileprivate enum Constants {
-        static let padding: CGFloat = UniversalConstants.padding
-        static let headerHeight: CGFloat = 50
-        static let buttonSpacing: CGFloat = 12
-        static let miniProfileSize: CGSize = CGSize(width: 32, height: 32)
-    }
-
-    // MARK: - Lifecycle Methods
-
-    init(_ types: [RaceListType], selectedType: RaceListType) {
-        self.raceListController = RaceListController(types)
-        self.initialSelectType = selectedType
+    init(_ raceViewModels: [RaceViewModel], seasonId: ObjectId) {
+        self.raceList = raceViewModels
+        self.seasonId = seasonId
 
         super.init(nibName: nil, bundle: nil)
-
-        self.segmentedControl.setItems(types.compactMap { $0.title })
-        self.segmentedControl.selectedSegmentIndex = selectedType.rawValue
     }
 
-    required init?(coder aDecoder: NSCoder) {
+    required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
 
@@ -181,14 +52,12 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         super.viewDidLoad()
 
         setupLayout()
-
-        APIServices.shared.settings.add(self)
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        loadContent()
+        // loadContent()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -199,95 +68,15 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
 
     fileprivate func setupLayout() {
 
-        title = "Race List"
-        navigationItem.titleView = titleView
-
-        let leftStackView = UIStackView(arrangedSubviews: [settingsButton, filterButton])
-        leftStackView.axis = .horizontal
-        leftStackView.distribution = .fillEqually
-        leftStackView.alignment = .leading
-        leftStackView.spacing = Constants.padding
-        navigationItem.leftBarButtonItem = UIBarButtonItem(customView: leftStackView)
-
-        let rightStackView = UIStackView(arrangedSubviews: [chapterProfileButton, userProfileButton])
-        rightStackView.axis = .horizontal
-        rightStackView.distribution = .fillEqually
-        rightStackView.alignment = .trailing
-        rightStackView.spacing = Constants.buttonSpacing
-        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: rightStackView)
-
-        view.addSubview(headerView)
-        headerView.snp.makeConstraints {
-            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.headerHeight)
-        }
-
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.equalTo(headerView.snp.bottom)
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(view.snp.bottom)
-        }
-
-        view.addSubview(shimmeringView)
-        shimmeringView.snp.makeConstraints {
-            $0.top.equalTo(tableView.snp.top)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(tableView.snp.bottom)
         }
     }
 
     // MARK: - Actions
-
-    @objc fileprivate func didChangeSegment() {
-        // Cancelling previous race API requests to avoid overlaps
-        raceApi.cancelAll()
-
-        // This should be triggered just once, when first requesting access to the user's location
-        // and display the shimmer while retrieving the location and loading the nearby races.
-        let locationManager = LocationManager.shared
-        if selectedRaceList == .nearby, !locationManager.didRequestAuthorization {
-            isLoading(true)
-            locationManager.requestsAuthorization { [weak self] (error) in
-                self?.loadRaces()
-            }
-        } else {
-            loadRaces()
-        }
-
-        filterButton.isEnabled = (selectedRaceList == .nearby)
-    }
-
-    @objc fileprivate func didPressUserProfileButton() {
-        guard let myUser = APIServices.shared.myUser else { return }
-
-        let userVC = UserViewController(with: myUser)
-        let userNC = NavigationController(rootViewController: userVC)
-        userNC.modalPresentationStyle = .fullScreen
-        present(userNC, animated: true)
-    }
-
-    @objc fileprivate func didPressChapterProfileButton() {
-        guard let myChapter = APIServices.shared.myChapter else { return }
-
-        let chapterVC = ChapterViewController(with: myChapter)
-        let chapterNC = NavigationController(rootViewController: chapterVC)
-        chapterNC.modalPresentationStyle = .fullScreen
-        present(chapterNC, animated: true)
-    }
-
-    @objc fileprivate func didPressSettingsButton(_ sender: Any) {
-        let settingsVC = SettingsViewController()
-        let settingsNC = NavigationController(rootViewController: settingsVC)
-        present(settingsNC, animated: true)
-    }
-
-    @objc fileprivate func didPressFilterButton(_ sender: Any) {
-        settingsController.presentSettingsPicker(.searchRadius, from: self) {
-            // event handled by the APISettingsDelegate implementation
-        }
-    }
 
     @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
         guard let objectId = sender.objectId, let race = raceList.race(withId: objectId) else { return }
@@ -296,18 +85,9 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
             if joinState != newState {
                 // reload races to reflect race changes, specially join counts
-                self?.loadRaces(forceReload: true)
+                self?.reloadRaces()
             }
         }
-    }
-
-    @objc fileprivate func didPressShowPastSeriesButton(_ sender: Any) {
-        raceListController.showLastYearSeries = true
-        loadRaces(forceReload: true)
-    }
-
-    @objc fileprivate func didPullRefreshControl() {
-        loadRaces(forceReload: true)
     }
 
     fileprivate func openRaceDetail(_ viewModel: RaceViewModel) {
@@ -316,108 +96,24 @@ class RaceListViewController: UIViewController, ViewJoinable, Shimmable {
         navigationController?.pushViewController(eventTVC, animated: true)
     }
 
-    @objc fileprivate func didSwipeHorizontally(_ sender: Any) {
-        guard let swipeGesture = sender as? UISwipeGestureRecognizer else { return }
-
-        var newIndex = segmentedControl.selectedSegmentIndex
-
-        if swipeGesture.direction == .left {
-            newIndex += 1
-        } else if swipeGesture.direction == .right {
-            newIndex -= 1
+    @objc func reloadRaces() {
+        if let seasonId = seasonId {
+            raceApi.getRaces(forSeason: seasonId) { [weak self] (races, error) in
+                if let races = races {
+                    self?.raceList = RaceViewModel.sortedViewModels(with: races)
+                    self?.tableView.reloadData()
+                } else if let _ = error {
+                    // handle error
+                }
+            }
         }
-
-        guard newIndex >= 0 && newIndex <= segmentedControl.numberOfSegments else { return }
-        segmentedControl.setSelectedSegment(newIndex)
-    }
-
-    fileprivate func selectSegment(_ type: RaceListType) {
-        segmentedControl.setSelectedSegment(type.rawValue)
     }
 }
 
 fileprivate extension RaceListViewController {
 
     func loadContent() {
-        if APIServices.shared.myUser == nil {
-            isLoading(true)
-            loadMyUser()
-        } else {
-            loadRaces(forceReload: true)
-        }
-    }
 
-    func loadMyUser() {
-        userApi.getMyUser { [weak self] (user, error) in
-            if let user = user {
-                CrashCatcher.setupUser(user.id, username: user.userName)
-
-                self?.updateUserProfileImage()
-                self?.loadRaces()
-            } else if error != nil {
-                // This is somewhat the best way to detect an invalid session
-                ApplicationControl.shared.invalidateSession()
-            }
-        }
-
-        chapterApi.getMyManagedChapters { [weak self] (managedChapters, error) in
-            APIServices.shared.myManagedChapters = managedChapters
-
-            if let managedChapter = managedChapters?.first {
-                self?.chapterApi.getChapter(with: managedChapter.id) { (chapter, error) in
-                    APIServices.shared.myChapter = chapter
-                    self?.updateChapterProfileImage()
-                }
-            }
-        }
-    }
-
-    @objc func loadRaces(forceReload: Bool = false) {
-        let selectedList = selectedRaceList
-
-        if raceListController.shouldShowShimmer(for: selectedList) {
-            isLoading(true)
-        }
-
-        raceListController.raceViewModels(for: selectedList, forceFetch: forceReload) { [weak self] (viewModels, error) in
-            guard let strongSelf = self else { return }
-
-            strongSelf.isLoading(false)
-
-            if let viewModels = viewModels, selectedList == strongSelf.selectedRaceList {
-                strongSelf.raceList = viewModels
-
-                if strongSelf.refreshControl.isRefreshing {
-                    strongSelf.refreshControl.endRefreshing()
-                }
-
-                strongSelf.tableView.reloadData()
-            } else {
-                print("getMyRaces error : \(error.debugDescription)")
-            }
-        }
-    }
-
-    func updateUserProfileImage() {
-        let imageUrl = APIServices.shared.myUser?.miniProfilePictureUrl
-        let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
-        
-        userProfileButton.isHidden = false
-        userProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize) { (image) in
-
-            // We do this here, to be guaranteed a user profile's image
-            DispatchQueue.main.async {
-                ApplicationControl.shared.startWatchConnection()
-            }
-        }
-    }
-
-    func updateChapterProfileImage() {
-        let imageUrl = APIServices.shared.myChapter?.miniProfilePictureUrl
-        let placeholder = UIImage(named: "placeholder_small")?.withRenderingMode(.alwaysOriginal)
-
-        chapterProfileButton.isHidden = false
-        chapterProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize)
     }
 }
 
@@ -428,6 +124,10 @@ extension RaceListViewController: UITableViewDelegate {
 
         let viewModel = raceList[indexPath.row]
         openRaceDetail(viewModel)
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return RaceTableViewCell.height
     }
 }
 
@@ -448,83 +148,8 @@ extension RaceListViewController: UITableViewDataSource {
         cell.joinButton.joinState = viewModel.joinState
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.memberBadgeView.count = viewModel.participantCount
-        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: UIImage(named: "placeholder_medium"))
-
-        if selectedRaceList == .joined {
-            cell.subtitleLabel.text = viewModel.locationLabel
-        } else if selectedRaceList == .series {
-            cell.subtitleLabel.text = viewModel.chapterLabel
-        } else {
-            cell.subtitleLabel.text = viewModel.distanceLabel
-        }
-
+        cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.medium)
+        cell.subtitleLabel.text = viewModel.distanceLabel
         return cell
-    }
-
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return RaceTableViewCell.height
-    }
-}
-
-extension RaceListViewController: EmptyDataSetSource {
-
-    func getEmptyStateViewModel() -> EmptyStateViewModel {
-        switch selectedRaceList {
-        case .joined:   return emptyStateJoinedRaces
-        case .nearby:   return emptyStateNearbyRaces
-        case .series:   return emptyStateSeriesRaces
-        }
-    }
-
-    func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        return getEmptyStateViewModel().title
-    }
-
-    func description(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
-        return getEmptyStateViewModel().description
-    }
-
-    func image(forEmptyDataSet scrollView: UIScrollView) -> UIImage? {
-        return nil
-    }
-
-    func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
-        return getEmptyStateViewModel().buttonTitle(state)
-    }
-
-    func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
-        return -(navigationController?.navigationBar.frame.height ?? 0)
-    }
-}
-
-extension RaceListViewController: APISettingsDelegate {
-
-    func didUpdate(settings: APISettingsType, with value: Any) {
-        guard selectedRaceList == .nearby else { return }
-
-        if settings == .measurement {
-            loadRaces()
-        } else if settings == .searchRadius {
-            isLoading(true)
-            loadRaces(forceReload: true)
-        }
-    }
-}
-
-extension RaceListViewController: EmptyDataSetDelegate {
-
-    func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
-        return true
-    }
-
-    func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
-
-        if selectedRaceList == .joined {
-            selectSegment(.nearby)
-        } else if selectedRaceList == .nearby {
-            didPressFilterButton(button)
-        } else if selectedRaceList == .series {
-            didPressShowPastSeriesButton(button)
-        }
     }
 }

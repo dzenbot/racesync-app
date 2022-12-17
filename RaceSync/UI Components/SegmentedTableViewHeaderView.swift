@@ -28,7 +28,7 @@ class SegmentedTableViewHeaderView: UITableViewHeaderFooterView {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let height: CGFloat = 29 + padding*2
+        static let height: CGFloat = 32 + padding * 2 // slightly higher than native height
     }
 
     // MARK: - Initializers

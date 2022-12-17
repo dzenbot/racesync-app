@@ -64,7 +64,7 @@ class SettingsViewController: UIViewController {
 
         title = "Settings"
 
-        let closeBtn = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        let closeBtn = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
         navigationItem.leftBarButtonItem = closeBtn
 
         setupLayout()
@@ -181,18 +181,19 @@ extension SettingsViewController: UITableViewDataSource {
         cell.accessoryType = .disclosureIndicator
 
         if row == .logout {
-            cell.textLabel?.textColor = Color.red
             cell.textLabel?.textAlignment = .center
-            cell.accessoryType = .none
+            cell.detailTextLabel?.text = APIServices.shared.credential.email
         }
 
         if row == .measurement {
             cell.detailTextLabel?.text = settings.measurementSystem.title
-        } else if row == .appicon {
-            let appIcon = AppIconManager.current()
-            cell.detailTextLabel?.text = appIcon.name
+        } else if row == .appicon { // TODO: Implement UIApplication.shared.supportsAlternateIcons
+            let icon = AppIconManager.selectedIcon()
+            cell.detailTextLabel?.text = icon.title
         } else if row == .submitFeedback {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
+        } else if row == .logout {
+            cell.detailTextLabel?.text = APIServices.shared.credential.email
         }
 
         return cell

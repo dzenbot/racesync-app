@@ -119,7 +119,7 @@ class ForceJoinViewController: UIViewController, Shimmable {
     fileprivate func setupLayout() {
 
         title = "Add Pilots"
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "icn_navbar_close"), style: .done, target: self, action: #selector(didPressCloseButton))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
 
         view.backgroundColor = Color.white
 
@@ -300,7 +300,7 @@ extension ForceJoinViewController: UITableViewDataSource {
         guard let viewModel = userViewModel(for: indexPath), let user = viewModel.user else { return cell }
 
         cell.titleLabel.text = viewModel.pilotName
-        cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: UIImage(named: "placeholder_medium"), size: Constants.avatarImageSize)
+        cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
         cell.subtitleLabel.text = viewModel.fullName
 
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)

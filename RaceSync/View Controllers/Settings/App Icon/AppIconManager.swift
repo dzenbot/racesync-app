@@ -7,83 +7,60 @@
 //
 
 import Foundation
-import RaceSyncAPI
-import UIKit
+import SwiftyJSON
 
 class AppIconManager {
 
-    static func current() -> AppIcon {
-      return AppIcon.allCases.first(where: {
+    static let icons: [AppIcon] = AppIconLoader.loadAppIcons()
+
+    static func selectedIcon() -> AppIcon {
+      return icons.first(where: {
         $0.name == UIApplication.shared.alternateIconName
-      }) ?? .default
+      }) ?? AppIcon()
     }
 
-    static func setIcon(_ appIcon: AppIcon, completion: ((Bool) -> Void)? = nil) {
-        guard current() != appIcon, UIApplication.shared.supportsAlternateIcons else { return }
+    static func selectIcon(_ icon: AppIcon, completion: ((Bool) -> Void)? = nil) {
+        guard UIApplication.shared.supportsAlternateIcons else { return }
 
-        UIApplication.shared.setAlternateIconName(appIcon.name) { error in
+        UIApplication.shared.setAlternateIconName(icon.name) { error in
             if let error = error {
-                print("Error setting alternate icon \(String(describing: appIcon.name)): \(error.localizedDescription)")
+                print("Error setting alternate icon \(String(describing: icon.name)): \(error.localizedDescription)")
             }
             completion?(error != nil)
         }
     }
 }
 
-enum AppIcon: Int, CaseIterable, EnumTitle {
-   case `default`, blue, white, io2022, kru
+extension AppIcon {
 
-    var title: String {
-        switch self {
-        case .default:
-            return "Red (Default)"
-        case .blue:
-            return "Blue"
-        case .white:
-            return "White"
-        case .io2022:
-            return "International Open 2022"
-        case .kru:
-            return "KwadsRUs (Vancouver, BC)"
-        }
+    func isSelected() -> Bool {
+        return name == AppIconManager.selectedIcon().name
+    }
+}
+
+class AppIconLoader {
+
+    static func loadAppIcons() -> [AppIcon] {
+        guard let json = loadIconsJSON() else { return [AppIcon]() }
+        return parseIconsJSON(json: json)
     }
 
-    var preview: UIImage? {
-        switch self {
-        case .default:
-            return UIImage(named: "AppIcon60x60") // Default app icon
-        default:
-            return UIImage(named: self.filename)
-        }
+    fileprivate static func loadIconsJSON() -> JSON? {
+        guard let path = Bundle.main.path(forResource: "icons-list", ofType: "json") else { return nil }
+        guard let jsonString = try? String(contentsOfFile: path, encoding: String.Encoding.utf8) else { return nil }
+        return JSON(parseJSON: jsonString)
     }
 
-    var name: String? {
-        switch self {
-        case .default:
-            return nil
-        case .blue:
-            return "Blue"
-        case .white:
-            return "White"
-        case .io2022:
-            return "IO2022"
-        case .kru:
-            return "KRU"
-        }
-    }
+    fileprivate static func parseIconsJSON(json: JSON) -> [AppIcon] {
+        var icons = [AppIcon]()
+        guard let array = json.arrayObject else { return icons }
 
-    fileprivate var filename: String {
-        switch self {
-        case .default:
-            return ""
-        case .blue:
-            return "AppIcon-Blue"
-        case .white:
-            return "AppIcon-White"
-        case .io2022:
-            return "AppIcon-IO2022"
-        case .kru:
-            return "AppIcon-KRU"
+        for object in array {
+            guard let dict = object as? [String: Any] else { break }
+            if let icon = AppIcon.init(JSON: dict) {
+                icons += [icon]
+            }
         }
+        return icons
     }
 }

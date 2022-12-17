@@ -85,6 +85,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.titleLabel?.numberOfLines = 2
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
+        button.imageView?.tintColor = button.tintColor
         button.addTarget(self, action: #selector(didPressLocationButton), for: .touchUpInside)
         return button
     }()
@@ -97,6 +98,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.titleLabel?.numberOfLines = 1
         button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
+        button.imageView?.tintColor = button.tintColor
         button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
         return button
     }()
@@ -396,11 +398,18 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func loadRows() {
-        tableViewRows += [Row.requirements]
-        if !race.isMyChapter {
+        tableViewRows = [Row.requirements, Row.owner]
+
+        if race.chapterName != "" {
             tableViewRows += [Row.chapter]
         }
-        tableViewRows += [Row.owner, Row.status]
+
+        if race.seasonName != "" {
+            tableViewRows += [Row.season]
+        }
+
+        tableViewRows += [Row.status]
+
         if race.liveTimeUrl != nil {
             tableViewRows += [Row.liveTime]
         }
@@ -476,7 +485,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         let shareButton = CustomButton(type: .system)
         shareButton.addTarget(self, action: #selector(didPressShareButton), for: .touchUpInside)
-        shareButton.setImage(UIImage(named: "icn_navbar_share"), for: .normal)
+        shareButton.setImage(ButtonImg.share, for: .normal)
         buttons += [shareButton]
 
         let stackView = UIStackView(arrangedSubviews: buttons)
@@ -615,6 +624,23 @@ fileprivate extension RaceDetailViewController {
         }
     }
 
+    func showSeasonRaces(_ cell: FormTableViewCell) {
+        guard canInteract(with: cell), let seasonId = race.seasonId else { return }
+        setLoading(cell, loading: true)
+
+        raceApi.getRaces(forSeason: seasonId) { [weak self] (races, error) in
+            if let races = races {
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
+                let raceListVC = RaceListViewController(sortedViewModels, seasonId: seasonId)
+                raceListVC.title = self?.race.seasonName
+                self?.navigationController?.pushViewController(raceListVC, animated: true)
+            } else if let _ = error {
+                // handle error
+            }
+            self?.setLoading(cell, loading: false)
+        }
+    }
+
     func toggleRaceStatus(_ cell: FormTableViewCell) {
         guard canInteract(with: cell) else { return }
         guard race.isMyChapter else { return } // only allow interacting if the user can manage the race
@@ -677,10 +703,12 @@ extension RaceDetailViewController: UITableViewDelegate {
 
         if row == .requirements {
             // TODO: Push AircraftDetailViewController
-        } else if row == .chapter {
-            showChapterProfile(cell)
         } else if row == .owner {
             showUserProfile(cell)
+        } else if row == .chapter {
+            showChapterProfile(cell)
+        } else if row == .season {
+            showSeasonRaces(cell)
         } else if row == .status {
             toggleRaceStatus(cell)
         } else if row == .liveTime {
@@ -712,6 +740,8 @@ extension RaceDetailViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = race.chapterName
         } else if row == .owner {
             cell.detailTextLabel?.text = race.ownerUserName
+        } else if row == .season {
+            cell.detailTextLabel?.text = race.seasonName
         } else if row == .status {
             cell.detailTextLabel?.text = race.status.rawValue
         } else if row == .liveTime {
@@ -753,13 +783,14 @@ extension RaceDetailViewController: MKMapViewDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case requirements, chapter, owner, status, liveTime
+    case requirements, chapter, owner, season, status, liveTime
 
     var title: String {
         switch self {
-        case .requirements:     return "Aircraft Specs"
+        case .requirements:     return "Class"
         case .chapter:          return "Chapter"
-        case .owner:            return "Race Coordinator"
+        case .owner:            return "Coordinator"
+        case .season:           return "Season"
         case .status:           return "Race Status"
         case .liveTime:         return "Go to LiveFPV.com"
         }

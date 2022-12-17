@@ -56,6 +56,16 @@ public protocol RaceApiInterface {
     func getRaces(forChapter chapterId: ObjectId, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
+    Gets the races belonging to a specific season.
+
+    - parameter seasonId: The Season id.
+    - parameter currentPage: The current page cursor position. Default is 0
+    - parameter pageSize: The amount of objects to be returned by page. Default is 25.
+    - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
+    */
+    func getRaces(forSeason seasonId: ObjectId, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
+
+    /**
     Gets a full Race object, including pilot entries and schedule
 
      - parameter raceId: The Race id.
@@ -135,8 +145,8 @@ public class RaceApi: RaceApiInterface {
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
-        let parameters = parametersForRaces(with: userId, filters: filters, latitude: latitude, longitude: longitude)
-        repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Race.self, completion)
+        let parameters = parametersForRaces(with: userId, filters: filters, latitude: latitude, longitude: longitude, pageSize: pageSize)
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
     public func getRaces(forChapter chapterId: ObjectId,
@@ -145,6 +155,18 @@ public class RaceApi: RaceApiInterface {
 
         let endpoint = EndPoint.raceList
         let parameters = [ParameterKey.chapterId: chapterId]
+
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
+            completion(races, error)
+        }
+    }
+
+    public func getRaces(forSeason seasonId: ObjectId,
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
+                         completion: @escaping ObjectCompletionBlock<[Race]>) {
+
+        let endpoint = EndPoint.raceList
+        let parameters = [ParameterKey.seasonId: seasonId]
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
             completion(races, error)
@@ -245,7 +267,8 @@ fileprivate extension RaceApi {
 
     func parametersForRaces(with userId: ObjectId = "",
                             filters: [RaceListFilter],
-                            latitude: String? = nil, longitude: String? = nil) -> Parameters {
+                            latitude: String? = nil, longitude: String? = nil,
+                            pageSize: Int = StandardPageSize) -> Parameters {
 
         var parameters: Parameters = [:]
 
@@ -273,9 +296,9 @@ fileprivate extension RaceApi {
         }
 
         if filters.contains(.upcoming) {
-            parameters[ParameterKey.upcoming] = [ParameterKey.limit: StandardPageSize]
+            parameters[ParameterKey.upcoming] = [ParameterKey.limit: pageSize]
         } else if filters.contains(.past) {
-            parameters[ParameterKey.past] = [ParameterKey.limit: StandardPageSize]
+            parameters[ParameterKey.past] = [ParameterKey.limit: pageSize]
         }
 
         return parameters

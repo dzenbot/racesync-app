@@ -27,7 +27,7 @@ class RaceHeaderView: UIView {
 
     lazy var avatarImageView: AvatarImageView = {
         let view = AvatarImageView(withHeight: Constants.avatarHeight)
-        view.imageView.image = UIImage(named: "placeholder_large")
+        view.imageView.image = PlaceholderImg.large
         return view
     }()
 
@@ -155,7 +155,7 @@ class RaceHeaderView: UIView {
         backgroundLabel.text = viewModel.shortChannelLabel
 
         func handleAvatarImage(_ image: UIImage?) {
-            if image == nil {  avatarImageView.imageView.image = UIImage(named: "placeholder_large") }
+            if image == nil {  avatarImageView.imageView.image = PlaceholderImg.large }
         }
         
         let avatarImageSize = CGSize(width: Constants.avatarHeight, height: Constants.avatarHeight)

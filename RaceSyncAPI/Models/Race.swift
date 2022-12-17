@@ -52,6 +52,7 @@ public class Race: Mappable, Joinable, Descriptable {
     public var parentRaceId: ObjectId?
     public var courseId: ObjectId?
     public var seasonId: ObjectId?
+    public var seasonName: String = ""
 
     public var typeRestriction: String = ""
     public var sizeRestriction: String = ""
@@ -116,6 +117,7 @@ public class Race: Mappable, Joinable, Descriptable {
         parentRaceId <- map["parentRaceId"]
         courseId <- map["courseId"]
         seasonId <- map["seasonId"]
+        seasonName <- map["seasonName"]
 
         typeRestriction <- map["typeRestriction"]
         sizeRestriction <- map["sizeRestriction"]

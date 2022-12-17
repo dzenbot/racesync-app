@@ -16,11 +16,11 @@ public protocol AircrafApiInterface {
 
     /**
      */
-    func getMyAircrafts(forRaceSpecs specs: AircraftRaceSpecs?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
+    func getMyAircraft(forRaceSpecs specs: AircraftRaceSpecs?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
 
     /**
      */
-    func getAircrafts(forUser userId: String, forRaceSpecs specs: AircraftRaceSpecs?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
+    func getAircraft(forUser userId: String, forRaceSpecs specs: AircraftRaceSpecs?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
 
     /**
     */
@@ -44,12 +44,12 @@ public class AircraftApi: AircrafApiInterface {
     public init() {}
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func getMyAircrafts(forRaceSpecs specs: AircraftRaceSpecs? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
+    public func getMyAircraft(forRaceSpecs specs: AircraftRaceSpecs? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
         guard let myUser = APIServices.shared.myUser else { return }
-        getAircrafts(forUser: myUser.id, forRaceSpecs: specs, completion)
+        getAircraft(forUser: myUser.id, forRaceSpecs: specs, completion)
     }
 
-    public func getAircrafts(forUser userId: String, forRaceSpecs specs: AircraftRaceSpecs? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
+    public func getAircraft(forUser userId: String, forRaceSpecs specs: AircraftRaceSpecs? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
 
         let endpoint = EndPoint.aircraftList
         var parameters: Parameters = [ParameterKey.pilotId: userId, ParameterKey.retired: false]

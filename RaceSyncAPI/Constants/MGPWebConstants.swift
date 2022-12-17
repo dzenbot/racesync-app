@@ -30,10 +30,12 @@ public enum MGPWebConstant: String {
     case utt3LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLScZCVu5TOacjjXrSWb3dof2t3amD6LA3biaNETWgyc9zK7LVA/viewform"
 
     case courseObstaclesDoc = "https://www.multigp.com/multigp-drone-race-course-obstacles/"
-    case seasonRulesDoc = "https://docs.google.com/document/d/1x-otorbEruq5oD6b1yzoBTHO9SwUNmb2itguUoY8x3s/"
+    case seasonRulesDoc = "https://docs.google.com/document/d/1jWVjCnoIGdW1j_bklrbg-0D24c3x6YG5m_vmF7faG-U/"
 
     case gqValidationFeet = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-feet/"
     case gqValidationMeters = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-meters/"
+
+    case supportEmail = "mobile@multigp.com"
 }
 
 public class MGPWeb {

@@ -1,5 +1,5 @@
 //
-//  RaceListController.swift
+//  RaceMainListController.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2020-03-05.
@@ -22,16 +22,28 @@ enum RaceListType: Int, EnumTitle {
     }
 }
 
-class RaceListController {
+class RaceMainListController {
 
     // MARK: - Public Variables
+
+    var showPastSeries: Bool = false
+
+    // MARK: - Private Variables
+
+    fileprivate let raceApi = RaceApi()
+    fileprivate var raceListType: [RaceListType]
+    fileprivate var raceList = [RaceListType: [RaceViewModel]]()
+
+    // MARK: - Initialization
 
     init(_ types: [RaceListType]) {
         raceListType = types
     }
 
+    // MARK: - Actions
+
     func shouldShowShimmer(for listType: RaceListType) -> Bool {
-        if listType == .series, showLastYearSeries, raceList[listType]?.count == 0 {
+        if listType == .series, showPastSeries, raceList[listType]?.count == 0 {
             return true
         }
 
@@ -48,19 +60,9 @@ class RaceListController {
             getSeriesRaces(forceFetch, completion)
         }
     }
-
-    // MARK: - Private Variables
-
-    fileprivate let raceApi = RaceApi()
-    fileprivate var raceListType: [RaceListType]
-    fileprivate var raceList = [RaceListType: [RaceViewModel]]()
-
-    // MARK: - Private Variables
-
-    var showLastYearSeries: Bool = false
 }
 
-fileprivate extension RaceListController {
+fileprivate extension RaceMainListController {
 
     func getJoinedRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
         if let viewModels = raceList[.joined], !forceFetch {
@@ -125,18 +127,18 @@ fileprivate extension RaceListController {
             completion(viewModels, nil)
         }
 
-        var filters: [RaceListFilter] = [.series, .upcoming]
-        if showLastYearSeries {
+        var filters: [RaceListFilter] = [.series]
+        if showPastSeries {
             filters = [.series, .past]
         }
 
-        raceApi.getRaces(filters: filters) { (races, error) in
+        // One day, the API will support pagination
+        // TODO: The race/list API should accept a year parameter, so only specific year's series races are returned
+        raceApi.getRaces(filters: filters, pageSize: 150) { (races, error) in
             if let seriesRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
-
-                if self.showLastYearSeries {
+                if self.showPastSeries {
                     return startDate.isInLastYear
-
                 } else {
                     return startDate.isInThisYear
                 }

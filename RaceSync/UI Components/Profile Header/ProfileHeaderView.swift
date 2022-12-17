@@ -225,7 +225,7 @@ class ProfileHeaderView: UIView {
 
         func handleBackgroundImage(_ image: UIImage?) {
             guard image == nil else { return }
-            let placeholder = UIImage(named: "placeholder_profile_background")
+            let placeholder = PlaceholderImg.profileBkgd
             backgroundView.imageView.image = placeholder
         }
 
