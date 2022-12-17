@@ -1967,7 +1967,7 @@
 				CODE_SIGN_ENTITLEMENTS = RaceSync/RaceSync.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
@@ -1977,7 +1977,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp;
 				PRODUCT_NAME = RaceSync;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1999,7 +1999,7 @@
 				CODE_SIGN_ENTITLEMENTS = RaceSync/RaceSync.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				GCC_WARN_INHIBIT_ALL_WARNINGS = NO;
@@ -2009,7 +2009,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp;
 				PRODUCT_NAME = RaceSync;
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -2078,7 +2078,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2112,7 +2112,7 @@
 					"@executable_path/Frameworks",
 					"@loader_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncAPI;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -2174,11 +2174,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				IBSC_MODULE = RaceSyncWatch_Extension;
 				INFOPLIST_FILE = RaceSyncWatch/Info.plist;
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2197,11 +2197,11 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				IBSC_MODULE = RaceSyncWatch_Extension;
 				INFOPLIST_FILE = RaceSyncWatch/Info.plist;
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = watchos;
@@ -2217,7 +2217,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				INFOPLIST_FILE = "RaceSyncWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2225,7 +2225,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
@@ -2241,7 +2241,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_COMPLICATION_NAME = Complication;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 38;
+				CURRENT_PROJECT_VERSION = 39;
 				DEVELOPMENT_TEAM = TJ4PB66YQS;
 				INFOPLIST_FILE = "RaceSyncWatch Extension/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -2249,7 +2249,7 @@
 					"@executable_path/Frameworks",
 					"@executable_path/../../Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.4.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncApp.watchkitapp.watchkitextension;
 				PRODUCT_NAME = "${TARGET_NAME}";
 				SDKROOT = watchos;
