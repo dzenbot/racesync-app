@@ -47,10 +47,14 @@ class SettingsViewController: UIViewController {
         .resources: [.trackLayouts, .buildGuide, .seasonRules, .visitStore],
         .preferences: [.measurement, .appicon],
         .about: [.submitFeedback, .visitSite],
-        .auth: [.logout]
+        .auth: [.logout, .switchEnv]
     ]
 
     fileprivate var settingsController = SettingsController()
+
+    fileprivate func nextEnvironment() -> APIEnvironment {
+        return APIServices.shared.settings.isDev ? APIEnvironment.prod : APIEnvironment.dev
+    }
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -99,7 +103,7 @@ class SettingsViewController: UIViewController {
 
     fileprivate func switchEnvironment() {
         // inverted environment
-        let environment = APIServices.shared.settings.isDev ? APIEnvironment.prod : APIEnvironment.dev
+        let environment = nextEnvironment()
 
         ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to switch to \(environment.title)?", destructiveTitle: "Yes, switch", completion: { (action) in
             ApplicationControl.shared.logout(switchTo: environment)
@@ -144,6 +148,8 @@ extension SettingsViewController: UITableViewDelegate {
             WebViewController.open(.home)
         case .logout:
             logout()
+        case .switchEnv:
+            switchEnvironment()
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
@@ -163,7 +169,12 @@ extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection sectionIdx: Int) -> Int {
         guard let section = Section(rawValue: sectionIdx), let rows = sections[section] else { return 0 }
-        return rows.count
+
+        if section == .auth, let user = APIServices.shared.myUser, !user.isDev {
+            return 1
+        } else {
+            return rows.count
+        }
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -180,11 +191,6 @@ extension SettingsViewController: UITableViewDataSource {
         cell.imageView?.image = UIImage.init(named: row.imageName)
         cell.accessoryType = .disclosureIndicator
 
-        if row == .logout {
-            cell.textLabel?.textAlignment = .center
-            cell.detailTextLabel?.text = APIServices.shared.credential.email
-        }
-
         if row == .measurement {
             cell.detailTextLabel?.text = settings.measurementSystem.title
         } else if row == .appicon { // TODO: Implement UIApplication.shared.supportsAlternateIcons
@@ -194,6 +200,8 @@ extension SettingsViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
         } else if row == .logout {
             cell.detailTextLabel?.text = APIServices.shared.credential.email
+        } else if row == .switchEnv {
+            cell.detailTextLabel?.text = nextEnvironment().title
         }
 
         return cell
@@ -235,6 +243,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
     case visitStore
     case visitSite
     case logout
+    case switchEnv
 
     var title: String {
         switch self {
@@ -247,6 +256,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .submitFeedback:       return "Send Feedback"
         case .visitSite:            return "Go to MultiGP.com"
         case .logout:               return "Logout"
+        case .switchEnv:            return "Switch to"
         }
     }
 
@@ -262,6 +272,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .submitFeedback:       return "icn_settings_feedback"
         case .visitSite:            return "icn_settings_mgp"
         case .logout:               return "icn_settings_logout"
+        case .switchEnv:            return "icn_settings_logout"
         }
     }
 }

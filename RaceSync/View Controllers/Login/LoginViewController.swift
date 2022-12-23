@@ -32,7 +32,7 @@ class LoginViewController: UIViewController {
 
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = APIServices.shared.settings.isDev ? "Login with test.MultiGP" : "Login with MultiGP"
+        label.text = titleText
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         label.textColor = Color.gray200
         return label
@@ -136,6 +136,10 @@ class LoginViewController: UIViewController {
         get { return loginFormView.superview == nil }
     }
 
+    fileprivate var titleText: String? {
+        return APIServices.shared.settings.isDev ? "Login with ppt.MultiGP" : "Login with MultiGP"
+    }
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let loginFormHeight: CGFloat = 320
@@ -165,12 +169,16 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if shouldShowForm && !APIServices.shared.isLoggedIn {
-            setupLayout()
-        } else {
-            // resetting API object, for when logging out
-            authApi = AuthApi()
-            titleLabel.text = APIServices.shared.settings.isDev ? "Login with test.MultiGP" : "Login with MultiGP"
+        if !APIServices.shared.isLoggedIn {
+            if shouldShowForm {
+                setupLayout()
+            } else {
+                // resetting API object, for when logging out
+                authApi = AuthApi()
+
+                // resetting title label, in case of env switch
+                titleLabel.text = titleText
+            }
         }
     }
 
@@ -181,6 +189,10 @@ class LoginViewController: UIViewController {
         if APIServices.shared.isLoggedIn {
             presentHome()
         } else {
+            // Pre-populate development credentials, if applicable
+            emailField.text = APIServices.shared.credential.email
+            passwordField.text = APIServices.shared.credential.password
+
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
                 self.emailField.becomeFirstResponder()
             }
@@ -195,11 +207,6 @@ class LoginViewController: UIViewController {
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         view.addGestureRecognizer(tapGestureRecognizer)
-
-        if !APIServices.shared.isLoggedIn {
-            emailField.text = APIServices.shared.credential.email
-            passwordField.text = APIServices.shared.credential.password
-        }
 
         view.insertSubview(loginFormView, belowSubview: racesyncLogoView)
         loginFormView.snp.makeConstraints {
