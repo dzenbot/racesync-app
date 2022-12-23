@@ -43,12 +43,21 @@ class SettingsViewController: UIViewController {
         return view
     }()
 
-    fileprivate let sections: [Section: [Row]] = [
-        .resources: [.trackLayouts, .buildGuide, .seasonRules, .visitStore],
-        .preferences: [.measurement, .appicon],
-        .about: [.submitFeedback, .visitSite],
-        .auth: [.logout, .switchEnv, .featureFlags]
-    ]
+    fileprivate lazy var sections: [Section: [Row]] = {
+        let resources: [Row] = [.trackLayouts, .buildGuide, .seasonRules, .visitStore]
+        var prefs: [Row] = [.measurement]
+        let about: [Row] = [.submitFeedback, .visitSite]
+        var auth: [Row] = [.logout]
+
+        if UIApplication.shared.supportsAlternateIcons {
+            prefs += [.appicon]
+        }
+        if let user = APIServices.shared.myUser, user.isDev {
+            auth += [.switchEnv, .featureFlags]
+        }
+
+        return [.resources: resources, .preferences: prefs, .about: about, .auth: auth]
+    }()
 
     fileprivate var settingsController = SettingsController()
 
@@ -175,12 +184,7 @@ extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection sectionIdx: Int) -> Int {
         guard let section = Section(rawValue: sectionIdx), let rows = sections[section] else { return 0 }
-
-        if section == .auth, let user = APIServices.shared.myUser, !user.isDev {
-            return 1
-        } else {
-            return rows.count
-        }
+        return rows.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -199,7 +203,7 @@ extension SettingsViewController: UITableViewDataSource {
 
         if row == .measurement {
             cell.detailTextLabel?.text = settings.measurementSystem.title
-        } else if row == .appicon { // TODO: Implement UIApplication.shared.supportsAlternateIcons
+        } else if row == .appicon {
             let icon = AppIconManager.selectedIcon()
             cell.detailTextLabel?.text = icon.title
         } else if row == .submitFeedback {
