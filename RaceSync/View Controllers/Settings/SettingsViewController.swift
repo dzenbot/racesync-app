@@ -209,7 +209,7 @@ extension SettingsViewController: UITableViewDataSource {
         } else if row == .submitFeedback {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
         } else if row == .logout {
-            cell.detailTextLabel?.text = APIServices.shared.credential.email
+            cell.detailTextLabel?.text = APISessionManager.getSessionEmail()
         } else if row == .switchEnv {
             cell.detailTextLabel?.text = nextEnvironment().title
         }
