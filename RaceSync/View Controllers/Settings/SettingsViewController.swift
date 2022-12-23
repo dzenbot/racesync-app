@@ -47,7 +47,7 @@ class SettingsViewController: UIViewController {
         .resources: [.trackLayouts, .buildGuide, .seasonRules, .visitStore],
         .preferences: [.measurement, .appicon],
         .about: [.submitFeedback, .visitSite],
-        .auth: [.logout, .switchEnv]
+        .auth: [.logout, .switchEnv, .featureFlags]
     ]
 
     fileprivate var settingsController = SettingsController()
@@ -101,6 +101,12 @@ class SettingsViewController: UIViewController {
         dismiss(animated: true)
     }
 
+    fileprivate func logout() {
+        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to log out?", destructiveTitle: "Yes, log out", completion: { (action) in
+            ApplicationControl.shared.logout()
+        }, cancel: nil)
+    }
+
     fileprivate func switchEnvironment() {
         // inverted environment
         let environment = nextEnvironment()
@@ -110,10 +116,8 @@ class SettingsViewController: UIViewController {
         }, cancel: nil)
     }
 
-    fileprivate func logout() {
-        ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to log out?", destructiveTitle: "Yes, log out", completion: { (action) in
-            ApplicationControl.shared.logout()
-        }, cancel: nil)
+    fileprivate func showFeatureFlags() {
+        Clog.log("showFeatureFlags")
     }
 }
 
@@ -150,6 +154,8 @@ extension SettingsViewController: UITableViewDelegate {
             logout()
         case .switchEnv:
             switchEnvironment()
+        case .featureFlags:
+            showFeatureFlags()
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
@@ -243,6 +249,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
     case visitStore
     case visitSite
     case logout
+    case featureFlags
     case switchEnv
 
     var title: String {
@@ -256,6 +263,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .submitFeedback:       return "Send Feedback"
         case .visitSite:            return "Go to MultiGP.com"
         case .logout:               return "Logout"
+        case .featureFlags:         return "Feature Flags"
         case .switchEnv:            return "Switch to"
         }
     }
@@ -272,6 +280,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .submitFeedback:       return "icn_settings_feedback"
         case .visitSite:            return "icn_settings_mgp"
         case .logout:               return "icn_settings_logout"
+        case .featureFlags:         return "icn_settings_logout"
         case .switchEnv:            return "icn_settings_logout"
         }
     }
