@@ -83,10 +83,10 @@ public class Race: Mappable, Joinable, Descriptable {
         startDate <- (map["startDate"], MapperUtil.dateTransform)
         mainImageFileName <- map["mainImageFileName"]
         isJoined <- map["isJoined"]
-        status <- (map["status"],EnumTransform<RaceStatus>())
+        status <- (map["status"], EnumTransform<RaceStatus>())
         type <- map["type"]
-        raceType <- (map["raceType"],EnumTransform<RaceType>())
-        officialStatus <- (map["officialStatus"],EnumTransform<RaceOfficialStatus>())
+        raceType <- (map["raceType"], EnumTransform<RaceType>())
+        officialStatus <- (map["officialStatus"], EnumTransform<RaceOfficialStatus>())
         captureTimeEnabled <- map["captureTimeEnabled"]
         scoringDisabled <- map["scoringDisabled"]
         url = MGPWeb.getUrl(for: .raceView, value: id)

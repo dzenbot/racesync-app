@@ -87,9 +87,6 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
         configureBarButtonItems()
 
-        headerView.hideLeftBadgeButton(true)
-        headerView.hideRightBadgeButton(true)
-
         tableView.register(cellType: UserRaceTableViewCell.self)
         tableView.register(cellType: ChapterTableViewCell.self)
         tableView.dataSource = self

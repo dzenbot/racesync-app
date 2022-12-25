@@ -21,9 +21,6 @@ public class Chapter: Mappable, Joinable, Descriptable {
     public var mainImageUrl: String? //mainImageFileName
     public var backgroundUrl: String? //backgroundFileName
 
-    public var raceCount: String?
-    public var memberCount: String?
-
     public var phone: String = ""
     public var websiteUrl: String = ""
     public var facebookUrl: String?
@@ -44,6 +41,9 @@ public class Chapter: Mappable, Joinable, Descriptable {
 
     public var ownerId: ObjectId = ""
     public var ownerUserName: String = ""
+
+    public var memberCount: Int64 = 0
+    public var raceCount: Int64 = 0
 
     // MARK: - Initialization
 
@@ -80,9 +80,6 @@ public class Chapter: Mappable, Joinable, Descriptable {
             backgroundUrl <- map["backgroundUrl"]
         }
 
-        raceCount <- map["raceCount"]
-        memberCount <- map["memberCount"]
-
         phone <- map["phone"]
         websiteUrl <- map["url"]
         facebookUrl <- map["facebookUrl"]
@@ -102,5 +99,8 @@ public class Chapter: Mappable, Joinable, Descriptable {
 
         ownerId <- map["ownerId"]
         ownerUserName <- map["ownerUserName"]
+
+        raceCount <- (map["raceCount"], IntegerTransform())
+        memberCount <- (map["memberCount"], IntegerTransform())
     }
 }

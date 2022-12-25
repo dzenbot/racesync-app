@@ -151,6 +151,7 @@
 		4FA213F42947A7C700C8E45A /* AppIcon-CFPV@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213F22947A7C600C8E45A /* AppIcon-CFPV@3x.png */; };
 		4FA213F72947AB5900C8E45A /* AppIcon-FMR@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213F52947AB5900C8E45A /* AppIcon-FMR@2x.png */; };
 		4FA213F82947AB5900C8E45A /* AppIcon-FMR@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FA213F62947AB5900C8E45A /* AppIcon-FMR@3x.png */; };
+		4FA213FC29582D1B00C8E45A /* IntegerTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA213FA29582CCB00C8E45A /* IntegerTransform.swift */; };
 		4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268192378BE4A008970AC /* APIConstants.swift */; };
 		4FA268222378F8A0008970AC /* APIServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268212378F8A0008970AC /* APIServices.swift */; };
 		4FA268242378F9DD008970AC /* NetworkAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA268232378F9DD008970AC /* NetworkAdapter.swift */; };
@@ -472,6 +473,7 @@
 		4FA213F52947AB5900C8E45A /* AppIcon-FMR@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-FMR@2x.png"; sourceTree = "<group>"; };
 		4FA213F62947AB5900C8E45A /* AppIcon-FMR@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-FMR@3x.png"; sourceTree = "<group>"; };
 		4FA213F92947E1F900C8E45A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = SOURCE_ROOT; };
+		4FA213FA29582CCB00C8E45A /* IntegerTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IntegerTransform.swift; sourceTree = "<group>"; };
 		4FA268192378BE4A008970AC /* APIConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConstants.swift; sourceTree = "<group>"; };
 		4FA268212378F8A0008970AC /* APIServices.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = APIServices.swift; sourceTree = "<group>"; };
 		4FA268232378F9DD008970AC /* NetworkAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkAdapter.swift; sourceTree = "<group>"; };
@@ -973,6 +975,7 @@
 				4F8F2C122385136300DC4907 /* NumberUtil.swift */,
 				4FCAF9F923AB226500ACE7D3 /* MapperUtil.swift */,
 				4FA26832237A5983008970AC /* ObjectMapper+Extensions.swift */,
+				4FA213FA29582CCB00C8E45A /* IntegerTransform.swift */,
 				4FD4E1E22381E175008816B3 /* Random.swift */,
 				4F8668F723864389005E310A /* Descriptable.swift */,
 				4F00E077242963F1001DCFC4 /* Joinable.swift */,
@@ -1730,6 +1733,7 @@
 				4FC51B212409EC8E00D654D0 /* Chapter+Extensions.swift in Sources */,
 				4FC51B232409EEB400D654D0 /* Race+Extensions.swift in Sources */,
 				4F9DB7AE23D614CF00570483 /* APISettings.swift in Sources */,
+				4FA213FC29582D1B00C8E45A /* IntegerTransform.swift in Sources */,
 				4F7974B524A4A4D4003D623A /* ImageConstants.swift in Sources */,
 				4FC51B1D2409B3A700D654D0 /* APIUnitSystem.swift in Sources */,
 				4FA2682A237A4CE9008970AC /* CompletionBlock.swift in Sources */,

@@ -21,14 +21,14 @@ public class User: Mappable, Descriptable {
     public var authType: String = ""
     public var url: String = ""
 
-    public var raceCount: String?
-    public var chapterCount: String?
-
     public var city: String?
     public var state: String?
     public var country: String?
     public var latitude: String = ""
     public var longitude: String = ""
+
+    public var chapterCount: Int64 = 0
+    public var raceCount: Int64 = 0
 
     // MARK: - Initialization
 
@@ -54,13 +54,13 @@ public class User: Mappable, Descriptable {
         authType <- map["authType"]
         url = "https://www.multigp.com/pilots/view/?pilot=\(userName)"
 
-        raceCount <- map["raceCount"]
-        chapterCount <- map["chapterCount"]
-
         city <- map["city"]
         state <- map["state"]
         country <- map["country"]
         latitude <- map["latitude"]
         longitude <- map["longitude"]
+
+        chapterCount <- (map["chapterCount"], IntegerTransform())
+        raceCount <- (map["raceCount"], IntegerTransform())
     }
 }
