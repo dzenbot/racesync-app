@@ -17,8 +17,6 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
     // MARK: - Private Variables
 
-    fileprivate let shouldShowStats: Bool = false
-
     fileprivate lazy var qrButton: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(didPressQRButton), for: .touchUpInside)
@@ -89,11 +87,8 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
         configureBarButtonItems()
 
-        // TODO: Remove once https://github.com/MultiGP/racesync-api/issues/11 is addressed
-        if !shouldShowStats {
-            headerView.hideLeftBadgeButton(true)
-            headerView.hideRightBadgeButton(true)
-        }
+        headerView.hideLeftBadgeButton(true)
+        headerView.hideRightBadgeButton(true)
 
         tableView.register(cellType: UserRaceTableViewCell.self)
         tableView.register(cellType: ChapterTableViewCell.self)
