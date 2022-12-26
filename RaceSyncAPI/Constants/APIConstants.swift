@@ -57,6 +57,16 @@ enum EndPoint {
     static let chapterJoin = "chapter/join"
     static let chapterResign = "chapter/resign"
 
+    static let seasonCreate = "season/create"
+    static let seasonSearch = "season/search"
+    static let seasonDelete = "season/delete"
+    static let seasonList = "season/list"
+
+    static let courseCreate = "course/create"
+    static let courseSearch = "course/search"
+    static let courseDelete = "course/delete"
+    static let courseList = "course/list"
+
     static let aircraftList = "aircraft/list"
     static let aircraftCreate = "aircraft/create"
     static let aircraftUpdate = "aircraft/update"

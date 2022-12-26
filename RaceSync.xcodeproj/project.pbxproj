@@ -10,6 +10,8 @@
 		00463F577FF49FF13F8A871B /* Pods_RaceSyncAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D073602CBE253F96567B3B54 /* Pods_RaceSyncAPI.framework */; };
 		460A0880363895A247C9C23A /* Pods_RaceSyncTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D65741DB402E1BEAF04DE6 /* Pods_RaceSyncTests.framework */; };
 		4F004E9A295A2CA1009C46AA /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E99295A2CA1009C46AA /* Course.swift */; };
+		4F004E9C295A3027009C46AA /* SeasonApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9B295A3027009C46AA /* SeasonApi.swift */; };
+		4F004E9E295A3066009C46AA /* CourseApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9D295A3066009C46AA /* CourseApi.swift */; };
 		4F00E06424292C9A001DCFC4 /* ChapterUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */; };
 		4F00E072242932D7001DCFC4 /* RateMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E071242932D7001DCFC4 /* RateMe.swift */; };
 		4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */; };
@@ -323,6 +325,8 @@
 		39172015E1CE1AD9586A8B50 /* Pods-RaceSyncAPITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPITests/Pods-RaceSyncAPITests.release.xcconfig"; sourceTree = "<group>"; };
 		40DB5CAFF0B302311BAF739B /* Pods-RaceSyncAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPI/Pods-RaceSyncAPI.debug.xcconfig"; sourceTree = "<group>"; };
 		4F004E99295A2CA1009C46AA /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
+		4F004E9B295A3027009C46AA /* SeasonApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonApi.swift; sourceTree = "<group>"; };
+		4F004E9D295A3066009C46AA /* CourseApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseApi.swift; sourceTree = "<group>"; };
 		4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterUserTableViewCell.swift; sourceTree = "<group>"; };
 		4F00E071242932D7001DCFC4 /* RateMe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMe.swift; sourceTree = "<group>"; };
 		4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeDefaults.swift; sourceTree = "<group>"; };
@@ -948,6 +952,8 @@
 				4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */,
 				4F8668F923868359005E310A /* ChapterApi.swift */,
 				4FA1AB3423C6AD5B007CF389 /* AircraftApi.swift */,
+				4F004E9B295A3027009C46AA /* SeasonApi.swift */,
+				4F004E9D295A3066009C46AA /* CourseApi.swift */,
 				4F5C1E3F238A7BAF00D756EB /* RepositoryAdapter.swift */,
 				4FA268232378F9DD008970AC /* NetworkAdapter.swift */,
 				4F87E4342727976E0061425B /* NetworkProxy.swift */,
@@ -1707,6 +1713,7 @@
 				4F8669062388D3BC005E310A /* AuthApi.swift in Sources */,
 				4F6C8A8F23657DE00017FD78 /* APICredential.swift in Sources */,
 				4F5001E923830E180025A593 /* Race.swift in Sources */,
+				4F004E9E295A3066009C46AA /* CourseApi.swift in Sources */,
 				4FEBB27F23A310BB007514B4 /* User+Extensions.swift in Sources */,
 				4FDD499A23B065C9009DD2DB /* RaceConstants.swift in Sources */,
 				4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */,
@@ -1717,6 +1724,7 @@
 				4FC51B1F2409EA9B00D654D0 /* ManagedChapter.swift in Sources */,
 				4F1E150524107BCE0082C486 /* URL+Extensions.swift in Sources */,
 				4FC9A1B623D7CFBC00069FDE /* Bundle+Extensions.swift in Sources */,
+				4F004E9C295A3027009C46AA /* SeasonApi.swift in Sources */,
 				4F81759C241192AF00685F83 /* Clog.swift in Sources */,
 				4FEBB27823A2023A007514B4 /* RaceEntry.swift in Sources */,
 				4F87E4352727976E0061425B /* NetworkProxy.swift in Sources */,
