@@ -30,6 +30,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         tableView.register(cellType: RaceTableViewCell.self)
         tableView.refreshControl = self.refreshControl
         tableView.tableFooterView = UIView()
+        tableView.contentInsetAdjustmentBehavior = .never
 
         for direction in [UISwipeGestureRecognizer.Direction.left, UISwipeGestureRecognizer.Direction.right] {
             let gesture = UISwipeGestureRecognizer(target: self, action: #selector(didSwipeHorizontally(_:)))
@@ -92,11 +93,10 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         return view
     }()
 
-    fileprivate lazy var filterButton: CustomButton = {
+    fileprivate lazy var searchButton: CustomButton = {
         let button = CustomButton(type: .system)
-        button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_navbar_filter"), for: .normal)
-        button.isEnabled = (selectedRaceList == .nearby)
+        button.addTarget(self, action: #selector(didPressSearchButton), for: .touchUpInside)
+        button.setImage(UIImage(named: "icn_navbar_search"), for: .normal)
         return button
     }()
 
@@ -137,6 +137,32 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         return button
     }()
 
+    fileprivate lazy var filterButton: CustomButton = {
+        let button = CustomButton(type: .system)
+        button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
+        button.setTitle("Adjust Radius", for: .normal)
+        button.setTitleColor(Color.red, for: .normal)
+        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 19)
+        return button
+    }()
+
+    fileprivate lazy var bottomView: UIView = {
+        let view = UIView()
+        view.backgroundColor = Color.navigationBarColor
+        view.isHidden = true
+
+        let separatorLine = UIView()
+        separatorLine.backgroundColor = Color.gray100
+        view.addSubview(separatorLine)
+        separatorLine.snp.makeConstraints {
+            $0.height.equalTo(0.25)
+            $0.leading.trailing.equalToSuperview()
+            $0.top.equalTo(view.snp.top)
+        }
+
+        return view
+    }()
+
     fileprivate var selectedRaceList: RaceFilter {
         get {
             return RaceFilter(rawValue: segmentedControl.selectedSegmentIndex)!
@@ -149,8 +175,8 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     fileprivate let userApi = UserApi()
     fileprivate let chapterApi = ChapterApi()
     fileprivate var raceList = [RaceViewModel]()
-
     fileprivate var settingsController = SettingsController()
+    fileprivate let isUniversalSearchEnabled: Bool = false
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
@@ -161,6 +187,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         static let headerHeight: CGFloat = 50
         static let buttonSpacing: CGFloat = 12
         static let miniProfileSize: CGSize = CGSize(width: 32, height: 32)
+        static let bottomViewHeight: CGFloat = 83
     }
 
     // MARK: - Initialization
@@ -206,7 +233,12 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         title = "Race List"
         navigationItem.titleView = titleView
 
-        let leftStackView = UIStackView(arrangedSubviews: [settingsButton, filterButton])
+        var leftStackSubviews = [settingsButton]
+        if isUniversalSearchEnabled {
+            leftStackSubviews += [searchButton]
+        }
+
+        let leftStackView = UIStackView(arrangedSubviews: leftStackSubviews)
         leftStackView.axis = .horizontal
         leftStackView.distribution = .fillEqually
         leftStackView.alignment = .leading
@@ -240,6 +272,20 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(tableView.snp.bottom)
         }
+
+        view.addSubview(bottomView)
+        bottomView.snp.makeConstraints {
+            $0.height.equalTo(Constants.bottomViewHeight)
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalToSuperview()
+        }
+
+        bottomView.addSubview(filterButton)
+        filterButton.snp.makeConstraints {
+            $0.top.equalToSuperview()
+            $0.leading.trailing.equalToSuperview()
+            $0.bottom.equalTo(bottomView.safeAreaLayoutGuide.snp.bottom)
+        }
     }
 
     // MARK: - Actions
@@ -260,7 +306,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
             loadRaces()
         }
 
-        filterButton.isEnabled = (selectedRaceList == .nearby)
+        toggleBottomView()
     }
 
     @objc fileprivate func didPressUserProfileButton() {
@@ -285,6 +331,10 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         let settingsVC = SettingsViewController()
         let settingsNC = NavigationController(rootViewController: settingsVC)
         present(settingsNC, animated: true)
+    }
+
+    @objc fileprivate func didPressSearchButton(_ sender: Any) {
+        Clog.log("didPressSearchButton")
     }
 
     @objc fileprivate func didPressFilterButton(_ sender: Any) {
@@ -396,6 +446,7 @@ fileprivate extension RaceMainListViewController {
                 }
 
                 strongSelf.tableView.reloadData()
+                strongSelf.toggleBottomView()
             } else {
                 print("getMyRaces error : \(error.debugDescription)")
             }
@@ -422,6 +473,22 @@ fileprivate extension RaceMainListViewController {
 
         chapterProfileButton.isHidden = false
         chapterProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize)
+    }
+
+    func toggleBottomView() {
+
+        var contentInset = tableView.contentInset
+        var scrollIndicatorInsets = tableView.verticalScrollIndicatorInsets
+
+        let shouldHide = (selectedRaceList != .nearby)
+        let value: CGFloat = Constants.bottomViewHeight
+
+        contentInset.bottom = shouldHide ? 0 : value
+        scrollIndicatorInsets.bottom = shouldHide ? 0 : value * 3/4
+
+        tableView.contentInset = contentInset
+        tableView.verticalScrollIndicatorInsets = scrollIndicatorInsets
+        bottomView.isHidden = shouldHide
     }
 }
 
