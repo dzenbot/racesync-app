@@ -11,6 +11,12 @@ import ObjectMapper
 
 public class Season: Mappable, Descriptable {
 
+    public var id: ObjectId = ""
+    public var name: String = ""
+    public var urlName: String = ""
+    public var description: String = ""
+    public var chapterId: String = ""
+
     // MARK: - Initialization
 
     fileprivate static let requiredProperties = ["id"]
@@ -25,7 +31,10 @@ public class Season: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-
+        id <- map["id"]
+        name <- map["name"]
+        urlName <- map["urlName"]
+        description <- map["description"]
+        chapterId <- map["chapterId"]
     }
-
 }
