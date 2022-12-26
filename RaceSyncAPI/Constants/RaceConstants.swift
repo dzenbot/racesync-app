@@ -15,9 +15,9 @@ public enum RaceType: String, EnumTitle {
 
     public var title: String {
         switch self {
-        case .qualifier:    return "Regional Qualifier"
-        case .final:        return "Regional Final"
-        default:            return "Normal"
+        case .normal:       return "Normal"
+        case .qualifier:    return "Qualifiers"
+        case .final:        return "Championship"
         }
     }
 }
