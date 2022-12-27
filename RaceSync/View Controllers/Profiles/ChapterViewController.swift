@@ -37,7 +37,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     fileprivate var emptyStateRaces = EmptyStateViewModel(.noRaces)
     fileprivate var emptyStateUsers = EmptyStateViewModel(.commingSoon)
 
-    fileprivate var canCreateRaces: Bool = false
+    fileprivate var canCreateRaces: Bool = true
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -144,30 +144,33 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     override func didPressLocationButton() {
         guard let coordinates = chapterCoordinates else { return }
 
-        let mapVC = MapViewController(with: coordinates, address: profileViewModel.locationName)
-        mapVC.title = "Chapter Location"
-        mapVC.showsDirection = false
-        let mapNC = NavigationController(rootViewController: mapVC)
+        let vc = MapViewController(with: coordinates, address: profileViewModel.locationName)
+        vc.title = "Chapter Location"
+        vc.showsDirection = false
+        let nc = NavigationController(rootViewController: vc)
 
-        present(mapNC, animated: true)
+        present(nc, animated: true)
     }
 
     override func didSelectRow(at indexPath: IndexPath) {
         if selectedSegment == .left {
             let viewModel = raceViewModels[indexPath.row]
-            let eventTVC = RaceTabBarController(with: viewModel.race.id) // pass the actual model object instead
-            navigationController?.pushViewController(eventTVC, animated: true)
+            let vc = RaceTabBarController(with: viewModel.race.id) // pass the actual model object instead
+            navigationController?.pushViewController(vc, animated: true)
         } else {
             let viewModel = userViewModels[indexPath.row]
             if let user = viewModel.user {
-                let userVC = UserViewController(with: user)
-                navigationController?.pushViewController(userVC, animated: true)
+                let vc = UserViewController(with: user)
+                navigationController?.pushViewController(vc, animated: true)
             }
         }
     }
 
     @objc func didPressAddButton() {
-        // Unimplemented
+
+        let vc = RaceCreateViewController()
+        let nc = NavigationController(rootViewController: vc)
+        present(nc, animated: true)
     }
 
     @objc func didPressCloseButton() {
@@ -261,10 +264,10 @@ fileprivate extension ChapterViewController {
         var activities: [UIActivity] = [CopyLinkActivity(), MultiGPActivity()]
         activities += chapter.socialActivities()
 
-        let activityVC = UIActivityViewController(activityItems: [chapterURL], applicationActivities: activities)
-        activityVC.excludeAllActivityTypes(except: [.airDrop])
+        let vc = UIActivityViewController(activityItems: [chapterURL], applicationActivities: activities)
+        vc.excludeAllActivityTypes(except: [.airDrop])
 
-        present(activityVC, animated: true)
+        present(vc, animated: true)
     }
 }
 
