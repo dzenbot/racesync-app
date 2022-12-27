@@ -21,8 +21,12 @@ public class Race: Mappable, Joinable, Descriptable {
     public var type: String = ""
     public var raceType: RaceType = .normal
     public var officialStatus: RaceOfficialStatus  = .normal
-    public var captureTimeEnabled: Bool = true
     public var scoringDisabled: Bool = false
+    public var captureTimeEnabled: Bool = true
+    public var cycleCount: Int64 = 0
+    public var maxZippyqDepth: Int64 = 0
+    public var zippyqIterator: Bool = false
+    public var maxBatteriesForQualifying: Int64 = 0
 
     public var url: String = ""
     public var urlName: String = ""
@@ -89,6 +93,12 @@ public class Race: Mappable, Joinable, Descriptable {
         officialStatus <- (map["officialStatus"], EnumTransform<RaceOfficialStatus>())
         captureTimeEnabled <- map["captureTimeEnabled"]
         scoringDisabled <- map["scoringDisabled"]
+        cycleCount <- (map["cycleCount"], IntegerTransform())
+        maxZippyqDepth <- (map["maxZippyqDepth"], IntegerTransform())
+        zippyqIterator <- map["zippyqIterator"]
+        maxZippyqDepth <- (map["maxZippyqDepth"], IntegerTransform())
+        maxBatteriesForQualifying <- (map["maxBatteriesForQualifying"], IntegerTransform())
+
         url = MGPWeb.getUrl(for: .raceView, value: id)
         urlName <- map["urlName"]
         liveTimeUrl <- map["liveTimeUrl"]

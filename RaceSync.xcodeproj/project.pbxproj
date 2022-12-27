@@ -12,6 +12,7 @@
 		4F004E9A295A2CA1009C46AA /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E99295A2CA1009C46AA /* Course.swift */; };
 		4F004E9C295A3027009C46AA /* SeasonApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9B295A3027009C46AA /* SeasonApi.swift */; };
 		4F004E9E295A3066009C46AA /* CourseApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9D295A3066009C46AA /* CourseApi.swift */; };
+		4F004EA0295AA641009C46AA /* RaceCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9F295AA641009C46AA /* RaceCreateViewController.swift */; };
 		4F00E06424292C9A001DCFC4 /* ChapterUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */; };
 		4F00E072242932D7001DCFC4 /* RateMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E071242932D7001DCFC4 /* RateMe.swift */; };
 		4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */; };
@@ -327,6 +328,7 @@
 		4F004E99295A2CA1009C46AA /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		4F004E9B295A3027009C46AA /* SeasonApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonApi.swift; sourceTree = "<group>"; };
 		4F004E9D295A3066009C46AA /* CourseApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseApi.swift; sourceTree = "<group>"; };
+		4F004E9F295AA641009C46AA /* RaceCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceCreateViewController.swift; sourceTree = "<group>"; };
 		4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterUserTableViewCell.swift; sourceTree = "<group>"; };
 		4F00E071242932D7001DCFC4 /* RateMe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMe.swift; sourceTree = "<group>"; };
 		4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeDefaults.swift; sourceTree = "<group>"; };
@@ -1068,6 +1070,7 @@
 				4FD4E1E02380AC37008816B3 /* RaceResultsViewController.swift */,
 				4FC502592428710D0088320B /* RaceTabbable.swift */,
 				4FC50257242700DC0088320B /* ForceJoinViewController.swift */,
+				4F004E9F295AA641009C46AA /* RaceCreateViewController.swift */,
 			);
 			path = Races;
 			sourceTree = "<group>";
@@ -1612,6 +1615,7 @@
 				4FBE7624259BBD9A00312B66 /* WatchSessionConstants.swift in Sources */,
 				4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */,
 				4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */,
+				4F004EA0295AA641009C46AA /* RaceCreateViewController.swift in Sources */,
 				4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */,
 				4F6429142403AE9A005E8036 /* FormBaseViewController.swift in Sources */,
 				4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */,
