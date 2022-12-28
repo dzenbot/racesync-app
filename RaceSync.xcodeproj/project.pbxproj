@@ -59,7 +59,6 @@
 		4F5001E523823C940025A593 /* FlagEmojiGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */; };
 		4F5001E723827DE70025A593 /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5001E623827DE70025A593 /* ImageUtil.swift */; };
 		4F5001E923830E180025A593 /* Race.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5001E823830E180025A593 /* Race.swift */; };
-		4F59B19024F786FB007F202C /* RaceSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F59B18F24F786FB007F202C /* RaceSpecs.swift */; };
 		4F5C1E3E238A770B00D756EB /* UITableViewCell+Reuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E3D238A770B00D756EB /* UITableViewCell+Reuse.swift */; };
 		4F5C1E40238A7BAF00D756EB /* RepositoryAdapter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E3F238A7BAF00D756EB /* RepositoryAdapter.swift */; };
 		4F5C1E43238CF6BD00D756EB /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5C1E42238CF6BD00D756EB /* ProfileViewController.swift */; };
@@ -111,6 +110,7 @@
 		4F8669062388D3BC005E310A /* AuthApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8669052388D3BC005E310A /* AuthApi.swift */; };
 		4F87E4352727976E0061425B /* NetworkProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87E4342727976E0061425B /* NetworkProxy.swift */; };
 		4F8B8665295C112B00EAF695 /* EnumTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8B8664295C112B00EAF695 /* EnumTitle.swift */; };
+		4F8B8667295CF32600EAF695 /* AircraftRaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8B8666295CF32600EAF695 /* AircraftRaceData.swift */; };
 		4F8F2C0C2383DF1E00DC4907 /* RaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */; };
 		4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */; };
 		4F8F2C112384903F00DC4907 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C102384903F00DC4907 /* RaceViewModel.swift */; };
@@ -145,7 +145,7 @@
 		4FA1AB3F23C9538A007CF389 /* AircraftViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB3E23C9538A007CF389 /* AircraftViewModel.swift */; };
 		4FA1AB4123CAC956007CF389 /* Dictionary+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4023CAC956007CF389 /* Dictionary+Extensions.swift */; };
 		4FA1AB4323CAF803007CF389 /* AircraftPickerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */; };
-		4FA1AB4523CB1666007CF389 /* AircraftSpecs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */; };
+		4FA1AB4523CB1666007CF389 /* AircraftData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1AB4423CB1666007CF389 /* AircraftData.swift */; };
 		4FA1FC8B23D6D7C0006D4704 /* ApplicationControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */; };
 		4FA1FC8F23D74D29006D4704 /* StringConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC8E23D74D29006D4704 /* StringConstants.swift */; };
 		4FA1FC9123D7B571006D4704 /* APIEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA1FC9023D7B571006D4704 /* APIEnvironment.swift */; };
@@ -385,7 +385,6 @@
 		4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagEmojiGenerator.swift; sourceTree = "<group>"; };
 		4F5001E623827DE70025A593 /* ImageUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
 		4F5001E823830E180025A593 /* Race.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Race.swift; sourceTree = "<group>"; };
-		4F59B18F24F786FB007F202C /* RaceSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSpecs.swift; sourceTree = "<group>"; };
 		4F5C1E3D238A770B00D756EB /* UITableViewCell+Reuse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Reuse.swift"; sourceTree = "<group>"; };
 		4F5C1E3F238A7BAF00D756EB /* RepositoryAdapter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryAdapter.swift; sourceTree = "<group>"; };
 		4F5C1E42238CF6BD00D756EB /* ProfileViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileViewController.swift; sourceTree = "<group>"; };
@@ -438,6 +437,7 @@
 		4F8669052388D3BC005E310A /* AuthApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthApi.swift; sourceTree = "<group>"; };
 		4F87E4342727976E0061425B /* NetworkProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProxy.swift; sourceTree = "<group>"; };
 		4F8B8664295C112B00EAF695 /* EnumTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumTitle.swift; sourceTree = "<group>"; };
+		4F8B8666295CF32600EAF695 /* AircraftRaceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftRaceData.swift; sourceTree = "<group>"; };
 		4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceApi.swift; sourceTree = "<group>"; };
 		4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		4F8F2C102384903F00DC4907 /* RaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceViewModel.swift; sourceTree = "<group>"; };
@@ -473,7 +473,7 @@
 		4FA1AB3E23C9538A007CF389 /* AircraftViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftViewModel.swift; sourceTree = "<group>"; };
 		4FA1AB4023CAC956007CF389 /* Dictionary+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+Extensions.swift"; sourceTree = "<group>"; };
 		4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftPickerController.swift; sourceTree = "<group>"; };
-		4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftSpecs.swift; sourceTree = "<group>"; };
+		4FA1AB4423CB1666007CF389 /* AircraftData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftData.swift; sourceTree = "<group>"; };
 		4FA1FC8A23D6D7C0006D4704 /* ApplicationControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationControl.swift; sourceTree = "<group>"; };
 		4FA1FC8C23D74A39006D4704 /* Bundle+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Extensions.swift"; sourceTree = "<group>"; };
 		4FA1FC8E23D74D29006D4704 /* StringConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringConstants.swift; sourceTree = "<group>"; };
@@ -626,6 +626,8 @@
 			isa = PBXGroup;
 			children = (
 				4F004EA1295B828E009C46AA /* RaceData.swift */,
+				4FA1AB4423CB1666007CF389 /* AircraftData.swift */,
+				4F8B8666295CF32600EAF695 /* AircraftRaceData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -1016,13 +1018,11 @@
 			children = (
 				4FD4E1BD237DCB24008816B3 /* User.swift */,
 				4F5001E823830E180025A593 /* Race.swift */,
-				4F59B18F24F786FB007F202C /* RaceSpecs.swift */,
 				4FEBB27723A2023A007514B4 /* RaceEntry.swift */,
 				4F8668F523861736005E310A /* Chapter.swift */,
 				4FC51B1E2409EA9B00D654D0 /* ManagedChapter.swift */,
 				4FE271C1258036D100EC121B /* Track.swift */,
 				4FDD499123B045E7009DD2DB /* Aircraft.swift */,
-				4FA1AB4423CB1666007CF389 /* AircraftSpecs.swift */,
 				4FDD499523B0461D009DD2DB /* Season.swift */,
 				4F004E99295A2CA1009C46AA /* Course.swift */,
 				4FA26830237A58E1008970AC /* ApiError.swift */,
@@ -1740,11 +1740,12 @@
 				4F6C8A8F23657DE00017FD78 /* APICredential.swift in Sources */,
 				4F004EA2295B828E009C46AA /* RaceData.swift in Sources */,
 				4F5001E923830E180025A593 /* Race.swift in Sources */,
+				4F8B8667295CF32600EAF695 /* AircraftRaceData.swift in Sources */,
 				4F004E9E295A3066009C46AA /* CourseApi.swift in Sources */,
 				4FEBB27F23A310BB007514B4 /* User+Extensions.swift in Sources */,
 				4FDD499A23B065C9009DD2DB /* RaceConstants.swift in Sources */,
 				4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */,
-				4FA1AB4523CB1666007CF389 /* AircraftSpecs.swift in Sources */,
+				4FA1AB4523CB1666007CF389 /* AircraftData.swift in Sources */,
 				4F5001E723827DE70025A593 /* ImageUtil.swift in Sources */,
 				4FA268222378F8A0008970AC /* APIServices.swift in Sources */,
 				4F8668F623861736005E310A /* Chapter.swift in Sources */,
@@ -1779,7 +1780,6 @@
 				4FA2682A237A4CE9008970AC /* CompletionBlock.swift in Sources */,
 				4FD4E1BE237DCB24008816B3 /* User.swift in Sources */,
 				4FA1FC9123D7B571006D4704 /* APIEnvironment.swift in Sources */,
-				4F59B19024F786FB007F202C /* RaceSpecs.swift in Sources */,
 				4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */,
 				4F5C1E40238A7BAF00D756EB /* RepositoryAdapter.swift in Sources */,
 				4F8F2C0C2383DF1E00DC4907 /* RaceApi.swift in Sources */,

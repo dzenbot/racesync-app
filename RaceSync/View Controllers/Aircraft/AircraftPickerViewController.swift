@@ -158,10 +158,10 @@ class AircraftPickerViewController: UIViewController {
     }
 
     func presentNewAircraftForm() {
-        let aircraftSpecs = AircraftSpecs(with: race)
-        aircraftSpecs.name = nil
+        let aircraftData = AircraftData(with: race)
+        aircraftData.name = nil
         
-        let newAircraftVC = NewAircraftViewController(with: aircraftSpecs)
+        let newAircraftVC = NewAircraftViewController(with: aircraftData)
         let newAircraftNC = UINavigationController(rootViewController: newAircraftVC)
         newAircraftVC.delegate = self
 
@@ -173,9 +173,9 @@ class AircraftPickerViewController: UIViewController {
         title = "Creating Generic Aircraft..."
         isLoading = true
 
-        let aircraftSpecs = AircraftSpecs(with: race)
+        let aircraftData = AircraftData(with: race)
 
-        aircraftApi.createAircraft(with: aircraftSpecs) { [weak self] (aircraft, error) in
+        aircraftApi.createAircraft(with: aircraftData) { [weak self] (aircraft, error) in
             guard let strongSelf = self else { return }
             strongSelf.isLoading = false
 
@@ -194,8 +194,8 @@ extension AircraftPickerViewController {
     func fetchMyAircraft() {
         activityIndicatorView.startAnimating()
 
-        let specs = AircraftRaceSpecs(with: race)
-        aircraftApi.getMyAircraft(forRaceSpecs: specs) { [weak self] (aircraft, error) in
+        let aircraftData = AircraftRaceData(with: race)
+        aircraftApi.getMyAircraft(forRaceData: aircraftData) { [weak self] (aircraft, error) in
             if let aircraft = aircraft {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircraft)
                 self?.activityIndicatorView.stopAnimating()
@@ -259,9 +259,9 @@ extension AircraftPickerViewController: NewAircraftViewControllerDelegate {
         viewController.dismiss(animated: true)
     }
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]? {
-        let aircraftRaceSpecs = AircraftRaceSpecs(with: race)
-        return row.aircraftRaceSpecValues(for: aircraftRaceSpecs)
+    func newAircraftViewController(_ viewController: NewAircraftViewController, valuesFor row: AircraftRow) -> [String]? {
+        let aircraftRaceData = AircraftRaceData(with: race)
+        return row.aircraftRaceSpecValues(for: aircraftRaceData)
     }
 }
 

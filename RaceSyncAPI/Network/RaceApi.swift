@@ -115,7 +115,7 @@ public protocol RaceApiInterface {
 
     /**
      */
-    func create(race chapterId: ObjectId, raceSpecs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>)
+    func create(race chapterId: ObjectId, data: RaceData, _ completion: @escaping ObjectCompletionBlock<Race>)
 
     /**
     */
@@ -250,10 +250,10 @@ public class RaceApi: RaceApiInterface {
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
     }
 
-    public func create(race chapterId: ObjectId, raceSpecs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>) {
+    public func create(race chapterId: ObjectId, data: RaceData, _ completion: @escaping ObjectCompletionBlock<Race>) {
 
         let endpoint = "\(EndPoint.raceCreate)?\(ParameterKey.chapterId)=\(chapterId)"
-        let parameters = raceSpecs.toParameters()
+        let parameters = data.toParameters()
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
     }

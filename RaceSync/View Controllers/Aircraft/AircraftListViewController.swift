@@ -277,7 +277,7 @@ extension AircraftListViewController: NewAircraftViewControllerDelegate {
         //
     }
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]? {
+    func newAircraftViewController(_ viewController: NewAircraftViewController, valuesFor row: AircraftRow) -> [String]? {
         return nil
     }
 }

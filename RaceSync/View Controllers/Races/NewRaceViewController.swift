@@ -162,7 +162,7 @@ class NewRaceViewController: UIViewController {
 
 //        isLoading = true
 
-//        aircraftAPI.createAircraft(with: aircraftSpecs) { [weak self] (aircraft, error) in
+//        aircraftAPI.createAircraft(with: aircraftData) { [weak self] (aircraft, error) in
 //            guard let strongSelf = self else { return }
 //            if let aircraft = aircraft {
 //                strongSelf.delegate?.newAircraftViewController(strongSelf, didCreateAircraft: aircraft)

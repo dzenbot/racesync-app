@@ -72,7 +72,8 @@ extension NewRaceRow {
 
     func value(from data: RaceData) -> String? {
         switch self {
-        case .name:     return data.name
+        case .name:
+            return data.name
         default:
             return nil
         }

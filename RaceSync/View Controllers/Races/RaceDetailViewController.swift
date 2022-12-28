@@ -745,8 +745,8 @@ extension RaceDetailViewController: UITableViewDataSource {
         cell.textLabel?.text = row.title
 
         if row == .requirements {
-            let aircraftRaceSpecs = AircraftRaceSpecs(with: race)
-            cell.detailTextLabel?.text = aircraftRaceSpecs.displayText()
+            let aircraftRaceData = AircraftRaceData(with: race)
+            cell.detailTextLabel?.text = aircraftRaceData.displayText()
         } else if row == .chapter {
             cell.detailTextLabel?.text = race.chapterName
         } else if row == .owner {

@@ -53,7 +53,7 @@ class SettingsViewController: UIViewController {
             prefs += [.appicon]
         }
         if let user = APIServices.shared.myUser, user.isDev {
-            auth += [.switchEnv, .featureFlags]
+            auth += [.switchEnv] //, .featureFlags
         }
 
         return [.resources: resources, .preferences: prefs, .about: about, .auth: auth]

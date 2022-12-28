@@ -14,7 +14,7 @@ import Presentr
 protocol NewAircraftViewControllerDelegate {
     func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft)
     func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController)
-    func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]?
+    func newAircraftViewController(_ viewController: NewAircraftViewController, valuesFor row: AircraftRow) -> [String]?
 }
 
 class NewAircraftViewController: UIViewController {
@@ -77,7 +77,7 @@ class NewAircraftViewController: UIViewController {
     }()
 
     fileprivate var aircraftAPI = AircraftApi()
-    fileprivate var aircraftSpecs = AircraftSpecs()
+    fileprivate var aircraftData = AircraftData()
     fileprivate var selectedRow: AircraftRow?
     fileprivate var isFormEnabled: Bool = true
 
@@ -95,8 +95,8 @@ class NewAircraftViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
     }
 
-    init(with aircraftSpecs: AircraftSpecs) {
-        self.aircraftSpecs = aircraftSpecs
+    init(with aircraftData: AircraftData) {
+        self.aircraftData = aircraftData
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -153,7 +153,7 @@ class NewAircraftViewController: UIViewController {
 
         isLoading = true
 
-        aircraftAPI.createAircraft(with: aircraftSpecs) { [weak self] (aircraft, error) in
+        aircraftAPI.createAircraft(with: aircraftData) { [weak self] (aircraft, error) in
             guard let strongSelf = self else { return }
             if let aircraft = aircraft {
                 strongSelf.delegate?.newAircraftViewController(strongSelf, didCreateAircraft: aircraft)
@@ -176,7 +176,7 @@ fileprivate extension NewAircraftViewController {
 
     func presentTextField(forRow row: AircraftRow, animated: Bool = true) {
 
-        let textFieldVC = TextFieldViewController(with: aircraftSpecs.name)
+        let textFieldVC = TextFieldViewController(with: aircraftData.name)
         textFieldVC.delegate = self
         textFieldVC.title = row.title
         textFieldVC.textField.placeholder = row.title
@@ -200,13 +200,13 @@ fileprivate extension NewAircraftViewController {
     }
 
     func textPickerViewController(for row: AircraftRow) -> TextPickerViewController {
-        var items = row.aircraftSpecValues
-        if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
+        var items = row.values
+        if let values = delegate?.newAircraftViewController(self, valuesFor: row) {
             items = values
         }
 
-        let selectedItem = row.displayText(from: aircraftSpecs)
-        let defaultItem = row.defaultAircraftSpecValue
+        let selectedItem = row.displayText(from: aircraftData)
+        let defaultItem = row.defaultValue
 
         let pickerVC = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
         pickerVC.delegate = self
@@ -235,11 +235,11 @@ fileprivate extension NewAircraftViewController {
 
     func canCreateAircraft() -> Bool {
         let requiredRows = AircraftRow.allCases.filter({ (row) -> Bool in
-            return row.isAircraftSpecRequired
+            return row.isRowRequired
         })
 
         for row in requiredRows {
-            if let value = row.specValue(from: aircraftSpecs) {
+            if let value = row.value(from: aircraftData) {
                 if value.isEmpty { return false }
             } else {
                 return false
@@ -277,7 +277,7 @@ extension NewAircraftViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
         guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
 
-        if row.isAircraftSpecRequired {
+        if row.isRowRequired {
             cell.textLabel?.text = row.title + " *"
         } else {
             cell.textLabel?.text = row.title
@@ -286,7 +286,7 @@ extension NewAircraftViewController: UITableViewDataSource {
         cell.textLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         cell.textLabel?.textColor = Color.black
 
-        cell.detailTextLabel?.text = row.displayText(from: aircraftSpecs)
+        cell.detailTextLabel?.text = row.displayText(from: aircraftData)
         cell.detailTextLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         cell.detailTextLabel?.textColor = Color.gray300
 
@@ -336,7 +336,7 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
             guard item.count < Aircraft.nameMaxLength else { return false }
         }
 
-        if !isFormEnabled && currentRow.isAircraftSpecRequired {
+        if !isFormEnabled && currentRow.isRowRequired {
             return !item.isEmpty
         }
 
@@ -357,7 +357,7 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
     }
 
     func handleTextfieldVC(_ viewController: FormBaseViewController, selection item: String) {
-        aircraftSpecs.name = item
+        aircraftData.name = item
 
         if isFormEnabled {
             let row = AircraftRow.type
@@ -374,22 +374,22 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
         switch currentRow {
         case .type:
             let type = AircraftType(title: item)
-            aircraftSpecs.type = type?.rawValue
+            aircraftData.type = type?.rawValue
         case .size:
             let type = AircraftSize(title: item)
-            aircraftSpecs.size = type?.rawValue
+            aircraftData.size = type?.rawValue
         case .battery:
             let type = BatterySize(title: item)
-            aircraftSpecs.battery = type?.rawValue
+            aircraftData.battery = type?.rawValue
         case .propSize:
             let type = PropellerSize(title: item)
-            aircraftSpecs.propSize = type?.rawValue
+            aircraftData.propSize = type?.rawValue
         case .videoTx:
             let type = VideoTxType(title: item)
-            aircraftSpecs.videoTxType = type?.rawValue
+            aircraftData.videoTxType = type?.rawValue
         case .antenna:
             let type = AntennaPolarization(title: item)
-            aircraftSpecs.antenna = type?.rawValue
+            aircraftData.antenna = type?.rawValue
         default:
             break
         }

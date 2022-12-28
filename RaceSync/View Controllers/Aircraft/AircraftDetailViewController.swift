@@ -183,9 +183,9 @@ class AircraftDetailViewController: UIViewController {
 fileprivate extension AircraftDetailViewController {
 
     func presentPicker(forRow row: AircraftRow) {
-        let items = row.aircraftSpecValues
-        let selectedItem = row.specValue(from: aircraftViewModel)
-        let defaultItem = row.defaultAircraftSpecValue
+        let items = row.values
+        let selectedItem = row.value(from: aircraftViewModel)
+        let defaultItem = row.defaultValue
 
         let presenter = Appearance.defaultPresenter()
         let pickerVC = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
@@ -197,7 +197,7 @@ fileprivate extension AircraftDetailViewController {
     }
 
     func presentTextField(forRow row: AircraftRow) {
-        let text = row.specValue(from: aircraftViewModel)
+        let text = row.value(from: aircraftViewModel)
 
         let presenter = Appearance.defaultPresenter()
         let textFieldVC = TextFieldViewController(with: text)
@@ -251,7 +251,7 @@ extension AircraftDetailViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
         guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
 
-        if row.isAircraftSpecRequired, isEditable {
+        if row.isRowRequired, isEditable {
             cell.textLabel?.text = row.title + " *"
         } else {
             cell.textLabel?.text = row.title
@@ -291,7 +291,7 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         guard item.count >= Aircraft.nameMinLength else { return false }
         guard item.count < Aircraft.nameMaxLength else { return false }
         
-        if row.isAircraftSpecRequired {
+        if row.isRowRequired {
             return !item.isEmpty
         }
 
@@ -305,12 +305,12 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
     func handleTextfieldVC(_ viewController: FormBaseViewController, selection item: String) {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
-        let specs = AircraftSpecs()
-        specs.name = item
+        let aircraftData = AircraftData()
+        aircraftData.name = item
 
         viewController.isLoading = true
 
-        aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) {  [weak self] (status, error) in
+        aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: aircraftData) {  [weak self] (status, error) in
             guard let strongSelf = self else { return }
             if status {
                 let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: AircraftRow.name)
@@ -326,28 +326,28 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         guard let row = selectedRow else { return }
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
-        let specs = AircraftSpecs()
+        let aircraftData = AircraftData()
 
         switch row {
         case .type:
-            specs.type = AircraftType(title: item)?.rawValue
+            aircraftData.type = AircraftType(title: item)?.rawValue
         case .size:
-            specs.size = AircraftSize(title: item)?.rawValue
+            aircraftData.size = AircraftSize(title: item)?.rawValue
         case .battery:
-            specs.battery = BatterySize(title: item)?.rawValue
+            aircraftData.battery = BatterySize(title: item)?.rawValue
         case .propSize:
-            specs.propSize = PropellerSize(title: item)?.rawValue
+            aircraftData.propSize = PropellerSize(title: item)?.rawValue
         case .videoTx:
-            specs.videoTxType = VideoTxType(title: item)?.rawValue
+            aircraftData.videoTxType = VideoTxType(title: item)?.rawValue
         case .antenna:
-            specs.antenna = AntennaPolarization(title: item)?.rawValue
+            aircraftData.antenna = AntennaPolarization(title: item)?.rawValue
         default:
             break
         }
 
         viewController.isLoading = true
 
-        aircraftApi.update(aircraft: aircraft.id, with: specs) { [weak self] (status, error) in
+        aircraftApi.update(aircraft: aircraft.id, with: aircraftData) { [weak self] (status, error) in
             guard let strongSelf = self else { return }
             if status {
                 let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: row)
