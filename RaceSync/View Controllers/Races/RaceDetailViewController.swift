@@ -476,6 +476,13 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         var buttons = [UIButton]()
 
+        if race.isMyChapter {
+            let editButton = CustomButton(type: .system)
+            editButton.addTarget(self, action: #selector(didPressEditButton), for: .touchUpInside)
+            editButton.setImage(UIImage(named: "icn_navbar_edit"), for: .normal)
+            buttons += [editButton]
+        }
+
         if let _ = race.calendarEvent {
             let calendarButton = CustomButton(type: .system)
             calendarButton.addTarget(self, action: #selector(didPressCalendarButton), for: .touchUpInside)
@@ -536,6 +543,10 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     @objc func didPressMemberView(_ sender: MemberBadgeView) {
         guard let tabBarController = tabBarController as? RaceTabBarController else { return }
         tabBarController.selectTab(.race)
+    }
+
+    @objc func didPressEditButton() {
+        Clog.log("didPressEditButton")
     }
 
     @objc func didPressCalendarButton() {
