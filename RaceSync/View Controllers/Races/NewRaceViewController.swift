@@ -142,7 +142,7 @@ class NewRaceViewController: UIViewController {
 
         view.backgroundColor = Color.white
         navigationItem.rightBarButtonItem = rightBarButtonItem
-        navigationItem.rightBarButtonItem?.isEnabled = canCreateRace()
+        navigationItem.rightBarButtonItem?.isEnabled = canGoNextStep()
 
         if navigationController?.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
@@ -318,7 +318,7 @@ fileprivate extension NewRaceViewController {
 
     // MARK: - Verification
 
-    func canCreateRace() -> Bool {
+    func canGoNextStep() -> Bool {
         let requiredRows = NewRaceRow.allCases.filter({ (row) -> Bool in
             return row.isRowRequired
         })
@@ -352,7 +352,7 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
 
         if !item.isEmpty {
             tableView.reloadData()
-            navigationItem.rightBarButtonItem?.isEnabled = canCreateRace()
+            navigationItem.rightBarButtonItem?.isEnabled = canGoNextStep()
         }
 
         // invalidate form once reaching the end of it

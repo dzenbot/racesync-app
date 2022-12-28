@@ -33,7 +33,10 @@ extension NewRaceRow {
         case .name:
             return raceData.name
         case .date:
-            return raceData.date
+            if let string = raceData.date, let date = DateUtil.standardDateFormatter.date(from: string) {
+                return DateUtil.localizedString(from: date)
+            }
+            return nil
         case .chapter:
             return raceData.chapterName
         case .class:
