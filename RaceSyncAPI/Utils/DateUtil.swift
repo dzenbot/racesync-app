@@ -10,10 +10,9 @@ import Foundation
 
 public class DateUtil {
 
-    public static let standardDateFormat: String = "yyyy-MM-dd h:mm a"
     public static var standardDateFormatter: DateFormatter = {
         let dateFormater: DateFormatter = DateFormatter()
-        dateFormater.dateFormat = standardDateFormat
+        dateFormater.dateFormat = StandardDateTimeFormat
         return dateFormater
     }()
 

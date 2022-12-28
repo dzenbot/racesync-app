@@ -39,7 +39,7 @@ class SettingsController {
         let selectedItem = settings.searchRadius
 
         let presenter = Appearance.defaultPresenter()
-        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem)
+        let pickerVC = TextPickerViewController(with: items, selectedItem: selectedItem)
         pickerVC.delegate = self
         pickerVC.title = settingsType?.title
         pickerVC.unit = settings.lengthUnit.symbol
@@ -54,7 +54,7 @@ class SettingsController {
         let selectedItem = settings.measurementSystem.title
 
         let presenter = Appearance.defaultPresenter()
-        let pickerVC = PickerViewController(with: values, selectedItem: selectedItem)
+        let pickerVC = TextPickerViewController(with: values, selectedItem: selectedItem)
         pickerVC.delegate = self
         pickerVC.title = settingsType?.title
 

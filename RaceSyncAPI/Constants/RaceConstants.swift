@@ -22,15 +22,38 @@ public enum RaceType: String, EnumTitle {
     }
 }
 
-public enum RaceStatus: String {
+//STATUSES = array(0=>'Open', 1=>'Closed')
+public enum RaceStatus: String, CaseIterable {
     case opened = "Opened"
     case closed = "Closed"
 }
 
+//TYPES = array(1=>'Public Event', 0=>'Private Event')
+public enum EventType: String, EnumTitle {
+    case `public` = "1"
+    case `private` = "0"
+
+    public var title: String {
+        switch self {
+        case .public:       return "Public Event"
+        case .private:      return "Private Event"
+        }
+    }
+}
+
+//OFFICIAL_STATUSES = array(0=>'Normal', 1=>'Requested', 2=>'Official')
 public enum RaceOfficialStatus: String {
     case normal = "0"
     case requested = "1"
     case approved = "2"
+
+    public var title: String {
+        switch self {
+        case .normal:       return "Normal"
+        case .requested:    return "Requested"
+        case .approved:     return "Official"
+        }
+    }
 }
 
 //SCORING_FORMATS = array(0=>'Aggregate Laps', 1=>'Fastest Lap', 6=>'Fastest 2 Consecutive Laps', 2=>'Fastest 3 Consecutive Laps')
@@ -73,3 +96,7 @@ public enum RaceClass: String, EnumTitle {
     }
 }
 
+public enum RaceSchedule: String, CaseIterable {
+    case controlled =   "Controlled"
+    case zippyq =       "ZippyQ"
+}

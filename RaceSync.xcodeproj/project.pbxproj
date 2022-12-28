@@ -12,7 +12,10 @@
 		4F004E9A295A2CA1009C46AA /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E99295A2CA1009C46AA /* Course.swift */; };
 		4F004E9C295A3027009C46AA /* SeasonApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9B295A3027009C46AA /* SeasonApi.swift */; };
 		4F004E9E295A3066009C46AA /* CourseApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9D295A3066009C46AA /* CourseApi.swift */; };
-		4F004EA0295AA641009C46AA /* RaceCreateViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9F295AA641009C46AA /* RaceCreateViewController.swift */; };
+		4F004EA0295AA641009C46AA /* NewRaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9F295AA641009C46AA /* NewRaceViewController.swift */; };
+		4F004EA2295B828E009C46AA /* RaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004EA1295B828E009C46AA /* RaceData.swift */; };
+		4F004EA7295B83F6009C46AA /* NewRaceForm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004EA6295B83F6009C46AA /* NewRaceForm.swift */; };
+		4F004EA9295BB282009C46AA /* DatePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004EA8295BB282009C46AA /* DatePickerViewController.swift */; };
 		4F00E06424292C9A001DCFC4 /* ChapterUserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */; };
 		4F00E072242932D7001DCFC4 /* RateMe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E071242932D7001DCFC4 /* RateMe.swift */; };
 		4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */; };
@@ -50,7 +53,7 @@
 		4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */; };
 		4F3D640B23FB0C8800DE6DF2 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */; };
 		4F3D640D23FB253900DE6DF2 /* UICollectionView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640C23FB253900DE6DF2 /* UICollectionView+Extensions.swift */; };
-		4F3D640F23FC65F700DE6DF2 /* PickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640E23FC65F700DE6DF2 /* PickerViewController.swift */; };
+		4F3D640F23FC65F700DE6DF2 /* TextPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640E23FC65F700DE6DF2 /* TextPickerViewController.swift */; };
 		4F3D641123FE664A00DE6DF2 /* TextFieldViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D641023FE664A00DE6DF2 /* TextFieldViewController.swift */; };
 		4F482EFB251158FF00DBA0DF /* SocialActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F482EFA251158FF00DBA0DF /* SocialActivity.swift */; };
 		4F5001E523823C940025A593 /* FlagEmojiGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */; };
@@ -107,6 +110,7 @@
 		4F86690423877041005E310A /* ChapterTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F86690323877041005E310A /* ChapterTableViewCell.swift */; };
 		4F8669062388D3BC005E310A /* AuthApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8669052388D3BC005E310A /* AuthApi.swift */; };
 		4F87E4352727976E0061425B /* NetworkProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87E4342727976E0061425B /* NetworkProxy.swift */; };
+		4F8B8665295C112B00EAF695 /* EnumTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8B8664295C112B00EAF695 /* EnumTitle.swift */; };
 		4F8F2C0C2383DF1E00DC4907 /* RaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */; };
 		4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */; };
 		4F8F2C112384903F00DC4907 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C102384903F00DC4907 /* RaceViewModel.swift */; };
@@ -328,7 +332,10 @@
 		4F004E99295A2CA1009C46AA /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
 		4F004E9B295A3027009C46AA /* SeasonApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeasonApi.swift; sourceTree = "<group>"; };
 		4F004E9D295A3066009C46AA /* CourseApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseApi.swift; sourceTree = "<group>"; };
-		4F004E9F295AA641009C46AA /* RaceCreateViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceCreateViewController.swift; sourceTree = "<group>"; };
+		4F004E9F295AA641009C46AA /* NewRaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRaceViewController.swift; sourceTree = "<group>"; };
+		4F004EA1295B828E009C46AA /* RaceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = RaceData.swift; path = RaceSyncAPI/Data/RaceData.swift; sourceTree = SOURCE_ROOT; };
+		4F004EA6295B83F6009C46AA /* NewRaceForm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewRaceForm.swift; sourceTree = "<group>"; };
+		4F004EA8295BB282009C46AA /* DatePickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerViewController.swift; sourceTree = "<group>"; };
 		4F00E06324292C9A001DCFC4 /* ChapterUserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterUserTableViewCell.swift; sourceTree = "<group>"; };
 		4F00E071242932D7001DCFC4 /* RateMe.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMe.swift; sourceTree = "<group>"; };
 		4F00E073242932F2001DCFC4 /* RateMeDefaults.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RateMeDefaults.swift; sourceTree = "<group>"; };
@@ -372,7 +379,7 @@
 		4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftDetailViewController.swift; sourceTree = "<group>"; };
 		4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
 		4F3D640C23FB253900DE6DF2 /* UICollectionView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Extensions.swift"; sourceTree = "<group>"; };
-		4F3D640E23FC65F700DE6DF2 /* PickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickerViewController.swift; sourceTree = "<group>"; };
+		4F3D640E23FC65F700DE6DF2 /* TextPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextPickerViewController.swift; sourceTree = "<group>"; };
 		4F3D641023FE664A00DE6DF2 /* TextFieldViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextFieldViewController.swift; sourceTree = "<group>"; };
 		4F482EFA251158FF00DBA0DF /* SocialActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SocialActivity.swift; sourceTree = "<group>"; };
 		4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FlagEmojiGenerator.swift; sourceTree = "<group>"; };
@@ -430,6 +437,7 @@
 		4F86690323877041005E310A /* ChapterTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterTableViewCell.swift; sourceTree = "<group>"; };
 		4F8669052388D3BC005E310A /* AuthApi.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AuthApi.swift; sourceTree = "<group>"; };
 		4F87E4342727976E0061425B /* NetworkProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProxy.swift; sourceTree = "<group>"; };
+		4F8B8664295C112B00EAF695 /* EnumTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumTitle.swift; sourceTree = "<group>"; };
 		4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceApi.swift; sourceTree = "<group>"; };
 		4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		4F8F2C102384903F00DC4907 /* RaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceViewModel.swift; sourceTree = "<group>"; };
@@ -614,6 +622,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F004EA3295B829B009C46AA /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				4F004EA1295B828E009C46AA /* RaceData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
 		4F00E065242930B3001DCFC4 /* RateMe */ = {
 			isa = PBXGroup;
 			children = (
@@ -732,6 +748,7 @@
 				4FDD499B23B065EB009DD2DB /* Constants */,
 				4FA2681D2378C63C008970AC /* Network */,
 				4FA2682B237A52CD008970AC /* Models */,
+				4F004EA3295B829B009C46AA /* Data */,
 				4FA26828237A4CCE008970AC /* Utils */,
 				4FEBB27B23A30F7D007514B4 /* Extensions */,
 				4F1342702360DA4B00A9DBDE /* Info.plist */,
@@ -928,9 +945,9 @@
 			children = (
 				4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */,
 				4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */,
-				4F64290D24019090005E8036 /* NewAircraftViewController.swift */,
 				4FA1AB4223CAF803007CF389 /* AircraftPickerController.swift */,
 				4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */,
+				4F64290D24019090005E8036 /* NewAircraftViewController.swift */,
 				4F64290F240199AC005E8036 /* AircraftForm.swift */,
 			);
 			path = Aircraft;
@@ -1009,6 +1026,7 @@
 				4FDD499523B0461D009DD2DB /* Season.swift */,
 				4F004E99295A2CA1009C46AA /* Course.swift */,
 				4FA26830237A58E1008970AC /* ApiError.swift */,
+				4F8B8664295C112B00EAF695 /* EnumTitle.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1070,7 +1088,8 @@
 				4FD4E1E02380AC37008816B3 /* RaceResultsViewController.swift */,
 				4FC502592428710D0088320B /* RaceTabbable.swift */,
 				4FC50257242700DC0088320B /* ForceJoinViewController.swift */,
-				4F004E9F295AA641009C46AA /* RaceCreateViewController.swift */,
+				4F004E9F295AA641009C46AA /* NewRaceViewController.swift */,
+				4F004EA6295B83F6009C46AA /* NewRaceForm.swift */,
 			);
 			path = Races;
 			sourceTree = "<group>";
@@ -1126,8 +1145,9 @@
 				4F5C1E46238D1C3200D756EB /* TextCopiable.swift */,
 				4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */,
 				4F8376DB23EE87CC00256AEC /* RotatingIconView.swift */,
-				4F3D640E23FC65F700DE6DF2 /* PickerViewController.swift */,
 				4F3D641023FE664A00DE6DF2 /* TextFieldViewController.swift */,
+				4F3D640E23FC65F700DE6DF2 /* TextPickerViewController.swift */,
+				4F004EA8295BB282009C46AA /* DatePickerViewController.swift */,
 				4F6429132403AE9A005E8036 /* FormBaseViewController.swift */,
 				4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */,
 			);
@@ -1600,7 +1620,8 @@
 				4F00E075242932F2001DCFC4 /* RateMeDefaults.swift in Sources */,
 				4F605635258D89B5008AF93F /* CollectionViewCell+Reuse.swift in Sources */,
 				4FD4E1E12380AC37008816B3 /* RaceResultsViewController.swift in Sources */,
-				4F3D640F23FC65F700DE6DF2 /* PickerViewController.swift in Sources */,
+				4F004EA9295BB282009C46AA /* DatePickerViewController.swift in Sources */,
+				4F3D640F23FC65F700DE6DF2 /* TextPickerViewController.swift in Sources */,
 				4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */,
 				4FC4C59C24D8F3F2007D3B71 /* DimmableView.swift in Sources */,
 				4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */,
@@ -1615,7 +1636,7 @@
 				4FBE7624259BBD9A00312B66 /* WatchSessionConstants.swift in Sources */,
 				4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */,
 				4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */,
-				4F004EA0295AA641009C46AA /* RaceCreateViewController.swift in Sources */,
+				4F004EA0295AA641009C46AA /* NewRaceViewController.swift in Sources */,
 				4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */,
 				4F6429142403AE9A005E8036 /* FormBaseViewController.swift in Sources */,
 				4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */,
@@ -1651,6 +1672,7 @@
 				4F5C1E49238DD82500D756EB /* UIView+RecognizerBlock.swift in Sources */,
 				4FDC05D823CDB16E00B10881 /* CalendarUtil.swift in Sources */,
 				4F605603258C9FB4008AF93F /* UIScrollView+Extensions.swift in Sources */,
+				4F004EA7295B83F6009C46AA /* NewRaceForm.swift in Sources */,
 				4FC57C33258E1362006E210F /* AppUtil.swift in Sources */,
 				4FDF005725902D6D006964DB /* TrackElementViewCell.swift in Sources */,
 				4F7BE2672722354F00592297 /* UIViewController+Navigation.swift in Sources */,
@@ -1716,6 +1738,7 @@
 				4FCAF9FA23AB226500ACE7D3 /* MapperUtil.swift in Sources */,
 				4F8669062388D3BC005E310A /* AuthApi.swift in Sources */,
 				4F6C8A8F23657DE00017FD78 /* APICredential.swift in Sources */,
+				4F004EA2295B828E009C46AA /* RaceData.swift in Sources */,
 				4F5001E923830E180025A593 /* Race.swift in Sources */,
 				4F004E9E295A3066009C46AA /* CourseApi.swift in Sources */,
 				4FEBB27F23A310BB007514B4 /* User+Extensions.swift in Sources */,
@@ -1734,6 +1757,7 @@
 				4F87E4352727976E0061425B /* NetworkProxy.swift in Sources */,
 				4FD4E1E32381E175008816B3 /* Random.swift in Sources */,
 				4FEADB7224147D2D00F82F0D /* LocationManager.swift in Sources */,
+				4F8B8665295C112B00EAF695 /* EnumTitle.swift in Sources */,
 				4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */,
 				4FA2682F237A5897008970AC /* ErrorUtil.swift in Sources */,
 				4F8F2C132385136300DC4907 /* NumberUtil.swift in Sources */,

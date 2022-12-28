@@ -188,7 +188,7 @@ fileprivate extension AircraftDetailViewController {
         let defaultItem = row.defaultAircraftSpecValue
 
         let presenter = Appearance.defaultPresenter()
-        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
+        let pickerVC = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
         pickerVC.delegate = self
         pickerVC.title = "Update \(row.title)"
 
@@ -281,8 +281,8 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
 
         if viewController.formType == .textfield {
             handleTextfieldVC(viewController, selection: item)
-        } else if viewController.formType == .picker {
-            handlePickerVC(viewController, selection: item)
+        } else if viewController.formType == .textPicker {
+            handleTextPickerVC(viewController, selection: item)
         }
     }
 
@@ -322,7 +322,7 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         }
     }
 
-    func handlePickerVC(_ viewController: FormBaseViewController, selection item: String) {
+    func handleTextPickerVC(_ viewController: FormBaseViewController, selection item: String) {
         guard let row = selectedRow else { return }
         guard let aircraft = aircraftViewModel.aircraft else { return }
 

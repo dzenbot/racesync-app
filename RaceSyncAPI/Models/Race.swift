@@ -66,6 +66,9 @@ public class Race: Mappable, Joinable, Descriptable {
     public var races: [RaceLite]? = nil
     public var entries: [RaceEntry]? = nil
 
+    public static let nameMinLength: Int = 3
+    public static let nameMaxLength: Int = 20
+
     // MARK: - Initialization
 
     fileprivate static let requiredProperties = ["id", "name", "chapterId", "ownerId"]

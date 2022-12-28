@@ -14,7 +14,6 @@ import Presentr
 protocol NewAircraftViewControllerDelegate {
     func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft)
     func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController)
-
     func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]?
 }
 
@@ -27,27 +26,29 @@ class NewAircraftViewController: UIViewController {
     fileprivate lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(cellType: FormTableViewCell.self)
+        tableView.contentInsetAdjustmentBehavior = .always
+        tableView.tableFooterView = footerView
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.contentInsetAdjustmentBehavior = .always
+        return tableView
+    }()
 
-        let footerView = UIView()
-        footerView.backgroundColor = .clear
+    fileprivate lazy var footerView: UIView = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.text = "* Required fields"
+        label.textColor = Color.gray200
 
-        let footerLabel = UILabel()
-        footerLabel.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        footerLabel.text = "* Required fields"
-        footerLabel.textColor = Color.gray200
-
-        footerView.addSubview(footerLabel)
-        footerLabel.snp.makeConstraints {
+        let view = UIView()
+        view.backgroundColor = .clear
+        view.addSubview(label)
+        label.snp.makeConstraints {
+            $0.height.equalTo(Constants.cellHeight)
             $0.top.leading.equalToSuperview().offset(Constants.padding)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
-        tableView.tableFooterView = footerView
-
-        return tableView
+        return view
     }()
 
     fileprivate var isLoading: Bool = false {
@@ -187,23 +188,18 @@ fileprivate extension NewAircraftViewController {
     }
 
     func presentPicker(forRow row: AircraftRow, animated: Bool = true) {
-        var items = row.aircraftSpecValues
-        if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
-            items = values
-        }
-
-        let selectedItem = row.displayText(from: aircraftSpecs)
-        let defaultItem = row.defaultAircraftSpecValue
-
-        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
-        pickerVC.delegate = self
-        pickerVC.title = row.title
-
+        let pickerVC = textPickerViewController(for: row)
         let formdNC = NavigationController(rootViewController: pickerVC)
         customPresentViewController(presenter, viewController: formdNC, animated: animated)
     }
 
     func pushPicker(forRow row: AircraftRow, animated: Bool = true) {
+        let pickerVC = textPickerViewController(for: row)
+        formNavigationController?.pushViewController(pickerVC, animated: animated)
+        formNavigationController?.delegate = self
+    }
+
+    func textPickerViewController(for row: AircraftRow) -> TextPickerViewController {
         var items = row.aircraftSpecValues
         if let values = delegate?.newAircraftViewController(self, aircraftSpecValuesForRow: row) {
             items = values
@@ -212,12 +208,11 @@ fileprivate extension NewAircraftViewController {
         let selectedItem = row.displayText(from: aircraftSpecs)
         let defaultItem = row.defaultAircraftSpecValue
 
-        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
+        let pickerVC = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
         pickerVC.delegate = self
         pickerVC.title = row.title
 
-        formNavigationController?.pushViewController(pickerVC, animated: animated)
-        formNavigationController?.delegate = self
+        return pickerVC
     }
 
     func showAircraftDetail(_ aircraftViewModel: AircraftViewModel) {
@@ -239,7 +234,6 @@ fileprivate extension NewAircraftViewController {
     // MARK: - Verification
 
     func canCreateAircraft() -> Bool {
-
         let requiredRows = AircraftRow.allCases.filter({ (row) -> Bool in
             return row.isAircraftSpecRequired
         })
@@ -313,8 +307,8 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
 
         if viewController.formType == .textfield {
             handleTextfieldVC(viewController, selection: item)
-        } else if viewController.formType == .picker {
-            handlePickerVC(viewController, selection: item)
+        } else if viewController.formType == .textPicker {
+            handleTextPickerVC(viewController, selection: item)
         }
 
         if !item.isEmpty {
@@ -327,6 +321,11 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
             isFormEnabled = false
             selectedRow = nil
         }
+    }
+
+    func formViewControllerDidDismiss(_ viewController: FormBaseViewController) {
+        isFormEnabled = false
+        selectedRow = nil
     }
 
     func formViewController(_ viewController: FormBaseViewController, enableSelectionWithItem item: String) -> Bool {
@@ -357,11 +356,6 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
         return isFormEnabled ? .next : .done
     }
 
-    func formViewControllerDidDismiss(_ viewController: FormBaseViewController) {
-        isFormEnabled = false
-        selectedRow = nil
-    }
-
     func handleTextfieldVC(_ viewController: FormBaseViewController, selection item: String) {
         aircraftSpecs.name = item
 
@@ -374,7 +368,7 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
         }
     }
 
-    func handlePickerVC(_ viewController: FormBaseViewController, selection item: String) {
+    func handleTextPickerVC(_ viewController: FormBaseViewController, selection item: String) {
         guard let currentRow = selectedRow else { return }
 
         switch currentRow {
@@ -409,7 +403,7 @@ extension NewAircraftViewController: FormBaseViewControllerDelegate {
     }
 }
 
-// MARK: - PickerViewController Delegate
+// MARK: - TextPickerViewController Delegate
 
 extension NewAircraftViewController: UINavigationControllerDelegate {
 

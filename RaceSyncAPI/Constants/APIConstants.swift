@@ -11,23 +11,8 @@ import Foundation
 public typealias ObjectId = String
 
 public let StandardPageSize: Int = 100
-
-public protocol EnumTitle: CaseIterable {
-    var title: String { get }
-    init?(title: String)
-}
-
-extension EnumTitle {
-    public init?(title: String) {
-        for `case` in Self.allCases {
-            if `case`.title == title {
-                self = `case`
-                return
-            }
-        }
-        return nil
-    }
-}
+public let StandardDateFormat: String = "yyyy-MM-dd"
+public let StandardDateTimeFormat: String = "yyyy-MM-dd h:mm a"
 
 enum EndPoint {
     static let userLogin = "user/login"

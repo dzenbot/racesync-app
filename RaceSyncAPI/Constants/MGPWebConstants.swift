@@ -97,7 +97,7 @@ public class MGPWeb {
         let fullname = "\(user.firstName) \(user.lastName)"
 
         let formatter = DateFormatter()
-        formatter.dateFormat = "yyyy-MM-dd"
+        formatter.dateFormat = StandardDateFormat
         let dateString = formatter.string(from: Date())
 
         // Append the new query item in the existing query items array

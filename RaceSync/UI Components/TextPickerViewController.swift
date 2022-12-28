@@ -11,7 +11,7 @@ import SnapKit
 import PickerView
 import Presentr
 
-class PickerViewController: FormBaseViewController {
+class TextPickerViewController: FormBaseViewController {
 
     // MARK: - Public Variables
 
@@ -29,7 +29,7 @@ class PickerViewController: FormBaseViewController {
     }
 
     override var formType: FormType {
-        get { return .picker }
+        get { return .textPicker }
         set { }
     }
 
@@ -39,17 +39,17 @@ class PickerViewController: FormBaseViewController {
 
     fileprivate lazy var pickerView: PickerView = {
         let view = PickerView()
-        view.tableView.contentInsetAdjustmentBehavior = .never
-        view.tintColor = Color.blue
+        view.tableView.contentInsetAdjustmentBehavior = .automatic
+        view.tintColor = Color.gray100
+        view.selectionStyle = .overlay
         view.backgroundColor = Color.white
-        view.selectionStyle = .defaultIndicator
         view.dataSource = self
         view.delegate = self
         return view
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .gray)
+        let view = UIActivityIndicatorView(style: .medium)
         view.hidesWhenStopped = true
         return view
     }()
@@ -136,7 +136,7 @@ class PickerViewController: FormBaseViewController {
     }
 }
 
-extension PickerViewController: PickerViewDataSource {
+extension TextPickerViewController: PickerViewDataSource {
 
     func pickerViewNumberOfRows(_ pickerView: PickerView) -> Int {
         return items.count
@@ -151,7 +151,7 @@ extension PickerViewController: PickerViewDataSource {
     }
 }
 
-extension PickerViewController: PickerViewDelegate {
+extension TextPickerViewController: PickerViewDelegate {
 
     func pickerViewHeightForRows(_ pickerView: PickerView) -> CGFloat {
         return 50
@@ -172,16 +172,16 @@ extension PickerViewController: PickerViewDelegate {
         label.textAlignment = .center
 
         if highlighted {
-            label.font = UIFont.systemFont(ofSize: 25, weight: .medium)
-            label.textColor = Color.blue
+            label.font = UIFont.systemFont(ofSize: 23, weight: .regular)
+            label.textColor = Color.black
         } else {
-            label.font = UIFont.systemFont(ofSize: 17, weight: .regular)
+            label.font = UIFont.systemFont(ofSize: 21, weight: .regular)
             label.textColor = Color.gray200
         }
     }
 }
 
-extension PickerViewController: PresentrDelegate {
+extension TextPickerViewController: PresentrDelegate {
 
     func presentrShouldDismiss(keyboardShowing: Bool) -> Bool {
         DispatchQueue.main.async {
