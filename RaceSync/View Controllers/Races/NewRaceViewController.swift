@@ -310,7 +310,7 @@ fileprivate extension NewRaceViewController {
         case .privacy:
             return EventType.allCases.compactMap { $0.title }
         case .status:
-            return RaceStatus.allCases.compactMap { $0.rawValue }
+            return RaceStatus.allCases.compactMap { $0.title }
         default:
             return [String]()
         }

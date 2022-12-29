@@ -23,10 +23,18 @@ public enum RaceType: String, EnumTitle {
 }
 
 //STATUSES = array(0=>'Open', 1=>'Closed')
-public enum RaceStatus: String, CaseIterable {
-    case opened = "Opened"
-    case closed = "Closed"
+public enum RaceStatus: String, EnumTitle {
+    case opened = "0"
+    case closed = "1"
+
+    public var title: String {
+        switch self {
+        case .opened:       return "Opened"
+        case .closed:       return "Closed"
+        }
+    }
 }
+
 
 //TYPES = array(1=>'Public Event', 0=>'Private Event')
 public enum EventType: String, EnumTitle {
