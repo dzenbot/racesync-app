@@ -15,8 +15,6 @@ class NewRaceViewController: UIViewController {
 
     // MARK: - Public Variables
 
-    var subtitle: String?
-
     var chapters: [ManagedChapter]
 
     // MARK: - Private Variables
@@ -25,7 +23,7 @@ class NewRaceViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(cellType: FormTableViewCell.self)
         tableView.contentInsetAdjustmentBehavior = .always
-        tableView.tableHeaderView = nil
+        tableView.tableHeaderView = nil //headerView
         tableView.tableFooterView = footerView
         tableView.dataSource = self
         tableView.delegate = self
@@ -35,7 +33,7 @@ class NewRaceViewController: UIViewController {
     fileprivate lazy var headerView: UIView = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.text = subtitle
+        label.text = currentSection.title
         label.textColor = Color.gray200
 
         let view = UIView()
@@ -75,6 +73,7 @@ class NewRaceViewController: UIViewController {
     }()
 
     fileprivate var raceData: RaceData
+    fileprivate var currentSection: NewRaceSection
     fileprivate var selectedRow: NewRaceRow?
     fileprivate var raceApi = RaceApi()
 
@@ -82,6 +81,12 @@ class NewRaceViewController: UIViewController {
 
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
+
+    fileprivate lazy var sections: [NewRaceSection: [NewRaceRow]] = {
+        let general: [NewRaceRow] = [.name, .date, .chapter, .class, .format, .schedule, .privacy, .status]
+        let specific: [NewRaceRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary]
+        return [.general: general, .specific: specific]
+    }()
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -92,6 +97,7 @@ class NewRaceViewController: UIViewController {
 
     init(with chapters: [ManagedChapter], selectedChapter: ManagedChapter?) {
         self.chapters = chapters
+        self.currentSection = .general
 
         self.raceData = RaceData()
         self.raceData.chapterName = selectedChapter?.name
@@ -138,11 +144,10 @@ class NewRaceViewController: UIViewController {
     fileprivate func setupLayout() {
 
         title = "New Event"
-        subtitle = "General Event Details"
 
         view.backgroundColor = Color.white
         navigationItem.rightBarButtonItem = rightBarButtonItem
-        navigationItem.rightBarButtonItem?.isEnabled = canGoNextStep()
+        navigationItem.rightBarButtonItem?.isEnabled = canGoNextSection()
 
         if navigationController?.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
@@ -202,14 +207,16 @@ extension NewRaceViewController: UITableViewDelegate {
 
 extension NewRaceViewController: UITableViewDataSource {
 
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return NewRaceRow.allCases.count
+    func tableView(_ tableView: UITableView, numberOfRowsInSection sectionIdx: Int) -> Int {
+        guard let rows = sections[currentSection] else { return 0 }
+        return rows.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
-        guard let row = NewRaceRow(rawValue: indexPath.row) else { return cell }
+        guard let rows = sections[currentSection] else { return cell }
 
+        let row = rows[indexPath.row]
         if row.isRowRequired {
             cell.textLabel?.text = row.title + " *"
         } else {
@@ -318,13 +325,15 @@ fileprivate extension NewRaceViewController {
 
     // MARK: - Verification
 
-    func canGoNextStep() -> Bool {
-        let requiredRows = NewRaceRow.allCases.filter({ (row) -> Bool in
+    func canGoNextSection() -> Bool {
+        guard let rows = sections[currentSection] else { return false }
+
+        let requiredRows = rows.filter({ (row) -> Bool in
             return row.isRowRequired
         })
 
         for row in requiredRows {
-            if let value = row.value(from: raceData) {
+            if let value = row.requiredValue(from: raceData) {
                 if value.isEmpty { return false }
             } else {
                 return false
@@ -342,75 +351,11 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
     func formViewController(_ viewController: FormBaseViewController, didSelectItem item: String) {
         guard let currentRow = selectedRow else { return }
 
-        if viewController.formType == .textfield {
-            handleTextfieldVC(viewController, selection: item)
-        } else if viewController.formType == .textPicker {
-            handleTextPickerVC(viewController, selection: item)
-        } else if viewController.formType == .datepicker {
-            handleDatePickerVC(viewController, selection: item)
-        }
-
-        if !item.isEmpty {
-            tableView.reloadData()
-            navigationItem.rightBarButtonItem?.isEnabled = canGoNextStep()
-        }
-
-        // invalidate form once reaching the end of it
-        if isFormEnabled, currentRow.rawValue == NewRaceRow.allCases.count-1 {
-            isFormEnabled = false
-            selectedRow = nil
-        }
-    }
-
-    func formViewControllerDidDismiss(_ viewController: FormBaseViewController) {
-        isFormEnabled = false
-        selectedRow = nil
-    }
-
-    func formViewController(_ viewController: FormBaseViewController, enableSelectionWithItem item: String) -> Bool {
-        guard let currentRow = selectedRow else { return false }
-
-        if viewController is TextFieldViewController {
-            guard item.count >= Race.nameMinLength else { return false }
-            guard item.count < Race.nameMaxLength else { return false }
-        }
-
-        if currentRow.isRowRequired {
-            return !item.isEmpty
-        }
-
-        return true
-    }
-
-    func formViewControllerRightBarButtonTitle(_ viewController: FormBaseViewController) -> String {
-        guard let currentRow = selectedRow else { return "" }
-
-        if isFormEnabled, currentRow.rawValue != NewRaceRow.allCases.count-1 {
-            return "Next"
-        }
-        return "OK"
-    }
-
-    func formViewControllerKeyboardReturnKeyType(_ viewController: FormBaseViewController) -> UIReturnKeyType {
-        return isFormEnabled ? .next : .done
-    }
-
-    func handleTextfieldVC(_ viewController: FormBaseViewController, selection item: String) {
-        raceData.name = item
-
-        if isFormEnabled {
-            let row = NewRaceRow.date
-            pushDatePicker(forRow: row, animated: true)
-            selectedRow = row
-        } else {
-            viewController.dismiss(animated: true)
-        }
-    }
-
-    func handleTextPickerVC(_ viewController: FormBaseViewController, selection item: String) {
-        guard let currentRow = selectedRow else { return }
-
         switch currentRow {
+        case .name:
+            raceData.name = item
+        case .date:
+            raceData.date = item
         case .chapter:
             let chapter = chapters.filter ({ return $0.name == item }).first
             raceData.chapterName = chapter?.name
@@ -429,24 +374,62 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
             break
         }
 
-        if isFormEnabled, let nextRow = NewRaceRow(rawValue: currentRow.rawValue + 1) {
-            pushTextPicker(forRow: nextRow, animated: true)
-            selectedRow = nextRow
+        // refresh content
+        if !item.isEmpty {
+            tableView.reloadData()
+            navigationItem.rightBarButtonItem?.isEnabled = canGoNextSection()
+        }
+
+        // handle next row
+        if isFormEnabled, let rows = sections[currentSection], currentRow.rawValue < rows.count-1  {
+            guard let nextRow = NewRaceRow(rawValue: currentRow.rawValue + 1) else { return }
+
+            if nextRow.formType == .textPicker {
+                selectedRow = nextRow
+                pushTextPicker(forRow: nextRow, animated: true)
+            } else if nextRow.formType == .datePicker {
+                selectedRow = nextRow
+                pushDatePicker(forRow: nextRow, animated: true)
+            }
         } else {
-            viewController.dismiss(animated: true)
+            formViewControllerDidDismiss(viewController)
         }
     }
 
-    func handleDatePickerVC(_ viewController: FormBaseViewController, selection item: String) {
-        raceData.date = item
+    func formViewControllerDidDismiss(_ viewController: FormBaseViewController) {
+        // invalidate form once reaching the section
+        isFormEnabled = false
+        selectedRow = nil
 
-        if isFormEnabled {
-            let row = NewRaceRow.chapter
-            pushTextPicker(forRow: row, animated: true)
-            selectedRow = row
-        } else {
-            viewController.dismiss(animated: true)
+        viewController.dismiss(animated: true)
+    }
+
+    func formViewController(_ viewController: FormBaseViewController, enableSelectionWithItem item: String) -> Bool {
+        guard let currentRow = selectedRow else { return false }
+
+        if currentRow.formType == .textfield {
+            guard item.count >= Race.nameMinLength else { return false }
+            guard item.count < Race.nameMaxLength else { return false }
         }
+
+        if currentRow.isRowRequired {
+            return !item.isEmpty
+        }
+
+        return true
+    }
+
+    func formViewControllerRightBarButtonTitle(_ viewController: FormBaseViewController) -> String {
+        guard let currentRow = selectedRow, let rows = sections[currentSection] else { return "" }
+
+        if isFormEnabled, currentRow.rawValue < rows.count-1 {
+            return "Next"
+        }
+        return "OK"
+    }
+
+    func formViewControllerKeyboardReturnKeyType(_ viewController: FormBaseViewController) -> UIReturnKeyType {
+        return isFormEnabled ? .next : .done
     }
 }
 

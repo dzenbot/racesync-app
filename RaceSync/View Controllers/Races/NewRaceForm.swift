@@ -9,19 +9,41 @@
 import Foundation
 import RaceSyncAPI
 
-enum NewRaceRow: Int, EnumTitle, CaseIterable {
-    case name, date, chapter, `class`, format, schedule, privacy, status
+enum NewRaceSection: Int, EnumTitle, CaseIterable {
+    case general, specific, frequencies
 
     public var title: String {
         switch self {
-        case .name:     return "Name"
-        case .date:     return "Start Date"
-        case .chapter:  return "Chapter"
-        case .class:    return "Race Class"
-        case .format:   return "Race Format"
-        case .schedule: return "Schedule"
-        case .privacy:  return "Event Privacy"
-        case .status:   return "Status"
+        case .general:      return "General Details "
+        case .specific:     return "Specific Details"
+        case .frequencies:  return "Video Frequencies"
+        }
+    }
+}
+
+enum NewRaceRow: Int, EnumTitle, CaseIterable {
+    case name, date, chapter, `class`, format, schedule, privacy, status,
+         scoring, timing, rounds, season, location, shortDesc, longDesc, itinerary
+
+    public var title: String {
+        switch self {
+        case .name:         return "Name"
+        case .date:         return "Start Date"
+        case .chapter:      return "Chapter"
+        case .class:        return "Race Class"
+        case .format:       return "Race Format"
+        case .schedule:     return "Schedule"
+        case .privacy:      return "Event Privacy"
+        case .status:       return "Status"
+
+        case .scoring:      return "Fun Fly"
+        case .timing:       return "Time Capturing"
+        case .rounds:       return "Rounds/Pack count"
+        case .season:       return "Season"
+        case .location:     return "Location"
+        case .shortDesc:    return "Short Description"
+        case .longDesc:     return "Long Description"
+        case .itinerary:    return "Itinerary Content"
         }
     }
 }
@@ -58,6 +80,8 @@ extension NewRaceRow {
             return nil
         case .status:
             return raceData.status
+        default:
+            return nil
         }
     }
 
@@ -70,12 +94,11 @@ extension NewRaceRow {
         }
     }
 
-    func value(from data: RaceData) -> String? {
+    func requiredValue(from data: RaceData) -> String? {
         switch self {
-        case .name:
-            return data.name
-        default:
-            return nil
+        case .name:     return data.name
+        case.date:      return data.date
+        default:        return nil
         }
     }
 
@@ -93,6 +116,23 @@ extension NewRaceRow {
             return EventType.public.rawValue
         case .status:
             return RaceStatus.closed.rawValue
+        default:
+            return nil
+        }
+    }
+
+    var formType: FormType {
+        switch self {
+        case .name:
+            return .textfield
+        case .date:
+            return .datePicker
+        case .scoring, .timing:
+            return .textfield
+        case .shortDesc, .longDesc, .itinerary:
+            return .textview
+        default:
+            return .textPicker
         }
     }
 }

@@ -22,7 +22,7 @@ class DatePickerViewController: FormBaseViewController {
     }
 
     override var formType: FormType {
-        get { return .datepicker }
+        get { return .datePicker }
         set { }
     }
 

@@ -15,7 +15,7 @@ class FormBaseViewController: UIViewController {
 }
 
 enum FormType {
-    case textfield, textPicker, datepicker, undefined
+    case textfield, textPicker, datePicker, `switch`, textview, undefined
 }
 
 @objc protocol FormBaseViewControllerDelegate {
