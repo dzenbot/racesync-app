@@ -36,7 +36,7 @@ enum NewRaceRow: Int, EnumTitle, CaseIterable {
         case .privacy:      return "Event Privacy"
         case .status:       return "Status"
 
-        case .scoring:      return "Fun Fly"
+        case .scoring:      return "Fun Fly (Disable Scoring)"
         case .timing:       return "Time Capturing"
         case .rounds:       return "Rounds/Pack count"
         case .season:       return "Season"
@@ -62,24 +62,25 @@ extension NewRaceRow {
         case .chapter:
             return raceData.chapterName
         case .class:
-            if let value = raceData.class {
-                return RaceClass(rawValue: value)?.title
-            }
-            return nil
+            return RaceClass(rawValue: raceData.class)?.title
         case .format:
-            if let value = raceData.format {
-                return ScoringFormats(rawValue: value)?.title
-            }
-            return nil
+            return ScoringFormats(rawValue: raceData.format)?.title
         case .schedule:
             return raceData.schedule
         case .privacy:
-            if let value = raceData.privacy {
-                return EventType(rawValue: value)?.title
-            }
-            return nil
+            return EventType(rawValue: raceData.privacy)?.title
         case .status:
-            return raceData.status
+            return RaceStatus(rawValue: raceData.status)?.title
+        case .scoring:
+            return raceData.funfly ? "" : nil
+        case .timing:
+            return raceData.timing ? "" : nil
+        case .rounds:
+            return "\(raceData.rounds)"
+        case .season:
+            return raceData.seasonName
+        case .location:
+            return raceData.locationName
         default:
             return nil
         }
@@ -102,25 +103,6 @@ extension NewRaceRow {
         }
     }
 
-    var defaultValue: String? {
-        switch self {
-        case .name, .date, .chapter:
-            return nil
-        case .class:
-            return RaceClass.open.rawValue
-        case .format:
-            return ScoringFormats.fastest3Laps.rawValue
-        case .schedule:
-            return RaceSchedule.controlled.rawValue
-        case .privacy:
-            return EventType.public.rawValue
-        case .status:
-            return RaceStatus.closed.rawValue
-        default:
-            return nil
-        }
-    }
-
     var formType: FormType {
         switch self {
         case .name:
@@ -128,7 +110,7 @@ extension NewRaceRow {
         case .date:
             return .datePicker
         case .scoring, .timing:
-            return .textfield
+            return .switch
         case .shortDesc, .longDesc, .itinerary:
             return .textview
         default:

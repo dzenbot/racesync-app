@@ -47,7 +47,7 @@ public class Chapter: Mappable, Joinable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id", "name"]
+    fileprivate static let requiredProperties = [ParameterKey.id, ParameterKey.name]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -59,8 +59,8 @@ public class Chapter: Mappable, Joinable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
+        id <- map[ParameterKey.id]
+        name <- map[ParameterKey.name]
         tier <- map["tier"]
         url = MGPWeb.getUrl(for: .chapterView, value: name)
         urlName <- map["urlName"]

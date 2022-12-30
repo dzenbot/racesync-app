@@ -104,4 +104,5 @@ enum ParameterKey {
     static let managedChapters = "managedChapters"
     static let chapterName = "chapterName"
     static let seasonId = "seasonId"
+    static let locationId = "locationId"
 }

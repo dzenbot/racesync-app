@@ -12,8 +12,8 @@ import ObjectMapper
 public class Aircraft: Mappable, Descriptable {
 
     public var id: ObjectId = ""
-    public var scannableId: String = ""
     public var name: String = ""
+    public var scannableId: String = ""
     public var description: String?
     public var mainImageUrl: String?
     public var backgroundImageUrl: String?
@@ -33,7 +33,7 @@ public class Aircraft: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id", "name"]
+    fileprivate static let requiredProperties = [ParameterKey.id, ParameterKey.name]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -45,9 +45,9 @@ public class Aircraft: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
+        id <- map[ParameterKey.id]
+        name <- map[ParameterKey.name]
         scannableId <- map["scannableId"]
-        name <- map["name"]
         description <- map["description"]
         mainImageUrl <- map["mainImageFileName"]
         backgroundImageUrl <- map["backgroundFileName"]

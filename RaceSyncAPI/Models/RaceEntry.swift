@@ -35,7 +35,7 @@ public class RaceEntry: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id", "pilotId", "aircraftId"]
+    fileprivate static let requiredProperties = [ParameterKey.id, ParameterKey.pilotId, ParameterKey.aircraftId]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -47,8 +47,8 @@ public class RaceEntry: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
-        pilotId <- map["pilotId"]
+        id <- map[ParameterKey.id]
+        pilotId <- map[ParameterKey.pilotId]
         pilotUserName <- map["pilotUserName"]
         pilotName <- map["pilotName"]
         userName <- map["userName"]
@@ -66,7 +66,7 @@ public class RaceEntry: Mappable, Descriptable {
         channel <- map["channel"]
         videoTxType <- (map["videoTransmitter"],EnumTransform<VideoTxType>())
 
-        aircraftId <- map["aircraftId"]
+        aircraftId <- map[ParameterKey.aircraftId]
         aircraftName <- map["aircraftName"]
     }
 }

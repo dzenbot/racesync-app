@@ -13,13 +13,12 @@ public class Season: Mappable, Descriptable {
 
     public var id: ObjectId = ""
     public var name: String = ""
-    public var urlName: String = ""
+    public var chapterId: ObjectId = ""
     public var description: String = ""
-    public var chapterId: String = ""
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id"]
+    fileprivate static let requiredProperties = [ParameterKey.id]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -31,10 +30,9 @@ public class Season: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
-        urlName <- map["urlName"]
+        id <- map[ParameterKey.id]
+        name <- map[ParameterKey.name]
+        chapterId <- map[ParameterKey.chapterId]
         description <- map["description"]
-        chapterId <- map["chapterId"]
     }
 }

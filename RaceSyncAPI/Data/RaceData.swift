@@ -11,17 +11,27 @@ import Alamofire
 
 public class RaceData: Descriptable {
 
-    public var name: String?
-    public var date: String?
+    public var name: String? = nil
+    public var date: String? = nil
+    public var chapterId: String? = nil
+    public var chapterName: String? = nil
 
-    public var chapterId: String?
-    public var chapterName: String?
+    public var `class`: String = RaceClass.open.rawValue
+    public var format: String = ScoringFormats.fastest3Laps.rawValue
+    public var schedule: String = RaceSchedule.controlled.rawValue
+    public var privacy: String = EventType.public.rawValue
+    public var status: String = RaceStatus.closed.rawValue
 
-    public var `class`: String?
-    public var format: String?
-    public var schedule: String?
-    public var privacy: String?
-    public var status: String?
+    public var funfly: Bool = false
+    public var timing: Bool = true
+    public var rounds: Int = 5
+    public var seasonId: String? = nil
+    public var seasonName: String? = nil
+    public var locationId: String? = nil
+    public var locationName: String? = nil
+    public var shortDesc: String? = nil
+    public var longDesc: String? = nil
+    public var itinerary: String? = nil
 
     public init() { }
 
@@ -30,6 +40,9 @@ public class RaceData: Descriptable {
 
         if name != nil { parameters[ParameterKey.name] = name }
         if chapterId != nil { parameters[ParameterKey.chapterId] = chapterId }
+
+        if seasonId != nil { parameters[ParameterKey.seasonId] = seasonId }
+        if locationId != nil { parameters[ParameterKey.locationId] = locationId }
 
         return parameters
     }

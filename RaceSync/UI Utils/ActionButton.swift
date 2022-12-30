@@ -38,7 +38,7 @@ class ActionButton: CustomButton {
     }
 
     lazy var spinnerView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .white)
+        let view = UIActivityIndicatorView(style: .medium)
 
         addSubview(view)
         view.snp.makeConstraints { (make) -> Void in
