@@ -38,10 +38,10 @@ public class AircraftRaceData: Descriptable {
     public func toParameters() -> Parameters {
         var parameters: Parameters = [:]
 
-        if types.count > 0 { parameters[ParameterKey.type] = types }
-        if sizes.count > 0 { parameters[ParameterKey.size] = sizes }
-        if batteries.count > 0 { parameters[ParameterKey.battery] = batteries }
-        if propSizes.count > 0 { parameters[ParameterKey.propSize] = propSizes }
+        if types.count > 0 { parameters[ParamKey.type] = types }
+        if sizes.count > 0 { parameters[ParamKey.size] = sizes }
+        if batteries.count > 0 { parameters[ParamKey.battery] = batteries }
+        if propSizes.count > 0 { parameters[ParamKey.propSize] = propSizes }
 
         return parameters
     }

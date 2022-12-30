@@ -32,7 +32,7 @@ public class User: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = [ParameterKey.id]
+    fileprivate static let requiredProperties = [ParamKey.id]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -44,8 +44,8 @@ public class User: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map[ParameterKey.id]
-        userName <- map[ParameterKey.userName]
+        id <- map[ParamKey.id]
+        userName <- map[ParamKey.userName]
         displayName <- map["displayName"]
         firstName <- map["firstName"]
         lastName <- map["lastName"]

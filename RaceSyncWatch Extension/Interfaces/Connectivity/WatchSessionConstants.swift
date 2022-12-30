@@ -8,7 +8,7 @@
 
 import Foundation
 
-enum WParameterKey {
+enum WParamKey {
     static let id = "id"
     static let name = "name"
     static let qrData = "qr_data"

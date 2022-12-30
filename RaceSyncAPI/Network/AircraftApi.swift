@@ -51,7 +51,7 @@ public class AircraftApi: AircrafApiInterface {
     public func getAircraft(forUser userId: String, forRaceData data: AircraftRaceData? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
 
         let endpoint = EndPoint.aircraftList
-        var parameters: Parameters = [ParameterKey.pilotId: userId, ParameterKey.retired: false]
+        var parameters: Parameters = [ParamKey.pilotId: userId, ParamKey.retired: false]
 
         if let data = data {
             parameters += data.toParameters()
@@ -70,7 +70,7 @@ public class AircraftApi: AircrafApiInterface {
 
     public func update(aircraft aircraftId: ObjectId, with data: AircraftData, _ completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.aircraftUpdate)?\(ParameterKey.id)=\(aircraftId)"
+        let endpoint = "\(EndPoint.aircraftUpdate)?\(ParamKey.id)=\(aircraftId)"
         let parameters = data.toParameters()
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
@@ -78,7 +78,7 @@ public class AircraftApi: AircrafApiInterface {
 
     public func retire(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.aircraftRetire)?\(ParameterKey.id)=\(aircraftId)"
+        let endpoint = "\(EndPoint.aircraftRetire)?\(ParamKey.id)=\(aircraftId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
@@ -86,7 +86,7 @@ public class AircraftApi: AircrafApiInterface {
     public func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock? = nil, _ completion: @escaping ObjectCompletionBlock<String>) {
         guard let data = image.jpegData(compressionQuality: 0.7) else { return }
 
-        let url = MGPWebConstant.apiBase.rawValue + "\(imageType.endpoint)?\(ParameterKey.id)=\(aircraftId)"
+        let url = MGPWebConstant.apiBase.rawValue + "\(imageType.endpoint)?\(ParamKey.id)=\(aircraftId)"
         uploadImage(data, name: imageType.key, endpoint: url, progressBlock: progressBlock, completion)
     }
 }
@@ -114,7 +114,7 @@ fileprivate extension AircraftApi {
                         if let errors = ErrorUtil.errors(fromJSONString: value) {
                             completion(nil, errors.first)
                         } else {
-                            completion(json[ParameterKey.url].rawValue as? String, nil)
+                            completion(json[ParamKey.url].rawValue as? String, nil)
                         }
                     case .failure:
                         completion(nil, response.error as NSError?)

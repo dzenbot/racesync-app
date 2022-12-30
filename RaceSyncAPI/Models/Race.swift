@@ -71,7 +71,7 @@ public class Race: Mappable, Joinable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = [ParameterKey.id, ParameterKey.name, ParameterKey.chapterId, "ownerId"]
+    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name, ParamKey.chapterId, "ownerId"]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -85,8 +85,8 @@ public class Race: Mappable, Joinable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map[ParameterKey.id]
-        name <- map[ParameterKey.name]
+        id <- map[ParamKey.id]
+        name <- map[ParamKey.name]
         startDate <- (map["startDate"], MapperUtil.dateTransform)
         mainImageFileName <- map["mainImageFileName"]
         isJoined <- map["isJoined"]
@@ -119,7 +119,7 @@ public class Race: Mappable, Joinable, Descriptable {
         latitude <- map["latitude"]
         longitude <- map["longitude"]
 
-        chapterId <- map[ParameterKey.chapterId]
+        chapterId <- map[ParamKey.chapterId]
         chapterName <- map["chapterName"]
         chapterImageFileName <- map["chapterImageFileName"]
 
@@ -144,7 +144,7 @@ public class Race: Mappable, Joinable, Descriptable {
 
 public class RaceLite: Mappable, Descriptable {
 
-    fileprivate static let requiredProperties = [ParameterKey.id, ParameterKey.name]
+    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name]
 
     public var id: String = ""
     public var name: String = ""

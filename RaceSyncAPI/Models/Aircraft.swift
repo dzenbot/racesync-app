@@ -13,7 +13,7 @@ public class Aircraft: Mappable, Descriptable {
 
     public var id: ObjectId = ""
     public var name: String = ""
-    public var scannableId: String = ""
+    public var scannableId: ObjectId = ""
     public var description: String?
     public var mainImageUrl: String?
     public var backgroundImageUrl: String?
@@ -33,7 +33,7 @@ public class Aircraft: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = [ParameterKey.id, ParameterKey.name]
+    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -45,8 +45,8 @@ public class Aircraft: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map[ParameterKey.id]
-        name <- map[ParameterKey.name]
+        id <- map[ParamKey.id]
+        name <- map[ParamKey.name]
         scannableId <- map["scannableId"]
         description <- map["description"]
         mainImageUrl <- map["mainImageFileName"]

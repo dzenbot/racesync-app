@@ -41,7 +41,7 @@ public class SeasonApi: SeasonApiInterface {
     public func getSeason(with seasonId: ObjectId, _ completion: @escaping ObjectCompletionBlock<Season>) {
 
         let endpoint = EndPoint.seasonSearch
-        let params: Parameters = [ParameterKey.id: seasonId]
+        let params: Parameters = [ParamKey.id: seasonId]
 
         repositoryAdapter.getObject(endpoint, parameters: params, type: Season.self, completion)
     }
@@ -49,7 +49,7 @@ public class SeasonApi: SeasonApiInterface {
     public func searchSeason(with name: String, _ completion: @escaping ObjectCompletionBlock<Season>) {
 
         let endpoint = EndPoint.seasonSearch
-        let params: Parameters = [ParameterKey.name: name]
+        let params: Parameters = [ParamKey.name: name]
 
         repositoryAdapter.getObject(endpoint, parameters: params, type: Season.self, completion)
     }
@@ -57,7 +57,7 @@ public class SeasonApi: SeasonApiInterface {
     public func getSeasons(forChapter chapterId: ObjectId, currentPage: Int = 0, pageSize: Int = StandardPageSize, _ completion: @escaping ObjectCompletionBlock<[Season]>) {
 
         let endpoint = EndPoint.seasonList
-        let params: Parameters = [ParameterKey.chapterId: chapterId]
+        let params: Parameters = [ParamKey.chapterId: chapterId]
 
         repositoryAdapter.getObjects(endpoint, parameters: params, currentPage: currentPage, pageSize: pageSize, type: Season.self, completion)
     }
@@ -66,7 +66,7 @@ public class SeasonApi: SeasonApiInterface {
 
         let endpoint = EndPoint.seasonCreate
         var params: Parameters = parameters
-        params[ParameterKey.chapterId] = chapterId
+        params[ParamKey.chapterId] = chapterId
 
         repositoryAdapter.getObject(endpoint, parameters: params, type: Season.self, completion)
     }
@@ -74,7 +74,7 @@ public class SeasonApi: SeasonApiInterface {
     public func deleteSeason(with seasonId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
 
         let endpoint = EndPoint.seasonDelete
-        let params: Parameters = [ParameterKey.id: seasonId]
+        let params: Parameters = [ParamKey.id: seasonId]
 
         repositoryAdapter.performAction(endpoint, parameters: params, completion: completion)
     }

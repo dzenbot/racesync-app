@@ -36,15 +36,15 @@ class NetworkAdapter {
         var params = Parameters()
 
         if nestParameters {
-            params[ParameterKey.data] = parameters
+            params[ParamKey.data] = parameters
         } else if let parameters = parameters {
             params = parameters
         }
 
-        params[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
+        params[ParamKey.apiKey] = APIServices.shared.credential.apiKey
 
         if let sessionId = APISessionManager.getSessionId() {
-            params[ParameterKey.sessionId] = sessionId
+            params[ParamKey.sessionId] = sessionId
         }
 
         formHeaders(headers, authProtected: authProtected) { [unowned self] (headers) in
@@ -58,10 +58,10 @@ class NetworkAdapter {
     func httpUpload(_ data: Data, url: String, method: HTTPMethod = .post, headers: [String: String]? = nil, completion: UploadRequestCompletion?) {
 
         var httpHeaders: [String : String] = headers ?? [:]
-        httpHeaders[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
+        httpHeaders[ParamKey.apiKey] = APIServices.shared.credential.apiKey
 
         if let sessionId = APISessionManager.getSessionId() {
-            httpHeaders[ParameterKey.sessionId] = sessionId
+            httpHeaders[ParamKey.sessionId] = sessionId
         }
 
         formHeaders(httpHeaders, authProtected: true) { [unowned self] (headers) in
@@ -89,8 +89,8 @@ class NetworkAdapter {
                              completion: UploadMultipartFormResultCompletion?) {
 
         var httpHeaders: [String : String] = headers ?? [:]
-        httpHeaders[ParameterKey.apiKey] = APIServices.shared.credential.apiKey
-        httpHeaders[ParameterKey.sessionId] = APISessionManager.getSessionId()
+        httpHeaders[ParamKey.apiKey] = APIServices.shared.credential.apiKey
+        httpHeaders[ParamKey.sessionId] = APISessionManager.getSessionId()
 
         let fileName = "Image-\(UUID().uuidString).jpg"
 
@@ -130,13 +130,13 @@ fileprivate extension NetworkAdapter {
 
     func formHeaders(_ headers: [String: String]?, authProtected: Bool, completion: @escaping ([String: String]) -> Void) {
         var headers = SessionManager.defaultHTTPHeaders
-        headers[ParameterKey.contentType] = "application/json"
+        headers[ParamKey.contentType] = "application/json"
 
         // The server requires basic authorization header
         // when interacting with test.multigp.com
         // It is a base64 encoded string for "mgp:TestMe!"
         if APIServices.shared.settings.isDev {
-            headers[ParameterKey.authorization] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE="
+            headers[ParamKey.authorization] = authorizationHeader() //"Basic bWdwOlRlc3RNZSE="
         }
 
         completion(headers)

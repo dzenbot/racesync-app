@@ -41,8 +41,8 @@ public class AuthApi: AuthApiInterface {
 
         let endpoint = EndPoint.userLogin
         let parameters: Parameters = [
-            ParameterKey.username: username,
-            ParameterKey.password: password
+            ParamKey.username: username,
+            ParamKey.password: password
         ]
 
         repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters, nestParameters: false) { (request) in

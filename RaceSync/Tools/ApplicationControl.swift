@@ -66,8 +66,8 @@ extension ApplicationControl {
 
     func invalidateWatchSession() {
         let userInfo: [String: Any] = [
-            WParameterKey.invalidate: true,
-            WParameterKey.forceSend : Date()
+            WParamKey.invalidate: true,
+            WParamKey.forceSend : Date()
         ]
 
         sendUserInfoToWatch(userInfo)
@@ -81,20 +81,20 @@ extension ApplicationControl {
         // If the dictionary doesn't change, subsequent calls to updateApplicationContext won't trigger
         // a corresponding call to didReceiveApplicationContext. Passing a unique Date() helps forcing an update.
         var userInfo: [String: Any] = [
-            WParameterKey.id: user.id,
-            WParameterKey.name: user.userName,
-            WParameterKey.qrData: qrImg.jpegData(compressionQuality: 0.7)!,
-            WParameterKey.forceSend: Date()
+            WParamKey.id: user.id,
+            WParamKey.name: user.userName,
+            WParamKey.qrData: qrImg.jpegData(compressionQuality: 0.7)!,
+            WParamKey.forceSend: Date()
         ]
 
         // Use emojis for countries
         if let country = user.country, !country.isEmpty {
-            userInfo[WParameterKey.name] = "\(user.userName) \(FlagEmojiGenerator.flag(country: country))"
+            userInfo[WParamKey.name] = "\(user.userName) \(FlagEmojiGenerator.flag(country: country))"
         }
 
         if let userProfileUrl = APIServices.shared.myUser?.miniProfilePictureUrl,
            let img = ImageNetworking.cachedImage(for: userProfileUrl)?.circular(with: Color.black) {
-            userInfo[WParameterKey.avatarData] = img.jpegData(compressionQuality: 0.7)!
+            userInfo[WParamKey.avatarData] = img.jpegData(compressionQuality: 0.7)!
         }
 
         sendUserInfoToWatch(userInfo)

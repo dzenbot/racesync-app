@@ -16,15 +16,15 @@ class WatchUser: NSObject {
     let avatarImg: UIImage?
 
     init?(_ payload: [String : Any]) {
-        guard let id = payload[WParameterKey.id] as? String else { return nil }
-        guard let name = payload[WParameterKey.name] as? String else { return nil }
-        guard let qrData = payload[WParameterKey.qrData] as? Data, let qrImg = UIImage(data: qrData) else { return nil }
+        guard let id = payload[WParamKey.id] as? String else { return nil }
+        guard let name = payload[WParamKey.name] as? String else { return nil }
+        guard let qrData = payload[WParamKey.qrData] as? Data, let qrImg = UIImage(data: qrData) else { return nil }
 
         self.id = id
         self.name = name
         self.qrImg = qrImg
 
-        if let data = payload[WParameterKey.avatarData] as? Data {
+        if let data = payload[WParamKey.avatarData] as? Data {
             self.avatarImg = UIImage(data: data)
         } else {
             self.avatarImg = nil

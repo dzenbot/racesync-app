@@ -154,7 +154,7 @@ public class RaceApi: RaceApiInterface {
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
-        let parameters = [ParameterKey.chapterId: chapterId]
+        let parameters = [ParamKey.chapterId: chapterId]
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
             completion(races, error)
@@ -166,7 +166,7 @@ public class RaceApi: RaceApiInterface {
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
-        let parameters = [ParameterKey.seasonId: seasonId]
+        let parameters = [ParamKey.seasonId: seasonId]
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
             completion(races, error)
@@ -175,84 +175,84 @@ public class RaceApi: RaceApiInterface {
 
     public func view(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endpoint = "\(EndPoint.raceView)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceView)?\(ParamKey.id)=\(raceId)"
         repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
     public func viewSimple(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endpoint = "\(EndPoint.raceViewSimple)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceViewSimple)?\(ParamKey.id)=\(raceId)"
         repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
     public func join(race raceId: ObjectId, aircraftId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceJoin)?\(ParameterKey.id)=\(raceId)"
-        let parameters = [ParameterKey.aircraftId: aircraftId]
+        let endpoint = "\(EndPoint.raceJoin)?\(ParamKey.id)=\(raceId)"
+        let parameters = [ParamKey.aircraftId: aircraftId]
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
     public func resign(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
         
-        let endpoint = "\(EndPoint.raceResign)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceResign)?\(ParamKey.id)=\(raceId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func forceJoin(race raceId: ObjectId, pilotId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceForceJoin)?\(ParameterKey.id)=\(raceId)"
-        let parameters = [ParameterKey.pilotId: pilotId]
+        let endpoint = "\(EndPoint.raceForceJoin)?\(ParamKey.id)=\(raceId)"
+        let parameters = [ParamKey.pilotId: pilotId]
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
     public func forceResign(race raceId: ObjectId, pilotId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceResign)?\(ParameterKey.id)=\(raceId)"
-        let parameters = [ParameterKey.pilotId: pilotId]
+        let endpoint = "\(EndPoint.raceResign)?\(ParamKey.id)=\(raceId)"
+        let parameters = [ParamKey.pilotId: pilotId]
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
     public func open(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceOpen)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceOpen)?\(ParamKey.id)=\(raceId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func close(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceClose)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceClose)?\(ParamKey.id)=\(raceId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func checkIn(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
-        let endpoint = "\(EndPoint.raceCheckIn)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceCheckIn)?\(ParamKey.id)=\(raceId)"
 
         var parameters = Parameters()
-        parameters[ParameterKey.pilotId] = pilotId
+        parameters[ParamKey.pilotId] = pilotId
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
     }
 
     public func checkOut(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
-        let endpoint = "\(EndPoint.raceCheckOut)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceCheckOut)?\(ParamKey.id)=\(raceId)"
 
         var parameters = Parameters()
-        parameters[ParameterKey.pilotId] = pilotId
+        parameters[ParamKey.pilotId] = pilotId
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
     }
 
     public func create(race chapterId: ObjectId, data: RaceData, _ completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endpoint = "\(EndPoint.raceCreate)?\(ParameterKey.chapterId)=\(chapterId)"
+        let endpoint = "\(EndPoint.raceCreate)?\(ParamKey.chapterId)=\(chapterId)"
         let parameters = data.toParameters()
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
@@ -281,24 +281,24 @@ fileprivate extension RaceApi {
                 radiusString = APIUnitSystem.convert(radiusString, to: .miles)
             }
 
-            var nearbyDict = [ParameterKey.radius: radiusString]
-            if let lat = latitude { nearbyDict[ParameterKey.latitude] = lat }
-            if let long = longitude { nearbyDict[ParameterKey.longitude] = long }
-            parameters[ParameterKey.nearBy] = nearbyDict
+            var nearbyDict = [ParamKey.radius: radiusString]
+            if let lat = latitude { nearbyDict[ParamKey.latitude] = lat }
+            if let long = longitude { nearbyDict[ParamKey.longitude] = long }
+            parameters[ParamKey.nearBy] = nearbyDict
         }
 
         if filters.contains(.joined) {
-            parameters[ParameterKey.joined] = [ParameterKey.pilotId : userId]
+            parameters[ParamKey.joined] = [ParamKey.pilotId : userId]
         }
 
         if filters.contains(.series) {
-            parameters[ParameterKey.isQualifier] = true
+            parameters[ParamKey.isQualifier] = true
         }
 
         if filters.contains(.upcoming) {
-            parameters[ParameterKey.upcoming] = [ParameterKey.limit: pageSize]
+            parameters[ParamKey.upcoming] = [ParamKey.limit: pageSize]
         } else if filters.contains(.past) {
-            parameters[ParameterKey.past] = [ParameterKey.limit: pageSize]
+            parameters[ParamKey.past] = [ParamKey.limit: pageSize]
         }
 
         return parameters

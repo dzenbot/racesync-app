@@ -38,11 +38,11 @@ public class RaceData: Descriptable {
     func toParameters() -> Parameters {
         var parameters: Parameters = [:]
 
-        if name != nil { parameters[ParameterKey.name] = name }
-        if chapterId != nil { parameters[ParameterKey.chapterId] = chapterId }
+        if name != nil { parameters[ParamKey.name] = name }
+        if chapterId != nil { parameters[ParamKey.chapterId] = chapterId }
 
-        if seasonId != nil { parameters[ParameterKey.seasonId] = seasonId }
-        if locationId != nil { parameters[ParameterKey.locationId] = locationId }
+        if seasonId != nil { parameters[ParamKey.seasonId] = seasonId }
+        if locationId != nil { parameters[ParamKey.locationId] = locationId }
 
         return parameters
     }

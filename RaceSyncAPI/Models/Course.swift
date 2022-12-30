@@ -13,7 +13,7 @@ public class Course: Mappable, Descriptable {
 
     public var id: ObjectId = ""
     public var name: String = ""
-    public var parentCourseId: String = ""
+    public var parentCourseId: ObjectId = ""
     public var description: String = ""
     public var type: String = ""
 
@@ -28,12 +28,12 @@ public class Course: Mappable, Descriptable {
     public var longitude: String = ""
     public var country: String?
 
-    public var ownerId: String = ""
-    public var chapterId: String = ""
+    public var ownerId: ObjectId = ""
+    public var chapterId: ObjectId = ""
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = [ParameterKey.id]
+    fileprivate static let requiredProperties = [ParamKey.id]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -45,8 +45,8 @@ public class Course: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map[ParameterKey.id]
-        name <- map[ParameterKey.name]
+        id <- map[ParamKey.id]
+        name <- map[ParamKey.name]
         parentCourseId <- map["parentCourseId"]
         description <- map["description"]
         type <- map["type"]

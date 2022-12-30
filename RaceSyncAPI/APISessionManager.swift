@@ -27,7 +27,7 @@ public class APISessionManager {
     }
 
     static func handleSessionJSON(_ json: JSON) {
-        if let sessionId = json[ParameterKey.sessionId].string {
+        if let sessionId = json[ParamKey.sessionId].string {
             setSessionId(sessionId)
         }
     }

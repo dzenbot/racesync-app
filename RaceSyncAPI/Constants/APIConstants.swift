@@ -60,7 +60,7 @@ enum EndPoint {
     static let aircraftUploadBackground = "aircraft/uploadBackground"
 }
 
-enum ParameterKey {
+enum ParamKey {
     static let apiKey = "apiKey"
     static let sessionId = "sessionId"
     static let contentType = "Content-type"

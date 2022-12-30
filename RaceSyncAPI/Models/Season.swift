@@ -18,7 +18,7 @@ public class Season: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = [ParameterKey.id]
+    fileprivate static let requiredProperties = [ParamKey.id]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -30,9 +30,9 @@ public class Season: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map[ParameterKey.id]
-        name <- map[ParameterKey.name]
-        chapterId <- map[ParameterKey.chapterId]
+        id <- map[ParamKey.id]
+        name <- map[ParamKey.name]
+        chapterId <- map[ParamKey.chapterId]
         description <- map["description"]
     }
 }
