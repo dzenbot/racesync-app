@@ -47,18 +47,18 @@ public class User: Mappable, Descriptable {
         id <- map[ParamKey.id]
         userName <- map[ParamKey.userName]
         displayName <- map["displayName"]
-        firstName <- map["firstName"]
-        lastName <- map["lastName"]
+        firstName <- map[ParamKey.firstName]
+        lastName <- map[ParamKey.lastName]
         profilePictureUrl <- map["profilePictureUrl"]
         profileBackgroundUrl <- map["profileBackgroundUrl"]
-        authType <- map["authType"]
+        authType <- map[ParamKey.authType]
         url = "https://www.multigp.com/pilots/view/?pilot=\(userName)"
 
-        city <- map["city"]
-        state <- map["state"]
-        country <- map["country"]
-        latitude <- map["latitude"]
-        longitude <- map["longitude"]
+        city <- map[ParamKey.city]
+        state <- map[ParamKey.state]
+        country <- map[ParamKey.country]
+        latitude <- map[ParamKey.latitude]
+        longitude <- map[ParamKey.longitude]
 
         chapterCount <- (map["chapterCount"], IntegerTransform())
         raceCount <- (map["raceCount"], IntegerTransform())

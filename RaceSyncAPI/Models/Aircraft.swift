@@ -49,7 +49,7 @@ public class Aircraft: Mappable, Descriptable {
         name <- map[ParamKey.name]
         scannableId <- map["scannableId"]
         description <- map["description"]
-        mainImageUrl <- map["mainImageFileName"]
+        mainImageUrl <- map[ParamKey.mainImageFileName]
         backgroundImageUrl <- map["backgroundFileName"]
 
         type <- (map["type"],EnumTransform<AircraftType>())

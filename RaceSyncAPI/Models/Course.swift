@@ -47,33 +47,32 @@ public class Course: Mappable, Descriptable {
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
         name <- map[ParamKey.name]
-        parentCourseId <- map["parentCourseId"]
-        description <- map["description"]
-        type <- map["type"]
+        parentCourseId <- map[ParamKey.parentCourseId]
+        description <- map[ParamKey.description]
+        type <- map[ParamKey.type]
 
         // special parsing due to API iconsistencies
-        if let mainImageFileName = map.JSON["mainImageFileName"] as? String, let backgroundFileName = map.JSON["backgroundFileName"] as? String {
-            mainImageUrl <- map["mainImageFileName"]
+        if let mainImageFileName = map.JSON[ParamKey.mainImageFileName] as? String, let backgroundFileName = map.JSON[ParamKey.backgroundFileName] as? String {
+            mainImageUrl <- map[ParamKey.mainImageFileName]
 
             let array = mainImageFileName.components(separatedBy: "mainImage")
             if let baseUrl = array.first {
                 backgroundUrl = "\(baseUrl)\(backgroundFileName)"
             }
         } else {
-            mainImageUrl <- map["mainImageUrl"]
-            backgroundUrl <- map["backgroundUrl"]
+            mainImageUrl <- map[ParamKey.mainImageUrl]
+            backgroundUrl <- map[ParamKey.backgroundUrl]
         }
 
-        address <- map["address"]
-        city <- map["city"]
-        state <- map["state"]
-        zip <- map["zip"]
-        latitude <- map["latitude"]
-        longitude <- map["longitude"]
-        country <- map["country"]
+        address <- map[ParamKey.address]
+        city <- map[ParamKey.city]
+        state <- map[ParamKey.state]
+        zip <- map[ParamKey.zip]
+        latitude <- map[ParamKey.latitude]
+        longitude <- map[ParamKey.longitude]
+        country <- map[ParamKey.country]
 
-        ownerId <- map["ownerId"]
-        chapterId <- map["chapterId"]
+        ownerId <- map[ParamKey.ownerId]
+        chapterId <- map[ParamKey.chapterId]
     }
-
 }

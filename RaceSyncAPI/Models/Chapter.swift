@@ -64,24 +64,24 @@ public class Chapter: Mappable, Joinable, Descriptable {
         tier <- map["tier"]
         url = MGPWeb.getUrl(for: .chapterView, value: name)
         urlName <- map["urlName"]
-        description <- map["description"]
-        isJoined <- map["isJoined"]
+        description <- map[ParamKey.description]
+        isJoined <- map[ParamKey.isJoined]
 
         // special parsing due to API iconsistencies
-        if let mainImageFileName = map.JSON["mainImageFileName"] as? String, let backgroundFileName = map.JSON["backgroundFileName"] as? String {
-            mainImageUrl <- map["mainImageFileName"]
+        if let mainImageFileName = map.JSON[ParamKey.mainImageFileName] as? String, let backgroundFileName = map.JSON[ParamKey.backgroundFileName] as? String {
+            mainImageUrl <- map[ParamKey.mainImageFileName]
 
             let array = mainImageFileName.components(separatedBy: "mainImage")
             if let baseUrl = array.first {
                 backgroundUrl = "\(baseUrl)\(backgroundFileName)"
             }
         } else {
-            mainImageUrl <- map["mainImageUrl"]
-            backgroundUrl <- map["backgroundUrl"]
+            mainImageUrl <- map[ParamKey.mainImageUrl]
+            backgroundUrl <- map[ParamKey.backgroundUrl]
         }
 
         phone <- map["phone"]
-        websiteUrl <- map["url"]
+        websiteUrl <- map[ParamKey.url]
         facebookUrl <- map["facebookUrl"]
         googleUrl <- map["googleUrl"]
         twitterUrl <- map["twitterUrl"]
@@ -97,8 +97,8 @@ public class Chapter: Mappable, Joinable, Descriptable {
         latitude <- map["latitude"]
         longitude <- map["longitude"]
 
-        ownerId <- map["ownerId"]
-        ownerUserName <- map["ownerUserName"]
+        ownerId <- map[ParamKey.ownerId]
+        ownerUserName <- map[ParamKey.ownerUserName]
 
         raceCount <- (map["raceCount"], IntegerTransform())
         memberCount <- (map["memberCount"], IntegerTransform())

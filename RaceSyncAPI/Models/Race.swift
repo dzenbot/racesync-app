@@ -88,8 +88,8 @@ public class Race: Mappable, Joinable, Descriptable {
         id <- map[ParamKey.id]
         name <- map[ParamKey.name]
         startDate <- (map["startDate"], MapperUtil.dateTransform)
-        mainImageFileName <- map["mainImageFileName"]
-        isJoined <- map["isJoined"]
+        mainImageFileName <- map[ParamKey.mainImageFileName]
+        isJoined <- map[ParamKey.isJoined]
         status <- (map["status"], EnumTransform<RaceStatus>())
         type <- map["type"]
         raceType <- (map["raceType"], EnumTransform<RaceType>())
