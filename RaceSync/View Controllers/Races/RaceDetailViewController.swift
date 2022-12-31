@@ -754,7 +754,7 @@ extension RaceDetailViewController: UITableViewDataSource {
         } else if row == .season {
             cell.detailTextLabel?.text = race.seasonName
         } else if row == .status {
-            cell.detailTextLabel?.text = race.status.rawValue
+            cell.detailTextLabel?.text = race.status.title
         } else if row == .liveTime {
             cell.detailTextLabel?.text = ""
         }

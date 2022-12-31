@@ -114,10 +114,15 @@ public protocol RaceApiInterface {
     func checkOut(race raceId: ObjectId, pilotId: ObjectId?, completion: @escaping ObjectCompletionBlock<RaceEntry>)
 
     /**
-     */
-    func create(race chapterId: ObjectId, data: RaceData, _ completion: @escaping ObjectCompletionBlock<Race>)
+    Creates a full Race object, using a data transfer object converted into parameters.
+
+     - parameter data: The data transfer object
+     - parameter completion: The closure to be called upon completion. Returns a transcient Race object.
+    */
+    func createRace(withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>)
 
     /**
+     Cancels all the HTTP requests of race API endpoint
     */
     func cancelAll()
 }
@@ -156,9 +161,7 @@ public class RaceApi: RaceApiInterface {
         let endpoint = EndPoint.raceList
         let parameters = [ParamKey.chapterId: chapterId]
 
-        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
-            completion(races, error)
-        }
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
     public func getRaces(forSeason seasonId: ObjectId,
@@ -168,9 +171,7 @@ public class RaceApi: RaceApiInterface {
         let endpoint = EndPoint.raceList
         let parameters = [ParamKey.seasonId: seasonId]
 
-        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
-            completion(races, error)
-        }
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
     public func view(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
@@ -250,9 +251,9 @@ public class RaceApi: RaceApiInterface {
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
     }
 
-    public func create(race chapterId: ObjectId, data: RaceData, _ completion: @escaping ObjectCompletionBlock<Race>) {
+    public func createRace(withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endpoint = "\(EndPoint.raceCreate)?\(ParamKey.chapterId)=\(chapterId)"
+        let endpoint = "\(EndPoint.raceCreate)?\(ParamKey.chapterId)=\(data.chapterId)"
         let parameters = data.toParameters()
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)

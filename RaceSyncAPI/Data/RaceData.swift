@@ -13,8 +13,8 @@ public class RaceData: Descriptable {
 
     public var name: String? = nil
     public var date: String? = nil
-    public var chapterId: String? = nil
-    public var chapterName: String? = nil
+    public var chapterId: String
+    public var chapterName: String
 
     public var `class`: String = RaceClass.open.rawValue
     public var format: String = ScoringFormats.fastest3Laps.rawValue
@@ -33,13 +33,27 @@ public class RaceData: Descriptable {
     public var longDesc: String? = nil
     public var itinerary: String? = nil
 
-    public init() { }
+    public init(with chapterId: ObjectId, chapterName: String) {
+        self.chapterId = chapterId
+        self.chapterName = chapterName
+    }
 
     func toParameters() -> Parameters {
         var parameters: Parameters = [:]
 
         if name != nil { parameters[ParamKey.name] = name }
-        if chapterId != nil { parameters[ParamKey.chapterId] = chapterId }
+        if date != nil { parameters[ParamKey.startDate] = date }
+        
+        parameters[ParamKey.chapterId] = chapterId
+        parameters[ParamKey.chapterId] = chapterName
+
+        parameters[ParamKey.class] = self.class
+        parameters[ParamKey.scoringFormat] = format
+        parameters[ParamKey.status] = status
+
+        parameters[ParamKey.scoringDisabled] = funfly
+        parameters[ParamKey.captureTimeEnabled] = timing
+        parameters[ParamKey.cycleCount] = rounds
 
         if seasonId != nil { parameters[ParamKey.seasonId] = seasonId }
         if locationId != nil { parameters[ParamKey.locationId] = locationId }

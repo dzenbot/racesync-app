@@ -66,12 +66,6 @@ class NewRaceViewController: UIViewController {
         return view
     }()
 
-    fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
-        let barButtonItem = UIBarButtonItem(title: "Next", style: .done, target: self, action: #selector(didPressNextButton))
-        barButtonItem.isEnabled = false
-        return barButtonItem
-    }()
-
     fileprivate var raceData: RaceData
     fileprivate var currentSection: NewRaceSection
     fileprivate var selectedRow: NewRaceRow?
@@ -99,16 +93,12 @@ class NewRaceViewController: UIViewController {
 
     // MARK: - Initialization
 
-    init(with chapters: [ManagedChapter], selectedChapterId: ObjectId?) {
+    init?(with chapters: [ManagedChapter], selectedChapterId: ObjectId) {
+        guard let chapter = chapters.filter ({ return $0.id == selectedChapterId }).first else { return nil }
+
         self.chapters = chapters
         self.currentSection = .general
-        self.raceData = RaceData()
-
-        if let chapterId = selectedChapterId {
-            let chapter = chapters.filter ({ return $0.id == chapterId }).first
-            raceData.chapterId = chapter?.id
-            raceData.chapterName = chapter?.name
-        }
+        self.raceData = RaceData(with: chapter.id, chapterName: chapter.name)
 
         super.init(nibName: nil, bundle: nil)
         self.title = "New Event"
@@ -158,9 +148,13 @@ class NewRaceViewController: UIViewController {
 
     fileprivate func setupLayout() {
         view.backgroundColor = Color.white
-        navigationItem.rightBarButtonItem = rightBarButtonItem
-        navigationItem.rightBarButtonItem?.isEnabled = canGoNextSection()
 
+        let rightBarButtonTitle = (currentSection == .specific) ? "Save" : "Next"
+        let rightBarButtonItem = UIBarButtonItem(title: rightBarButtonTitle, style: .done, target: self, action: #selector(didPressNextButton))
+        rightBarButtonItem.isEnabled = canGoNextSection()
+        navigationItem.rightBarButtonItem = rightBarButtonItem
+
+        // Adds a close button in case of being presented modally
         if navigationController?.viewControllers.count == 1 {
             navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
         }
@@ -194,7 +188,15 @@ class NewRaceViewController: UIViewController {
 
             navigationController?.pushViewController(vc, animated: true)
         } else if currentSection == .specific {
-
+            raceApi.createRace(withData: raceData) { newRace, error in
+                if let race = newRace {
+                    let vc = RaceTabBarController(with: race)
+                    vc.isDismissable = true
+                    self.navigationController?.pushViewController(vc, animated: true)
+                } else if let error = error {
+                    AlertUtil.presentAlertMessage("Failed to create the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
+                }
+            }
         } else if currentSection == .frequencies {
 
         }
@@ -226,9 +228,9 @@ extension NewRaceViewController: UITableViewDelegate {
             presentDatePicker(forRow: row)
         } else if row.formType == .textPicker {
             if row == .season {
-                handleRaceSeasons(for: row, cell: cell)
+                presentRaceSeasonPicker(for: row, cell: cell)
             } else if row == .location {
-                handleRaceCourses(for: row, cell: cell)
+                presentRaceCoursePicker(for: row, cell: cell)
             } else {
                 presentTextPicker(forRow: row)
             }
@@ -306,7 +308,6 @@ extension NewRaceViewController: UITableViewDataSource {
 fileprivate extension NewRaceViewController {
 
     func presentTextField(forRow row: NewRaceRow, animated: Bool = true) {
-
         let vc = TextFieldViewController(with: raceData.name)
         vc.delegate = self
         vc.title = row.title
@@ -314,12 +315,33 @@ fileprivate extension NewRaceViewController {
 
         let nc = NavigationController(rootViewController: vc)
         customPresentViewController(presenter, viewController: nc, animated: animated)
+
+        if formNavigationController == nil {
+            formNavigationController = nc
+        }
     }
 
     func presentTextPicker(forRow row: NewRaceRow, animated: Bool = true) {
         let vc = textPickerViewController(for: row)
         let nc = NavigationController(rootViewController: vc)
         customPresentViewController(presenter, viewController: nc, animated: animated)
+
+        if formNavigationController == nil {
+            formNavigationController = nc
+        }
+    }
+
+    func presentDatePicker(forRow row: NewRaceRow, animated: Bool = true) {
+        let vc = DatePickerViewController(with: ISODateFormatter)
+        vc.title = row.title
+        vc.delegate = self
+
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: animated)
+
+        if formNavigationController == nil {
+            formNavigationController = nc
+        }
     }
 
     func pushTextPicker(forRow row: NewRaceRow, animated: Bool = true) {
@@ -328,17 +350,8 @@ fileprivate extension NewRaceViewController {
         formNavigationController?.delegate = self
     }
 
-    func presentDatePicker(forRow row: NewRaceRow, animated: Bool = true) {
-        let vc = DatePickerViewController(with: StandardDateTimeFormat)
-        vc.title = row.title
-        vc.delegate = self
-
-        let nc = NavigationController(rootViewController: vc)
-        customPresentViewController(presenter, viewController: nc, animated: animated)
-    }
-
     func pushDatePicker(forRow row: NewRaceRow, animated: Bool = true) {
-        let vc = DatePickerViewController(with: StandardDateTimeFormat)
+        let vc = DatePickerViewController(with: ISODateFormatter)
         vc.title = row.title
         vc.delegate = self
 
@@ -359,20 +372,19 @@ fileprivate extension NewRaceViewController {
         return vc
     }
 
-    func handleRaceSeasons(for row: NewRaceRow, cell: FormTableViewCell) {
-
+    func presentRaceSeasonPicker(for row: NewRaceRow, cell: FormTableViewCell) {
         if seasons != nil {
-            presentSeasonsPicker(seasons)
-        } else if let chapterId = raceData.chapterId {
+            presentTextPicker(seasons)
+        } else {
             cell.isLoading = true
 
-            seasonApi.getSeasons(forChapter: chapterId) { seasons, error in
-                presentSeasonsPicker(seasons)
+            seasonApi.getSeasons(forChapter: raceData.chapterId) { seasons, error in
+                presentTextPicker(seasons)
                 cell.isLoading = false
             }
         }
 
-        func presentSeasonsPicker(_ seasons: [Season]?) {
+        func presentTextPicker(_ seasons: [Season]?) {
             guard let seasons = seasons else { return }
 
             let names = seasons.compactMap { $0.name }
@@ -384,20 +396,19 @@ fileprivate extension NewRaceViewController {
         }
     }
 
-    func handleRaceCourses(for row: NewRaceRow, cell: FormTableViewCell) {
-
+    func presentRaceCoursePicker(for row: NewRaceRow, cell: FormTableViewCell) {
         if courses != nil {
-            presentCoursesPicker(courses)
-        } else if let chapterId = raceData.chapterId {
+            presentTextPicker(courses)
+        } else {
             cell.isLoading = true
 
-            courseApi.getCourses(forChapter: chapterId) { courses, error in
-                presentCoursesPicker(courses)
+            courseApi.getCourses(forChapter: raceData.chapterId) { courses, error in
+                presentTextPicker(courses)
                 cell.isLoading = false
             }
         }
 
-        func presentCoursesPicker(_ courses: [Course]?) {
+        func presentTextPicker(_ courses: [Course]?) {
             guard let courses = courses else { return }
 
             let names = courses.compactMap { $0.name }
@@ -469,9 +480,10 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
         case .date:
             raceData.date = item
         case .chapter:
-            let chapter = chapters.filter ({ return $0.name == item }).first
-            raceData.chapterName = chapter?.name
-            raceData.chapterId = chapter?.id
+            if let chapter = chapters.filter ({ return $0.name == item }).first {
+                raceData.chapterName = chapter.name
+                raceData.chapterId = chapter.id
+            }
         case .class:
             if let value = RaceClass(title: item)?.rawValue {
                 raceData.class = value
@@ -487,7 +499,9 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
                 raceData.privacy = value
             }
         case .status:
-            raceData.status = item
+            if let value = RaceStatus(title: item)?.rawValue {
+                raceData.status = value
+            }
         case .rounds:
             raceData.rounds = (item as NSString).integerValue
         case .season:

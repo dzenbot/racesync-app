@@ -77,11 +77,19 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
 
-        loadRaces()
+        if selectedSegment == .left {
+            loadRaces()
+        } else {
+            loadUsers()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        if selectedSegment == .left && !raceViewModels.isEmpty {
+            reloadRaces()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -169,10 +177,11 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     @objc func didPressAddButton() {
         guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
 
-        let vc = NewRaceViewController(with: chapters, selectedChapterId: chapter.id)
-        let nc = NavigationController(rootViewController: vc)
-        nc.modalPresentationStyle = .fullScreen
-        present(nc, animated: true)
+        if let vc = NewRaceViewController(with: chapters, selectedChapterId: chapter.id) {
+            let nc = NavigationController(rootViewController: vc)
+            nc.modalPresentationStyle = .fullScreen
+            present(nc, animated: true)
+        }
     }
 
     @objc func didPressCloseButton() {
@@ -191,6 +200,12 @@ fileprivate extension ChapterViewController {
             }
         } else {
             tableView.reloadData()
+        }
+    }
+
+    func reloadRaces() {
+        fetchRaces { [weak self] in
+            //
         }
     }
 

@@ -160,12 +160,12 @@ class UserViewController: ProfileViewController, ViewJoinable {
     override func didSelectRow(at indexPath: IndexPath) {
         if selectedSegment == .left {
             let viewModel = raceViewModels[indexPath.row]
-            let eventTVC = RaceTabBarController(with: viewModel.race.id)
-            navigationController?.pushViewController(eventTVC, animated: true)
+            let vc = RaceTabBarController(with: viewModel.race.id)
+            navigationController?.pushViewController(vc, animated: true)
         } else {
             let viewModel = chapterViewModels[indexPath.row]
-            let eventTVC = ChapterViewController(with: viewModel.chapter)
-            navigationController?.pushViewController(eventTVC, animated: true)
+            let vc = ChapterViewController(with: viewModel.chapter)
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 
@@ -174,13 +174,13 @@ class UserViewController: ProfileViewController, ViewJoinable {
     }
 
     @objc func didPressAircraftButton() {
-        let aircraftVC = AircraftListViewController(with: user)
-        aircraftVC.isEditable = user.isMe
-        navigationController?.pushViewController(aircraftVC, animated: true)
+        let vc = AircraftListViewController(with: user)
+        vc.isEditable = user.isMe
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc func didPressQRButton() {
-        let QRVC = QRViewController(with: user.id)
+        let vc = QRViewController(with: user.id)
 
         let presenter = Presentr(presentationType: .fullScreen)
         presenter.blurBackground = false
@@ -192,7 +192,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
         presenter.backgroundTap = .dismiss
         presenter.outsideContextTap = .passthrough
 
-        customPresentViewController(presenter, viewController: QRVC, animated: true)
+        customPresentViewController(presenter, viewController: vc, animated: true)
         self.presenter = presenter
     }
 
@@ -213,10 +213,9 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
         let activities: [UIActivity] = [CopyLinkActivity(), MultiGPActivity()]
 
-        let activityVC = UIActivityViewController(activityItems:  [userURL], applicationActivities: activities)
-        activityVC.excludeAllActivityTypes(except: [.airDrop])
-
-        present(activityVC, animated: true)
+        let vc = UIActivityViewController(activityItems:  [userURL], applicationActivities: activities)
+        vc.excludeAllActivityTypes(except: [.airDrop])
+        present(vc, animated: true)
     }
 }
 

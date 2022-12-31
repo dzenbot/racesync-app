@@ -16,6 +16,12 @@ public class DateUtil {
         return dateFormater
     }()
 
+    public static var isoDateFormatter: DateFormatter = {
+        let dateFormater: DateFormatter = DateFormatter()
+        dateFormater.dateFormat = ISODateFormatter
+        return dateFormater
+    }()
+
     public static func deserializeJSONDate(_ jsonDate: String) -> Date? {
         return standardDateFormatter.date(from: jsonDate)
     }

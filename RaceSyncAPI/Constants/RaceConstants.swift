@@ -105,6 +105,13 @@ public enum RaceClass: String, EnumTitle {
 }
 
 public enum RaceSchedule: String, CaseIterable {
-    case controlled =   "Controlled"
-    case zippyq =       "ZippyQ"
+    case controlled = "0"
+    case zippyq = "1"
+
+    public var title: String {
+        switch self {
+        case .controlled:   return "Controlled"
+        case .zippyq:       return "ZippyQ"
+        }
+    }
 }

@@ -13,6 +13,7 @@ public typealias ObjectId = String
 public let StandardPageSize: Int = 100
 public let StandardDateFormat: String = "yyyy-MM-dd"
 public let StandardDateTimeFormat: String = "yyyy-MM-dd h:mm a"
+public let ISODateFormatter: String = "yyyy-MM-dd'T'HH:mm:ssZZZZZ"
 
 enum EndPoint {
     static let userLogin = "user/login"
@@ -136,6 +137,8 @@ enum ParamKey {
     static let officialStatus = "officialStatus"
     static let captureTimeEnabled = "captureTimeEnabled"
     static let scoringDisabled = "scoringDisabled"
+    static let scoringFormat = "scoringFormat"
+    static let score = "score"
     static let cycleCount = "cycleCount"
     static let maxZippyqDepth = "maxZippyqDepth"
     static let zippyqIterator = "zippyqIterator"
@@ -159,7 +162,6 @@ enum ParamKey {
     static let raceCount = "raceCount"
     static let memberCount = "memberCount"
     static let title = "title"
-    static let score = "score"
     static let phone = "phone"
     static let tier = "tier"
     static let elements = "elements"

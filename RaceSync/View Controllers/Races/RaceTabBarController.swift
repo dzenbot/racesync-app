@@ -19,6 +19,17 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Public Variables
 
+    var isDismissable: Bool = false {
+        didSet {
+            if isDismissable {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
+                navigationItem.backBarButtonItem = nil
+            } else {
+                navigationItem.leftBarButtonItem = nil
+            }
+        }
+    }
+
     var isLoading: Bool = false {
         didSet {
             if isLoading { activityIndicatorView.startAnimating() }
@@ -58,6 +69,12 @@ class RaceTabBarController: UITabBarController {
         self.raceId = raceId
         super.init(nibName: nil, bundle: nil)
     }
+
+    init(with race: Race) {
+        self.race = race
+        self.raceId = race.id
+        super.init(nibName: nil, bundle: nil)
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -69,7 +86,12 @@ class RaceTabBarController: UITabBarController {
         super.viewDidLoad()
 
         setupLayout()
-        loadRaceView()
+
+        if let race = race {
+            configureViewControllers(with: race)
+        } else {
+            loadRaceView()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -128,6 +150,10 @@ class RaceTabBarController: UITabBarController {
 
         title = vc.title
         navigationItem.rightBarButtonItem = vc.navigationItem.rightBarButtonItem
+    }
+
+    @objc fileprivate func didPressCloseButton() {
+        dismiss(animated: true)
     }
 
     // MARK: - Error
