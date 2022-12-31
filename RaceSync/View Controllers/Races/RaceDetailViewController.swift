@@ -656,7 +656,7 @@ fileprivate extension RaceDetailViewController {
         guard canInteract(with: cell) else { return }
         guard race.isMyChapter else { return } // only allow interacting if the user can manage the race
 
-        if race.status == .opened {
+        if race.status == .open {
             ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close enrollment for this race?",
                                                           destructiveTitle: "Yes, Close",
                                                           completion: { [weak self] (action) in
@@ -677,7 +677,7 @@ fileprivate extension RaceDetailViewController {
 
         raceApi.open(race: race.id) { [weak self] (status, error) in
             if status {
-                self?.race.status = .opened
+                self?.race.status = .open
                 self?.reloadRaceView()
             }
             self?.setLoading(cell, loading: false)

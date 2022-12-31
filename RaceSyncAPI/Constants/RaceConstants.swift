@@ -24,12 +24,12 @@ public enum RaceType: String, EnumTitle {
 
 //STATUSES = array(0=>'Open', 1=>'Closed')
 public enum RaceStatus: String, EnumTitle {
-    case opened = "0"
+    case open = "0"
     case closed = "1"
 
     public var title: String {
         switch self {
-        case .opened:       return "Opened"
+        case .open:         return "Open"
         case .closed:       return "Closed"
         }
     }

@@ -72,9 +72,9 @@ extension NewRaceRow {
         case .status:
             return RaceStatus(rawValue: raceData.status)?.title
         case .scoring:
-            return raceData.funfly ? "" : nil
+            return raceData.funfly ? "" : nil // will be converted to Bool
         case .timing:
-            return raceData.timing ? "" : nil
+            return raceData.timing ? "" : nil // will be converted to Bool
         case .rounds:
             return "\(raceData.rounds)"
         case .season:

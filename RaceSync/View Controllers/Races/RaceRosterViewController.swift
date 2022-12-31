@@ -283,7 +283,7 @@ extension RaceRosterViewController: EmptyDataSetSource {
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
         guard let startDate = race.startDate else { return nil }
-        if race.status == .opened && !startDate.isPassed {
+        if race.status == .open && !startDate.isPassed {
             return emptyStateRaceRegisters.buttonTitle(state)
         } else {
             return nil

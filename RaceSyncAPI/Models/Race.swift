@@ -16,7 +16,8 @@ public class Race: Mappable, Joinable, Descriptable {
     public var name: String = ""
     public var startDate: Date?
     public var mainImageFileName: String?
-    public var status: RaceStatus = .opened
+    public var statusString: String = ""
+    public var status: RaceStatus = .open
     public var isJoined: Bool = false
     public var type: String = ""
     public var raceType: RaceType = .normal
@@ -90,7 +91,14 @@ public class Race: Mappable, Joinable, Descriptable {
         startDate <- (map[ParamKey.startDate], MapperUtil.dateTransform)
         mainImageFileName <- map[ParamKey.mainImageFileName]
         isJoined <- map[ParamKey.isJoined]
-        status <- (map[ParamKey.status], EnumTransform<RaceStatus>())
+        statusString <- map[ParamKey.status] // The API returns a status string, instead of enum
+
+        if statusString == RaceStatus.open.title {
+            status = RaceStatus.open
+        } else {
+            status = RaceStatus.closed
+        }
+
         type <- map[ParamKey.type]
         raceType <- (map[ParamKey.raceType], EnumTransform<RaceType>())
         officialStatus <- (map[ParamKey.officialStatus], EnumTransform<RaceOfficialStatus>())
@@ -160,7 +168,7 @@ public class RaceLite: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
+        id <- map[ParamKey.id]
+        name <- map[ParamKey.name]
     }
 }
