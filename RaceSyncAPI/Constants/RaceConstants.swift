@@ -104,7 +104,7 @@ public enum RaceClass: String, EnumTitle {
     }
 }
 
-public enum RaceSchedule: String, CaseIterable {
+public enum RaceSchedule: String, EnumTitle {
     case controlled = "0"
     case zippyq = "1"
 

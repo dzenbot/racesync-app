@@ -66,7 +66,7 @@ extension NewRaceRow {
         case .format:
             return ScoringFormats(rawValue: raceData.format)?.title
         case .schedule:
-            return raceData.schedule
+            return RaceSchedule(rawValue: raceData.schedule)?.title
         case .privacy:
             return EventType(rawValue: raceData.privacy)?.title
         case .status:
