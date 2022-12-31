@@ -15,7 +15,7 @@ struct ApiError: ImmutableMappable {
     let message: String
 
     init(map: Map) throws {
-        code = (try? map.value("httpStatus")) ?? -1
-        message = try map.value("statusDescription")
+        code = (try? map.value(ParamKey.httpStatus)) ?? -1
+        message = try map.value(ParamKey.statusDescription)
     }
 }

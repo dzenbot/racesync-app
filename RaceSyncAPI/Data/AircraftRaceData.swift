@@ -41,7 +41,7 @@ public class AircraftRaceData: Descriptable {
         if types.count > 0 { parameters[ParamKey.type] = types }
         if sizes.count > 0 { parameters[ParamKey.size] = sizes }
         if batteries.count > 0 { parameters[ParamKey.battery] = batteries }
-        if propSizes.count > 0 { parameters[ParamKey.propSize] = propSizes }
+        if propSizes.count > 0 { parameters[ParamKey.propellerSize] = propSizes }
 
         return parameters
     }

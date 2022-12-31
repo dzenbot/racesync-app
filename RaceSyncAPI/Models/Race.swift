@@ -71,7 +71,7 @@ public class Race: Mappable, Joinable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name, ParamKey.chapterId, "ownerId"]
+    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name, ParamKey.chapterId, ParamKey.ownerId]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -87,58 +87,57 @@ public class Race: Mappable, Joinable, Descriptable {
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
         name <- map[ParamKey.name]
-        startDate <- (map["startDate"], MapperUtil.dateTransform)
+        startDate <- (map[ParamKey.startDate], MapperUtil.dateTransform)
         mainImageFileName <- map[ParamKey.mainImageFileName]
         isJoined <- map[ParamKey.isJoined]
-        status <- (map["status"], EnumTransform<RaceStatus>())
-        type <- map["type"]
-        raceType <- (map["raceType"], EnumTransform<RaceType>())
-        officialStatus <- (map["officialStatus"], EnumTransform<RaceOfficialStatus>())
-        captureTimeEnabled <- map["captureTimeEnabled"]
-        scoringDisabled <- map["scoringDisabled"]
-        cycleCount <- (map["cycleCount"], IntegerTransform())
-        maxZippyqDepth <- (map["maxZippyqDepth"], IntegerTransform())
-        zippyqIterator <- map["zippyqIterator"]
-        maxZippyqDepth <- (map["maxZippyqDepth"], IntegerTransform())
-        maxBatteriesForQualifying <- (map["maxBatteriesForQualifying"], IntegerTransform())
+        status <- (map[ParamKey.status], EnumTransform<RaceStatus>())
+        type <- map[ParamKey.type]
+        raceType <- (map[ParamKey.raceType], EnumTransform<RaceType>())
+        officialStatus <- (map[ParamKey.officialStatus], EnumTransform<RaceOfficialStatus>())
+        captureTimeEnabled <- map[ParamKey.captureTimeEnabled]
+        scoringDisabled <- map[ParamKey.scoringDisabled]
+        cycleCount <- (map[ParamKey.cycleCount], IntegerTransform())
+        maxZippyqDepth <- (map[ParamKey.maxZippyqDepth], IntegerTransform())
+        zippyqIterator <- map[ParamKey.zippyqIterator]
+        maxBatteriesForQualifying <- (map[ParamKey.maxBatteriesForQualifying], IntegerTransform())
 
         url = MGPWeb.getUrl(for: .raceView, value: id)
-        urlName <- map["urlName"]
-        liveTimeUrl <- map["liveTimeUrl"]
-        description <- map["description"]
-        content <- map["content"]
-        itineraryContent <- map["itineraryContent"]
-        raceEntryCount <- map["raceEntryCount"]
-        participantCount <- map["participantCount"]
+        urlName <- map[ParamKey.urlName]
+        liveTimeUrl <- map[ParamKey.liveTimeUrl]
+        description <- map[ParamKey.description]
+        content <- map[ParamKey.content]
+        itineraryContent <- map[ParamKey.itineraryContent]
+        raceEntryCount <- map[ParamKey.raceEntryCount]
+        participantCount <- map[ParamKey.participantCount]
 
-        address <- map["address"]
-        city <- map["city"]
-        state <- map["state"]
-        country <- map["country"]
-        zip <- map["zip"]
-        latitude <- map["latitude"]
-        longitude <- map["longitude"]
+        address <- map[ParamKey.address]
+        city <- map[ParamKey.city]
+        state <- map[ParamKey.state]
+        country <- map[ParamKey.country]
+        zip <- map[ParamKey.zip]
+        latitude <- map[ParamKey.latitude]
+        longitude <- map[ParamKey.longitude]
 
         chapterId <- map[ParamKey.chapterId]
-        chapterName <- map["chapterName"]
-        chapterImageFileName <- map["chapterImageFileName"]
+        chapterName <- map[ParamKey.chapterName]
+        chapterImageFileName <- map[ParamKey.chapterImageFileName]
 
-        ownerId <- map["ownerId"]
-        ownerUserName <- map["ownerUserName"]
+        ownerId <- map[ParamKey.ownerId]
+        ownerUserName <- map[ParamKey.ownerUserName]
 
-        childRaceCount <- map["childRaceCount"]
-        parentRaceId <- map["parentRaceId"]
-        courseId <- map["courseId"]
-        seasonId <- map["seasonId"]
-        seasonName <- map["seasonName"]
+        childRaceCount <- map[ParamKey.childRaceCount]
+        parentRaceId <- map[ParamKey.parentRaceId]
+        courseId <- map[ParamKey.courseId]
+        seasonId <- map[ParamKey.seasonId]
+        seasonName <- map[ParamKey.seasonName]
 
-        typeRestriction <- map["typeRestriction"]
-        sizeRestriction <- map["sizeRestriction"]
-        batteryRestriction <- map["batteryRestriction"]
-        propSizeRestriction <- map["propellerSizeRestriction"]
+        typeRestriction <- map[ParamKey.typeRestriction]
+        sizeRestriction <- map[ParamKey.sizeRestriction]
+        batteryRestriction <- map[ParamKey.batteryRestriction]
+        propSizeRestriction <- map[ParamKey.propellerSizeRestriction]
 
-        races <- map["races"]
-        entries <- map["entries"]
+        races <- map[ParamKey.races]
+        entries <- map[ParamKey.entries]
     }
 }
 

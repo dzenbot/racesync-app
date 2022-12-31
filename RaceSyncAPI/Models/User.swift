@@ -46,11 +46,11 @@ public class User: Mappable, Descriptable {
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
         userName <- map[ParamKey.userName]
-        displayName <- map["displayName"]
+        displayName <- map[ParamKey.displayName]
         firstName <- map[ParamKey.firstName]
         lastName <- map[ParamKey.lastName]
-        profilePictureUrl <- map["profilePictureUrl"]
-        profileBackgroundUrl <- map["profileBackgroundUrl"]
+        profilePictureUrl <- map[ParamKey.profilePictureUrl]
+        profileBackgroundUrl <- map[ParamKey.profileBackgroundUrl]
         authType <- map[ParamKey.authType]
         url = "https://www.multigp.com/pilots/view/?pilot=\(userName)"
 
@@ -60,7 +60,7 @@ public class User: Mappable, Descriptable {
         latitude <- map[ParamKey.latitude]
         longitude <- map[ParamKey.longitude]
 
-        chapterCount <- (map["chapterCount"], IntegerTransform())
-        raceCount <- (map["raceCount"], IntegerTransform())
+        chapterCount <- (map[ParamKey.chapterCount], IntegerTransform())
+        raceCount <- (map[ParamKey.raceCount], IntegerTransform())
     }
 }

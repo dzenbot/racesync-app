@@ -47,19 +47,19 @@ public class Aircraft: Mappable, Descriptable {
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
         name <- map[ParamKey.name]
-        scannableId <- map["scannableId"]
-        description <- map["description"]
+        scannableId <- map[ParamKey.scannableId]
+        description <- map[ParamKey.description]
         mainImageUrl <- map[ParamKey.mainImageFileName]
-        backgroundImageUrl <- map["backgroundFileName"]
+        backgroundImageUrl <- map[ParamKey.backgroundFileName]
 
-        type <- (map["type"],EnumTransform<AircraftType>())
-        size <- (map["size"],EnumTransform<AircraftSize>())
-        battery <- (map["battery"],EnumTransform<BatterySize>())
-        propSize <- (map["propellerSize"],EnumTransform<PropellerSize>())
-        videoTxType <- (map["videoTransmitter"],EnumTransform<VideoTxType>())
-        videoTxPower <- (map["videoTransmitterPower"],EnumTransform<VideoTxPower>())
-        videoTxChannels <- (map["videoTransmitterChannels"],EnumTransform<VideoChannels>())
-        videoRxChannels <- (map["videoReceiverChannels"],EnumTransform<VideoChannels>())
-        antenna <- (map["antenna"],EnumTransform<AntennaPolarization>())
+        type <- (map[ParamKey.type],EnumTransform<AircraftType>())
+        size <- (map[ParamKey.size],EnumTransform<AircraftSize>())
+        battery <- (map[ParamKey.battery],EnumTransform<BatterySize>())
+        propSize <- (map[ParamKey.propellerSize],EnumTransform<PropellerSize>())
+        videoTxType <- (map[ParamKey.videoTransmitter],EnumTransform<VideoTxType>())
+        videoTxPower <- (map[ParamKey.videoTransmitterPower],EnumTransform<VideoTxPower>())
+        videoTxChannels <- (map[ParamKey.videoTransmitterChannels],EnumTransform<VideoChannels>())
+        videoRxChannels <- (map[ParamKey.videoReceiverChannels],EnumTransform<VideoChannels>())
+        antenna <- (map[ParamKey.antenna],EnumTransform<AntennaPolarization>())
     }
 }

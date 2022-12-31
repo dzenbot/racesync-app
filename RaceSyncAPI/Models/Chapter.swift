@@ -61,9 +61,9 @@ public class Chapter: Mappable, Joinable, Descriptable {
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
         name <- map[ParamKey.name]
-        tier <- map["tier"]
+        tier <- map[ParamKey.tier]
         url = MGPWeb.getUrl(for: .chapterView, value: name)
-        urlName <- map["urlName"]
+        urlName <- map[ParamKey.urlName]
         description <- map[ParamKey.description]
         isJoined <- map[ParamKey.isJoined]
 
@@ -71,7 +71,7 @@ public class Chapter: Mappable, Joinable, Descriptable {
         if let mainImageFileName = map.JSON[ParamKey.mainImageFileName] as? String, let backgroundFileName = map.JSON[ParamKey.backgroundFileName] as? String {
             mainImageUrl <- map[ParamKey.mainImageFileName]
 
-            let array = mainImageFileName.components(separatedBy: "mainImage")
+            let array = mainImageFileName.components(separatedBy: ParamKey.mainImage)
             if let baseUrl = array.first {
                 backgroundUrl = "\(baseUrl)\(backgroundFileName)"
             }
@@ -80,27 +80,27 @@ public class Chapter: Mappable, Joinable, Descriptable {
             backgroundUrl <- map[ParamKey.backgroundUrl]
         }
 
-        phone <- map["phone"]
+        phone <- map[ParamKey.phone]
         websiteUrl <- map[ParamKey.url]
-        facebookUrl <- map["facebookUrl"]
-        googleUrl <- map["googleUrl"]
-        twitterUrl <- map["twitterUrl"]
-        youtubeUrl <- map["youtubeUrl"]
-        instagramUrl <- map["instagramUrl"]
-        meetupUrl <- map["meetupUrl"]
+        facebookUrl <- map[ParamKey.facebookUrl]
+        googleUrl <- map[ParamKey.googleUrl]
+        twitterUrl <- map[ParamKey.twitterUrl]
+        youtubeUrl <- map[ParamKey.youtubeUrl]
+        instagramUrl <- map[ParamKey.instagramUrl]
+        meetupUrl <- map[ParamKey.meetupUrl]
 
-        address <- map["address"]
-        city <- map["city"]
-        state <- map["state"]
-        country <- map["country"]
-        zip <- map["zip"]
-        latitude <- map["latitude"]
-        longitude <- map["longitude"]
+        address <- map[ParamKey.address]
+        city <- map[ParamKey.city]
+        state <- map[ParamKey.state]
+        country <- map[ParamKey.country]
+        zip <- map[ParamKey.zip]
+        latitude <- map[ParamKey.latitude]
+        longitude <- map[ParamKey.longitude]
 
         ownerId <- map[ParamKey.ownerId]
         ownerUserName <- map[ParamKey.ownerUserName]
 
-        raceCount <- (map["raceCount"], IntegerTransform())
-        memberCount <- (map["memberCount"], IntegerTransform())
+        raceCount <- (map[ParamKey.raceCount], IntegerTransform())
+        memberCount <- (map[ParamKey.memberCount], IntegerTransform())
     }
 }

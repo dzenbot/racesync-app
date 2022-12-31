@@ -33,6 +33,6 @@ public class Season: Mappable, Descriptable {
         id <- map[ParamKey.id]
         name <- map[ParamKey.name]
         chapterId <- map[ParamKey.chapterId]
-        description <- map["description"]
+        description <- map[ParamKey.description]
     }
 }

@@ -261,7 +261,7 @@ class TrackDetailViewController: UIViewController {
     // MARK: - Actions
 
     fileprivate func showUserProfile(_ cell: FormTableViewCell) {
-        guard !didTapCell, let username = viewModel.track.designer else { return }
+        guard !didTapCell, let username = viewModel.track.userName else { return }
         setLoading(cell, loading: true)
 
         userApi.searchUser(with: username) { [weak self] (user, error) in
@@ -400,8 +400,8 @@ fileprivate extension TrackDetailViewController {
         if viewModel.track.leaderboardUrl != nil {
             tableViewRows += [Row.leaderboard]
         }
-        if viewModel.track.designer != nil {
-            tableViewRows += [Row.designer]
+        if viewModel.track.userName != nil {
+            tableViewRows += [Row.userName]
         }
     }
 
@@ -506,7 +506,7 @@ extension TrackDetailViewController: UITableViewDelegate {
             if let url = track.leaderboardUrl {
                 WebViewController.openUrl(url)
             }
-        } else if row == .designer {
+        } else if row == .userName {
             showUserProfile(cell)
         }
 
@@ -544,8 +544,8 @@ extension TrackDetailViewController: UITableViewDataSource {
             if let url = track.leaderboardUrl, let URL = URL(string: url) {
                 cell.detailTextLabel?.text = URL.rootDomain
             }
-        } else if row == .designer {
-            cell.detailTextLabel?.text = track.designer
+        } else if row == .userName {
+            cell.detailTextLabel?.text = track.userName
         }
 
         return cell
@@ -651,7 +651,7 @@ extension TrackDetailViewController: NSLayoutManagerDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle {
-    case start, end, video, leaderboard, designer
+    case start, end, video, leaderboard, userName
 
     var title: String {
         switch self {
@@ -659,7 +659,7 @@ fileprivate enum Row: Int, EnumTitle {
         case .end:          return "End of Season"
         case .video:        return "Video Preview"
         case .leaderboard:  return "Leaderboard"
-        case .designer:     return "Designer"
+        case .userName:     return "Designer"
         }
     }
 }

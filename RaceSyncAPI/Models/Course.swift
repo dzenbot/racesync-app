@@ -55,7 +55,7 @@ public class Course: Mappable, Descriptable {
         if let mainImageFileName = map.JSON[ParamKey.mainImageFileName] as? String, let backgroundFileName = map.JSON[ParamKey.backgroundFileName] as? String {
             mainImageUrl <- map[ParamKey.mainImageFileName]
 
-            let array = mainImageFileName.components(separatedBy: "mainImage")
+            let array = mainImageFileName.components(separatedBy: ParamKey.mainImage)
             if let baseUrl = array.first {
                 backgroundUrl = "\(baseUrl)\(backgroundFileName)"
             }

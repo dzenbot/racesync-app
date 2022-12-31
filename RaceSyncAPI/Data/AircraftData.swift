@@ -47,7 +47,7 @@ public class AircraftData: Descriptable {
         if type != nil { parameters[ParamKey.type] = type }
         if size != nil { parameters[ParamKey.size] = size }
         if battery != nil { parameters[ParamKey.battery] = battery }
-        if propSize != nil { parameters[ParamKey.propSize] = propSize }
+        if propSize != nil { parameters[ParamKey.propellerSize] = propSize }
 
         if videoTxType != nil { parameters[ParamKey.videoTransmitter] = videoTxType }
         if antenna != nil { parameters[ParamKey.antenna] = antenna }

@@ -20,25 +20,25 @@ public class Track: ImmutableMappable, Descriptable {
     public let validationMetersUrl: String?
     public let startDate: Date?
     public let endDate: Date?
-    public let designer: String?
+    public let userName: String?
     public let `class`: TrackClass
     public let elements: [TrackElement]
 
     // MARK: - Initialization
 
     required public init(map: Map) throws {
-        id = try map.value("id")
-        title = try map.value("title")
-        description = try map.value("description")
-        videoUrl = try? map.value("videoUrl")
-        leaderboardUrl = try map.value("leaderboardUrl")
-        validationFeetUrl = try? map.value("validationFeetUrl")
-        validationMetersUrl = try? map.value("validationMetersUrl")
-        startDate = try? map.value("startDate", using: MapperUtil.dateTransform)
-        endDate = try? map.value("endDate", using: MapperUtil.dateTransform)
-        designer = try map.value("designer")
-        `class` = try map.value("class", using: EnumTransform<TrackClass>())
-        elements = try map.value("elements")
+        id = try map.value(ParamKey.id)
+        title = try map.value(ParamKey.title)
+        description = try map.value(ParamKey.description)
+        videoUrl = try? map.value(ParamKey.videoUrl)
+        leaderboardUrl = try map.value(ParamKey.leaderboardUrl)
+        validationFeetUrl = try? map.value(ParamKey.validationFeetUrl)
+        validationMetersUrl = try? map.value(ParamKey.validationMetersUrl)
+        startDate = try? map.value(ParamKey.startDate, using: MapperUtil.dateTransform)
+        endDate = try? map.value(ParamKey.endDate, using: MapperUtil.dateTransform)
+        userName = try map.value(ParamKey.userName)
+        `class` = try map.value(ParamKey.class, using: EnumTransform<TrackClass>())
+        elements = try map.value(ParamKey.elements)
     }
 
     public var elementsCount: Int {

@@ -49,24 +49,24 @@ public class RaceEntry: Mappable, Descriptable {
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
         pilotId <- map[ParamKey.pilotId]
-        pilotUserName <- map["pilotUserName"]
-        pilotName <- map["pilotName"]
-        userName <- map["userName"]
-        displayName <- map["displayName"]
-        firstName <- map["firstName"]
-        lastName <- map["lastName"]
-        scannableId <- map["scannableId"]
-        score <- map["score"]
-        profilePictureUrl <- map["profilePictureUrl"]
+        pilotUserName <- map[ParamKey.pilotUserName]
+        pilotName <- map[ParamKey.pilotName]
+        userName <- map[ParamKey.userName]
+        displayName <- map[ParamKey.displayName]
+        firstName <- map[ParamKey.firstName]
+        lastName <- map[ParamKey.lastName]
+        scannableId <- map[ParamKey.scannableId]
+        score <- map[ParamKey.score]
+        profilePictureUrl <- map[ParamKey.profilePictureUrl]
 
-        frequency <- map["frequency"]
-        group <- map["group"]
-        groupSlot <- map["groupSlot"]
-        band <- map["band"]
-        channel <- map["channel"]
-        videoTxType <- (map["videoTransmitter"],EnumTransform<VideoTxType>())
+        frequency <- map[ParamKey.frequency]
+        group <- map[ParamKey.group]
+        groupSlot <- map[ParamKey.groupSlot]
+        band <- map[ParamKey.band]
+        channel <- map[ParamKey.channel]
+        videoTxType <- (map[ParamKey.videoTransmitter],EnumTransform<VideoTxType>())
 
         aircraftId <- map[ParamKey.aircraftId]
-        aircraftName <- map["aircraftName"]
+        aircraftName <- map[ParamKey.aircraftName]
     }
 }
