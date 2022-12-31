@@ -119,6 +119,7 @@ enum ParamKey {
     static let isQualifier = "isQualifier"
     static let retired = "retired"
     static let type = "type"
+    static let count = "count"
     static let size = "size"
     static let battery = "battery"
     static let propellerSize = "propellerSize"

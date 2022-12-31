@@ -75,7 +75,7 @@
             "title": "Tiny Whutt (UTT7)",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-7-3-lap-leaderboard/",
             "userName": "JesseP",
-            "class": "2",
+            "class": "1",
             "elements": [{
                 "type": "tiny_gate",
                 "count": 5
@@ -102,7 +102,7 @@
             "title": "Mega (UTT9)",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-9-mega-utt-3-lap-leaderboard/",
             "userName": "Old_Man_FPV",
-            "class": "1",
+            "class": "5",
             "elements": [{
                     "type": "mega_gate",
                     "count": 2
@@ -459,3 +459,4 @@
         }
     ]
 }
+
