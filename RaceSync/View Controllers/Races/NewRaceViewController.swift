@@ -505,7 +505,7 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
                 raceData.status = value
             }
         case .rounds:
-            raceData.rounds = (item as NSString).integerValue
+            raceData.rounds = (item as NSString).intValue
         case .season:
             if let season = seasons?.filter ({ return $0.name == item }).first {
                 raceData.seasonId = season.id

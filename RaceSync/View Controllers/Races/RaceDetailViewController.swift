@@ -546,7 +546,31 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     @objc func didPressEditButton() {
-        Clog.log("didPressEditButton")
+
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = Color.blue
+
+        let edit = UIAlertAction(title: "Edit Race", style: .default) { [weak self] action in
+            self?.editRace()
+        }
+
+        let duplicate = UIAlertAction(title: "Duplicate Race", style: .default) { [weak self] action in
+            self?.duplicateRace()
+        }
+
+        let delete = UIAlertAction(title: "Delete Race", style: .destructive) { action in
+            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(self.race.name)\"?",
+                                                          destructiveTitle: "Yes, Delete",
+                                                          completion: { [weak self] (action) in
+                self?.deleteRace()
+            })
+        }
+
+        alert.addAction(edit)
+        alert.addAction(duplicate)
+        alert.addAction(delete)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
     }
 
     @objc func didPressCalendarButton() {
@@ -584,6 +608,18 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         let mapNC = NavigationController(rootViewController: mapVC)
 
         present(mapNC, animated: true)
+    }
+
+    func editRace() {
+
+    }
+
+    func duplicateRace() {
+
+    }
+
+    func deleteRace() {
+
     }
 }
 

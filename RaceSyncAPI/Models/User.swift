@@ -27,8 +27,8 @@ public class User: Mappable, Descriptable {
     public var latitude: String = ""
     public var longitude: String = ""
 
-    public var chapterCount: Int64 = 0
-    public var raceCount: Int64 = 0
+    public var chapterCount: Int32 = 0
+    public var raceCount: Int32 = 0
 
     // MARK: - Initialization
 

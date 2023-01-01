@@ -42,8 +42,8 @@ public class Chapter: Mappable, Joinable, Descriptable {
     public var ownerId: ObjectId = ""
     public var ownerUserName: String = ""
 
-    public var memberCount: Int64 = 0
-    public var raceCount: Int64 = 0
+    public var memberCount: Int32 = 0
+    public var raceCount: Int32 = 0
 
     // MARK: - Initialization
 

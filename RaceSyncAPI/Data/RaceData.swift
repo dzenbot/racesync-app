@@ -24,7 +24,7 @@ public class RaceData: Descriptable {
 
     public var funfly: Bool = false
     public var timing: Bool = true
-    public var rounds: Int = 5
+    public var rounds: Int32 = 5
     public var seasonId: String? = nil
     public var seasonName: String? = nil
     public var locationId: String? = nil
@@ -33,9 +33,40 @@ public class RaceData: Descriptable {
     public var longDesc: String? = nil
     public var itinerary: String? = nil
 
+    public var raceId: String? = nil
+
     public init(with chapterId: ObjectId, chapterName: String) {
         self.chapterId = chapterId
         self.chapterName = chapterName
+    }
+
+    public init(with race: Race) {
+        self.name = race.name
+        self.chapterId = race.chapterId
+        self.chapterName = race.chapterName
+
+        if let date = race.startDate {
+            self.date = DateUtil.isoDateFormatter.string(from: date)
+        }
+
+        self.class = RaceClass.open.rawValue
+        self.format = ScoringFormats.fastest3Laps.rawValue
+        self.schedule = RaceSchedule.controlled.rawValue
+        self.privacy = race.type.rawValue
+        self.status = race.status.rawValue
+
+        self.funfly = race.scoringDisabled
+        self.timing = race.captureTimeEnabled
+        self.rounds = race.cycleCount
+        self.seasonId = race.seasonId
+        self.seasonName = race.seasonName
+        self.locationId = race.courseId
+        self.locationName = race.courseName
+        self.shortDesc = race.description
+        self.longDesc = race.content
+        self.itinerary = race.itineraryContent
+
+        self.raceId = race.id
     }
 
     func toParameters() -> Parameters {

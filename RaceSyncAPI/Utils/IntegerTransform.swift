@@ -11,18 +11,18 @@ import ObjectMapper
 
 public class IntegerTransform: TransformType {
 
-    public typealias Object = Int64
+    public typealias Object = Int32
     public typealias JSON = String
 
     init() {}
-    public func transformFromJSON(_ value: Any?) -> Int64? {
+    public func transformFromJSON(_ value: Any?) -> Int32? {
         if let strValue = value as? String {
-            return Int64(strValue)
+            return Int32(strValue)
         }
-        return value as? Int64 ?? nil
+        return value as? Int32 ?? nil
     }
 
-    public func transformToJSON(_ value: Int64?) -> String? {
+    public func transformToJSON(_ value: Int32?) -> String? {
         if let intValue = value {
             return "\(intValue)"
         }

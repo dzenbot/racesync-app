@@ -19,15 +19,15 @@ public class Race: Mappable, Joinable, Descriptable {
     public var statusString: String = ""
     public var status: RaceStatus = .open
     public var isJoined: Bool = false
-    public var type: String = ""
+    public var type: EventType = .public
     public var raceType: RaceType = .normal
-    public var officialStatus: RaceOfficialStatus  = .normal
+    public var officialStatus: RaceOfficialStatus = .normal
     public var scoringDisabled: Bool = false
     public var captureTimeEnabled: Bool = true
-    public var cycleCount: Int64 = 0
-    public var maxZippyqDepth: Int64 = 0
+    public var cycleCount: Int32 = 0
+    public var maxZippyqDepth: Int32 = 0
     public var zippyqIterator: Bool = false
-    public var maxBatteriesForQualifying: Int64 = 0
+    public var maxBatteriesForQualifying: Int32 = 0
 
     public var url: String = ""
     public var urlName: String = ""
@@ -55,9 +55,10 @@ public class Race: Mappable, Joinable, Descriptable {
 
     public var childRaceCount: String?
     public var parentRaceId: ObjectId?
-    public var courseId: ObjectId?
     public var seasonId: ObjectId?
     public var seasonName: String = ""
+    public var courseId: ObjectId?
+    public var courseName: String = ""
 
     public var typeRestriction: String = ""
     public var sizeRestriction: String = ""
@@ -99,7 +100,7 @@ public class Race: Mappable, Joinable, Descriptable {
             status = RaceStatus.closed
         }
 
-        type <- map[ParamKey.type]
+        type <- (map[ParamKey.type], EnumTransform<EventType>())
         raceType <- (map[ParamKey.raceType], EnumTransform<RaceType>())
         officialStatus <- (map[ParamKey.officialStatus], EnumTransform<RaceOfficialStatus>())
         captureTimeEnabled <- map[ParamKey.captureTimeEnabled]
@@ -135,9 +136,10 @@ public class Race: Mappable, Joinable, Descriptable {
 
         childRaceCount <- map[ParamKey.childRaceCount]
         parentRaceId <- map[ParamKey.parentRaceId]
-        courseId <- map[ParamKey.courseId]
         seasonId <- map[ParamKey.seasonId]
         seasonName <- map[ParamKey.seasonName]
+        courseId <- map[ParamKey.courseId]
+        courseName <- map[ParamKey.courseName]
 
         typeRestriction <- map[ParamKey.typeRestriction]
         sizeRestriction <- map[ParamKey.sizeRestriction]

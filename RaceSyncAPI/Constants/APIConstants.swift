@@ -104,6 +104,7 @@ enum ParamKey {
     static let ownerUserName = "ownerUserName"
     static let chapterName = "chapterName"
     static let seasonName = "seasonName"
+    static let courseName = "courseName"
     static let pilotUserName = "pilotUserName"
     static let pilotName = "pilotName"
     static let aircraftName = "aircraftName"
