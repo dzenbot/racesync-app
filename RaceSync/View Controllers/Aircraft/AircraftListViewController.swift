@@ -122,9 +122,9 @@ class AircraftListViewController: UIViewController {
     // MARK: - Actions
 
     @objc func didPressCreateButton() {
-        let newAircraftVC = NewAircraftViewController()
-        newAircraftVC.delegate = self
-        navigationController?.pushViewController(newAircraftVC, animated: true)
+        let vc = NewAircraftViewController()
+        vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -153,11 +153,11 @@ extension AircraftListViewController {
     }
 
     func showAircraftDetail(_ aircraftViewModel: AircraftViewModel, isNew: Bool = false, animated: Bool = true) {
-        let aircraftDetailVC = AircraftDetailViewController(with: aircraftViewModel)
-        aircraftDetailVC.delegate = self
-        aircraftDetailVC.isEditable = isEditable
-        aircraftDetailVC.isNew = isNew
-        navigationController?.pushViewController(aircraftDetailVC, animated: animated)
+        let vc = AircraftDetailViewController(with: aircraftViewModel)
+        vc.delegate = self
+        vc.isEditable = isEditable
+        vc.isNew = isNew
+        navigationController?.pushViewController(vc, animated: animated)
     }
 
     func deleteAircraft(_ viewModel: AircraftViewModel) {

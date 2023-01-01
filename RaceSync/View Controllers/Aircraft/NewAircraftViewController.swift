@@ -176,26 +176,26 @@ fileprivate extension NewAircraftViewController {
 
     func presentTextField(forRow row: AircraftRow, animated: Bool = true) {
 
-        let textFieldVC = TextFieldViewController(with: aircraftData.name)
-        textFieldVC.delegate = self
-        textFieldVC.title = row.title
-        textFieldVC.textField.placeholder = row.title
+        let vc = TextFieldViewController(with: aircraftData.name)
+        vc.delegate = self
+        vc.title = row.title
+        vc.textField.placeholder = row.title
 
-        let formdNC = NavigationController(rootViewController: textFieldVC)
-        customPresentViewController(presenter, viewController: formdNC, animated: animated)
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: animated)
 
-        formNavigationController = formdNC
+        formNavigationController = nc
     }
 
     func presentPicker(forRow row: AircraftRow, animated: Bool = true) {
-        let pickerVC = textPickerViewController(for: row)
-        let formdNC = NavigationController(rootViewController: pickerVC)
-        customPresentViewController(presenter, viewController: formdNC, animated: animated)
+        let vc = textPickerViewController(for: row)
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: animated)
     }
 
     func pushPicker(forRow row: AircraftRow, animated: Bool = true) {
-        let pickerVC = textPickerViewController(for: row)
-        formNavigationController?.pushViewController(pickerVC, animated: animated)
+        let vc = textPickerViewController(for: row)
+        formNavigationController?.pushViewController(vc, animated: animated)
         formNavigationController?.delegate = self
     }
 
@@ -208,24 +208,23 @@ fileprivate extension NewAircraftViewController {
         let selectedItem = row.displayText(from: aircraftData)
         let defaultItem = row.defaultValue
 
-        let pickerVC = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
-        pickerVC.delegate = self
-        pickerVC.title = row.title
-
-        return pickerVC
+        let vc = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
+        vc.delegate = self
+        vc.title = row.title
+        return vc
     }
 
     func showAircraftDetail(_ aircraftViewModel: AircraftViewModel) {
-        let aircraftDetailVC = AircraftDetailViewController(with: aircraftViewModel)
-        aircraftDetailVC.isEditable = true
+        let vc = AircraftDetailViewController(with: aircraftViewModel)
+        vc.isEditable = true
 
-        aircraftDetailVC.willMove(toParent: navigationController)
-        navigationController?.addChild(aircraftDetailVC)
+        vc.willMove(toParent: navigationController)
+        navigationController?.addChild(vc)
 
-        aircraftDetailVC.view.frame = self.view.frame
-        navigationController?.view.addSubview(aircraftDetailVC.view)
+        vc.view.frame = self.view.frame
+        navigationController?.view.addSubview(vc.view)
 
-        aircraftDetailVC.didMove(toParent: navigationController)
+        vc.didMove(toParent: navigationController)
 
         self.view.removeFromSuperview()
         navigationController?.removeFromParent()

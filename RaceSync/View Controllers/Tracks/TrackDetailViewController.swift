@@ -268,8 +268,8 @@ class TrackDetailViewController: UIViewController {
             self?.setLoading(cell, loading: false)
 
             if let user = user {
-                let userVC = UserViewController(with: user)
-                self?.navigationController?.pushViewController(userVC, animated: true)
+                let vc = UserViewController(with: user)
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }

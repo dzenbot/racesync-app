@@ -158,14 +158,13 @@ class AircraftPickerViewController: UIViewController {
     }
 
     func presentNewAircraftForm() {
-        let aircraftData = AircraftData(with: race)
-        aircraftData.name = nil
+        let data = AircraftData(with: race)
+        data.name = nil
         
-        let newAircraftVC = NewAircraftViewController(with: aircraftData)
-        let newAircraftNC = UINavigationController(rootViewController: newAircraftVC)
-        newAircraftVC.delegate = self
-
-        navigationController?.present(newAircraftNC, animated: true)
+        let vc = NewAircraftViewController(with: data)
+        vc.delegate = self
+        let nc = UINavigationController(rootViewController: vc)
+        navigationController?.present(nc, animated: true)
     }
 
     func pickGenericAircraft() {
@@ -173,9 +172,9 @@ class AircraftPickerViewController: UIViewController {
         title = "Creating Generic Aircraft..."
         isLoading = true
 
-        let aircraftData = AircraftData(with: race)
+        let data = AircraftData(with: race)
 
-        aircraftApi.createAircraft(with: aircraftData) { [weak self] (aircraft, error) in
+        aircraftApi.createAircraft(with: data) { [weak self] (aircraft, error) in
             guard let strongSelf = self else { return }
             strongSelf.isLoading = false
 
@@ -194,8 +193,9 @@ extension AircraftPickerViewController {
     func fetchMyAircraft() {
         activityIndicatorView.startAnimating()
 
-        let aircraftData = AircraftRaceData(with: race)
-        aircraftApi.getMyAircraft(forRaceData: aircraftData) { [weak self] (aircraft, error) in
+        let data = AircraftRaceData(with: race)
+
+        aircraftApi.getMyAircraft(forRaceData: data) { [weak self] (aircraft, error) in
             if let aircraft = aircraft {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircraft)
                 self?.activityIndicatorView.stopAnimating()

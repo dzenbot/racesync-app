@@ -593,21 +593,19 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             activities += [CalendarActivity()]
         }
 
-        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: activities)
-        activityVC.excludeAllActivityTypes(except: [.airDrop])
-
-        present(activityVC, animated: true)
+        let vc = UIActivityViewController(activityItems: items, applicationActivities: activities)
+        vc.excludeAllActivityTypes(except: [.airDrop])
+        present(vc, animated: true)
     }
 
     func presentMapView() {
         guard let coordinates = raceCoordinates, let address = race.address else { return }
 
-        let mapVC = MapViewController(with: coordinates, address: address)
-        mapVC.title = "Race Location"
-        mapVC.showsDirection = true
-        let mapNC = NavigationController(rootViewController: mapVC)
-
-        present(mapNC, animated: true)
+        let vc = MapViewController(with: coordinates, address: address)
+        vc.title = "Race Location"
+        vc.showsDirection = true
+        let nc = NavigationController(rootViewController: vc)
+        present(nc, animated: true)
     }
 
     func editRace() {
@@ -647,8 +645,8 @@ fileprivate extension RaceDetailViewController {
 
         userApi.getUser(with: race.ownerId) { [weak self] (user, error) in
             if let user = user {
-                let userVC = UserViewController(with: user)
-                self?.navigationController?.pushViewController(userVC, animated: true)
+                let vc = UserViewController(with: user)
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }
@@ -662,8 +660,8 @@ fileprivate extension RaceDetailViewController {
 
         chapterApi.getChapter(with: race.chapterId) { [weak self] (chapter, error) in
             if let chapter = chapter {
-                let chapterVC = ChapterViewController(with: chapter)
-                self?.navigationController?.pushViewController(chapterVC, animated: true)
+                let vc = ChapterViewController(with: chapter)
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }
@@ -678,9 +676,9 @@ fileprivate extension RaceDetailViewController {
         raceApi.getRaces(forSeason: seasonId) { [weak self] (races, error) in
             if let races = races {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
-                let raceListVC = RaceListViewController(sortedViewModels, seasonId: seasonId)
-                raceListVC.title = self?.race.seasonName
-                self?.navigationController?.pushViewController(raceListVC, animated: true)
+                let vc = RaceListViewController(sortedViewModels, seasonId: seasonId)
+                vc.title = self?.race.seasonName
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }

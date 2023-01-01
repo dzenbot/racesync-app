@@ -91,9 +91,9 @@ class RaceListViewController: UIViewController, ViewJoinable {
     }
 
     fileprivate func openRaceDetail(_ viewModel: RaceViewModel) {
-        let eventTVC = RaceTabBarController(with: viewModel.race.id)
-        eventTVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(eventTVC, animated: true)
+        let vc = RaceTabBarController(with: viewModel.race.id)
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc func reloadRaces() {

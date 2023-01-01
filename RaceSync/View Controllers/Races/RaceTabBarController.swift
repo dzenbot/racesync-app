@@ -205,10 +205,10 @@ extension RaceTabBarController {
 
             self?.race = race
 
-            for vc in vcs {
-                guard var vcc = vc as? RaceTabbable else { continue }
-                vcc.race = race
-                vcc.reloadContent()
+            for viewcontroller in vcs {
+                guard var vc = viewcontroller as? RaceTabbable else { continue }
+                vc.race = race
+                vc.reloadContent()
             }
         }
     }

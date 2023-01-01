@@ -312,25 +312,25 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     @objc fileprivate func didPressUserProfileButton() {
         guard let myUser = APIServices.shared.myUser else { return }
 
-        let userVC = UserViewController(with: myUser)
-        let userNC = NavigationController(rootViewController: userVC)
-        userNC.modalPresentationStyle = .fullScreen
-        present(userNC, animated: true)
+        let vc = UserViewController(with: myUser)
+        let nc = NavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .fullScreen
+        present(nc, animated: true)
     }
 
     @objc fileprivate func didPressChapterProfileButton() {
         guard let myChapter = APIServices.shared.myChapter else { return }
 
-        let chapterVC = ChapterViewController(with: myChapter)
-        let chapterNC = NavigationController(rootViewController: chapterVC)
-        chapterNC.modalPresentationStyle = .fullScreen
-        present(chapterNC, animated: true)
+        let vc = ChapterViewController(with: myChapter)
+        let nc = NavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .fullScreen
+        present(nc, animated: true)
     }
 
     @objc fileprivate func didPressSettingsButton(_ sender: Any) {
-        let settingsVC = SettingsViewController()
-        let settingsNC = NavigationController(rootViewController: settingsVC)
-        present(settingsNC, animated: true)
+        let vc = SettingsViewController()
+        let nc = NavigationController(rootViewController: vc)
+        present(nc, animated: true)
     }
 
     @objc fileprivate func didPressSearchButton(_ sender: Any) {
@@ -365,9 +365,9 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     fileprivate func openRaceDetail(_ viewModel: RaceViewModel) {
-        let eventTVC = RaceTabBarController(with: viewModel.race.id)
-        eventTVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(eventTVC, animated: true)
+        let vc = RaceTabBarController(with: viewModel.race.id)
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc fileprivate func didSwipeHorizontally(_ sender: Any) {

@@ -22,14 +22,14 @@ class AircraftPickerController: UINavigationController {
 
     static func showAircraftPicker(for race: Race) -> AircraftPickerController {
 
-        let aircraftPickerVC = AircraftPickerViewController(with: race)
-        let aircraftPicker = AircraftPickerController(rootViewController: aircraftPickerVC)
+        let vc = AircraftPickerViewController(with: race)
+        let aircraftPicker = AircraftPickerController(rootViewController: vc)
         let presenter = Appearance.defaultPresenter()
 
         let topVC = UIViewController.topMostViewController()
         topVC?.customPresentViewController(presenter, viewController: aircraftPicker, animated: true)
 
-        aircraftPickerVC.delegate = aircraftPicker
+        vc.delegate = aircraftPicker
         
         return aircraftPicker
     }

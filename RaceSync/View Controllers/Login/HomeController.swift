@@ -12,9 +12,8 @@ import RaceSyncAPI
 class HomeController {
 
     static func homeViewController() -> UIViewController {
-        let raceListVC = RaceMainListViewController(availableFilters(), selectedFilter: .nearby)
-        let raceListNC = NavigationController(rootViewController: raceListVC)
-        return raceListNC
+        let vc = RaceMainListViewController(availableFilters(), selectedFilter: .nearby)
+        return NavigationController(rootViewController: vc)
     }
 
     static func availableFilters() -> [RaceFilter] {

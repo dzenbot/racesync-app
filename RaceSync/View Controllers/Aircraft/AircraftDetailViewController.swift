@@ -188,25 +188,25 @@ fileprivate extension AircraftDetailViewController {
         let defaultItem = row.defaultValue
 
         let presenter = Appearance.defaultPresenter()
-        let pickerVC = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
-        pickerVC.delegate = self
-        pickerVC.title = "Update \(row.title)"
+        let vc = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
+        vc.delegate = self
+        vc.title = "Update \(row.title)"
 
-        let formdNC = NavigationController(rootViewController: pickerVC)
-        customPresentViewController(presenter, viewController: formdNC, animated: true)
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: true)
     }
 
     func presentTextField(forRow row: AircraftRow) {
         let text = row.value(from: aircraftViewModel)
 
         let presenter = Appearance.defaultPresenter()
-        let textFieldVC = TextFieldViewController(with: text)
-        textFieldVC.delegate = self
-        textFieldVC.title = "Update \(row.title)"
-        textFieldVC.textField.placeholder = "Aircraft Name"
+        let vc = TextFieldViewController(with: text)
+        vc.delegate = self
+        vc.title = "Update \(row.title)"
+        vc.textField.placeholder = "Aircraft Name"
 
-        let formdNC = NavigationController(rootViewController: textFieldVC)
-        customPresentViewController(presenter, viewController: formdNC, animated: true)
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: true)
     }
 
     func deleteAircraft() {
