@@ -64,11 +64,9 @@ public class SeasonApi: SeasonApiInterface {
 
     public func createSeason(forChapter chapterId: ObjectId, with parameters: Parameters, _ completion: @escaping ObjectCompletionBlock<Season>) {
 
-        let endpoint = EndPoint.seasonCreate
-        var params: Parameters = parameters
-        params[ParamKey.chapterId] = chapterId
+        let endpoint = "\(EndPoint.seasonCreate)?\(ParamKey.chapterId)=\(chapterId)"
 
-        repositoryAdapter.getObject(endpoint, parameters: params, type: Season.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Season.self, completion)
     }
 
     public func deleteSeason(with seasonId: ObjectId, _ completion: @escaping StatusCompletionBlock) {

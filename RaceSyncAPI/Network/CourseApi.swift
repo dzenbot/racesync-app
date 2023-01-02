@@ -64,10 +64,9 @@ public class CourseApi: CourseApiInterface {
 
     public func createCourse(forChapter chapterId: ObjectId, with parameters: Parameters, _ completion: @escaping ObjectCompletionBlock<Course>) {
 
-        let endpoint = EndPoint.courseCreate
-        let params: Parameters = [ParamKey.chapterId: chapterId]
+        let endpoint = "\(EndPoint.courseCreate)?\(ParamKey.chapterId)=\(chapterId)"
 
-        repositoryAdapter.getObject(endpoint, parameters: params, type: Course.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Course.self, completion)
     }
 
     public func deleteCourse(with courseId: ObjectId, _ completion: @escaping StatusCompletionBlock) {

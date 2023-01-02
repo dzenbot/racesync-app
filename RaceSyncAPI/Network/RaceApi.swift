@@ -122,6 +122,14 @@ public protocol RaceApiInterface {
     func createRace(withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>)
 
     /**
+    */
+    func updateRace(race raceId: ObjectId, withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>)
+
+    /**
+    */
+    func deleteRace(with raceId: ObjectId, _ completion: @escaping StatusCompletionBlock)
+
+    /**
      Cancels all the HTTP requests of race API endpoint
     */
     func cancelAll()
@@ -259,8 +267,24 @@ public class RaceApi: RaceApiInterface {
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
     }
 
+    public func updateRace(race raceId: ObjectId, withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
+
+        let endpoint = "\(EndPoint.raceUpdate)?\(ParamKey.id)=\(raceId)"
+        let parameters = data.toParameters()
+
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
+    }
+
+    public func deleteRace(with raceId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
+
+        let endpoint = EndPoint.raceDelete
+        let params: Parameters = [ParamKey.id: raceId]
+
+        repositoryAdapter.performAction(endpoint, parameters: params, completion: completion)
+    }
+
     public func cancelAll() {
-        repositoryAdapter.networkAdapter.httpCancelRequests(with: "race/")
+        repositoryAdapter.networkAdapter.httpCancelRequests(with: EndPoint.race)
     }
 }
 

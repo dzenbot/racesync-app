@@ -21,6 +21,7 @@ enum EndPoint {
     static let userProfile = "user/profile"
     static let userSearch = "user/search"
 
+    static let race = "race/"
     static let raceList = "race/list"
     static let raceListForChapter = "race/listForChapter"
     static let raceFindLocal = "race/findLocal"
@@ -34,6 +35,8 @@ enum EndPoint {
     static let raceCheckIn = "race/checkIn"
     static let raceCheckOut = "race/checkOut"
     static let raceCreate = "race/create"
+    static let raceUpdate = "race/update"
+    static let raceDelete = "race/delete" // missing API
 
     static let chapterList = "chapter/list"
     static let chapterFindLocal = "chapter/findLocal"
@@ -43,15 +46,17 @@ enum EndPoint {
     static let chapterJoin = "chapter/join"
     static let chapterResign = "chapter/resign"
 
-    static let seasonCreate = "season/create"
-    static let seasonSearch = "season/search"
-    static let seasonDelete = "season/delete"
     static let seasonList = "season/list"
+    static let seasonSearch = "season/search"
+    static let seasonCreate = "season/create"
+    static let seasonUpdate = "season/update"
+    static let seasonDelete = "season/delete"
 
-    static let courseCreate = "course/create"
-    static let courseSearch = "course/search"
-    static let courseDelete = "course/delete"
     static let courseList = "course/list"
+    static let courseSearch = "course/search"
+    static let courseCreate = "course/create"
+    static let courseUpdate = "course/update"
+    static let courseDelete = "course/delete"
 
     static let aircraftList = "aircraft/list"
     static let aircraftCreate = "aircraft/create"
