@@ -277,10 +277,9 @@ public class RaceApi: RaceApiInterface {
 
     public func deleteRace(with raceId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = EndPoint.raceDelete
-        let params: Parameters = [ParamKey.id: raceId]
+        let endpoint = "\(EndPoint.raceDelete)?\(ParamKey.id)=\(raceId)"
 
-        repositoryAdapter.performAction(endpoint, parameters: params, completion: completion)
+        repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func cancelAll() {

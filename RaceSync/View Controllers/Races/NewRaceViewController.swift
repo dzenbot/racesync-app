@@ -11,13 +11,18 @@ import RaceSyncAPI
 import SnapKit
 import UIKit
 
+protocol NewRaceViewControllerDelegate {
+    func newRaceViewController(_ viewController: NewRaceViewController, didUpdateRace race: Race)
+    func newRaceViewControllerDidDismiss(_ viewController: NewRaceViewController)
+}
+
 class NewRaceViewController: UIViewController {
 
     // MARK: - Public Variables
 
     var chapters: [ManagedChapter]
-
     var editMode: NewRaceMode = .create
+    var delegate: NewRaceViewControllerDelegate?
 
     // MARK: - Private Variables
 
@@ -201,9 +206,7 @@ class NewRaceViewController: UIViewController {
     fileprivate func createRace() {
         raceApi.createRace(withData: raceData) { object, error in
             if let race = object {
-                let vc = RaceTabBarController(with: race)
-                vc.isDismissable = true
-                self.navigationController?.pushViewController(vc, animated: true)
+                self.delegate?.newRaceViewController(self, didUpdateRace: race)
             } else if let error = error {
                 AlertUtil.presentAlertMessage("Failed to create the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
             }
@@ -225,8 +228,7 @@ class NewRaceViewController: UIViewController {
     }
 
     @objc fileprivate func didPressCloseButton() {
-//        delegate?.newAircraftViewControllerDidDismiss(self)
-        dismiss(animated: true)
+        delegate?.newRaceViewControllerDidDismiss(self)
     }
 }
 

@@ -622,11 +622,25 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     func duplicateRace() {
+        guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
 
+        let data = RaceData(with: race)
+        let vc = NewRaceViewController(with: chapters, raceData: data, section: .general)
+        vc.editMode = .create
+
+        let nc = NavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .fullScreen
+        present(nc, animated: true)
     }
 
     func deleteRace() {
-
+        raceApi.deleteRace(with: race.id) { status, error in
+            if status == true {
+                self.navigationController?.popViewController(animated: true)
+            } else if let error = error {
+                AlertUtil.presentAlertMessage("Couldn't delete this race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
+            }
+        }
     }
 }
 

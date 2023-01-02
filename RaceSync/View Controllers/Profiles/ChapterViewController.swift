@@ -178,6 +178,8 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
 
         let vc = NewRaceViewController(with: chapters, selectedChapterId: chapter.id, selectedChapterName: chapter.name)
+        vc.delegate = self
+        
         let nc = NavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .fullScreen
         present(nc, animated: true)
@@ -333,6 +335,20 @@ extension ChapterViewController: UITableViewDataSource {
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
         cell.subtitleLabel.text = viewModel.fullName
         return cell
+    }
+}
+
+extension ChapterViewController: NewRaceViewControllerDelegate {
+
+    func newRaceViewController(_ viewController: NewRaceViewController, didUpdateRace race: Race) {
+        let vc = RaceTabBarController(with: race)
+        vc.isDismissable = true
+
+        viewController.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func newRaceViewControllerDidDismiss(_ viewController: NewRaceViewController) {
+        viewController.dismiss(animated: true, completion: nil)
     }
 }
 
