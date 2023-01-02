@@ -177,11 +177,10 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     @objc func didPressAddButton() {
         guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
 
-        if let vc = NewRaceViewController(with: chapters, selectedChapterId: chapter.id) {
-            let nc = NavigationController(rootViewController: vc)
-            nc.modalPresentationStyle = .fullScreen
-            present(nc, animated: true)
-        }
+        let vc = NewRaceViewController(with: chapters, selectedChapterId: chapter.id, selectedChapterName: chapter.name)
+        let nc = NavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .fullScreen
+        present(nc, animated: true)
     }
 
     @objc func didPressCloseButton() {

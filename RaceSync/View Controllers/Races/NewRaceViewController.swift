@@ -17,6 +17,8 @@ class NewRaceViewController: UIViewController {
 
     var chapters: [ManagedChapter]
 
+    var editMode: NewRaceMode = .create
+
     // MARK: - Private Variables
 
     fileprivate lazy var tableView: UITableView = {
@@ -93,18 +95,16 @@ class NewRaceViewController: UIViewController {
 
     // MARK: - Initialization
 
-    init?(with chapters: [ManagedChapter], selectedChapterId: ObjectId) {
-        guard let chapter = chapters.filter ({ return $0.id == selectedChapterId }).first else { return nil }
-
+    init(with chapters: [ManagedChapter], selectedChapterId: ObjectId, selectedChapterName: String) {
         self.chapters = chapters
+        self.raceData = RaceData(with: selectedChapterId, chapterName: selectedChapterName)
         self.currentSection = .general
-        self.raceData = RaceData(with: chapter.id, chapterName: chapter.name)
 
         super.init(nibName: nil, bundle: nil)
         self.title = "New Event"
     }
 
-    init(with chapters: [ManagedChapter], raceData: RaceData, section: NewRaceSection) {
+    init(with chapters: [ManagedChapter], raceData: RaceData, section: NewRaceSection = .general) {
         self.chapters = chapters
         self.raceData = raceData
         self.currentSection = section
@@ -185,20 +185,42 @@ class NewRaceViewController: UIViewController {
             let nextSection: NewRaceSection = .specific
             let vc = NewRaceViewController(with: chapters, raceData: raceData, section: nextSection)
             vc.title = raceData.name
+            vc.editMode = editMode
 
             navigationController?.pushViewController(vc, animated: true)
         } else if currentSection == .specific {
-            raceApi.createRace(withData: raceData) { newRace, error in
-                if let race = newRace {
-                    let vc = RaceTabBarController(with: race)
-                    vc.isDismissable = true
-                    self.navigationController?.pushViewController(vc, animated: true)
-                } else if let error = error {
-                    AlertUtil.presentAlertMessage("Failed to create the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
-                }
+            switch editMode {
+            case .create:       createRace()
+            case .edit:         editRace()
             }
-        } else if currentSection == .frequencies {
+        } /*else if currentSection == .frequencies {
 
+        }*/
+    }
+
+    fileprivate func createRace() {
+        raceApi.createRace(withData: raceData) { object, error in
+            if let race = object {
+                let vc = RaceTabBarController(with: race)
+                vc.isDismissable = true
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if let error = error {
+                AlertUtil.presentAlertMessage("Failed to create the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
+            }
+        }
+    }
+
+    fileprivate func editRace() {
+        guard let id = raceData.raceId else { return }
+
+        raceApi.updateRace(race: id, withData: raceData) { object, error in
+            if let race = object {
+                let vc = RaceTabBarController(with: race)
+                vc.isDismissable = true
+                self.navigationController?.pushViewController(vc, animated: true)
+            } else if let error = error {
+                AlertUtil.presentAlertMessage("Failed to update the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
+            }
         }
     }
 

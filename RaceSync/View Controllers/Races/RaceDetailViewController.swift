@@ -609,7 +609,16 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     func editRace() {
+        guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
+        guard let chapter = chapters.filter ({ return $0.id == race.chapterId }).first else { return }
 
+        let data = RaceData(with: race)
+        let vc = NewRaceViewController(with: [chapter], raceData: data, section: .general)
+        vc.editMode = .edit
+
+        let nc = NavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .fullScreen
+        present(nc, animated: true)
     }
 
     func duplicateRace() {

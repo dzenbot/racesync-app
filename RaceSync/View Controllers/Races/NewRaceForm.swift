@@ -9,14 +9,18 @@
 import Foundation
 import RaceSyncAPI
 
+enum NewRaceMode: Int {
+    case create, edit
+}
+
 enum NewRaceSection: Int, EnumTitle, CaseIterable {
-    case general, specific, frequencies
+    case general, specific //, frequencies
 
     public var title: String {
         switch self {
         case .general:      return "General Details "
         case .specific:     return "Specific Details"
-        case .frequencies:  return "Video Frequencies"
+        //case .frequencies:  return "Video Frequencies"
         }
     }
 }
