@@ -193,6 +193,7 @@ class NewRaceViewController: UIViewController {
             let nextSection: NewRaceSection = .specific
             let vc = NewRaceViewController(with: chapters, raceData: raceData, section: nextSection)
             vc.editMode = editMode
+            vc.delegate = delegate
 
             navigationController?.pushViewController(vc, animated: true)
         } else if currentSection == .specific {

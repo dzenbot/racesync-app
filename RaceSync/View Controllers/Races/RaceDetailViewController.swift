@@ -851,8 +851,15 @@ extension RaceDetailViewController: UITableViewDataSource {
 extension RaceDetailViewController: NewRaceViewControllerDelegate {
 
     func newRaceViewController(_ viewController: NewRaceViewController, didUpdateRace race: Race) {
-        self.race = race
-        self.reloadContent()
+
+        if viewController.editMode == .edit {
+            self.race = race
+            self.reloadContent()
+            viewController.dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+            viewController.dismiss(animated: true, completion: nil)
+        }
     }
 
     func newRaceViewControllerDidDismiss(_ viewController: NewRaceViewController) {
