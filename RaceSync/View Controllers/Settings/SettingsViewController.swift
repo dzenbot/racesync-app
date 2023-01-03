@@ -52,7 +52,7 @@ class SettingsViewController: UIViewController {
         if UIApplication.shared.supportsAlternateIcons {
             prefs += [.appicon]
         }
-        if let user = APIServices.shared.myUser, user.isDev {
+        if let user = APIServices.shared.myUser, user.isDevTeam {
             auth += [.switchEnv] //, .featureFlags
         }
 
