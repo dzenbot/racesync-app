@@ -85,7 +85,20 @@ extension NewRaceRow {
             return raceData.seasonName
         case .location:
             return raceData.locationName
-        default:
+        case .shortDesc:
+            if let text = raceData.shortDesc {
+                return text.stripHTML(true).safeSubstring(to: 20).capitalized + "…"
+            }
+            return nil
+        case .longDesc:
+            if let text = raceData.longDesc {
+                return text.stripHTML(true).safeSubstring(to: 20).capitalized + "…"
+            }
+            return nil
+        case .itinerary:
+            if let text = raceData.itinerary {
+                return text.stripHTML(true).safeSubstring(to: 20).capitalized + "…"
+            }
             return nil
         }
     }

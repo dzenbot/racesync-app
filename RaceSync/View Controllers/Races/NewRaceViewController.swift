@@ -82,7 +82,7 @@ class NewRaceViewController: UIViewController {
     fileprivate var courseApi = CourseApi()
     fileprivate var courses: [Course]?
 
-    fileprivate var isFormEnabled: Bool = true
+    fileprivate var isFormEnabled: Bool
 
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
@@ -104,6 +104,7 @@ class NewRaceViewController: UIViewController {
         self.chapters = chapters
         self.raceData = RaceData(with: selectedChapterId, chapterName: selectedChapterName)
         self.currentSection = .general
+        self.isFormEnabled = true
 
         super.init(nibName: nil, bundle: nil)
         self.title = "New Event"
@@ -113,8 +114,10 @@ class NewRaceViewController: UIViewController {
         self.chapters = chapters
         self.raceData = raceData
         self.currentSection = section
+        self.isFormEnabled = false
 
         super.init(nibName: nil, bundle: nil)
+        self.title = raceData.name
     }
 
     required init?(coder: NSCoder) {
@@ -137,7 +140,7 @@ class NewRaceViewController: UIViewController {
         super.viewDidAppear(animated)
 
         // Bring up keyboard on first row, if applicable
-        if isFormEnabled, currentSection == .general {
+        if isFormEnabled, currentSection == .general, editMode == .create {
             let rows = currentSectionRows()
 
             DispatchQueue.main.async { [weak self] in
@@ -189,7 +192,6 @@ class NewRaceViewController: UIViewController {
         if currentSection == .general {
             let nextSection: NewRaceSection = .specific
             let vc = NewRaceViewController(with: chapters, raceData: raceData, section: nextSection)
-            vc.title = raceData.name
             vc.editMode = editMode
 
             navigationController?.pushViewController(vc, animated: true)
@@ -501,6 +503,7 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
         switch currentRow {
         case .name:
             raceData.name = item
+            title = item
         case .date:
             raceData.date = item
         case .chapter:
