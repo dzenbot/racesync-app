@@ -27,7 +27,6 @@ class RaceViewModel: Descriptable {
     let chapterLabel: String
     let ownerLabel: String
     let seasonLabel: String
-    let statusLabel: String
     let imageUrl: String?
 
     // MARK: - Initializatiom
@@ -53,7 +52,6 @@ class RaceViewModel: Descriptable {
         self.chapterLabel = race.chapterName
         self.ownerLabel = race.ownerUserName
         self.seasonLabel = race.seasonName
-        self.statusLabel = race.status.title
         self.imageUrl = Self.imageUrl(for: race)
     }
 

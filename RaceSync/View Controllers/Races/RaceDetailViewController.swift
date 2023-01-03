@@ -413,8 +413,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             tableViewRows += [Row.season]
         }
 
-        tableViewRows += [Row.status]
-
         if race.liveTimeUrl != nil {
             tableViewRows += [Row.liveTime]
         }
@@ -733,25 +731,6 @@ fileprivate extension RaceDetailViewController {
         }
     }
 
-    func toggleRaceStatus(_ cell: FormTableViewCell) {
-        guard canInteract(with: cell) else { return }
-        guard race.isMyChapter else { return } // only allow interacting if the user can manage the race
-
-        if race.status == .open {
-            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close enrollment for this race?",
-                                                          destructiveTitle: "Yes, Close",
-                                                          completion: { [weak self] (action) in
-                                                            self?.closeRace(cell)
-            })
-        } else {
-            ActionSheetUtil.presentActionSheet(withTitle: "Open enrollment for this race?",
-                                               buttonTitle: "Yes, Open",
-                                               completion: { [weak self] (action) in
-                                                self?.openRace(cell)
-            })
-        }
-    }
-
     func openRace(_ cell: FormTableViewCell) {
         guard canInteract(with: cell) else { return }
         setLoading(cell, loading: true)
@@ -801,8 +780,6 @@ extension RaceDetailViewController: UITableViewDelegate {
             showChapterProfile(cell)
         } else if row == .season {
             showSeasonRaces(cell)
-        } else if row == .status {
-            toggleRaceStatus(cell)
         } else if row == .liveTime {
             openLiveTime(cell)
         }
@@ -834,8 +811,6 @@ extension RaceDetailViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = raceViewModel.ownerLabel
         } else if row == .season {
             cell.detailTextLabel?.text = raceViewModel.seasonLabel
-        } else if row == .status {
-            cell.detailTextLabel?.text = raceViewModel.statusLabel
         } else if row == .liveTime {
             cell.detailTextLabel?.text = ""
         }
@@ -892,7 +867,7 @@ extension RaceDetailViewController: MKMapViewDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case `class`, chapter, owner, season, status, liveTime
+    case `class`, chapter, owner, season, liveTime
 
     var title: String {
         switch self {
@@ -900,7 +875,6 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .chapter:          return "Chapter"
         case .owner:            return "Coordinator"
         case .season:           return "Season"
-        case .status:           return "Race Status"
         case .liveTime:         return "Go to LiveFPV.com"
         }
     }
