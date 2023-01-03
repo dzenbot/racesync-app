@@ -59,7 +59,7 @@ extension NewRaceRow {
         case .name:
             return raceData.name
         case .date:
-            if let string = raceData.date, let date = DateUtil.isoDateFormatter.date(from: string) {
+            if let date = raceData.date {
                 return DateUtil.localizedString(from: date)
             }
             return nil
@@ -115,7 +115,7 @@ extension NewRaceRow {
     func requiredValue(from data: RaceData) -> String? {
         switch self {
         case .name:     return data.name
-        case.date:      return data.date
+        case.date:      return data.dateString
         default:        return nil
         }
     }

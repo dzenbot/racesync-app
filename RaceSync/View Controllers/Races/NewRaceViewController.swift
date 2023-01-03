@@ -358,7 +358,7 @@ fileprivate extension NewRaceViewController {
     }
 
     func presentDatePicker(forRow row: NewRaceRow, animated: Bool = true) {
-        let vc = DatePickerViewController(with: ISODateFormatter)
+        let vc = DatePickerViewController(with: raceData.date)
         vc.title = row.title
         vc.delegate = self
 
@@ -377,7 +377,7 @@ fileprivate extension NewRaceViewController {
     }
 
     func pushDatePicker(forRow row: NewRaceRow, animated: Bool = true) {
-        let vc = DatePickerViewController(with: ISODateFormatter)
+        let vc = DatePickerViewController(with: raceData.date)
         vc.title = row.title
         vc.delegate = self
 
@@ -505,7 +505,7 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
             raceData.name = item
             title = item
         case .date:
-            raceData.date = item
+            raceData.dateString = item
         case .chapter:
             if let chapter = chapters.filter ({ return $0.name == item }).first {
                 raceData.chapterName = chapter.name

@@ -11,15 +11,11 @@ import Foundation
 public class DateUtil {
 
     public static var standardDateFormatter: DateFormatter = {
-        let dateFormater: DateFormatter = DateFormatter()
-        dateFormater.dateFormat = StandardDateTimeFormat
-        return dateFormater
+        return DateFormatter(withFormat: StandardDateTimeFormat, locale: USLocale)
     }()
 
     public static var isoDateFormatter: DateFormatter = {
-        let dateFormater: DateFormatter = DateFormatter()
-        dateFormater.dateFormat = ISODateFormatter
-        return dateFormater
+        return DateFormatter(withFormat: StandardDateTimeFormat, locale: USLocale)
     }()
 
     public static func deserializeJSONDate(_ jsonDate: String) -> Date? {

@@ -11,6 +11,7 @@ import SnapKit
 import PickerView
 import Presentr
 import UIKit
+import RaceSyncAPI
 
 class DatePickerViewController: FormBaseViewController {
 
@@ -35,15 +36,12 @@ class DatePickerViewController: FormBaseViewController {
             view.preferredDatePickerStyle = .wheels
         }
 
-        view.date = Date()
         view.minimumDate = Date()
         view.timeZone = NSTimeZone.local
         view.backgroundColor = Color.white
         view.datePickerMode = .dateAndTime
         view.minuteInterval = 15
-
         view.addTarget(self, action: #selector(datePickerValueChanged(_:)), for: .valueChanged)
-
         return view
     }()
 
@@ -53,14 +51,15 @@ class DatePickerViewController: FormBaseViewController {
         return barButtonItem
     }()
 
-    fileprivate let dateFormat: String
     fileprivate var selectedDate: Date?
 
     // MARK: - Initialization
 
-    init(with dateFormat: String) {
-        self.dateFormat = dateFormat
+    init(with date: Date? = nil) {
+        selectedDate = date
+
         super.init(nibName: nil, bundle: nil)
+        self.pickerView.date = date ?? Date()
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -109,10 +108,7 @@ class DatePickerViewController: FormBaseViewController {
 
     fileprivate func selectedDateString() -> String? {
         guard let date = selectedDate else { return nil }
-
-        let dateFormatter: DateFormatter = DateFormatter()
-        dateFormatter.dateFormat = dateFormat
-        return dateFormatter.string(from: date)
+        return DateUtil.isoDateFormatter.string(from: date)
     }
 
     // MARK: - Actions
