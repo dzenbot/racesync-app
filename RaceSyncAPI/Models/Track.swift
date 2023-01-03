@@ -21,7 +21,7 @@ public class Track: ImmutableMappable, Descriptable {
     public let startDate: Date?
     public let endDate: Date?
     public let userName: String?
-    public let `class`: RaceClass
+    public let raceClass: RaceClass
     public let elements: [TrackElement]
 
     // MARK: - Initialization
@@ -37,7 +37,7 @@ public class Track: ImmutableMappable, Descriptable {
         startDate = try? map.value(ParamKey.startDate, using: MapperUtil.dateTransform)
         endDate = try? map.value(ParamKey.endDate, using: MapperUtil.dateTransform)
         userName = try map.value(ParamKey.userName)
-        `class` = try map.value(ParamKey.class, using: EnumTransform<RaceClass>())
+        raceClass = try map.value(ParamKey.raceClass, using: EnumTransform<RaceClass>())
         elements = try map.value(ParamKey.elements)
     }
 

@@ -587,7 +587,7 @@ extension TrackDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: .header, for: indexPath) as TrackElementHeaderView
         headerView.leftLabel.text = "\(viewModel.track.elementsCount) Elements"
-        headerView.rightLabel.text = "\(viewModel.track.class.title) Class"
+        headerView.rightLabel.text = "\(viewModel.track.raceClass.title) Class"
         return headerView
     }
 

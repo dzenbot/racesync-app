@@ -65,15 +65,15 @@ public enum RaceOfficialStatus: String {
 }
 
 //SCORING_FORMATS = array(0=>'Aggregate Laps', 1=>'Fastest Lap', 6=>'Fastest 2 Consecutive Laps', 2=>'Fastest 3 Consecutive Laps')
-public enum ScoringFormats: String, EnumTitle {
-    case aggregate = "0"
+public enum ScoringFormat: String, EnumTitle {
+    case aggregateLap = "0"
     case fastestLap = "1"
     case fastest2Laps = "6"
     case fastest3Laps = "2"
 
     public var title: String {
         switch self {
-        case .aggregate:        return "Aggregate Laps"
+        case .aggregateLap:     return "Aggregate Laps"
         case .fastestLap:       return "Fastest Lap"
         case .fastest2Laps:     return "Fastest 2 Consecutive Laps"
         case .fastest3Laps:     return "Fastest 3 Consecutive Laps"

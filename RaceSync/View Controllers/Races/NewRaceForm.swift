@@ -66,9 +66,9 @@ extension NewRaceRow {
         case .chapter:
             return raceData.chapterName
         case .class:
-            return RaceClass(rawValue: raceData.class)?.title
+            return RaceClass(rawValue: raceData.raceClass)?.title
         case .format:
-            return ScoringFormats(rawValue: raceData.format)?.title
+            return ScoringFormat(rawValue: raceData.format)?.title
         case .schedule:
             return RaceSchedule(rawValue: raceData.schedule)?.title
         case .privacy:

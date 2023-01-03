@@ -414,7 +414,7 @@ fileprivate extension NewRaceViewController {
             let names = seasons.compactMap { $0.name }
             self.seasons = seasons
 
-            let vc = textPickerViewController(with: row.title, items: names)
+            let vc = textPickerViewController(with: row.title, items: names, selectedItem: raceData.seasonName)
             let nc = NavigationController(rootViewController: vc)
             customPresentViewController(presenter, viewController: nc, animated: true)
         }
@@ -438,7 +438,7 @@ fileprivate extension NewRaceViewController {
             let names = courses.compactMap { $0.name }
             self.courses = courses
 
-            let vc = textPickerViewController(with: row.title, items: names)
+            let vc = textPickerViewController(with: row.title, items: names, selectedItem: raceData.locationName)
             let nc = NavigationController(rootViewController: vc)
             customPresentViewController(presenter, viewController: nc, animated: true)
         }
@@ -451,7 +451,7 @@ fileprivate extension NewRaceViewController {
         case .class:
             return RaceClass.allCases.compactMap { $0.title }
         case .format:
-            return ScoringFormats.allCases.compactMap { $0.title }
+            return ScoringFormat.allCases.compactMap { $0.title }
         case .schedule:
             return RaceSchedule.allCases.compactMap { $0.title }
         case .privacy:
@@ -510,10 +510,10 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
             }
         case .class:
             if let value = RaceClass(title: item)?.rawValue {
-                raceData.class = value
+                raceData.raceClass = value
             }
         case .format:
-            if let value = ScoringFormats(title: item)?.rawValue {
+            if let value = ScoringFormat(title: item)?.rawValue {
                 raceData.format = value
             }
         case .schedule:

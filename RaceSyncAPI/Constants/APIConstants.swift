@@ -171,7 +171,8 @@ enum ParamKey {
     static let phone = "phone"
     static let tier = "tier"
     static let elements = "elements"
-    static let `class` = "class"
+    static let raceClass = "raceClass"
+    static let raceClassString = "raceClassString"
 
     // Geo-location
     static let address = "address"

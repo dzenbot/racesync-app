@@ -42,6 +42,12 @@ class RaceListViewController: UIViewController, ViewJoinable {
         super.init(nibName: nil, bundle: nil)
     }
 
+    init(_ raceViewModels: [RaceViewModel], raceClass: String) {
+        self.raceList = raceViewModels
+
+        super.init(nibName: nil, bundle: nil)
+    }
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

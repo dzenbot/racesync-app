@@ -16,8 +16,8 @@ public class RaceData: Descriptable {
     public var chapterId: String
     public var chapterName: String
 
-    public var `class`: String = RaceClass.open.rawValue
-    public var format: String = ScoringFormats.fastest3Laps.rawValue
+    public var raceClass: String = RaceClass.open.rawValue
+    public var format: String = ScoringFormat.aggregateLap.rawValue
     public var schedule: String = RaceSchedule.controlled.rawValue
     public var privacy: String = EventType.public.rawValue
     public var status: String = RaceStatus.closed.rawValue
@@ -49,9 +49,9 @@ public class RaceData: Descriptable {
             self.date = DateUtil.isoDateFormatter.string(from: date)
         }
 
-        self.class = RaceClass.open.rawValue
-        self.format = ScoringFormats.fastest3Laps.rawValue
-        self.schedule = RaceSchedule.controlled.rawValue
+        self.raceClass = race.raceClass?.rawValue ?? ""
+        self.format = race.scoringFormat.rawValue
+        self.schedule = RaceSchedule.controlled.rawValue // to be defined based on other params
         self.privacy = race.type.rawValue
         self.status = race.status.rawValue
 
@@ -78,8 +78,9 @@ public class RaceData: Descriptable {
         parameters[ParamKey.chapterId] = chapterId
         parameters[ParamKey.chapterId] = chapterName
 
-        parameters[ParamKey.class] = self.class
+        parameters[ParamKey.raceClass] = raceClass
         parameters[ParamKey.scoringFormat] = format
+        parameters[ParamKey.type] = privacy
         parameters[ParamKey.status] = status
 
         parameters[ParamKey.scoringDisabled] = funfly

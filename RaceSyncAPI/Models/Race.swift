@@ -20,6 +20,9 @@ public class Race: Mappable, Joinable, Descriptable {
     public var status: RaceStatus = .open
     public var isJoined: Bool = false
     public var type: EventType = .public
+    public var scoringFormat: ScoringFormat = .aggregateLap
+    public var raceClass: RaceClass?
+    public var raceClassString: String?
     public var raceType: RaceType = .normal
     public var officialStatus: RaceOfficialStatus = .normal
     public var scoringDisabled: Bool = false
@@ -101,6 +104,9 @@ public class Race: Mappable, Joinable, Descriptable {
         }
 
         type <- (map[ParamKey.type], EnumTransform<EventType>())
+        scoringFormat <- (map[ParamKey.scoringFormat], EnumTransform<ScoringFormat>())
+        raceClass <- (map[ParamKey.raceClass], EnumTransform<RaceClass>())
+        raceClassString <- map[ParamKey.raceClassString]
         raceType <- (map[ParamKey.raceType], EnumTransform<RaceType>())
         officialStatus <- (map[ParamKey.officialStatus], EnumTransform<RaceOfficialStatus>())
         captureTimeEnabled <- map[ParamKey.captureTimeEnabled]

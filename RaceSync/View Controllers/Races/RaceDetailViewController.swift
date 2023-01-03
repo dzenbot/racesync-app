@@ -398,13 +398,18 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func loadRows() {
-        tableViewRows = [Row.requirements, Row.owner]
 
-        if race.chapterName != "" {
+        if raceViewModel.classLabel != "" {
+            tableViewRows += [Row.class]
+        }
+
+        tableViewRows += [Row.owner]
+
+        if raceViewModel.chapterLabel != "" {
             tableViewRows += [Row.chapter]
         }
 
-        if race.seasonName != "" {
+        if raceViewModel.seasonLabel != "" {
             tableViewRows += [Row.season]
         }
 
@@ -615,6 +620,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         let data = RaceData(with: race)
         let vc = NewRaceViewController(with: [chapter], raceData: data, section: .general)
         vc.editMode = .edit
+        vc.delegate = self
 
         let nc = NavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .fullScreen
@@ -627,6 +633,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         let data = RaceData(with: race)
         let vc = NewRaceViewController(with: chapters, raceData: data, section: .general)
         vc.editMode = .create
+        vc.delegate = self
 
         let nc = NavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .fullScreen
@@ -669,6 +676,23 @@ fileprivate extension RaceDetailViewController {
         userApi.getUser(with: race.ownerId) { [weak self] (user, error) in
             if let user = user {
                 let vc = UserViewController(with: user)
+                self?.navigationController?.pushViewController(vc, animated: true)
+            } else if let _ = error {
+                // handle error
+            }
+            self?.setLoading(cell, loading: false)
+        }
+    }
+
+    func showClassRaces(_ cell: FormTableViewCell) {
+        guard canInteract(with: cell), let raceClass = race.raceClassString else { return }
+        setLoading(cell, loading: true)
+
+        raceApi.getRaces(forClass: raceClass) { [weak self] (races, error) in
+            if let races = races {
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
+                let vc = RaceListViewController(sortedViewModels, raceClass: raceClass)
+                vc.title = raceClass
                 self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
@@ -769,8 +793,8 @@ extension RaceDetailViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
         let row = tableViewRows[indexPath.row]
 
-        if row == .requirements {
-            // TODO: Push AircraftDetailViewController
+        if row == .class {
+            showClassRaces(cell)
         } else if row == .owner {
             showUserProfile(cell)
         } else if row == .chapter {
@@ -800,29 +824,39 @@ extension RaceDetailViewController: UITableViewDataSource {
 
         let row = tableViewRows[indexPath.row]
         cell.textLabel?.text = row.title
+        cell.isLoading = false
 
-        if row == .requirements {
-            let aircraftRaceData = AircraftRaceData(with: race)
-            cell.detailTextLabel?.text = aircraftRaceData.displayText()
+        if row == .class {
+            cell.detailTextLabel?.text = raceViewModel.classLabel
         } else if row == .chapter {
-            cell.detailTextLabel?.text = race.chapterName
+            cell.detailTextLabel?.text = raceViewModel.chapterLabel
         } else if row == .owner {
-            cell.detailTextLabel?.text = race.ownerUserName
+            cell.detailTextLabel?.text = raceViewModel.ownerLabel
         } else if row == .season {
-            cell.detailTextLabel?.text = race.seasonName
+            cell.detailTextLabel?.text = raceViewModel.seasonLabel
         } else if row == .status {
-            cell.detailTextLabel?.text = race.status.title
+            cell.detailTextLabel?.text = raceViewModel.statusLabel
         } else if row == .liveTime {
             cell.detailTextLabel?.text = ""
         }
-
-        cell.isLoading = false
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.cellHeight
+    }
+}
+
+extension RaceDetailViewController: NewRaceViewControllerDelegate {
+
+    func newRaceViewController(_ viewController: NewRaceViewController, didUpdateRace race: Race) {
+        self.race = race
+        self.reloadContent()
+    }
+
+    func newRaceViewControllerDidDismiss(_ viewController: NewRaceViewController) {
+        viewController.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -851,11 +885,11 @@ extension RaceDetailViewController: MKMapViewDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case requirements, chapter, owner, season, status, liveTime
+    case `class`, chapter, owner, season, status, liveTime
 
     var title: String {
         switch self {
-        case .requirements:     return "Class"
+        case .class:            return "Race Class"
         case .chapter:          return "Chapter"
         case .owner:            return "Coordinator"
         case .season:           return "Season"
