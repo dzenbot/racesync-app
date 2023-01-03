@@ -16,21 +16,18 @@ public class APICredential {
     init() {
         let bundle = Bundle(for: APICredential.self)
 
-        // TODO: Throw and print error
-        if let path = bundle.path(forResource: "Credentials", ofType: "plist"),
-            let dict = NSDictionary(contentsOfFile: path) {
+        let path = bundle.path(forResource: "Credentials", ofType: "plist")!
+        let dict = NSDictionary(contentsOfFile: path)!
 
-            // Used during development for auto-completing the login screen
-            #if DEBUG
-            email = dict["EMAIL"] as? String ?? ""
-            password = dict["PASSWORD"] as? String ?? ""
-            #endif
+        apiKey = dict["API_KEY"] as? String ?? ""
 
-            apiKey = dict["API_KEY"] as? String ?? ""
-        } else {
-            email = ""
-            password = ""
-            apiKey = ""
-        }
+        // Used during development for auto-completing the login screen
+    #if DEBUG
+        email = dict["EMAIL"] as? String ?? ""
+        password = dict["PASSWORD"] as? String ?? ""
+    #else
+        email = ""
+        password = ""
+    #endif
     }
 }
