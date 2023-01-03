@@ -849,6 +849,270 @@
 			]
 		},
 		{
+			"name": "race/update",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sessionId\": \"{{sessionId}}\",\n  \"apiKey\": \"{{apiKey}}\",\n  \"data\": {\n  \t\"name\" : \"test from postman\"\n  }\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/update",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"update"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Race List",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"{{sessionId}}\",\n    \"apiKey\": \"{{apiKey}}\",\n    \"data\": {\n        \"joined\": {\n            \"pilotId\": 12380\n        },\n        \"upcoming\": {\n            \"limit\": 20\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/list?currentPage=0&pageSize=25",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currentPage",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:15:47 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c8c27b8f35a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": [\n        {\n            \"id\": \"19186\",\n            \"name\": \"MRAM 2020 Indoor Drone Racing\",\n            \"urlName\": \"MRAM-2020-Indoor-Drone-Racing\",\n            \"description\": \"Indoor Drone Racing at Ingersoll Arena\",\n            \"type\": \"1\",\n            \"raceType\": \"1\",\n            \"scoringFormat\": \"0\",\n            \"mainImageFileName\": null,\n            \"content\": \"<p>For the last three years there has been an awesome group of RC pilots gathering at Ingersoll Arena on Sunday mornings having an awesome time with RC Stuff. Please join us and put down some practice laps in the track. Get up and RACE early Sunday mornings before the day gets too busy! A perfect time to get some practice in to keep your skills sharp.</p>\",\n            \"itineraryContent\": \"<p>Show up a little early to maximize the number of practice laps you get in on the track.  We will have the area 2:30 minutes giving 15 mins at begining and end for track setup / teardown.</p>\\n<p>7:00 AM Arena Doors Open</p>\\n<p>7:15 AM Track Setup Complete</p>\\n<p>8:00 AM Controlled Racing</p>\\n<p>8:45 AM Track Tear Down</p>\\n<p>9:00 Freestyle Flying (Outdoor)</p>\\n<p> </p>\\n<p> </p>\",\n            \"url\": \"\",\n            \"ownerId\": \"12380\",\n            \"courseId\": \"2703\",\n            \"seasonId\": \"1752\",\n            \"chapterId\": \"1265\",\n            \"parentRaceId\": null,\n            \"nextRaceId\": null,\n            \"nextRaceCopyPilotsType\": null,\n            \"nextRaceCopyPilotsValue\": null,\n            \"nextRaceCopyPilotScores\": null,\n            \"nextRaceCopyPilotTimes\": null,\n            \"startDate\": \"2019-11-24 7:00 AM\",\n            \"status\": \"Open\",\n            \"officialStatus\": \"0\",\n            \"typeRestriction\": null,\n            \"sizeRestriction\": null,\n            \"batteryRestriction\": null,\n            \"propellerSizeRestriction\": null,\n            \"videoTransmitterRestriction\": null,\n            \"scoringDisabled\": false,\n            \"captureTimeEnabled\": \"0\",\n            \"cycleCount\": \"3\",\n            \"maxBatteriesForQualifying\": null,\n            \"currentCycle\": null,\n            \"currentHeat\": null,\n            \"targetTime\": null,\n            \"slotLayout\": \"7\",\n            \"slotAssignment\": \"3\",\n            \"disabledSlots\": \"\",\n            \"antennaPolarization\": \"1\",\n            \"autofillSlotChangeBetweenCycles\": \"0\",\n            \"disableSlotAutoPopulation\": \"0\",\n            \"latitude\": \"43.663\",\n            \"longitude\": \"-70.2569\",\n            \"address\": \"48 Pettengill Park\",\n            \"city\": \"Auburn\",\n            \"state\": \"ME\",\n            \"zip\": \"04210\",\n            \"country\": \"US\",\n            \"dateAdded\": \"2019-11-22 15:27:24\",\n            \"dateModified\": \"2019-11-22 15:54:49\",\n            \"updateAuth\": false,\n            \"deleteAuth\": false,\n            \"raceEntryCount\": \"1\",\n            \"childRaceCount\": 0,\n            \"participantCount\": \"1\",\n            \"isJoined\": false,\n            \"ownerUserName\": \"klevlandFPV\",\n            \"seasonName\": \"2020 MRAM - Maine Indoor Drone Racing Series\",\n            \"courseName\": \"Ingersoll Arena Turf Facility\",\n            \"chapterName\": \"Multi-Rotor Association of Maine MRAM\",\n            \"chapterImageFileName\": \"https://s3.amazonaws.com/multigp-storage/chapter/1265/mainImage-15.png\",\n            \"races\": []\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "race/delete",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"type": "text",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"sessionId\": \"{{sessionId}}\",\n  \"apiKey\": \"{{apiKey}}\",\n}"
+				},
+				"url": {
+					"raw": "https://{{host}}/mgp/multigpwebservice/race/delete?id=23756",
+					"protocol": "https",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"mgp",
+						"multigpwebservice",
+						"race",
+						"delete"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "23756"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Race List",
+					"originalRequest": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"name": "Content-Type",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"sessionId\": \"{{sessionId}}\",\n    \"apiKey\": \"{{apiKey}}\",\n    \"data\": {\n        \"joined\": {\n            \"pilotId\": 12380\n        },\n        \"upcoming\": {\n            \"limit\": 20\n        }\n    }\n}"
+						},
+						"url": {
+							"raw": "https://{{host}}/mgp/multigpwebservice/race/list?currentPage=0&pageSize=25",
+							"protocol": "https",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"mgp",
+								"multigpwebservice",
+								"race",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currentPage",
+									"value": "0"
+								},
+								{
+									"key": "pageSize",
+									"value": "25"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Date",
+							"value": "Fri, 22 Nov 2019 17:15:47 GMT"
+						},
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						},
+						{
+							"key": "Expires",
+							"value": "Mon, 26 Jul 1997 05:00:00 GMT"
+						},
+						{
+							"key": "Cache-Control",
+							"value": "no-cache, must-revalidate"
+						},
+						{
+							"key": "Pragma",
+							"value": "no-cache"
+						},
+						{
+							"key": "CF-Cache-Status",
+							"value": "DYNAMIC"
+						},
+						{
+							"key": "Expect-CT",
+							"value": "max-age=604800, report-uri=\"https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct\""
+						},
+						{
+							"key": "Server",
+							"value": "cloudflare"
+						},
+						{
+							"key": "CF-RAY",
+							"value": "539c8c27b8f35a5a-BOS"
+						},
+						{
+							"key": "Content-Encoding",
+							"value": "gzip"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"status\": true,\n    \"data\": [\n        {\n            \"id\": \"19186\",\n            \"name\": \"MRAM 2020 Indoor Drone Racing\",\n            \"urlName\": \"MRAM-2020-Indoor-Drone-Racing\",\n            \"description\": \"Indoor Drone Racing at Ingersoll Arena\",\n            \"type\": \"1\",\n            \"raceType\": \"1\",\n            \"scoringFormat\": \"0\",\n            \"mainImageFileName\": null,\n            \"content\": \"<p>For the last three years there has been an awesome group of RC pilots gathering at Ingersoll Arena on Sunday mornings having an awesome time with RC Stuff. Please join us and put down some practice laps in the track. Get up and RACE early Sunday mornings before the day gets too busy! A perfect time to get some practice in to keep your skills sharp.</p>\",\n            \"itineraryContent\": \"<p>Show up a little early to maximize the number of practice laps you get in on the track.  We will have the area 2:30 minutes giving 15 mins at begining and end for track setup / teardown.</p>\\n<p>7:00 AM Arena Doors Open</p>\\n<p>7:15 AM Track Setup Complete</p>\\n<p>8:00 AM Controlled Racing</p>\\n<p>8:45 AM Track Tear Down</p>\\n<p>9:00 Freestyle Flying (Outdoor)</p>\\n<p> </p>\\n<p> </p>\",\n            \"url\": \"\",\n            \"ownerId\": \"12380\",\n            \"courseId\": \"2703\",\n            \"seasonId\": \"1752\",\n            \"chapterId\": \"1265\",\n            \"parentRaceId\": null,\n            \"nextRaceId\": null,\n            \"nextRaceCopyPilotsType\": null,\n            \"nextRaceCopyPilotsValue\": null,\n            \"nextRaceCopyPilotScores\": null,\n            \"nextRaceCopyPilotTimes\": null,\n            \"startDate\": \"2019-11-24 7:00 AM\",\n            \"status\": \"Open\",\n            \"officialStatus\": \"0\",\n            \"typeRestriction\": null,\n            \"sizeRestriction\": null,\n            \"batteryRestriction\": null,\n            \"propellerSizeRestriction\": null,\n            \"videoTransmitterRestriction\": null,\n            \"scoringDisabled\": false,\n            \"captureTimeEnabled\": \"0\",\n            \"cycleCount\": \"3\",\n            \"maxBatteriesForQualifying\": null,\n            \"currentCycle\": null,\n            \"currentHeat\": null,\n            \"targetTime\": null,\n            \"slotLayout\": \"7\",\n            \"slotAssignment\": \"3\",\n            \"disabledSlots\": \"\",\n            \"antennaPolarization\": \"1\",\n            \"autofillSlotChangeBetweenCycles\": \"0\",\n            \"disableSlotAutoPopulation\": \"0\",\n            \"latitude\": \"43.663\",\n            \"longitude\": \"-70.2569\",\n            \"address\": \"48 Pettengill Park\",\n            \"city\": \"Auburn\",\n            \"state\": \"ME\",\n            \"zip\": \"04210\",\n            \"country\": \"US\",\n            \"dateAdded\": \"2019-11-22 15:27:24\",\n            \"dateModified\": \"2019-11-22 15:54:49\",\n            \"updateAuth\": false,\n            \"deleteAuth\": false,\n            \"raceEntryCount\": \"1\",\n            \"childRaceCount\": 0,\n            \"participantCount\": \"1\",\n            \"isJoined\": false,\n            \"ownerUserName\": \"klevlandFPV\",\n            \"seasonName\": \"2020 MRAM - Maine Indoor Drone Racing Series\",\n            \"courseName\": \"Ingersoll Arena Turf Facility\",\n            \"chapterName\": \"Multi-Rotor Association of Maine MRAM\",\n            \"chapterImageFileName\": \"https://s3.amazonaws.com/multigp-storage/chapter/1265/mainImage-15.png\",\n            \"races\": []\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
 			"name": "race/list",
 			"request": {
 				"method": "POST",
