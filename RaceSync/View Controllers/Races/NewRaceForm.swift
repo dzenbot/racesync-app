@@ -86,17 +86,17 @@ extension NewRaceRow {
         case .location:
             return raceData.locationName
         case .shortDesc:
-            if let text = raceData.shortDesc {
+            if let text = raceData.shortDesc, text.count > 0 {
                 return text.stripHTML(true).safeSubstring(to: 20).capitalized + "…"
             }
             return nil
         case .longDesc:
-            if let text = raceData.longDesc {
+            if let text = raceData.longDesc, text.count > 0 {
                 return text.stripHTML(true).safeSubstring(to: 20).capitalized + "…"
             }
             return nil
         case .itinerary:
-            if let text = raceData.itinerary {
+            if let text = raceData.itinerary, text.count > 0 {
                 return text.stripHTML(true).safeSubstring(to: 20).capitalized + "…"
             }
             return nil
