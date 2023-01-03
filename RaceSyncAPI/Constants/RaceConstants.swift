@@ -87,7 +87,7 @@ public enum RaceClass: String, EnumTitle {
     case whoop = "1"
     case micro = "2"
     case freedom = "3"
-    case street = "4"
+    //case street = "4"
     case mega = "5"
     case velo = "6"
 
@@ -97,7 +97,7 @@ public enum RaceClass: String, EnumTitle {
         case .whoop:        return "Tiny Whoop"
         case .micro:        return "Micro (Tiny Trainer)"
         case .freedom:      return "Freedom Spec"
-        case .street:       return "Street League"
+        //case .street:       return "Street League"
         case .mega:         return "Mega"
         case .velo:         return "Velocidrone"
         }
