@@ -409,7 +409,7 @@ fileprivate extension NewRaceViewController {
         }
 
         func presentTextPicker(_ seasons: [Season]?) {
-            guard let seasons = seasons else { return }
+            guard let seasons = seasons, seasons.count > 0 else { return }
 
             let names = seasons.compactMap { $0.name }
             self.seasons = seasons
@@ -433,7 +433,7 @@ fileprivate extension NewRaceViewController {
         }
 
         func presentTextPicker(_ courses: [Course]?) {
-            guard let courses = courses else { return }
+            guard let courses = courses, courses.count > 0 else { return }
 
             let names = courses.compactMap { $0.name }
             self.courses = courses
