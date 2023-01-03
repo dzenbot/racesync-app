@@ -35,7 +35,7 @@ class RepositoryAdapter {
                     }
                 case .failure:
                     let error = ErrorUtil.parseError(response)
-                    Clog.log("network error \(error.debugDescription)")
+                    Clog.log("Network error \(error.debugDescription)")
                     completion(nil, error)
                 }
             })

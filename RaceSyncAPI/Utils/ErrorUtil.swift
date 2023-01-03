@@ -26,17 +26,22 @@ class ErrorUtil {
 
         let status: Bool? = value[ParamKey.status] as? Bool
         let description: String? = value[ParamKey.statusDescription] as? String
-        let httpStatus: Int? = value[ParamKey.httpStatus] as? Int
+        let httpStatus: Int = value[ParamKey.httpStatus] as? Int ?? 0
 
-        if let status = status, status == false, let description = description, let httpStatus = httpStatus {
+        if let errorsDict = value[ParamKey.errors] as? [String: Any] {
+            if let errors = errorsDict.values.first as? [String] {
+                let errorStr = errors.joined(separator: " ")
+                return NSError(domain: "Error", code: httpStatus, userInfo: [NSLocalizedDescriptionKey : errorStr])
+            }
+        } else if let status = status, status == false, let description = description {
             return NSError(domain: "Error", code: httpStatus, userInfo: [NSLocalizedDescriptionKey : description])
         } else if let status = status, status == false {
             return undefinedError
         } else if let apiError = ApiError.from(JSON: value) {
             return formError(apiError)
-        } else {
-            return generalError
         }
+
+        return generalError
     }
 
     static func errors(fromJSONString string: String) -> [NSError]? {
