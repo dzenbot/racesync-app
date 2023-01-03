@@ -456,13 +456,13 @@ fileprivate extension NewRaceViewController {
         case .format:
             return ScoringFormat.allCases.compactMap { $0.title }
         case .schedule:
-            return RaceSchedule.allCases.compactMap { $0.title }
+            return QualifyingType.allCases.compactMap { $0.title }
         case .privacy:
             return EventType.allCases.compactMap { $0.title }
         case .status:
             return RaceStatus.allCases.compactMap { $0.title }
         case .rounds:
-            return ["0","1","2","3","4","5","6","7","8","9","10"]
+            return ["1","2","3","4","5","6","7","8","9","10"]
         default:
             return [String]()
         }
@@ -521,8 +521,8 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
                 raceData.format = value
             }
         case .schedule:
-            if let value = RaceSchedule(title: item)?.rawValue {
-                raceData.schedule = value
+            if let value = QualifyingType(title: item)?.rawValue {
+                raceData.qualifying = value
             }
         case .privacy:
             if let value = EventType(title: item)?.rawValue {

@@ -18,7 +18,7 @@ public class RaceData: Descriptable {
 
     public var raceClass: String = RaceClass.open.rawValue
     public var format: String = ScoringFormat.aggregateLap.rawValue
-    public var schedule: String = RaceSchedule.controlled.rawValue
+    public var qualifying: String = QualifyingType.controlled.rawValue
     public var privacy: String = EventType.public.rawValue
     public var status: String = RaceStatus.closed.rawValue
 
@@ -51,7 +51,7 @@ public class RaceData: Descriptable {
 
         self.raceClass = race.raceClass?.rawValue ?? ""
         self.format = race.scoringFormat.rawValue
-        self.schedule = RaceSchedule.controlled.rawValue // to be defined based on other params
+        self.qualifying = race.disableSlotAutoPopulation.rawValue
         self.privacy = race.type.rawValue
         self.status = race.status.rawValue
 
@@ -70,27 +70,35 @@ public class RaceData: Descriptable {
     }
 
     func toParameters() -> Parameters {
-        var parameters: Parameters = [:]
+        var params: Parameters = [:]
 
-        if name != nil { parameters[ParamKey.name] = name }
-        if dateString != nil { parameters[ParamKey.startDate] = dateString }
+        if name != nil { params[ParamKey.name] = name }
+        if dateString != nil { params[ParamKey.startDate] = dateString }
         
-        parameters[ParamKey.chapterId] = chapterId
-        parameters[ParamKey.chapterName] = chapterName
+        params[ParamKey.chapterId] = chapterId
+        params[ParamKey.chapterName] = chapterName
 
-        parameters[ParamKey.raceClass] = raceClass
-        parameters[ParamKey.scoringFormat] = format
-        parameters[ParamKey.type] = privacy
-        parameters[ParamKey.status] = status
+        params[ParamKey.raceClass] = raceClass
+        params[ParamKey.scoringFormat] = format
+        params[ParamKey.type] = privacy
+        params[ParamKey.status] = status
+        params[ParamKey.disableSlotAutoPopulation] = qualifying
 
-        parameters[ParamKey.scoringDisabled] = funfly
-        parameters[ParamKey.captureTimeEnabled] = timing
-        parameters[ParamKey.cycleCount] = rounds
+        // set a default values for ZippyQ
+        if qualifying == QualifyingType.open.rawValue {
+            params[ParamKey.maxZippyqDepth] = 5
+            params[ParamKey.zippyqIterator] = 0
+            params[ParamKey.maxBatteriesForQualifying] = 10
+        }
 
-        if seasonId != nil { parameters[ParamKey.seasonId] = seasonId }
-        if locationId != nil { parameters[ParamKey.locationId] = locationId }
+        params[ParamKey.scoringDisabled] = funfly
+        params[ParamKey.captureTimeEnabled] = timing
+        params[ParamKey.cycleCount] = rounds
 
-        return parameters
+        if seasonId != nil { params[ParamKey.seasonId] = seasonId }
+        if locationId != nil { params[ParamKey.locationId] = locationId }
+
+        return params
     }
 }
 

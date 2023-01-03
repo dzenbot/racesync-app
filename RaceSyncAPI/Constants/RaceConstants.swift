@@ -104,14 +104,15 @@ public enum RaceClass: String, EnumTitle {
     }
 }
 
-public enum RaceSchedule: String, EnumTitle {
+// QUALIFYING_TYPES = array(0 => "Controlled Qualifying/Practice", 1 => "Open ZippyQ/Qualifying/Practice" )
+public enum QualifyingType: String, EnumTitle {
     case controlled = "0"
-    case zippyq = "1"
+    case open = "1"
 
     public var title: String {
         switch self {
-        case .controlled:   return "Controlled"
-        case .zippyq:       return "ZippyQ"
+        case .controlled:   return "Controlled Qualifying"
+        case .open:         return "Open ZippyQ"
         }
     }
 }

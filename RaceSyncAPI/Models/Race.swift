@@ -28,6 +28,7 @@ public class Race: Mappable, Joinable, Descriptable {
     public var scoringDisabled: Bool = false
     public var captureTimeEnabled: Bool = true
     public var cycleCount: Int32 = 0
+    public var disableSlotAutoPopulation: QualifyingType = .controlled
     public var maxZippyqDepth: Int32 = 0
     public var zippyqIterator: Bool = false
     public var maxBatteriesForQualifying: Int32 = 0
@@ -112,6 +113,7 @@ public class Race: Mappable, Joinable, Descriptable {
         captureTimeEnabled <- map[ParamKey.captureTimeEnabled]
         scoringDisabled <- map[ParamKey.scoringDisabled]
         cycleCount <- (map[ParamKey.cycleCount], IntegerTransform())
+        disableSlotAutoPopulation <- (map[ParamKey.disableSlotAutoPopulation], EnumTransform<QualifyingType>())
         maxZippyqDepth <- (map[ParamKey.maxZippyqDepth], IntegerTransform())
         zippyqIterator <- map[ParamKey.zippyqIterator]
         maxBatteriesForQualifying <- (map[ParamKey.maxBatteriesForQualifying], IntegerTransform())
