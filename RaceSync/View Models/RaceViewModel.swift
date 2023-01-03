@@ -42,13 +42,7 @@ class RaceViewModel: Descriptable {
         self.distance = Self.distance(for: race)
         self.joinState = Self.joinState(for: race)
         self.participantCount = Int(race.participantCount) ?? 0
-
-        if let raceClass = race.raceClass {
-            self.classLabel = raceClass.title
-        } else {
-            self.classLabel = "" // show blank in case for older races
-        }
-
+        self.classLabel = race.raceClassString ?? "" // show blank in case of older races
         self.chapterLabel = race.chapterName
         self.ownerLabel = race.ownerUserName
         self.seasonLabel = race.seasonName
