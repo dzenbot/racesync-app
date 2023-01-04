@@ -456,7 +456,7 @@ public class Validator {
                 }
                 
             } else if (version.rawValue == "13") {
-                var factor = [1, 3]
+                let factor = [1, 3]
                 for i in 0 ..< 12 {
                     let charAt: Int = Int("\(sanitized[sanitized.index(sanitized.startIndex, offsetBy: i)])")!
                     checkSum += factor[i % 2] * charAt
@@ -558,7 +558,7 @@ public class Validator {
      - returns (String)->Bool
      */
     public static func isPostalCode(_ countryCode: PostalCode, nilResponse: Bool = false) -> Validator {
-        return regex(countryCode.rawValue, nilResponse: nilResponse)
+        return regex(countryCode.regex, nilResponse: nilResponse)
     }
     
     /**

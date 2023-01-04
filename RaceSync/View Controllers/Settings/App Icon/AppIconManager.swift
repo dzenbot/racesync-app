@@ -8,6 +8,7 @@
 
 import Foundation
 import SwiftyJSON
+import RaceSyncAPI
 
 class AppIconManager {
 
@@ -57,8 +58,11 @@ class AppIconLoader {
 
         for object in array {
             guard let dict = object as? [String: Any] else { break }
-            if let icon = AppIcon.init(JSON: dict) {
+            do {
+                let icon = try AppIcon.init(JSON: dict)
                 icons += [icon]
+            }  catch {
+                Clog.log("error parsing icon objects: \(error.localizedDescription)")
             }
         }
         return icons

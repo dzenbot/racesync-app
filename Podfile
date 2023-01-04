@@ -34,12 +34,12 @@ target 'RaceSyncAPI' do
     pod 'AlamofireObjectMapper', '~> 5.2.1'
 
     # Data Parsing
-    pod 'SwiftyJSON'
+    pod 'SwiftyJSON', '5.0.0'
     pod 'ObjectMapper', :inhibit_warnings => true
 
     # Security
-    pod 'Valet'
-    
+    pod 'Valet', '3.2.8'
+
     # Data
 #    pod 'RealmSwift', '3.10.0'
 #    pod 'ObjectMapper+Realm', '0.6'
@@ -61,7 +61,7 @@ end
 post_install do |pi|
     pi.pods_project.targets.each do |t|
       t.build_configurations.each do |config|
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
       end
     end
 end
