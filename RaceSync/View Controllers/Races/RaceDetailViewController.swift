@@ -227,6 +227,14 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     fileprivate var userApi = UserApi()
     fileprivate var raceCoordinates: CLLocationCoordinate2D?
 
+    fileprivate var canEditRaces: Bool {
+        get {
+            guard race.isMyChapter && APIServices.shared.settings.isDev else { return false }
+            return true
+        }
+        set { }
+    }
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let contentInsets = UIEdgeInsets(top: padding/2, left: 10, bottom: padding/2, right: padding/2)
@@ -479,7 +487,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         var buttons = [UIButton]()
 
-        if race.isMyChapter {
+        if canEditRaces {
             let editButton = CustomButton(type: .system)
             editButton.addTarget(self, action: #selector(didPressEditButton), for: .touchUpInside)
             editButton.setImage(UIImage(named: "icn_navbar_edit"), for: .normal)

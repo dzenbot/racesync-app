@@ -37,7 +37,13 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     fileprivate var emptyStateRaces = EmptyStateViewModel(.noRaces)
     fileprivate var emptyStateUsers = EmptyStateViewModel(.commingSoon)
 
-    fileprivate var canCreateRaces: Bool = true
+    fileprivate var canCreateRaces: Bool {
+        get {
+            guard chapter.isMyChapter && APIServices.shared.settings.isDev else { return false }
+            return true
+        }
+        set { }
+    }
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -113,7 +119,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
 
         var buttons = [UIButton]()
 
-        if chapter.isMyChapter && canCreateRaces {
+        if canCreateRaces {
             let addButton = CustomButton(type: .system)
             addButton.addTarget(self, action: #selector(didPressAddButton), for: .touchUpInside)
             addButton.setImage(ButtonImg.add, for: .normal)
