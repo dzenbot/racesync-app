@@ -8,14 +8,14 @@
 
 import UIKit
 
+enum FormType {
+    case textfield, textPicker, datePicker, `switch`, textview, undefined
+}
+
 class FormBaseViewController: UIViewController {
     var delegate: FormBaseViewControllerDelegate?
     open var isLoading: Bool = false
     open var formType: FormType = .undefined
-}
-
-enum FormType {
-    case textfield, textPicker, datePicker, `switch`, textview, undefined
 }
 
 @objc protocol FormBaseViewControllerDelegate {

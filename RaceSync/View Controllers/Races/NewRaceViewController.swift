@@ -261,6 +261,8 @@ extension NewRaceViewController: UITableViewDelegate {
             } else {
                 presentTextPicker(forRow: row)
             }
+        } else if row.formType == .textview {
+            pushTextViewController(forRow: row)
         }
     }
 }
@@ -445,6 +447,24 @@ fileprivate extension NewRaceViewController {
             let nc = NavigationController(rootViewController: vc)
             customPresentViewController(presenter, viewController: nc, animated: true)
         }
+    }
+
+    func pushTextViewController(forRow row: NewRaceRow, animated: Bool = true) {
+
+        var text: String = ""
+
+        if row == .shortDesc, let shortDesc = raceData.shortDesc  {
+            text = shortDesc
+        } else if row == .longDesc, let longDesc = raceData.longDesc  {
+            text = longDesc
+        } else if row == .itinerary, let itinerary = raceData.itinerary  {
+            text = itinerary
+        }
+
+        let vc = RichTextViewController(with: text)
+        vc.title = row.title
+
+        navigationController?.pushViewController(vc, animated: animated)
     }
 
     func values(for row: NewRaceRow) -> [String] {
