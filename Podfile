@@ -1,4 +1,4 @@
-platform :ios, '11.0'
+platform :ios, '13.0'
 use_frameworks!
 
 # ignore all warnings from all pods
@@ -16,8 +16,8 @@ target 'RaceSync' do
   pod 'Presentr'
   pod 'QRCode', :git => 'https://github.com/andrewcampoli/QRCode.git', :inhibit_warnings => true
   pod 'ShimmerSwift'
-  pod "PickerView"
   pod 'TOCropViewController'
+  pod 'PickerView'
 
   # Analytics
 
