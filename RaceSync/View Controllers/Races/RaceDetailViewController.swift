@@ -494,14 +494,14 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         if canEditRaces {
             let editButton = CustomButton(type: .system)
             editButton.addTarget(self, action: #selector(didPressEditButton), for: .touchUpInside)
-            editButton.setImage(UIImage(named: "icn_navbar_edit"), for: .normal)
+            editButton.setImage(ButtonImg.edit, for: .normal)
             buttons += [editButton]
         }
 
         if let _ = race.calendarEvent {
             let calendarButton = CustomButton(type: .system)
             calendarButton.addTarget(self, action: #selector(didPressCalendarButton), for: .touchUpInside)
-            calendarButton.setImage(UIImage(named: "icn_navbar_calendar"), for: .normal)
+            calendarButton.setImage(ButtonImg.calendar, for: .normal)
             buttons += [calendarButton]
         }
 

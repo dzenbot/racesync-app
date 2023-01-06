@@ -47,6 +47,25 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
     fileprivate var isRacing: Bool { return myRaceEntry != nil }
     fileprivate var commonUserViewModels = [UserViewModel]()
     fileprivate var otherUserViewModels = [UserViewModel]()
+    fileprivate var myUserViewModel: UserViewModel?
+
+    fileprivate var raceUserViewModels: [UserViewModel] {
+        get {
+            var models = [UserViewModel]()
+
+            if commonUserViewModels.count > 0 {
+                models += commonUserViewModels
+            }
+            if otherUserViewModels.count > 0 {
+                models += otherUserViewModels
+            }
+            if let model = myUserViewModel {
+                models += [model]
+            }
+            return models
+        }
+        set { }
+    }
 
     fileprivate var emptyStateRaceRegisters = EmptyStateViewModel(.noRaceRegisters)
 
@@ -102,7 +121,7 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
         tabBarItem = UITabBarItem(title: "Roster", image: UIImage(named: "icn_tabbar_roster"), selectedImage: UIImage(named: "icn_tabbar_roster_selected"))
 
         if race.isMyChapter {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: ButtonImg.add, style: .done, target: self, action: #selector(didPressAddButton))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: ButtonImg.edit, style: .done, target: self, action: #selector(didPressEditButton))
         }
     }
 
@@ -125,6 +144,8 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
 
             commonUserViewModels = UserViewModel.viewModels(with: commonRaceEntries)
             otherUserViewModels = UserViewModel.viewModels(with: otherRaceEntries)
+            myUserViewModel = UserViewModel(with: myRaceEntry)
+
             headerView.viewModel = RaceEntryViewModel(with: myRaceEntry)
             tableView.tableHeaderView = headerView
 
@@ -145,9 +166,11 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     // MARK: - Actions
 
-    @objc func didPressAddButton() {
+    @objc func didPressEditButton() {
         let vc = ForceJoinViewController(with: race)
+        vc.externalUserViewModels = raceUserViewModels
         vc.delegate = self
+
         let nc = NavigationController(rootViewController: vc)
         present(nc, animated: true)
     }

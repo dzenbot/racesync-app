@@ -22,6 +22,14 @@ class ForceJoinViewController: UIViewController, Shimmable {
 
     var delegate: ForceJoinViewControllerDelegate?
 
+    var externalUserViewModels: [UserViewModel]? {
+        didSet {
+            if let viewModels = externalUserViewModels {
+                joinedIds = viewModels.map({$0.userId})
+            }
+        }
+    }
+
     lazy var tableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .plain)
         tableView.register(cellType: ChapterUserTableViewCell.self)
@@ -34,7 +42,11 @@ class ForceJoinViewController: UIViewController, Shimmable {
         return tableView
     }()
 
-    lazy var searchBar: UISearchBar = {
+    let shimmeringView: ShimmeringView = defaultShimmeringView()
+
+    // MARK: - Private Variables
+
+    fileprivate lazy var searchBar: UISearchBar = {
         let size: CGSize = CGSize(width: UIScreen.main.bounds.width, height: 56)
         let frame = CGRect(origin: .zero, size: size)
 
@@ -47,10 +59,6 @@ class ForceJoinViewController: UIViewController, Shimmable {
         searchBar.backgroundImage = UIImage()
         return searchBar
     }()
-
-    let shimmeringView: ShimmeringView = defaultShimmeringView()
-
-    // MARK: - Private Variables
 
     fileprivate var race: Race
     fileprivate let raceApi = RaceApi()
@@ -138,12 +146,12 @@ class ForceJoinViewController: UIViewController, Shimmable {
 
     @objc fileprivate func didPressJoinButton(_ sender: Any) {
         guard let button = sender as? JoinButton, let userId = button.objectId else { return }
-        guard let viewModel = userViewModels.filter ({ return $0.user?.id == userId }).first, let user = viewModel.user else { return }
+        guard let viewModel = userViewModels.filter ({ return $0.userId == userId }).first else { return }
 
         button.isLoading = true
         let state = button.joinState
 
-        if user.hasJoined(race) || joinedIds.contains(user.id) {
+        if joinedIds.contains(viewModel.userId) {
             ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Remove \(viewModel.username) from the race?", message: nil, destructiveTitle: "Yes, Remove", completion: { (action) in
                 self.resignUser(with: userId) { (newState) in
                     button.isLoading = false
@@ -247,9 +255,16 @@ extension ForceJoinViewController {
     }
 
     fileprivate func processUserViewModels(_ viewModels: [UserViewModel]) {
-        userViewModels = viewModels.sorted { $0.username.lowercased() < $1.username.lowercased() }
 
-        let groupedDictionary = Dictionary(grouping: viewModels, by: { String($0.username.prefix(1).uppercased()) })
+        var combinedViewModels = viewModels
+
+        if let models = externalUserViewModels {
+            combinedViewModels += models
+        }
+
+        userViewModels = combinedViewModels.removingDuplicates()
+
+        let groupedDictionary = Dictionary(grouping: userViewModels, by: { String($0.username.prefix(1).uppercased()) })
         let keys = groupedDictionary.keys.sorted()
 
         sections = keys.compactMap({ (key) -> Section in
@@ -297,7 +312,7 @@ extension ForceJoinViewController: UITableViewDataSource {
 
     fileprivate func chapterUserViewCell(for indexPath: IndexPath) -> ChapterUserTableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ChapterUserTableViewCell
-        guard let viewModel = userViewModel(for: indexPath), let user = viewModel.user else { return cell }
+        guard let viewModel = userViewModel(for: indexPath) else { return cell }
 
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
@@ -306,9 +321,9 @@ extension ForceJoinViewController: UITableViewDataSource {
         cell.joinButton.addTarget(self, action: #selector(didPressJoinButton), for: .touchUpInside)
         cell.joinButton.hitTestEdgeInsets = UIEdgeInsets(proportionally: -10)
         cell.joinButton.type = .race
-        cell.joinButton.objectId = user.id
+        cell.joinButton.objectId = viewModel.userId
 
-        if user.hasJoined(race) || joinedIds.contains(user.id) {
+        if joinedIds.contains(viewModel.userId) {
             cell.joinButton.joinState = .joined
         } else {
             cell.joinButton.joinState = .join

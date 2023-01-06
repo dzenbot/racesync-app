@@ -28,4 +28,6 @@ enum ButtonImg {
     static let close = UIImage(named: "icn_navbar_close")
     static let add = UIImage(named: "icn_navbar_add")
     static let share = UIImage(named: "icn_navbar_share")
+    static let edit = UIImage(named: "icn_navbar_edit")
+    static let calendar = UIImage(named: "icn_navbar_calendar")
 }
