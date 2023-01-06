@@ -293,6 +293,10 @@ public class RaceApi: RaceApiInterface {
         let parameters = data.toParameters()
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
+
+        // Missing multiple attributes, such as
+        // participantCount, isJoined, owner, seasonName, courseName, chapterName, ownerUserName
+        // TODO: On API side, use Race attributes data from race.viewSimple
     }
 
     public func deleteRace(with raceId: ObjectId, _ completion: @escaping StatusCompletionBlock) {

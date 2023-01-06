@@ -427,6 +427,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func populateContent() {
+
         titleLabel.text = raceViewModel.titleLabel.uppercased()
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
@@ -478,10 +479,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             rect = rect.union(view.frame)
         }
         
-        scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height*3)
+        scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height)
     }
 
     fileprivate func configureNavigationItems() {
+
         title = "Race Details"
         tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
 
@@ -522,6 +524,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         memberBadgeView.count = viewModel.participantCount
 
         raceViewModel = viewModel
+
+        populateContent()
         tableView.reloadData()
     }
 
@@ -561,15 +565,15 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = Color.blue
 
-        let edit = UIAlertAction(title: "Edit Race", style: .default) { [weak self] action in
+        let editAction = UIAlertAction(title: "Edit Race", style: .default) { [weak self] action in
             self?.editRace()
         }
 
-        let duplicate = UIAlertAction(title: "Duplicate Race", style: .default) { [weak self] action in
+        let duplicateAction = UIAlertAction(title: "Duplicate Race", style: .default) { [weak self] action in
             self?.duplicateRace()
         }
 
-        let delete = UIAlertAction(title: "Delete Race", style: .destructive) { action in
+        let deleteAction = UIAlertAction(title: "Delete Race", style: .destructive) { action in
             ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(self.race.name)\"?",
                                                           destructiveTitle: "Yes, Delete",
                                                           completion: { [weak self] (action) in
@@ -577,9 +581,9 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             })
         }
 
-        alert.addAction(edit)
-        alert.addAction(duplicate)
-        alert.addAction(delete)
+        alert.addAction(editAction)
+        alert.addAction(duplicateAction)
+        alert.addAction(deleteAction)
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true)
     }

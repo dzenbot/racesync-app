@@ -73,6 +73,32 @@ class NewRaceViewController: UIViewController {
         return view
     }()
 
+    fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
+        let view = UIActivityIndicatorView(style: .medium)
+        view.hidesWhenStopped = true
+        return view
+    }()
+
+    fileprivate lazy var rightBarButtonItem: UIBarButtonItem = {
+        let title = (currentSection == .specific) ? "Save" : "Next"
+        let item = UIBarButtonItem(title: title, style: .done, target: self, action: #selector(didPressNextButton))
+        item.isEnabled = canGoNextSection()
+        return item
+    }()
+
+    fileprivate var isLoading: Bool = false {
+        didSet {
+            if isLoading {
+                navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                activityIndicatorView.startAnimating()
+            }
+            else {
+                navigationItem.rightBarButtonItem = rightBarButtonItem
+                activityIndicatorView.stopAnimating()
+            }
+        }
+    }
+
     fileprivate var raceData: RaceData
     fileprivate var currentSection: NewRaceSection
     fileprivate var selectedRow: NewRaceRow?
@@ -155,11 +181,8 @@ class NewRaceViewController: UIViewController {
     // MARK: - Layout
 
     fileprivate func setupLayout() {
+        
         view.backgroundColor = Color.white
-
-        let rightBarButtonTitle = (currentSection == .specific) ? "Save" : "Next"
-        let rightBarButtonItem = UIBarButtonItem(title: rightBarButtonTitle, style: .done, target: self, action: #selector(didPressNextButton))
-        rightBarButtonItem.isEnabled = canGoNextSection()
         navigationItem.rightBarButtonItem = rightBarButtonItem
 
         // Adds a close button in case of being presented modally
@@ -207,11 +230,15 @@ class NewRaceViewController: UIViewController {
     }
 
     fileprivate func createRace() {
+
+        isLoading = true
+
         raceApi.createRace(withData: raceData) { object, error in
             if let race = object {
                 self.delegate?.newRaceViewController(self, didUpdateRace: race)
             } else if let error = error {
                 AlertUtil.presentAlertMessage("Failed to create the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
+                self.isLoading = false
             }
         }
     }
@@ -219,13 +246,14 @@ class NewRaceViewController: UIViewController {
     fileprivate func editRace() {
         guard let id = raceData.raceId else { return }
 
+        isLoading = true
+
         raceApi.updateRace(race: id, withData: raceData) { object, error in
             if let race = object {
-                let vc = RaceTabBarController(with: race)
-                vc.isDismissable = true
-                self.navigationController?.pushViewController(vc, animated: true)
+                self.delegate?.newRaceViewController(self, didUpdateRace: race)
             } else if let error = error {
                 AlertUtil.presentAlertMessage("Failed to update the race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
+                self.isLoading = false
             }
         }
     }
