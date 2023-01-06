@@ -30,11 +30,18 @@ class RaceListViewController: UIViewController, ViewJoinable {
     // MARK: - Private Variables
 
     fileprivate var raceList: [RaceViewModel]
-    fileprivate var seasonId: ObjectId?
     fileprivate let raceApi = RaceApi()
+    fileprivate var seasonId: ObjectId?
+    fileprivate var raceClass: String?
 
     // MARK: - Initialization
 
+    /**
+     Displays a list of season races.
+
+     - parameter raceViewModels: The pre-fetched view model list of races
+     - parameter seasonId: The season id, to be used in case of refreshing the list (particularly needed for state updates like joining)
+     */
     init(_ raceViewModels: [RaceViewModel], seasonId: ObjectId) {
         self.raceList = raceViewModels
         self.seasonId = seasonId
@@ -42,8 +49,15 @@ class RaceListViewController: UIViewController, ViewJoinable {
         super.init(nibName: nil, bundle: nil)
     }
 
+    /**
+     Displays a list of races filtered by class
+
+     - parameter raceViewModels: The pre-fetched view model list of races
+     - parameter raceClass: The season enum raw value, to be used in case of refreshing the list (particularly needed for state updates like joining)
+     */
     init(_ raceViewModels: [RaceViewModel], raceClass: String) {
         self.raceList = raceViewModels
+        self.raceClass = raceClass
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -62,8 +76,6 @@ class RaceListViewController: UIViewController, ViewJoinable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        // loadContent()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -109,17 +121,19 @@ class RaceListViewController: UIViewController, ViewJoinable {
                     self?.raceList = RaceViewModel.sortedViewModels(with: races)
                     self?.tableView.reloadData()
                 } else if let _ = error {
-                    // handle error
+                    // handle error ?
+                }
+            }
+        } else if let raceClass = raceClass {
+            raceApi.getRaces(forClass: raceClass) { [weak self] (races, error) in
+                if let races = races {
+                    self?.raceList = RaceViewModel.sortedViewModels(with: races)
+                    self?.tableView.reloadData()
+                } else if let _ = error {
+                    // handle error ?
                 }
             }
         }
-    }
-}
-
-fileprivate extension RaceListViewController {
-
-    func loadContent() {
-
     }
 }
 

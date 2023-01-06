@@ -93,17 +93,17 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         return view
     }()
 
-    fileprivate lazy var searchButton: CustomButton = {
-        let button = CustomButton(type: .system)
-        button.addTarget(self, action: #selector(didPressSearchButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_navbar_search"), for: .normal)
-        return button
-    }()
-
     fileprivate lazy var settingsButton: CustomButton = {
         let button = CustomButton(type: .system)
         button.addTarget(self, action: #selector(didPressSettingsButton), for: .touchUpInside)
-        button.setImage(UIImage(named: "icn_navbar_settings"), for: .normal)
+        button.setImage(ButtonImg.settings, for: .normal)
+        return button
+    }()
+
+    fileprivate lazy var searchButton: CustomButton = {
+        let button = CustomButton(type: .system)
+        button.addTarget(self, action: #selector(didPressSearchButton), for: .touchUpInside)
+        button.setImage(ButtonImg.search, for: .normal)
         return button
     }()
 
