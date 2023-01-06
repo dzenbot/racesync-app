@@ -407,6 +407,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate func loadRows() {
 
+        tableViewRows = [Row]()
+
         if raceViewModel.classLabel != "" {
             tableViewRows += [Row.class]
         }
@@ -522,10 +524,16 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         joinButton.joinState = viewModel.joinState
         memberBadgeView.count = viewModel.participantCount
-
         raceViewModel = viewModel
 
+        loadRows()
         populateContent()
+
+        // updating the height of the tableview, since the number of rows could have changed
+        tableView.snp.updateConstraints { make in
+            make.height.equalTo(Constants.cellHeight*CGFloat(tableViewRows.count))
+        }
+
         tableView.reloadData()
     }
 
