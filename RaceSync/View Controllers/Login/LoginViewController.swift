@@ -140,6 +140,14 @@ class LoginViewController: UIViewController {
         return APIServices.shared.settings.isDev ? "Login with ppt.MultiGP" : "Login with MultiGP"
     }
 
+    fileprivate var canAutoLogin: Bool {
+        get {
+            guard let email = emailField.text, email.count > 0 else { return false }
+            guard let password = passwordField.text, password.count > 0 else { return false }
+            return true
+        }
+    }
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let loginFormHeight: CGFloat = 320
@@ -193,8 +201,14 @@ class LoginViewController: UIViewController {
             emailField.text = APIServices.shared.credential.email
             passwordField.text = APIServices.shared.credential.password
 
-            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
-                self.emailField.becomeFirstResponder()
+            if canAutoLogin {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
+                    self.shouldLogin()
+                }
+            } else {
+                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
+                    self.emailField.becomeFirstResponder()
+                }
             }
         }
     }
@@ -292,26 +306,7 @@ class LoginViewController: UIViewController {
     }
 
     @objc func didPressLoginButton() {
-        guard let email = emailField.text else { shakeLoginButton(); return }
-        guard Validator.isEmail().apply(email) else { shakeLoginButton(); return }
-
-        guard let password = passwordField.text else { shakeLoginButton(); return }
-        guard !Validator.isEmpty().apply(password) else { shakeLoginButton(); return }
-
-        // Invalidate the form momentairly
-        freezeLoginForm()
-        loginButton.isLoading = true
-
-        // Login
-        authApi.login(email, password: password) { [weak self] (status, error) in
-            if let error = error {
-                self?.freezeLoginForm(false)
-                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
-            } else if status {
-                self?.presentHome(transition: .flipHorizontal)
-            }
-            self?.loginButton.isLoading = false
-        }
+        shouldLogin()
     }
 
     @objc func didPressLegalButton() {
@@ -371,6 +366,31 @@ class LoginViewController: UIViewController {
                        completion: nil)
 
         isKeyboardVisible = false
+    }
+
+    // MARK: - Events
+
+    func shouldLogin() {
+        guard let email = emailField.text else { shakeLoginButton(); return }
+        guard Validator.isEmail().apply(email) else { shakeLoginButton(); return }
+
+        guard let password = passwordField.text else { shakeLoginButton(); return }
+        guard !Validator.isEmpty().apply(password) else { shakeLoginButton(); return }
+
+        // Invalidate the form momentairly
+        freezeLoginForm()
+        loginButton.isLoading = true
+
+        // Login
+        authApi.login(email, password: password) { [weak self] (status, error) in
+            if let error = error {
+                self?.freezeLoginForm(false)
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
+            } else if status {
+                self?.presentHome(transition: .flipHorizontal)
+            }
+            self?.loginButton.isLoading = false
+        }
     }
 
     // MARK: - Transitions

@@ -410,7 +410,7 @@ fileprivate extension RaceMainListViewController {
                 self?.loadRaces()
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session
-                ApplicationControl.shared.invalidateSession()
+                ApplicationControl.shared.invalidateSession(forced: true)
             }
         }
 

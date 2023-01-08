@@ -32,6 +32,8 @@ public enum APISettingsType: Int, EnumTitle {
     }
 }
 
+public let APISettingsDomain: String = "com.multigp.RaceSync.settings"
+
 public class APISettings {
 
     // MARK: - Settings Setters / Getters
@@ -70,10 +72,12 @@ public class APISettings {
 
     public var environment: APIEnvironment {
         get {
+            // first check what state is saved locally
             if let rawValue = value(for: .environment) as? Int {
                 if let env = APIEnvironment(rawValue: rawValue) { return env }
             }
 
+            // else differ to the build environment variable
             let dev = ProcessInfo.processInfo.environment["api-environment"] == "dev"
             return dev ? APIEnvironment.dev : APIEnvironment.prod
         } set {
@@ -87,7 +91,7 @@ public class APISettings {
     public func invalidateSettings() {
 
         let settingsKeys = UserDefaults.standard.dictionaryRepresentation().keys.filter { (key) -> Bool in
-            return key.hasPrefix("com.multigp.RaceSync.settings")
+            return key.hasPrefix(APISettingsDomain)
         }
 
         for key in settingsKeys {

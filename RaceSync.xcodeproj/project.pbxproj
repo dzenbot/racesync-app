@@ -129,7 +129,6 @@
 		4F9979BF26D57CFF00496451 /* AppIcon-KRU@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
 		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
-		4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APICredential.swift */; };
 		4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A223D397B700570483 /* SettingsViewController.swift */; };
 		4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AB23D5A1DE00570483 /* EmptyStateViewModel.swift */; };
 		4F9DB7AE23D614CF00570483 /* APISettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7AD23D614CF00570483 /* APISettings.swift */; };
@@ -1716,7 +1715,6 @@
 				4F65D908257B134700C506C3 /* TrackDetailViewController.swift in Sources */,
 				4F5C1E45238D1BD200D756EB /* PasteboardButton.swift in Sources */,
 				4FD53FB323A0E9B700158206 /* AvatarImageView.swift in Sources */,
-				4F9DB79E23D30F3200570483 /* APICredential.swift in Sources */,
 				4FA1FC8F23D74D29006D4704 /* StringConstants.swift in Sources */,
 				4FA213F02946C9FA00C8E45A /* AppIcon.swift in Sources */,
 				4FD53FAD23A0B01E00158206 /* UserViewModel.swift in Sources */,

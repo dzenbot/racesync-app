@@ -23,10 +23,15 @@ class ApplicationControl: NSObject {
 
     // MARK: - Public Methods
 
-    func invalidateSession() {
+    func invalidateSession(forced: Bool = false) {
         guard let window = UIApplication.shared.delegate?.window else { return }
 
-        APISessionManager.invalidateSession()
+        if !forced {
+            APISessionManager.invalidateSession()
+        } else {
+            APISessionManager.invalidateSessionId() // doesn't remove email & pwd
+        }
+
         APIServices.shared.invalidate()
         CrashCatcher.invalidateUser()
         invalidateWatchSession()

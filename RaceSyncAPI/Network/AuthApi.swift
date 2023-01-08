@@ -61,7 +61,8 @@ public class AuthApi: AuthApiInterface {
                         completion(false, errors.first)
                     } else {
                         APISessionManager.handleSessionJSON(json)
-                        APISessionManager.setSessionEmail(username)
+                        APISessionManager.setSessionEmail(username) //email really
+                        APISessionManager.setSessionPasword(password)
                         completion(true, nil)
                     }
                 case .failure:
