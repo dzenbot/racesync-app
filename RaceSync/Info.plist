@@ -10,13 +10,6 @@
 	<dict>
 		<key>CFBundleAlternateIcons</key>
 		<dict>
-			<key>Blue</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>AppIcon-Blue</string>
-				</array>
-			</dict>
 			<key>CFPV</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -38,6 +31,20 @@
 					<string>AppIcon-KRU</string>
 				</array>
 			</dict>
+			<key>MGP1</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-MGP1</string>
+				</array>
+			</dict>
+			<key>MGP2</key>
+			<dict>
+				<key>CFBundleIconFiles</key>
+				<array>
+					<string>AppIcon-MGP2</string>
+				</array>
+			</dict>
 			<key>OTTFPV</key>
 			<dict>
 				<key>CFBundleIconFiles</key>
@@ -50,13 +57,6 @@
 				<key>CFBundleIconFiles</key>
 				<array>
 					<string>AppIcon-S3</string>
-				</array>
-			</dict>
-			<key>White</key>
-			<dict>
-				<key>CFBundleIconFiles</key>
-				<array>
-					<string>AppIcon-White</string>
 				</array>
 			</dict>
 		</dict>

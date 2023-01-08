@@ -45,10 +45,6 @@
 		4F27243B2517DB1C000C7408 /* CopyLinkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */; };
 		4F2724402517DC5B000C7408 /* UIActivityViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27243F2517DC5B000C7408 /* UIActivityViewController+Extensions.swift */; };
 		4F32F53F257DD0960017AD7B /* Credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F32F53E257DD0960017AD7B /* Credentials.plist */; };
-		4F39978026D453D2006B1075 /* AppIcon-Blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F39977A26D453D2006B1075 /* AppIcon-Blue@2x.png */; };
-		4F39978126D453D2006B1075 /* AppIcon-White@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F39977B26D453D2006B1075 /* AppIcon-White@3x.png */; };
-		4F39978226D453D2006B1075 /* AppIcon-White@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F39977C26D453D2006B1075 /* AppIcon-White@2x.png */; };
-		4F39978326D453D2006B1075 /* AppIcon-Blue@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F39977D26D453D2006B1075 /* AppIcon-Blue@3x.png */; };
 		4F3D640723FB0A4800DE6DF2 /* AircraftPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */; };
 		4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */; };
 		4F3D640B23FB0C8800DE6DF2 /* AircraftListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */; };
@@ -171,6 +167,10 @@
 		4FA26835237A80B9008970AC /* ActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26834237A80B9008970AC /* ActionButton.swift */; };
 		4FAAA88523AA15EA00A004DC /* MapKit+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */; };
 		4FAC24A823DC3E06009AD585 /* UILabel+LinesCount.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */; };
+		4FB06AB3296B521000F14E59 /* AppIcon-MGP1@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FB06AAF296B521000F14E59 /* AppIcon-MGP1@3x.png */; };
+		4FB06AB4296B521000F14E59 /* AppIcon-MGP2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FB06AB0296B521000F14E59 /* AppIcon-MGP2@2x.png */; };
+		4FB06AB5296B521000F14E59 /* AppIcon-MGP2@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FB06AB1296B521000F14E59 /* AppIcon-MGP2@3x.png */; };
+		4FB06AB6296B521000F14E59 /* AppIcon-MGP1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FB06AB2296B521000F14E59 /* AppIcon-MGP1@2x.png */; };
 		4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */; };
 		4FBADDF624D4E2DB00A7D291 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */; };
 		4FBE7602259B341E00312B66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B74D2596968100631A27 /* Assets.xcassets */; };
@@ -372,10 +372,6 @@
 		4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyLinkActivity.swift; sourceTree = "<group>"; };
 		4F27243F2517DC5B000C7408 /* UIActivityViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityViewController+Extensions.swift"; sourceTree = "<group>"; };
 		4F32F53E257DD0960017AD7B /* Credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Credentials.plist; path = ../../Credentials.plist; sourceTree = "<group>"; };
-		4F39977A26D453D2006B1075 /* AppIcon-Blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Blue@2x.png"; sourceTree = "<group>"; };
-		4F39977B26D453D2006B1075 /* AppIcon-White@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-White@3x.png"; sourceTree = "<group>"; };
-		4F39977C26D453D2006B1075 /* AppIcon-White@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-White@2x.png"; sourceTree = "<group>"; };
-		4F39977D26D453D2006B1075 /* AppIcon-Blue@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-Blue@3x.png"; sourceTree = "<group>"; };
 		4F3D640623FB0A4700DE6DF2 /* AircraftPickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AircraftPickerViewController.swift; sourceTree = "<group>"; };
 		4F3D640823FB0A9D00DE6DF2 /* AircraftDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftDetailViewController.swift; sourceTree = "<group>"; };
 		4F3D640A23FB0C8800DE6DF2 /* AircraftListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftListViewController.swift; sourceTree = "<group>"; };
@@ -503,6 +499,10 @@
 		4FA26834237A80B9008970AC /* ActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActionButton.swift; sourceTree = "<group>"; };
 		4FAAA88423AA15EA00A004DC /* MapKit+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MapKit+Extensions.swift"; sourceTree = "<group>"; };
 		4FAC24A723DC3E06009AD585 /* UILabel+LinesCount.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+LinesCount.swift"; sourceTree = "<group>"; };
+		4FB06AAF296B521000F14E59 /* AppIcon-MGP1@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-MGP1@3x.png"; sourceTree = "<group>"; };
+		4FB06AB0296B521000F14E59 /* AppIcon-MGP2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-MGP2@2x.png"; sourceTree = "<group>"; };
+		4FB06AB1296B521000F14E59 /* AppIcon-MGP2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-MGP2@3x.png"; sourceTree = "<group>"; };
+		4FB06AB2296B521000F14E59 /* AppIcon-MGP1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-MGP1@2x.png"; sourceTree = "<group>"; };
 		4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
 		4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		4FBE760E259B387E00312B66 /* User+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+UIExtensions.swift"; sourceTree = "<group>"; };
@@ -807,10 +807,10 @@
 		4F39977726D453D2006B1075 /* AppIcons */ = {
 			isa = PBXGroup;
 			children = (
-				4F39977A26D453D2006B1075 /* AppIcon-Blue@2x.png */,
-				4F39977D26D453D2006B1075 /* AppIcon-Blue@3x.png */,
-				4F39977C26D453D2006B1075 /* AppIcon-White@2x.png */,
-				4F39977B26D453D2006B1075 /* AppIcon-White@3x.png */,
+				4FB06AB2296B521000F14E59 /* AppIcon-MGP1@2x.png */,
+				4FB06AAF296B521000F14E59 /* AppIcon-MGP1@3x.png */,
+				4FB06AB0296B521000F14E59 /* AppIcon-MGP2@2x.png */,
+				4FB06AB1296B521000F14E59 /* AppIcon-MGP2@3x.png */,
 				4F9979BA26D57CFF00496451 /* AppIcon-KRU@2x.png */,
 				4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */,
 				4FA213E52946ADD300C8E45A /* AppIcon-OTTFPV@2x.png */,
@@ -1413,19 +1413,19 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4FB06AB6296B521000F14E59 /* AppIcon-MGP1@2x.png in Resources */,
 				4F6881B2257ECAE500D33672 /* track-images in Resources */,
 				4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */,
 				4FA213F72947AB5900C8E45A /* AppIcon-FMR@2x.png in Resources */,
-				4F39978226D453D2006B1075 /* AppIcon-White@2x.png in Resources */,
-				4F39978126D453D2006B1075 /* AppIcon-White@3x.png in Resources */,
-				4F39978026D453D2006B1075 /* AppIcon-Blue@2x.png in Resources */,
+				4FB06AB4296B521000F14E59 /* AppIcon-MGP2@2x.png in Resources */,
 				4FA213E82946ADD400C8E45A /* AppIcon-OTTFPV@3x.png in Resources */,
-				4F39978326D453D2006B1075 /* AppIcon-Blue@3x.png in Resources */,
 				4FA213F82947AB5900C8E45A /* AppIcon-FMR@3x.png in Resources */,
 				4FA213EE2946B5A300C8E45A /* AppIcon-S3@2x.png in Resources */,
+				4FB06AB5296B521000F14E59 /* AppIcon-MGP2@3x.png in Resources */,
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
 				4FA213ED2946B5A300C8E45A /* AppIcon-S3@3x.png in Resources */,
 				4F9979BE26D57CFF00496451 /* AppIcon-KRU@2x.png in Resources */,
+				4FB06AB3296B521000F14E59 /* AppIcon-MGP1@3x.png in Resources */,
 				4FA213F32947A7C700C8E45A /* AppIcon-CFPV@2x.png in Resources */,
 				4FA213EA2946B11E00C8E45A /* icons-list.json in Resources */,
 				4F65D8D82574EA5400C506C3 /* tracks-list.json in Resources */,
