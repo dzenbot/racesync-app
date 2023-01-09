@@ -15,8 +15,10 @@ class RaceViewModel: Descriptable {
     let race: Race
 
     let titleLabel: String
-    let dateLabel: String?
-    let fullDateLabel: String?
+    let startDateLabel: String?
+    let startDateDesc: String?
+    let endDateLabel: String?
+    let endDateDesc: String?
     let locationLabel: String
     let fullLocationLabel: String
     let distanceLabel: String
@@ -34,8 +36,10 @@ class RaceViewModel: Descriptable {
     init(with race: Race) {
         self.race = race
         self.titleLabel = race.name
-        self.dateLabel = Self.dateLabelString(for: race) // "Sat Sept 14 @ 9:00 AM"
-        self.fullDateLabel = Self.fullDateLabelString(for: race) // "Saturday, September 14th @ 9:00 AM"
+        self.startDateLabel = Self.dateLabelString(for: race.startDate) // "Sat Sept 14 @ 9:00 AM"
+        self.startDateDesc = Self.fullDateLabelString(for: race.startDate) // "Saturday, September 14th @ 9:00 AM"
+        self.endDateLabel = Self.dateLabelString(for: race.endDate) // "Sat Sept 14 @ 9:00 AM"
+        self.endDateDesc = Self.fullDateLabelString(for: race.endDate) // "Sat Sept 14 @ 9:00 AM"
         self.locationLabel = Self.locationLabelString(for: race)
         self.fullLocationLabel = Self.fullLocationLabelString(for: race)
         self.distanceLabel = Self.distanceLabelString(for: race) // "309.4 mi" or "122 kms"
@@ -89,14 +93,14 @@ enum RaceViewSorting {
 
 extension RaceViewModel {
 
-    static func dateLabelString(for race: Race) -> String? {
-        guard let date = race.startDate else { return nil }
+    static func dateLabelString(for date: Date?) -> String? {
+        guard let date = date else { return nil }
         return DateUtil.localizedString(from: date)
     }
 
-    static func fullDateLabelString(for race: Race) -> String? {
-        guard let date = race.startDate else { return nil }
-        return DateUtil.localizedString(from: date, full: true)
+    static func fullDateLabelString(for date: Date?) -> String? {
+        guard let date = date else { return nil }
+        return DateUtil.displayFullDateTime2LineFormatter.string(from: date)
     }
 
     static func locationLabelString(for race: Race) -> String {

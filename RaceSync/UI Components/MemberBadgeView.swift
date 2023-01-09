@@ -30,7 +30,7 @@ class MemberBadgeView: CustomButton {
     // MARK: - Layout
 
     fileprivate func setupLayout() {
-        titleLabel?.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         setTitleColor(Color.black, for: .normal)
         tintColor = Color.black
 

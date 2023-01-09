@@ -15,6 +15,7 @@ public class Race: Mappable, Joinable, Descriptable {
     public var id: ObjectId = ""
     public var name: String = ""
     public var startDate: Date?
+    public var endDate: Date?
     public var mainImageFileName: String?
     public var statusString: String = ""
     public var status: RaceStatus = .open
@@ -94,6 +95,7 @@ public class Race: Mappable, Joinable, Descriptable {
         id <- map[ParamKey.id]
         name <- map[ParamKey.name]
         startDate <- (map[ParamKey.startDate], MapperUtil.dateTransform)
+        endDate <- (map[ParamKey.endDate], MapperUtil.dateTransform)
         mainImageFileName <- map[ParamKey.mainImageFileName]
         isJoined <- map[ParamKey.isJoined]
         statusString <- map[ParamKey.status] // The API returns a status string, instead of enum

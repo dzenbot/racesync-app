@@ -312,7 +312,7 @@ extension UserViewController: UITableViewDataSource {
     func userRaceTableViewCell(for indexPath: IndexPath) -> UserRaceTableViewCell {
         let viewModel = raceViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as UserRaceTableViewCell
-        cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
+        cell.dateLabel.text = viewModel.startDateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
         cell.joinButton.type = .race
         cell.joinButton.objectId = viewModel.race.id

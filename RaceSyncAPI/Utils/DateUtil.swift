@@ -42,6 +42,14 @@ public class DateUtil {
 
 public extension DateUtil {
 
+    static let displayFullDateTime2LineFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMMM d\n@ h:mm a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        return formatter
+    }()
+
     static let displayFullDateTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()
         formatter.dateFormat = "EEEE, MMM d @ h:mm a"

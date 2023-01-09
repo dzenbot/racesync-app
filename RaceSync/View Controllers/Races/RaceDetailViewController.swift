@@ -81,7 +81,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         let button = PasteboardButton(type: .system)
         button.tintColor = Color.red
         button.shouldHighlight = true
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         button.titleLabel?.numberOfLines = 2
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
@@ -90,12 +90,25 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return button
     }()
 
-    fileprivate lazy var dateButton: PasteboardButton = {
+    fileprivate lazy var startDateButton: PasteboardButton = {
         let button = PasteboardButton(type: .system)
         button.tintColor = Color.black
         button.shouldHighlight = true
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        button.titleLabel?.numberOfLines = 1
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        button.titleLabel?.numberOfLines = 2
+        button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
+        button.imageView?.tintColor = button.tintColor
+        button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
+        return button
+    }()
+
+    fileprivate lazy var endDateButton: PasteboardButton = {
+        let button = PasteboardButton(type: .system)
+        button.tintColor = Color.black
+        button.shouldHighlight = true
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        button.titleLabel?.numberOfLines = 2
         button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.imageView?.tintColor = button.tintColor
@@ -111,23 +124,22 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.setTitleColor(Color.white, for: .normal)
         button.tintColor = Color.white
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 12)
-
         button.backgroundColor = Color.lightBlue
         button.layer.cornerRadius = 6
-
         return button
     }()
 
     fileprivate lazy var headerLabelStackView: UIStackView = {
         var subviews = [UIView]()
         if canDisplayAddress { subviews += [locationButton] }
-        subviews += [dateButton]
+        subviews += [startDateButton]
+        if canDisplayEndDate { subviews += [endDateButton] }
 
         let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
-        stackView.spacing = 12
+        stackView.spacing = Constants.padding
         return stackView
     }()
 
@@ -200,6 +212,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate var canDisplayAddress: Bool {
         return raceViewModel.fullLocationLabel.count > 0
+    }
+
+    fileprivate var canDisplayEndDate: Bool {
+        guard let text = raceViewModel.endDateDesc else { return false }
+        return text.count > 0
     }
 
     fileprivate var canDisplayMap: Bool {
@@ -346,7 +363,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         if canDisplayDescription {
             contentView.addSubview(descriptionTextView)
             descriptionTextView.snp.makeConstraints {
-                $0.top.equalTo(buttonStackView.snp.bottom).offset(Constants.padding)
+                $0.top.equalTo(headerLabelStackView.snp.bottom).offset(Constants.padding)
                 $0.leading.trailing.equalToSuperview()
                 $0.width.equalTo(view.bounds.width)
             }
@@ -433,7 +450,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         titleLabel.text = raceViewModel.titleLabel.uppercased()
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
-        dateButton.setTitle(raceViewModel.fullDateLabel, for: .normal)
+        startDateButton.setTitle(raceViewModel.startDateDesc , for: .normal)
+
+        if canDisplayEndDate {
+            endDateButton.setTitle(raceViewModel.endDateDesc, for: .normal)
+        }
 
         if canDisplayAddress {
             locationButton.setTitle(raceViewModel.fullLocationLabel, for: .normal)

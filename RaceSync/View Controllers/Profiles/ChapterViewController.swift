@@ -322,7 +322,7 @@ extension ChapterViewController: UITableViewDataSource {
     func raceTableViewCell(for indexPath: IndexPath) -> RaceTableViewCell {
         let viewModel = raceViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as RaceTableViewCell
-        cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
+        cell.dateLabel.text = viewModel.startDateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
         cell.joinButton.type = .race
         cell.joinButton.objectId = viewModel.race.id
