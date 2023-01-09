@@ -9,11 +9,11 @@
 import Foundation
 import RaceSyncAPI
 
-enum NewRaceMode: Int {
-    case create, edit
+enum RaceFormMode: Int {
+    case new, update
 }
 
-enum NewRaceSection: Int, EnumTitle, CaseIterable {
+enum RaceFormSection: Int, EnumTitle, CaseIterable {
     case general, specific //, frequencies
 
     public var title: String {
@@ -25,7 +25,7 @@ enum NewRaceSection: Int, EnumTitle, CaseIterable {
     }
 }
 
-enum NewRaceRow: Int, EnumTitle, CaseIterable {
+enum RaceFormRow: Int, EnumTitle, CaseIterable {
     case name, startDate, endDate, chapter, `class`, format, schedule, privacy, status,
          scoring, timing, rounds, season, location, shortDesc, longDesc, itinerary
 
@@ -53,7 +53,7 @@ enum NewRaceRow: Int, EnumTitle, CaseIterable {
     }
 }
 
-extension NewRaceRow {
+extension RaceFormRow {
 
     func displayText(from raceData: RaceData) -> String? {
         switch self {

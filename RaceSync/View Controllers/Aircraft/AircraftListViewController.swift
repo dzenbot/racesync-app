@@ -122,7 +122,7 @@ class AircraftListViewController: UIViewController {
     // MARK: - Actions
 
     @objc func didPressCreateButton() {
-        let vc = NewAircraftViewController()
+        let vc = AircraftFormViewController()
         vc.delegate = self
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -261,9 +261,9 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
     }
 }
 
-extension AircraftListViewController: NewAircraftViewControllerDelegate {
+extension AircraftListViewController: AircraftFormViewControllerDelegate {
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
+    func aircraftFormViewController(_ viewController: AircraftFormViewController, didCreateAircraft aircraft: Aircraft) {
 
         let newViewModel = AircraftViewModel(with: aircraft)
 
@@ -273,11 +273,11 @@ extension AircraftListViewController: NewAircraftViewControllerDelegate {
         showAircraftDetail(newViewModel, isNew: true, animated: false)
     }
 
-    func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {
+    func aircraftFormViewControllerDidDismiss(_ viewController: AircraftFormViewController) {
         //
     }
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, valuesFor row: AircraftRow) -> [String]? {
+    func aircraftFormViewController(_ viewController: AircraftFormViewController, valuesFor row: AircraftFormRow) -> [String]? {
         return nil
     }
 }

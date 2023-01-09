@@ -131,3 +131,13 @@ class DatePickerViewController: FormBaseViewController {
     }
 }
 
+extension DatePickerViewController: PresentrDelegate {
+
+    func presentrShouldDismiss(keyboardShowing: Bool) -> Bool {
+        DispatchQueue.main.async {
+            self.delegate?.formViewControllerDidDismiss(self)
+        }
+
+        return true
+    }
+}

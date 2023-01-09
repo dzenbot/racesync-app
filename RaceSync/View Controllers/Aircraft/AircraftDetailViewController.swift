@@ -87,7 +87,7 @@ class AircraftDetailViewController: UIViewController {
         didSet { title = aircraftViewModel.displayName }
     }
     fileprivate let aircraftApi = AircraftApi()
-    fileprivate var selectedRow: AircraftRow?
+    fileprivate var selectedRow: AircraftFormRow?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -182,7 +182,7 @@ class AircraftDetailViewController: UIViewController {
 
 fileprivate extension AircraftDetailViewController {
 
-    func presentPicker(forRow row: AircraftRow) {
+    func presentPicker(forRow row: AircraftFormRow) {
         let items = row.values
         let selectedItem = row.value(from: aircraftViewModel)
         let defaultItem = row.defaultValue
@@ -196,7 +196,7 @@ fileprivate extension AircraftDetailViewController {
         customPresentViewController(presenter, viewController: nc, animated: true)
     }
 
-    func presentTextField(forRow row: AircraftRow) {
+    func presentTextField(forRow row: AircraftFormRow) {
         let text = row.value(from: aircraftViewModel)
 
         let presenter = Appearance.defaultPresenter()
@@ -228,7 +228,7 @@ extension AircraftDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard let row = AircraftRow(rawValue: indexPath.row) else { return }
+        guard let row = AircraftFormRow(rawValue: indexPath.row) else { return }
         guard isEditable else { return }
 
         if row == .name {
@@ -244,12 +244,12 @@ extension AircraftDetailViewController: UITableViewDelegate {
 extension AircraftDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isLoading ? 0 : AircraftRow.allCases.count
+        return isLoading ? 0 : AircraftFormRow.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
-        guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
+        guard let row = AircraftFormRow(rawValue: indexPath.row) else { return cell }
 
         if row.isRowRequired, isEditable {
             cell.textLabel?.text = row.title + " *"
@@ -313,7 +313,7 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: aircraftData) {  [weak self] (status, error) in
             guard let strongSelf = self else { return }
             if status {
-                let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: AircraftRow.name)
+                let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: AircraftFormRow.name)
                 strongSelf.handleAircraftUpdate(updatedAircraft, from: viewController)
             } else if let error = error {
                 viewController.isLoading = false
@@ -359,7 +359,7 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         }
     }
 
-    func updateAircraft(_ aircraft: Aircraft, withItem item: String, forRow row: AircraftRow) -> Aircraft {
+    func updateAircraft(_ aircraft: Aircraft, withItem item: String, forRow row: AircraftFormRow) -> Aircraft {
         switch row {
         case .name:
             aircraft.name = item

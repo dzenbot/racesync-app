@@ -1,5 +1,5 @@
 //
-//  ForceJoinViewController.swift
+//  RacePilotsPickerController.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2020-03-21.
@@ -12,15 +12,15 @@ import RaceSyncAPI
 import EmptyDataSet_Swift
 import ShimmerSwift
 
-protocol ForceJoinViewControllerDelegate {
-    func forceJoinViewControllerDidForce(_ viewController: ForceJoinViewController)
+protocol RacePilotsPickerControllerDelegate {
+    func racePilotsPickerController(_ viewController: RacePilotsPickerController)
 }
 
-class ForceJoinViewController: UIViewController, Shimmable {
+class RacePilotsPickerController: UIViewController, Shimmable {
 
     // MARK: - Public Variables
 
-    var delegate: ForceJoinViewControllerDelegate?
+    var delegate: RacePilotsPickerControllerDelegate?
 
     var externalUserViewModels: [UserViewModel]? {
         didSet {
@@ -118,7 +118,7 @@ class ForceJoinViewController: UIViewController, Shimmable {
         super.viewWillDisappear(animated)
 
         if didForceJoin {
-            delegate?.forceJoinViewControllerDidForce(self)
+            delegate?.racePilotsPickerController(self)
         }
     }
 
@@ -226,7 +226,7 @@ class ForceJoinViewController: UIViewController, Shimmable {
     }
 }
 
-extension ForceJoinViewController {
+extension RacePilotsPickerController {
 
     fileprivate func loadUsers() {
         if userViewModels.isEmpty {
@@ -273,14 +273,14 @@ extension ForceJoinViewController {
     }
 }
 
-extension ForceJoinViewController: UITableViewDelegate {
+extension RacePilotsPickerController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
-extension ForceJoinViewController: UITableViewDataSource {
+extension RacePilotsPickerController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         if isSearching { return 1 }
@@ -343,7 +343,7 @@ extension ForceJoinViewController: UITableViewDataSource {
     }
 }
 
-extension ForceJoinViewController: UISearchBarDelegate {
+extension RacePilotsPickerController: UISearchBarDelegate {
 
     func searchBarShouldBeginEditing(_ searchBar: UISearchBar) -> Bool {
         searchBar.setShowsCancelButton(true, animated: true)
@@ -379,7 +379,7 @@ extension ForceJoinViewController: UISearchBarDelegate {
     }
 }
 
-extension ForceJoinViewController: EmptyDataSetSource {
+extension RacePilotsPickerController: EmptyDataSetSource {
 
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
         if isSearching {

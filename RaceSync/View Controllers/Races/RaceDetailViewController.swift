@@ -657,8 +657,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         guard let chapter = chapters.filter ({ return $0.id == race.chapterId }).first else { return }
 
         let data = RaceData(with: race)
-        let vc = NewRaceViewController(with: [chapter], raceData: data, section: .general)
-        vc.editMode = .edit
+        let vc = RaceFormViewController(with: [chapter], raceData: data, section: .general)
+        vc.editMode = .update
         vc.delegate = self
 
         let nc = NavigationController(rootViewController: vc)
@@ -670,8 +670,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
 
         let data = RaceData(with: race)
-        let vc = NewRaceViewController(with: chapters, raceData: data, section: .general)
-        vc.editMode = .create
+        let vc = RaceFormViewController(with: chapters, raceData: data, section: .general)
+        vc.editMode = .new
         vc.delegate = self
 
         let nc = NavigationController(rootViewController: vc)
@@ -864,11 +864,11 @@ extension RaceDetailViewController: UITableViewDataSource {
     }
 }
 
-extension RaceDetailViewController: NewRaceViewControllerDelegate {
+extension RaceDetailViewController: RaceFormViewControllerDelegate {
 
-    func newRaceViewController(_ viewController: NewRaceViewController, didUpdateRace race: Race) {
+    func raceFormViewController(_ viewController: RaceFormViewController, didUpdateRace race: Race) {
 
-        if viewController.editMode == .edit {
+        if viewController.editMode == .update {
             self.race = race
             self.reloadContent()
             viewController.dismiss(animated: true, completion: nil)
@@ -878,7 +878,7 @@ extension RaceDetailViewController: NewRaceViewControllerDelegate {
         }
     }
 
-    func newRaceViewControllerDidDismiss(_ viewController: NewRaceViewController) {
+    func raceFormViewControllerDidDismiss(_ viewController: RaceFormViewController) {
         viewController.dismiss(animated: true, completion: nil)
     }
 }

@@ -161,7 +161,7 @@ class AircraftPickerViewController: UIViewController {
         let data = AircraftData(with: race)
         data.name = nil
         
-        let vc = NewAircraftViewController(with: data)
+        let vc = AircraftFormViewController(with: data)
         vc.delegate = self
         let nc = UINavigationController(rootViewController: vc)
         navigationController?.present(nc, animated: true)
@@ -247,19 +247,19 @@ extension AircraftPickerViewController: UICollectionViewDataSource {
     }
 }
 
-extension AircraftPickerViewController: NewAircraftViewControllerDelegate {
+extension AircraftPickerViewController: AircraftFormViewControllerDelegate {
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
+    func aircraftFormViewController(_ viewController: AircraftFormViewController, didCreateAircraft aircraft: Aircraft) {
         viewController.dismiss(animated: true)
 
         delegate?.aircraftPickerViewController(self, didSelectAircraft: aircraft.id)
     }
 
-    func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {
+    func aircraftFormViewControllerDidDismiss(_ viewController: AircraftFormViewController) {
         viewController.dismiss(animated: true)
     }
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, valuesFor row: AircraftRow) -> [String]? {
+    func aircraftFormViewController(_ viewController: AircraftFormViewController, valuesFor row: AircraftFormRow) -> [String]? {
         let aircraftRaceData = AircraftRaceData(with: race)
         return row.aircraftRaceSpecValues(for: aircraftRaceData)
     }

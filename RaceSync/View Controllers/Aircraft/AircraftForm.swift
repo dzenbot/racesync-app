@@ -9,7 +9,7 @@
 import Foundation
 import RaceSyncAPI
 
-enum AircraftRow: Int, EnumTitle, CaseIterable {
+enum AircraftFormRow: Int, EnumTitle, CaseIterable {
     case name, type, size, battery, propSize, videoTx, antenna
 
     public var title: String {
@@ -25,7 +25,7 @@ enum AircraftRow: Int, EnumTitle, CaseIterable {
     }
 }
 
-extension AircraftRow {
+extension AircraftFormRow {
 
     var values: [String] {
         switch self {

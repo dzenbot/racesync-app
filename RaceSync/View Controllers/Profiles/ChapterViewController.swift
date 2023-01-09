@@ -183,7 +183,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     @objc func didPressAddButton() {
         guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
 
-        let vc = NewRaceViewController(with: chapters, selectedChapterId: chapter.id, selectedChapterName: chapter.name)
+        let vc = RaceFormViewController(with: chapters, selectedChapterId: chapter.id, selectedChapterName: chapter.name)
         vc.delegate = self
         
         let nc = NavigationController(rootViewController: vc)
@@ -344,16 +344,16 @@ extension ChapterViewController: UITableViewDataSource {
     }
 }
 
-extension ChapterViewController: NewRaceViewControllerDelegate {
+extension ChapterViewController: RaceFormViewControllerDelegate {
 
-    func newRaceViewController(_ viewController: NewRaceViewController, didUpdateRace race: Race) {
+    func raceFormViewController(_ viewController: RaceFormViewController, didUpdateRace race: Race) {
         let vc = RaceTabBarController(with: race)
         vc.isDismissable = true
 
         viewController.navigationController?.pushViewController(vc, animated: true)
     }
 
-    func newRaceViewControllerDidDismiss(_ viewController: NewRaceViewController) {
+    func raceFormViewControllerDidDismiss(_ viewController: RaceFormViewController) {
         viewController.dismiss(animated: true, completion: nil)
     }
 }

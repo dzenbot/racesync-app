@@ -167,7 +167,7 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
     // MARK: - Actions
 
     @objc func didPressEditButton() {
-        let vc = ForceJoinViewController(with: race)
+        let vc = RacePilotsPickerController(with: race)
         vc.externalUserViewModels = raceUserViewModels
         vc.delegate = self
 
@@ -287,9 +287,9 @@ extension RaceRosterViewController: UITableViewDataSource {
     }
 }
 
-extension RaceRosterViewController: ForceJoinViewControllerDelegate {
+extension RaceRosterViewController: RacePilotsPickerControllerDelegate {
 
-    func forceJoinViewControllerDidForce(_ viewController: ForceJoinViewController) {
+    func racePilotsPickerController(_ viewController: RacePilotsPickerController) {
         reloadRaceView()
     }
 }
