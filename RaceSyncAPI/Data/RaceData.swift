@@ -12,7 +12,8 @@ import Alamofire
 public class RaceData: Descriptable {
 
     public var name: String? = nil
-    public var dateString: String? = nil
+    public var startDateString: String? = nil
+    public var endDateString: String? = nil
     public var chapterId: String
     public var chapterName: String
 
@@ -46,7 +47,10 @@ public class RaceData: Descriptable {
         self.chapterName = race.chapterName
 
         if let date = race.startDate {
-            self.dateString = DateUtil.isoDateFormatter.string(from: date)
+            self.startDateString = DateUtil.isoDateFormatter.string(from: date)
+        }
+        if let date = race.endDate {
+            self.endDateString = DateUtil.isoDateFormatter.string(from: date)
         }
 
         self.raceClass = race.raceClass?.rawValue ?? ""
@@ -73,8 +77,9 @@ public class RaceData: Descriptable {
         var params: Parameters = [:]
 
         if name != nil { params[ParamKey.name] = name }
-        if dateString != nil { params[ParamKey.startDate] = dateString }
-        
+        if startDateString != nil { params[ParamKey.startDate] = startDateString }
+
+        params[ParamKey.endDate] = endDateString
         params[ParamKey.chapterId] = chapterId
         params[ParamKey.chapterName] = chapterName
 
@@ -104,9 +109,17 @@ public class RaceData: Descriptable {
 
 extension RaceData {
 
-    public var date: Date? {
+    public var startDate: Date? {
         get {
-            guard let str = dateString else { return nil }
+            guard let str = startDateString else { return nil }
+            return DateUtil.isoDateFormatter.date(from: str)
+        }
+        set { }
+    }
+
+    public var endDate: Date? {
+        get {
+            guard let str = endDateString else { return nil }
             return DateUtil.isoDateFormatter.date(from: str)
         }
         set { }

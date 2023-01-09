@@ -52,6 +52,7 @@ class DatePickerViewController: FormBaseViewController {
     }()
 
     fileprivate var selectedDate: Date?
+    fileprivate var fromDate: Date?
 
     // MARK: - Initialization
 

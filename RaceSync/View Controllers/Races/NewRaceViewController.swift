@@ -114,7 +114,7 @@ class NewRaceViewController: UIViewController {
     fileprivate var formNavigationController: NavigationController?
 
     fileprivate lazy var sections: [NewRaceSection: [NewRaceRow]] = {
-        let general: [NewRaceRow] = [.name, .date, .chapter, .class, .format, .schedule, .privacy, .status]
+        let general: [NewRaceRow] = [.name, .startDate, .endDate, .chapter, .class, .format, .schedule, .privacy, .status]
         let specific: [NewRaceRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary]
         return [.general: general, .specific: specific]
     }()
@@ -389,7 +389,8 @@ fileprivate extension NewRaceViewController {
     }
 
     func presentDatePicker(forRow row: NewRaceRow, animated: Bool = true) {
-        let vc = DatePickerViewController(with: raceData.date)
+        let date = dateForDateRow(row)
+        let vc = DatePickerViewController(with: date)
         vc.title = row.title
         vc.delegate = self
 
@@ -408,12 +409,28 @@ fileprivate extension NewRaceViewController {
     }
 
     func pushDatePicker(forRow row: NewRaceRow, animated: Bool = true) {
-        let vc = DatePickerViewController(with: raceData.date)
+        let date = dateForDateRow(row)
+        let vc = DatePickerViewController(with: date)
         vc.title = row.title
         vc.delegate = self
 
         formNavigationController?.pushViewController(vc, animated: animated)
         formNavigationController?.delegate = self
+    }
+
+    func dateForDateRow(_ row: NewRaceRow) -> Date? {
+        if row == .startDate {
+            return raceData.startDate
+        } else if row == .endDate {
+            if let endDate = raceData.endDate {
+                return endDate
+            } else if let startDate = raceData.startDate {
+                // return start date, if already defined, since end date cannot be lower than start date
+                return startDate
+            }
+        }
+
+        return nil
     }
 
     func textPickerViewController(for row: NewRaceRow) -> TextPickerViewController {
@@ -553,8 +570,10 @@ extension NewRaceViewController: FormBaseViewControllerDelegate {
         case .name:
             raceData.name = item
             title = item
-        case .date:
-            raceData.dateString = item
+        case .startDate:
+            raceData.startDateString = item
+        case .endDate:
+            raceData.endDateString = item
         case .chapter:
             if let chapter = chapters.filter ({ return $0.name == item }).first {
                 raceData.chapterName = chapter.name

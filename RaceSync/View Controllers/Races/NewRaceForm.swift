@@ -26,13 +26,14 @@ enum NewRaceSection: Int, EnumTitle, CaseIterable {
 }
 
 enum NewRaceRow: Int, EnumTitle, CaseIterable {
-    case name, date, chapter, `class`, format, schedule, privacy, status,
+    case name, startDate, endDate, chapter, `class`, format, schedule, privacy, status,
          scoring, timing, rounds, season, location, shortDesc, longDesc, itinerary
 
     public var title: String {
         switch self {
         case .name:         return "Name"
-        case .date:         return "Start Date"
+        case .startDate:    return "Start Date"
+        case .endDate:      return "End Date"
         case .chapter:      return "Chapter"
         case .class:        return "Race Class"
         case .format:       return "Race Format"
@@ -58,8 +59,13 @@ extension NewRaceRow {
         switch self {
         case .name:
             return raceData.name
-        case .date:
-            if let date = raceData.date {
+        case .startDate:
+            if let date = raceData.startDate {
+                return DateUtil.localizedString(from: date)
+            }
+            return nil
+        case .endDate:
+            if let date = raceData.endDate {
                 return DateUtil.localizedString(from: date)
             }
             return nil
@@ -105,7 +111,7 @@ extension NewRaceRow {
 
     var isRowRequired: Bool {
         switch self {
-        case .name, .date:
+        case .name, .startDate:
             return true
         default:
             return false
@@ -114,9 +120,9 @@ extension NewRaceRow {
 
     func requiredValue(from data: RaceData) -> String? {
         switch self {
-        case .name:     return data.name
-        case.date:      return data.dateString
-        default:        return nil
+        case .name:         return data.name
+        case .startDate:    return data.startDateString
+        default:            return nil
         }
     }
 
@@ -124,7 +130,7 @@ extension NewRaceRow {
         switch self {
         case .name:
             return .textfield
-        case .date:
+        case .startDate, .endDate:
             return .datePicker
         case .scoring, .timing:
             return .switch
