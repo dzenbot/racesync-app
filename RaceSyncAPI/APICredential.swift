@@ -22,13 +22,13 @@ public class APICredential {
         // For more information about this, please ping Ignacio
         apiKey = dict["API_KEY"] as? String ?? ""
 
-        // Used during development for auto-completing the login screen
-    #if DEBUG
+        // Used for auto-completing in the login screen
+#if DEBUG
         email = dict["EMAIL"] as? String ?? ""
         password = dict["PASSWORD"] as? String ?? ""
-    #else
+#else
         email = APISessionManager.getSessionEmail() ?? ""
         password = APISessionManager.getSessionPasword() ?? ""
-    #endif
+#endif
     }
 }

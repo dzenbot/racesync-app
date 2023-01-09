@@ -140,14 +140,6 @@ class LoginViewController: UIViewController {
         return APIServices.shared.settings.isDev ? "Login with ppt.MultiGP" : "Login with MultiGP"
     }
 
-    fileprivate var canAutoLogin: Bool {
-        get {
-            guard let email = emailField.text, email.count > 0 else { return false }
-            guard let password = passwordField.text, password.count > 0 else { return false }
-            return true
-        }
-    }
-
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let loginFormHeight: CGFloat = 320
@@ -201,14 +193,8 @@ class LoginViewController: UIViewController {
             emailField.text = APIServices.shared.credential.email
             passwordField.text = APIServices.shared.credential.password
 
-            if canAutoLogin {
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
-                    self.shouldLogin()
-                }
-            } else {
-                DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
-                    self.emailField.becomeFirstResponder()
-                }
+            DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
+                self.emailField.becomeFirstResponder()
             }
         }
     }
@@ -216,8 +202,6 @@ class LoginViewController: UIViewController {
     // MARK: - Layout
 
     fileprivate func setupLayout() {
-
-        title = "Login"
 
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         view.addGestureRecognizer(tapGestureRecognizer)
@@ -447,6 +431,19 @@ extension LoginViewController: UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         } else if textField == passwordField {
             didPressLoginButton()
+        }
+
+        return true
+    }
+
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+
+        // reset value of each other text field
+        if textField == emailField, let txt = passwordField.text, txt.count > 0 {
+            passwordField.text = ""
+        }
+        if textField == passwordField, let txt = emailField.text, txt.count > 0 {
+            emailField.text = ""
         }
 
         return true

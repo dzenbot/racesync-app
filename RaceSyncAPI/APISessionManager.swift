@@ -27,8 +27,8 @@ public class APISessionManager {
     }
 
     public static func invalidateSession() {
-        setSessionEmail(nil)
-        setSessionPasword(nil)
+//        setSessionEmail(nil)
+//        setSessionPasword(nil)
         setSessionId(nil)
     }
 
