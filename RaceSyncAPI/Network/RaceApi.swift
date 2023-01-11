@@ -56,6 +56,16 @@ public protocol RaceApiInterface {
     func getRaces(forChapter chapterId: ObjectId, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
+    Gets the races belonging to a list of chapters.
+
+    - parameter chapterIds: The Chapter's ids.
+    - parameter currentPage: The current page cursor position. Default is 0
+    - parameter pageSize: The amount of objects to be returned by page. Default is 25.
+    - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
+    */
+    func getRaces(forChapters chapterIds: [ObjectId], currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
+
+    /**
     Gets the races belonging to a specific season.
 
     - parameter seasonId: The Season id.
@@ -156,8 +166,10 @@ public class RaceApi: RaceApiInterface {
                            longitude: String? = nil,
                            completion: @escaping ObjectCompletionBlock<[Race]>) {
         guard let user = APIServices.shared.myUser else { return }
+
         let lat = latitude ?? user.latitude
         let long = longitude ?? user.longitude
+
         getRaces(forUser: user.id, filters: filters, latitude: lat, longitude: long, completion: completion)
     }
 
@@ -169,6 +181,7 @@ public class RaceApi: RaceApiInterface {
 
         let endpoint = EndPoint.raceList
         let parameters = parametersForRaces(with: userId, filters: filters, latitude: latitude, longitude: longitude, pageSize: pageSize)
+
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
@@ -178,6 +191,16 @@ public class RaceApi: RaceApiInterface {
 
         let endpoint = EndPoint.raceList
         let parameters = [ParamKey.chapterId: chapterId]
+
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
+    }
+
+    public func getRaces(forChapters chapterIds: [ObjectId],
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
+                         completion: @escaping ObjectCompletionBlock<[Race]>) {
+
+        let endpoint = EndPoint.raceList
+        let parameters = [ParamKey.chapterId: chapterIds]
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
@@ -205,12 +228,14 @@ public class RaceApi: RaceApiInterface {
     public func view(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
 
         let endpoint = "\(EndPoint.raceView)?\(ParamKey.id)=\(raceId)"
+
         repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
     public func viewSimple(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
 
         let endpoint = "\(EndPoint.raceViewSimple)?\(ParamKey.id)=\(raceId)"
+
         repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
@@ -262,7 +287,6 @@ public class RaceApi: RaceApiInterface {
     public func checkIn(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
         let endpoint = "\(EndPoint.raceCheckIn)?\(ParamKey.id)=\(raceId)"
-
         var parameters = Parameters()
         parameters[ParamKey.pilotId] = pilotId
 
@@ -272,7 +296,6 @@ public class RaceApi: RaceApiInterface {
     public func checkOut(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
         let endpoint = "\(EndPoint.raceCheckOut)?\(ParamKey.id)=\(raceId)"
-
         var parameters = Parameters()
         parameters[ParamKey.pilotId] = pilotId
 
