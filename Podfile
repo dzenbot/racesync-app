@@ -18,6 +18,8 @@ target 'RaceSync' do
   pod 'ShimmerSwift'
   pod 'TOCropViewController'
   pod 'PickerView'
+  # pod 'TwitterTextEditor'
+  # pod "RichEditorView"
 
   # Analytics
 
