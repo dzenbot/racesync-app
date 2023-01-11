@@ -15,9 +15,9 @@ enum RaceFilter: Int, EnumTitle {
 
     var title: String {
         switch self {
-        case .joined:   return "Joined Races"
-        case .nearby:   return "Nearby Races"
-        case .series:   return "Global Qualifier"
+        case .joined:   return "Joined"
+        case .nearby:   return "Nearby"
+        case .series:   return "GQ"
         }
     }
 }
