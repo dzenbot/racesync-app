@@ -36,7 +36,6 @@ class RacePilotsPickerController: UIViewController, Shimmable {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        tableView.tableHeaderView = self.searchBar
         tableView.emptyDataSetSource = self
         tableView.tintColor = Color.gray400
         return tableView
@@ -47,13 +46,10 @@ class RacePilotsPickerController: UIViewController, Shimmable {
     // MARK: - Private Variables
 
     fileprivate lazy var searchBar: UISearchBar = {
-        let size: CGSize = CGSize(width: UIScreen.main.bounds.width, height: 56)
-        let frame = CGRect(origin: .zero, size: size)
-
-        let searchBar = UISearchBar(frame: frame)
+        let searchBar = UISearchBar()
         searchBar.delegate = self
         searchBar.searchBarStyle = .minimal
-        searchBar.placeholder = "Filter"
+        searchBar.placeholder = "Filter pilots"
         searchBar.barTintColor = .white
         searchBar.isTranslucent = false
         searchBar.backgroundImage = UIImage()
@@ -83,6 +79,7 @@ class RacePilotsPickerController: UIViewController, Shimmable {
         static let padding: CGFloat = UniversalConstants.padding
         static let joinButtonTitle: String = "Force Join"
         static let avatarImageSize = CGSize(width: 50, height: 50)
+        static let searchBarHeight: CGFloat = 56
     }
 
     // MARK: - Initialization
@@ -131,9 +128,18 @@ class RacePilotsPickerController: UIViewController, Shimmable {
 
         view.backgroundColor = Color.white
 
+        view.addSubview(searchBar)
+        searchBar.snp.makeConstraints {
+            $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
+            $0.leading.equalToSuperview().offset(Constants.padding/2)
+            $0.trailing.equalToSuperview().offset(-Constants.padding/2)
+            $0.height.equalTo(Constants.searchBarHeight)
+        }
+
         view.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.leading.trailing.bottom.equalToSuperview()
+            $0.top.equalTo(searchBar.snp.bottom)
+            $0.leading.trailing.bottom.equalToSuperview()
         }
 
         view.addSubview(shimmeringView)
