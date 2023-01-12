@@ -165,12 +165,12 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
 
     fileprivate var selectedRaceList: RaceFilter {
         get {
-            return RaceFilter(rawValue: segmentedControl.selectedSegmentIndex)!
+            let title: String = segmentedControl.titleForSelectedSegment()!
+            return RaceFilter(title: title)!
         }
     }
 
-    fileprivate let raceMainListController: RaceMainListController
-    fileprivate var initialSelectFilter: RaceFilter
+    fileprivate let raceListController: RaceMainListController
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate let chapterApi = ChapterApi()
@@ -179,6 +179,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     fileprivate let isUniversalSearchEnabled: Bool = false
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
+    fileprivate var emptyStateChapterRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateNearbyRaces = EmptyStateViewModel(.noNearbydRaces)
     fileprivate var emptyStateSeriesRaces = EmptyStateViewModel(.noSeriesRaces)
 
@@ -193,13 +194,13 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     // MARK: - Initialization
 
     init(_ filters: [RaceFilter], selectedFilter: RaceFilter) {
-        self.raceMainListController = RaceMainListController(filters)
-        self.initialSelectFilter = selectedFilter
+        self.raceListController = RaceMainListController(filters)
 
         super.init(nibName: nil, bundle: nil)
 
+        let idx = filters.firstIndex(of: selectedFilter)
         self.segmentedControl.setItems(filters.compactMap { $0.title })
-        self.segmentedControl.selectedSegmentIndex = selectedFilter.rawValue
+        self.segmentedControl.selectedSegmentIndex = idx ?? 0
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -356,7 +357,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     @objc fileprivate func didPressShowPastSeriesButton(_ sender: Any) {
-        raceMainListController.showPastSeries = true
+        raceListController.showPastSeries = true
         loadRaces(forceReload: true)
     }
 
@@ -386,7 +387,9 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     fileprivate func selectSegment(_ filter: RaceFilter) {
-        segmentedControl.setSelectedSegment(filter.rawValue)
+
+        let idx = raceListController.raceFilters.firstIndex(of: filter) ?? 0
+        segmentedControl.setSelectedSegment(idx)
     }
 }
 
@@ -429,11 +432,11 @@ fileprivate extension RaceMainListViewController {
     @objc func loadRaces(forceReload: Bool = false) {
         let selectedList = selectedRaceList
 
-        if raceMainListController.shouldShowShimmer(for: selectedList) {
+        if raceListController.shouldShowShimmer(for: selectedList) {
             isLoading(true)
         }
 
-        raceMainListController.raceViewModels(for: selectedList, forceFetch: forceReload) { [weak self] (viewModels, error) in
+        raceListController.raceViewModels(for: selectedList, forceFetch: forceReload) { [weak self] (viewModels, error) in
             guard let strongSelf = self else { return }
 
             strongSelf.isLoading(false)
@@ -527,7 +530,7 @@ extension RaceMainListViewController: UITableViewDataSource {
 
         if selectedRaceList == .joined {
             cell.subtitleLabel.text = viewModel.locationLabel
-        } else if selectedRaceList == .series {
+        } else if selectedRaceList == .chapters || selectedRaceList == .series {
             cell.subtitleLabel.text = viewModel.chapterLabel
         } else {
             cell.subtitleLabel.text = viewModel.distanceLabel
@@ -541,9 +544,10 @@ extension RaceMainListViewController: EmptyDataSetSource {
 
     func getEmptyStateViewModel() -> EmptyStateViewModel {
         switch selectedRaceList {
-        case .joined:   return emptyStateJoinedRaces
-        case .nearby:   return emptyStateNearbyRaces
-        case .series:   return emptyStateSeriesRaces
+        case .joined:       return emptyStateJoinedRaces
+        case .chapters:     return emptyStateChapterRaces
+        case .nearby:       return emptyStateNearbyRaces
+        case .series:       return emptyStateSeriesRaces
         }
     }
 
@@ -592,6 +596,8 @@ extension RaceMainListViewController: EmptyDataSetDelegate {
 
         if selectedRaceList == .joined {
             selectSegment(.nearby)
+        } else if selectedRaceList == .chapters {
+            //
         } else if selectedRaceList == .nearby {
             didPressFilterButton(button)
         } else if selectedRaceList == .series {

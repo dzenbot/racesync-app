@@ -11,13 +11,14 @@ import RaceSyncAPI
 import CoreLocation
 
 enum RaceFilter: Int, EnumTitle {
-    case joined, nearby, series
+    case joined, nearby, chapters, series
 
     var title: String {
         switch self {
-        case .joined:   return "Joined"
-        case .nearby:   return "Nearby"
-        case .series:   return "GQ"
+        case .joined:       return "Joined"
+        case .nearby:       return "Nearby"
+        case .chapters:     return "Chapters"
+        case .series:       return "GQ"
         }
     }
 }
@@ -28,27 +29,27 @@ class RaceMainListController {
     // MARK: - Public Variables
 
     var showPastSeries: Bool = false
+    var raceFilters: [RaceFilter]
 
     // MARK: - Private Variables
 
     fileprivate let raceApi = RaceApi()
-    fileprivate var raceFilter: [RaceFilter]
-    fileprivate var raceList = [RaceFilter: [RaceViewModel]]()
+    fileprivate var raceLists = [RaceFilter: [RaceViewModel]]()
 
     // MARK: - Initialization
 
-    init(_ types: [RaceFilter]) {
-        raceFilter = types
+    init(_ filters: [RaceFilter]) {
+        self.raceFilters = filters
     }
 
     // MARK: - Actions
 
-    func shouldShowShimmer(for listType: RaceFilter) -> Bool {
-        if listType == .series, showPastSeries, raceList[listType]?.count == 0 {
+    func shouldShowShimmer(for filter: RaceFilter) -> Bool {
+        if filter == .series, showPastSeries, raceLists[filter]?.count == 0 {
             return true
         }
 
-        return raceList[listType] == nil
+        return raceLists[filter] == nil
     }
 
     func raceViewModels(for listType: RaceFilter, forceFetch: Bool = false, completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
@@ -57,6 +58,8 @@ class RaceMainListController {
             getJoinedRaces(forceFetch, completion)
         case .nearby:
             getNearbydRaces(forceFetch, completion)
+        case .chapters:
+            getChapterRaces(forceFetch, completion)
         case .series:
             getSeriesRaces(forceFetch, completion)
         }
@@ -66,7 +69,7 @@ class RaceMainListController {
 fileprivate extension RaceMainListController {
 
     func getJoinedRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceList[.joined], !forceFetch {
+        if let viewModels = raceLists[.joined], !forceFetch {
             completion(viewModels, nil)
         }
 
@@ -76,7 +79,7 @@ fileprivate extension RaceMainListController {
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
             }) {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .descending)
-                self.raceList[.joined] = sortedViewModels
+                self.raceLists[.joined] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
@@ -85,7 +88,7 @@ fileprivate extension RaceMainListController {
     }
 
     func getNearbydRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceList[.nearby], !forceFetch {
+        if let viewModels = raceLists[.nearby], !forceFetch {
             completion(viewModels, nil)
         }
 
@@ -99,7 +102,29 @@ fileprivate extension RaceMainListController {
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
             }) {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .distance)
-                self.raceList[.nearby] = sortedViewModels
+                self.raceLists[.nearby] = sortedViewModels
+                completion(sortedViewModels, nil)
+            } else {
+                completion(nil, error)
+            }
+        }
+    }
+
+    func getChapterRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+        if let viewModels = raceLists[.chapters], !forceFetch {
+            completion(viewModels, nil)
+        }
+
+        // hardcoding a arrays of chapter ids for now.
+        // TODO: Return a logged in user's chapter ids with the API. Maybe a new entry point chapter/listJoined ?
+        raceApi.getRaces(forChapters: ["1453", "1714", "614"]) { races, error in
+            if let upcomingRaces = races?.filter({ (race) -> Bool in
+                guard let startDate = race.startDate else { return false }
+                return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
+            }) {
+                
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .descending)
+                self.raceLists[.chapters] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
@@ -108,13 +133,13 @@ fileprivate extension RaceMainListController {
     }
 
     func getSeriesRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceList[.series], !forceFetch {
+        if let viewModels = raceLists[.series], !forceFetch {
             completion(viewModels, nil)
         }
 
         var filters: [RaceListFilter] = [.series]
         if showPastSeries {
-            filters = [.series, .past]
+            filters += [.past]
         }
 
         // One day, the API will support pagination
@@ -129,7 +154,7 @@ fileprivate extension RaceMainListController {
                 }
             }) {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: seriesRaces)
-                self.raceList[.series] = sortedViewModels
+                self.raceLists[.series] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)

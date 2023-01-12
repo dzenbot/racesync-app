@@ -24,4 +24,8 @@ extension UISegmentedControl {
         selectedSegmentIndex = index
         sendActions(for: .valueChanged)
     }
+
+    func titleForSelectedSegment() -> String? {
+        return titleForSegment(at: selectedSegmentIndex)
+    }
 }
