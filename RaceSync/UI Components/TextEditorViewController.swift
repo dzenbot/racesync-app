@@ -81,6 +81,10 @@ class TextEditorViewController: UIViewController {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        DispatchQueue.main.async {
+            textEditorView.becomeFirstResponder()
+        }
     }
 
     // MARK: - Layout

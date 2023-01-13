@@ -633,6 +633,8 @@ class RichEditorView: UIView, UIScrollViewDelegate, WKNavigationDelegate, UIGest
             focus(at: point)
         }
     }
+
+    @discardableResult
     override func becomeFirstResponder() -> Bool {
         if !webView.isFirstResponder {
             focus()
@@ -641,7 +643,8 @@ class RichEditorView: UIView, UIScrollViewDelegate, WKNavigationDelegate, UIGest
             return false
         }
     }
-    
+
+    @discardableResult
     override func resignFirstResponder() -> Bool {
         blur()
         return true
