@@ -103,6 +103,10 @@ public class RaceData: Descriptable {
         if seasonId != nil { params[ParamKey.seasonId] = seasonId }
         if locationId != nil { params[ParamKey.locationId] = locationId }
 
+        params[ParamKey.description] = shortDesc
+        params[ParamKey.content] = longDesc
+        params[ParamKey.itineraryContent] = itinerary
+
         return params
     }
 }

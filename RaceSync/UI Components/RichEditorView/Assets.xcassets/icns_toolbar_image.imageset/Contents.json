@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "icns_toolbar_image.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

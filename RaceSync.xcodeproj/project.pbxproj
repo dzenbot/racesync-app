@@ -91,6 +91,17 @@
 		4F7974B524A4A4D4003D623A /* ImageConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7974B424A4A4D4003D623A /* ImageConstants.swift */; };
 		4F7BE2672722354F00592297 /* UIViewController+Navigation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7BE2662722354F00592297 /* UIViewController+Navigation.swift */; };
 		4F7C8E3724D8AE16008FE125 /* ProfileAvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7C8E3624D8AE15008FE125 /* ProfileAvatarView.swift */; };
+		4F80A655296F9951008B19AF /* RichEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80A646296F9950008B19AF /* RichEditorView.swift */; };
+		4F80A658296F9951008B19AF /* rich_editor_tests.js in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A64B296F9950008B19AF /* rich_editor_tests.js */; };
+		4F80A659296F9951008B19AF /* assert.js in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A64C296F9950008B19AF /* assert.js */; };
+		4F80A65A296F9951008B19AF /* rich_editor.js in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A64D296F9950008B19AF /* rich_editor.js */; };
+		4F80A65B296F9951008B19AF /* rich_editor_tests.html in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A64E296F9950008B19AF /* rich_editor_tests.html */; };
+		4F80A65C296F9951008B19AF /* rich_editor.html in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A64F296F9950008B19AF /* rich_editor.html */; };
+		4F80A65D296F9951008B19AF /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A650296F9950008B19AF /* style.css */; };
+		4F80A65E296F9951008B19AF /* normalize.css in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A651296F9950008B19AF /* normalize.css */; };
+		4F80A65F296F9951008B19AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A652296F9950008B19AF /* Assets.xcassets */; };
+		4F80A660296F9951008B19AF /* RichEditorToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80A653296F9950008B19AF /* RichEditorToolbar.swift */; };
+		4F80A661296F9951008B19AF /* RichEditorOptionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80A654296F9950008B19AF /* RichEditorOptionItem.swift */; };
 		4F81759C241192AF00685F83 /* Clog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F81759A2411917900685F83 /* Clog.swift */; };
 		4F8175A12411C35A00685F83 /* LeaderboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8175A02411C35A00685F83 /* LeaderboardViewController.swift */; };
 		4F8175A32411C39C00685F83 /* RaceMainListController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8175A22411C39C00685F83 /* RaceMainListController.swift */; };
@@ -107,7 +118,7 @@
 		4F87E4352727976E0061425B /* NetworkProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F87E4342727976E0061425B /* NetworkProxy.swift */; };
 		4F8B8665295C112B00EAF695 /* EnumTitle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8B8664295C112B00EAF695 /* EnumTitle.swift */; };
 		4F8B8667295CF32600EAF695 /* AircraftRaceData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8B8666295CF32600EAF695 /* AircraftRaceData.swift */; };
-		4F8B866C296583EB00EAF695 /* RichTextViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8B866B296583EB00EAF695 /* RichTextViewController.swift */; };
+		4F8B866C296583EB00EAF695 /* TextEditorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8B866B296583EB00EAF695 /* TextEditorViewController.swift */; };
 		4F8F2C0C2383DF1E00DC4907 /* RaceApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */; };
 		4F8F2C0E23846AEB00DC4907 /* DateUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */; };
 		4F8F2C112384903F00DC4907 /* RaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F8F2C102384903F00DC4907 /* RaceViewModel.swift */; };
@@ -417,6 +428,17 @@
 		4F7974B424A4A4D4003D623A /* ImageConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageConstants.swift; sourceTree = "<group>"; };
 		4F7BE2662722354F00592297 /* UIViewController+Navigation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Navigation.swift"; sourceTree = "<group>"; };
 		4F7C8E3624D8AE15008FE125 /* ProfileAvatarView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAvatarView.swift; sourceTree = "<group>"; };
+		4F80A646296F9950008B19AF /* RichEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RichEditorView.swift; sourceTree = "<group>"; };
+		4F80A64B296F9950008B19AF /* rich_editor_tests.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = rich_editor_tests.js; sourceTree = "<group>"; };
+		4F80A64C296F9950008B19AF /* assert.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = assert.js; sourceTree = "<group>"; };
+		4F80A64D296F9950008B19AF /* rich_editor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = rich_editor.js; sourceTree = "<group>"; };
+		4F80A64E296F9950008B19AF /* rich_editor_tests.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = rich_editor_tests.html; sourceTree = "<group>"; };
+		4F80A64F296F9950008B19AF /* rich_editor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = rich_editor.html; sourceTree = "<group>"; };
+		4F80A650296F9950008B19AF /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
+		4F80A651296F9950008B19AF /* normalize.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = normalize.css; sourceTree = "<group>"; };
+		4F80A652296F9950008B19AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F80A653296F9950008B19AF /* RichEditorToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RichEditorToolbar.swift; sourceTree = "<group>"; };
+		4F80A654296F9950008B19AF /* RichEditorOptionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RichEditorOptionItem.swift; sourceTree = "<group>"; };
 		4F81759A2411917900685F83 /* Clog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Clog.swift; sourceTree = "<group>"; };
 		4F8175A02411C35A00685F83 /* LeaderboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardViewController.swift; sourceTree = "<group>"; };
 		4F8175A22411C39C00685F83 /* RaceMainListController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceMainListController.swift; sourceTree = "<group>"; };
@@ -434,7 +456,7 @@
 		4F87E4342727976E0061425B /* NetworkProxy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkProxy.swift; sourceTree = "<group>"; };
 		4F8B8664295C112B00EAF695 /* EnumTitle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnumTitle.swift; sourceTree = "<group>"; };
 		4F8B8666295CF32600EAF695 /* AircraftRaceData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AircraftRaceData.swift; sourceTree = "<group>"; };
-		4F8B866B296583EB00EAF695 /* RichTextViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RichTextViewController.swift; sourceTree = "<group>"; };
+		4F8B866B296583EB00EAF695 /* TextEditorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextEditorViewController.swift; sourceTree = "<group>"; };
 		4F8F2C0B2383DF1E00DC4907 /* RaceApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceApi.swift; sourceTree = "<group>"; };
 		4F8F2C0D23846AEB00DC4907 /* DateUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateUtil.swift; sourceTree = "<group>"; };
 		4F8F2C102384903F00DC4907 /* RaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceViewModel.swift; sourceTree = "<group>"; };
@@ -887,6 +909,40 @@
 			path = Map;
 			sourceTree = "<group>";
 		};
+		4F80A645296F9950008B19AF /* RichEditorView */ = {
+			isa = PBXGroup;
+			children = (
+				4F80A646296F9950008B19AF /* RichEditorView.swift */,
+				4F80A653296F9950008B19AF /* RichEditorToolbar.swift */,
+				4F80A654296F9950008B19AF /* RichEditorOptionItem.swift */,
+				4F80A649296F9950008B19AF /* Resources */,
+				4F80A652296F9950008B19AF /* Assets.xcassets */,
+			);
+			path = RichEditorView;
+			sourceTree = "<group>";
+		};
+		4F80A649296F9950008B19AF /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				4F80A64A296F9950008B19AF /* editor */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		4F80A64A296F9950008B19AF /* editor */ = {
+			isa = PBXGroup;
+			children = (
+				4F80A64B296F9950008B19AF /* rich_editor_tests.js */,
+				4F80A64C296F9950008B19AF /* assert.js */,
+				4F80A64D296F9950008B19AF /* rich_editor.js */,
+				4F80A64E296F9950008B19AF /* rich_editor_tests.html */,
+				4F80A64F296F9950008B19AF /* rich_editor.html */,
+				4F80A650296F9950008B19AF /* style.css */,
+				4F80A651296F9950008B19AF /* normalize.css */,
+			);
+			path = editor;
+			sourceTree = "<group>";
+		};
 		4F81759E2411C2CA00685F83 /* Leaderboards */ = {
 			isa = PBXGroup;
 			children = (
@@ -1138,20 +1194,21 @@
 				4FD53FB223A0E9B700158206 /* AvatarImageView.swift */,
 				4F8668FB23870E1E005E310A /* SegmentedTableViewHeaderView.swift */,
 				4FD4E1DA237FBE36008816B3 /* JoinButton.swift */,
-				4F91BC892398FBCE00539E95 /* ViewJoinable.swift */,
 				4F791C9723A6105700F15FD7 /* TextBadge.swift */,
 				4FD4E1DC237FBE8B008816B3 /* MemberBadgeView.swift */,
 				4F0B613B238528C300930D91 /* PasteboardLabel.swift */,
 				4F5C1E44238D1BD200D756EB /* PasteboardButton.swift */,
+				4F91BC892398FBCE00539E95 /* ViewJoinable.swift */,
 				4F5C1E46238D1C3200D756EB /* TextCopiable.swift */,
 				4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */,
 				4F8376DB23EE87CC00256AEC /* RotatingIconView.swift */,
 				4F3D641023FE664A00DE6DF2 /* TextFieldViewController.swift */,
 				4F3D640E23FC65F700DE6DF2 /* TextPickerViewController.swift */,
 				4F004EA8295BB282009C46AA /* DatePickerViewController.swift */,
-				4F8B866B296583EB00EAF695 /* RichTextViewController.swift */,
+				4F8B866B296583EB00EAF695 /* TextEditorViewController.swift */,
 				4F6429132403AE9A005E8036 /* FormBaseViewController.swift */,
 				4FC1797C24B0801900D2EA2D /* ImagePickerController.swift */,
+				4F80A645296F9950008B19AF /* RichEditorView */,
 			);
 			path = "UI Components";
 			sourceTree = "<group>";
@@ -1416,9 +1473,14 @@
 				4F6881B2257ECAE500D33672 /* track-images in Resources */,
 				4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */,
 				4FA213F72947AB5900C8E45A /* AppIcon-FMR@2x.png in Resources */,
+				4F80A65F296F9951008B19AF /* Assets.xcassets in Resources */,
 				4FB06AB4296B521000F14E59 /* AppIcon-MGP2@2x.png in Resources */,
+				4F80A65E296F9951008B19AF /* normalize.css in Resources */,
 				4FA213E82946ADD400C8E45A /* AppIcon-OTTFPV@3x.png in Resources */,
+				4F80A658296F9951008B19AF /* rich_editor_tests.js in Resources */,
 				4FA213F82947AB5900C8E45A /* AppIcon-FMR@3x.png in Resources */,
+				4F80A65A296F9951008B19AF /* rich_editor.js in Resources */,
+				4F80A65D296F9951008B19AF /* style.css in Resources */,
 				4FA213EE2946B5A300C8E45A /* AppIcon-S3@2x.png in Resources */,
 				4FB06AB5296B521000F14E59 /* AppIcon-MGP2@3x.png in Resources */,
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
@@ -1429,10 +1491,13 @@
 				4FA213EA2946B11E00C8E45A /* icons-list.json in Resources */,
 				4F65D8D82574EA5400C506C3 /* tracks-list.json in Resources */,
 				4FBE7608259B348200312B66 /* Assets.xcassets in Resources */,
+				4F80A65B296F9951008B19AF /* rich_editor_tests.html in Resources */,
+				4F80A65C296F9951008B19AF /* rich_editor.html in Resources */,
 				4FA213E72946ADD400C8E45A /* AppIcon-OTTFPV@2x.png in Resources */,
 				4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */,
 				4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */,
 				4F9979BF26D57CFF00496451 /* AppIcon-KRU@3x.png in Resources */,
+				4F80A659296F9951008B19AF /* assert.js in Resources */,
 				4FA213F42947A7C700C8E45A /* AppIcon-CFPV@3x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1626,7 +1691,9 @@
 				4F3D640F23FC65F700DE6DF2 /* TextPickerViewController.swift in Sources */,
 				4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */,
 				4FC4C59C24D8F3F2007D3B71 /* DimmableView.swift in Sources */,
+				4F80A661296F9951008B19AF /* RichEditorOptionItem.swift in Sources */,
 				4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */,
+				4F80A655296F9951008B19AF /* RichEditorView.swift in Sources */,
 				4F27243B2517DB1C000C7408 /* CopyLinkActivity.swift in Sources */,
 				4FE96E9224E3E687009A7F53 /* HeaderStretchable.swift in Sources */,
 				4FEADB742416B3D400F82F0D /* EventTracker.swift in Sources */,
@@ -1676,6 +1743,7 @@
 				4F605603258C9FB4008AF93F /* UIScrollView+Extensions.swift in Sources */,
 				4F004EA7295B83F6009C46AA /* RaceForm.swift in Sources */,
 				4FC57C33258E1362006E210F /* AppUtil.swift in Sources */,
+				4F80A660296F9951008B19AF /* RichEditorToolbar.swift in Sources */,
 				4FDF005725902D6D006964DB /* TrackElementViewCell.swift in Sources */,
 				4F7BE2672722354F00592297 /* UIViewController+Navigation.swift in Sources */,
 				4F60562A258D59EC008AF93F /* GalleryViewController.swift in Sources */,
@@ -1689,7 +1757,7 @@
 				4F8668FC23870E1E005E310A /* SegmentedTableViewHeaderView.swift in Sources */,
 				4FBE760F259B387E00312B66 /* User+UIExtensions.swift in Sources */,
 				4F8175A12411C35A00685F83 /* LeaderboardViewController.swift in Sources */,
-				4F8B866C296583EB00EAF695 /* RichTextViewController.swift in Sources */,
+				4F8B866C296583EB00EAF695 /* TextEditorViewController.swift in Sources */,
 				4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */,
 				4FD4E1CD237F98E7008816B3 /* RaceTabBarController.swift in Sources */,
 				4F3D640723FB0A4800DE6DF2 /* AircraftPickerViewController.swift in Sources */,

@@ -135,7 +135,7 @@ extension RaceFormRow {
         case .scoring, .timing:
             return .switch
         case .shortDesc, .longDesc, .itinerary:
-            return .textview
+            return .textEditor
         default:
             return .textPicker
         }

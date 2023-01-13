@@ -289,7 +289,7 @@ extension RaceFormViewController: UITableViewDelegate {
             } else {
                 presentTextPicker(forRow: row)
             }
-        } else if row.formType == .textview {
+        } else if row.formType == .textEditor {
             pushTextViewController(forRow: row)
         }
     }
@@ -481,17 +481,18 @@ fileprivate extension RaceFormViewController {
 
     func pushTextViewController(forRow row: RaceFormRow, animated: Bool = true) {
 
-        var text: String = ""
+        var text: String?
 
-        if row == .shortDesc, let shortDesc = raceData.shortDesc  {
-            text = shortDesc
-        } else if row == .longDesc, let longDesc = raceData.longDesc  {
-            text = longDesc
-        } else if row == .itinerary, let itinerary = raceData.itinerary  {
-            text = itinerary
+        if row == .shortDesc {
+            text = raceData.shortDesc
+        } else if row == .longDesc {
+            text = raceData.longDesc
+        } else if row == .itinerary {
+            text = raceData.itinerary
         }
 
-        let vc = RichTextViewController(with: text)
+        let vc = TextEditorViewController(with: text)
+        vc.delegate = self
         vc.title = row.title
 
         navigationController?.pushViewController(vc, animated: animated)
@@ -563,9 +564,9 @@ fileprivate extension RaceFormViewController {
 extension RaceFormViewController: FormBaseViewControllerDelegate {
 
     func formViewController(_ viewController: FormBaseViewController, didSelectItem item: String) {
-        guard let currentRow = selectedRow else { return }
+        guard let row = selectedRow else { return }
 
-        switch currentRow {
+        switch row {
         case .name:
             raceData.name = item
             title = item
@@ -621,8 +622,8 @@ extension RaceFormViewController: FormBaseViewControllerDelegate {
         }
 
         // handle next row
-        if isFormEnabled, let rows = currentSectionRows(), currentRow.rawValue < rows.count-1  {
-            guard let nextRow = RaceFormRow(rawValue: currentRow.rawValue + 1) else { return }
+        if isFormEnabled, let rows = currentSectionRows(), row.rawValue < rows.count-1  {
+            guard let nextRow = RaceFormRow(rawValue: row.rawValue + 1) else { return }
 
             if nextRow.formType == .textPicker {
                 selectedRow = nextRow
@@ -645,14 +646,14 @@ extension RaceFormViewController: FormBaseViewControllerDelegate {
     }
 
     func formViewController(_ viewController: FormBaseViewController, enableSelectionWithItem item: String) -> Bool {
-        guard let currentRow = selectedRow else { return false }
+        guard let row = selectedRow else { return false }
 
-        if currentRow.formType == .textfield {
+        if row.formType == .textfield {
             guard item.count >= Race.nameMinLength else { return false }
             guard item.count < Race.nameMaxLength else { return false }
         }
 
-        if currentRow.isRowRequired {
+        if row.isRowRequired {
             return !item.isEmpty
         }
 
@@ -660,9 +661,9 @@ extension RaceFormViewController: FormBaseViewControllerDelegate {
     }
 
     func formViewControllerRightBarButtonTitle(_ viewController: FormBaseViewController) -> String {
-        guard let currentRow = selectedRow, let rows = currentSectionRows() else { return "" }
+        guard let row = selectedRow, let rows = currentSectionRows() else { return "" }
 
-        if isFormEnabled, currentRow.rawValue < rows.count-1 {
+        if isFormEnabled, row.rawValue < rows.count-1 {
             return "Next"
         }
         return "OK"
@@ -673,15 +674,35 @@ extension RaceFormViewController: FormBaseViewControllerDelegate {
     }
 }
 
-// MARK: - TextPickerViewController Delegate
+// MARK: - UINavigationControllerDelegate Delegate
+
+extension RaceFormViewController: TextEditorViewControllerDelegate {
+
+    func textEditorViewController(_ viewController: TextEditorViewController, didEditText text: String) {
+        guard let row = selectedRow, row.formType == .textEditor else { return }
+
+        if row == .shortDesc {
+            raceData.shortDesc = text
+        } else if row == .longDesc {
+            raceData.longDesc = text
+        } else if row == .itinerary {
+            raceData.itinerary = text
+        }
+
+        navigationController?.popViewController(animated: true)
+        tableView.reloadData()
+    }
+}
+
+// MARK: - UINavigationControllerDelegate Delegate
 
 extension RaceFormViewController: UINavigationControllerDelegate {
 
     func navigationController(_ navigationController: UINavigationController, animationControllerFor operation: UINavigationController.Operation, from fromVC: UIViewController, to toVC: UIViewController) -> UIViewControllerAnimatedTransitioning? {
-        guard let currentRow = selectedRow else { return nil }
+        guard let row = selectedRow else { return nil }
 
         if operation == .pop {
-            selectedRow = RaceFormRow(rawValue: currentRow.rawValue - 1)
+            selectedRow = RaceFormRow(rawValue: row.rawValue - 1)
         }
 
         return nil

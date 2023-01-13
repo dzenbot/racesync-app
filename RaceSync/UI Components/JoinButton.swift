@@ -205,9 +205,9 @@ extension JoinState {
 
     var font: UIFont {
         switch self {
-        case .joined:   return UIFont.systemFont(ofSize: 15, weight: .regular)
-        case .join:     return UIFont.systemFont(ofSize: 15, weight: .bold)
-        case .closed:   return UIFont.systemFont(ofSize: 15, weight: .regular)
+        case .joined:   return UIFont.systemFont(ofSize: 14, weight: .regular)
+        case .join:     return UIFont.systemFont(ofSize: 14, weight: .bold)
+        case .closed:   return UIFont.systemFont(ofSize: 14, weight: .regular)
         }
     }
 
