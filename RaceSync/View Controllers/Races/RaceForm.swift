@@ -62,7 +62,7 @@ enum RaceFormRow: Int, EnumTitle {
 
 extension RaceFormRow {
 
-    func displayText(from raceData: RaceData) -> String? {
+    func value(from raceData: RaceData) -> String? {
         switch self {
         case .name:
             return raceData.name

@@ -275,7 +275,7 @@ extension RaceFormViewController: UITableViewDataSource {
         guard let rows = currentSectionRows() else { return cell }
 
         let row = rows[indexPath.row]
-        let detailText = row.displayText(from: raceData)
+        let rowValue = row.value(from: raceData)
 
         if row.isRowRequired {
             cell.textLabel?.text = row.title + " *"
@@ -293,11 +293,11 @@ extension RaceFormViewController: UITableViewDataSource {
             let accessory = UISwitch()
             accessory.tag = currentSectionRows()?.firstIndex(of: row) ?? 0
             accessory.addTarget(self, action: #selector(didChangeSwitchValue(_:)), for: .valueChanged)
-            accessory.isOn = (detailText != nil)
+            accessory.isOn = (rowValue != nil)
             cell.accessoryView = accessory
             cell.detailTextLabel?.text = nil
         } else {
-            cell.detailTextLabel?.text = detailText
+            cell.detailTextLabel?.text = rowValue
             cell.accessoryType = .disclosureIndicator
             cell.accessoryView = nil
         }
@@ -375,9 +375,9 @@ fileprivate extension RaceFormViewController {
     }
 
     func textPickerViewController(for row: RaceFormRow) -> TextPickerViewController {
-        let items = values(for: row)
-        let selectedItem = row.displayText(from: raceData)
-        return textPickerViewController(with: row.title, items: items, selectedItem: selectedItem)
+        let values = values(for: row)
+        let rowValue = row.value(from: raceData)
+        return textPickerViewController(with: row.title, items: values, selectedItem: rowValue)
     }
 
     func textPickerViewController(with title: String, items: [String], selectedItem: String? = nil) -> TextPickerViewController {

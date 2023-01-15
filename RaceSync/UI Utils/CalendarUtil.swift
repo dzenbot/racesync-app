@@ -10,6 +10,15 @@ import UIKit
 import EventKit
 import RaceSyncAPI
 
+struct CalendarEvent {
+    let title: String
+    let location: String
+    let description: String
+    let startDate: Date
+    let endDate: Date?
+    let url: URL?
+}
+
 class CalendarUtil {
 
     static func add(_ event: CalendarEvent) {
@@ -44,20 +53,9 @@ extension Race {
         guard let startDate = startDate, let address = address, let raceUrl = URL(string: url) else {
             return nil
         }
-
         guard startDate.timeIntervalSinceNow.sign == .plus else {
             return nil
         }
-
         return CalendarEvent(title: name, location: address, description: description, startDate: startDate, endDate: endDate, url: raceUrl)
     }
-}
-
-struct CalendarEvent {
-    let title: String
-    let location: String
-    let description: String
-    let startDate: Date
-    let endDate: Date?
-    let url: URL?
 }
