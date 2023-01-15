@@ -24,31 +24,18 @@ class AircraftFormViewController: UIViewController {
     // MARK: - Private Variables
 
     fileprivate lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(cellType: FormTableViewCell.self)
         tableView.contentInsetAdjustmentBehavior = .always
-        tableView.tableFooterView = footerView
+        tableView.tableFooterView = UIView()
         tableView.dataSource = self
         tableView.delegate = self
+
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Color.gray20
+        tableView.backgroundView = backgroundView
+
         return tableView
-    }()
-
-    fileprivate lazy var footerView: UIView = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.text = "* Required fields"
-        label.textColor = Color.gray200
-
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.addSubview(label)
-        label.snp.makeConstraints {
-            $0.height.equalTo(Constants.cellHeight)
-            $0.top.leading.equalToSuperview().offset(Constants.padding)
-            $0.trailing.equalToSuperview().offset(-Constants.padding)
-        }
-
-        return view
     }()
 
     fileprivate var isLoading: Bool = false {
@@ -86,7 +73,7 @@ class AircraftFormViewController: UIViewController {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight: CGFloat = 50
+        static let cellHeight: CGFloat = 56
     }
 
     // MARK: - Initialization
@@ -294,6 +281,10 @@ extension AircraftFormViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.cellHeight
+    }
+
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return "* Required fields"
     }
 }
 

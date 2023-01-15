@@ -27,50 +27,18 @@ class RaceFormViewController: UIViewController {
     // MARK: - Private Variables
 
     fileprivate lazy var tableView: UITableView = {
-        let tableView = UITableView(frame: .zero, style: .plain)
+        let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.register(cellType: FormTableViewCell.self)
         tableView.contentInsetAdjustmentBehavior = .always
-//        tableView.tableHeaderView = nil //headerView
-//        tableView.tableFooterView = footerView
+        tableView.tableFooterView = UIView()
         tableView.dataSource = self
         tableView.delegate = self
+
+        let backgroundView = UIView()
+        backgroundView.backgroundColor = Color.gray20
+        tableView.backgroundView = backgroundView
+
         return tableView
-    }()
-
-    fileprivate lazy var headerView: UIView = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.text = currentSection.title
-        label.textColor = Color.gray200
-
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.addSubview(label)
-        label.snp.makeConstraints {
-            $0.height.equalTo(Constants.cellHeight)
-            $0.bottom.leading.equalToSuperview().offset(Constants.padding)
-            $0.trailing.equalToSuperview().offset(-Constants.padding)
-        }
-
-        return view
-    }()
-
-    fileprivate lazy var footerView: UIView = {
-        let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
-        label.text = "* Required fields"
-        label.textColor = Color.gray200
-
-        let view = UIView()
-        view.backgroundColor = .clear
-        view.addSubview(label)
-        label.snp.makeConstraints {
-            $0.height.equalTo(Constants.cellHeight)
-            $0.top.leading.equalToSuperview().offset(Constants.padding)
-            $0.trailing.equalToSuperview().offset(-Constants.padding)
-        }
-
-        return view
     }()
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
@@ -121,7 +89,7 @@ class RaceFormViewController: UIViewController {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight: CGFloat = 50
+        static let cellHeight: CGFloat = 56
     }
 
     // MARK: - Initialization
@@ -342,23 +310,11 @@ extension RaceFormViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return currentSection.title
+        return currentSection.header
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if currentSectionRequiredRows().count > 0 {
-            return "* Required fields"
-        } else {
-            return nil
-        }
-    }
-
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 30
-    }
-
-    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return Constants.cellHeight
+        return currentSection.footer
     }
 }
 

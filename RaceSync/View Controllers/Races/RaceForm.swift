@@ -13,19 +13,26 @@ enum RaceFormMode: Int {
     case new, update
 }
 
-enum RaceFormSection: Int, EnumTitle, CaseIterable {
+enum RaceFormSection: Int {
     case general, specific //, frequencies
 
-    public var title: String {
+    public var header: String {
         switch self {
         case .general:      return "General Details "
         case .specific:     return "Specific Details"
         //case .frequencies:  return "Video Frequencies"
         }
     }
+
+    public var footer: String? {
+        switch self {
+        case .general:      return "* Required fields"
+        case .specific:     return nil
+        }
+    }
 }
 
-enum RaceFormRow: Int, EnumTitle, CaseIterable {
+enum RaceFormRow: Int, EnumTitle {
     case name, startDate, endDate, chapter, `class`, format, schedule, privacy, status,
          scoring, timing, rounds, season, location, shortDesc, longDesc, itinerary
 
