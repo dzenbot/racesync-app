@@ -19,9 +19,12 @@ class WebViewController: SFSafariViewController {
     }
 
     static func openUrl(_ url: String) {
-        guard let url = URL(string: url) else { return }
+        guard let URL = URL(string: url) else { return }
+        openURL(URL)
+    }
 
-        let webvc = WebViewController(url: url)
+    static func openURL(_ URL: URL) {
+        let webvc = WebViewController(url: URL)
         UIViewController.topMostViewController()?.present(webvc, animated: true, completion: nil)
     }
 

@@ -68,7 +68,7 @@ public class RaceData: Descriptable {
         self.locationName = race.courseName
         self.shortDesc = race.description
         self.longDesc = race.content
-        self.itinerary = race.itineraryContent
+        self.itinerary = race.itinerary
 
         self.raceId = race.id
     }

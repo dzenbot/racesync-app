@@ -95,7 +95,7 @@ class RichEditorView: UIView, UIScrollViewDelegate, WKNavigationDelegate, UIGest
     }
     
     /// The line height of the editor. Defaults to 28.
-    private(set) var lineHeight: Int = DefaultInnerLineHeight {
+    var lineHeight: Int = DefaultInnerLineHeight {
         didSet {
             runJS("RE.setLineHeight('\(lineHeight)px')")
         }
@@ -462,6 +462,9 @@ class RichEditorView: UIView, UIScrollViewDelegate, WKNavigationDelegate, UIGest
     public func webView(_ webView: WKWebView, didFinish navigation: WKNavigation!) {}
     
     public func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
+
+        var actionPolicy: WKNavigationActionPolicy = .allow
+
         // Handle pre-defined editor actions
         let callbackPrefix = "re-callback://"
         if navigationAction.request.url?.absoluteString.hasPrefix(callbackPrefix) == true {
@@ -479,18 +482,20 @@ class RichEditorView: UIView, UIScrollViewDelegate, WKNavigationDelegate, UIGest
                     jsonCommands.forEach(self.performCommand)
                 }
             }
-            return decisionHandler(WKNavigationActionPolicy.cancel);
+
+            actionPolicy = .cancel
         }
-        
         // User is tapping on a link, so we should react accordingly
-        if navigationAction.navigationType == .linkActivated {
-            if let url = navigationAction.request.url {
-                if delegate?.richEditor?(self, shouldInteractWith: url) ?? false {
-                    return decisionHandler(WKNavigationActionPolicy.allow);
+        else if navigationAction.navigationType == .linkActivated {
+            if let url = navigationAction.request.url, let delegate = delegate {
+
+                if let allow = delegate.richEditor?(self, shouldInteractWith: url), allow == false {
+                    actionPolicy = .cancel
                 }
             }
         }
-        return decisionHandler(WKNavigationActionPolicy.allow);
+
+        return decisionHandler(actionPolicy);
     }
     
     // MARK: UIGestureRecognizerDelegate

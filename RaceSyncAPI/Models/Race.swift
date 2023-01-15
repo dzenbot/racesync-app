@@ -39,7 +39,7 @@ public class Race: Mappable, Joinable, Descriptable {
     public var liveTimeUrl: String?
     public var description: String = ""
     public var content: String = ""
-    public var itineraryContent: String = ""
+    public var itinerary: String = ""
     public var raceEntryCount: String = ""
     public var participantCount: String = ""
 
@@ -125,7 +125,7 @@ public class Race: Mappable, Joinable, Descriptable {
         liveTimeUrl <- map[ParamKey.liveTimeUrl]
         description <- map[ParamKey.description]
         content <- map[ParamKey.content]
-        itineraryContent <- map[ParamKey.itineraryContent]
+        itinerary <- map[ParamKey.itineraryContent]
         raceEntryCount <- map[ParamKey.raceEntryCount]
         participantCount <- map[ParamKey.participantCount]
 

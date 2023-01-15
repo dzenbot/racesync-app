@@ -24,7 +24,7 @@ class TextEditorViewController: UIViewController {
 
     fileprivate lazy var textEditorView: RichEditorView = {
         let editorView = RichEditorView()
-        editorView.placeholder = "Type some text..."
+        editorView.placeholder = "Type something..."
         editorView.delegate = self
         return editorView
     }()

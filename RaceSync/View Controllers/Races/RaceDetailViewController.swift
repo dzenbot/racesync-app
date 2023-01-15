@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import SnapKit
+import SwiftValidators
 import RaceSyncAPI
 
 class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
@@ -143,40 +145,12 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return stackView
     }()
 
-    fileprivate lazy var descriptionTextView: UITextView = {
-        let textView = UITextView()
-        textView.textColor = Color.gray300
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textView.textAlignment = .justified
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.textContainerInset = Constants.contentInsets
-        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
-        return textView
-    }()
-
-    fileprivate lazy var contentTextView: UITextView = {
-        let textView = UITextView()
-        textView.textColor = Color.black
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textView.textAlignment = .justified
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.textContainerInset = Constants.contentInsets
-        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
-        return textView
-    }()
-
-    fileprivate lazy var itineraryTextView: UITextView = {
-        let textView = UITextView()
-        textView.textColor = Color.black
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textView.textAlignment = .justified
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.textContainerInset = Constants.contentInsets
-        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
-        return textView
+    fileprivate lazy var htmlView: RichEditorView = {
+        let view = RichEditorView()
+        view.editingEnabled = false // TODO: should rename to isEditable
+        view.isScrollEnabled = false
+        view.delegate = self // TODO: for getting the height change
+        return view
     }()
 
     fileprivate lazy var scrollView: UIScrollView = {
@@ -227,8 +201,12 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return raceViewModel.race.description.count > 0
     }
 
+    fileprivate var canDisplayContent: Bool {
+        return raceViewModel.race.content.count > 0
+    }
+
     fileprivate var canDisplayItinerary: Bool {
-        return raceViewModel.race.itineraryContent.count > 0
+        return raceViewModel.race.itinerary.count > 0
     }
 
     fileprivate var canDisplayFunFly: Bool {
@@ -252,6 +230,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         set { }
     }
 
+    fileprivate var htmlViewHeightConstraint: Constraint?
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let contentInsets = UIEdgeInsets(top: padding/2, left: 10, bottom: padding/2, right: padding/2)
@@ -259,6 +239,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         static let cellHeight: CGFloat = 50
         static let minButtonSize: CGFloat = 72
         static let buttonSpacing: CGFloat = 12
+        static let htmlpadding: CGFloat = 12
     }
 
     // MARK: - Initialization
@@ -360,55 +341,22 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             $0.trailing.equalTo(buttonStackView.snp.leading).offset(-Constants.padding/2)
         }
 
-        if canDisplayDescription {
-            contentView.addSubview(descriptionTextView)
-            descriptionTextView.snp.makeConstraints {
-                $0.top.equalTo(headerLabelStackView.snp.bottom).offset(Constants.padding)
-                $0.leading.trailing.equalToSuperview()
-                $0.width.equalTo(view.bounds.width)
-            }
-        }
-
-        contentView.addSubview(contentTextView)
-        contentTextView.snp.makeConstraints {
-            if canDisplayDescription {
-                $0.top.equalTo(descriptionTextView.snp.bottom).offset(Constants.padding/2)
-            } else {
-                $0.top.equalTo(buttonStackView.snp.bottom).offset(Constants.padding)
-            }
+        contentView.addSubview(htmlView)
+        htmlView.snp.makeConstraints {
+            $0.top.equalTo(headerLabelStackView.snp.bottom).offset(Constants.padding/2)
             $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(view.bounds.width)
-        }
 
-        if canDisplayItinerary {
-            contentView.addSubview(itineraryTextView)
-            itineraryTextView.snp.makeConstraints {
-                $0.top.equalTo(contentTextView.snp.bottom).offset(Constants.padding/2)
-                $0.leading.trailing.equalToSuperview()
-                $0.width.equalTo(view.bounds.width)
-            }
-
-            let separatorLine = UIView()
-            separatorLine.backgroundColor = Color.gray100
-            contentView.addSubview(separatorLine)
-            separatorLine.snp.makeConstraints {
-                $0.top.equalTo(contentTextView.snp.bottom).offset(-Constants.padding/2)
-                $0.height.greaterThanOrEqualTo(0.5)
-                $0.width.equalToSuperview()
-            }
+            htmlViewHeightConstraint = $0.height.equalTo(0).constraint
+            htmlViewHeightConstraint?.activate()
         }
 
         contentView.addSubview(tableView)
         tableView.snp.makeConstraints {
-            if canDisplayItinerary {
-                $0.top.equalTo(itineraryTextView.snp.bottom).offset(-Constants.padding)
-            } else {
-                $0.top.equalTo(contentTextView.snp.bottom).offset(-Constants.padding)
-            }
-
+            $0.top.equalTo(htmlView.snp.bottom)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.cellHeight*CGFloat(tableViewRows.count))
-            $0.bottom.equalToSuperview().offset(-Constants.padding)
+            $0.bottom.equalToSuperview() //.offset(-Constants.padding)
         }
 
         scrollView.addSubview(contentView)
@@ -465,21 +413,24 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             }
         }
 
-        let race = raceViewModel.race
-        let font = contentTextView.font
+        // Load the HTML on the next runloop
+        DispatchQueue.main.async { [weak self] in
+            guard let s = self else { return }
 
-        // Chain HTML parsing from less expensive operations to the most.
-        // This will make blocks of text to asynchrounsly load 1 by 1, but still be more efficient and not block the UI
-        race.description.toHTMLAttributedString(font, color: descriptionTextView.textColor) { [weak self] (att) in
-            self?.descriptionTextView.attributedText = att
+            var html = ""
 
-            race.itineraryContent.toHTMLAttributedString(font) { [weak self] (att) in
-                self?.itineraryTextView.attributedText = att
-
-                race.content.toHTMLAttributedString(font) { [weak self] (att) in
-                    self?.contentTextView.attributedText = att
-                }
+            if s.canDisplayDescription {
+                html += "<div id=\"description\" style=\"color:\(Color.gray300.toHexString());\">\(s.race.description)</div>"
             }
+            if s.canDisplayContent {
+                html += "<div id=\"content\" style=\"padding-top: 12px; padding-bottom: 12px;\">\(s.race.content)</div>"
+            }
+            if s.canDisplayItinerary {
+                html += "<hr style=\"border-top: 0.5px solid #bbb;\">"
+                html += "<div id=\"itinerary\" style=\"padding-top: 12px; padding-bottom: 12px;\">\(s.race.itinerary)</div>"
+            }
+
+            s.htmlView.html = html
         }
 
         if canDisplayMap {
@@ -493,8 +444,12 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
             let location = MKPointAnnotation()
             location.coordinate = coordinates
-            mapView.addAnnotation(location)
-            mapView.setVisibleMapRect(paddedMapRect, animated: false)
+
+            DispatchQueue.main.async { [weak self] in
+                guard let s = self else { return }
+                s.mapView.addAnnotation(location)
+                s.mapView.setVisibleMapRect(paddedMapRect, animated: false)
+            }
         }
 
         // lays out the content and helps calculating the content size
@@ -880,6 +835,31 @@ extension RaceDetailViewController: RaceFormViewControllerDelegate {
 
     func raceFormViewControllerDidDismiss(_ viewController: RaceFormViewController) {
         viewController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension RaceDetailViewController: RichEditorDelegate {
+
+    func richEditor(_ editor: RichEditorView, heightDidChange height: Int) {
+        Clog.log("heightDidChange \(height)")
+
+        var offset = CGFloat(height)
+        offset += Constants.htmlpadding*2
+
+        htmlViewHeightConstraint?.update(offset: offset)
+    }
+
+    func richEditor(_ editor: RichEditorView, shouldInteractWith url: URL) -> Bool {
+
+        if Validator.isEmail().apply(url.absoluteString) {
+            // leave the system handle emails
+            UIApplication.shared.open(url)
+        } else {
+            // open url using in-app browser, else the url is open on the WKWebView
+            WebViewController.openURL(url)
+        }
+
+        return false
     }
 }
 

@@ -22,13 +22,14 @@
 
 html {
     height: 100%;
-    line-height: 1;
 }
 
 body {
     min-height: 100%;
     overflow: auto;
     font: -apple-system-body;
+    background-color: white;
+    color: 434343;
 }
 
 body, h1, p, ul, ol {
@@ -38,6 +39,12 @@ body, h1, p, ul, ol {
 div {
     display: block;
     position: static;
+}
+
+body div {
+    font: -apple-system-body;
+    font-size:medium;
+    line-height: 1.5;
 }
 
 #editor {
@@ -73,7 +80,6 @@ div {
     height: 100%;
     overflow: auto;
     display: block;
-    font-size: 12pt;
 }
 
 input[type=checkbox] {

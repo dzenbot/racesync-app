@@ -50,7 +50,6 @@ extension Race {
         }
 
         return CalendarEvent(title: name, location: address, description: description, startDate: startDate, endDate: endDate, url: raceUrl)
-
     }
 }
 
