@@ -19,8 +19,8 @@ class SettingsViewController: UIViewController {
         let tableView = UITableView(frame: .zero, style: .grouped)
         tableView.dataSource = self
         tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        tableView.tableFooterView = headerView
+        tableView.tableHeaderView = headerView
+       tableView.tableFooterView = UIView()
         tableView.register(cellType: FormTableViewCell.self)
 
         let backgroundView = UIView()
@@ -37,7 +37,7 @@ class SettingsViewController: UIViewController {
         view.addSubview(imageView)
         imageView.snp.makeConstraints {
             $0.centerX.equalToSuperview()
-            $0.centerY.equalToSuperview().offset(UIScreen.main.bounds.height/2)
+            $0.top.equalToSuperview().offset(-100)
         }
 
         return view
