@@ -135,6 +135,8 @@
 		4F95B7EF2598232400631A27 /* OnboardInterfaceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F95B7EE2598232400631A27 /* OnboardInterfaceController.swift */; };
 		4F9979BE26D57CFF00496451 /* AppIcon-KRU@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9979BA26D57CFF00496451 /* AppIcon-KRU@2x.png */; };
 		4F9979BF26D57CFF00496451 /* AppIcon-KRU@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */; };
+		4F9A886B297473AF00B52092 /* Parameters+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9A886A297473AF00B52092 /* Parameters+Extensions.swift */; };
+		4F9A888D2974AAD400B52092 /* ParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9A888C2974AAD400B52092 /* ParametersTests.swift */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
 		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
 		4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A223D397B700570483 /* SettingsViewController.swift */; };
@@ -263,13 +265,6 @@
 			remoteGlobalIDString = 4F13426C2360DA4B00A9DBDE;
 			remoteInfo = RaceSyncAPI;
 		};
-		4F1342792360DA4C00A9DBDE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F13423C2360B67D00A9DBDE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4F1342432360B67D00A9DBDE;
-			remoteInfo = RaceSync;
-		};
 		4F1342802360DA4C00A9DBDE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4F13423C2360B67D00A9DBDE /* Project object */;
@@ -290,6 +285,13 @@
 			proxyType = 1;
 			remoteGlobalIDString = 4F95B7472596967E00631A27;
 			remoteInfo = RaceSyncWatch;
+		};
+		4F9A888A29747EC000B52092 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4F13423C2360B67D00A9DBDE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4F1342432360B67D00A9DBDE;
+			remoteInfo = RaceSync;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -334,6 +336,7 @@
 		03ADD4F5A98600BFEB5B6C6E /* Pods_RaceSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A43AF1C49328F4DFB325FDA /* Pods-RaceSync.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSync.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSync/Pods-RaceSync.release.xcconfig"; sourceTree = "<group>"; };
 		0B33D87E0F5A0D3C15F5A09A /* Pods-RaceSyncAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPI/Pods-RaceSyncAPI.release.xcconfig"; sourceTree = "<group>"; };
+		1ED11B2F78DEFA910DC25E84 /* Pods-TestHost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestHost.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestHost/Pods-TestHost.release.xcconfig"; sourceTree = "<group>"; };
 		2C16D844D6CFA28756F4CA02 /* Pods_RaceSyncAPITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSyncAPITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39172015E1CE1AD9586A8B50 /* Pods-RaceSyncAPITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPITests/Pods-RaceSyncAPITests.release.xcconfig"; sourceTree = "<group>"; };
 		40DB5CAFF0B302311BAF739B /* Pods-RaceSyncAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPI/Pods-RaceSyncAPI.debug.xcconfig"; sourceTree = "<group>"; };
@@ -472,6 +475,8 @@
 		4F95B7EE2598232400631A27 /* OnboardInterfaceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardInterfaceController.swift; sourceTree = "<group>"; };
 		4F9979BA26D57CFF00496451 /* AppIcon-KRU@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-KRU@2x.png"; sourceTree = "<group>"; };
 		4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-KRU@3x.png"; sourceTree = "<group>"; };
+		4F9A886A297473AF00B52092 /* Parameters+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Parameters+Extensions.swift"; sourceTree = "<group>"; };
+		4F9A888C2974AAD400B52092 /* ParametersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersTests.swift; sourceTree = "<group>"; };
 		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -585,6 +590,8 @@
 		9C8FF42CD75D17C9607E692D /* Pods-RaceSyncTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncTests/Pods-RaceSyncTests.release.xcconfig"; sourceTree = "<group>"; };
 		C0AD3F0FAC42488B672FD23B /* Pods-RaceSyncAPITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPITests/Pods-RaceSyncAPITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D073602CBE253F96567B3B54 /* Pods_RaceSyncAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSyncAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E2CFDA2527374CB712344B11 /* Pods_TestHost.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestHost.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F4B3FFAD22585CE75E7AD369 /* Pods-TestHost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestHost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestHost/Pods-TestHost.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -781,6 +788,7 @@
 			children = (
 				4F13427C2360DA4C00A9DBDE /* RaceSyncAPITests.swift */,
 				4FEBB27923A2DAFF007514B4 /* DescriptableTests.swift */,
+				4F9A888C2974AAD400B52092 /* ParametersTests.swift */,
 				4F13427E2360DA4C00A9DBDE /* Info.plist */,
 			);
 			path = RaceSyncAPITests;
@@ -1044,6 +1052,8 @@
 		4FA26828237A4CCE008970AC /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				4F00E077242963F1001DCFC4 /* Joinable.swift */,
+				4F8668F723864389005E310A /* Descriptable.swift */,
 				4FEADB7124147D2D00F82F0D /* LocationManager.swift */,
 				4FA26829237A4CE9008970AC /* CompletionBlock.swift */,
 				4FA2682E237A5896008970AC /* ErrorUtil.swift */,
@@ -1054,8 +1064,6 @@
 				4FA26832237A5983008970AC /* ObjectMapper+Extensions.swift */,
 				4FA213FA29582CCB00C8E45A /* IntegerTransform.swift */,
 				4FD4E1E22381E175008816B3 /* Random.swift */,
-				4F8668F723864389005E310A /* Descriptable.swift */,
-				4F00E077242963F1001DCFC4 /* Joinable.swift */,
 				4F81759A2411917900685F83 /* Clog.swift */,
 			);
 			path = Utils;
@@ -1238,6 +1246,7 @@
 				4F1E150424107BCE0082C486 /* URL+Extensions.swift */,
 				4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */,
 				4FC3F17625A7AB3B0039B94C /* String+Extensions.swift */,
+				4F9A886A297473AF00B52092 /* Parameters+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1249,6 +1258,7 @@
 				D073602CBE253F96567B3B54 /* Pods_RaceSyncAPI.framework */,
 				2C16D844D6CFA28756F4CA02 /* Pods_RaceSyncAPITests.framework */,
 				53D65741DB402E1BEAF04DE6 /* Pods_RaceSyncTests.framework */,
+				E2CFDA2527374CB712344B11 /* Pods_TestHost.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1264,6 +1274,8 @@
 				39172015E1CE1AD9586A8B50 /* Pods-RaceSyncAPITests.release.xcconfig */,
 				935E289DD2B5422FABA6329D /* Pods-RaceSyncTests.debug.xcconfig */,
 				9C8FF42CD75D17C9607E692D /* Pods-RaceSyncTests.release.xcconfig */,
+				F4B3FFAD22585CE75E7AD369 /* Pods-TestHost.debug.xcconfig */,
+				1ED11B2F78DEFA910DC25E84 /* Pods-TestHost.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1357,7 +1369,7 @@
 			);
 			dependencies = (
 				4F1342782360DA4C00A9DBDE /* PBXTargetDependency */,
-				4F13427A2360DA4C00A9DBDE /* PBXTargetDependency */,
+				4F9A888B29747EC000B52092 /* PBXTargetDependency */,
 			);
 			name = RaceSyncAPITests;
 			productName = RaceSyncAPITests;
@@ -1405,7 +1417,7 @@
 		4F13423C2360B67D00A9DBDE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1230;
+				LastSwiftUpdateCheck = 1310;
 				LastUpgradeCheck = 1200;
 				ORGANIZATIONNAME = "MultiGP Inc.";
 				TargetAttributes = {
@@ -1834,6 +1846,7 @@
 				4F9DB7AE23D614CF00570483 /* APISettings.swift in Sources */,
 				4FA213FC29582D1B00C8E45A /* IntegerTransform.swift in Sources */,
 				4F7974B524A4A4D4003D623A /* ImageConstants.swift in Sources */,
+				4F9A886B297473AF00B52092 /* Parameters+Extensions.swift in Sources */,
 				4FC51B1D2409B3A700D654D0 /* APIUnitSystem.swift in Sources */,
 				4FA2682A237A4CE9008970AC /* CompletionBlock.swift in Sources */,
 				4FD4E1BE237DCB24008816B3 /* User.swift in Sources */,
@@ -1859,6 +1872,7 @@
 			files = (
 				4F13427D2360DA4C00A9DBDE /* RaceSyncAPITests.swift in Sources */,
 				4FEBB27A23A2DAFF007514B4 /* DescriptableTests.swift in Sources */,
+				4F9A888D2974AAD400B52092 /* ParametersTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1890,11 +1904,6 @@
 			target = 4F13426C2360DA4B00A9DBDE /* RaceSyncAPI */;
 			targetProxy = 4F1342772360DA4C00A9DBDE /* PBXContainerItemProxy */;
 		};
-		4F13427A2360DA4C00A9DBDE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4F1342432360B67D00A9DBDE /* RaceSync */;
-			targetProxy = 4F1342792360DA4C00A9DBDE /* PBXContainerItemProxy */;
-		};
 		4F1342812360DA4C00A9DBDE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4F13426C2360DA4B00A9DBDE /* RaceSyncAPI */;
@@ -1909,6 +1918,11 @@
 			isa = PBXTargetDependency;
 			target = 4F95B7472596967E00631A27 /* RaceSyncWatch */;
 			targetProxy = 4F95B7652596968200631A27 /* PBXContainerItemProxy */;
+		};
+		4F9A888B29747EC000B52092 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4F1342432360B67D00A9DBDE /* RaceSync */;
+			targetProxy = 4F9A888A29747EC000B52092 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2230,10 +2244,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = C0AD3F0FAC42488B672FD23B /* Pods-RaceSyncAPITests.debug.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RaceSyncAPITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2251,10 +2264,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 39172015E1CE1AD9586A8B50 /* Pods-RaceSyncAPITests.release.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				INFOPLIST_FILE = RaceSyncAPITests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
