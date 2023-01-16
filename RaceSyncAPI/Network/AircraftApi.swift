@@ -54,7 +54,7 @@ public class AircraftApi: AircrafApiInterface {
         var parameters: Params = [ParamKey.pilotId: userId, ParamKey.retired: false]
 
         if let data = data {
-            parameters += data.toParameters()
+            parameters += data.toParams()
         }
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Aircraft.self, completion)
@@ -63,7 +63,7 @@ public class AircraftApi: AircrafApiInterface {
     public func createAircraft(with data: AircraftData, _ completion: @escaping ObjectCompletionBlock<Aircraft>) {
 
         let endpoint = EndPoint.aircraftCreate
-        let parameters = data.toParameters()
+        let parameters = data.toParams()
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Aircraft.self, completion)
     }
@@ -71,7 +71,7 @@ public class AircraftApi: AircrafApiInterface {
     public func update(aircraft aircraftId: ObjectId, with data: AircraftData, _ completion: @escaping StatusCompletionBlock) {
 
         let endpoint = "\(EndPoint.aircraftUpdate)?\(ParamKey.id)=\(aircraftId)"
-        let parameters = data.toParameters()
+        let parameters = data.toParams()
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }

@@ -40,7 +40,7 @@ public class AircraftData: Descriptable {
 
     public init() { }
 
-    func toParameters() -> Params {
+    func toParams() -> Params {
         var params: Params = [:]
 
         if name != nil { params[ParamKey.name] = name }

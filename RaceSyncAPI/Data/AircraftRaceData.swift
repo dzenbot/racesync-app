@@ -35,7 +35,7 @@ public class AircraftRaceData: Descriptable {
         })
     }
 
-    public func toParameters() -> Params {
+    public func toParams() -> Params {
         var params: Params = [:]
 
         if types.count > 0 { params[ParamKey.type] = types }
