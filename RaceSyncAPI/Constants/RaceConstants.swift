@@ -82,6 +82,7 @@ public enum ScoringFormat: String, EnumTitle {
 }
 
 //RACE_CLASS = array(0 =>'Open', 1 =>'Tiny Whoop', 2 =>'Micro (Tiny Trainer)', 3 =>'Freedom Spec', 4 =>'Street League', 5 =>'Mega', 6 =>'Velocidrone')
+//See https://github.com/MultiGP/multigp-com/blob/09841623ae274fa8f62a3a4df1393cf1cf986b74/public_html/mgp/protected/modules/multigp/models/Race.php#L114
 public enum RaceClass: String, EnumTitle {
     case open = "0"
     case whoop = "1"

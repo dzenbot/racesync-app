@@ -15,12 +15,13 @@ class DescriptableTests: XCTestCase {
 
     override func tearDown() { }
 
-    func testSimpleDescription() {
-        let object = TestObject(name: "Ignacio", age: 34)
+    func testAttributesDescription() {
+        let object = TestObject(text: "This is text", number: 604, flag: true)
         let description = """
         {
-            - name = Ignacio
-            - age = 34
+            - text = This is text
+            - number = 604
+            - flag = true
         }
         """
 
@@ -32,6 +33,7 @@ class DescriptableTests: XCTestCase {
 }
 
 struct TestObject: Descriptable {
-    let name: String
-    let age: Int
+    let text: String
+    let number: Int
+    let flag: Bool
 }

@@ -143,7 +143,7 @@ public protocol RaceApiInterface {
 
     /**
     */
-    func updateRace(race raceId: ObjectId, withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>)
+    func updateRace(race raceId: ObjectId, with beforeData: RaceData?, afterData: RaceData, completion: @escaping ObjectCompletionBlock<Race>)
 
     /**
     */
@@ -305,17 +305,23 @@ public class RaceApi: RaceApiInterface {
     public func createRace(withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
 
         let endpoint = "\(EndPoint.raceCreate)?\(ParamKey.chapterId)=\(data.chapterId)"
-        let parameters = data.toParameters()
+        let parameters = data.toParams()
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
     }
 
-    public func updateRace(race raceId: ObjectId, withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
+    public func updateRace(race raceId: ObjectId, with beforeData: RaceData? = nil, afterData: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
 
         let endpoint = "\(EndPoint.raceUpdate)?\(ParamKey.id)=\(raceId)"
-        let parameters = data.toParameters()
+        var params = Params()
 
-        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
+        if let beforeData = beforeData {
+            params = afterData.toDiffParams(beforeData)
+        } else {
+            params = afterData.toParams()
+        }
+
+        repositoryAdapter.getObject(endpoint, parameters: params, type: Race.self, completion)
     }
 
     public func deleteRace(with raceId: ObjectId, _ completion: @escaping StatusCompletionBlock) {

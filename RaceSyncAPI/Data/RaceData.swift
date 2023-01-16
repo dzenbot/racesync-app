@@ -9,7 +9,7 @@
 import Foundation
 import Alamofire
 
-public class RaceData: Descriptable {
+public struct RaceData: Descriptable {
 
     public var name: String? = nil
     public var startDateString: String? = nil
@@ -28,8 +28,8 @@ public class RaceData: Descriptable {
     public var rounds: Int32 = 5
     public var seasonId: String? = nil
     public var seasonName: String? = nil
-    public var locationId: String? = nil
-    public var locationName: String? = nil
+    public var courseId: String? = nil
+    public var courseName: String? = nil
     public var shortDesc: String? = nil
     public var longDesc: String? = nil
     public var itinerary: String? = nil
@@ -64,8 +64,8 @@ public class RaceData: Descriptable {
         self.rounds = race.cycleCount
         self.seasonId = race.seasonId
         self.seasonName = race.seasonName
-        self.locationId = race.courseId
-        self.locationName = race.courseName
+        self.courseId = race.courseId
+        self.courseName = race.courseName
         self.shortDesc = race.description
         self.longDesc = race.content
         self.itinerary = race.itinerary
@@ -73,8 +73,8 @@ public class RaceData: Descriptable {
         self.raceId = race.id
     }
 
-    func toParameters() -> Parameters {
-        var params: Parameters = [:]
+    func toParams() -> Params {
+        var params: Params = [:]
 
         if name != nil { params[ParamKey.name] = name }
         if startDateString != nil { params[ParamKey.startDate] = startDateString }
@@ -101,13 +101,19 @@ public class RaceData: Descriptable {
         params[ParamKey.cycleCount] = rounds
 
         if seasonId != nil { params[ParamKey.seasonId] = seasonId }
-        if locationId != nil { params[ParamKey.locationId] = locationId }
+        if courseId != nil { params[ParamKey.courseId] = courseId }
 
         params[ParamKey.description] = shortDesc
         params[ParamKey.content] = longDesc
         params[ParamKey.itineraryContent] = itinerary
 
         return params
+    }
+
+    func toDiffParams(_ beforeData: RaceData) -> Params {
+        let before = beforeData.toParams()
+        let after = toParams()
+        return before.diff(with: after)
     }
 }
 

@@ -612,7 +612,9 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         guard let chapter = chapters.filter ({ return $0.id == race.chapterId }).first else { return }
 
         let data = RaceData(with: race)
-        let vc = RaceFormViewController(with: [chapter], raceData: data, section: .general)
+        let initialData = RaceData(with: race)
+
+        let vc = RaceFormViewController(with: [chapter], raceData: data, initialRaceData: initialData, section: .general)
         vc.editMode = .update
         vc.delegate = self
 
@@ -625,6 +627,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
 
         let data = RaceData(with: race)
+        
         let vc = RaceFormViewController(with: chapters, raceData: data, section: .general)
         vc.editMode = .new
         vc.delegate = self

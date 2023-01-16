@@ -67,7 +67,9 @@ class RaceFormViewController: UIViewController {
         }
     }
 
-    fileprivate var raceData: RaceData
+    fileprivate var data: RaceData
+    fileprivate var initialData: RaceData?
+
     fileprivate var currentSection: RaceFormSection
     fileprivate var selectedRow: RaceFormRow?
     fileprivate var raceApi = RaceApi()
@@ -96,7 +98,7 @@ class RaceFormViewController: UIViewController {
 
     init(with chapters: [ManagedChapter], selectedChapterId: ObjectId, selectedChapterName: String) {
         self.chapters = chapters
-        self.raceData = RaceData(with: selectedChapterId, chapterName: selectedChapterName)
+        self.data = RaceData(with: selectedChapterId, chapterName: selectedChapterName)
         self.currentSection = .general
         self.isFormEnabled = true
 
@@ -104,14 +106,15 @@ class RaceFormViewController: UIViewController {
         self.title = "New Event"
     }
 
-    init(with chapters: [ManagedChapter], raceData: RaceData, section: RaceFormSection = .general) {
+    init(with chapters: [ManagedChapter], raceData: RaceData, initialRaceData: RaceData? = nil, section: RaceFormSection = .general) {
         self.chapters = chapters
-        self.raceData = raceData
+        self.data = raceData
+        self.initialData = initialRaceData
         self.currentSection = section
         self.isFormEnabled = false
 
         super.init(nibName: nil, bundle: nil)
-        self.title = raceData.name
+        self.title = data.name
     }
 
     required init?(coder: NSCoder) {
@@ -171,9 +174,9 @@ class RaceFormViewController: UIViewController {
         let row = rows[sender.tag]
 
         if row == .scoring {
-            raceData.funfly = sender.isOn
+            data.funfly = sender.isOn
         } else if row == .timing {
-            raceData.timing = sender.isOn
+            data.timing = sender.isOn
         }
     }
 
@@ -182,7 +185,7 @@ class RaceFormViewController: UIViewController {
         // Move to next step
         if currentSection == .general {
             let nextSection: RaceFormSection = .specific
-            let vc = RaceFormViewController(with: chapters, raceData: raceData, section: nextSection)
+            let vc = RaceFormViewController(with: chapters, raceData: data, initialRaceData: initialData, section: nextSection)
             vc.editMode = editMode
             vc.delegate = delegate
 
@@ -201,7 +204,7 @@ class RaceFormViewController: UIViewController {
 
         isLoading = true
 
-        raceApi.createRace(withData: raceData) { object, error in
+        raceApi.createRace(withData: data) { object, error in
             if let race = object {
                 self.delegate?.raceFormViewController(self, didUpdateRace: race)
             } else if let error = error {
@@ -212,11 +215,11 @@ class RaceFormViewController: UIViewController {
     }
 
     fileprivate func editRace() {
-        guard let id = raceData.raceId else { return }
+        guard let id = data.raceId else { return }
 
         isLoading = true
 
-        raceApi.updateRace(race: id, withData: raceData) { object, error in
+        raceApi.updateRace(race: id, with: initialData, afterData: data) { object, error in
             if let race = object {
                 self.delegate?.raceFormViewController(self, didUpdateRace: race)
             } else if let error = error {
@@ -275,7 +278,7 @@ extension RaceFormViewController: UITableViewDataSource {
         guard let rows = currentSectionRows() else { return cell }
 
         let row = rows[indexPath.row]
-        let rowValue = row.value(from: raceData)
+        let rowValue = row.value(from: data)
 
         if row.isRowRequired {
             cell.textLabel?.text = row.title + " *"
@@ -321,7 +324,7 @@ extension RaceFormViewController: UITableViewDataSource {
 fileprivate extension RaceFormViewController {
 
     func presentTextField(forRow row: RaceFormRow, animated: Bool = true) {
-        let vc = TextFieldViewController(with: raceData.name)
+        let vc = TextFieldViewController(with: data.name)
         vc.delegate = self
         vc.title = row.title
         vc.textField.placeholder = row.title
@@ -376,7 +379,7 @@ fileprivate extension RaceFormViewController {
 
     func textPickerViewController(for row: RaceFormRow) -> TextPickerViewController {
         let values = values(for: row)
-        let rowValue = row.value(from: raceData)
+        let rowValue = row.value(from: data)
         return textPickerViewController(with: row.title, items: values, selectedItem: rowValue)
     }
 
@@ -393,7 +396,7 @@ fileprivate extension RaceFormViewController {
         } else {
             cell.isLoading = true
 
-            seasonApi.getSeasons(forChapter: raceData.chapterId) { seasons, error in
+            seasonApi.getSeasons(forChapter: data.chapterId) { seasons, error in
                 presentTextPicker(seasons)
                 cell.isLoading = false
             }
@@ -405,7 +408,7 @@ fileprivate extension RaceFormViewController {
             let names = seasons.compactMap { $0.name }
             self.seasons = seasons
 
-            let vc = textPickerViewController(with: row.title, items: names, selectedItem: raceData.seasonName)
+            let vc = textPickerViewController(with: row.title, items: names, selectedItem: data.seasonName)
             let nc = NavigationController(rootViewController: vc)
             customPresentViewController(presenter, viewController: nc, animated: true)
         }
@@ -417,7 +420,7 @@ fileprivate extension RaceFormViewController {
         } else {
             cell.isLoading = true
 
-            courseApi.getCourses(forChapter: raceData.chapterId) { courses, error in
+            courseApi.getCourses(forChapter: data.chapterId) { courses, error in
                 presentTextPicker(courses)
                 cell.isLoading = false
             }
@@ -429,7 +432,7 @@ fileprivate extension RaceFormViewController {
             let names = courses.compactMap { $0.name }
             self.courses = courses
 
-            let vc = textPickerViewController(with: row.title, items: names, selectedItem: raceData.locationName)
+            let vc = textPickerViewController(with: row.title, items: names, selectedItem: data.courseName)
             let nc = NavigationController(rootViewController: vc)
             customPresentViewController(presenter, viewController: nc, animated: true)
         }
@@ -440,11 +443,11 @@ fileprivate extension RaceFormViewController {
         var text: String?
 
         if row == .shortDesc {
-            text = raceData.shortDesc
+            text = data.shortDesc
         } else if row == .longDesc {
-            text = raceData.longDesc
+            text = data.longDesc
         } else if row == .itinerary {
-            text = raceData.itinerary
+            text = data.itinerary
         }
 
         let vc = TextEditorViewController(with: text)
@@ -477,11 +480,11 @@ fileprivate extension RaceFormViewController {
 
     func date(for row: RaceFormRow) -> Date? {
         if row == .startDate {
-            return raceData.startDate
+            return data.startDate
         } else if row == .endDate {
-            if let endDate = raceData.endDate {
+            if let endDate = data.endDate {
                 return endDate
-            } else if let startDate = raceData.startDate {
+            } else if let startDate = data.startDate {
                 // return start date, if already defined, since end date cannot be lower than start date
                 return startDate
             }
@@ -493,7 +496,7 @@ fileprivate extension RaceFormViewController {
 
     func canGoNextSection() -> Bool {
         for row in currentSectionRequiredRows() {
-            if let value = row.requiredValue(from: raceData) {
+            if let value = row.requiredValue(from: data) {
                 if value.isEmpty { return false }
             } else {
                 return false
@@ -524,48 +527,48 @@ extension RaceFormViewController: FormBaseViewControllerDelegate {
 
         switch row {
         case .name:
-            raceData.name = item
+            data.name = item
             title = item
         case .startDate:
-            raceData.startDateString = item
+            data.startDateString = item
         case .endDate:
-            raceData.endDateString = item
+            data.endDateString = item
         case .chapter:
             if let chapter = chapters.filter ({ return $0.name == item }).first {
-                raceData.chapterName = chapter.name
-                raceData.chapterId = chapter.id
+                data.chapterName = chapter.name
+                data.chapterId = chapter.id
             }
         case .class:
             if let value = RaceClass(title: item)?.rawValue {
-                raceData.raceClass = value
+                data.raceClass = value
             }
         case .format:
             if let value = ScoringFormat(title: item)?.rawValue {
-                raceData.format = value
+                data.format = value
             }
         case .schedule:
             if let value = QualifyingType(title: item)?.rawValue {
-                raceData.qualifying = value
+                data.qualifying = value
             }
         case .privacy:
             if let value = EventType(title: item)?.rawValue {
-                raceData.privacy = value
+                data.privacy = value
             }
         case .status:
             if let value = RaceStatus(title: item)?.rawValue {
-                raceData.status = value
+                data.status = value
             }
         case .rounds:
-            raceData.rounds = (item as NSString).intValue
+            data.rounds = (item as NSString).intValue
         case .season:
             if let season = seasons?.filter ({ return $0.name == item }).first {
-                raceData.seasonId = season.id
-                raceData.seasonName = season.name
+                data.seasonId = season.id
+                data.seasonName = season.name
             }
         case .location:
             if let course = courses?.filter ({ return $0.name == item }).first {
-                raceData.locationId = course.id
-                raceData.locationName = course.name
+                data.courseId = course.id
+                data.courseName = course.name
             }
         default:
             break
@@ -638,11 +641,11 @@ extension RaceFormViewController: TextEditorViewControllerDelegate {
         guard let row = selectedRow, row.formType == .textEditor else { return }
 
         if row == .shortDesc {
-            raceData.shortDesc = text
+            data.shortDesc = text
         } else if row == .longDesc {
-            raceData.longDesc = text
+            data.longDesc = text
         } else if row == .itinerary {
-            raceData.itinerary = text
+            data.itinerary = text
         }
 
         navigationController?.popViewController(animated: true)

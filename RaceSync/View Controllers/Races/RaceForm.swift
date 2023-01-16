@@ -97,7 +97,7 @@ extension RaceFormRow {
         case .season:
             return raceData.seasonName
         case .location:
-            return raceData.locationName
+            return raceData.courseName
         case .shortDesc:
             if let text = raceData.shortDesc, text.count > 0 {
                 return text.stripHTML(true).safeSubstring(to: 20).capitalized + "…"
