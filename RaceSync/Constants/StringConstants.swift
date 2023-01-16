@@ -10,7 +10,7 @@ import Foundation
 import RaceSyncAPI
 
 public class StringConstants {
-    public static let Copyright = "Copyright © \(Date().thisYear()) MultiGP Inc." 
     public static let ApplicationID = "1491110680"
+    public static let Copyright = "Copyright © 2015 - \(Date().thisYear()) MultiGP, Inc."
     public static let SentryClientDSN = "https://4dbd7fdde60b4c828846d94fecc814c1@sentry.io/3036524"
 }
