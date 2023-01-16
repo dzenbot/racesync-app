@@ -121,15 +121,15 @@ class RichEditorToolbar: UIView {
                 buttons.append(button)
             }
 
-            // adding space expect for the last item
-            if i < options.count-1 {
-                if #available(iOS 14.0, *) {
-                    buttons.append(UIBarButtonItem.fixedSpace(Constants.padding))
-                } else {
-                    let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
-                    space.width = Constants.padding
-                    buttons.append(space)
-                }
+            // adding space expect for the last item, with half space
+            let spacing = (i < options.count-1) ? Constants.padding : Constants.padding/2
+
+            if #available(iOS 14.0, *) {
+                buttons.append(UIBarButtonItem.fixedSpace(spacing))
+            } else {
+                let space = UIBarButtonItem(barButtonSystemItem: .fixedSpace, target: nil, action: nil)
+                space.width = spacing
+                buttons.append(space)
             }
         }
 

@@ -83,6 +83,7 @@ enum RichEditorDefaultOption: RichEditorOption {
     static let all: [RichEditorDefaultOption] = [
         .undo, .redo,
         .bold, .italic, .underline, .strike,
+        .header(1), .header(2), .header(3), .header(4),
         .alignLeft, .alignCenter, .alignRight,
         //.textColor, .textBackgroundColor,
         .orderedList, .unorderedList, .indent, .outdent,
