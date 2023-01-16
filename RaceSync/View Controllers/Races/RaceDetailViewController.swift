@@ -198,15 +198,15 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate var canDisplayDescription: Bool {
-        return raceViewModel.race.description.count > 0
+        return raceViewModel.race.description.stripHTML().count > 0
     }
 
     fileprivate var canDisplayContent: Bool {
-        return raceViewModel.race.content.count > 0
+        return raceViewModel.race.content.stripHTML().count > 0
     }
 
     fileprivate var canDisplayItinerary: Bool {
-        return raceViewModel.race.itinerary.count > 0
+        return raceViewModel.race.itinerary.stripHTML().count > 0
     }
 
     fileprivate var canDisplayFunFly: Bool {
@@ -353,7 +353,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         contentView.addSubview(tableView)
         tableView.snp.makeConstraints {
-            $0.top.equalTo(htmlView.snp.bottom)
+            $0.top.equalTo(htmlView.snp.bottom).offset(Constants.padding/2)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.cellHeight*CGFloat(tableViewRows.count))
             $0.bottom.equalToSuperview() //.offset(-Constants.padding)
@@ -427,7 +427,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             }
             if s.canDisplayItinerary {
                 html += "<hr style=\"border-top: 0.5px solid #bbb;\">"
-                html += "<div id=\"itinerary\" style=\"padding-top: 12px; padding-bottom: 12px;\">\(s.race.itinerary)</div>"
+                html += "<div id=\"itinerary\" style=\"padding-top: 12px;\">\(s.race.itinerary)</div>"
             }
 
             s.htmlView.html = html
@@ -627,7 +627,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
 
         let data = RaceData(with: race)
-        
+
         let vc = RaceFormViewController(with: chapters, raceData: data, section: .general)
         vc.editMode = .new
         vc.delegate = self
