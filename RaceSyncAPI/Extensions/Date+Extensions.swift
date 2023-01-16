@@ -93,4 +93,10 @@ public extension Date {
         let thisYear = (thisYear() as NSString).integerValue
         return String(thisYear - 1)
     }
+
+    func date(with days: Int) -> Date {
+        var dateComponent = DateComponents()
+        dateComponent.day = days
+        return Calendar.current.date(byAdding: dateComponent, to: self) ?? self
+    }
 }

@@ -17,6 +17,16 @@ class HomeController {
     }
 
     static func availableFilters() -> [RaceFilter] {
-        return [.joined, .nearby, .series]
+
+        var filters: [RaceFilter] = [.joined, .nearby]
+
+        // Only show GQ races while the season is on going
+        if Season.isGQWindow(10) {
+            filters += [.series]
+        } else {
+            filters += [.chapters]
+        }
+
+        return filters
     }
 }

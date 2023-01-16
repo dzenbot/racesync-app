@@ -137,6 +137,8 @@
 		4F9979BF26D57CFF00496451 /* AppIcon-KRU@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */; };
 		4F9A886B297473AF00B52092 /* Parameters+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9A886A297473AF00B52092 /* Parameters+Extensions.swift */; };
 		4F9A888D2974AAD400B52092 /* ParametersTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9A888C2974AAD400B52092 /* ParametersTests.swift */; };
+		4F9A888F2975E6D700B52092 /* Race+UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9A888E2975E6D600B52092 /* Race+UIExtensions.swift */; };
+		4F9A88912975F30C00B52092 /* Season+UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9A88902975F30C00B52092 /* Season+UIExtensions.swift */; };
 		4F9DB79723D2B01C00570483 /* MGPWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA26826237A4079008970AC /* MGPWebConstants.swift */; };
 		4F9DB79923D2D94E00570483 /* ExternalAppConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */; };
 		4F9DB7A323D397B700570483 /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9DB7A223D397B700570483 /* SettingsViewController.swift */; };
@@ -477,6 +479,8 @@
 		4F9979BB26D57CFF00496451 /* AppIcon-KRU@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-KRU@3x.png"; sourceTree = "<group>"; };
 		4F9A886A297473AF00B52092 /* Parameters+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Parameters+Extensions.swift"; sourceTree = "<group>"; };
 		4F9A888C2974AAD400B52092 /* ParametersTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersTests.swift; sourceTree = "<group>"; };
+		4F9A888E2975E6D600B52092 /* Race+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Race+UIExtensions.swift"; sourceTree = "<group>"; };
+		4F9A88902975F30C00B52092 /* Season+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Season+UIExtensions.swift"; sourceTree = "<group>"; };
 		4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExternalAppConstants.swift; sourceTree = "<group>"; };
 		4F9DB79F23D3816800570483 /* RaceSync.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RaceSync.entitlements; sourceTree = "<group>"; };
 		4F9DB7A223D397B700570483 /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
@@ -811,6 +815,8 @@
 			children = (
 				4F2724352515D88A000C7408 /* Chapter+UIExtensions.swift */,
 				4FBE760E259B387E00312B66 /* User+UIExtensions.swift */,
+				4F9A888E2975E6D600B52092 /* Race+UIExtensions.swift */,
+				4F9A88902975F30C00B52092 /* Season+UIExtensions.swift */,
 			);
 			path = "RaceSyncAPI Extensions";
 			sourceTree = "<group>";
@@ -1753,6 +1759,7 @@
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,
 				4FD4E1C9237F987C008816B3 /* RaceRosterViewController.swift in Sources */,
+				4F9A888F2975E6D700B52092 /* Race+UIExtensions.swift in Sources */,
 				4FDF0062259045C5006964DB /* TrackElementHeaderView.swift in Sources */,
 				4F8668FC23870E1E005E310A /* SegmentedTableViewHeaderView.swift in Sources */,
 				4FBE760F259B387E00312B66 /* User+UIExtensions.swift in Sources */,
@@ -1762,6 +1769,7 @@
 				4FD4E1CD237F98E7008816B3 /* RaceTabBarController.swift in Sources */,
 				4F3D640723FB0A4800DE6DF2 /* AircraftPickerViewController.swift in Sources */,
 				4FCAF9FE23AC8B8400ACE7D3 /* Shimmable.swift in Sources */,
+				4F9A88912975F30C00B52092 /* Season+UIExtensions.swift in Sources */,
 				4FFF07EE27A0F87100EFC30D /* TrackLoader.swift in Sources */,
 				4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */,
 				4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */,
