@@ -24,7 +24,7 @@ class NetworkAdapter {
     func httpRequest(
         _ endpoint: String,
         method: HTTPMethod = .get,
-        parameters: Parameters? = nil,
+        parameters: Params? = nil,
         nestParameters: Bool = true,
         encoding: ParameterEncoding = JSONEncoding.default,
         headers: [String : String] = [:],
@@ -33,7 +33,7 @@ class NetworkAdapter {
         ) {
         let url = urlFrom(endpoint: endpoint)
 
-        var params = Parameters()
+        var params = Params()
 
         if nestParameters {
             params[ParamKey.data] = parameters

@@ -26,7 +26,7 @@ public protocol SeasonApiInterface {
 
     /**
      */
-    func createSeason(forChapter chapterId: ObjectId, with parameters: Parameters, _ completion: @escaping ObjectCompletionBlock<Season>)
+    func createSeason(forChapter chapterId: ObjectId, with parameters: Params, _ completion: @escaping ObjectCompletionBlock<Season>)
 
     /**
      */
@@ -41,7 +41,7 @@ public class SeasonApi: SeasonApiInterface {
     public func getSeason(with seasonId: ObjectId, _ completion: @escaping ObjectCompletionBlock<Season>) {
 
         let endpoint = EndPoint.seasonSearch
-        let params: Parameters = [ParamKey.id: seasonId]
+        let params: Params = [ParamKey.id: seasonId]
 
         repositoryAdapter.getObject(endpoint, parameters: params, type: Season.self, completion)
     }
@@ -49,7 +49,7 @@ public class SeasonApi: SeasonApiInterface {
     public func searchSeason(with name: String, _ completion: @escaping ObjectCompletionBlock<Season>) {
 
         let endpoint = EndPoint.seasonSearch
-        let params: Parameters = [ParamKey.name: name]
+        let params: Params = [ParamKey.name: name]
 
         repositoryAdapter.getObject(endpoint, parameters: params, type: Season.self, completion)
     }
@@ -57,12 +57,12 @@ public class SeasonApi: SeasonApiInterface {
     public func getSeasons(forChapter chapterId: ObjectId, currentPage: Int = 0, pageSize: Int = StandardPageSize, _ completion: @escaping ObjectCompletionBlock<[Season]>) {
 
         let endpoint = EndPoint.seasonList
-        let params: Parameters = [ParamKey.chapterId: chapterId]
+        let params: Params = [ParamKey.chapterId: chapterId]
 
         repositoryAdapter.getObjects(endpoint, parameters: params, currentPage: currentPage, pageSize: pageSize, type: Season.self, completion)
     }
 
-    public func createSeason(forChapter chapterId: ObjectId, with parameters: Parameters, _ completion: @escaping ObjectCompletionBlock<Season>) {
+    public func createSeason(forChapter chapterId: ObjectId, with parameters: Params, _ completion: @escaping ObjectCompletionBlock<Season>) {
 
         let endpoint = "\(EndPoint.seasonCreate)?\(ParamKey.chapterId)=\(chapterId)"
 
@@ -72,7 +72,7 @@ public class SeasonApi: SeasonApiInterface {
     public func deleteSeason(with seasonId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
 
         let endpoint = EndPoint.seasonDelete
-        let params: Parameters = [ParamKey.id: seasonId]
+        let params: Params = [ParamKey.id: seasonId]
 
         repositoryAdapter.performAction(endpoint, parameters: params, completion: completion)
     }

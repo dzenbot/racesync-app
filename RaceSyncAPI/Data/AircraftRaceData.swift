@@ -35,15 +35,15 @@ public class AircraftRaceData: Descriptable {
         })
     }
 
-    public func toParameters() -> Parameters {
-        var parameters: Parameters = [:]
+    public func toParameters() -> Params {
+        var params: Params = [:]
 
-        if types.count > 0 { parameters[ParamKey.type] = types }
-        if sizes.count > 0 { parameters[ParamKey.size] = sizes }
-        if batteries.count > 0 { parameters[ParamKey.battery] = batteries }
-        if propSizes.count > 0 { parameters[ParamKey.propellerSize] = propSizes }
+        if types.count > 0 { params[ParamKey.type] = types }
+        if sizes.count > 0 { params[ParamKey.size] = sizes }
+        if batteries.count > 0 { params[ParamKey.battery] = batteries }
+        if propSizes.count > 0 { params[ParamKey.propellerSize] = propSizes }
 
-        return parameters
+        return params
     }
 
     public func displayText() -> String {

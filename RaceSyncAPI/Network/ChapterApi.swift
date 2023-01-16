@@ -52,7 +52,7 @@ public class ChapterApi: ChapterApiInterface {
     public func getChapters(forUser userId: ObjectId, currentPage: Int = 0, pageSize: Int = StandardPageSize, _ completion: @escaping ObjectCompletionBlock<[Chapter]>) {
 
         let endpoint = EndPoint.chapterList
-        var parameters: Parameters = [:]
+        var parameters: Params = [:]
         parameters[ParamKey.joined] = [ParamKey.pilotId : userId]
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Chapter.self, completion)
@@ -69,7 +69,7 @@ public class ChapterApi: ChapterApiInterface {
     public func getChapter(with chapterId: ObjectId, _ completion: @escaping ObjectCompletionBlock<Chapter>) {
 
         let endpoint = EndPoint.chapterSearch
-        let parameters: Parameters = [ParamKey.id: chapterId]
+        let parameters: Params = [ParamKey.id: chapterId]
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Chapter.self, completion)
     }
@@ -77,7 +77,7 @@ public class ChapterApi: ChapterApiInterface {
     public func searchChapter(with chapterName: String, _ completion: @escaping ObjectCompletionBlock<Chapter>) {
 
         let endpoint = EndPoint.chapterSearch
-        let parameters: Parameters = [ParamKey.chapterName: chapterName]
+        let parameters: Params = [ParamKey.chapterName: chapterName]
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Chapter.self, completion)
     }
@@ -113,8 +113,8 @@ public class ChapterApi: ChapterApiInterface {
 
 fileprivate extension ChapterApi {
 
-    func parametersForMyLocalChapters() -> Parameters {
-        var parameters: Parameters = [:]
+    func parametersForMyLocalChapters() -> Params {
+        var parameters: Params = [:]
 
         guard let myUser = APIServices.shared.myUser else { return parameters }
 

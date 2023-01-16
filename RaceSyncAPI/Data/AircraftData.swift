@@ -40,18 +40,18 @@ public class AircraftData: Descriptable {
 
     public init() { }
 
-    func toParameters() -> Parameters {
-        var parameters: Parameters = [:]
+    func toParameters() -> Params {
+        var params: Params = [:]
 
-        if name != nil { parameters[ParamKey.name] = name }
-        if type != nil { parameters[ParamKey.type] = type }
-        if size != nil { parameters[ParamKey.size] = size }
-        if battery != nil { parameters[ParamKey.battery] = battery }
-        if propSize != nil { parameters[ParamKey.propellerSize] = propSize }
+        if name != nil { params[ParamKey.name] = name }
+        if type != nil { params[ParamKey.type] = type }
+        if size != nil { params[ParamKey.size] = size }
+        if battery != nil { params[ParamKey.battery] = battery }
+        if propSize != nil { params[ParamKey.propellerSize] = propSize }
 
-        if videoTxType != nil { parameters[ParamKey.videoTransmitter] = videoTxType }
-        if antenna != nil { parameters[ParamKey.antenna] = antenna }
+        if videoTxType != nil { params[ParamKey.videoTransmitter] = videoTxType }
+        if antenna != nil { params[ParamKey.antenna] = antenna }
 
-        return parameters
+        return params
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Parameters+Extensions.swift
+//  Params+Extensions.swift
 //  RaceSyncAPI
 //
 //  Created by Ignacio Romero Zurbuchen on 2023-01-15.

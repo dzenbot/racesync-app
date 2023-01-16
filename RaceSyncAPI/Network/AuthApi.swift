@@ -40,7 +40,7 @@ public class AuthApi: AuthApiInterface {
     public func login(_ username: String, password: String, _ completion: @escaping StatusCompletionBlock) {
 
         let endpoint = EndPoint.userLogin
-        let parameters: Parameters = [
+        let parameters: Params = [
             ParamKey.username: username,
             ParamKey.password: password
         ]

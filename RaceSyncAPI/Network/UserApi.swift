@@ -48,14 +48,14 @@ public class UserApi: UserApiInterface {
 
     public func getUser(with id: String, _ completion: @escaping ObjectCompletionBlock<User>) {
         let endpoint = EndPoint.userSearch
-        let parameters: Parameters = [ParamKey.id: id]
+        let parameters: Params = [ParamKey.id: id]
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: User.self, completion)
     }
 
     public func searchUser(with username: String, _ completion: @escaping ObjectCompletionBlock<User>) {
         let endpoint = EndPoint.userSearch
-        let parameters: Parameters = [ParamKey.userName: username]
+        let parameters: Params = [ParamKey.userName: username]
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: User.self, completion)
     }

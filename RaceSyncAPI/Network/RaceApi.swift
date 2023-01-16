@@ -287,27 +287,27 @@ public class RaceApi: RaceApiInterface {
     public func checkIn(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
         let endpoint = "\(EndPoint.raceCheckIn)?\(ParamKey.id)=\(raceId)"
-        var parameters = Parameters()
-        parameters[ParamKey.pilotId] = pilotId
+        var params = Params()
+        params[ParamKey.pilotId] = pilotId
 
-        repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: params, type: RaceEntry.self, completion)
     }
 
     public func checkOut(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
         let endpoint = "\(EndPoint.raceCheckOut)?\(ParamKey.id)=\(raceId)"
-        var parameters = Parameters()
-        parameters[ParamKey.pilotId] = pilotId
+        var params = Params()
+        params[ParamKey.pilotId] = pilotId
 
-        repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: params, type: RaceEntry.self, completion)
     }
 
     public func createRace(withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
 
         let endpoint = "\(EndPoint.raceCreate)?\(ParamKey.chapterId)=\(data.chapterId)"
-        let parameters = data.toParams()
+        let params = data.toParams()
 
-        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: params, type: Race.self, completion)
     }
 
     public func updateRace(race raceId: ObjectId, with beforeData: RaceData? = nil, afterData: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
@@ -341,9 +341,9 @@ fileprivate extension RaceApi {
     func parametersForRaces(with userId: ObjectId = "",
                             filters: [RaceListFilter],
                             latitude: String? = nil, longitude: String? = nil,
-                            pageSize: Int = StandardPageSize) -> Parameters {
+                            pageSize: Int = StandardPageSize) -> Params {
 
-        var parameters: Parameters = [:]
+        var parameters: Params = [:]
 
         if filters.contains(.nearby) {
             let settings = APIServices.shared.settings

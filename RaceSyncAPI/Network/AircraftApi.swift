@@ -51,7 +51,7 @@ public class AircraftApi: AircrafApiInterface {
     public func getAircraft(forUser userId: String, forRaceData data: AircraftRaceData? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
 
         let endpoint = EndPoint.aircraftList
-        var parameters: Parameters = [ParamKey.pilotId: userId, ParamKey.retired: false]
+        var parameters: Params = [ParamKey.pilotId: userId, ParamKey.retired: false]
 
         if let data = data {
             parameters += data.toParameters()
