@@ -1,5 +1,5 @@
 //
-//  RaceMainListViewController.swift
+//  RaceFeedViewController.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2019-11-14.
@@ -17,7 +17,7 @@ import CoreLocation
  Main view of the application, displaying lists of races filtered by different toggles. This view is very specific to that use case.
  For a more generic display of races, use RaceListViewController.
  */
-class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
+class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
 
     // MARK: - Public Variables
 
@@ -66,14 +66,14 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         view.addSubview(filterButton)
         filterButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.leading.equalToSuperview().offset(spacing)
+            $0.leading.equalToSuperview().offset(Constants.padding)
             $0.width.equalTo(30)
         }
 
         view.addSubview(mapButton)
         mapButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
-            $0.trailing.equalToSuperview().offset(-spacing)
+            $0.trailing.equalToSuperview().offset(-Constants.padding)
             $0.width.equalTo(30)
         }
 
@@ -126,8 +126,8 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     fileprivate lazy var mapButton: CustomButton = {
         let button = CustomButton(type: .system)
         button.addTarget(self, action: #selector(didPressMapButton), for: .touchUpInside)
-        button.setImage(ButtonImg.empty, for: .normal)
-        button.isUserInteractionEnabled = false
+        button.setImage(ButtonImg.map, for: .normal)
+        button.isHidden = !isMapViewEnabled
         return button
     }()
 
@@ -176,13 +176,17 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         }
     }
 
-    fileprivate let raceListController: RaceMainListController
+    fileprivate let raceListController: RaceFeedController
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate let chapterApi = ChapterApi()
     fileprivate var raceList = [RaceViewModel]()
-    fileprivate var settingsController = SettingsController()
-    fileprivate let isUniversalSearchEnabled: Bool = false
+
+    fileprivate let presenter = Appearance.defaultPresenter()
+    fileprivate var formNavigationController: NavigationController?
+
+    fileprivate let isSearchEnabled: Bool = false
+    fileprivate let isMapViewEnabled: Bool = false
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateChapterRaces = EmptyStateViewModel(.noJoinedRaces)
@@ -191,16 +195,14 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-//        static let headerHeight: CGFloat = 90
         static let buttonSpacing: CGFloat = 12
         static let miniProfileSize: CGSize = CGSize(width: 32, height: 32)
-        static let bottomViewHeight: CGFloat = 83
     }
 
     // MARK: - Initialization
 
     init(_ filters: [RaceFilter], selectedFilter: RaceFilter) {
-        self.raceListController = RaceMainListController(filters)
+        self.raceListController = RaceFeedController(filters)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -241,7 +243,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         navigationItem.titleView = titleView
 
         var leftStackSubviews = [settingsButton]
-        if isUniversalSearchEnabled {
+        if isSearchEnabled {
             leftStackSubviews += [searchButton]
         }
 
@@ -328,9 +330,10 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     @objc fileprivate func didPressFilterButton(_ sender: Any) {
-        settingsController.presentSettingsPicker(.searchRadius, from: self) {
-            // event handled by the APISettingsDelegate implementation
-        }
+        let vc = RaceFeedMenuViewController()
+        let nc = NavigationController(rootViewController: vc)
+
+        customPresentViewController(presenter, viewController: nc, animated: true)
     }
 
     @objc fileprivate func didPressMapButton(_ sender: Any) {
@@ -386,7 +389,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
     }
 }
 
-fileprivate extension RaceMainListViewController {
+fileprivate extension RaceFeedViewController {
 
     func loadContent() {
         if APIServices.shared.myUser == nil {
@@ -471,7 +474,7 @@ fileprivate extension RaceMainListViewController {
     }
 }
 
-extension RaceMainListViewController: UITableViewDelegate {
+extension RaceFeedViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -485,7 +488,7 @@ extension RaceMainListViewController: UITableViewDelegate {
     }
 }
 
-extension RaceMainListViewController: UITableViewDataSource {
+extension RaceFeedViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return raceList.count
@@ -516,7 +519,7 @@ extension RaceMainListViewController: UITableViewDataSource {
     }
 }
 
-extension RaceMainListViewController: EmptyDataSetSource {
+extension RaceFeedViewController: EmptyDataSetSource {
 
     func getEmptyStateViewModel() -> EmptyStateViewModel {
         switch selectedRaceList {
@@ -548,7 +551,7 @@ extension RaceMainListViewController: EmptyDataSetSource {
     }
 }
 
-extension RaceMainListViewController: APISettingsDelegate {
+extension RaceFeedViewController: APISettingsDelegate {
 
     func didUpdate(settings: APISettingsType, with value: Any) {
         guard selectedRaceList == .nearby else { return }
@@ -562,7 +565,7 @@ extension RaceMainListViewController: APISettingsDelegate {
     }
 }
 
-extension RaceMainListViewController: EmptyDataSetDelegate {
+extension RaceFeedViewController: EmptyDataSetDelegate {
 
     func emptyDataSetShouldAllowScroll(_ scrollView: UIScrollView) -> Bool {
         return true

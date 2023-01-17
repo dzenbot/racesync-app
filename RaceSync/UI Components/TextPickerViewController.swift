@@ -62,14 +62,12 @@ class TextPickerViewController: FormBaseViewController {
 
     fileprivate let items: [String]
     fileprivate var selectedItem: String?
-    fileprivate var defaultItem: String?
 
     // MARK: - Initialization
 
-    init(with items: [String], selectedItem: String? = nil, defaultItem: String? = nil) {
+    init(with items: [String], selectedItem: String? = nil) {
         self.items = items
         self.selectedItem = selectedItem
-        self.defaultItem = defaultItem
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -107,8 +105,6 @@ class TextPickerViewController: FormBaseViewController {
 
         if let selectedItem = selectedItem, let index = items.firstIndex(of: selectedItem) {
             pickerView.selectRow(index, animated: false)
-        } else if let defaultItem = defaultItem, let index = items.firstIndex(of: defaultItem) {
-            pickerView.selectRow(index, animated: false)
         }
 
         configureButtonBarItems()
@@ -128,11 +124,14 @@ class TextPickerViewController: FormBaseViewController {
     @objc func didPressCloseButton() {
         dismiss(animated: true)
         delegate?.formViewControllerDidDismiss(self)
+        didDismiss?()
     }
 
     @objc func didPressOKButton() {
         let item = items[pickerView.currentSelectedRow]
+
         delegate?.formViewController(self, didSelectItem: item)
+        didSelectItem?(item)
     }
 }
 
@@ -186,8 +185,8 @@ extension TextPickerViewController: PresentrDelegate {
     func presentrShouldDismiss(keyboardShowing: Bool) -> Bool {
         DispatchQueue.main.async {
             self.delegate?.formViewControllerDidDismiss(self)
+            self.didDismiss?()
         }
-
         return true
     }
 }

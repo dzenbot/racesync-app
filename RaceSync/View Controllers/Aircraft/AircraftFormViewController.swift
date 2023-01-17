@@ -192,10 +192,9 @@ fileprivate extension AircraftFormViewController {
             items = values
         }
 
-        let selectedItem = row.displayText(from: aircraftData)
-        let defaultItem = row.defaultValue
+        let selectedItem = row.displayText(from: aircraftData) ?? row.defaultValue
 
-        let vc = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
+        let vc = TextPickerViewController(with: items, selectedItem: selectedItem)
         vc.delegate = self
         vc.title = row.title
         return vc

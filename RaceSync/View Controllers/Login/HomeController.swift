@@ -12,7 +12,7 @@ import RaceSyncAPI
 class HomeController {
 
     static func homeViewController() -> UIViewController {
-        let vc = RaceMainListViewController(availableFilters(), selectedFilter: .nearby)
+        let vc = RaceFeedViewController(availableFilters(), selectedFilter: .nearby)
         return NavigationController(rootViewController: vc)
     }
 

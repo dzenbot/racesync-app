@@ -45,21 +45,20 @@ class SettingsViewController: UIViewController {
 
     fileprivate lazy var sections: [Section: [Row]] = {
         let resources: [Row] = [.trackLayouts, .buildGuide, .seasonRules, .visitStore]
-        var prefs: [Row] = [.measurement]
-        let about: [Row] = [.submitFeedback, .visitSite]
+        var about: [Row] = []
         var auth: [Row] = [.logout]
 
         if UIApplication.shared.supportsAlternateIcons {
-            prefs += [.appicon]
+            about += [.appicon]
         }
+        about += [.submitFeedback, .visitSite]
+
         if let user = APIServices.shared.myUser, user.isDevTeam {
             auth += [.switchEnv] //, .featureFlags
         }
 
-        return [.resources: resources, .preferences: prefs, .about: about, .auth: auth]
+        return [.resources: resources, .about: about, .auth: auth]
     }()
-
-    fileprivate var settingsController = SettingsController()
 
     fileprivate func nextEnvironment() -> APIEnvironment {
         return APIServices.shared.settings.isDev ? APIEnvironment.prod : APIEnvironment.dev
@@ -146,10 +145,6 @@ extension SettingsViewController: UITableViewDelegate {
             WebViewController.open(.seasonRulesDoc)
         case .visitStore:
             WebViewController.open(.shop)
-        case .measurement:
-            settingsController.presentSettingsPicker(.measurement, from: self) { [weak self] in
-                self?.tableView.reloadData()
-            }
         case .appicon:
             let vc = AppIconViewController()
             vc.title = row.title
@@ -193,17 +188,13 @@ extension SettingsViewController: UITableViewDataSource {
         guard let section = Section(rawValue: indexPath.section), let rows = sections[section] else { return cell }
         let row = rows[indexPath.row]
 
-        let settings = APIServices.shared.settings
-
         cell.textLabel?.text = row.title
         cell.textLabel?.textColor = Color.black
         cell.detailTextLabel?.text = nil
         cell.imageView?.image = UIImage.init(named: row.imageName)
         cell.accessoryType = .disclosureIndicator
 
-        if row == .measurement {
-            cell.detailTextLabel?.text = settings.measurementSystem.title
-        } else if row == .appicon {
+        if row == .appicon {
             let icon = AppIconManager.selectedIcon()
             cell.detailTextLabel?.text = icon.title
         } else if row == .submitFeedback {
@@ -230,24 +221,22 @@ extension SettingsViewController: UITableViewDataSource {
     }
 }
 
-fileprivate enum Section: Int, EnumTitle, CaseIterable {
-    case resources, preferences, about, auth
+fileprivate enum Section: Int, EnumTitle {
+    case resources, about, auth
 
     var title: String {
         switch self {
         case .resources:    return "Resources"
-        case .preferences:  return "Preferences"
         case .about:        return "About"
         case .auth:         return ""
         }
     }
 }
 
-fileprivate enum Row: Int, EnumTitle, CaseIterable {
+fileprivate enum Row: Int, EnumTitle {
     case trackLayouts
     case buildGuide
     case seasonRules
-    case measurement
     case appicon
     case submitFeedback
     case visitStore
@@ -262,7 +251,6 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .buildGuide:           return "Obstacles Build Guide"
         case .seasonRules:          return "Season Rules & Regulations"
         case .visitStore:           return "Visit the MultiGP Shop"
-        case .measurement:          return APISettingsType.measurement.title
         case .appicon:              return "App Icon"
         case .submitFeedback:       return "Send Feedback"
         case .visitSite:            return "Go to MultiGP.com"
@@ -279,7 +267,6 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .buildGuide:           return "icn_settings_buildguide"
         case .seasonRules:          return "icn_settings_handbook"
         case .visitStore:           return "icn_settings_store"
-        case .measurement:          return "icn_settings_ruler"
         case .appicon:              return "icn_settings_appicn"
         case .submitFeedback:       return "icn_settings_feedback"
         case .visitSite:            return "icn_settings_mgp"

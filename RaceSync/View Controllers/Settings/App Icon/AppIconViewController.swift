@@ -145,7 +145,7 @@ extension AppIconViewController: UITableViewDataSource {
     }
 }
 
-fileprivate enum Section: Int, EnumTitle, CaseIterable {
+fileprivate enum Section: Int, EnumTitle {
     case mgp, chapters
 
     var title: String {

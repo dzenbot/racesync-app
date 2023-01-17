@@ -12,7 +12,7 @@ import SwiftyJSON
 
 // MARK: - Interface
 
-public enum RaceListFilter: String {
+public enum RaceListFilters: String {
     case upcoming = "upcoming"
     case past = "past"
     case nearby = "nearby"
@@ -30,7 +30,7 @@ public protocol RaceApiInterface {
      - parameter longitude: The coordinate longitude (Optional)
      - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
      */
-    func getMyRaces(filters: [RaceListFilter], latitude: String?, longitude: String?, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getMyRaces(filters: [RaceListFilters], latitude: String?, longitude: String?, completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets a filtered set of races related to a specific User.
@@ -43,7 +43,7 @@ public protocol RaceApiInterface {
     - parameter pageSize: The amount of objects to be returned by page. Default is 25.
     - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
     */
-    func getRaces(forUser userId: ObjectId, filters: [RaceListFilter], latitude: String?, longitude: String?, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getRaces(forUser userId: ObjectId, filters: [RaceListFilters], latitude: String?, longitude: String?, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets the races belonging to a specific chapter.
@@ -161,7 +161,7 @@ public class RaceApi: RaceApiInterface {
 
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func getMyRaces(filters: [RaceListFilter],
+    public func getMyRaces(filters: [RaceListFilters],
                            latitude: String? = nil,
                            longitude: String? = nil,
                            completion: @escaping ObjectCompletionBlock<[Race]>) {
@@ -174,7 +174,7 @@ public class RaceApi: RaceApiInterface {
     }
 
     public func getRaces(forUser userId: ObjectId = "",
-                         filters: [RaceListFilter],
+                         filters: [RaceListFilters],
                          latitude: String? = nil, longitude: String? = nil,
                          currentPage: Int = 0, pageSize: Int = StandardPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
@@ -339,7 +339,7 @@ public class RaceApi: RaceApiInterface {
 fileprivate extension RaceApi {
 
     func parametersForRaces(with userId: ObjectId = "",
-                            filters: [RaceListFilter],
+                            filters: [RaceListFilters],
                             latitude: String? = nil, longitude: String? = nil,
                             pageSize: Int = StandardPageSize) -> Params {
 

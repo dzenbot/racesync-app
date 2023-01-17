@@ -1,5 +1,5 @@
 //
-//  RaceMainListController.swift
+//  RaceFeedController.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2020-03-05.
@@ -24,7 +24,7 @@ enum RaceFilter: Int, EnumTitle {
 }
 
 // 
-class RaceMainListController {
+class RaceFeedController {
 
     // MARK: - Public Variables
 
@@ -34,7 +34,7 @@ class RaceMainListController {
     // MARK: - Private Variables
 
     fileprivate let raceApi = RaceApi()
-    fileprivate var raceLists = [RaceFilter: [RaceViewModel]]()
+    fileprivate var raceCollection = [RaceFilter: [RaceViewModel]]()
 
     // MARK: - Initialization
 
@@ -45,11 +45,11 @@ class RaceMainListController {
     // MARK: - Actions
 
     func shouldShowShimmer(for filter: RaceFilter) -> Bool {
-        if filter == .series, showPastSeries, raceLists[filter]?.count == 0 {
+        if filter == .series, showPastSeries, raceCollection[filter]?.count == 0 {
             return true
         }
 
-        return raceLists[filter] == nil
+        return raceCollection[filter] == nil
     }
 
     func raceViewModels(for listType: RaceFilter, forceFetch: Bool = false, completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
@@ -66,10 +66,10 @@ class RaceMainListController {
     }
 }
 
-fileprivate extension RaceMainListController {
+fileprivate extension RaceFeedController {
 
     func getJoinedRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceLists[.joined], !forceFetch {
+        if let viewModels = raceCollection[.joined], !forceFetch {
             completion(viewModels, nil)
         }
 
@@ -79,7 +79,7 @@ fileprivate extension RaceMainListController {
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
             }) {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .descending)
-                self.raceLists[.joined] = sortedViewModels
+                self.raceCollection[.joined] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
@@ -88,7 +88,7 @@ fileprivate extension RaceMainListController {
     }
 
     func getNearbydRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceLists[.nearby], !forceFetch {
+        if let viewModels = raceCollection[.nearby], !forceFetch {
             completion(viewModels, nil)
         }
 
@@ -102,7 +102,7 @@ fileprivate extension RaceMainListController {
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
             }) {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .distance)
-                self.raceLists[.nearby] = sortedViewModels
+                self.raceCollection[.nearby] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
@@ -111,7 +111,7 @@ fileprivate extension RaceMainListController {
     }
 
     func getChapterRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceLists[.chapters], !forceFetch {
+        if let viewModels = raceCollection[.chapters], !forceFetch {
             completion(viewModels, nil)
         }
 
@@ -124,7 +124,7 @@ fileprivate extension RaceMainListController {
             }) {
                 
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .descending)
-                self.raceLists[.chapters] = sortedViewModels
+                self.raceCollection[.chapters] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
@@ -133,11 +133,11 @@ fileprivate extension RaceMainListController {
     }
 
     func getSeriesRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        if let viewModels = raceLists[.series], !forceFetch {
+        if let viewModels = raceCollection[.series], !forceFetch {
             completion(viewModels, nil)
         }
 
-        var filters: [RaceListFilter] = [.series]
+        var filters: [RaceListFilters] = [.series]
         if showPastSeries {
             filters += [.past]
         }
@@ -154,7 +154,7 @@ fileprivate extension RaceMainListController {
                 }
             }) {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: seriesRaces)
-                self.raceLists[.series] = sortedViewModels
+                self.raceCollection[.series] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)

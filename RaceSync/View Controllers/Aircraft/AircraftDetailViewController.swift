@@ -184,11 +184,10 @@ fileprivate extension AircraftDetailViewController {
 
     func presentPicker(forRow row: AircraftFormRow) {
         let items = row.values
-        let selectedItem = row.value(from: aircraftViewModel)
-        let defaultItem = row.defaultValue
+        let selectedItem = row.value(from: aircraftViewModel) ?? row.defaultValue
 
         let presenter = Appearance.defaultPresenter()
-        let vc = TextPickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
+        let vc = TextPickerViewController(with: items, selectedItem: selectedItem)
         vc.delegate = self
         vc.title = "Update \(row.title)"
 

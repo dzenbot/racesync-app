@@ -7,6 +7,9 @@
 //
 
 import UIKit
+import RaceSyncAPI
+
+typealias ItemSelectionBlock = (_ item: String) -> Void
 
 enum FormType {
     case textfield, textPicker, datePicker, `switch`, textEditor, undefined
@@ -16,6 +19,9 @@ class FormBaseViewController: UIViewController {
     weak var delegate: FormBaseViewControllerDelegate?
     open var isLoading: Bool = false
     open var formType: FormType = .undefined
+
+    var didSelectItem: ItemSelectionBlock?
+    var didDismiss: VoidCompletionBlock?
 }
 
 @objc protocol FormBaseViewControllerDelegate {
@@ -26,3 +32,4 @@ class FormBaseViewController: UIViewController {
     @objc optional func formViewControllerRightBarButtonTitle(_ viewController: FormBaseViewController) -> String
     @objc optional func formViewControllerKeyboardReturnKeyType(_ viewController: FormBaseViewController) -> UIReturnKeyType
 }
+
