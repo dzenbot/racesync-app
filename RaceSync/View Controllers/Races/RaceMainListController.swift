@@ -15,10 +15,10 @@ enum RaceFilter: Int, EnumTitle {
 
     var title: String {
         switch self {
-        case .joined:       return "Joined"
-        case .nearby:       return "Nearby"
-        case .chapters:     return "Chapters"
-        case .series:       return "GQ"
+        case .joined:           return "Joined"
+        case .nearby:           return "Nearby"
+        case .chapters:         return "Chapters"
+        case .series:           return "GQ"
         }
     }
 }

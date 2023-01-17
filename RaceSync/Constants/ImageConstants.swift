@@ -32,4 +32,7 @@ enum ButtonImg {
     static let calendar = UIImage(named: "icn_navbar_calendar")
     static let settings = UIImage(named: "icn_navbar_settings")
     static let search = UIImage(named: "icn_navbar_search")
+    static let filter = UIImage(named: "icn_navbar_filter")
+    static let map = UIImage(named: "icn_navbar_map")
+    static let empty = UIImage(named: "icn_navbar_empty")
 }

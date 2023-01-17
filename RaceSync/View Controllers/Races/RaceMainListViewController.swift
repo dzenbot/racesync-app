@@ -45,22 +45,44 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
 
     // MARK: - Private Variables
 
-    fileprivate lazy var segmentedControl: UISegmentedControl = {
-        let segmentedControl = UISegmentedControl()
-        segmentedControl.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
-        return segmentedControl
+    fileprivate lazy var titleView: UIView = {
+        let view = UIView()
+        let imageView = UIImageView(image: UIImage(named: "racesync_logo_header"))
+        view.addSubview(imageView)
+        imageView.snp.makeConstraints {
+            $0.centerX.equalToSuperview()
+            $0.top.equalTo(view.snp.top).offset(4)
+        }
+        return view
     }()
 
     fileprivate lazy var headerView: UIView = {
         let view = UIView()
-        view.backgroundColor = Color.white
+        view.backgroundColor = Color.navigationBarColor
+        view.tintColor = Color.blue
+
+        let spacing = 10
+
+        view.addSubview(filterButton)
+        filterButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.leading.equalToSuperview().offset(spacing)
+            $0.width.equalTo(30)
+        }
+
+        view.addSubview(mapButton)
+        mapButton.snp.makeConstraints {
+            $0.centerY.equalToSuperview()
+            $0.trailing.equalToSuperview().offset(-spacing)
+            $0.width.equalTo(30)
+        }
 
         view.addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints {
-            $0.top.equalTo(view.snp.top).offset(11)
-            $0.leading.equalToSuperview().offset(Constants.padding)
-            $0.trailing.equalToSuperview().offset(-Constants.padding)
-            $0.bottom.equalTo(view.snp.bottom).offset(-11)
+            $0.top.equalToSuperview().offset(spacing)
+            $0.leading.equalTo(filterButton.snp.trailing).offset(spacing)
+            $0.trailing.equalTo(mapButton.snp.leading).offset(-spacing)
+            $0.bottom.equalToSuperview().offset(-spacing)
         }
 
         let separatorLine = UIView()
@@ -74,23 +96,10 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         return view
     }()
 
-    fileprivate lazy var refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        refreshControl.backgroundColor = Color.white
-        refreshControl.tintColor = Color.blue
-        refreshControl.addTarget(self, action: #selector(didPullRefreshControl), for: .valueChanged)
-        return refreshControl
-    }()
-
-    fileprivate lazy var titleView: UIView = {
-        let view = UIView()
-        let imageView = UIImageView(image: UIImage(named: "racesync_logo_header"))
-        view.addSubview(imageView)
-        imageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.snp.top).offset(4)
-        }
-        return view
+    fileprivate lazy var segmentedControl: UISegmentedControl = {
+        let control = UISegmentedControl()
+        control.addTarget(self, action: #selector(didChangeSegment), for: .valueChanged)
+        return control
     }()
 
     fileprivate lazy var settingsButton: CustomButton = {
@@ -104,6 +113,21 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         let button = CustomButton(type: .system)
         button.addTarget(self, action: #selector(didPressSearchButton), for: .touchUpInside)
         button.setImage(ButtonImg.search, for: .normal)
+        return button
+    }()
+
+    fileprivate lazy var filterButton: CustomButton = {
+        let button = CustomButton(type: .system)
+        button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
+        button.setImage(ButtonImg.filter, for: .normal)
+        return button
+    }()
+
+    fileprivate lazy var mapButton: CustomButton = {
+        let button = CustomButton(type: .system)
+        button.addTarget(self, action: #selector(didPressMapButton), for: .touchUpInside)
+        button.setImage(ButtonImg.empty, for: .normal)
+        button.isUserInteractionEnabled = false
         return button
     }()
 
@@ -137,30 +161,12 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         return button
     }()
 
-    fileprivate lazy var filterButton: CustomButton = {
-        let button = CustomButton(type: .system)
-        button.addTarget(self, action: #selector(didPressFilterButton), for: .touchUpInside)
-        button.setTitle("Adjust Radius", for: .normal)
-        button.setTitleColor(Color.red, for: .normal)
-        button.titleLabel?.font = UIFont.boldSystemFont(ofSize: 19)
-        return button
-    }()
-
-    fileprivate lazy var bottomView: UIView = {
-        let view = UIView()
-        view.backgroundColor = Color.navigationBarColor
-        view.isHidden = true
-
-        let separatorLine = UIView()
-        separatorLine.backgroundColor = Color.gray100
-        view.addSubview(separatorLine)
-        separatorLine.snp.makeConstraints {
-            $0.height.equalTo(0.25)
-            $0.leading.trailing.equalToSuperview()
-            $0.top.equalTo(view.snp.top)
-        }
-
-        return view
+    fileprivate lazy var refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        refreshControl.backgroundColor = Color.white
+        refreshControl.tintColor = Color.blue
+        refreshControl.addTarget(self, action: #selector(didPullRefreshControl), for: .valueChanged)
+        return refreshControl
     }()
 
     fileprivate var selectedRaceList: RaceFilter {
@@ -185,7 +191,7 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let headerHeight: CGFloat = 50
+//        static let headerHeight: CGFloat = 90
         static let buttonSpacing: CGFloat = 12
         static let miniProfileSize: CGSize = CGSize(width: 32, height: 32)
         static let bottomViewHeight: CGFloat = 83
@@ -257,7 +263,6 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         headerView.snp.makeConstraints {
             $0.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             $0.leading.trailing.equalToSuperview()
-            $0.height.equalTo(Constants.headerHeight)
         }
 
         view.addSubview(tableView)
@@ -272,20 +277,6 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
             $0.top.equalTo(tableView.snp.top)
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(tableView.snp.bottom)
-        }
-
-        view.addSubview(bottomView)
-        bottomView.snp.makeConstraints {
-            $0.height.equalTo(Constants.bottomViewHeight)
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalToSuperview()
-        }
-
-        bottomView.addSubview(filterButton)
-        filterButton.snp.makeConstraints {
-            $0.top.equalToSuperview()
-            $0.leading.trailing.equalToSuperview()
-            $0.bottom.equalTo(bottomView.safeAreaLayoutGuide.snp.bottom)
         }
     }
 
@@ -306,8 +297,6 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         } else {
             loadRaces()
         }
-
-        toggleBottomView()
     }
 
     @objc fileprivate func didPressUserProfileButton() {
@@ -342,6 +331,10 @@ class RaceMainListViewController: UIViewController, ViewJoinable, Shimmable {
         settingsController.presentSettingsPicker(.searchRadius, from: self) {
             // event handled by the APISettingsDelegate implementation
         }
+    }
+
+    @objc fileprivate func didPressMapButton(_ sender: Any) {
+        
     }
 
     @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
@@ -449,7 +442,6 @@ fileprivate extension RaceMainListViewController {
                 }
 
                 strongSelf.tableView.reloadData()
-                strongSelf.toggleBottomView()
             } else {
                 print("getMyRaces error : \(error.debugDescription)")
             }
@@ -476,22 +468,6 @@ fileprivate extension RaceMainListViewController {
 
         chapterProfileButton.isHidden = false
         chapterProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize)
-    }
-
-    func toggleBottomView() {
-
-        var contentInset = tableView.contentInset
-        var scrollIndicatorInsets = tableView.verticalScrollIndicatorInsets
-
-        let shouldHide = (selectedRaceList != .nearby)
-        let value: CGFloat = Constants.bottomViewHeight
-
-        contentInset.bottom = shouldHide ? 0 : value
-        scrollIndicatorInsets.bottom = shouldHide ? 0 : value * 3/4
-
-        tableView.contentInset = contentInset
-        tableView.verticalScrollIndicatorInsets = scrollIndicatorInsets
-        bottomView.isHidden = shouldHide
     }
 }
 

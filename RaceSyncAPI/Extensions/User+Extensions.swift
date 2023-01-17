@@ -19,6 +19,17 @@ public extension User {
     }
 
     /**
+     Convenience to identify if a user has joined a specific race.
+     */
+    func hasJoined(_ race: Race) -> Bool {
+        guard let raceEntries = race.entries else { return false }
+
+        return raceEntries.contains(where: { (entry) -> Bool in
+            return entry.pilotId == id
+        })
+    }
+
+    /**
      Convenience to identify if a multigp.com User is part of the development team, to show special dev tools such as API environment switch, feature flags and more.
      Add your MGP user id to the list.
      */
@@ -33,17 +44,6 @@ public extension User {
 
         return ids.contains(where: { (someId) -> Bool in
             return someId == id
-        })
-    }
-
-    /**
-     Convenience to identify if a user has joined a specific race.
-     */
-    func hasJoined(_ race: Race) -> Bool {
-        guard let raceEntries = race.entries else { return false }
-
-        return raceEntries.contains(where: { (entry) -> Bool in
-            return entry.pilotId == id
         })
     }
 }
