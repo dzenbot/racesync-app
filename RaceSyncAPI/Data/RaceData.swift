@@ -53,7 +53,7 @@ public struct RaceData: Descriptable {
             self.endDateString = DateUtil.isoDateFormatter.string(from: date)
         }
 
-        self.raceClass = race.raceClass?.rawValue ?? ""
+        self.raceClass = race.raceClass.rawValue
         self.format = race.scoringFormat.rawValue
         self.qualifying = race.disableSlotAutoPopulation.rawValue
         self.privacy = race.type.rawValue

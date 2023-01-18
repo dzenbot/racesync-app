@@ -22,8 +22,8 @@ public class Race: Mappable, Joinable, Descriptable {
     public var isJoined: Bool = false
     public var type: EventType = .public
     public var scoringFormat: ScoringFormat = .aggregateLap
-    public var raceClass: RaceClass?
-    public var raceClassString: String?
+    public var raceClass: RaceClass = .open
+    public var raceClassString: String = "Open"
     public var raceType: RaceType = .normal
     public var officialStatus: RaceOfficialStatus = .normal
     public var scoringDisabled: Bool = false

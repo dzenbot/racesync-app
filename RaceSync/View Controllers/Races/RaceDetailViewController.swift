@@ -38,9 +38,17 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate lazy var titleLabel: PasteboardLabel = {
         let label = PasteboardLabel()
-        label.font = UIFont.systemFont(ofSize: 19, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
         label.textColor = Color.black
         label.numberOfLines = 2
+        return label
+    }()
+
+    fileprivate lazy var classLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.textColor = Color.gray300
+        label.numberOfLines = 1
         return label
     }()
 
@@ -133,9 +141,9 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate lazy var headerLabelStackView: UIStackView = {
         var subviews = [UIView]()
-        if canDisplayAddress { subviews += [locationButton] }
         subviews += [startDateButton]
         if canDisplayEndDate { subviews += [endDateButton] }
+        if canDisplayAddress { subviews += [locationButton] }
 
         let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
@@ -327,16 +335,22 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
+        contentView.addSubview(classLabel)
+        classLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding/2)
+            $0.leading.equalTo(titleLabel.snp.leading)
+        }
+
         contentView.addSubview(buttonStackView)
         buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding/2)
             $0.width.greaterThanOrEqualTo(Constants.minButtonSize)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
         contentView.addSubview(headerLabelStackView)
         headerLabelStackView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding)
+            $0.top.equalTo(classLabel.snp.bottom).offset(Constants.padding)
             $0.leading.equalToSuperview().offset(Constants.padding*1.5)
             $0.trailing.equalTo(buttonStackView.snp.leading).offset(-Constants.padding/2)
         }
@@ -396,6 +410,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     fileprivate func populateContent() {
 
         titleLabel.text = raceViewModel.titleLabel.uppercased()
+        classLabel.text = raceViewModel.classLabel
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
         startDateButton.setTitle(raceViewModel.startDateDesc , for: .normal)
@@ -423,7 +438,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
                 html += "<div id=\"description\" style=\"color:\(Color.gray300.toHexString());\">\(s.race.description)</div>"
             }
             if s.canDisplayContent {
-                html += "<div id=\"content\" style=\"padding-top: 12px; padding-bottom: 12px;\">\(s.race.content)</div>"
+                html += "<div id=\"content\" style=\"padding-top: 6px; padding-bottom: 6px;\">\(s.race.content)</div>"
             }
             if s.canDisplayItinerary {
                 html += "<hr style=\"border-top: 0.5px solid #bbb;\">"
@@ -682,8 +697,10 @@ fileprivate extension RaceDetailViewController {
     }
 
     func showClassRaces(_ cell: FormTableViewCell) {
-        guard canInteract(with: cell), let raceClass = race.raceClassString else { return }
+        guard canInteract(with: cell) else { return }
         setLoading(cell, loading: true)
+
+        let raceClass = race.raceClassString
 
         raceApi.getRaces(forClass: raceClass) { [weak self] (races, error) in
             if let races = races {
