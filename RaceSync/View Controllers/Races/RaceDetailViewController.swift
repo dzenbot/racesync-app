@@ -38,7 +38,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate lazy var titleLabel: PasteboardLabel = {
         let label = PasteboardLabel()
-        label.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 22, weight: .regular)
         label.textColor = Color.black
         label.numberOfLines = 2
         return label
@@ -442,7 +442,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
                 html += "<div id=\"content\" style=\"padding-top: \(spacing)px; padding-bottom: \(spacing)px;\">\(s.race.content)</div>"
             }
             if s.canDisplayItinerary {
-                html += "<hr style=\"border-top: 0.25px solid \(Color.gray300.toHexString());\">"
+                html += "<hr style=\"border-top: 0.25px solid \(Color.gray100.toHexString());\">"
                 html += "<div id=\"itinerary\" style=\"padding-top: \(spacing)px;\">\(s.race.itinerary)</div>"
             }
 
