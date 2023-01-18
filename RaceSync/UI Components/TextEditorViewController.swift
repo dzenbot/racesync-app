@@ -23,10 +23,12 @@ class TextEditorViewController: UIViewController {
     // MARK: - Private Variables
 
     fileprivate lazy var textEditorView: RichEditorView = {
-        let editorView = RichEditorView()
-        editorView.placeholder = "Type something..."
-        editorView.delegate = self
-        return editorView
+        let view = RichEditorView()
+        view.placeholder = "Type something..."
+        view.isEditable = true
+        view.isScrollEnabled = true
+        view.delegate = self
+        return view
     }()
 
     fileprivate lazy var editorToolbar: RichEditorToolbar = {

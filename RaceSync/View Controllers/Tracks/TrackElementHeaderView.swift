@@ -15,7 +15,7 @@ class TrackElementHeaderView: UICollectionReusableView {
 
     lazy var leftLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 15, weight: .regular)
         label.textColor = Color.gray200
         label.textAlignment = .left
         return label
@@ -23,7 +23,7 @@ class TrackElementHeaderView: UICollectionReusableView {
 
     lazy var rightLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 14, weight: .semibold)
+        label.font = UIFont.systemFont(ofSize: 15, weight: .semibold)
         label.textColor = Color.blue
         label.textAlignment = .right
         return label

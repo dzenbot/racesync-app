@@ -53,6 +53,7 @@ class RacePilotsPickerController: UIViewController, Shimmable {
         searchBar.barTintColor = .white
         searchBar.isTranslucent = false
         searchBar.backgroundImage = UIImage()
+        searchBar.tintColor = Color.blue
         return searchBar
     }()
 

@@ -51,7 +51,7 @@ class TrackDetailViewController: UIViewController {
         let textView = UITextView()
         textView.layoutManager.delegate = self
         textView.textColor = Color.gray400
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        textView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         textView.textAlignment = .justified
         textView.isEditable = false
         textView.isScrollEnabled = false

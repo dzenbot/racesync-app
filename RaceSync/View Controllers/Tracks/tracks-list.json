@@ -1,7 +1,7 @@
 {
     "utt": [{
             "id": "1",
-            "title": "(UTT1)",
+            "title": "UTT1",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt1/",
             "userName": "Jefte",
             "raceClass": "0",
@@ -12,7 +12,7 @@
         },
         {
             "id": "2",
-            "title": "Tsunami (UTT2)",
+            "title": "UTT2 - Tsunami",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt2/",
             "userName": "HarmJoy",
             "raceClass": "0",
@@ -23,7 +23,7 @@
         },
         {
             "id": "3",
-            "title": "Bessel Run (UTT3)",
+            "title": "UTT3 - Bessel Run",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt3/",
             "userName": "MAD_AIR",
             "raceClass": "0",
@@ -34,7 +34,7 @@
         },
         {
             "id": "4",
-            "title": "High Voltage (UTT4)",
+            "title": "UTT4 - High Voltage",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt4/",
             "userName": "hyper-quad",
             "raceClass": "0",
@@ -45,7 +45,7 @@
         },
         {
             "id": "5",
-            "title": "Nautilus (UTT5)",
+            "title": "UTT5 - Nautilus",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt5/",
             "userName": "HarmJoy",
             "raceClass": "0",
@@ -56,7 +56,7 @@
         },
         {
             "id": "6",
-            "title": "Fury (UTT6)",
+            "title": "UTT6 - Fury",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-6-3-lap-leaderboard/",
             "userName": "Nytfury",
             "raceClass": "0",
@@ -72,7 +72,7 @@
         },
         {
             "id": "7",
-            "title": "Tiny Whutt (UTT7)",
+            "title": "UTT7 - Tiny Whutt",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-7-3-lap-leaderboard/",
             "userName": "JesseP",
             "raceClass": "1",
@@ -83,7 +83,7 @@
         },
         {
             "id": "8",
-            "title": "Revenge (UTT8)",
+            "title": "UTT8 - Revenge",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-8-3-lap-leaderboard/",
             "userName": "Rambozo",
             "raceClass": "0",
@@ -99,7 +99,7 @@
         },
         {
             "id": "9",
-            "title": "Mega (UTT9)",
+            "title": "UTT9 - Mega",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-9-mega-utt-3-lap-leaderboard/",
             "userName": "Old_Man_FPV",
             "raceClass": "5",
@@ -115,7 +115,7 @@
         },
         {
             "id": "10",
-            "title": "Prairie Rage (UTT10)",
+            "title": "UTT10 - Prairie Rage",
             "description": "Obstacles must be traversed in the direction indicated by arrows. Obstacles must be traversed in this numerical sequence: 1-12.<br />If any obstacle is entered out of sequence or direction at any time the run is invalid.<br /><strong><a href=\"https://www.multigp.com/universal-time-trial-utt/\">UTT Rules & Regulations</a></strong>",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-10-prairie-rage-3-lap-leaderboard/",
             "userName": "RagingCanadian",

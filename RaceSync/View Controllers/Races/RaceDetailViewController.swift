@@ -155,9 +155,9 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate lazy var htmlView: RichEditorView = {
         let view = RichEditorView()
-        view.editingEnabled = false // TODO: should rename to isEditable
+        view.isEditable = false
         view.isScrollEnabled = false
-        view.delegate = self // TODO: for getting the height change
+        view.delegate = self
         return view
     }()
 
@@ -433,16 +433,17 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             guard let s = self else { return }
 
             var html = ""
+            let spacing = 12
 
             if s.canDisplayDescription {
                 html += "<div id=\"description\" style=\"color:\(Color.gray300.toHexString());\">\(s.race.description)</div>"
             }
             if s.canDisplayContent {
-                html += "<div id=\"content\" style=\"padding-top: 6px; padding-bottom: 6px;\">\(s.race.content)</div>"
+                html += "<div id=\"content\" style=\"padding-top: \(spacing)px; padding-bottom: \(spacing)px;\">\(s.race.content)</div>"
             }
             if s.canDisplayItinerary {
-                html += "<hr style=\"border-top: 0.5px solid #bbb;\">"
-                html += "<div id=\"itinerary\" style=\"padding-top: 12px;\">\(s.race.itinerary)</div>"
+                html += "<hr style=\"border-top: 0.25px solid \(Color.gray300.toHexString());\">"
+                html += "<div id=\"itinerary\" style=\"padding-top: \(spacing)px;\">\(s.race.itinerary)</div>"
             }
 
             s.htmlView.html = html

@@ -62,18 +62,26 @@ class RichEditorView: UIView, UIScrollViewDelegate, WKNavigationDelegate, UIGest
     }
     
     /// The internal WKWebView that is used to display the text.
-    fileprivate var webView: RichEditorWebView = RichEditorWebView()
-    
+    fileprivate lazy var webView: RichEditorWebView = {
+        let view = RichEditorWebView()
+        view.scrollView.alwaysBounceVertical = true
+        view.scrollView.showsVerticalScrollIndicator = true
+        view.scrollView.alwaysBounceHorizontal = false
+        view.scrollView.showsHorizontalScrollIndicator = false
+        view.scrollView.isScrollEnabled = false
+        return view
+    }()
+
     /// Whether or not scroll is enabled on the view.
-    var isScrollEnabled: Bool = true {
+    var isScrollEnabled: Bool = false {
         didSet {
             webView.scrollView.isScrollEnabled = isScrollEnabled
         }
     }
     
     /// Whether or not to allow user input in the view.
-    var editingEnabled: Bool = false {
-        didSet { contentEditable = editingEnabled }
+    var isEditable: Bool = false {
+        didSet { contentEditable = isEditable }
     }
     
     fileprivate let tapRecognizer = UITapGestureRecognizer()
