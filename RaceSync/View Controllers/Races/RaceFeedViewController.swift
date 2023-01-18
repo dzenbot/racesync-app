@@ -185,8 +185,8 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
 
-    fileprivate let isSearchEnabled: Bool = false
-    fileprivate let isMapViewEnabled: Bool = false
+    fileprivate let isSearchEnabled: Bool = true
+    fileprivate let isMapViewEnabled: Bool = true
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateChapterRaces = EmptyStateViewModel(.noJoinedRaces)
@@ -337,7 +337,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     @objc fileprivate func didPressMapButton(_ sender: Any) {
-        
+        Clog.log("didPressMapButton")
     }
 
     @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
