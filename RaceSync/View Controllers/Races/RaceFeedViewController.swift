@@ -63,15 +63,15 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
 
         let spacing = 10
 
-        view.addSubview(filterButton)
-        filterButton.snp.makeConstraints {
+        view.addSubview(mapButton)
+        mapButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.leading.equalToSuperview().offset(Constants.padding)
             $0.width.equalTo(30)
         }
 
-        view.addSubview(mapButton)
-        mapButton.snp.makeConstraints {
+        view.addSubview(filterButton)
+        filterButton.snp.makeConstraints {
             $0.centerY.equalToSuperview()
             $0.trailing.equalToSuperview().offset(-Constants.padding)
             $0.width.equalTo(30)
@@ -80,8 +80,8 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
         view.addSubview(segmentedControl)
         segmentedControl.snp.makeConstraints {
             $0.top.equalToSuperview().offset(spacing)
-            $0.leading.equalTo(filterButton.snp.trailing).offset(spacing)
-            $0.trailing.equalTo(mapButton.snp.leading).offset(-spacing)
+            $0.leading.equalTo(mapButton.snp.trailing).offset(spacing)
+            $0.trailing.equalTo(filterButton.snp.leading).offset(-spacing)
             $0.bottom.equalToSuperview().offset(-spacing)
         }
 
@@ -185,8 +185,8 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
 
-    fileprivate let isSearchEnabled: Bool = true
-    fileprivate let isMapViewEnabled: Bool = true
+    fileprivate let isSearchEnabled: Bool = false
+    fileprivate let isMapViewEnabled: Bool = false
 
     fileprivate var emptyStateJoinedRaces = EmptyStateViewModel(.noJoinedRaces)
     fileprivate var emptyStateChapterRaces = EmptyStateViewModel(.noJoinedRaces)
