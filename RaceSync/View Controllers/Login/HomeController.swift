@@ -23,7 +23,7 @@ class HomeController {
         // Only show GQ races while the season is on going
         if Season.isGQWindow(10) {
             filters += [.series]
-        } else if let user = APIServices.shared.myUser, user.isDevTeam {
+        } else if APIServices.shared.settings.isDev {
             filters += [.chapters]
         }
 

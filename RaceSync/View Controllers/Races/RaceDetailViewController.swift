@@ -98,7 +98,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.shouldHighlight = true
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         button.titleLabel?.numberOfLines = 2
-        button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
+        button.setImage(UIImage(named: "icn_calendar_start_small"), for: .normal) // 15 x 15
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.imageView?.tintColor = button.tintColor
         button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
@@ -111,7 +111,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.shouldHighlight = true
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         button.titleLabel?.numberOfLines = 2
-        button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
+        button.setImage(UIImage(named: "icn_calendar_end_small"), for: .normal) // 15 x 15
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.imageView?.tintColor = button.tintColor
         button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
