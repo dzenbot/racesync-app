@@ -190,7 +190,7 @@ class TrackDetailViewController: UIViewController {
 
     fileprivate var isSubmissionEnabled: Bool {
         guard viewModel.track.title.contains("UTT") else { return false } // only for UTT
-        guard let _ = MGPWeb.getPrefilledUTT1LapPrefilledFormUrl(viewModel.track) else { return false }
+        guard let _ = AppWebConstants.getPrefilledUTT1LapPrefilledFormUrl(viewModel.track) else { return false }
         return true
     }
 
@@ -315,11 +315,11 @@ class TrackDetailViewController: UIViewController {
         alert.view.tintColor = Color.blue
 
         alert.addAction(UIAlertAction(title: "1 Lap UTT", style: .default, handler: { [weak self] (actionButton) in
-            guard let track = self?.viewModel.track, let url = MGPWeb.getPrefilledUTT1LapPrefilledFormUrl(track) else { return }
+            guard let track = self?.viewModel.track, let url = AppWebConstants.getPrefilledUTT1LapPrefilledFormUrl(track) else { return }
             WebViewController.openUrl(url)
         }))
         alert.addAction(UIAlertAction(title: "3 Lap UTT", style: .default, handler: { [weak self] (actionButton) in
-            guard let track = self?.viewModel.track, let url = MGPWeb.getPrefilledUTT3LapPrefilledFormUrl(track) else { return }
+            guard let track = self?.viewModel.track, let url = AppWebConstants.getPrefilledUTT3LapPrefilledFormUrl(track) else { return }
             WebViewController.openUrl(url)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))

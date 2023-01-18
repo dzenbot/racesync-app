@@ -138,14 +138,14 @@ class MapViewController: UIViewController {
         
         alert.addAction(UIAlertAction(title: "Open in Maps", style: .default, handler: { [weak self] (action) in
             guard let lat = self?.coordinates.latitude, let long = self?.coordinates.longitude else { return }
-            guard let url = URL(string: "\(ExternalAppConstants.AppleMapsUrl)?daddr=\(lat),\(long)&dirflg=d") else { return }
+            guard let url = URL(string: "\(ExternalAppSchemes.AppleMapsUrl)?daddr=\(lat),\(long)&dirflg=d") else { return }
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }))
 
         if canOpenGoogleMaps {
             alert.addAction(UIAlertAction(title: "Open in Google Maps", style: .default, handler: { [weak self] (action) in
                 guard let lat = self?.coordinates.latitude, let long = self?.coordinates.longitude else { return }
-                guard let url = URL(string: "\(ExternalAppConstants.GoogleMapsScheme)?daddr=\(lat),\(long)") else { return }
+                guard let url = URL(string: "\(ExternalAppSchemes.GoogleMapsScheme)?daddr=\(lat),\(long)") else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }))
         }
@@ -153,7 +153,7 @@ class MapViewController: UIViewController {
         if canOpenWaze {
             alert.addAction(UIAlertAction(title: "Open in Waze", style: .default, handler: { [weak self] (action) in
                 guard let lat = self?.coordinates.latitude, let long = self?.coordinates.longitude else { return }
-                guard let url = URL(string: "\(ExternalAppConstants.WazeScheme)?ll=\(lat),\(long)&navigate=yes") else { return }
+                guard let url = URL(string: "\(ExternalAppSchemes.WazeScheme)?ll=\(lat),\(long)&navigate=yes") else { return }
                 UIApplication.shared.open(url, options: [:], completionHandler: nil)
             }))
         }
@@ -181,12 +181,12 @@ class MapViewController: UIViewController {
     // MARK: - Integration
 
     fileprivate var canOpenGoogleMaps: Bool {
-        guard let url = URL(string: ExternalAppConstants.GoogleMapsScheme) else { return false }
+        guard let url = URL(string: ExternalAppSchemes.GoogleMapsScheme) else { return false }
         return UIApplication.shared.canOpenURL(url)
     }
 
     fileprivate var canOpenWaze: Bool {
-        guard let url = URL(string: ExternalAppConstants.WazeScheme) else { return false }
+        guard let url = URL(string: ExternalAppSchemes.WazeScheme) else { return false }
         return UIApplication.shared.canOpenURL(url)
     }
 }

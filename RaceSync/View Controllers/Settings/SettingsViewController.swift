@@ -140,20 +140,20 @@ extension SettingsViewController: UITableViewDelegate {
             vc.title = row.title
             navigationController?.pushViewController(vc, animated: true)
         case .buildGuide:
-            WebViewController.open(.courseObstaclesDoc)
+            WebViewController.openUrl(AppWebConstants.courseObstaclesDoc)
         case .seasonRules:
-            WebViewController.open(.seasonRulesDoc)
+            WebViewController.openUrl(AppWebConstants.seasonRulesDoc)
         case .visitStore:
-            WebViewController.open(.shop)
+            WebViewController.openUrl(AppWebConstants.shop)
         case .appicon:
             let vc = AppIconViewController()
             vc.title = row.title
             navigationController?.pushViewController(vc, animated: true)
         case .submitFeedback:
-            guard let url = MGPWeb.getPrefilledFeedbackFormUrl() else { return }
+            guard let url = AppWebConstants.getPrefilledFeedbackFormUrl() else { return }
             WebViewController.openUrl(url)
         case .visitSite:
-            WebViewController.open(.home)
+            WebViewController.openUrl(AppWebConstants.homepage)
         case .logout:
             logout()
         case .switchEnv:
@@ -210,7 +210,7 @@ extension SettingsViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if let section = Section(rawValue: section), section == .auth {
-            return StringConstants.Copyright
+            return StringConstants.copyright
         } else {
             return nil
         }

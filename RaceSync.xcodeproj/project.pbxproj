@@ -205,6 +205,7 @@
 		4FCAF9FE23AC8B8400ACE7D3 /* Shimmable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */; };
 		4FCAFA0023AED59D00ACE7D3 /* preview.pkpass in Resources */ = {isa = PBXBuildFile; fileRef = 4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */; };
 		4FCD99B62976242A0094C562 /* RaceFeedMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD99B52976242A0094C562 /* RaceFeedMenuViewController.swift */; };
+		4FCD99B829788F720094C562 /* AppWebConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FCD99B729788F720094C562 /* AppWebConstants.swift */; };
 		4FD4E1BC237DCAA3008816B3 /* UserApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1BB237DCAA3008816B3 /* UserApi.swift */; };
 		4FD4E1BE237DCB24008816B3 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1BD237DCB24008816B3 /* User.swift */; };
 		4FD4E1C1237DDFB4008816B3 /* RaceFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C0237DDFB4008816B3 /* RaceFeedViewController.swift */; };
@@ -546,6 +547,7 @@
 		4FCAF9FD23AC8B8400ACE7D3 /* Shimmable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shimmable.swift; sourceTree = "<group>"; };
 		4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */ = {isa = PBXFileReference; lastKnownFileType = file; path = preview.pkpass; sourceTree = "<group>"; };
 		4FCD99B52976242A0094C562 /* RaceFeedMenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceFeedMenuViewController.swift; sourceTree = "<group>"; };
+		4FCD99B729788F720094C562 /* AppWebConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppWebConstants.swift; sourceTree = "<group>"; };
 		4FD4E1BB237DCAA3008816B3 /* UserApi.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserApi.swift; sourceTree = "<group>"; };
 		4FD4E1BD237DCB24008816B3 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		4FD4E1C0237DDFB4008816B3 /* RaceFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceFeedViewController.swift; sourceTree = "<group>"; };
@@ -1047,6 +1049,7 @@
 			isa = PBXGroup;
 			children = (
 				4F8668F323860900005E310A /* UniversalConstants.swift */,
+				4FCD99B729788F720094C562 /* AppWebConstants.swift */,
 				4F9DB79823D2D94E00570483 /* ExternalAppConstants.swift */,
 				4FA1FC8E23D74D29006D4704 /* StringConstants.swift */,
 				4F6429112402DB00005E8036 /* ImageConstants.swift */,
@@ -1772,6 +1775,7 @@
 				4F9A88912975F30C00B52092 /* Season+UIExtensions.swift in Sources */,
 				4FFF07EE27A0F87100EFC30D /* TrackLoader.swift in Sources */,
 				4F3D640923FB0A9D00DE6DF2 /* AircraftDetailViewController.swift in Sources */,
+				4FCD99B829788F720094C562 /* AppWebConstants.swift in Sources */,
 				4FCAF9FC23AC803700ACE7D3 /* TableViewCellShimmerView.swift in Sources */,
 				4F3D640D23FB253900DE6DF2 /* UICollectionView+Extensions.swift in Sources */,
 				4F68BE6B2399CF07009D44F7 /* ActionSheetUtil.swift in Sources */,

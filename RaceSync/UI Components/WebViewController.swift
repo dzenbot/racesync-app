@@ -14,10 +14,6 @@ class WebViewController: SFSafariViewController {
 
     // MARK: - Public Static Convenience Methods
 
-    static func open(_ web: MGPWebConstant) {
-        openUrl(web.rawValue)
-    }
-
     static func openUrl(_ url: String) {
         guard let URL = URL(string: url) else { return }
         openURL(URL)
