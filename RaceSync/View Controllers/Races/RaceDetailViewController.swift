@@ -599,13 +599,15 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         guard let raceURL = URL(string: race.url) else { return }
 
         var items: [Any] = [raceURL]
-        var activities: [UIActivity] = [CopyLinkActivity(), MultiGPActivity()]
+        var activities: [UIActivity] = [CopyLinkActivity()]
 
         // Calendar integration
         if let event = race.calendarEvent {
             items += [event]
             activities += [CalendarActivity()]
         }
+
+        activities += [MultiGPActivity()]
 
         let vc = UIActivityViewController(activityItems: items, applicationActivities: activities)
         vc.excludeAllActivityTypes(except: [.airDrop])
