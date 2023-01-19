@@ -51,7 +51,7 @@ class SettingsViewController: UIViewController {
         if UIApplication.shared.supportsAlternateIcons {
             about += [.appicon]
         }
-        about += [.submitFeedback, .visitSite]
+        about += [.submitFeedback, .joinBeta, .visitSite]
 
         if let user = APIServices.shared.myUser, user.isDevTeam {
             auth += [.switchEnv] //, .featureFlags
@@ -152,6 +152,8 @@ extension SettingsViewController: UITableViewDelegate {
         case .submitFeedback:
             guard let url = AppWebConstants.getPrefilledFeedbackFormUrl() else { return }
             WebViewController.openUrl(url)
+        case .joinBeta:
+            WebViewController.openUrl(AppWebConstants.betaSignup)
         case .visitSite:
             WebViewController.openUrl(AppWebConstants.homepage)
         case .logout:
@@ -199,6 +201,8 @@ extension SettingsViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = icon.title
         } else if row == .submitFeedback {
             cell.detailTextLabel?.text = "\(Bundle.main.releaseDescriptionPretty)"
+        } else if row == .joinBeta {
+            cell.detailTextLabel?.text = "Testflight"
         } else if row == .logout {
             cell.detailTextLabel?.text = APISessionManager.getSessionEmail()
         } else if row == .switchEnv {
@@ -239,6 +243,7 @@ fileprivate enum Row: Int, EnumTitle {
     case seasonRules
     case appicon
     case submitFeedback
+    case joinBeta
     case visitStore
     case visitSite
     case logout
@@ -253,6 +258,7 @@ fileprivate enum Row: Int, EnumTitle {
         case .visitStore:           return "Visit the MultiGP Shop"
         case .appicon:              return "App Icon"
         case .submitFeedback:       return "Send Feedback"
+        case .joinBeta:             return "Join Beta"
         case .visitSite:            return "Go to MultiGP.com"
         case .logout:               return "Logout"
         case .featureFlags:         return "Feature Flags"
@@ -269,6 +275,7 @@ fileprivate enum Row: Int, EnumTitle {
         case .visitStore:           return "icn_settings_store"
         case .appicon:              return "icn_settings_appicn"
         case .submitFeedback:       return "icn_settings_feedback"
+        case .joinBeta:             return "icn_settings_beta"
         case .visitSite:            return "icn_settings_mgp"
         case .logout:               return "icn_settings_logout"
         case .featureFlags:         return "icn_settings_logout"
