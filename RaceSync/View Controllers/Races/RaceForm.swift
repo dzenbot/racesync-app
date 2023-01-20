@@ -34,7 +34,7 @@ enum RaceFormSection: Int {
 
 enum RaceFormRow: Int, EnumTitle {
     case name, startDate, endDate, chapter, `class`, format, schedule, privacy, status,
-         scoring, timing, rounds, season, location, shortDesc, longDesc, itinerary
+         scoring, timing, rounds, season, location, shortDesc, longDesc, itinerary, notify
 
     public var title: String {
         switch self {
@@ -56,6 +56,7 @@ enum RaceFormRow: Int, EnumTitle {
         case .shortDesc:    return "Short Description"
         case .longDesc:     return "Long Description"
         case .itinerary:    return "Itinerary Content"
+        case .notify:       return "Send Notification?"
         }
     }
 }
@@ -113,6 +114,8 @@ extension RaceFormRow {
                 return text.stripHTML(true).safeSubstring(to: 20).capitalized + "…"
             }
             return nil
+        case .notify:
+            return raceData.sendNotification ? "" : nil // will be converted to Bool
         }
     }
 
@@ -139,7 +142,7 @@ extension RaceFormRow {
             return .textfield
         case .startDate, .endDate:
             return .datePicker
-        case .scoring, .timing:
+        case .scoring, .timing, .notify:
             return .switch
         case .shortDesc, .longDesc, .itinerary:
             return .textEditor

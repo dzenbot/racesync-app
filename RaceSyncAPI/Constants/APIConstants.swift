@@ -175,6 +175,7 @@ enum ParamKey {
     static let elements = "elements"
     static let raceClass = "raceClass"
     static let raceClassString = "raceClassString"
+    static let sendNotification = "sendNotification"
 
     // Geo-location
     static let address = "address"

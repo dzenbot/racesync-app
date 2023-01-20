@@ -36,6 +36,11 @@ public struct RaceData: Descriptable {
 
     public var raceId: String? = nil
 
+    // To be used to broadcast email and/or APNS after saving
+    // See php code base that needs to be implemented on the API side
+    // https://github.com/MultiGP/multigp-com/blob/09841623ae274fa8f62a3a4df1393cf1cf986b74/public_html/mgp/protected/modules/multigp/models/Race.php#L311
+    public var sendNotification: Bool = false
+
     public init(with chapterId: ObjectId, chapterName: String) {
         self.chapterId = chapterId
         self.chapterName = chapterName
@@ -106,6 +111,8 @@ public struct RaceData: Descriptable {
         params[ParamKey.description] = shortDesc
         params[ParamKey.content] = longDesc
         params[ParamKey.itineraryContent] = itinerary
+
+        params[ParamKey.sendNotification] = sendNotification
 
         return params
     }

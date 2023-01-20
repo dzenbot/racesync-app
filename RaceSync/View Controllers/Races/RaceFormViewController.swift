@@ -85,7 +85,7 @@ class RaceFormViewController: UIViewController {
 
     fileprivate lazy var sections: [RaceFormSection: [RaceFormRow]] = {
         let general: [RaceFormRow] = [.name, .startDate, .endDate, .chapter, .class, .format, .schedule, .privacy, .status]
-        let specific: [RaceFormRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary]
+        let specific: [RaceFormRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary, .notify]
         return [.general: general, .specific: specific]
     }()
 
@@ -177,6 +177,8 @@ class RaceFormViewController: UIViewController {
             data.funfly = sender.isOn
         } else if row == .timing {
             data.timing = sender.isOn
+        } else if row == .notify {
+            data.sendNotification = sender.isOn
         }
     }
 
