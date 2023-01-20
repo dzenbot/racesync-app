@@ -92,9 +92,6 @@ h6 {
 #editor {
     -webkit-user-select: auto !important;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-}
-
-#editor: focus {
     outline: 0px solid transparent;
 }
 
@@ -140,9 +137,9 @@ video {
     height: auto !important;
 }
 
-a { color: #8d181b; }
+a { color: #8d181b; } /** red color */
 
 table { overflow-x: scroll; }
-th, td { max-width: 200px; min-width:50px; }
-table, td, th{ border-collapse:collapse; border:1px solid #777; }
-td { padding:5px 10px; height:35px; }
+th, td { max-width: 200px; min-width: 50px; }
+table, td, th{ border-collapse: collapse; border: 1px solid #777; }
+td { padding: 5px 10px; height: 35px; }

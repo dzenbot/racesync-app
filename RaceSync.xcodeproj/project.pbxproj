@@ -94,8 +94,8 @@
 		4F80A655296F9951008B19AF /* RichEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80A646296F9950008B19AF /* RichEditorView.swift */; };
 		4F80A65A296F9951008B19AF /* rich_editor.js in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A64D296F9950008B19AF /* rich_editor.js */; };
 		4F80A65C296F9951008B19AF /* rich_editor.html in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A64F296F9950008B19AF /* rich_editor.html */; };
-		4F80A65D296F9951008B19AF /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A650296F9950008B19AF /* style.css */; };
-		4F80A65E296F9951008B19AF /* normalize.css in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A651296F9950008B19AF /* normalize.css */; };
+		4F80A65D296F9951008B19AF /* rich_editor_style.css in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A650296F9950008B19AF /* rich_editor_style.css */; };
+		4F80A65E296F9951008B19AF /* rich_editor_normalize.css in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A651296F9950008B19AF /* rich_editor_normalize.css */; };
 		4F80A65F296F9951008B19AF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F80A652296F9950008B19AF /* Assets.xcassets */; };
 		4F80A660296F9951008B19AF /* RichEditorToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80A653296F9950008B19AF /* RichEditorToolbar.swift */; };
 		4F80A661296F9951008B19AF /* RichEditorOptionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F80A654296F9950008B19AF /* RichEditorOptionItem.swift */; };
@@ -434,8 +434,8 @@
 		4F80A646296F9950008B19AF /* RichEditorView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RichEditorView.swift; sourceTree = "<group>"; };
 		4F80A64D296F9950008B19AF /* rich_editor.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; path = rich_editor.js; sourceTree = "<group>"; };
 		4F80A64F296F9950008B19AF /* rich_editor.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = rich_editor.html; sourceTree = "<group>"; };
-		4F80A650296F9950008B19AF /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = style.css; sourceTree = "<group>"; };
-		4F80A651296F9950008B19AF /* normalize.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = normalize.css; sourceTree = "<group>"; };
+		4F80A650296F9950008B19AF /* rich_editor_style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = rich_editor_style.css; sourceTree = "<group>"; };
+		4F80A651296F9950008B19AF /* rich_editor_normalize.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = rich_editor_normalize.css; sourceTree = "<group>"; };
 		4F80A652296F9950008B19AF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F80A653296F9950008B19AF /* RichEditorToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RichEditorToolbar.swift; sourceTree = "<group>"; };
 		4F80A654296F9950008B19AF /* RichEditorOptionItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RichEditorOptionItem.swift; sourceTree = "<group>"; };
@@ -944,8 +944,8 @@
 			children = (
 				4F80A64D296F9950008B19AF /* rich_editor.js */,
 				4F80A64F296F9950008B19AF /* rich_editor.html */,
-				4F80A650296F9950008B19AF /* style.css */,
-				4F80A651296F9950008B19AF /* normalize.css */,
+				4F80A650296F9950008B19AF /* rich_editor_style.css */,
+				4F80A651296F9950008B19AF /* rich_editor_normalize.css */,
 			);
 			path = editor;
 			sourceTree = "<group>";
@@ -1487,11 +1487,11 @@
 				4FA213F72947AB5900C8E45A /* AppIcon-FMR@2x.png in Resources */,
 				4F80A65F296F9951008B19AF /* Assets.xcassets in Resources */,
 				4FB06AB4296B521000F14E59 /* AppIcon-MGP2@2x.png in Resources */,
-				4F80A65E296F9951008B19AF /* normalize.css in Resources */,
+				4F80A65E296F9951008B19AF /* rich_editor_normalize.css in Resources */,
 				4FA213E82946ADD400C8E45A /* AppIcon-OTTFPV@3x.png in Resources */,
 				4FA213F82947AB5900C8E45A /* AppIcon-FMR@3x.png in Resources */,
 				4F80A65A296F9951008B19AF /* rich_editor.js in Resources */,
-				4F80A65D296F9951008B19AF /* style.css in Resources */,
+				4F80A65D296F9951008B19AF /* rich_editor_style.css in Resources */,
 				4FA213EE2946B5A300C8E45A /* AppIcon-S3@2x.png in Resources */,
 				4FB06AB5296B521000F14E59 /* AppIcon-MGP2@3x.png in Resources */,
 				4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */,
