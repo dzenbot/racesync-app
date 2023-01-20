@@ -27,7 +27,7 @@ enum RaceFormSection: Int {
     public var footer: String? {
         switch self {
         case .general:      return "* Required fields"
-        case .specific:     return nil
+        case .specific:     return "** Broadcasts a notification to all chapter members."
         }
     }
 }
@@ -56,7 +56,7 @@ enum RaceFormRow: Int, EnumTitle {
         case .shortDesc:    return "Short Description"
         case .longDesc:     return "Long Description"
         case .itinerary:    return "Itinerary Content"
-        case .notify:       return "Send Notification?"
+        case .notify:       return "Send Notification? **"
         }
     }
 }

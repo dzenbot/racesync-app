@@ -79,13 +79,19 @@ class RaceFormViewController: UIViewController {
     fileprivate var courses: [Course]?
 
     fileprivate var isFormEnabled: Bool
+    fileprivate var isNotiticationEnabled: Bool = false
 
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
 
     fileprivate lazy var sections: [RaceFormSection: [RaceFormRow]] = {
         let general: [RaceFormRow] = [.name, .startDate, .endDate, .chapter, .class, .format, .schedule, .privacy, .status]
-        let specific: [RaceFormRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary, .notify]
+
+        var specific: [RaceFormRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary]
+        if isNotiticationEnabled {
+            specific += [.notify]
+        }
+
         return [.general: general, .specific: specific]
     }()
 
