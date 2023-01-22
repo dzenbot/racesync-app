@@ -477,8 +477,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func configureNavigationItems() {
-
         title = "Race Details"
+
         tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
 
         var buttons = [UIButton]()
@@ -510,32 +510,13 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
     }
 
-    public func reloadContent() {
-
-        let viewModel = RaceViewModel(with: race)
-
-        joinButton.joinState = viewModel.joinState
-        memberBadgeView.count = viewModel.participantCount
-        raceViewModel = viewModel
-
-        loadRows()
-        populateContent()
-
-        // updating the height of the tableview, since the number of rows could have changed
-        tableView.snp.updateConstraints { make in
-            make.height.equalTo(Constants.cellHeight*CGFloat(tableViewRows.count))
-        }
-
-        tableView.reloadData()
-    }
-
     // MARK: - Actions
 
-    @objc func didTapMapView(_ sender: UITapGestureRecognizer) {
+    @objc fileprivate func didTapMapView(_ sender: UITapGestureRecognizer) {
         presentMapView()
     }
 
-    @objc func didPressLocationButton(_ sender: UIButton) {
+    @objc fileprivate func didPressLocationButton(_ sender: UIButton) {
         guard canDisplayMap else { return }
         presentMapView()
     }
@@ -544,7 +525,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         didPressCalendarButton()
     }
 
-    @objc func didPressJoinButton(_ sender: JoinButton) {
+    @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
         let joinState = sender.joinState
 
         toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { [weak self] (newState) in
@@ -555,12 +536,12 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         }
     }
 
-    @objc func didPressMemberView(_ sender: MemberBadgeView) {
+    @objc fileprivate func didPressMemberView(_ sender: MemberBadgeView) {
         guard let tabBarController = tabBarController as? RaceTabBarController else { return }
         tabBarController.selectTab(.race)
     }
 
-    @objc func didPressEditButton() {
+    @objc fileprivate func didPressEditButton() {
 
         let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
         alert.view.tintColor = Color.blue
@@ -588,7 +569,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         present(alert, animated: true)
     }
 
-    @objc func didPressCalendarButton() {
+    @objc fileprivate func didPressCalendarButton() {
         guard let event = race.calendarEvent else { return }
 
         ActionSheetUtil.presentActionSheet(withTitle: "Save the race details to your calendar?", buttonTitle: "Save to Calendar", completion: { (action) in
@@ -596,7 +577,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         })
     }
 
-    @objc func didPressShareButton() {
+    @objc fileprivate func didPressShareButton() {
         guard let raceURL = URL(string: race.url) else { return }
 
         var items: [Any] = [raceURL]
@@ -614,6 +595,31 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         vc.excludeAllActivityTypes(except: [.airDrop])
         present(vc, animated: true)
     }
+}
+
+extension RaceDetailViewController {
+
+    func reloadContent() {
+
+        let viewModel = RaceViewModel(with: race)
+
+        joinButton.joinState = viewModel.joinState
+        memberBadgeView.count = viewModel.participantCount
+        raceViewModel = viewModel
+
+        loadRows()
+        populateContent()
+
+        // updating the height of the tableview, since the number of rows could have changed
+        tableView.snp.updateConstraints { make in
+            make.height.equalTo(Constants.cellHeight*CGFloat(tableViewRows.count))
+        }
+
+        tableView.reloadData()
+    }
+}
+
+fileprivate extension RaceDetailViewController {
 
     func presentMapView() {
         guard let coordinates = raceCoordinates, let address = race.address else { return }
@@ -664,9 +670,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             }
         }
     }
-}
-
-fileprivate extension RaceDetailViewController {
 
     func reloadRaceView() {
         guard let tabBarController = tabBarController as? RaceTabBarController else { return }

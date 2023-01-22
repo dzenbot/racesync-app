@@ -24,7 +24,7 @@ extension Season {
      - parameter days: Optionally pass a day margin for expanding the window
      - returns True if the GQ date window is valid.
      */
-    static func isGQWindow(_ daysMargin: Int = 0) -> Bool {
+    static func isGQWindowValid(_ daysMargin: Int = 0) -> Bool {
         guard let startDate = GQStartDate, let endDate = GQEndDate else { return false }
 
         let today = Date()

@@ -115,8 +115,8 @@ fileprivate extension RaceFeedController {
             completion(viewModels, nil)
         }
 
+        // TODO: Waiting for API support. See https://github.com/MultiGP/multigp-com/issues/69
         // hardcoding a arrays of chapter ids for now.
-        // TODO: Return a logged in user's chapter ids with the API. Maybe a new entry point chapter/listJoined ?
         raceApi.getRaces(forChapters: ["1453", "1714", "614", "415", "1232"]) { races, error in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }

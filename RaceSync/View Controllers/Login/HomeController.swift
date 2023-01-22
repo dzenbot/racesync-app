@@ -21,7 +21,7 @@ class HomeController {
         var filters: [RaceFilter] = [.joined, .nearby]
 
         // Only show GQ races while the season is on going
-        if Season.isGQWindow(10) {
+        if Season.isGQWindowValid(10) {
             filters += [.series]
         } else if APIServices.shared.settings.isDev {
             filters += [.chapters]

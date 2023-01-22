@@ -64,6 +64,16 @@ class ProfileViewController: UIViewController, Shimmable {
 
     // MARK: - Private Variables
 
+    fileprivate lazy var titleButton: PasteboardButton = {
+        let button = PasteboardButton(type: .system)
+        button.addTarget(self, action: #selector(didPressTitleButton), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(Color.black, for: .normal)
+        button.setTitle(self.title, for: .normal)
+        return button
+    }()
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
     }
@@ -99,6 +109,9 @@ class ProfileViewController: UIViewController, Shimmable {
     open func setupLayout() {
         title = profileViewModel.title
         view.backgroundColor = Color.white
+
+        // Using a custom button title in this case, to display the id of a User/Chapter on tap
+        navigationItem.titleView = titleButton
 
         headerView.topLayoutInset = topOffset
         headerView.viewModel = profileViewModel
@@ -146,6 +159,18 @@ class ProfileViewController: UIViewController, Shimmable {
 
     @objc open func didSelectRow(at indexPath: IndexPath) {
         // To be implemented by subclass
+    }
+
+    @objc fileprivate func didPressTitleButton() {
+
+        let btnTitle = titleButton.title(for: .normal)
+        let id = profileViewModel.id
+
+        if btnTitle == self.title {
+            titleButton.setTitle(id, for: .normal)
+        } else if btnTitle == id {
+            titleButton.setTitle(self.title, for: .normal)
+        }
     }
 }
 

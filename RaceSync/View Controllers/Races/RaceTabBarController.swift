@@ -45,6 +45,16 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Private Variables
 
+    fileprivate lazy var titleButton: PasteboardButton = {
+        let button = PasteboardButton(type: .system)
+        button.addTarget(self, action: #selector(didPressTitleButton), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(Color.black, for: .normal)
+        button.setTitle(self.title, for: .normal)
+        return button
+    }()
+
     let isResultsTabEnabled: Bool = false
 
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
@@ -128,7 +138,9 @@ class RaceTabBarController: UITabBarController {
             vcs += [RaceResultsViewController(with: race)]
         }
 
+        for vc in vcs { vc.willMove(toParent: self) }
         viewControllers = vcs
+        for vc in vcs { vc.didMove(toParent: self) }
 
         // Dirty little trick to select the first tab bar item
         self.selectedIndex = initialSelectedIndex+1
@@ -137,6 +149,9 @@ class RaceTabBarController: UITabBarController {
         // Trick to pre-load each view controller
         preloadTabs()
         tabBar.isHidden = false
+
+        // Using a custom button title in this case, to display the id of a Race on tap
+        navigationItem.titleView = titleButton
     }
 
     // MARK: - Actions
@@ -149,11 +164,26 @@ class RaceTabBarController: UITabBarController {
         guard let vc = viewControllers?[index] else { return }
 
         title = vc.title
+        titleButton.setTitle(title, for: .normal)
+
         navigationItem.rightBarButtonItem = vc.navigationItem.rightBarButtonItem
     }
 
     @objc fileprivate func didPressCloseButton() {
         dismiss(animated: true)
+    }
+
+    @objc fileprivate func didPressTitleButton() {
+        guard let race = race else { return }
+
+        let btnTitle = titleButton.title(for: .normal)
+        let id = race.id
+
+        if btnTitle == title {
+            titleButton.setTitle(id, for: .normal)
+        } else if btnTitle == id {
+            titleButton.setTitle(title, for: .normal)
+        }
     }
 
     // MARK: - Error
