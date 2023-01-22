@@ -79,7 +79,11 @@ class RaceFormViewController: UIViewController {
     fileprivate var courses: [Course]?
 
     fileprivate var isFormEnabled: Bool
-    fileprivate var isEndDateEnabled: Bool = false
+
+    // TODO: Waiting for backend support. See https://github.com/MultiGP/multigp-com/issues/67
+    fileprivate var isEndDateEnabled: Bool = true
+
+    // TODO: Waiting for API support. See https://github.com/MultiGP/multigp-com/issues/68
     fileprivate var isNotiticationEnabled: Bool = false
 
     fileprivate let presenter = Appearance.defaultPresenter()
