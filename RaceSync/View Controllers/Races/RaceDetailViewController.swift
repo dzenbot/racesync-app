@@ -185,6 +185,13 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return tableView
     }()
 
+    fileprivate var raceCoordinates: CLLocationCoordinate2D? {
+        if race.courseId != nil, let lat = CLLocationDegrees(race.latitude), let long = CLLocationDegrees(race.longitude) {
+            return CLLocationCoordinate2D(latitude: lat, longitude: long)
+        }
+        return nil
+    }
+
     fileprivate var canEditRaces: Bool {
         guard race.isMyChapter else { return false }
         return true
@@ -230,7 +237,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     fileprivate let raceApi = RaceApi()
     fileprivate var chapterApi = ChapterApi()
     fileprivate var userApi = UserApi()
-    fileprivate var raceCoordinates: CLLocationCoordinate2D?
+
 
     fileprivate var htmlViewHeightConstraint: Constraint?
 
@@ -249,10 +256,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     init(with race: Race) {
         self.race = race
         self.raceViewModel = RaceViewModel(with: race)
-
-        if race.courseId != nil, let latitude = CLLocationDegrees(race.latitude), let longitude = CLLocationDegrees(race.longitude) {
-            self.raceCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        }
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -444,9 +447,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             s.htmlView.html = html
         }
 
-        if canDisplayMap {
-            guard let coordinates = raceCoordinates else { return }
-
+        if canDisplayMap, let coordinates = raceCoordinates {
             let distance = CLLocationDistance(1000)
             let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: distance, longitudinalMeters: distance)
 
@@ -456,10 +457,9 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             let location = MKPointAnnotation()
             location.coordinate = coordinates
 
-            DispatchQueue.main.async { [weak self] in
-                guard let s = self else { return }
-                s.mapView.addAnnotation(location)
-                s.mapView.setVisibleMapRect(paddedMapRect, animated: false)
+            DispatchQueue.main.async {
+                self.mapView.addAnnotation(location)
+                self.mapView.setVisibleMapRect(paddedMapRect, animated: false)
             }
         }
 
