@@ -20,6 +20,7 @@ enum RaceFormSection: Int {
         switch self {
         case .general:      return "General Details "
         case .specific:     return "Specific Details"
+        // TODO: Implement Video Frequency Profile selection (may need new API support)
         //case .frequencies:  return "Video Frequencies"
         }
     }

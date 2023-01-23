@@ -411,7 +411,7 @@ extension RaceFormViewController {
         case .class:
             return RaceClass.allCases.compactMap { $0.title }
         case .format:
-            return ScoringFormat.allCases.compactMap { $0.title }
+            return ScoringFormat.allCases.compactMap { $0.title } // TODO: Implemented Global Qualifier support
         case .schedule:
             return QualifyingType.allCases.compactMap { $0.title }
         case .privacy:
