@@ -74,9 +74,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }()
 
     fileprivate lazy var buttonStackView: UIStackView = {
-        var subviews = [UIView]()
-        subviews += [joinButton, memberBadgeView]
-        if canDisplayFunFly { subviews += [funflyBadge] }
+        var subviews: [UIView] = [joinButton, memberBadgeView, funflyBadge]
 
         let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
@@ -410,6 +408,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
         startDateButton.setTitle(raceViewModel.startDateDesc , for: .normal)
+        funflyBadge.isHidden = !canDisplayFunFly
 
         if canDisplayEndDate {
             endDateButton.setTitle(raceViewModel.endDateDesc, for: .normal)
