@@ -112,8 +112,8 @@ public class Race: Mappable, Joinable, Descriptable {
         raceClassString <- map[ParamKey.raceClassString]
         raceType <- (map[ParamKey.raceType], EnumTransform<RaceType>())
         officialStatus <- (map[ParamKey.officialStatus], EnumTransform<RaceOfficialStatus>())
-        captureTimeEnabled <- map[ParamKey.captureTimeEnabled]
-        scoringDisabled <- map[ParamKey.scoringDisabled]
+        captureTimeEnabled <- (map[ParamKey.captureTimeEnabled], BooleanTransform()) // returned as String from API
+        scoringDisabled <- (map[ParamKey.scoringDisabled], BooleanTransform()) // returned as String from API
         cycleCount <- (map[ParamKey.cycleCount], IntegerTransform())
         disableSlotAutoPopulation <- (map[ParamKey.disableSlotAutoPopulation], EnumTransform<QualifyingType>())
         maxZippyqDepth <- (map[ParamKey.maxZippyqDepth], IntegerTransform())
