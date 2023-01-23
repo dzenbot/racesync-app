@@ -15,17 +15,17 @@ public class APICredential {
 
     init() {
         let bundle = Bundle(for: APICredential.self)
-        let path = bundle.path(forResource: "Credentials", ofType: "plist")!
-        let dict = NSDictionary(contentsOfFile: path)!
+        let path = bundle.path(forResource: "Credentials", ofType: "plist")
+        let dict = NSDictionary(contentsOfFile: path ?? "")
 
         // The API key for the iOS client is stored on a non-versioned plist file
         // For more information about this, please ping Ignacio
-        apiKey = dict["API_KEY"] as? String ?? ""
+        apiKey = dict?["API_KEY"] as? String ?? ""
 
         // Used for auto-completing in the login screen
 #if DEBUG
-        email = dict["EMAIL"] as? String ?? ""
-        password = dict["PASSWORD"] as? String ?? ""
+        email = dict?["EMAIL"] as? String ?? ""
+        password = dict?["PASSWORD"] as? String ?? ""
 #else
         email = APISessionManager.getSessionEmail() ?? ""
         password = APISessionManager.getSessionPasword() ?? ""
