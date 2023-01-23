@@ -40,19 +40,21 @@ end
 target 'RaceSync' do
   app_pods
   shared_pods
+end
 
-  target 'RaceSyncTests' do
-    inherit! :search_paths
-  end
+target 'RaceSyncTests' do
+  app_pods
+  shared_pods
 end
 
 target 'RaceSyncAPI' do
   api_pods
   shared_pods
-  
-  target 'RaceSyncAPITests' do
-      inherit! :search_paths
-  end
+end
+
+target 'RaceSyncAPITests' do
+  api_pods
+  shared_pods
 end
 
 post_install do |pi|
