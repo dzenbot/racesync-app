@@ -189,6 +189,7 @@ enum ParamKey {
 
     // url
     static let liveTimeUrl = "liveTimeUrl"
+    static let liveTimeEventUrl = "liveTimeEventUrl"
     static let facebookUrl = "facebookUrl"
     static let googleUrl = "googleUrl"
     static let twitterUrl = "twitterUrl"
