@@ -111,7 +111,7 @@ class SettingsViewController: UIViewController {
 
     fileprivate func logout() {
         ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to log out?", destructiveTitle: "Yes, log out", completion: { (action) in
-            ApplicationControl.shared.logout()
+            ApplicationControl.shared.logout(forced: true)
         }, cancel: nil)
     }
 

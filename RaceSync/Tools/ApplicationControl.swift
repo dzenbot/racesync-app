@@ -26,7 +26,7 @@ class ApplicationControl: NSObject {
     func invalidateSession(forced: Bool = false) {
         guard let window = UIApplication.shared.delegate?.window else { return }
 
-        if !forced {
+        if forced {
             APISessionManager.invalidateSession()
         } else {
             APISessionManager.invalidateSessionId() // doesn't remove email & pwd
@@ -41,10 +41,11 @@ class ApplicationControl: NSObject {
         rootViewController?.dismiss(animated: true)
     }
 
-    func logout(switchTo environment: APIEnvironment = .prod) {
+    // Default environment value is based on the existing environment
+    func logout(switchTo environment: APIEnvironment = APIServices.shared.settings.environment, forced: Bool = false) {
         authApi.logout { [weak self] (status, error) in
             if error == nil {
-                self?.invalidateSession()
+                self?.invalidateSession(forced: forced)
             }
 
             if status {
