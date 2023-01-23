@@ -38,11 +38,8 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     fileprivate var emptyStateUsers = EmptyStateViewModel(.commingSoon)
 
     fileprivate var canCreateRaces: Bool {
-        get {
-            guard chapter.isMyChapter && APIServices.shared.settings.isDev else { return false }
-            return true
-        }
-        set { }
+        guard chapter.isMyChapter else { return false }
+        return true
     }
 
     fileprivate enum Constants {

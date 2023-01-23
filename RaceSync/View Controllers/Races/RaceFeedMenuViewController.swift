@@ -101,7 +101,8 @@ extension RaceFeedMenuViewController: UITableViewDelegate {
             let selectedItem = settings.searchRadius
 
             let vc = TextPickerViewController(with: items, selectedItem: selectedItem)
-            vc.title = row.title
+            vc.title = "\(row.title) (\(settings.lengthUnit.symbol))"
+
             navigationController?.pushViewController(vc, animated: true)
 
             vc.didSelectItem = { item in

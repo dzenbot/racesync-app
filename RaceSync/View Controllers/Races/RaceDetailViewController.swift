@@ -17,7 +17,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     // MARK: - Public Variables
 
     var race: Race
-    var shouldShowMap: Bool = true
 
     // MARK: - Private Variables
 
@@ -188,6 +187,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return tableView
     }()
 
+    fileprivate var canEditRaces: Bool {
+        guard race.isMyChapter else { return false }
+        return true
+    }
+
     fileprivate var canDisplayGQIcon: Bool {
         return race.officialStatus == .approved
     }
@@ -202,7 +206,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate var canDisplayMap: Bool {
-        return shouldShowMap && raceCoordinates != nil
+        return raceCoordinates != nil
     }
 
     fileprivate var canDisplayDescription: Bool {
@@ -229,14 +233,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     fileprivate var chapterApi = ChapterApi()
     fileprivate var userApi = UserApi()
     fileprivate var raceCoordinates: CLLocationCoordinate2D?
-
-    fileprivate var canEditRaces: Bool {
-        get {
-            guard race.isMyChapter && APIServices.shared.settings.isDev else { return false }
-            return true
-        }
-        set { }
-    }
 
     fileprivate var htmlViewHeightConstraint: Constraint?
 
