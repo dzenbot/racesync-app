@@ -258,12 +258,7 @@ class ProfileHeaderView: UIView {
         }
 
         mainTextLabel.text = viewModel.displayName
-
-        if !viewModel.locationName.isEmpty {
-            locationButton.setTitle(viewModel.locationName, for: .normal)
-        } else {
-            locationButton.isHidden = true
-        }
+        locationButton.setTitle(viewModel.locationName, for: .normal)
 
         if viewModel.topBadgeLabel != nil {
             topBadgeButton.setTitle(viewModel.topBadgeLabel, for: .normal)
