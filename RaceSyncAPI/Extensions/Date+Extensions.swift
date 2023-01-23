@@ -94,9 +94,17 @@ public extension Date {
         return String(thisYear - 1)
     }
 
-    func date(with days: Int) -> Date {
+    func date(with value: Int, type: Calendar.Component = .day) -> Date {
         var dateComponent = DateComponents()
-        dateComponent.day = days
+
+        if type == .day {
+            dateComponent.day = value
+        } else if type == .hour {
+            dateComponent.hour = value
+        } else if type == .minute {
+            dateComponent.minute = value
+        }
+
         return Calendar.current.date(byAdding: dateComponent, to: self) ?? self
     }
 }

@@ -38,7 +38,7 @@ class RaceFeedMenuViewController: UIViewController {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let cellHeight: CGFloat = UniversalConstants.cellFormHeight
+        static let cellHeight: CGFloat = 60
     }
 
     // MARK: - Initialization

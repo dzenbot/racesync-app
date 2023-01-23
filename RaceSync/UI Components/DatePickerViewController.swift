@@ -36,7 +36,6 @@ class DatePickerViewController: FormBaseViewController {
             view.preferredDatePickerStyle = .wheels
         }
 
-        view.minimumDate = Date()
         view.timeZone = NSTimeZone.local
         view.backgroundColor = Color.white
         view.datePickerMode = .dateAndTime
@@ -56,11 +55,12 @@ class DatePickerViewController: FormBaseViewController {
 
     // MARK: - Initialization
 
-    init(with date: Date? = nil) {
+    init(with date: Date, minDate: Date?) {
         selectedDate = date
 
         super.init(nibName: nil, bundle: nil)
-        self.pickerView.date = date ?? Date()
+        self.pickerView.date = date
+        self.pickerView.minimumDate = minDate
     }
 
     required init?(coder aDecoder: NSCoder) {

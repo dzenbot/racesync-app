@@ -81,7 +81,12 @@ class RaceFormViewController: UIViewController {
     fileprivate var isFormEnabled: Bool
 
     // TODO: Waiting for backend support. See https://github.com/MultiGP/multigp-com/issues/67
-    fileprivate var isEndDateEnabled: Bool = true
+    fileprivate var isEndDateEnabled: Bool {
+        if let user = APIServices.shared.myUser, user.isDevTeam {
+            return true
+        }
+        return false
+    }
 
     // TODO: Waiting for API support. See https://github.com/MultiGP/multigp-com/issues/68
     fileprivate var isNotiticationEnabled: Bool = false
@@ -158,7 +163,7 @@ class RaceFormViewController: UIViewController {
 
             DispatchQueue.main.async { [weak self] in
                 if let firstRow = rows?.first, firstRow.formType == .textfield {
-                    self?.presentTextField(forRow: firstRow)
+                    self?.showTextField(forRow: firstRow)
                     self?.selectedRow = firstRow
                 }
             }
@@ -218,6 +223,10 @@ class RaceFormViewController: UIViewController {
         }*/
     }
 
+    @objc fileprivate func didPressCloseButton() {
+        delegate?.raceFormViewControllerDidDismiss(self)
+    }
+
     fileprivate func createRace() {
 
         isLoading = true
@@ -246,11 +255,210 @@ class RaceFormViewController: UIViewController {
             }
         }
     }
+}
 
-    @objc fileprivate func didPressCloseButton() {
-        delegate?.raceFormViewControllerDidDismiss(self)
+fileprivate extension RaceFormViewController {
+
+    func showTextField(forRow row: RaceFormRow) {
+        let vc = TextFieldViewController(with: data.name)
+        vc.delegate = self
+        vc.title = row.title
+        vc.textField.placeholder = row.title
+
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: true)
+
+        if formNavigationController == nil {
+            formNavigationController = nc
+        }
+    }
+
+    func showTextPicker(forRow row: RaceFormRow, pushed: Bool) {
+        let values = values(for: row)
+        let rowValue = row.value(from: data)
+
+        let vc = TextPickerViewController(with: values, selectedItem: rowValue)
+        vc.delegate = self
+        vc.title = row.title
+
+        if pushed {
+            formNavigationController?.pushViewController(vc, animated: true)
+            formNavigationController?.delegate = self
+        } else {
+            let nc = NavigationController(rootViewController: vc)
+            customPresentViewController(presenter, viewController: nc, animated: true)
+
+            if formNavigationController == nil {
+                formNavigationController = nc
+            }
+        }
+    }
+
+    func showDatePicker(forRow row: RaceFormRow, pushed: Bool) {
+        let date = date(for: row)
+        let minDate = minimumDate(for: row)
+
+        let vc = DatePickerViewController(with: date, minDate: minDate)
+        vc.title = row.title
+        vc.delegate = self
+
+        if pushed {
+            formNavigationController?.pushViewController(vc, animated: true)
+            formNavigationController?.delegate = self
+        } else {
+            let nc = NavigationController(rootViewController: vc)
+            customPresentViewController(presenter, viewController: nc, animated: true)
+
+            if formNavigationController == nil {
+                formNavigationController = nc
+            }
+        }
+    }
+
+    func showSeasonPicker(for row: RaceFormRow, cell: FormTableViewCell) {
+        if seasons != nil {
+            presentTextPicker(seasons)
+        } else {
+            cell.isLoading = true
+
+            seasonApi.getSeasons(forChapter: data.chapterId) { seasons, error in
+                presentTextPicker(seasons)
+                cell.isLoading = false
+            }
+        }
+
+        func presentTextPicker(_ seasons: [Season]?) {
+            guard let seasons = seasons, seasons.count > 0 else { return }
+
+            let names = seasons.compactMap { $0.name }
+            self.seasons = seasons
+
+            let vc = TextPickerViewController(with: names, selectedItem: data.seasonName)
+            vc.delegate = self
+            vc.title = row.title
+
+            let nc = NavigationController(rootViewController: vc)
+            customPresentViewController(presenter, viewController: nc, animated: true)
+        }
+    }
+
+    func showCoursePicker(for row: RaceFormRow, cell: FormTableViewCell) {
+        if courses != nil {
+            presentTextPicker(courses)
+        } else {
+            cell.isLoading = true
+
+            courseApi.getCourses(forChapter: data.chapterId) { courses, error in
+                presentTextPicker(courses)
+                cell.isLoading = false
+            }
+        }
+
+        func presentTextPicker(_ courses: [Course]?) {
+            guard let courses = courses, courses.count > 0 else { return }
+
+            let names = courses.compactMap { $0.name }
+            self.courses = courses
+
+            let vc = TextPickerViewController(with: names, selectedItem: data.courseName)
+            vc.delegate = self
+            vc.title = row.title
+
+            let nc = NavigationController(rootViewController: vc)
+            customPresentViewController(presenter, viewController: nc, animated: true)
+        }
+    }
+
+    func showTextViewController(forRow row: RaceFormRow) {
+
+        var text: String?
+
+        if row == .shortDesc {
+            text = data.shortDesc
+        } else if row == .longDesc {
+            text = data.longDesc
+        } else if row == .itinerary {
+            text = data.itinerary
+        }
+
+        let vc = TextEditorViewController(with: text)
+        vc.delegate = self
+        vc.title = row.title
+
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    // MARK: - Verification
+
+    func canGoNextSection() -> Bool {
+        for row in currentSectionRequiredRows() {
+            if let value = row.requiredValue(from: data) {
+                if value.isEmpty { return false }
+            } else {
+                return false
+            }
+        }
+        return true
     }
 }
+
+extension RaceFormViewController {
+
+    func values(for row: RaceFormRow) -> [String] {
+        switch row {
+        case .chapter:
+            return chapters.compactMap { $0.name }
+        case .class:
+            return RaceClass.allCases.compactMap { $0.title }
+        case .format:
+            return ScoringFormat.allCases.compactMap { $0.title }
+        case .schedule:
+            return QualifyingType.allCases.compactMap { $0.title }
+        case .privacy:
+            return EventType.allCases.compactMap { $0.title }
+        case .status:
+            return RaceStatus.allCases.compactMap { $0.title }
+        case .rounds:
+            return ["1","2","3","4","5","6","7","8","9","10"]
+        default:
+            return [String]()
+        }
+    }
+
+    func date(for row: RaceFormRow) -> Date {
+        if row == .startDate, let d = data.startDate {
+            return d
+        } else if row == .endDate {
+            if let d = data.endDate {
+                return d
+            } else if let d = data.startDate {
+                return d.date(with: 30, type: .minute) // default end time, 30mins after start time
+            }
+        }
+        return Date()
+    }
+
+    func minimumDate(for row: RaceFormRow) -> Date? {
+        if row == .endDate, let date = data.startDate {
+            return date
+        }
+        return nil
+    }
+
+    func currentSectionRows() -> [RaceFormRow]? {
+        return sections[currentSection]
+    }
+
+    func currentSectionRequiredRows() -> [RaceFormRow] {
+        guard let rows = currentSectionRows() else { return [RaceFormRow]() }
+
+        return rows.filter({ (row) -> Bool in
+            return row.isRowRequired
+        })
+    }
+}
+
+// MARK: - UITableView Delegate
 
 extension RaceFormViewController: UITableViewDelegate {
 
@@ -267,22 +475,24 @@ extension RaceFormViewController: UITableViewDelegate {
         }
 
         if row.formType == .textfield {
-            presentTextField(forRow: row)
+            showTextField(forRow: row)
         } else if row.formType == .datePicker {
-            presentDatePicker(forRow: row)
+            showDatePicker(forRow: row, pushed: false)
         } else if row.formType == .textPicker {
             if row == .season {
-                presentRaceSeasonPicker(for: row, cell: cell)
+                showSeasonPicker(for: row, cell: cell)
             } else if row == .location {
-                presentRaceCoursePicker(for: row, cell: cell)
+                showCoursePicker(for: row, cell: cell)
             } else {
-                presentTextPicker(forRow: row)
+                showTextPicker(forRow: row, pushed: false)
             }
         } else if row.formType == .textEditor {
-            pushTextViewController(forRow: row)
+            showTextViewController(forRow: row)
         }
     }
 }
+
+// MARK: - UITableView DataSource
 
 extension RaceFormViewController: UITableViewDataSource {
 
@@ -335,204 +545,10 @@ extension RaceFormViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        if currentSection == .specific, !isNotiticationEnabled {
+            return nil
+        }
         return currentSection.footer
-    }
-}
-
-fileprivate extension RaceFormViewController {
-
-    func presentTextField(forRow row: RaceFormRow, animated: Bool = true) {
-        let vc = TextFieldViewController(with: data.name)
-        vc.delegate = self
-        vc.title = row.title
-        vc.textField.placeholder = row.title
-
-        let nc = NavigationController(rootViewController: vc)
-        customPresentViewController(presenter, viewController: nc, animated: animated)
-
-        if formNavigationController == nil {
-            formNavigationController = nc
-        }
-    }
-
-    func presentTextPicker(forRow row: RaceFormRow, animated: Bool = true) {
-        let vc = textPickerViewController(for: row)
-        let nc = NavigationController(rootViewController: vc)
-        customPresentViewController(presenter, viewController: nc, animated: animated)
-
-        if formNavigationController == nil {
-            formNavigationController = nc
-        }
-    }
-
-    func presentDatePicker(forRow row: RaceFormRow, animated: Bool = true) {
-        let date = date(for: row)
-        let vc = DatePickerViewController(with: date)
-        vc.title = row.title
-        vc.delegate = self
-
-        let nc = NavigationController(rootViewController: vc)
-        customPresentViewController(presenter, viewController: nc, animated: animated)
-
-        if formNavigationController == nil {
-            formNavigationController = nc
-        }
-    }
-
-    func pushTextPicker(forRow row: RaceFormRow, animated: Bool = true) {
-        let vc = textPickerViewController(for: row)
-        formNavigationController?.pushViewController(vc, animated: animated)
-        formNavigationController?.delegate = self
-    }
-
-    func pushDatePicker(forRow row: RaceFormRow, animated: Bool = true) {
-        let date = date(for: row)
-        let vc = DatePickerViewController(with: date)
-        vc.title = row.title
-        vc.delegate = self
-
-        formNavigationController?.pushViewController(vc, animated: animated)
-        formNavigationController?.delegate = self
-    }
-
-    func textPickerViewController(for row: RaceFormRow) -> TextPickerViewController {
-        let values = values(for: row)
-        let rowValue = row.value(from: data)
-        return textPickerViewController(with: row.title, items: values, selectedItem: rowValue)
-    }
-
-    func textPickerViewController(with title: String, items: [String], selectedItem: String? = nil) -> TextPickerViewController {
-        let vc = TextPickerViewController(with: items, selectedItem: selectedItem)
-        vc.delegate = self
-        vc.title = title
-        return vc
-    }
-
-    func presentRaceSeasonPicker(for row: RaceFormRow, cell: FormTableViewCell) {
-        if seasons != nil {
-            presentTextPicker(seasons)
-        } else {
-            cell.isLoading = true
-
-            seasonApi.getSeasons(forChapter: data.chapterId) { seasons, error in
-                presentTextPicker(seasons)
-                cell.isLoading = false
-            }
-        }
-
-        func presentTextPicker(_ seasons: [Season]?) {
-            guard let seasons = seasons, seasons.count > 0 else { return }
-
-            let names = seasons.compactMap { $0.name }
-            self.seasons = seasons
-
-            let vc = textPickerViewController(with: row.title, items: names, selectedItem: data.seasonName)
-            let nc = NavigationController(rootViewController: vc)
-            customPresentViewController(presenter, viewController: nc, animated: true)
-        }
-    }
-
-    func presentRaceCoursePicker(for row: RaceFormRow, cell: FormTableViewCell) {
-        if courses != nil {
-            presentTextPicker(courses)
-        } else {
-            cell.isLoading = true
-
-            courseApi.getCourses(forChapter: data.chapterId) { courses, error in
-                presentTextPicker(courses)
-                cell.isLoading = false
-            }
-        }
-
-        func presentTextPicker(_ courses: [Course]?) {
-            guard let courses = courses, courses.count > 0 else { return }
-
-            let names = courses.compactMap { $0.name }
-            self.courses = courses
-
-            let vc = textPickerViewController(with: row.title, items: names, selectedItem: data.courseName)
-            let nc = NavigationController(rootViewController: vc)
-            customPresentViewController(presenter, viewController: nc, animated: true)
-        }
-    }
-
-    func pushTextViewController(forRow row: RaceFormRow, animated: Bool = true) {
-
-        var text: String?
-
-        if row == .shortDesc {
-            text = data.shortDesc
-        } else if row == .longDesc {
-            text = data.longDesc
-        } else if row == .itinerary {
-            text = data.itinerary
-        }
-
-        let vc = TextEditorViewController(with: text)
-        vc.delegate = self
-        vc.title = row.title
-
-        navigationController?.pushViewController(vc, animated: animated)
-    }
-
-    func values(for row: RaceFormRow) -> [String] {
-        switch row {
-        case .chapter:
-            return chapters.compactMap { $0.name }
-        case .class:
-            return RaceClass.allCases.compactMap { $0.title }
-        case .format:
-            return ScoringFormat.allCases.compactMap { $0.title }
-        case .schedule:
-            return QualifyingType.allCases.compactMap { $0.title }
-        case .privacy:
-            return EventType.allCases.compactMap { $0.title }
-        case .status:
-            return RaceStatus.allCases.compactMap { $0.title }
-        case .rounds:
-            return ["1","2","3","4","5","6","7","8","9","10"]
-        default:
-            return [String]()
-        }
-    }
-
-    func date(for row: RaceFormRow) -> Date? {
-        if row == .startDate {
-            return data.startDate
-        } else if row == .endDate {
-            if let endDate = data.endDate {
-                return endDate
-            } else if let startDate = data.startDate {
-                // return start date, if already defined, since end date cannot be lower than start date
-                return startDate
-            }
-        }
-        return nil
-    }
-
-    // MARK: - Verification
-
-    func canGoNextSection() -> Bool {
-        for row in currentSectionRequiredRows() {
-            if let value = row.requiredValue(from: data) {
-                if value.isEmpty { return false }
-            } else {
-                return false
-            }
-        }
-        return true
-    }
-
-    func currentSectionRows() -> [RaceFormRow]? {
-        return sections[currentSection]
-    }
-
-    func currentSectionRequiredRows() -> [RaceFormRow] {
-        guard let rows = currentSectionRows() else { return [RaceFormRow]() }
-
-        return rows.filter({ (row) -> Bool in
-            return row.isRowRequired
-        })
     }
 }
 
@@ -604,10 +620,10 @@ extension RaceFormViewController: FormBaseViewControllerDelegate {
 
             if nextRow.formType == .textPicker {
                 selectedRow = nextRow
-                pushTextPicker(forRow: nextRow, animated: true)
+                showTextPicker(forRow: nextRow, pushed: true)
             } else if nextRow.formType == .datePicker {
                 selectedRow = nextRow
-                pushDatePicker(forRow: nextRow, animated: true)
+                showDatePicker(forRow: nextRow, pushed: true)
             }
         } else {
             formViewControllerDidDismiss(viewController)
