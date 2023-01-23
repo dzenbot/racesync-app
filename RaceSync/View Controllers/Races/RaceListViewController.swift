@@ -32,7 +32,7 @@ class RaceListViewController: UIViewController, ViewJoinable {
     fileprivate var raceList: [RaceViewModel]
     fileprivate let raceApi = RaceApi()
     fileprivate var seasonId: ObjectId?
-    fileprivate var raceClass: String?
+    fileprivate var raceClass: RaceClass?
 
     // MARK: - Initialization
 
@@ -55,11 +55,12 @@ class RaceListViewController: UIViewController, ViewJoinable {
      - parameter raceViewModels: The pre-fetched view model list of races
      - parameter raceClass: The season enum raw value, to be used in case of refreshing the list (particularly needed for state updates like joining)
      */
-    init(_ raceViewModels: [RaceViewModel], raceClass: String) {
+    init(_ raceViewModels: [RaceViewModel], raceClass: RaceClass) {
         self.raceList = raceViewModels
         self.raceClass = raceClass
 
         super.init(nibName: nil, bundle: nil)
+        self.title = raceClass.title
     }
 
     required init?(coder: NSCoder) {

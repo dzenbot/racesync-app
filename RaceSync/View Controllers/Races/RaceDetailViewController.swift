@@ -701,13 +701,12 @@ fileprivate extension RaceDetailViewController {
         guard canInteract(with: cell) else { return }
         setLoading(cell, loading: true)
 
-        let raceClass = race.raceClassString
+        let raceClass = race.raceClass
 
         raceApi.getRaces(forClass: raceClass) { [weak self] (races, error) in
             if let races = races {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
                 let vc = RaceListViewController(sortedViewModels, raceClass: raceClass)
-                vc.title = raceClass
                 self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error

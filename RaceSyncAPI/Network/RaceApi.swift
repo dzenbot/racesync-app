@@ -78,12 +78,12 @@ public protocol RaceApiInterface {
     /**
     Gets the races belonging to a specific class.
 
-    - parameter raceClass: The race class name.
+    - parameter raceClass: The race class type.
     - parameter currentPage: The current page cursor position. Default is 0
     - parameter pageSize: The amount of objects to be returned by page. Default is 25.
     - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
     */
-    func getRaces(forClass raceClass: String, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getRaces(forClass raceClass: RaceClass, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets a full Race object, including pilot entries and schedule
@@ -215,12 +215,12 @@ public class RaceApi: RaceApiInterface {
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
-    public func getRaces(forClass raceClass: String,
+    public func getRaces(forClass raceClass: RaceClass,
                          currentPage: Int = 0, pageSize: Int = StandardPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
-        let parameters = [ParamKey.raceClass: raceClass]
+        let parameters = [ParamKey.raceClass: raceClass.rawValue]
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
