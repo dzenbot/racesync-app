@@ -42,6 +42,20 @@ class UserViewController: ProfileViewController, ViewJoinable {
         return button
     }()
 
+    fileprivate func raceViewModel(for index: Int) -> RaceViewModel? {
+        if index >= 0, index < raceViewModels.count {
+            return raceViewModels[index]
+        }
+        return nil
+    }
+
+    fileprivate func chapterViewModel(for index: Int) -> ChapterViewModel? {
+        if index >= 0, index < chapterViewModels.count {
+            return chapterViewModels[index]
+        }
+        return nil
+    }
+
     fileprivate let user: User
     fileprivate let raceApi = RaceApi()
     fileprivate let chapterApi = ChapterApi()
@@ -158,12 +172,10 @@ class UserViewController: ProfileViewController, ViewJoinable {
     }
 
     override func didSelectRow(at indexPath: IndexPath) {
-        if selectedSegment == .left {
-            let viewModel = raceViewModels[indexPath.row]
+        if selectedSegment == .left, let viewModel = raceViewModel(for: indexPath.row) {
             let vc = RaceTabBarController(with: viewModel.race.id)
             navigationController?.pushViewController(vc, animated: true)
-        } else {
-            let viewModel = chapterViewModels[indexPath.row]
+        } else if selectedSegment == .right, let viewModel = chapterViewModel(for: indexPath.row) {
             let vc = ChapterViewController(with: viewModel.chapter)
             navigationController?.pushViewController(vc, animated: true)
         }
@@ -310,8 +322,9 @@ extension UserViewController: UITableViewDataSource {
     }
 
     func userRaceTableViewCell(for indexPath: IndexPath) -> UserRaceTableViewCell {
-        let viewModel = raceViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as UserRaceTableViewCell
+        guard let viewModel = raceViewModel(for: indexPath.row) else { return cell }
+
         cell.dateLabel.text = viewModel.startDateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
         cell.joinButton.type = .race
@@ -324,8 +337,9 @@ extension UserViewController: UITableViewDataSource {
     }
 
     func chapterTableViewCell(for indexPath: IndexPath) -> ChapterTableViewCell {
-        let viewModel = chapterViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ChapterTableViewCell
+        guard let viewModel = chapterViewModel(for: indexPath.row) else { return cell }
+
         cell.titleLabel.text = viewModel.titleLabel
         cell.subtitleLabel.text = viewModel.locationLabel
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
