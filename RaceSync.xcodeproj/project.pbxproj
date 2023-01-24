@@ -41,7 +41,6 @@
 		4F13428F236120E700A9DBDE /* LoginViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4F13428E236120E700A9DBDE /* LoginViewController.xib */; };
 		4F1571AE24D8D74F004A7CEE /* ProfileBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1571AD24D8D74F004A7CEE /* ProfileBackgroundView.swift */; };
 		4F1DC112297E42BA005EDAE0 /* BooleanTransform.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1DC111297E42BA005EDAE0 /* BooleanTransform.swift */; };
-		4F1DC11629805CDF005EDAE0 /* credentials.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4F1DC11529805CDE005EDAE0 /* credentials.plist */; };
 		4F1E150524107BCE0082C486 /* URL+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1E150424107BCE0082C486 /* URL+Extensions.swift */; };
 		4F2724362515D88A000C7408 /* Chapter+UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F2724352515D88A000C7408 /* Chapter+UIExtensions.swift */; };
 		4F27243B2517DB1C000C7408 /* CopyLinkActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */; };
@@ -382,7 +381,6 @@
 		4F13428E236120E700A9DBDE /* LoginViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoginViewController.xib; sourceTree = "<group>"; };
 		4F1571AD24D8D74F004A7CEE /* ProfileBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileBackgroundView.swift; sourceTree = "<group>"; };
 		4F1DC111297E42BA005EDAE0 /* BooleanTransform.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BooleanTransform.swift; sourceTree = "<group>"; };
-		4F1DC11529805CDE005EDAE0 /* credentials.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = credentials.plist; sourceTree = "<group>"; };
 		4F1E150424107BCE0082C486 /* URL+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Extensions.swift"; sourceTree = "<group>"; };
 		4F2724352515D88A000C7408 /* Chapter+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Chapter+UIExtensions.swift"; sourceTree = "<group>"; };
 		4F27243A2517DB1C000C7408 /* CopyLinkActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CopyLinkActivity.swift; sourceTree = "<group>"; };
@@ -786,7 +784,6 @@
 				4FA26828237A4CCE008970AC /* Utils */,
 				4FEBB27B23A30F7D007514B4 /* Extensions */,
 				4F1342702360DA4B00A9DBDE /* Info.plist */,
-				4F1DC11529805CDE005EDAE0 /* credentials.plist */,
 			);
 			path = RaceSyncAPI;
 			sourceTree = "<group>";
@@ -1359,6 +1356,7 @@
 				4F1342692360DA4B00A9DBDE /* Sources */,
 				4F13426A2360DA4B00A9DBDE /* Frameworks */,
 				4F13426B2360DA4B00A9DBDE /* Resources */,
+				4F1DC123298069A9005EDAE0 /* [MGP] Copy Credentials plist to framework bundle */,
 			);
 			buildRules = (
 			);
@@ -1526,7 +1524,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4F1DC11629805CDF005EDAE0 /* credentials.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1591,6 +1588,24 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RaceSync/Pods-RaceSync-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		4F1DC123298069A9005EDAE0 /* [MGP] Copy Credentials plist to framework bundle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "[MGP] Copy Credentials plist to framework bundle";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Since app credentials/api key are not being versioned on the repository\n# we are copying them into the build directory of the framework instead.\n#\n# This plist file must be placed in a directory located at ../credentials/\n# and contain the following keys:\n# @key \"API_KEY\"    The MGP client API key\n# @key \"EMAIL\"      The debug email to login with (optional)\n# @key \"PASSWORD\"   The debug email to login with (optional) \n#\n\nRESOURCE_PATH=$SRCROOT/../credentials/\nFILENAME=credentials.plist\nDEBUG_FILENAME=credentials-debug.plist\n\nBUILD_APP_DIR=${BUILT_PRODUCTS_DIR}/${FULL_PRODUCT_NAME}\n\nif [ \"$CONFIGURATION\" == \"Debug\" ]; then\n    # copy file or fail silently\n    cp \"$RESOURCE_PATH/$DEBUG_FILENAME\" \"$BUILD_APP_DIR/$FILENAME\" 2>/dev/null || :\nelse\n    # copy file or fail silently\n    cp \"$RESOURCE_PATH/$FILENAME\" \"$BUILD_APP_DIR/$FILENAME\" 2>/dev/null || :\nfi\n";
 		};
 		4F81759D241195AD00685F83 /* Upload Symbols with sentry-cli */ = {
 			isa = PBXShellScriptBuildPhase;
