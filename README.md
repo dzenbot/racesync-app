@@ -1,6 +1,9 @@
 
 ## Available on the App Store
-https://apps.apple.com/us/developer/multigp-inc/id1491110679
+
+[Click here to download on the App Store](https://apps.apple.com/us/developer/multigp-inc/id1491110679)
+
+[Click here to download beta on TestFlight](https://testflight.apple.com/join/BRXIQJLb)
 
 ![RaceSyn Screenshots](Documentation/UI/AppStore_Screenshots/RaceSync_6.5_display_screenshots_all.png)
 
@@ -25,6 +28,15 @@ Log in with your free MultiGP account today to access the following features:
 * Add/Remove pilots to a race
 * Access the official MultiGP track designs (GQ, UTT, Champs and more)
 * Submit track measurement validation for GQ
+
+## Continuous Integration
+
+The following application targets are being built and tested using XCode Cloud.
+To see the results, you must be able to login to [Appstore Connect](https://appstoreconnect.apple.com/).
+
+- [**[RaceSync]**](https://appstoreconnect.apple.com/teams/69a6de89-7661-47e3-e053-5b8c7c11a4d1/apps/1491110680/ci/groups)
+
+- [**[RaceSyncAPI]**](https://appstoreconnect.apple.com/teams/69a6de89-7661-47e3-e053-5b8c7c11a4d1/frameworks/C4E896B0-7561-452A-9008-4410D9F88776/groups)
 
 ## Contributors
 Designed and developed by [Ignacio Romero](https://github.com/dzenbot)
