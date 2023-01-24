@@ -15,7 +15,7 @@ public class APICredential {
 
     init() {
         let bundle = Bundle(for: APICredential.self)
-        let path = bundle.path(forResource: "Credentials", ofType: "plist")
+        let path = bundle.path(forResource: "credentials", ofType: "plist")
         let dict = NSDictionary(contentsOfFile: path ?? "")
 
         // The API key for the iOS client is stored on a non-versioned plist file
