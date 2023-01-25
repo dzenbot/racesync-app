@@ -44,7 +44,7 @@ Log in with your free MultiGP account today to access the following features:
 
 ## Public beta is open
 
-[!https://user-images.githubusercontent.com/43776784/125545484-11474758-6313-4ddb-b96a-4a11113b1958.png](https://testflight.apple.com/join/BRXIQJLb)
+[<img src="https://user-images.githubusercontent.com/43776784/125545484-11474758-6313-4ddb-b96a-4a11113b1958.png" width=25%>](https://testflight.apple.com/join/BRXIQJLb)
 
 ## Platform
 
