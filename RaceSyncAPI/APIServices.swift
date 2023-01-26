@@ -28,6 +28,7 @@ public class APIServices {
         }
     }
 
+    // My Home Chapter
     public var myChapter: Chapter? {
         didSet {
             Clog.log("Did set my Chapter with id: \(String(describing: myChapter?.id))")

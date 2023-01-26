@@ -85,6 +85,7 @@ enum ParamKey {
     static let parentCourseId = "parentCourseId"
     static let parentRaceId = "parentRaceId"
     static let scannableId = "scannableId"
+    static let homeChapterId = "homeChapterId"
 
     // Network keywords
     static let url = "url"

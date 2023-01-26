@@ -27,6 +27,7 @@ public class User: Mappable, Descriptable {
     public var latitude: String = ""
     public var longitude: String = ""
 
+    public var homeChapterId: ObjectId = ""
     public var chapterCount: Int32 = 0
     public var raceCount: Int32 = 0
 
@@ -60,6 +61,7 @@ public class User: Mappable, Descriptable {
         latitude <- map[ParamKey.latitude]
         longitude <- map[ParamKey.longitude]
 
+        homeChapterId <- map[ParamKey.homeChapterId]
         chapterCount <- (map[ParamKey.chapterCount], IntegerTransform())
         raceCount <- (map[ParamKey.raceCount], IntegerTransform())
     }

@@ -437,6 +437,7 @@ fileprivate extension RaceFeedViewController {
             if let user = user {
                 CrashCatcher.setupUser(user.id, username: user.userName)
 
+                self?.loadMyHomeChapter(user.homeChapterId)
                 self?.updateUserProfileImage()
                 self?.loadRaces()
             } else if error != nil {
@@ -444,16 +445,21 @@ fileprivate extension RaceFeedViewController {
                 ApplicationControl.shared.invalidateSession(forced: false)
             }
         }
+    }
 
-        chapterApi.getMyManagedChapters { [weak self] (managedChapters, error) in
-            APIServices.shared.myManagedChapters = managedChapters
+    func loadMyHomeChapter(_ chapterId: String) {
 
-            if let managedChapter = managedChapters?.first {
-                self?.chapterApi.getChapter(with: managedChapter.id) { (chapter, error) in
-                    APIServices.shared.myChapter = chapter
-                    self?.updateChapterProfileImage()
-                }
+        // Loads my home chapter, if applicable
+        if !chapterId.isEmpty {
+            chapterApi.getChapter(with: chapterId) { [weak self] (chapter, error) in
+                APIServices.shared.myChapter = chapter
+                self?.updateChapterProfileImage()
             }
+        }
+
+        // Retrieves a list of managed chapters ids
+        chapterApi.getMyManagedChapters { (managedChapters, error) in
+            APIServices.shared.myManagedChapters = managedChapters
         }
     }
 
