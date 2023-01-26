@@ -58,16 +58,14 @@ fileprivate extension Appearance {
         let textAttributes = [NSAttributedString.Key.font: UIFont.boldSystemFont(ofSize: 18),
                               NSAttributedString.Key.foregroundColor: Color.black]
 
-        if #available(iOS 15.0, *) {
-            let navigationBarAppearance = UINavigationBarAppearance()
-            navigationBarAppearance.configureWithTransparentBackground()
-            navigationBarAppearance.backgroundColor = backgroundColor
-            navigationBarAppearance.shadowColor = Color.gray100
-            navigationBarAppearance.titleTextAttributes = textAttributes
-            UINavigationBar.appearance().standardAppearance = navigationBarAppearance
-            UINavigationBar.appearance().compactAppearance = navigationBarAppearance
-            UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
-        }
+        let navigationBarAppearance = UINavigationBarAppearance()
+        navigationBarAppearance.configureWithTransparentBackground()
+        navigationBarAppearance.backgroundColor = backgroundColor
+        navigationBarAppearance.shadowColor = Color.clear
+        navigationBarAppearance.titleTextAttributes = textAttributes
+        UINavigationBar.appearance().standardAppearance = navigationBarAppearance
+        UINavigationBar.appearance().compactAppearance = navigationBarAppearance
+        UINavigationBar.appearance().scrollEdgeAppearance = navigationBarAppearance
 
         // set the color and font for the title
         let barAppearance = UINavigationBar.appearance()
@@ -88,24 +86,25 @@ fileprivate extension Appearance {
         let unselectedItemTintColor = Color.gray300
         let backgroundImage = UIImage.image(withColor: backgroundColor, imageSize: CGSize(width: 44, height: 44))
 
+        let tabBarAppearance = UITabBarAppearance()
+        tabBarAppearance.configureWithTransparentBackground()
+        tabBarAppearance.backgroundColor = backgroundColor
+        tabBarAppearance.shadowColor = Color.gray100
+        UITabBar.appearance().standardAppearance = tabBarAppearance
+
         if #available(iOS 15.0, *) {
-            let tabBarAppearance = UITabBarAppearance()
-            tabBarAppearance.configureWithTransparentBackground()
-            tabBarAppearance.backgroundColor = backgroundColor
-            tabBarAppearance.shadowColor = Color.gray100
-            UITabBar.appearance().standardAppearance = tabBarAppearance
             UITabBar.appearance().scrollEdgeAppearance = tabBarAppearance
         }
 
         // set the color and font for the title
-        let tabBarAppearance = UITabBar.appearance()
-        tabBarAppearance.barTintColor = backgroundColor
-        tabBarAppearance.tintColor = foregroundColor
-        tabBarAppearance.unselectedItemTintColor = unselectedItemTintColor
-        tabBarAppearance.barStyle = .default
-        tabBarAppearance.backgroundImage = backgroundImage
-        tabBarAppearance.isOpaque = false
-        tabBarAppearance.isTranslucent = true
+        let barAppearance = UITabBar.appearance()
+        barAppearance.barTintColor = backgroundColor
+        barAppearance.tintColor = foregroundColor
+        barAppearance.unselectedItemTintColor = unselectedItemTintColor
+        barAppearance.barStyle = .default
+        barAppearance.backgroundImage = backgroundImage
+        barAppearance.isOpaque = false
+        barAppearance.isTranslucent = true
     }
 
     static func configureToolBarAppearance() {
