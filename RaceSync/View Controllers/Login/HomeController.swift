@@ -13,7 +13,8 @@ class HomeController {
 
     static func homeViewController() -> UIViewController {
         let vc = RaceFeedViewController(availableFilters(), selectedFilter: .nearby)
-        return NavigationController(rootViewController: vc)
+        let nc = NavigationController(rootViewController: vc)
+        return nc
     }
 
     static func availableFilters() -> [RaceFilter] {

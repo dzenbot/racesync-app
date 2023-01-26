@@ -185,6 +185,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
 
+    fileprivate let hidesNavigationShadowAtRoot: Bool = true
     fileprivate let isSearchEnabled: Bool = false
     fileprivate let isMapViewEnabled: Bool = false
 
@@ -233,6 +234,24 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
+
+        if hidesNavigationShadowAtRoot {
+            hideNavigationShadow()
+        }
+    }
+
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        if let nc = navigationController, nc.viewControllers.count == 2 {
+            if hidesNavigationShadowAtRoot {
+                hideNavigationShadow(false)
+            }
+        }
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
     }
 
     // MARK: - Layout
@@ -241,6 +260,10 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
 
         title = "Race List"
         navigationItem.titleView = titleView
+
+        if hidesNavigationShadowAtRoot {
+            hideNavigationShadow()
+        }
 
         var leftStackSubviews = [settingsButton]
         if isSearchEnabled {
@@ -280,6 +303,15 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
             $0.leading.trailing.equalToSuperview()
             $0.bottom.equalTo(tableView.snp.bottom)
         }
+    }
+
+    func hideNavigationShadow(_ hide: Bool = true) {
+        guard let nc = navigationController else { return }
+
+        // By masking to bounds, the shadow of a navigation bar is no longer visible
+        // This trick only works when the backgroud of view behind the navigation bar is the same color
+        // It cannot be used for transitioning to more complicated views.
+        nc.navigationBar.layer.masksToBounds = hide
     }
 
     // MARK: - Actions
@@ -519,6 +551,20 @@ extension RaceFeedViewController: UITableViewDataSource {
     }
 }
 
+extension RaceFeedViewController: APISettingsDelegate {
+
+    func didUpdate(settings: APISettingsType, with value: Any) {
+        guard selectedRaceList == .nearby else { return }
+
+        if settings == .measurement {
+            loadRaces()
+        } else if settings == .searchRadius {
+            isLoading(true)
+            loadRaces(forceReload: true)
+        }
+    }
+}
+
 extension RaceFeedViewController: EmptyDataSetSource {
 
     func getEmptyStateViewModel() -> EmptyStateViewModel {
@@ -548,20 +594,6 @@ extension RaceFeedViewController: EmptyDataSetSource {
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
         return -(navigationController?.navigationBar.frame.height ?? 0)
-    }
-}
-
-extension RaceFeedViewController: APISettingsDelegate {
-
-    func didUpdate(settings: APISettingsType, with value: Any) {
-        guard selectedRaceList == .nearby else { return }
-
-        if settings == .measurement {
-            loadRaces()
-        } else if settings == .searchRadius {
-            isLoading(true)
-            loadRaces(forceReload: true)
-        }
     }
 }
 
