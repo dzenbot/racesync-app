@@ -58,10 +58,12 @@ class RaceFormViewController: UIViewController {
         didSet {
             if isLoading {
                 navigationItem.rightBarButtonItem = UIBarButtonItem(customView: activityIndicatorView)
+                view.isUserInteractionEnabled = false
                 activityIndicatorView.startAnimating()
             }
             else {
                 navigationItem.rightBarButtonItem = rightBarButtonItem
+                view.isUserInteractionEnabled = true
                 activityIndicatorView.stopAnimating()
             }
         }
