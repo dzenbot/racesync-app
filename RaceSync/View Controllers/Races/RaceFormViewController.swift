@@ -88,9 +88,6 @@ class RaceFormViewController: UIViewController {
         return false
     }
 
-    // TODO: Waiting for API support. See https://github.com/MultiGP/multigp-com/issues/68
-    fileprivate var isNotiticationEnabled: Bool = false
-
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
 
@@ -102,10 +99,7 @@ class RaceFormViewController: UIViewController {
         }
         general += [.chapter, .class, .format, .schedule, .privacy, .status]
 
-        var specific: [RaceFormRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary]
-        if isNotiticationEnabled {
-            specific += [.notify]
-        }
+        var specific: [RaceFormRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary, .notify]
 
         return [.general: general, .specific: specific]
     }()
@@ -545,9 +539,6 @@ extension RaceFormViewController: UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
-        if currentSection == .specific, !isNotiticationEnabled {
-            return nil
-        }
         return currentSection.footer
     }
 }
@@ -667,7 +658,7 @@ extension RaceFormViewController: FormBaseViewControllerDelegate {
     }
 }
 
-// MARK: - UINavigationControllerDelegate Delegate
+// MARK: - TextEditorViewController Delegate
 
 extension RaceFormViewController: TextEditorViewControllerDelegate {
 

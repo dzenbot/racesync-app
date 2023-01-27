@@ -235,10 +235,10 @@ fileprivate extension UserViewController {
 
     func loadRaces() {
         if raceViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchRaces { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
             }
         } else {
             tableView.reloadData()
@@ -260,10 +260,10 @@ fileprivate extension UserViewController {
 
     func loadChapters() {
         if chapterViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchChapters { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
             }
         } else {
             tableView.reloadData()

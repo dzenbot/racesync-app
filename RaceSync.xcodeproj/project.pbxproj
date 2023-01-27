@@ -84,6 +84,8 @@
 		4F6C8A8F23657DE00017FD78 /* APICredential.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A8E23657DE00017FD78 /* APICredential.swift */; };
 		4F6C8A96236A9D580017FD78 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A95236A9D580017FD78 /* UIColor+Extensions.swift */; };
 		4F6C8A98236A9E840017FD78 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6C8A97236A9E840017FD78 /* Color.swift */; };
+		4F6CAD8D2983040100E80B5F /* ChapterPickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CAD8C2983040100E80B5F /* ChapterPickerViewController.swift */; };
+		4F6CAD8F298342DE00E80B5F /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6CAD8E298342DE00E80B5F /* UserData.swift */; };
 		4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F714DE023CD4906000C4036 /* CalendarActivity.swift */; };
 		4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F714DE223CD5EAA000C4036 /* SafariActivity.swift */; };
 		4F791C9823A6105700F15FD7 /* TextBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F791C9723A6105700F15FD7 /* TextBadge.swift */; };
@@ -424,6 +426,8 @@
 		4F6C8A8E23657DE00017FD78 /* APICredential.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICredential.swift; sourceTree = "<group>"; };
 		4F6C8A95236A9D580017FD78 /* UIColor+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extensions.swift"; sourceTree = "<group>"; };
 		4F6C8A97236A9E840017FD78 /* Color.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		4F6CAD8C2983040100E80B5F /* ChapterPickerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterPickerViewController.swift; sourceTree = "<group>"; };
+		4F6CAD8E298342DE00E80B5F /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		4F714DE023CD4906000C4036 /* CalendarActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarActivity.swift; sourceTree = "<group>"; };
 		4F714DE223CD5EAA000C4036 /* SafariActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariActivity.swift; sourceTree = "<group>"; };
 		4F791C9723A6105700F15FD7 /* TextBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextBadge.swift; sourceTree = "<group>"; };
@@ -656,6 +660,7 @@
 			isa = PBXGroup;
 			children = (
 				4F004EA1295B828E009C46AA /* RaceData.swift */,
+				4F6CAD8E298342DE00E80B5F /* UserData.swift */,
 				4FA1AB4423CB1666007CF389 /* AircraftData.swift */,
 				4F8B8666295CF32600EAF695 /* AircraftRaceData.swift */,
 			);
@@ -895,8 +900,6 @@
 				4FC57C32258E1362006E210F /* AppUtil.swift */,
 				4F6C8A97236A9E840017FD78 /* Color.swift */,
 				4FD4E1DE237FEC0A008816B3 /* Appearance.swift */,
-				4FA26834237A80B9008970AC /* ActionButton.swift */,
-				4FD4E1C2237F960A008816B3 /* CustomButton.swift */,
 				4F5001E423823C940025A593 /* FlagEmojiGenerator.swift */,
 				4F5C1E4E2390B01700D756EB /* ImageNetworking.swift */,
 				4FDC05D723CDB16E00B10881 /* CalendarUtil.swift */,
@@ -1147,6 +1150,7 @@
 				4FD4E1C0237DDFB4008816B3 /* RaceFeedViewController.swift */,
 				4FCD99B52976242A0094C562 /* RaceFeedMenuViewController.swift */,
 				4FE4C0A12945E0EF00F47F0A /* RaceListViewController.swift */,
+				4F6CAD8C2983040100E80B5F /* ChapterPickerViewController.swift */,
 				4FD4E1CC237F98E7008816B3 /* RaceTabBarController.swift */,
 				4FD4E1CA237F98A0008816B3 /* RaceDetailViewController.swift */,
 				4FD4E1C8237F987C008816B3 /* RaceRosterViewController.swift */,
@@ -1202,6 +1206,8 @@
 				4FD53FB223A0E9B700158206 /* AvatarImageView.swift */,
 				4F8668FB23870E1E005E310A /* SegmentedTableViewHeaderView.swift */,
 				4FD4E1DA237FBE36008816B3 /* JoinButton.swift */,
+				4FA26834237A80B9008970AC /* ActionButton.swift */,
+				4FD4E1C2237F960A008816B3 /* CustomButton.swift */,
 				4F791C9723A6105700F15FD7 /* TextBadge.swift */,
 				4FD4E1DC237FBE8B008816B3 /* MemberBadgeView.swift */,
 				4F0B613B238528C300930D91 /* PasteboardLabel.swift */,
@@ -1767,6 +1773,7 @@
 				4F714DE123CD4906000C4036 /* CalendarActivity.swift in Sources */,
 				4F714DE323CD5EAA000C4036 /* SafariActivity.swift in Sources */,
 				4F004EA0295AA641009C46AA /* RaceFormViewController.swift in Sources */,
+				4F6CAD8D2983040100E80B5F /* ChapterPickerViewController.swift in Sources */,
 				4F5C1E47238D1C3200D756EB /* TextCopiable.swift in Sources */,
 				4F6429142403AE9A005E8036 /* FormBaseViewController.swift in Sources */,
 				4F0B61432385EEFF00930D91 /* ViewModelHelper.swift in Sources */,
@@ -1920,6 +1927,7 @@
 				4FA2681A2378BE4A008970AC /* APIConstants.swift in Sources */,
 				4F5C1E40238A7BAF00D756EB /* RepositoryAdapter.swift in Sources */,
 				4F8F2C0C2383DF1E00DC4907 /* RaceApi.swift in Sources */,
+				4F6CAD8F298342DE00E80B5F /* UserData.swift in Sources */,
 				4FA268242378F9DD008970AC /* NetworkAdapter.swift in Sources */,
 				4F5C1E4D2390600400D756EB /* APISessionManager.swift in Sources */,
 				4FDD499623B0461D009DD2DB /* Season.swift in Sources */,

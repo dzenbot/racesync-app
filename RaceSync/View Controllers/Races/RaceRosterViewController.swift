@@ -289,7 +289,7 @@ extension RaceRosterViewController: UITableViewDataSource {
 
 extension RaceRosterViewController: RacePilotsPickerControllerDelegate {
 
-    func racePilotsPickerController(_ viewController: RacePilotsPickerController) {
+    func pickerControllerDidUpdate(_ viewController: RacePilotsPickerController) {
         reloadRaceView()
     }
 }

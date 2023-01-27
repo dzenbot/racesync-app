@@ -13,7 +13,7 @@ import EmptyDataSet_Swift
 import ShimmerSwift
 
 protocol RacePilotsPickerControllerDelegate {
-    func racePilotsPickerController(_ viewController: RacePilotsPickerController)
+    func pickerControllerDidUpdate(_ viewController: RacePilotsPickerController)
 }
 
 class RacePilotsPickerController: UIViewController, Shimmable {
@@ -116,7 +116,7 @@ class RacePilotsPickerController: UIViewController, Shimmable {
         super.viewWillDisappear(animated)
 
         if didForceJoin {
-            delegate?.racePilotsPickerController(self)
+            delegate?.pickerControllerDidUpdate(self)
         }
     }
 
@@ -237,10 +237,10 @@ extension RacePilotsPickerController {
 
     fileprivate func loadUsers() {
         if userViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchUsers { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
                 self?.tableView.reloadData()
             }
         } else {

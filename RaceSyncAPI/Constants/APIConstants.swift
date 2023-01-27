@@ -21,6 +21,7 @@ enum EndPoint {
     static let userLogout = "user/logout"
     static let userProfile = "user/profile"
     static let userSearch = "user/search"
+    static let userUpdateProfile = "user/updateProfile"
 
     static let race = "race/"
     static let raceList = "race/list"

@@ -105,7 +105,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         super.viewWillAppear(animated)
 
         if selectedSegment == .left && !raceViewModels.isEmpty {
-            reloadRaces()
+            fetchRaces()
         }
     }
 
@@ -207,19 +207,13 @@ fileprivate extension ChapterViewController {
 
     func loadRaces() {
         if raceViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchRaces { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
             }
         } else {
             tableView.reloadData()
-        }
-    }
-
-    func reloadRaces() {
-        fetchRaces { [weak self] in
-            //
         }
     }
 
@@ -244,10 +238,10 @@ fileprivate extension ChapterViewController {
 
     func loadUsers() {
         if userViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchUsers { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
             }
         } else {
             tableView.reloadData()

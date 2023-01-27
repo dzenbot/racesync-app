@@ -146,9 +146,10 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
         return button
     }()
 
-    fileprivate lazy var chapterProfileButton: UIButton = {
-        let button = UIButton(type: .system)
+    fileprivate lazy var chapterProfileButton: CustomButton = {
+        let button = CustomButton(type: .system)
         button.addTarget(self, action: #selector(didPressChapterProfileButton), for: .touchUpInside)
+        button.addTarget(self, action: #selector(didLongPressChapterProfileButton), for: .touchLong)
         button.isHidden = true
 
         if let placeholder = PlaceholderImg.small?.withRenderingMode(.alwaysOriginal) {
@@ -324,7 +325,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
         // and display the shimmer while retrieving the location and loading the nearby races.
         let locationManager = LocationManager.shared
         if selectedRaceList == .nearby, !locationManager.didRequestAuthorization {
-            isLoading(true)
+            isLoadingList(true)
             locationManager.requestsAuthorization { [weak self] (error) in
                 self?.loadRaces()
             }
@@ -349,6 +350,16 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
         let nc = NavigationController(rootViewController: vc)
         nc.modalPresentationStyle = .fullScreen
         present(nc, animated: true)
+    }
+
+    @objc fileprivate func didLongPressChapterProfileButton() {
+
+        let vc = ChapterPickerViewController()
+        vc.title = "Change Home Chapter"
+        vc.delegate = self
+
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: true)
     }
 
     @objc fileprivate func didPressSettingsButton(_ sender: Any) {
@@ -425,7 +436,7 @@ fileprivate extension RaceFeedViewController {
 
     func loadContent() {
         if APIServices.shared.myUser == nil {
-            isLoading(true)
+            isLoadingList(true)
             loadMyUser()
         } else {
             loadRaces(forceReload: true)
@@ -437,9 +448,10 @@ fileprivate extension RaceFeedViewController {
             if let user = user {
                 CrashCatcher.setupUser(user.id, username: user.userName)
 
-                self?.loadMyHomeChapter(user.homeChapterId)
-                self?.updateUserProfileImage()
                 self?.loadRaces()
+                self?.loadMyHomeChapter(user.homeChapterId)
+                self?.loadMyManagedChapters()
+                self?.updateUserProfileImage()
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session
                 ApplicationControl.shared.invalidateSession(forced: false)
@@ -448,16 +460,15 @@ fileprivate extension RaceFeedViewController {
     }
 
     func loadMyHomeChapter(_ chapterId: String) {
+        guard !chapterId.isEmpty else { return }
 
-        // Loads my home chapter, if applicable
-        if !chapterId.isEmpty {
-            chapterApi.getChapter(with: chapterId) { [weak self] (chapter, error) in
-                APIServices.shared.myChapter = chapter
-                self?.updateChapterProfileImage()
-            }
+        chapterApi.getChapter(with: chapterId) { [weak self] (chapter, error) in
+            guard let chapter = chapter else { return }
+            self?.updateMyHomeChapter(with: chapter)
         }
+    }
 
-        // Retrieves a list of managed chapters ids
+    func loadMyManagedChapters() {
         chapterApi.getMyManagedChapters { (managedChapters, error) in
             APIServices.shared.myManagedChapters = managedChapters
         }
@@ -467,13 +478,13 @@ fileprivate extension RaceFeedViewController {
         let selectedList = selectedRaceList
 
         if raceListController.shouldShowShimmer(for: selectedList) {
-            isLoading(true)
+            isLoadingList(true)
         }
 
         raceListController.raceViewModels(for: selectedList, forceFetch: forceReload) { [weak self] (viewModels, error) in
             guard let strongSelf = self else { return }
 
-            strongSelf.isLoading(false)
+            strongSelf.isLoadingList(false)
 
             if let viewModels = viewModels, selectedList == strongSelf.selectedRaceList {
                 strongSelf.raceList = viewModels
@@ -509,6 +520,11 @@ fileprivate extension RaceFeedViewController {
 
         chapterProfileButton.isHidden = false
         chapterProfileButton.setImage(with: imageUrl, placeholderImage: placeholder, forState: .normal, size: Constants.miniProfileSize)
+    }
+
+    func updateMyHomeChapter(with chapter: Chapter) {
+        APIServices.shared.myChapter = chapter
+        updateChapterProfileImage()
     }
 }
 
@@ -557,6 +573,24 @@ extension RaceFeedViewController: UITableViewDataSource {
     }
 }
 
+extension RaceFeedViewController: ChapterPickerViewControllerDelegate {
+
+    func pickerController(_ viewController: ChapterPickerViewController, didPickChapter chapter: Chapter) {
+
+        viewController.isLoading = true
+
+        userApi.updateMyHomeChapter(with: chapter.id) { [weak self] user, error in
+            if let user = user, user.homeChapterId == chapter.id {
+                self?.updateMyHomeChapter(with: chapter)
+                viewController.dismiss(animated: true)
+            } else {
+                viewController.isLoading = false
+                Clog.log("User Profile Update error : \(error.debugDescription)")
+            }
+        }
+    }
+}
+
 extension RaceFeedViewController: APISettingsDelegate {
 
     func didUpdate(settings: APISettingsType, with value: Any) {
@@ -565,7 +599,7 @@ extension RaceFeedViewController: APISettingsDelegate {
         if settings == .measurement {
             loadRaces()
         } else if settings == .searchRadius {
-            isLoading(true)
+            isLoadingList(true)
             loadRaces(forceReload: true)
         }
     }

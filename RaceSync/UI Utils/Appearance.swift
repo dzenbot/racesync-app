@@ -61,7 +61,7 @@ fileprivate extension Appearance {
         let navigationBarAppearance = UINavigationBarAppearance()
         navigationBarAppearance.configureWithTransparentBackground()
         navigationBarAppearance.backgroundColor = backgroundColor
-        navigationBarAppearance.shadowColor = Color.clear
+        navigationBarAppearance.shadowColor = Color.gray100
         navigationBarAppearance.titleTextAttributes = textAttributes
         UINavigationBar.appearance().standardAppearance = navigationBarAppearance
         UINavigationBar.appearance().compactAppearance = navigationBarAppearance

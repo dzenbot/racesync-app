@@ -20,6 +20,14 @@ public protocol UserApiInterface {
     func getMyUser(_ completion: @escaping ObjectCompletionBlock<User>)
 
     /**
+     Updates the home chapter on the authenticated User's profile.
+
+     - parameter homeChapterId: The chapter id of the new User's home chapter.
+     - parameter completion: The closure to be called upon completion. Returns a transcient object containing the profile information of the authenticated User.
+     */
+    func updateMyHomeChapter(with chapterId: ObjectId, completion: @escaping ObjectCompletionBlock<User>)
+
+    /**
      */
     func getUser(with id: String, _ completion: @escaping ObjectCompletionBlock<User>)
 
@@ -38,6 +46,7 @@ public class UserApi: UserApiInterface {
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
     public func getMyUser(_ completion: @escaping ObjectCompletionBlock<User>) {
+
         let endpoint = EndPoint.userProfile
 
         repositoryAdapter.getObject(endpoint, type: User.self) { (user, error) in
@@ -46,7 +55,19 @@ public class UserApi: UserApiInterface {
         }
     }
 
+    public func updateMyHomeChapter(with chapterId: ObjectId, completion: @escaping ObjectCompletionBlock<User>) {
+
+        let endpoint = EndPoint.userUpdateProfile
+        let parameters: Params = [ParamKey.homeChapterId: chapterId]
+
+        repositoryAdapter.getObject(endpoint, parameters: parameters, type: User.self) { (user, error) in
+            if user != nil { APIServices.shared.myUser = user }
+            completion(user, error)
+        }
+    }
+
     public func getUser(with id: String, _ completion: @escaping ObjectCompletionBlock<User>) {
+
         let endpoint = EndPoint.userSearch
         let parameters: Params = [ParamKey.id: id]
 
@@ -54,6 +75,7 @@ public class UserApi: UserApiInterface {
     }
 
     public func searchUser(with username: String, _ completion: @escaping ObjectCompletionBlock<User>) {
+
         let endpoint = EndPoint.userSearch
         let parameters: Params = [ParamKey.userName: username]
 

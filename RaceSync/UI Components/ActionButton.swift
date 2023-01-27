@@ -7,8 +7,11 @@
 //
 
 import UIKit
-import SnapKit
 
+/**
+ Long button taking the whole width of the screen, typically used for login screens and important actions
+ at the bottom of a screen.
+ */
 class ActionButton: CustomButton {
 
     // MARK: - Public Variables

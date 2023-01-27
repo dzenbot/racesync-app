@@ -177,8 +177,8 @@ class ProfileViewController: UIViewController, Shimmable {
 extension ProfileViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        didSelectRow(at: indexPath)
         tableView.deselectRow(at: indexPath, animated: true)
+        didSelectRow(at: indexPath)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {

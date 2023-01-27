@@ -13,13 +13,13 @@ protocol Shimmable {
     var tableView: UITableView { get }
     var shimmeringView: ShimmeringView { get }
 
-    func isLoading(_ loading: Bool)
+    func isLoadingList(_ loading: Bool)
     static func defaultShimmeringView() -> ShimmeringView
 }
 
 extension Shimmable where Self: UIViewController {
 
-    func isLoading(_ loading: Bool) {
+    func isLoadingList(_ loading: Bool) {
         guard shimmeringView.isShimmering != loading else { return }
         
         shimmeringView.isShimmering = loading
