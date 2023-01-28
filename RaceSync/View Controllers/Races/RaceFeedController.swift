@@ -111,13 +111,13 @@ fileprivate extension RaceFeedController {
     }
 
     func getChapterRaces(_ forceFetch: Bool = false, _ completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+        guard let user = APIServices.shared.myUser else { return }
+
         if let viewModels = raceCollection[.chapters], !forceFetch {
             completion(viewModels, nil)
         }
 
-        // TODO: Waiting for API support. See https://github.com/MultiGP/multigp-com/issues/69
-        // hardcoding a arrays of chapter ids for now.
-        raceApi.getRaces(forChapters: ["1453", "1714", "614", "415", "1232"]) { races, error in
+        raceApi.getRaces(forChapters: user.chapterIds, filters: [.upcoming]) { races, error in
             if let upcomingRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
                 return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus

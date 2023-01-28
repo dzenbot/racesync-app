@@ -87,6 +87,7 @@ enum ParamKey {
     static let parentRaceId = "parentRaceId"
     static let scannableId = "scannableId"
     static let homeChapterId = "homeChapterId"
+    static let chapterIds = "chapterIds"
 
     // Network keywords
     static let url = "url"
@@ -178,6 +179,7 @@ enum ParamKey {
     static let raceClass = "raceClass"
     static let raceClassString = "raceClassString"
     static let sendNotification = "sendNotification"
+    static let isPublic = "isPublic"
 
     // Geo-location
     static let address = "address"

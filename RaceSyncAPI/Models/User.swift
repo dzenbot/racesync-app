@@ -28,8 +28,10 @@ public class User: Mappable, Descriptable {
     public var longitude: String = ""
 
     public var homeChapterId: ObjectId = ""
+    public var chapterIds: [ObjectId] = [ObjectId]()
     public var chapterCount: Int32 = 0
     public var raceCount: Int32 = 0
+    public var isPublic: Bool = false
 
     // MARK: - Initialization
 
@@ -62,7 +64,9 @@ public class User: Mappable, Descriptable {
         longitude <- map[ParamKey.longitude]
 
         homeChapterId <- map[ParamKey.homeChapterId]
+        chapterIds <- map[ParamKey.chapterIds]
         chapterCount <- (map[ParamKey.chapterCount], IntegerTransform())
         raceCount <- (map[ParamKey.raceCount], IntegerTransform())
+        isPublic <- map[ParamKey.isPublic]
     }
 }

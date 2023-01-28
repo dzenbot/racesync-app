@@ -446,12 +446,12 @@ fileprivate extension RaceFeedViewController {
     func loadMyUser() {
         userApi.getMyUser { [weak self] (user, error) in
             if let user = user {
-                CrashCatcher.setupUser(user.id, username: user.userName)
-
                 self?.loadRaces()
                 self?.loadMyHomeChapter(user.homeChapterId)
                 self?.loadMyManagedChapters()
                 self?.updateUserProfileImage()
+
+                CrashCatcher.setupUser(user.id, username: user.userName)
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session
                 ApplicationControl.shared.invalidateSession(forced: false)
@@ -585,7 +585,7 @@ extension RaceFeedViewController: ChapterPickerViewControllerDelegate {
                 viewController.dismiss(animated: true)
             } else {
                 viewController.isLoading = false
-                Clog.log("User Profile Update error : \(error.debugDescription)")
+                Clog.log("Home Chapter Update error : \(error.debugDescription)")
             }
         }
     }
