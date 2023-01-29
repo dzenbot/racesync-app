@@ -33,7 +33,7 @@ class RaceFeedMenuViewController: UIViewController {
     }()
 
     fileprivate lazy var rows: [Row] = {
-        return [.radius, .measurement]
+        return [.showPastEvents, .searchRadius, .measurement]
     }()
 
     fileprivate enum Constants {
@@ -67,7 +67,7 @@ class RaceFeedMenuViewController: UIViewController {
 
     fileprivate func setupLayout() {
 
-        title = "Preferences"
+        title = "Race Feed Options"
         view.backgroundColor = Color.white
 
         // Adds a close button in case of being presented modally
@@ -83,6 +83,15 @@ class RaceFeedMenuViewController: UIViewController {
 
     // MARK: - Actions
 
+    @objc fileprivate func didChangeSwitchValue(_ sender: UISwitch) {
+        let row = rows[sender.tag]
+
+        if row == .showPastEvents {
+            let settings = APIServices.shared.settings
+            settings.showPastEvents = !settings.showPastEvents // invert the value
+        }
+    }
+
     @objc fileprivate func didPressCloseButton() {
         dismiss(animated: true)
     }
@@ -96,7 +105,7 @@ extension RaceFeedMenuViewController: UITableViewDelegate {
         let row = rows[indexPath.row]
         let settings = APIServices.shared.settings
 
-        if row == .radius {
+        if row == .searchRadius {
             let items = settings.lengthUnit.supportedValues
             let selectedItem = settings.searchRadius
 
@@ -153,13 +162,22 @@ extension RaceFeedMenuViewController: UITableViewDataSource {
         let row = rows[indexPath.row]
 
         cell.textLabel?.text = row.title
+        cell.detailTextLabel?.text = nil
         cell.textLabel?.textColor = Color.black
         cell.imageView?.image = UIImage.init(named: row.imageName)
         cell.accessoryType = .disclosureIndicator
 
         let settings = APIServices.shared.settings
 
-        if row == .radius {
+        if row == .showPastEvents {
+            cell.accessoryType = .none
+            let accessory = UISwitch()
+
+            accessory.tag = rows.firstIndex(of: row) ?? 0
+            accessory.addTarget(self, action: #selector(didChangeSwitchValue(_:)), for: .valueChanged)
+            accessory.isOn = settings.showPastEvents
+            cell.accessoryView = accessory
+        } else if row == .searchRadius {
             cell.detailTextLabel?.text = "\(settings.searchRadius) \(settings.lengthUnit.symbol)"
         } else if row == .measurement {
             cell.detailTextLabel?.text = settings.measurementSystem.title
@@ -183,28 +201,17 @@ private enum Section: Int, EnumTitle {
     }
 }
 
-private enum Row: Int, EnumTitle {
-    case sorting
-    case radius
-    case upcomingOnly
-    case measurement
+private typealias Row = APISettingsType
 
-    var title: String {
-        switch self {
-        case .sorting:          return "List Sorting"
-        case .radius:           return "Search Radius"
-        case .upcomingOnly:     return "Hide Past Events"
-        case .measurement:      return APISettingsType.measurement.title
-        }
-    }
+private extension APISettingsType {
 
     // For including icons to each row. Look for icons at https://thenounproject.com/
     var imageName: String {
         switch self {
-        case .sorting:          return ""
-        case .radius:           return "icn_settings_radius"
-        case .upcomingOnly:     return ""
+        case .showPastEvents:   return "icn_settings_history"
+        case .searchRadius:     return "icn_settings_radius"
         case .measurement:      return "icn_settings_ruler"
+        default:                return ""
         }
     }
 }

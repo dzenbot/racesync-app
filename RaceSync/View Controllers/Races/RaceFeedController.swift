@@ -36,6 +36,10 @@ class RaceFeedController {
     fileprivate let raceApi = RaceApi()
     fileprivate var raceCollection = [RaceFilter: [RaceViewModel]]()
 
+    fileprivate var settings: APISettings {
+        get { return APIServices.shared.settings }
+    }
+
     // MARK: - Initialization
 
     init(_ filters: [RaceFilter]) {
@@ -73,13 +77,12 @@ fileprivate extension RaceFeedController {
             completion(viewModels, nil)
         }
 
-        raceApi.getMyRaces(filters: [.joined, .upcoming]) { (races, error) in
-            if let upcomingRaces = races?.filter({ (race) -> Bool in
-                guard let startDate = race.startDate else { return false }
-                return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
-            }) {
-                let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .descending)
-                self.raceCollection[.joined] = sortedViewModels
+        let filters = remoteFilters(with: .joined)
+
+        raceApi.getMyRaces(filters: filters) { [weak self] (races, error) in
+            if let filteredRaces = self?.locallyFilteredRaces(races) {
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: filteredRaces, sorting: .descending)
+                self?.raceCollection[.joined] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
@@ -92,17 +95,16 @@ fileprivate extension RaceFeedController {
             completion(viewModels, nil)
         }
 
+        let filters = remoteFilters(with: .nearby)
+
         let coordinate = LocationManager.shared.location?.coordinate
         let lat = coordinate?.latitude.string
         let long = coordinate?.longitude.string
 
-        raceApi.getMyRaces(filters: [.nearby, .upcoming], latitude: lat, longitude: long) { (races, error) in
-            if let upcomingRaces = races?.filter({ (race) -> Bool in
-                guard let startDate = race.startDate else { return false }
-                return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
-            }) {
-                let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .distance)
-                self.raceCollection[.nearby] = sortedViewModels
+        raceApi.getMyRaces(filters: filters, latitude: lat, longitude: long) { [weak self] (races, error) in
+            if let filteredRaces = self?.locallyFilteredRaces(races) {
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: filteredRaces, sorting: .distance)
+                self?.raceCollection[.nearby] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
@@ -117,14 +119,12 @@ fileprivate extension RaceFeedController {
             completion(viewModels, nil)
         }
 
-        raceApi.getRaces(forChapters: user.chapterIds, filters: [.upcoming]) { races, error in
-            if let upcomingRaces = races?.filter({ (race) -> Bool in
-                guard let startDate = race.startDate else { return false }
-                return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
-            }) {
-                
-                let sortedViewModels = RaceViewModel.sortedViewModels(with: upcomingRaces, sorting: .descending)
-                self.raceCollection[.chapters] = sortedViewModels
+        let filters = remoteFilters()
+
+        raceApi.getRaces(forChapters: user.chapterIds, filters: filters) { [weak self] races, error in
+            if let filteredRaces = self?.locallyFilteredRaces(races) {
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: filteredRaces, sorting: .descending)
+                self?.raceCollection[.chapters] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
                 completion(nil, error)
@@ -160,5 +160,26 @@ fileprivate extension RaceFeedController {
                 completion(nil, error)
             }
         }
+    }
+
+    func locallyFilteredRaces(_ races: [Race]?) -> [Race]? {
+        guard !settings.showPastEvents else { return races }
+
+        return races?.filter({ (race) -> Bool in
+            guard let startDate = race.startDate else { return false }
+            return startDate.isInToday || startDate.timeIntervalSinceNow.sign == .plus
+        })
+    }
+
+    func remoteFilters(with filter: RaceListFilters? = nil) -> [RaceListFilters] {
+        var filters = [RaceListFilters]()
+
+        if let filter = filter {
+            filters += [filter]
+        }
+        if !settings.showPastEvents {
+            filters += [.upcoming]
+        }
+        return filters
     }
 }

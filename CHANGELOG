@@ -7,7 +7,8 @@
 
 - Allow chapter organizers to create, duplicate and edit races, including a custom WYSIWYG interface for editing a race content.
 - Allow notifying chapter members when creating and editing a Race
-- You can now change your home chapter by long pressing the chapter image on the main screen.
+- All your chatper's incoming races can be listed in the main screen
+- You can now see your home on the main screen and change it by long pressing the chapter logo.
 - Display the home chapter on the main screen (instead of managed chapter)
 - Display race classes (Open, Tinywhoop, Freedom Spec, etc.) and allowing to search races by classes
 - Display chapter's seasons and courses, allowing to search and filter races

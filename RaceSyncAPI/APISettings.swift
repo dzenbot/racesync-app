@@ -13,10 +13,11 @@ public protocol APISettingsDelegate {
 }
 
 public enum APISettingsType: Int, EnumTitle {
-    case searchRadius, measurement, environment
+    case showPastEvents, searchRadius, measurement, environment
 
     public var title: String {
         switch self {
+        case .showPastEvents:   return "Include Past Events"
         case .searchRadius:     return "Search Radius"
         case .measurement:      return "Measurement System"
         case .environment:      return "Environment"
@@ -25,9 +26,10 @@ public enum APISettingsType: Int, EnumTitle {
 
     var key: String {
         switch self {
-        case .searchRadius:     return "com.multigp.RaceSync.settings.search_radius"
-        case .measurement:      return "com.multigp.RaceSync.settings.measurement_system"
-        case .environment:      return "com.multigp.RaceSync.settings.environment"
+        case .showPastEvents:   return "\(APISettingsDomain).show_past_events"
+        case .searchRadius:     return "\(APISettingsDomain).search_radius"
+        case .measurement:      return "\(APISettingsDomain).measurement_system"
+        case .environment:      return "\(APISettingsDomain).environment"
         }
     }
 }
@@ -37,6 +39,14 @@ public let APISettingsDomain: String = "com.multigp.RaceSync.settings"
 public class APISettings {
 
     // MARK: - Settings Setters / Getters
+
+    public var showPastEvents: Bool {
+        get {
+            return bool(for: .showPastEvents) ?? false
+        } set {
+            save(newValue, type: .showPastEvents)
+        }
+    }
 
     public var searchRadius: String {
         get {
@@ -146,5 +156,9 @@ fileprivate extension APISettings {
 
     func string(for type: APISettingsType) -> String? {
         return UserDefaults.standard.string(forKey: type.key)
+    }
+
+    func bool(for type: APISettingsType) -> Bool? {
+        return UserDefaults.standard.bool(forKey: type.key)
     }
 }

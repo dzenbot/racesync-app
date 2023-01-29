@@ -594,13 +594,15 @@ extension RaceFeedViewController: ChapterPickerViewControllerDelegate {
 extension RaceFeedViewController: APISettingsDelegate {
 
     func didUpdate(settings: APISettingsType, with value: Any) {
-        guard selectedRaceList == .nearby else { return }
 
-        if settings == .measurement {
-            loadRaces()
-        } else if settings == .searchRadius {
+        switch settings {
+        case .showPastEvents, .searchRadius:
             isLoadingList(true)
             loadRaces(forceReload: true)
+        case .measurement:
+            loadRaces() // simple refresh
+        default:
+            break
         }
     }
 }
