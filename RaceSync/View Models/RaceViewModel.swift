@@ -71,17 +71,15 @@ class RaceViewModel: Descriptable {
             } else if sorting == .descending {
                 return date1 < date2
             } else if sorting == .distance {
-                if r1.distance < r2.distance {
-                    return true
-                }
                 if r1.distance == r2.distance {
                     guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
                     return date1 < date2
+                } else if r1.distance < r2.distance {
+                    return true
                 }
-                return false
-            } else {
-                return false
             }
+
+            return false
         })
     }
 }

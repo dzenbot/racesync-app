@@ -78,10 +78,11 @@ fileprivate extension RaceFeedController {
         }
 
         let filters = remoteFilters(with: .joined)
+        let sorting: RaceViewSorting = settings.showPastEvents ? .ascending : .descending
 
         raceApi.getMyRaces(filters: filters) { [weak self] (races, error) in
             if let filteredRaces = self?.locallyFilteredRaces(races) {
-                let sortedViewModels = RaceViewModel.sortedViewModels(with: filteredRaces, sorting: .descending)
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: filteredRaces, sorting: sorting)
                 self?.raceCollection[.joined] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
@@ -120,10 +121,11 @@ fileprivate extension RaceFeedController {
         }
 
         let filters = remoteFilters()
+        let sorting: RaceViewSorting = settings.showPastEvents ? .ascending : .descending
 
         raceApi.getRaces(forChapters: user.chapterIds, filters: filters) { [weak self] races, error in
             if let filteredRaces = self?.locallyFilteredRaces(races) {
-                let sortedViewModels = RaceViewModel.sortedViewModels(with: filteredRaces, sorting: .descending)
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: filteredRaces, sorting: sorting)
                 self?.raceCollection[.chapters] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {
