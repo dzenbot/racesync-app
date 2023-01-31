@@ -477,7 +477,7 @@ fileprivate extension RaceFeedViewController {
     @objc func loadRaces(forceReload: Bool = false) {
         let selectedList = selectedRaceList
 
-        if raceListController.shouldShowShimmer(for: selectedList) {
+        if raceListController.shouldShowShimmer(for: selectedList) || forceReload {
             isLoadingList(true)
         }
 

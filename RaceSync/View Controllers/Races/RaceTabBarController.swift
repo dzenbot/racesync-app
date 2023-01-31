@@ -129,7 +129,7 @@ class RaceTabBarController: UITabBarController {
     }
 
     fileprivate func configureViewControllers(with race: Race) {
-
+        
         var vcs = [UIViewController]()
         vcs += [RaceDetailViewController(with: race)]
         vcs += [RaceRosterViewController(with: race)]

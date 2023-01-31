@@ -33,8 +33,13 @@ class RaceFeedMenuViewController: UIViewController {
     }()
 
     fileprivate lazy var rows: [Row] = {
-        return [.showPastEvents, .searchRadius, .measurement]
+        var rows = [Row]()
+        if isPastEventsEnabled { rows += [.showPastEvents]}
+        rows += [.searchRadius, .measurement]
+        return rows
     }()
+
+    fileprivate let isPastEventsEnabled: Bool = false
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -208,7 +213,6 @@ private extension APISettingsType {
     // For including icons to each row. Look for icons at https://thenounproject.com/
     var imageName: String {
         switch self {
-        case .showPastEvents:   return "icn_settings_history"
         case .searchRadius:     return "icn_settings_radius"
         case .measurement:      return "icn_settings_ruler"
         default:                return ""
