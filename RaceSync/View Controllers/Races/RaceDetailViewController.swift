@@ -172,6 +172,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
+        tableView.isScrollEnabled = false
         tableView.register(cellType: FormTableViewCell.self)
 
         let separatorLine = UIView()
@@ -181,7 +182,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             $0.height.greaterThanOrEqualTo(0.5)
             $0.width.equalToSuperview()
         }
-
         return tableView
     }()
 
@@ -861,8 +861,6 @@ extension RaceDetailViewController: RaceFormViewControllerDelegate {
 extension RaceDetailViewController: RichEditorDelegate {
 
     func richEditor(_ editor: RichEditorView, heightDidChange height: Int) {
-        Clog.log("heightDidChange \(height)")
-
         var offset = CGFloat(height)
         offset += Constants.htmlpadding*2
 
