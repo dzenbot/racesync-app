@@ -1146,9 +1146,9 @@
 		4FD4E1D3237F9DF8008816B3 /* Races */ = {
 			isa = PBXGroup;
 			children = (
-				4F8175A22411C39C00685F83 /* RaceFeedController.swift */,
 				4FD4E1C0237DDFB4008816B3 /* RaceFeedViewController.swift */,
 				4FCD99B52976242A0094C562 /* RaceFeedMenuViewController.swift */,
+				4F8175A22411C39C00685F83 /* RaceFeedController.swift */,
 				4FE4C0A12945E0EF00F47F0A /* RaceListViewController.swift */,
 				4F6CAD8C2983040100E80B5F /* ChapterPickerViewController.swift */,
 				4FD4E1CC237F98E7008816B3 /* RaceTabBarController.swift */,

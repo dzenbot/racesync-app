@@ -1,4 +1,4 @@
-# [<img src="Documentation/Github/racesync_readme_header.jpg">](https://apps.apple.com/us/developer/multigp-inc/id1491110679)
+## [<img src="Documentation/Github/racesync_readme_header.jpg">](https://apps.apple.com/us/developer/multigp-inc/id1491110679)
 
 ## Screenshots
 
