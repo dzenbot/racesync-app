@@ -48,16 +48,23 @@ class RaceFeedController {
 
     // MARK: - Actions
 
+    func raceViewModelsCount(for filter: RaceFilter) -> Int {
+        return raceCollection[filter]?.count ?? 0
+    }
+
+    func raceViewModels(for filter: RaceFilter) -> [RaceViewModel]? {
+        return raceCollection[filter]
+    }
+
     func shouldShowShimmer(for filter: RaceFilter) -> Bool {
         if filter == .series, showPastSeries, raceCollection[filter]?.count == 0 {
             return true
         }
-
         return raceCollection[filter] == nil
     }
 
-    func raceViewModels(for listType: RaceFilter, forceFetch: Bool = false, completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
-        switch listType {
+    func raceViewModels(for filter: RaceFilter, forceFetch: Bool = false, completion: @escaping ObjectCompletionBlock<[RaceViewModel]>) {
+        switch filter {
         case .joined:
             getJoinedRaces(forceFetch, completion)
         case .nearby:
@@ -67,6 +74,10 @@ class RaceFeedController {
         case .series:
             getSeriesRaces(forceFetch, completion)
         }
+    }
+
+    func invalidateDataSource() {
+        raceCollection = [RaceFilter: [RaceViewModel]]() // re-initialize collection
     }
 }
 

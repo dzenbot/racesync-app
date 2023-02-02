@@ -170,18 +170,29 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
         return refreshControl
     }()
 
-    fileprivate var selectedRaceList: RaceFilter {
+    fileprivate var selectedRaceFilter: RaceFilter {
         get {
             let title: String = segmentedControl.titleForSelectedSegment()!
             return RaceFilter(title: title)!
         }
     }
 
-    fileprivate let raceListController: RaceFeedController
+    fileprivate var raceFeed: [RaceViewModel]? {
+        get {
+            return raceFeedController.raceViewModels(for: selectedRaceFilter)
+        }
+    }
+
+    fileprivate var raceFeedCount: Int {
+        get {
+            return raceFeedController.raceViewModelsCount(for: selectedRaceFilter)
+        }
+    }
+
+    fileprivate let raceFeedController: RaceFeedController
     fileprivate let raceApi = RaceApi()
     fileprivate let userApi = UserApi()
     fileprivate let chapterApi = ChapterApi()
-    fileprivate var raceList = [RaceViewModel]()
 
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
@@ -204,7 +215,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
     // MARK: - Initialization
 
     init(_ filters: [RaceFilter], selectedFilter: RaceFilter) {
-        self.raceListController = RaceFeedController(filters)
+        self.raceFeedController = RaceFeedController(filters)
 
         super.init(nibName: nil, bundle: nil)
 
@@ -324,7 +335,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
         // This should be triggered just once, when first requesting access to the user's location
         // and display the shimmer while retrieving the location and loading the nearby races.
         let locationManager = LocationManager.shared
-        if selectedRaceList == .nearby, !locationManager.didRequestAuthorization {
+        if selectedRaceFilter == .nearby, !locationManager.didRequestAuthorization {
             isLoadingList(true)
             locationManager.requestsAuthorization { [weak self] (error) in
                 self?.loadRaces()
@@ -384,7 +395,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
-        guard let objectId = sender.objectId, let race = raceList.race(withId: objectId) else { return }
+        guard let objectId = sender.objectId, let race = raceFeed?.race(withId: objectId) else { return }
         let joinState = sender.joinState
 
         toggleJoinButton(sender, forRace: race, raceApi: raceApi) { [weak self] (newState) in
@@ -396,7 +407,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
     }
 
     @objc fileprivate func didPressShowPastSeriesButton(_ sender: Any) {
-        raceListController.showPastSeries = true
+        raceFeedController.showPastSeries = true
         loadRaces(forceReload: true)
     }
 
@@ -427,7 +438,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
 
     fileprivate func selectSegment(_ filter: RaceFilter) {
 
-        let idx = raceListController.raceFilters.firstIndex(of: filter) ?? 0
+        let idx = raceFeedController.raceFilters.firstIndex(of: filter) ?? 0
         segmentedControl.setSelectedSegment(idx)
     }
 }
@@ -475,20 +486,18 @@ fileprivate extension RaceFeedViewController {
     }
 
     @objc func loadRaces(forceReload: Bool = false) {
-        let selectedList = selectedRaceList
+        let selectedList = selectedRaceFilter
 
-        if raceListController.shouldShowShimmer(for: selectedList) {
+        if raceFeedController.shouldShowShimmer(for: selectedList) {
             isLoadingList(true)
         }
 
-        raceListController.raceViewModels(for: selectedList, forceFetch: forceReload) { [weak self] (viewModels, error) in
+        raceFeedController.raceViewModels(for: selectedList, forceFetch: forceReload) { [weak self] (viewModels, error) in
             guard let strongSelf = self else { return }
 
             strongSelf.isLoadingList(false)
 
-            if let viewModels = viewModels, selectedList == strongSelf.selectedRaceList {
-                strongSelf.raceList = viewModels
-
+            if let _ = viewModels, selectedList == strongSelf.selectedRaceFilter {
                 if strongSelf.refreshControl.isRefreshing {
                     strongSelf.refreshControl.endRefreshing()
                 }
@@ -498,6 +507,10 @@ fileprivate extension RaceFeedViewController {
                 print("getMyRaces error : \(error.debugDescription)")
             }
         }
+    }
+
+    @objc func unloadRaces() {
+        raceFeedController.invalidateDataSource()
     }
 
     func updateUserProfileImage() {
@@ -533,8 +546,9 @@ extension RaceFeedViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        let viewModel = raceList[indexPath.row]
-        openRaceDetail(viewModel)
+        if let viewModel = raceFeed?[indexPath.row] {
+            openRaceDetail(viewModel)
+        }
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -545,12 +559,12 @@ extension RaceFeedViewController: UITableViewDelegate {
 extension RaceFeedViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return raceList.count
+        return raceFeedCount
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as RaceTableViewCell
-        let viewModel = raceList[indexPath.row]
+        guard let viewModel = raceFeed?[indexPath.row] else { return cell }
 
         cell.dateLabel.text = viewModel.startDateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
@@ -561,9 +575,9 @@ extension RaceFeedViewController: UITableViewDataSource {
         cell.memberBadgeView.count = viewModel.participantCount
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.medium)
 
-        if selectedRaceList == .joined {
+        if selectedRaceFilter == .joined {
             cell.subtitleLabel.text = viewModel.locationLabel
-        } else if selectedRaceList == .chapters || selectedRaceList == .series {
+        } else if selectedRaceFilter == .chapters || selectedRaceFilter == .series {
             cell.subtitleLabel.text = viewModel.chapterLabel
         } else {
             cell.subtitleLabel.text = viewModel.distanceLabel
@@ -597,7 +611,7 @@ extension RaceFeedViewController: APISettingsDelegate {
 
         switch settings {
         case .showPastEvents, .searchRadius:
-            isLoadingList(true)
+            unloadRaces() // invalidates collection
             loadRaces(forceReload: true)
         case .measurement:
             loadRaces() // simple refresh
@@ -610,7 +624,7 @@ extension RaceFeedViewController: APISettingsDelegate {
 extension RaceFeedViewController: EmptyDataSetSource {
 
     func getEmptyStateViewModel() -> EmptyStateViewModel {
-        switch selectedRaceList {
+        switch selectedRaceFilter {
         case .joined:       return emptyStateJoinedRaces
         case .chapters:     return emptyStateChapterRaces
         case .nearby:       return emptyStateNearbyRaces
@@ -647,13 +661,13 @@ extension RaceFeedViewController: EmptyDataSetDelegate {
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
 
-        if selectedRaceList == .joined {
+        if selectedRaceFilter == .joined {
             selectSegment(.nearby)
-        } else if selectedRaceList == .chapters {
+        } else if selectedRaceFilter == .chapters {
             //
-        } else if selectedRaceList == .nearby {
+        } else if selectedRaceFilter == .nearby {
             didPressFilterButton(button)
-        } else if selectedRaceList == .series {
+        } else if selectedRaceFilter == .series {
             didPressShowPastSeriesButton(button)
         }
     }
