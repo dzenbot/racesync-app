@@ -258,7 +258,7 @@ fileprivate enum Row: Int, EnumTitle {
         case .visitStore:           return "Visit the MultiGP Shop"
         case .appicon:              return "App Icon"
         case .submitFeedback:       return "Send Feedback"
-        case .joinBeta:             return "Join Beta"
+        case .joinBeta:             return "Join the Beta"
         case .visitSite:            return "Go to MultiGP.com"
         case .logout:               return "Logout"
         case .featureFlags:         return "Feature Flags"
