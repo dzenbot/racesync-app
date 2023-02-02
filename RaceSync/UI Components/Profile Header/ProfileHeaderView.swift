@@ -45,6 +45,7 @@ class ProfileHeaderView: UIView {
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
         button.titleEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: -Constants.padding)
         button.shouldHighlight = true
+        button.isHidden = true
         return button
     }()
 
@@ -52,13 +53,13 @@ class ProfileHeaderView: UIView {
         let button = CustomButton(type: .system)
         button.setImage(UIImage(named: "icn_button_camera"), for: .normal)
         button.tintColor = Color.white
-        button.isHidden = true
         button.hitTestEdgeInsets = UIEdgeInsets(proportionally: -20)
         button.addTarget(self, action: #selector(didTapCameraButton), for: .touchUpInside)
         button.layer.shadowColor = Color.black.cgColor
         button.layer.shadowOffset = CGSize(width: 0, height: 2.0)
         button.layer.shadowOpacity = 0.35
         button.layer.shadowRadius = 2.5
+        button.isHidden = true
         return button
     }()
 
@@ -76,7 +77,12 @@ class ProfileHeaderView: UIView {
         return view
     }()
 
-    var backgroundViewSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.backgroundImageHeight)
+    var backgroundViewSize = CGSize(width: UIScreen.main.bounds.width, height: backgroundViewHeight)
+
+    static var backgroundViewHeight: CGFloat {
+        guard Constants.backgroundImageHeight > Constants.avatarImageHeight else { return Constants.avatarImageHeight + Constants.padding }
+        return Constants.backgroundImageHeight
+    }
 
     func hideLeftBadgeButton(_ hide: Bool) {
         leftBadgeButton.isHidden = hide
@@ -143,7 +149,7 @@ class ProfileHeaderView: UIView {
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
-        static let backgroundImageHeight: CGFloat = CGFloat(Int(UIScreen.main.bounds.size.height/3))
+        static let backgroundImageHeight: CGFloat = CGFloat(Int(UIScreen.main.bounds.size.height/3.5))
         static let avatarImageHeight: CGFloat = 170
     }
 
@@ -173,7 +179,7 @@ class ProfileHeaderView: UIView {
             $0.top.equalTo(snp.top).offset(-topLayoutInset)
             $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(UIScreen.main.bounds.width)
-            $0.height.equalTo(Constants.backgroundImageHeight)
+            $0.height.equalTo(Self.backgroundViewHeight)
         }
 
         addSubview(avatarView)
@@ -234,8 +240,8 @@ class ProfileHeaderView: UIView {
             avatarView.imageView.image = viewModel.type.placeholder
         }
 
-        let headerImageSize = CGSize(width: UIScreen.main.bounds.width*3, height: Constants.backgroundImageHeight)
-        let headerPlaceholderSize = CGSize(width: UIScreen.main.bounds.width, height: Constants.backgroundImageHeight)
+        let headerImageSize = CGSize(width: UIScreen.main.bounds.width*3, height: Self.backgroundViewHeight)
+        let headerPlaceholderSize = CGSize(width: UIScreen.main.bounds.width, height: Self.backgroundViewHeight)
         let headerPlaceholder = UIImage.image(withColor: Color.gray100, imageSize: headerPlaceholderSize)
 
         if let headerImageUrl = ImageUtil.getImageUrl(for: viewModel.backgroundUrl) {
@@ -258,7 +264,11 @@ class ProfileHeaderView: UIView {
         }
 
         mainTextLabel.text = viewModel.displayName
-        locationButton.setTitle(viewModel.locationName, for: .normal)
+
+        if !viewModel.locationName.isEmpty {
+            locationButton.setTitle(viewModel.locationName, for: .normal)
+            locationButton.isHidden = false
+        }
 
         if viewModel.topBadgeLabel != nil {
             topBadgeButton.setTitle(viewModel.topBadgeLabel, for: .normal)
