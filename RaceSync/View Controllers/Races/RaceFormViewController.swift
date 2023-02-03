@@ -80,29 +80,13 @@ class RaceFormViewController: UIViewController {
     fileprivate var courseApi = CourseApi()
     fileprivate var courses: [Course]?
 
-    fileprivate var isFormEnabled: Bool
-
-    // TODO: Waiting for backend support. See https://github.com/MultiGP/multigp-com/issues/67
-    fileprivate var isEndDateEnabled: Bool {
-        if let user = APIServices.shared.myUser, user.isDevTeam {
-            return true
-        }
-        return false
-    }
-
     fileprivate let presenter = Appearance.defaultPresenter()
     fileprivate var formNavigationController: NavigationController?
+    fileprivate var isFormEnabled: Bool
 
     fileprivate lazy var sections: [RaceFormSection: [RaceFormRow]] = {
-
-        var general: [RaceFormRow] = [.name, .startDate]
-        if isEndDateEnabled {
-            general += [.endDate]
-        }
-        general += [.chapter, .class, .format, .schedule, .privacy, .status]
-
+        var general: [RaceFormRow] = [.name, .startDate, .endDate, .chapter, .class, .format, .schedule, .privacy, .status]
         var specific: [RaceFormRow] = [.scoring, .timing, .rounds, .season, .location, .shortDesc, .longDesc, .itinerary, .notify]
-
         return [.general: general, .specific: specific]
     }()
 
