@@ -374,6 +374,15 @@ extension UserViewController: EmptyDataSetSource {
     }
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+
+        let headerViewHeight = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+        let segmentedControlHeight = SegmentedTableViewHeaderView.headerHeight
+        let tableViewHeaderHeight = headerViewHeight + segmentedControlHeight + Constants.padding*2
+
+        // Add a small difference to align for smaller screens
+        if scrollView.frame.height/2 < tableViewHeaderHeight {
+            return -(scrollView.frame.height/2 - tableViewHeaderHeight) * 4
+        }
         return 0
     }
 }

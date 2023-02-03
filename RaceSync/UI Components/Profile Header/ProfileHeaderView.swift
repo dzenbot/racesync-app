@@ -80,7 +80,10 @@ class ProfileHeaderView: UIView {
     var backgroundViewSize = CGSize(width: UIScreen.main.bounds.width, height: backgroundViewHeight)
 
     static var backgroundViewHeight: CGFloat {
-        guard Constants.backgroundImageHeight > Constants.avatarImageHeight else { return Constants.avatarImageHeight + Constants.padding }
+        // TODO: Use dynamic values instead of hardcoding them.
+        if Constants.backgroundImageHeight - 44 < Constants.avatarImageHeight {
+            return Constants.avatarImageHeight + 44
+        }
         return Constants.backgroundImageHeight
     }
 
