@@ -85,13 +85,15 @@ enum RichEditorDefaultOption: RichEditorOption {
         .bold, .italic, .underline, .strike,
         .header(1), .header(2), .header(3), .header(4),
         .alignLeft, .alignCenter, .alignRight,
-        //.textColor, .textBackgroundColor,
+        //.textColor, .textBackgroundColor,         // TODO: Implement color picker
+        //.textSize,                                // TODO: Implement text size picker
         .orderedList, .unorderedList, .indent, .outdent,
         .link, .image,
         .clear
     ]
 
     // MARK: RichEditorOption
+
     var image: UIImage? {
         var name = ""
         switch self {
