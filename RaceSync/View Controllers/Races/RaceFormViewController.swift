@@ -194,9 +194,20 @@ class RaceFormViewController: UIViewController {
 
             navigationController?.pushViewController(vc, animated: true)
         } else if currentSection == .specific {
-            switch editMode {
-            case .new:      createRace()
-            case .update:   editRace()
+
+            func handleSubmission() {
+                switch editMode {
+                case .new:      createRace()
+                case .update:   editRace()
+                }
+            }
+
+            if data.sendNotification {
+                AlertUtil.presentAlertMessage("You are about to notify all the chapter members of \(data.chapterName). Are you sure?", title: "Heads Up", buttonTitle: "Send it!") { action in
+                    handleSubmission()
+                }
+            } else {
+                handleSubmission()
             }
         } /*else if currentSection == .frequencies {
 
