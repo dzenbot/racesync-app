@@ -38,7 +38,7 @@ class ViewModelHelper {
             output.append(" \(FlagEmojiGenerator.flag(country: country))")
         }
 
-        return output.isEmpty ? "Earth" : output
+        return output
     }
 
 }
