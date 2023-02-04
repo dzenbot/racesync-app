@@ -45,7 +45,6 @@ class ProfileHeaderView: UIView {
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
         button.titleEdgeInsets = UIEdgeInsets(top: -1, left: 0, bottom: 0, right: -Constants.padding)
         button.shouldHighlight = true
-        button.isHidden = true
         return button
     }()
 
@@ -270,7 +269,8 @@ class ProfileHeaderView: UIView {
 
         if !viewModel.locationName.isEmpty {
             locationButton.setTitle(viewModel.locationName, for: .normal)
-            locationButton.isHidden = false
+        } else {
+            locationButton.setTitle("Earth", for: .normal)
         }
 
         if viewModel.topBadgeLabel != nil {
