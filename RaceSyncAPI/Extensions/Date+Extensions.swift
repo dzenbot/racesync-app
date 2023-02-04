@@ -93,4 +93,18 @@ public extension Date {
         let thisYear = (thisYear() as NSString).integerValue
         return String(thisYear - 1)
     }
+
+    func date(with value: Int, type: Calendar.Component = .day) -> Date {
+        var dateComponent = DateComponents()
+
+        if type == .day {
+            dateComponent.day = value
+        } else if type == .hour {
+            dateComponent.hour = value
+        } else if type == .minute {
+            dateComponent.minute = value
+        }
+
+        return Calendar.current.date(byAdding: dateComponent, to: self) ?? self
+    }
 }

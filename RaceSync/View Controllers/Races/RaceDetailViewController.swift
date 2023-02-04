@@ -8,6 +8,8 @@
 
 import UIKit
 import MapKit
+import SnapKit
+import SwiftValidators
 import RaceSyncAPI
 
 class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
@@ -15,7 +17,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     // MARK: - Public Variables
 
     var race: Race
-    var shouldShowMap: Bool = true
 
     // MARK: - Private Variables
 
@@ -36,9 +37,17 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate lazy var titleLabel: PasteboardLabel = {
         let label = PasteboardLabel()
-        label.font = UIFont.systemFont(ofSize: 19, weight: .regular)
+        label.font = UIFont.systemFont(ofSize: 22, weight: .regular)
         label.textColor = Color.black
         label.numberOfLines = 2
+        return label
+    }()
+
+    fileprivate lazy var classLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 15, weight: .medium)
+        label.textColor = Color.gray300
+        label.numberOfLines = 1
         return label
     }()
 
@@ -65,9 +74,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }()
 
     fileprivate lazy var buttonStackView: UIStackView = {
-        var subviews = [UIView]()
-        subviews += [joinButton, memberBadgeView]
-        if canDisplayFunFly { subviews += [funflyBadge] }
+        var subviews: [UIView] = [joinButton, memberBadgeView, funflyBadge]
 
         let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
@@ -81,7 +88,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         let button = PasteboardButton(type: .system)
         button.tintColor = Color.red
         button.shouldHighlight = true
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
         button.titleLabel?.numberOfLines = 2
         button.setImage(UIImage(named: "icn_pin_small"), for: .normal)
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
@@ -90,13 +97,26 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return button
     }()
 
-    fileprivate lazy var dateButton: PasteboardButton = {
+    fileprivate lazy var startDateButton: PasteboardButton = {
         let button = PasteboardButton(type: .system)
         button.tintColor = Color.black
         button.shouldHighlight = true
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        button.titleLabel?.numberOfLines = 1
-        button.setImage(UIImage(named: "icn_calendar_small"), for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        button.titleLabel?.numberOfLines = 2
+        button.setImage(UIImage(named: "icn_calendar_start_small"), for: .normal) // 15 x 15
+        button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
+        button.imageView?.tintColor = button.tintColor
+        button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
+        return button
+    }()
+
+    fileprivate lazy var endDateButton: PasteboardButton = {
+        let button = PasteboardButton(type: .system)
+        button.tintColor = Color.black
+        button.shouldHighlight = true
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .regular)
+        button.titleLabel?.numberOfLines = 2
+        button.setImage(UIImage(named: "icn_calendar_end_small"), for: .normal) // 15 x 15
         button.imageEdgeInsets = UIEdgeInsets(top: 0, left: -Constants.padding, bottom: 0, right: 0)
         button.imageView?.tintColor = button.tintColor
         button.addTarget(self, action: #selector(didPressDateButton), for: .touchUpInside)
@@ -111,60 +131,31 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         button.setTitleColor(Color.white, for: .normal)
         button.tintColor = Color.white
         button.contentEdgeInsets = UIEdgeInsets(top: 5, left: 15, bottom: 5, right: 12)
-
         button.backgroundColor = Color.lightBlue
         button.layer.cornerRadius = 6
-
         return button
     }()
 
     fileprivate lazy var headerLabelStackView: UIStackView = {
         var subviews = [UIView]()
+        subviews += [startDateButton]
+        if canDisplayEndDate { subviews += [endDateButton] }
         if canDisplayAddress { subviews += [locationButton] }
-        subviews += [dateButton]
 
         let stackView = UIStackView(arrangedSubviews: subviews)
         stackView.axis = .vertical
         stackView.distribution = .fillEqually
         stackView.alignment = .leading
-        stackView.spacing = 12
+        stackView.spacing = Constants.padding
         return stackView
     }()
 
-    fileprivate lazy var descriptionTextView: UITextView = {
-        let textView = UITextView()
-        textView.textColor = Color.gray300
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textView.textAlignment = .justified
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.textContainerInset = Constants.contentInsets
-        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
-        return textView
-    }()
-
-    fileprivate lazy var contentTextView: UITextView = {
-        let textView = UITextView()
-        textView.textColor = Color.black
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textView.textAlignment = .justified
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.textContainerInset = Constants.contentInsets
-        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
-        return textView
-    }()
-
-    fileprivate lazy var itineraryTextView: UITextView = {
-        let textView = UITextView()
-        textView.textColor = Color.black
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
-        textView.textAlignment = .justified
-        textView.isEditable = false
-        textView.isScrollEnabled = false
-        textView.textContainerInset = Constants.contentInsets
-        textView.linkTextAttributes = [NSAttributedString.Key.foregroundColor: Color.red]
-        return textView
+    fileprivate lazy var htmlView: RichEditorView = {
+        let view = RichEditorView()
+        view.isEditable = false
+        view.isScrollEnabled = false
+        view.delegate = self
+        return view
     }()
 
     fileprivate lazy var scrollView: UIScrollView = {
@@ -181,6 +172,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
+        tableView.isScrollEnabled = false
         tableView.register(cellType: FormTableViewCell.self)
 
         let separatorLine = UIView()
@@ -190,9 +182,20 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             $0.height.greaterThanOrEqualTo(0.5)
             $0.width.equalToSuperview()
         }
-
         return tableView
     }()
+
+    fileprivate var raceCoordinates: CLLocationCoordinate2D? {
+        if race.courseId != nil, let lat = CLLocationDegrees(race.latitude), let long = CLLocationDegrees(race.longitude) {
+            return CLLocationCoordinate2D(latitude: lat, longitude: long)
+        }
+        return nil
+    }
+
+    fileprivate var canEditRaces: Bool {
+        guard race.isMyChapter else { return false }
+        return true
+    }
 
     fileprivate var canDisplayGQIcon: Bool {
         return race.officialStatus == .approved
@@ -202,16 +205,25 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return raceViewModel.fullLocationLabel.count > 0
     }
 
+    fileprivate var canDisplayEndDate: Bool {
+        guard let text = raceViewModel.endDateDesc else { return false }
+        return text.count > 0
+    }
+
     fileprivate var canDisplayMap: Bool {
-        return shouldShowMap && raceCoordinates != nil
+        return raceCoordinates != nil
     }
 
     fileprivate var canDisplayDescription: Bool {
-        return raceViewModel.race.description.count > 0
+        return raceViewModel.race.description.stripHTML().count > 0
+    }
+
+    fileprivate var canDisplayContent: Bool {
+        return raceViewModel.race.content.stripHTML().count > 0
     }
 
     fileprivate var canDisplayItinerary: Bool {
-        return raceViewModel.race.itineraryContent.count > 0
+        return raceViewModel.race.itinerary.stripHTML().count > 0
     }
 
     fileprivate var canDisplayFunFly: Bool {
@@ -225,7 +237,9 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     fileprivate let raceApi = RaceApi()
     fileprivate var chapterApi = ChapterApi()
     fileprivate var userApi = UserApi()
-    fileprivate var raceCoordinates: CLLocationCoordinate2D?
+
+
+    fileprivate var htmlViewHeightConstraint: Constraint?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -234,6 +248,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         static let cellHeight: CGFloat = 50
         static let minButtonSize: CGFloat = 72
         static let buttonSpacing: CGFloat = 12
+        static let htmlpadding: CGFloat = 12
     }
 
     // MARK: - Initialization
@@ -241,10 +256,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     init(with race: Race) {
         self.race = race
         self.raceViewModel = RaceViewModel(with: race)
-
-        if race.courseId != nil, let latitude = CLLocationDegrees(race.latitude), let longitude = CLLocationDegrees(race.longitude) {
-            self.raceCoordinates = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
-        }
 
         super.init(nibName: nil, bundle: nil)
     }
@@ -321,69 +332,42 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
+        contentView.addSubview(classLabel)
+        classLabel.snp.makeConstraints {
+            $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding/2)
+            $0.leading.equalTo(titleLabel.snp.leading)
+        }
+
         contentView.addSubview(buttonStackView)
         buttonStackView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding)
+            $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding/2)
             $0.width.greaterThanOrEqualTo(Constants.minButtonSize)
             $0.trailing.equalToSuperview().offset(-Constants.padding)
         }
 
         contentView.addSubview(headerLabelStackView)
         headerLabelStackView.snp.makeConstraints {
-            $0.top.equalTo(titleLabel.snp.bottom).offset(Constants.padding)
+            $0.top.equalTo(classLabel.snp.bottom).offset(Constants.padding)
             $0.leading.equalToSuperview().offset(Constants.padding*1.5)
             $0.trailing.equalTo(buttonStackView.snp.leading).offset(-Constants.padding/2)
         }
 
-        if canDisplayDescription {
-            contentView.addSubview(descriptionTextView)
-            descriptionTextView.snp.makeConstraints {
-                $0.top.equalTo(buttonStackView.snp.bottom).offset(Constants.padding)
-                $0.leading.trailing.equalToSuperview()
-                $0.width.equalTo(view.bounds.width)
-            }
-        }
-
-        contentView.addSubview(contentTextView)
-        contentTextView.snp.makeConstraints {
-            if canDisplayDescription {
-                $0.top.equalTo(descriptionTextView.snp.bottom).offset(Constants.padding/2)
-            } else {
-                $0.top.equalTo(buttonStackView.snp.bottom).offset(Constants.padding)
-            }
+        contentView.addSubview(htmlView)
+        htmlView.snp.makeConstraints {
+            $0.top.equalTo(headerLabelStackView.snp.bottom).offset(Constants.padding/2)
             $0.leading.trailing.equalToSuperview()
             $0.width.equalTo(view.bounds.width)
-        }
 
-        if canDisplayItinerary {
-            contentView.addSubview(itineraryTextView)
-            itineraryTextView.snp.makeConstraints {
-                $0.top.equalTo(contentTextView.snp.bottom).offset(Constants.padding/2)
-                $0.leading.trailing.equalToSuperview()
-                $0.width.equalTo(view.bounds.width)
-            }
-
-            let separatorLine = UIView()
-            separatorLine.backgroundColor = Color.gray100
-            contentView.addSubview(separatorLine)
-            separatorLine.snp.makeConstraints {
-                $0.top.equalTo(contentTextView.snp.bottom).offset(-Constants.padding/2)
-                $0.height.greaterThanOrEqualTo(0.5)
-                $0.width.equalToSuperview()
-            }
+            htmlViewHeightConstraint = $0.height.equalTo(0).constraint
+            htmlViewHeightConstraint?.activate()
         }
 
         contentView.addSubview(tableView)
         tableView.snp.makeConstraints {
-            if canDisplayItinerary {
-                $0.top.equalTo(itineraryTextView.snp.bottom).offset(-Constants.padding)
-            } else {
-                $0.top.equalTo(contentTextView.snp.bottom).offset(-Constants.padding)
-            }
-
+            $0.top.equalTo(htmlView.snp.bottom).offset(Constants.padding/2)
             $0.leading.trailing.equalToSuperview()
             $0.height.equalTo(Constants.cellHeight*CGFloat(tableViewRows.count))
-            $0.bottom.equalToSuperview().offset(-Constants.padding)
+            $0.bottom.equalToSuperview() //.offset(-Constants.padding)
         }
 
         scrollView.addSubview(contentView)
@@ -398,17 +382,22 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func loadRows() {
-        tableViewRows = [Row.requirements, Row.owner]
 
-        if race.chapterName != "" {
+        tableViewRows = [Row]()
+
+        if raceViewModel.classLabel != "" {
+            tableViewRows += [Row.class]
+        }
+
+        tableViewRows += [Row.owner]
+
+        if raceViewModel.chapterLabel != "" {
             tableViewRows += [Row.chapter]
         }
 
-        if race.seasonName != "" {
+        if raceViewModel.seasonLabel != "" {
             tableViewRows += [Row.season]
         }
-
-        tableViewRows += [Row.status]
 
         if race.liveTimeUrl != nil {
             tableViewRows += [Row.liveTime]
@@ -416,10 +405,17 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func populateContent() {
+
         titleLabel.text = raceViewModel.titleLabel.uppercased()
+        classLabel.text = raceViewModel.classLabel
         joinButton.joinState = raceViewModel.joinState
         memberBadgeView.count = raceViewModel.participantCount
-        dateButton.setTitle(raceViewModel.fullDateLabel, for: .normal)
+        startDateButton.setTitle(raceViewModel.startDateDesc , for: .normal)
+        funflyBadge.isHidden = !canDisplayFunFly
+
+        if canDisplayEndDate {
+            endDateButton.setTitle(raceViewModel.endDateDesc, for: .normal)
+        }
 
         if canDisplayAddress {
             locationButton.setTitle(raceViewModel.fullLocationLabel, for: .normal)
@@ -430,26 +426,28 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             }
         }
 
-        let race = raceViewModel.race
-        let font = contentTextView.font
+        // Load the HTML on the next runloop
+        DispatchQueue.main.async { [weak self] in
+            guard let s = self else { return }
 
-        // Chain HTML parsing from less expensive operations to the most.
-        // This will make blocks of text to asynchrounsly load 1 by 1, but still be more efficient and not block the UI
-        race.description.toHTMLAttributedString(font, color: descriptionTextView.textColor) { [weak self] (att) in
-            self?.descriptionTextView.attributedText = att
+            var html = ""
+            let spacing = 12
 
-            race.itineraryContent.toHTMLAttributedString(font) { [weak self] (att) in
-                self?.itineraryTextView.attributedText = att
-
-                race.content.toHTMLAttributedString(font) { [weak self] (att) in
-                    self?.contentTextView.attributedText = att
-                }
+            if s.canDisplayDescription {
+                html += "<div id=\"description\" style=\"color:\(Color.gray300.toHexString());\">\(s.race.description)</div>"
             }
+            if s.canDisplayContent {
+                html += "<div id=\"content\" style=\"padding-top: \(spacing)px; padding-bottom: \(spacing)px;\">\(s.race.content)</div>"
+            }
+            if s.canDisplayItinerary {
+                html += "<hr style=\"border-top: 0.25px solid \(Color.gray100.toHexString());\">"
+                html += "<div id=\"itinerary\" style=\"padding-top: \(spacing)px;\">\(s.race.itinerary)</div>"
+            }
+
+            s.htmlView.html = html
         }
 
-        if canDisplayMap {
-            guard let coordinates = raceCoordinates else { return }
-
+        if canDisplayMap, let coordinates = raceCoordinates {
             let distance = CLLocationDistance(1000)
             let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: distance, longitudinalMeters: distance)
 
@@ -458,8 +456,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
             let location = MKPointAnnotation()
             location.coordinate = coordinates
-            mapView.addAnnotation(location)
-            mapView.setVisibleMapRect(paddedMapRect, animated: false)
+
+            DispatchQueue.main.async {
+                self.mapView.addAnnotation(location)
+                self.mapView.setVisibleMapRect(paddedMapRect, animated: false)
+            }
         }
 
         // lays out the content and helps calculating the content size
@@ -467,19 +468,27 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             rect = rect.union(view.frame)
         }
         
-        scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height*3)
+        scrollView.contentSize = CGSize(width: contentRect.size.width, height: contentRect.size.height)
     }
 
     fileprivate func configureNavigationItems() {
         title = "Race Details"
+
         tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
 
         var buttons = [UIButton]()
 
+        if canEditRaces {
+            let editButton = CustomButton(type: .system)
+            editButton.addTarget(self, action: #selector(didPressEditButton), for: .touchUpInside)
+            editButton.setImage(ButtonImg.edit, for: .normal)
+            buttons += [editButton]
+        }
+
         if let _ = race.calendarEvent {
             let calendarButton = CustomButton(type: .system)
             calendarButton.addTarget(self, action: #selector(didPressCalendarButton), for: .touchUpInside)
-            calendarButton.setImage(UIImage(named: "icn_navbar_calendar"), for: .normal)
+            calendarButton.setImage(ButtonImg.calendar, for: .normal)
             buttons += [calendarButton]
         }
 
@@ -496,24 +505,13 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: stackView)
     }
 
-    public func reloadContent() {
-
-        let viewModel = RaceViewModel(with: race)
-
-        joinButton.joinState = viewModel.joinState
-        memberBadgeView.count = viewModel.participantCount
-
-        raceViewModel = viewModel
-        tableView.reloadData()
-    }
-
     // MARK: - Actions
 
-    @objc func didTapMapView(_ sender: UITapGestureRecognizer) {
+    @objc fileprivate func didTapMapView(_ sender: UITapGestureRecognizer) {
         presentMapView()
     }
 
-    @objc func didPressLocationButton(_ sender: UIButton) {
+    @objc fileprivate func didPressLocationButton(_ sender: UIButton) {
         guard canDisplayMap else { return }
         presentMapView()
     }
@@ -522,7 +520,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         didPressCalendarButton()
     }
 
-    @objc func didPressJoinButton(_ sender: JoinButton) {
+    @objc fileprivate func didPressJoinButton(_ sender: JoinButton) {
         let joinState = sender.joinState
 
         toggleJoinButton(sender, forRace: raceViewModel.race, raceApi: raceApi) { [weak self] (newState) in
@@ -533,12 +531,40 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         }
     }
 
-    @objc func didPressMemberView(_ sender: MemberBadgeView) {
+    @objc fileprivate func didPressMemberView(_ sender: MemberBadgeView) {
         guard let tabBarController = tabBarController as? RaceTabBarController else { return }
         tabBarController.selectTab(.race)
     }
 
-    @objc func didPressCalendarButton() {
+    @objc fileprivate func didPressEditButton() {
+
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.view.tintColor = Color.blue
+
+        let editAction = UIAlertAction(title: "Edit Race", style: .default) { [weak self] action in
+            self?.editRace()
+        }
+
+        let duplicateAction = UIAlertAction(title: "Duplicate Race", style: .default) { [weak self] action in
+            self?.duplicateRace()
+        }
+
+        let deleteAction = UIAlertAction(title: "Delete Race", style: .destructive) { action in
+            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Are you sure you want to delete \"\(self.race.name)\"?",
+                                                          destructiveTitle: "Yes, Delete",
+                                                          completion: { [weak self] (action) in
+                self?.deleteRace()
+            })
+        }
+
+        alert.addAction(editAction)
+        alert.addAction(duplicateAction)
+        alert.addAction(deleteAction)
+        alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
+        present(alert, animated: true)
+    }
+
+    @objc fileprivate func didPressCalendarButton() {
         guard let event = race.calendarEvent else { return }
 
         ActionSheetUtil.presentActionSheet(withTitle: "Save the race details to your calendar?", buttonTitle: "Save to Calendar", completion: { (action) in
@@ -546,11 +572,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         })
     }
 
-    @objc func didPressShareButton() {
+    @objc fileprivate func didPressShareButton() {
         guard let raceURL = URL(string: race.url) else { return }
 
         var items: [Any] = [raceURL]
-        var activities: [UIActivity] = [CopyLinkActivity(), MultiGPActivity()]
+        var activities: [UIActivity] = [CopyLinkActivity()]
 
         // Calendar integration
         if let event = race.calendarEvent {
@@ -558,25 +584,87 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             activities += [CalendarActivity()]
         }
 
-        let activityVC = UIActivityViewController(activityItems: items, applicationActivities: activities)
-        activityVC.excludeAllActivityTypes(except: [.airDrop])
+        activities += [MultiGPActivity()]
 
-        present(activityVC, animated: true)
+        let vc = UIActivityViewController(activityItems: items, applicationActivities: activities)
+        vc.excludeAllActivityTypes(except: [.airDrop])
+        present(vc, animated: true)
     }
+}
 
-    func presentMapView() {
-        guard let coordinates = raceCoordinates, let address = race.address else { return }
+extension RaceDetailViewController {
 
-        let mapVC = MapViewController(with: coordinates, address: address)
-        mapVC.title = "Race Location"
-        mapVC.showsDirection = true
-        let mapNC = NavigationController(rootViewController: mapVC)
+    func reloadContent() {
 
-        present(mapNC, animated: true)
+        let viewModel = RaceViewModel(with: race)
+
+        joinButton.joinState = viewModel.joinState
+        memberBadgeView.count = viewModel.participantCount
+        raceViewModel = viewModel
+
+        loadRows()
+        populateContent()
+
+        // updating the height of the tableview, since the number of rows could have changed
+        tableView.snp.updateConstraints { make in
+            make.height.equalTo(Constants.cellHeight*CGFloat(tableViewRows.count))
+        }
+
+        tableView.reloadData()
     }
 }
 
 fileprivate extension RaceDetailViewController {
+
+    func presentMapView() {
+        guard let coordinates = raceCoordinates, let address = race.address else { return }
+
+        let vc = MapViewController(with: coordinates, address: address)
+        vc.title = "Race Location"
+        vc.showsDirection = true
+        let nc = NavigationController(rootViewController: vc)
+        present(nc, animated: true)
+    }
+
+    func editRace() {
+        guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
+        guard let chapter = chapters.filter ({ return $0.id == race.chapterId }).first else { return }
+
+        let data = RaceData(with: race)
+        let initialData = RaceData(with: race)
+
+        let vc = RaceFormViewController(with: [chapter], raceData: data, initialRaceData: initialData, section: .general)
+        vc.editMode = .update
+        vc.delegate = self
+
+        let nc = NavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .fullScreen
+        present(nc, animated: true)
+    }
+
+    func duplicateRace() {
+        guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
+
+        let data = RaceData(with: race)
+
+        let vc = RaceFormViewController(with: chapters, raceData: data, section: .general)
+        vc.editMode = .new
+        vc.delegate = self
+
+        let nc = NavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .fullScreen
+        present(nc, animated: true)
+    }
+
+    func deleteRace() {
+        raceApi.deleteRace(with: race.id) { status, error in
+            if status == true {
+                self.navigationController?.popViewController(animated: true)
+            } else if let error = error {
+                AlertUtil.presentAlertMessage("Couldn't delete this race. Please try again later. \(error.localizedDescription)", title: "Error", delay: 0.5)
+            }
+        }
+    }
 
     func reloadRaceView() {
         guard let tabBarController = tabBarController as? RaceTabBarController else { return }
@@ -600,8 +688,26 @@ fileprivate extension RaceDetailViewController {
 
         userApi.getUser(with: race.ownerId) { [weak self] (user, error) in
             if let user = user {
-                let userVC = UserViewController(with: user)
-                self?.navigationController?.pushViewController(userVC, animated: true)
+                let vc = UserViewController(with: user)
+                self?.navigationController?.pushViewController(vc, animated: true)
+            } else if let _ = error {
+                // handle error
+            }
+            self?.setLoading(cell, loading: false)
+        }
+    }
+
+    func showClassRaces(_ cell: FormTableViewCell) {
+        guard canInteract(with: cell) else { return }
+        setLoading(cell, loading: true)
+
+        let raceClass = race.raceClass
+
+        raceApi.getRaces(forClass: raceClass) { [weak self] (races, error) in
+            if let races = races {
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
+                let vc = RaceListViewController(sortedViewModels, raceClass: raceClass)
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }
@@ -615,8 +721,8 @@ fileprivate extension RaceDetailViewController {
 
         chapterApi.getChapter(with: race.chapterId) { [weak self] (chapter, error) in
             if let chapter = chapter {
-                let chapterVC = ChapterViewController(with: chapter)
-                self?.navigationController?.pushViewController(chapterVC, animated: true)
+                let vc = ChapterViewController(with: chapter)
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }
@@ -631,32 +737,13 @@ fileprivate extension RaceDetailViewController {
         raceApi.getRaces(forSeason: seasonId) { [weak self] (races, error) in
             if let races = races {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
-                let raceListVC = RaceListViewController(sortedViewModels, seasonId: seasonId)
-                raceListVC.title = self?.race.seasonName
-                self?.navigationController?.pushViewController(raceListVC, animated: true)
+                let vc = RaceListViewController(sortedViewModels, seasonId: seasonId)
+                vc.title = self?.race.seasonName
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }
             self?.setLoading(cell, loading: false)
-        }
-    }
-
-    func toggleRaceStatus(_ cell: FormTableViewCell) {
-        guard canInteract(with: cell) else { return }
-        guard race.isMyChapter else { return } // only allow interacting if the user can manage the race
-
-        if race.status == .opened {
-            ActionSheetUtil.presentDestructiveActionSheet(withTitle: "Close enrollment for this race?",
-                                                          destructiveTitle: "Yes, Close",
-                                                          completion: { [weak self] (action) in
-                                                            self?.closeRace(cell)
-            })
-        } else {
-            ActionSheetUtil.presentActionSheet(withTitle: "Open enrollment for this race?",
-                                               buttonTitle: "Yes, Open",
-                                               completion: { [weak self] (action) in
-                                                self?.openRace(cell)
-            })
         }
     }
 
@@ -666,7 +753,7 @@ fileprivate extension RaceDetailViewController {
 
         raceApi.open(race: race.id) { [weak self] (status, error) in
             if status {
-                self?.race.status = .opened
+                self?.race.status = .open
                 self?.reloadRaceView()
             }
             self?.setLoading(cell, loading: false)
@@ -701,16 +788,14 @@ extension RaceDetailViewController: UITableViewDelegate {
         guard let cell = tableView.cellForRow(at: indexPath) as? FormTableViewCell else { return }
         let row = tableViewRows[indexPath.row]
 
-        if row == .requirements {
-            // TODO: Push AircraftDetailViewController
+        if row == .class {
+            showClassRaces(cell)
         } else if row == .owner {
             showUserProfile(cell)
         } else if row == .chapter {
             showChapterProfile(cell)
         } else if row == .season {
             showSeasonRaces(cell)
-        } else if row == .status {
-            toggleRaceStatus(cell)
         } else if row == .liveTime {
             openLiveTime(cell)
         }
@@ -732,29 +817,67 @@ extension RaceDetailViewController: UITableViewDataSource {
 
         let row = tableViewRows[indexPath.row]
         cell.textLabel?.text = row.title
+        cell.isLoading = false
 
-        if row == .requirements {
-            let aircraftRaceSpecs = AircraftRaceSpecs(with: race)
-            cell.detailTextLabel?.text = aircraftRaceSpecs.displayText()
+        if row == .class {
+            cell.detailTextLabel?.text = raceViewModel.classLabel
         } else if row == .chapter {
-            cell.detailTextLabel?.text = race.chapterName
+            cell.detailTextLabel?.text = raceViewModel.chapterLabel
         } else if row == .owner {
-            cell.detailTextLabel?.text = race.ownerUserName
+            cell.detailTextLabel?.text = raceViewModel.ownerLabel
         } else if row == .season {
-            cell.detailTextLabel?.text = race.seasonName
-        } else if row == .status {
-            cell.detailTextLabel?.text = race.status.rawValue
+            cell.detailTextLabel?.text = raceViewModel.seasonLabel
         } else if row == .liveTime {
             cell.detailTextLabel?.text = ""
         }
-
-        cell.isLoading = false
 
         return cell
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return Constants.cellHeight
+    }
+}
+
+extension RaceDetailViewController: RaceFormViewControllerDelegate {
+
+    func raceFormViewController(_ viewController: RaceFormViewController, didUpdateRace race: Race) {
+
+        if viewController.editMode == .update {
+            self.race = race
+            self.reloadContent()
+            viewController.dismiss(animated: true, completion: nil)
+        } else {
+            navigationController?.popViewController(animated: true)
+            viewController.dismiss(animated: true, completion: nil)
+        }
+    }
+
+    func raceFormViewControllerDidDismiss(_ viewController: RaceFormViewController) {
+        viewController.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension RaceDetailViewController: RichEditorDelegate {
+
+    func richEditor(_ editor: RichEditorView, heightDidChange height: Int) {
+        var offset = CGFloat(height)
+        offset += Constants.htmlpadding*2
+
+        htmlViewHeightConstraint?.update(offset: offset)
+    }
+
+    func richEditor(_ editor: RichEditorView, shouldInteractWith url: URL) -> Bool {
+
+        if Validator.isEmail().apply(url.absoluteString) {
+            // leave the system handle emails
+            UIApplication.shared.open(url)
+        } else {
+            // open url using in-app browser, else the url is open on the WKWebView
+            WebViewController.openURL(url)
+        }
+
+        return false
     }
 }
 
@@ -783,15 +906,14 @@ extension RaceDetailViewController: MKMapViewDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case requirements, chapter, owner, season, status, liveTime
+    case `class`, chapter, owner, season, liveTime
 
     var title: String {
         switch self {
-        case .requirements:     return "Class"
+        case .class:            return "Race Class"
         case .chapter:          return "Chapter"
         case .owner:            return "Coordinator"
         case .season:           return "Season"
-        case .status:           return "Race Status"
         case .liveTime:         return "Go to LiveFPV.com"
         }
     }

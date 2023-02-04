@@ -21,18 +21,21 @@ public class User: Mappable, Descriptable {
     public var authType: String = ""
     public var url: String = ""
 
-    public var raceCount: String?
-    public var chapterCount: String?
-
     public var city: String?
     public var state: String?
     public var country: String?
     public var latitude: String = ""
     public var longitude: String = ""
 
+    public var homeChapterId: ObjectId = ""
+    public var chapterIds: [ObjectId] = [ObjectId]()
+    public var chapterCount: Int32 = 0
+    public var raceCount: Int32 = 0
+    public var isPublic: Bool = false
+
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id"]
+    fileprivate static let requiredProperties = [ParamKey.id]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -44,23 +47,26 @@ public class User: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
-        userName <- map["userName"]
-        displayName <- map["displayName"]
-        firstName <- map["firstName"]
-        lastName <- map["lastName"]
-        profilePictureUrl <- map["profilePictureUrl"]
-        profileBackgroundUrl <- map["profileBackgroundUrl"]
-        authType <- map["authType"]
+        id <- map[ParamKey.id]
+        userName <- map[ParamKey.userName]
+        displayName <- map[ParamKey.displayName]
+        firstName <- map[ParamKey.firstName]
+        lastName <- map[ParamKey.lastName]
+        profilePictureUrl <- map[ParamKey.profilePictureUrl]
+        profileBackgroundUrl <- map[ParamKey.profileBackgroundUrl]
+        authType <- map[ParamKey.authType]
         url = "https://www.multigp.com/pilots/view/?pilot=\(userName)"
 
-        raceCount <- map["raceCount"]
-        chapterCount <- map["chapterCount"]
+        city <- map[ParamKey.city]
+        state <- map[ParamKey.state]
+        country <- map[ParamKey.country]
+        latitude <- map[ParamKey.latitude]
+        longitude <- map[ParamKey.longitude]
 
-        city <- map["city"]
-        state <- map["state"]
-        country <- map["country"]
-        latitude <- map["latitude"]
-        longitude <- map["longitude"]
+        homeChapterId <- map[ParamKey.homeChapterId]
+        chapterIds <- map[ParamKey.chapterIds]
+        chapterCount <- (map[ParamKey.chapterCount], IntegerTransform())
+        raceCount <- (map[ParamKey.raceCount], IntegerTransform())
+        isPublic <- map[ParamKey.isPublic]
     }
 }

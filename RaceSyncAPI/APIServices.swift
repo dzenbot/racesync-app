@@ -14,7 +14,7 @@ public class APIServices {
     // MARK: - Public Variables
 
     public static let shared = APIServices()
-    public let credential = APICredential()
+    public var credential = APICredential()
     public let settings = APISettings()
 
     public var myUser: User? {
@@ -28,6 +28,7 @@ public class APIServices {
         }
     }
 
+    // My Home Chapter
     public var myChapter: Chapter? {
         didSet {
             Clog.log("Did set my Chapter with id: \(String(describing: myChapter?.id))")
@@ -56,5 +57,6 @@ public class APIServices {
     public func invalidate() {
         myUser = nil
         settings.invalidateSettings()
+        credential = APICredential()
     }
 }

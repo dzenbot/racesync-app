@@ -12,12 +12,22 @@ import RaceSyncAPI
 class HomeController {
 
     static func homeViewController() -> UIViewController {
-        let raceListVC = RaceMainListViewController(availableFilters(), selectedFilter: .nearby)
-        let raceListNC = NavigationController(rootViewController: raceListVC)
-        return raceListNC
+        let vc = RaceFeedViewController(availableFilters(), selectedFilter: .nearby)
+        let nc = NavigationController(rootViewController: vc)
+        return nc
     }
 
     static func availableFilters() -> [RaceFilter] {
-        return [.joined, .nearby, .series]
+
+        var filters: [RaceFilter] = [.joined, .nearby]
+
+        // Only show GQ races while the season is on going
+        if Season.isGQWindowValid(10) {
+            filters += [.series]
+        } else {
+            filters += [.chapters]
+        }
+
+        return filters
     }
 }

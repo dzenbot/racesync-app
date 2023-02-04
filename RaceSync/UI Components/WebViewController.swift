@@ -14,14 +14,13 @@ class WebViewController: SFSafariViewController {
 
     // MARK: - Public Static Convenience Methods
 
-    static func open(_ web: MGPWebConstant) {
-        openUrl(web.rawValue)
+    static func openUrl(_ url: String) {
+        guard let URL = URL(string: url) else { return }
+        openURL(URL)
     }
 
-    static func openUrl(_ url: String) {
-        guard let url = URL(string: url) else { return }
-
-        let webvc = WebViewController(url: url)
+    static func openURL(_ URL: URL) {
+        let webvc = WebViewController(url: URL)
         UIViewController.topMostViewController()?.present(webvc, animated: true, completion: nil)
     }
 

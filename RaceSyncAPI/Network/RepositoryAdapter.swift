@@ -14,7 +14,7 @@ class RepositoryAdapter {
 
     let networkAdapter = NetworkAdapter(serverUri: MGPWeb.getUrl(for: .apiBase))
 
-    func getObject<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, type: Element.Type, keyPath: String = ParameterKey.data, _ completion: @escaping ObjectCompletionBlock<Element>) {
+    func getObject<Element: Mappable>(_ endPoint: String, parameters: Params? = nil, type: Element.Type, keyPath: String = ParamKey.data, _ completion: @escaping ObjectCompletionBlock<Element>) {
         
         networkAdapter.httpRequest(endPoint, method: .post, parameters: parameters) { (request) in
             Clog.log("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
@@ -35,20 +35,20 @@ class RepositoryAdapter {
                     }
                 case .failure:
                     let error = ErrorUtil.parseError(response)
-                    Clog.log("network error \(error.debugDescription)")
+                    Clog.log("Network error \(error.debugDescription)")
                     completion(nil, error)
                 }
             })
         }
     }
 
-    func getObjects<Element: Mappable>(_ endPoint: String, parameters: Parameters? = nil, currentPage: Int = 0, pageSize: Int = StandardPageSize, skipPagination: Bool = false, type: Element.Type, keyPath: String = ParameterKey.data, _ completion: @escaping ObjectCompletionBlock<[Element]>) {
+    func getObjects<Element: Mappable>(_ endPoint: String, parameters: Params? = nil, currentPage: Int = 0, pageSize: Int = StandardPageSize, skipPagination: Bool = false, type: Element.Type, keyPath: String = ParamKey.data, _ completion: @escaping ObjectCompletionBlock<[Element]>) {
 
         var finalEndpoint = endPoint
 
         // only include pagination if required
         if !skipPagination {
-            finalEndpoint = "\(endPoint)?\(ParameterKey.currentPage)=\(currentPage)&\(ParameterKey.pageSize)=\(pageSize)"
+            finalEndpoint = "\(endPoint)?\(ParamKey.currentPage)=\(currentPage)&\(ParamKey.pageSize)=\(pageSize)"
         }
 
         networkAdapter.httpRequest(finalEndpoint, method: .post, parameters: parameters) { (request) in
@@ -92,7 +92,7 @@ class RepositoryAdapter {
         }
     }
 
-    func performAction(_ endPoint: String, parameters: Parameters? = nil, completion: @escaping StatusCompletionBlock) {
+    func performAction(_ endPoint: String, parameters: Params? = nil, completion: @escaping StatusCompletionBlock) {
         networkAdapter.httpRequest(endPoint,  method: .post, parameters: parameters) { (request) in
             Clog.log("Starting request \(String(describing: request.request?.url)) with parameters \(String(describing: parameters))")
             request.responseJSON { (response) in
@@ -108,7 +108,7 @@ class RepositoryAdapter {
                     if let errors = ErrorUtil.errors(fromJSON: json) {
                         completion(false, errors.first)
                     } else {
-                        completion(json[ParameterKey.status].bool ?? false, nil)
+                        completion(json[ParamKey.status].bool ?? false, nil)
                     }
                 case .failure:
                     completion(false, response.error as NSError?)

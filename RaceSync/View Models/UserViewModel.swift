@@ -10,6 +10,8 @@ import RaceSyncAPI
 
 class UserViewModel: Descriptable {
 
+    let userId: ObjectId
+
     let user: User?
     let raceEntry: RaceEntry?
 
@@ -20,8 +22,9 @@ class UserViewModel: Descriptable {
     let pictureUrl: String?
 
     init(with user: User) {
-        self.user = user
+        self.userId = user.id
         self.raceEntry = nil
+        self.user = user
 
         self.username = user.userName
         self.pilotName = ViewModelHelper.titleLabel(for: user.userName, country: user.country)
@@ -39,8 +42,9 @@ class UserViewModel: Descriptable {
     }
 
     init(with raceEntry: RaceEntry) {
-        self.user = nil
+        self.userId = raceEntry.pilotId
         self.raceEntry = raceEntry
+        self.user = nil
 
         self.username = raceEntry.userName
         self.pilotName = ViewModelHelper.titleLabel(for: raceEntry.userName)

@@ -51,7 +51,7 @@ class TrackDetailViewController: UIViewController {
         let textView = UITextView()
         textView.layoutManager.delegate = self
         textView.textColor = Color.gray400
-        textView.font = UIFont.systemFont(ofSize: 15, weight: .regular)
+        textView.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         textView.textAlignment = .justified
         textView.isEditable = false
         textView.isScrollEnabled = false
@@ -190,7 +190,7 @@ class TrackDetailViewController: UIViewController {
 
     fileprivate var isSubmissionEnabled: Bool {
         guard viewModel.track.title.contains("UTT") else { return false } // only for UTT
-        guard let _ = MGPWeb.getPrefilledUTT1LapPrefilledFormUrl(viewModel.track) else { return false }
+        guard let _ = AppWebConstants.getPrefilledUTT1LapPrefilledFormUrl(viewModel.track) else { return false }
         return true
     }
 
@@ -261,15 +261,15 @@ class TrackDetailViewController: UIViewController {
     // MARK: - Actions
 
     fileprivate func showUserProfile(_ cell: FormTableViewCell) {
-        guard !didTapCell, let username = viewModel.track.designer else { return }
+        guard !didTapCell, let username = viewModel.track.userName else { return }
         setLoading(cell, loading: true)
 
         userApi.searchUser(with: username) { [weak self] (user, error) in
             self?.setLoading(cell, loading: false)
 
             if let user = user {
-                let userVC = UserViewController(with: user)
-                self?.navigationController?.pushViewController(userVC, animated: true)
+                let vc = UserViewController(with: user)
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }
@@ -315,11 +315,11 @@ class TrackDetailViewController: UIViewController {
         alert.view.tintColor = Color.blue
 
         alert.addAction(UIAlertAction(title: "1 Lap UTT", style: .default, handler: { [weak self] (actionButton) in
-            guard let track = self?.viewModel.track, let url = MGPWeb.getPrefilledUTT1LapPrefilledFormUrl(track) else { return }
+            guard let track = self?.viewModel.track, let url = AppWebConstants.getPrefilledUTT1LapPrefilledFormUrl(track) else { return }
             WebViewController.openUrl(url)
         }))
         alert.addAction(UIAlertAction(title: "3 Lap UTT", style: .default, handler: { [weak self] (actionButton) in
-            guard let track = self?.viewModel.track, let url = MGPWeb.getPrefilledUTT3LapPrefilledFormUrl(track) else { return }
+            guard let track = self?.viewModel.track, let url = AppWebConstants.getPrefilledUTT3LapPrefilledFormUrl(track) else { return }
             WebViewController.openUrl(url)
         }))
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
@@ -400,8 +400,8 @@ fileprivate extension TrackDetailViewController {
         if viewModel.track.leaderboardUrl != nil {
             tableViewRows += [Row.leaderboard]
         }
-        if viewModel.track.designer != nil {
-            tableViewRows += [Row.designer]
+        if viewModel.track.userName != nil {
+            tableViewRows += [Row.userName]
         }
     }
 
@@ -506,7 +506,7 @@ extension TrackDetailViewController: UITableViewDelegate {
             if let url = track.leaderboardUrl {
                 WebViewController.openUrl(url)
             }
-        } else if row == .designer {
+        } else if row == .userName {
             showUserProfile(cell)
         }
 
@@ -544,8 +544,8 @@ extension TrackDetailViewController: UITableViewDataSource {
             if let url = track.leaderboardUrl, let URL = URL(string: url) {
                 cell.detailTextLabel?.text = URL.rootDomain
             }
-        } else if row == .designer {
-            cell.detailTextLabel?.text = track.designer
+        } else if row == .userName {
+            cell.detailTextLabel?.text = track.userName
         }
 
         return cell
@@ -587,7 +587,7 @@ extension TrackDetailViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
         let headerView = collectionView.dequeueReusableSupplementaryView(ofKind: .header, for: indexPath) as TrackElementHeaderView
         headerView.leftLabel.text = "\(viewModel.track.elementsCount) Elements"
-        headerView.rightLabel.text = "\(viewModel.track.class.title) Class"
+        headerView.rightLabel.text = "\(viewModel.track.raceClass.title) Class"
         return headerView
     }
 
@@ -651,7 +651,7 @@ extension TrackDetailViewController: NSLayoutManagerDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle {
-    case start, end, video, leaderboard, designer
+    case start, end, video, leaderboard, userName
 
     var title: String {
         switch self {
@@ -659,7 +659,7 @@ fileprivate enum Row: Int, EnumTitle {
         case .end:          return "End of Season"
         case .video:        return "Video Preview"
         case .leaderboard:  return "Leaderboard"
-        case .designer:     return "Designer"
+        case .userName:     return "Designer"
         }
     }
 }

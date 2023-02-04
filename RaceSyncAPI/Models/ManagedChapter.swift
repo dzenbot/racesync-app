@@ -16,7 +16,7 @@ public class ManagedChapter: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id", "name"]
+    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -28,7 +28,7 @@ public class ManagedChapter: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
+        id <- map[ParamKey.id]
+        name <- map[ParamKey.name]
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 import RaceSyncAPI
 
-enum AircraftRow: Int, EnumTitle, CaseIterable {
+enum AircraftFormRow: Int, EnumTitle, CaseIterable {
     case name, type, size, battery, propSize, videoTx, antenna
 
     public var title: String {
@@ -25,9 +25,9 @@ enum AircraftRow: Int, EnumTitle, CaseIterable {
     }
 }
 
-extension AircraftRow {
+extension AircraftFormRow {
 
-    var aircraftSpecValues: [String] {
+    var values: [String] {
         switch self {
         case .type:
             return AircraftType.allCases.compactMap { $0.title }
@@ -45,8 +45,8 @@ extension AircraftRow {
             return [String]()
         }
     }
-
-    var defaultAircraftSpecValue: String? {
+    
+    var defaultValue: String? {
         switch self {
         case .name:
             return nil
@@ -65,7 +65,7 @@ extension AircraftRow {
         }
     }
 
-    var isAircraftSpecRequired: Bool {
+    var isRowRequired: Bool {
         switch self {
         case .name, .videoTx, .antenna:
             return true
@@ -74,120 +74,120 @@ extension AircraftRow {
         }
     }
 
-    func specValue(from aircraftViewModel: AircraftViewModel) -> String? {
+    func value(from viewModel: AircraftViewModel) -> String? {
         switch self {
         case .name:
-            return aircraftViewModel.displayName
+            return viewModel.displayName
         case .type:
-            return aircraftViewModel.aircraft?.type?.title
+            return viewModel.aircraft?.type?.title
         case .size:
-            return aircraftViewModel.aircraft?.size?.title
+            return viewModel.aircraft?.size?.title
         case .battery:
-            return aircraftViewModel.aircraft?.battery?.title
+            return viewModel.aircraft?.battery?.title
         case .propSize:
-            return aircraftViewModel.aircraft?.propSize?.title
+            return viewModel.aircraft?.propSize?.title
         case .videoTx:
-            return aircraftViewModel.aircraft?.videoTxType.title
+            return viewModel.aircraft?.videoTxType.title
         case .antenna:
-            return aircraftViewModel.aircraft?.antenna.title
+            return viewModel.aircraft?.antenna.title
         }
     }
 
-    func displayText(from aircraftViewModel: AircraftViewModel) -> String {
+    func displayText(from viewModel: AircraftViewModel) -> String {
         switch self {
         case .name:
-            return aircraftViewModel.displayName
+            return viewModel.displayName
         case .type:
-            return aircraftViewModel.typeLabel
+            return viewModel.typeLabel
         case .size:
-            return aircraftViewModel.sizeLabel
+            return viewModel.sizeLabel
         case .battery:
-            return aircraftViewModel.batteryLabel
+            return viewModel.batteryLabel
         case .propSize:
-            return aircraftViewModel.propSizeLabel
+            return viewModel.propSizeLabel
         case .videoTx:
-            return aircraftViewModel.videoTxTypeLabel
+            return viewModel.videoTxTypeLabel
         case .antenna:
-            return aircraftViewModel.antennaLabel
+            return viewModel.antennaLabel
         }
     }
 
-    func specValue(from aircraftSpecs: AircraftSpecs) -> String? {
+    func value(from data: AircraftData) -> String? {
         switch self {
         case .name:
-            return aircraftSpecs.name
+            return data.name
         case .type:
-            return aircraftSpecs.type
+            return data.type
         case .size:
-            return aircraftSpecs.size
+            return data.size
         case .battery:
-            return aircraftSpecs.battery
+            return data.battery
         case .propSize:
-            return aircraftSpecs.propSize
+            return data.propSize
         case .videoTx:
-            return aircraftSpecs.videoTxType
+            return data.videoTxType
         case .antenna:
-            return aircraftSpecs.antenna
+            return data.antenna
         }
     }
 
-    func displayText(from aircraftSpecs: AircraftSpecs) -> String? {
+    func displayText(from data: AircraftData) -> String? {
         switch self {
         case .name:
-            return aircraftSpecs.name
+            return data.name
         case .type:
-            if let type = aircraftSpecs.type {
+            if let type = data.type {
                 return AircraftType(rawValue: type)?.title
             }
             return nil
         case .size:
-            if let type = aircraftSpecs.size {
+            if let type = data.size {
                 return AircraftSize(rawValue: type)?.title
             }
             return nil
         case .battery:
-            if let type = aircraftSpecs.battery {
+            if let type = data.battery {
                 return BatterySize(rawValue: type)?.title
             }
             return nil
         case .propSize:
-            if let type = aircraftSpecs.propSize {
+            if let type = data.propSize {
                 return PropellerSize(rawValue: type)?.title
             }
             return nil
         case .videoTx:
-            if let type = aircraftSpecs.videoTxType {
+            if let type = data.videoTxType {
                 return VideoTxType(rawValue: type)?.title
             }
             return nil
         case .antenna:
-            if let type = aircraftSpecs.antenna {
+            if let type = data.antenna {
                 return AntennaPolarization(rawValue: type)?.title
             }
             return nil
         }
     }
 
-    func aircraftRaceSpecValues(for aircraftRaceSpecs: AircraftRaceSpecs) -> [String]? {
+    func aircraftRaceSpecValues(for data: AircraftRaceData) -> [String]? {
         switch self {
         case .type:
-            if aircraftRaceSpecs.types.count > 0 {
-                let enums = aircraftRaceSpecs.types.compactMap { AircraftType(rawValue: $0) }
+            if data.types.count > 0 {
+                let enums = data.types.compactMap { AircraftType(rawValue: $0) }
                 return enums.compactMap { $0.title }
             }
         case .size:
-            if aircraftRaceSpecs.sizes.count > 0 {
-                let enums = aircraftRaceSpecs.sizes.compactMap { AircraftSize(rawValue: $0) }
+            if data.sizes.count > 0 {
+                let enums = data.sizes.compactMap { AircraftSize(rawValue: $0) }
                 return enums.compactMap { $0.title }
             }
         case .battery:
-            if aircraftRaceSpecs.batteries.count > 0 {
-                let enums = aircraftRaceSpecs.batteries.compactMap { BatterySize(rawValue: $0) }
+            if data.batteries.count > 0 {
+                let enums = data.batteries.compactMap { BatterySize(rawValue: $0) }
                 return enums.compactMap { $0.title }
             }
         case .propSize:
-            if aircraftRaceSpecs.propSizes.count > 0 {
-                let enums = aircraftRaceSpecs.propSizes.compactMap { PropellerSize(rawValue: $0) }
+            if data.propSizes.count > 0 {
+                let enums = data.propSizes.compactMap { PropellerSize(rawValue: $0) }
                 return enums.compactMap { $0.title }
             }
         default:

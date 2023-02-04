@@ -50,7 +50,7 @@ class WatchSessionManager: NSObject {
             delegates.forEach { (delegate) in
                 delegate.sessionDidReceiveUserContext(userViewModel)
             }
-        } else if let flag = userInfo[WParameterKey.invalidate] as? Bool, flag == true {
+        } else if let flag = userInfo[WParamKey.invalidate] as? Bool, flag == true {
             invalidate()
         }
     }

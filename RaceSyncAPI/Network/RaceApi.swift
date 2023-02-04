@@ -12,7 +12,7 @@ import SwiftyJSON
 
 // MARK: - Interface
 
-public enum RaceListFilter: String {
+public enum RaceListFilters: String {
     case upcoming = "upcoming"
     case past = "past"
     case nearby = "nearby"
@@ -30,7 +30,10 @@ public protocol RaceApiInterface {
      - parameter longitude: The coordinate longitude (Optional)
      - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
      */
-    func getMyRaces(filters: [RaceListFilter], latitude: String?, longitude: String?, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getMyRaces(filters: [RaceListFilters],
+                    latitude: String?,
+                    longitude: String?,
+                    completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets a filtered set of races related to a specific User.
@@ -43,7 +46,13 @@ public protocol RaceApiInterface {
     - parameter pageSize: The amount of objects to be returned by page. Default is 25.
     - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
     */
-    func getRaces(forUser userId: ObjectId, filters: [RaceListFilter], latitude: String?, longitude: String?, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getRaces(forUser userId: ObjectId,
+                  filters: [RaceListFilters],
+                  latitude: String?,
+                  longitude: String?,
+                  currentPage: Int,
+                  pageSize: Int,
+                  completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets the races belonging to a specific chapter.
@@ -53,7 +62,25 @@ public protocol RaceApiInterface {
     - parameter pageSize: The amount of objects to be returned by page. Default is 25.
     - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
     */
-    func getRaces(forChapter chapterId: ObjectId, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getRaces(forChapter chapterId: ObjectId,
+                  currentPage: Int,
+                  pageSize: Int,
+                  completion: @escaping ObjectCompletionBlock<[Race]>)
+
+    /**
+    Gets the races belonging to a list of chapters.
+
+    - parameter chapterIds: The Chapter's ids.
+    - parameter filters: The list of compounding filters to compose the race query
+    - parameter currentPage: The current page cursor position. Default is 0
+    - parameter pageSize: The amount of objects to be returned by page. Default is 25.
+    - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
+    */
+    func getRaces(forChapters chapterIds: [ObjectId],
+                  filters: [RaceListFilters],
+                  currentPage: Int,
+                  pageSize: Int,
+                  completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets the races belonging to a specific season.
@@ -63,7 +90,23 @@ public protocol RaceApiInterface {
     - parameter pageSize: The amount of objects to be returned by page. Default is 25.
     - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
     */
-    func getRaces(forSeason seasonId: ObjectId, currentPage: Int, pageSize: Int, completion: @escaping ObjectCompletionBlock<[Race]>)
+    func getRaces(forSeason seasonId: ObjectId,
+                  currentPage: Int,
+                  pageSize: Int,
+                  completion: @escaping ObjectCompletionBlock<[Race]>)
+
+    /**
+    Gets the races belonging to a specific class.
+
+    - parameter raceClass: The race class type.
+    - parameter currentPage: The current page cursor position. Default is 0
+    - parameter pageSize: The amount of objects to be returned by page. Default is 25.
+    - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
+    */
+    func getRaces(forClass raceClass: RaceClass,
+                  currentPage: Int,
+                  pageSize: Int,
+                  completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
     Gets a full Race object, including pilot entries and schedule
@@ -71,7 +114,8 @@ public protocol RaceApiInterface {
      - parameter raceId: The Race id.
      - parameter completion: The closure to be called upon completion. Returns a transcient Race object.
     */
-    func view(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>)
+    func view(race raceId: ObjectId,
+              completion: @escaping ObjectCompletionBlock<Race>)
 
     /**
     Gets a full Race object, including pilot entries and excluding the schedule
@@ -79,45 +123,77 @@ public protocol RaceApiInterface {
      - parameter raceId: The Race id.
      - parameter completion: The closure to be called upon completion. Returns a transcient Race object.
     */
-    func viewSimple(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>)
+    func viewSimple(race raceId: ObjectId,
+                    completion: @escaping ObjectCompletionBlock<Race>)
 
     /**
      */
-    func join(race raceId: ObjectId, aircraftId: ObjectId, completion: @escaping StatusCompletionBlock)
+    func join(race raceId: ObjectId,
+              aircraftId: ObjectId,
+              completion: @escaping StatusCompletionBlock)
 
     /**
      */
-    func resign(race raceId: ObjectId, completion: @escaping StatusCompletionBlock)
+    func resign(race raceId: ObjectId,
+                completion: @escaping StatusCompletionBlock)
 
     /**
     */
-    func forceJoin(race raceId: ObjectId, pilotId: ObjectId, completion: @escaping StatusCompletionBlock)
+    func forceJoin(race raceId: ObjectId,
+                   pilotId: ObjectId,
+                   completion: @escaping StatusCompletionBlock)
 
     /**
     */
-    func forceResign(race raceId: ObjectId, pilotId: ObjectId, completion: @escaping StatusCompletionBlock)
+    func forceResign(race raceId: ObjectId,
+                     pilotId: ObjectId,
+                     completion: @escaping StatusCompletionBlock)
 
     /**
      */
-    func open(race raceId: ObjectId, completion: @escaping StatusCompletionBlock)
+    func open(race raceId: ObjectId,
+              completion: @escaping StatusCompletionBlock)
 
     /**
      */
-    func close(race raceId: ObjectId, completion: @escaping StatusCompletionBlock)
+    func close(race raceId: ObjectId,
+               completion: @escaping StatusCompletionBlock)
 
     /**
     */
-    func checkIn(race raceId: ObjectId, pilotId: ObjectId?, completion: @escaping ObjectCompletionBlock<RaceEntry>)
+    func checkIn(race raceId: ObjectId,
+                 pilotId: ObjectId?,
+                 completion: @escaping ObjectCompletionBlock<RaceEntry>)
 
     /**
     */
-    func checkOut(race raceId: ObjectId, pilotId: ObjectId?, completion: @escaping ObjectCompletionBlock<RaceEntry>)
+    func checkOut(race raceId: ObjectId,
+                  pilotId: ObjectId?,
+                  completion: @escaping ObjectCompletionBlock<RaceEntry>)
 
     /**
-     */
-    func create(race chapterId: ObjectId, raceSpecs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>)
+    Creates a full Race object, using a data transfer object converted into parameters.
+
+     - parameter data: The data transfer object
+     - parameter completion: The closure to be called upon completion. Returns a transcient Race object.
+    */
+    func createRace(withData data: RaceData,
+                    completion: @escaping ObjectCompletionBlock<Race>)
 
     /**
+    */
+    func updateRace(race raceId: ObjectId,
+                    with beforeData: RaceData?,
+                    afterData: RaceData,
+                    completion: @escaping ObjectCompletionBlock<Race>)
+
+    /**
+    */
+    func deleteRace(with raceId: ObjectId,
+                    completion: @escaping StatusCompletionBlock)
+
+    /**
+     Cancels all the HTTP requests of race API endpoint
     */
     func cancelAll()
 }
@@ -128,24 +204,27 @@ public class RaceApi: RaceApiInterface {
 
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func getMyRaces(filters: [RaceListFilter],
+    public func getMyRaces(filters: [RaceListFilters],
                            latitude: String? = nil,
                            longitude: String? = nil,
                            completion: @escaping ObjectCompletionBlock<[Race]>) {
         guard let user = APIServices.shared.myUser else { return }
+
         let lat = latitude ?? user.latitude
         let long = longitude ?? user.longitude
+
         getRaces(forUser: user.id, filters: filters, latitude: lat, longitude: long, completion: completion)
     }
 
     public func getRaces(forUser userId: ObjectId = "",
-                         filters: [RaceListFilter],
+                         filters: [RaceListFilters],
                          latitude: String? = nil, longitude: String? = nil,
                          currentPage: Int = 0, pageSize: Int = StandardPageSize,
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
         let parameters = parametersForRaces(with: userId, filters: filters, latitude: latitude, longitude: longitude, pageSize: pageSize)
+
         repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
@@ -154,11 +233,20 @@ public class RaceApi: RaceApiInterface {
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
-        let parameters = [ParameterKey.chapterId: chapterId]
+        let parameters = parametersForRaces(filters: [RaceListFilters](), chapterIds: [chapterId])
 
-        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
-            completion(races, error)
-        }
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
+    }
+
+    public func getRaces(forChapters chapterIds: [ObjectId],
+                         filters: [RaceListFilters],
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
+                         completion: @escaping ObjectCompletionBlock<[Race]>) {
+
+        let endpoint = EndPoint.raceList
+        let parameters = parametersForRaces(filters: filters, chapterIds: chapterIds)
+
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
     public func getRaces(forSeason seasonId: ObjectId,
@@ -166,111 +254,141 @@ public class RaceApi: RaceApiInterface {
                          completion: @escaping ObjectCompletionBlock<[Race]>) {
 
         let endpoint = EndPoint.raceList
-        let parameters = [ParameterKey.seasonId: seasonId]
+        let parameters = [ParamKey.seasonId: seasonId]
 
-        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self) { (races, error) in
-            completion(races, error)
-        }
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
+    }
+
+    public func getRaces(forClass raceClass: RaceClass,
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
+                         completion: @escaping ObjectCompletionBlock<[Race]>) {
+
+        let endpoint = EndPoint.raceList
+        let parameters = [ParamKey.raceClass: raceClass.rawValue]
+
+        repositoryAdapter.getObjects(endpoint, parameters: parameters, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }
 
     public func view(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endpoint = "\(EndPoint.raceView)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceView)?\(ParamKey.id)=\(raceId)"
+
         repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
     public func viewSimple(race raceId: ObjectId, completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endpoint = "\(EndPoint.raceViewSimple)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceViewSimple)?\(ParamKey.id)=\(raceId)"
+
         repositoryAdapter.getObject(endpoint, type: Race.self, completion)
     }
 
     public func join(race raceId: ObjectId, aircraftId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceJoin)?\(ParameterKey.id)=\(raceId)"
-        let parameters = [ParameterKey.aircraftId: aircraftId]
+        let endpoint = "\(EndPoint.raceJoin)?\(ParamKey.id)=\(raceId)"
+        let parameters = [ParamKey.aircraftId: aircraftId]
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
     public func resign(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
         
-        let endpoint = "\(EndPoint.raceResign)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceResign)?\(ParamKey.id)=\(raceId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func forceJoin(race raceId: ObjectId, pilotId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceForceJoin)?\(ParameterKey.id)=\(raceId)"
-        let parameters = [ParameterKey.pilotId: pilotId]
+        let endpoint = "\(EndPoint.raceForceJoin)?\(ParamKey.id)=\(raceId)"
+        let parameters = [ParamKey.pilotId: pilotId]
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
     public func forceResign(race raceId: ObjectId, pilotId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceResign)?\(ParameterKey.id)=\(raceId)"
-        let parameters = [ParameterKey.pilotId: pilotId]
+        let endpoint = "\(EndPoint.raceResign)?\(ParamKey.id)=\(raceId)"
+        let parameters = [ParamKey.pilotId: pilotId]
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
     public func open(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceOpen)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceOpen)?\(ParamKey.id)=\(raceId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func close(race raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.raceClose)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceClose)?\(ParamKey.id)=\(raceId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func checkIn(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
-        let endpoint = "\(EndPoint.raceCheckIn)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceCheckIn)?\(ParamKey.id)=\(raceId)"
+        var params = Params()
+        params[ParamKey.pilotId] = pilotId
 
-        var parameters = Parameters()
-        parameters[ParameterKey.pilotId] = pilotId
-
-        repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: params, type: RaceEntry.self, completion)
     }
 
     public func checkOut(race raceId: ObjectId, pilotId: ObjectId? = nil, completion: @escaping ObjectCompletionBlock<RaceEntry>) {
 
-        let endpoint = "\(EndPoint.raceCheckOut)?\(ParameterKey.id)=\(raceId)"
+        let endpoint = "\(EndPoint.raceCheckOut)?\(ParamKey.id)=\(raceId)"
+        var params = Params()
+        params[ParamKey.pilotId] = pilotId
 
-        var parameters = Parameters()
-        parameters[ParameterKey.pilotId] = pilotId
-
-        repositoryAdapter.getObject(endpoint, parameters: parameters, type: RaceEntry.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: params, type: RaceEntry.self, completion)
     }
 
-    public func create(race chapterId: ObjectId, raceSpecs: RaceSpecs, _ completion: @escaping ObjectCompletionBlock<Race>) {
+    public func createRace(withData data: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
 
-        let endpoint = "\(EndPoint.raceCreate)?\(ParameterKey.chapterId)=\(chapterId)"
-        let parameters = raceSpecs.toParameters()
+        let endpoint = "\(EndPoint.raceCreate)?\(ParamKey.chapterId)=\(data.chapterId)"
+        let params = data.toParams()
 
-        repositoryAdapter.getObject(endpoint, parameters: parameters, type: Race.self, completion)
+        repositoryAdapter.getObject(endpoint, parameters: params, type: Race.self, completion)
+    }
+
+    public func updateRace(race raceId: ObjectId, with beforeData: RaceData? = nil, afterData: RaceData, completion: @escaping ObjectCompletionBlock<Race>) {
+
+        let endpoint = "\(EndPoint.raceUpdate)?\(ParamKey.id)=\(raceId)"
+        var params = Params()
+
+        if let beforeData = beforeData {
+            params = afterData.toDiffParams(beforeData)
+        } else {
+            params = afterData.toParams()
+        }
+
+        repositoryAdapter.getObject(endpoint, parameters: params, type: Race.self, completion)
+    }
+
+    public func deleteRace(with raceId: ObjectId, completion: @escaping StatusCompletionBlock) {
+
+        let endpoint = "\(EndPoint.raceDelete)?\(ParamKey.id)=\(raceId)"
+
+        repositoryAdapter.performAction(endpoint, completion: completion)
     }
 
     public func cancelAll() {
-        repositoryAdapter.networkAdapter.httpCancelRequests(with: "race/")
+        repositoryAdapter.networkAdapter.httpCancelRequests(with: EndPoint.race)
     }
 }
 
 fileprivate extension RaceApi {
 
     func parametersForRaces(with userId: ObjectId = "",
-                            filters: [RaceListFilter],
+                            filters: [RaceListFilters],
+                            chapterIds: [ObjectId] = [ObjectId](),
                             latitude: String? = nil, longitude: String? = nil,
-                            pageSize: Int = StandardPageSize) -> Parameters {
+                            pageSize: Int = StandardPageSize) -> Params {
 
-        var parameters: Parameters = [:]
+        var parameters: Params = [:]
 
         if filters.contains(.nearby) {
             let settings = APIServices.shared.settings
@@ -281,24 +399,27 @@ fileprivate extension RaceApi {
                 radiusString = APIUnitSystem.convert(radiusString, to: .miles)
             }
 
-            var nearbyDict = [ParameterKey.radius: radiusString]
-            if let lat = latitude { nearbyDict[ParameterKey.latitude] = lat }
-            if let long = longitude { nearbyDict[ParameterKey.longitude] = long }
-            parameters[ParameterKey.nearBy] = nearbyDict
+            var nearbyDict = [ParamKey.radius: radiusString]
+            if let lat = latitude { nearbyDict[ParamKey.latitude] = lat }
+            if let long = longitude { nearbyDict[ParamKey.longitude] = long }
+            parameters[ParamKey.nearBy] = nearbyDict
         }
-
-        if filters.contains(.joined) {
-            parameters[ParameterKey.joined] = [ParameterKey.pilotId : userId]
+        else if filters.contains(.joined) {
+            parameters[ParamKey.joined] = [ParamKey.pilotId : userId]
         }
 
         if filters.contains(.series) {
-            parameters[ParameterKey.isQualifier] = true
+            parameters[ParamKey.isQualifier] = true
         }
 
         if filters.contains(.upcoming) {
-            parameters[ParameterKey.upcoming] = [ParameterKey.limit: pageSize]
+            parameters[ParamKey.upcoming] = [ParamKey.limit: pageSize]
         } else if filters.contains(.past) {
-            parameters[ParameterKey.past] = [ParameterKey.limit: pageSize]
+            parameters[ParamKey.past] = [ParamKey.limit: pageSize]
+        }
+
+        if chapterIds.count > 0 {
+            parameters[ParamKey.chapterId] = chapterIds
         }
 
         return parameters

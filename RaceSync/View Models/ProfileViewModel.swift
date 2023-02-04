@@ -44,13 +44,21 @@ class ProfileViewModel: Descriptable {
         self.topBadgeLabel = nil
         self.topBadgeImage = nil
 
-        self.leftBadgeLabel = "\(user.raceCount ?? "0") Races"
         self.leftBadgeImage = UIImage(named: "icn_race_small")
         self.leftSegmentLabel = "Races"
+        if user.raceCount == 1 {
+            self.leftBadgeLabel = "\(user.raceCount) Race"
+        } else {
+            self.leftBadgeLabel = "\(user.raceCount) Races"
+        }
 
-        self.rightBadgeLabel = "\(user.chapterCount ?? "0") Chapters"
         self.rightBadgeImage = UIImage(named: "icn_chapter_small")
         self.rightSegmentLabel = "Chapters"
+        if user.chapterCount == 1 {
+            self.rightBadgeLabel = "\(user.chapterCount) Chapter"
+        } else {
+            self.rightBadgeLabel = "\(user.chapterCount) Chapters"
+        }
     }
 
     init(with chapter: Chapter) {
@@ -72,13 +80,21 @@ class ProfileViewModel: Descriptable {
             self.topBadgeImage = nil
         }
 
-        self.leftBadgeLabel = "\(chapter.raceCount ?? "0") Races"
         self.leftBadgeImage = UIImage(named: "icn_race_small")
         self.leftSegmentLabel = "Races"
+        if chapter.raceCount == 1 {
+            self.leftBadgeLabel = "\(chapter.raceCount) Race"
+        } else {
+            self.leftBadgeLabel = "\(chapter.raceCount) Races"
+        }
 
-        self.rightBadgeLabel = "\(chapter.memberCount ?? "0") Members"
         self.rightBadgeImage = UIImage(named: "icn_chapter_small")
         self.rightSegmentLabel = "Members"
+        if chapter.memberCount == 1 {
+            self.rightBadgeLabel = "\(chapter.memberCount) Member"
+        } else {
+            self.rightBadgeLabel = "\(chapter.memberCount) Members"
+        }
     }
 
     init(with aircraft: Aircraft) {

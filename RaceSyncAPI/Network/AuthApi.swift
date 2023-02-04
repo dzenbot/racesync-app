@@ -40,9 +40,9 @@ public class AuthApi: AuthApiInterface {
     public func login(_ username: String, password: String, _ completion: @escaping StatusCompletionBlock) {
 
         let endpoint = EndPoint.userLogin
-        let parameters: Parameters = [
-            ParameterKey.username: username,
-            ParameterKey.password: password
+        let parameters: Params = [
+            ParamKey.username: username,
+            ParamKey.password: password
         ]
 
         repositoryAdapter.networkAdapter.httpRequest(endpoint, method: .post, parameters: parameters, nestParameters: false) { (request) in
@@ -61,7 +61,8 @@ public class AuthApi: AuthApiInterface {
                         completion(false, errors.first)
                     } else {
                         APISessionManager.handleSessionJSON(json)
-                        APISessionManager.setSessionEmail(username)
+                        APISessionManager.setSessionEmail(username) //email really
+                        APISessionManager.setSessionPasword(password)
                         completion(true, nil)
                     }
                 case .failure:

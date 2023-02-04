@@ -8,7 +8,7 @@
 
 import UIKit
 
-//TIERS = array(1=>'Tier 1', 2=>'Tier 2', 3=>'Tier 3', 4=>'Special Event', 5=>'Provisional')
+//CHAPTER_TIERS = array(1=>'Tier 1', 2=>'Tier 2', 3=>'Tier 3', 4=>'Special Event', 5=>'Provisional')
 public enum ChapterTier: Int {
     case tier1 = 1
     case tier2 = 2

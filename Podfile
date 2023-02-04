@@ -1,14 +1,10 @@
-platform :ios, '11.0'
+platform :ios, '13.0'
 use_frameworks!
 
 # ignore all warnings from all pods
 inhibit_all_warnings!
 
-# Dev Tools
-pod 'SwiftLint'
-pod 'Sentry', '~> 4.4.1'
-
-target 'RaceSync' do
+def app_pods
   # UI
   pod 'EmptyDataSet-Swift'
   pod 'SnapKit'
@@ -16,52 +12,55 @@ target 'RaceSync' do
   pod 'Presentr'
   pod 'QRCode', :git => 'https://github.com/andrewcampoli/QRCode.git', :inhibit_warnings => true
   pod 'ShimmerSwift'
-  pod "PickerView"
   pod 'TOCropViewController'
+  pod 'PickerView'
+end
 
-  # Analytics
+def api_pods
+  # Network
+  pod 'Alamofire', '~> 4.9.1'
+  pod 'AlamofireImage', '~> 3.6.0'
+  pod 'AlamofireNetworkActivityIndicator', '~> 2.4.0'
+  pod 'AlamofireObjectMapper', '~> 5.2.1'
 
-  target 'RaceSyncTests' do
-    inherit! :search_paths
-  end
+  # Data Parsing
+  pod 'SwiftyJSON', '5.0.0'
+  pod 'ObjectMapper', :inhibit_warnings => true
+
+  # Security
+  pod 'Valet', '3.2.8'
+end
+
+def shared_pods
+  # Dev Tools
+  pod 'SwiftLint'
+  pod 'Sentry', '~> 4.4.1'
+end
+
+target 'RaceSync' do
+  app_pods
+  shared_pods
+end
+
+target 'RaceSyncTests' do
+  app_pods
+  shared_pods
 end
 
 target 'RaceSyncAPI' do
-    # Network
-    pod 'Alamofire', '~> 4.9.1'
-    pod 'AlamofireImage', '~> 3.6.0'
-    pod 'AlamofireNetworkActivityIndicator', '~> 2.4.0'
-    pod 'AlamofireObjectMapper', '~> 5.2.1'
+  api_pods
+  shared_pods
+end
 
-    # Data Parsing
-    pod 'SwiftyJSON'
-    pod 'ObjectMapper', :inhibit_warnings => true
-
-    # Security
-    pod 'Valet'
-    
-    # Data
-#    pod 'RealmSwift', '3.10.0'
-#    pod 'ObjectMapper+Realm', '0.6'
-
-    # Rx
-#    pod 'RxSwift', '4.3.1'
-#    pod 'RxCocoa', '4.3.1'
-#    pod 'RxDataSources', '3.1.0'
-#    pod 'RxRealm', '0.7.5'
-
-    # Dev Tools
-    pod 'SwiftLint'
-
-    target 'RaceSyncAPITests' do
-        inherit! :search_paths
-    end
+target 'RaceSyncAPITests' do
+  api_pods
+  shared_pods
 end
 
 post_install do |pi|
     pi.pods_project.targets.each do |t|
       t.build_configurations.each do |config|
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '9.0'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
       end
     end
 end

@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xl9-lg-qP6">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19455" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="xl9-lg-qP6">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19454"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -11,23 +13,23 @@
             <objects>
                 <viewController id="xl9-lg-qP6" customClass="LoginViewController" customModule="RaceSync" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="H1y-xF-zMX">
-                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="multigp_logo_splash" translatesAutoresizingMaskIntoConstraints="NO" id="f4o-uc-HAl">
-                                <rect key="frame" x="141" y="499" width="318" height="101"/>
+                                <rect key="frame" x="141" y="761" width="132" height="101"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="101" id="gJP-Ax-u2j"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="POWERED BY" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FDW-Yv-sbc">
-                                <rect key="frame" x="261" y="474" width="78" height="15"/>
+                                <rect key="frame" x="168" y="736" width="78" height="15"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                 <color key="textColor" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="racesync_logo_splash" translatesAutoresizingMaskIntoConstraints="NO" id="HUg-Wc-UcN">
-                                <rect key="frame" x="27" y="308" width="546" height="87"/>
+                                <rect key="frame" x="27" y="352" width="360" height="87"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="87" id="FVy-Do-BIx"/>
                                 </constraints>
@@ -60,7 +62,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="multigp_logo_splash" width="128" height="128"/>
-        <image name="racesync_logo_splash" width="128" height="128"/>
+        <image name="multigp_logo_splash" width="220" height="220"/>
+        <image name="racesync_logo_splash" width="360" height="86"/>
     </resources>
 </document>

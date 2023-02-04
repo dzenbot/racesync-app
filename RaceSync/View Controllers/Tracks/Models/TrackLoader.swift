@@ -44,8 +44,11 @@ fileprivate extension TrackLoader {
 
         var tracks = [Track]()
         for dict in array {
-            if let track = Track.init(JSON: dict) {
+            do {
+                let track = try Track.init(JSON: dict)
                 tracks += [track]
+            }  catch {
+                Clog.log("error parsing track objects: \(error.localizedDescription)")
             }
         }
 

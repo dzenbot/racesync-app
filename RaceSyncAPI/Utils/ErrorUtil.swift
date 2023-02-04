@@ -24,19 +24,24 @@ class ErrorUtil {
             return generalError
         }
 
-        let status: Bool? = value[ParameterKey.status] as? Bool
-        let description: String? = value[ParameterKey.statusDescription] as? String
-        let httpStatus: Int? = value[ParameterKey.httpStatus] as? Int
+        let status: Bool? = value[ParamKey.status] as? Bool
+        let description: String? = value[ParamKey.statusDescription] as? String
+        let httpStatus: Int = value[ParamKey.httpStatus] as? Int ?? 0
 
-        if let status = status, status == false, let description = description, let httpStatus = httpStatus {
+        if let errorsDict = value[ParamKey.errors] as? [String: Any] {
+            if let errors = errorsDict.values.first as? [String] {
+                let errorStr = errors.joined(separator: " ")
+                return NSError(domain: "Error", code: httpStatus, userInfo: [NSLocalizedDescriptionKey : errorStr])
+            }
+        } else if let status = status, status == false, let description = description {
             return NSError(domain: "Error", code: httpStatus, userInfo: [NSLocalizedDescriptionKey : description])
         } else if let status = status, status == false {
             return undefinedError
         } else if let apiError = ApiError.from(JSON: value) {
             return formError(apiError)
-        } else {
-            return generalError
         }
+
+        return generalError
     }
 
     static func errors(fromJSONString string: String) -> [NSError]? {
@@ -48,15 +53,15 @@ class ErrorUtil {
 
         var errors = [NSError]()
 
-        for (_, value) in json[ParameterKey.errors] {
+        for (_, value) in json[ParamKey.errors] {
             if let content = value.array?.first, let description = content.string {
                 errors += [generateError(description, withCode: .malfunction)]
             }
         }
 
         // Looking for false status responses
-        if let status = json[ParameterKey.status].rawValue as? Bool, status == false,
-           let description = json[ParameterKey.statusDescription].rawValue as? String {
+        if let status = json[ParamKey.status].rawValue as? Bool, status == false,
+           let description = json[ParamKey.statusDescription].rawValue as? String {
             errors += [generateError(description, withCode: .malfunction)]
         }
 

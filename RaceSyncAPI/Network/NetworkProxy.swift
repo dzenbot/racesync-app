@@ -10,7 +10,8 @@ import Foundation
 
 var requestCount = 0
 
-// TODO: Replace 'www' with 'ppt' when using Dev env
+// TODO: Implement so the request count tracking can be done.
+// Maybe use the proxy for other things too? like override environment endpoints on the fly?
 public class NetworkProxy: URLProtocol {
 
     public override class func canInit(with request: URLRequest) -> Bool {

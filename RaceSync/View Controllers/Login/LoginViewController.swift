@@ -32,7 +32,7 @@ class LoginViewController: UIViewController {
 
     fileprivate lazy var titleLabel: UILabel = {
         let label = UILabel()
-        label.text = APIServices.shared.settings.isDev ? "Login with test.MultiGP" : "Login with MultiGP"
+        label.text = titleText
         label.font = UIFont.systemFont(ofSize: 13, weight: .medium)
         label.textColor = Color.gray200
         return label
@@ -136,6 +136,10 @@ class LoginViewController: UIViewController {
         get { return loginFormView.superview == nil }
     }
 
+    fileprivate var titleText: String? {
+        return APIServices.shared.settings.isDev ? "Login with ppt.MultiGP" : "Login with MultiGP"
+    }
+
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
         static let loginFormHeight: CGFloat = 320
@@ -165,12 +169,16 @@ class LoginViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        if shouldShowForm && !APIServices.shared.isLoggedIn {
-            setupLayout()
-        } else {
-            // resetting API object, for when logging out
-            authApi = AuthApi()
-            titleLabel.text = APIServices.shared.settings.isDev ? "Login with test.MultiGP" : "Login with MultiGP"
+        if !APIServices.shared.isLoggedIn {
+            if shouldShowForm {
+                setupLayout()
+            } else {
+                // resetting API object, for when logging out
+                authApi = AuthApi()
+
+                // resetting title label, in case of env switch
+                titleLabel.text = titleText
+            }
         }
     }
 
@@ -181,6 +189,10 @@ class LoginViewController: UIViewController {
         if APIServices.shared.isLoggedIn {
             presentHome()
         } else {
+            // Pre-populate development credentials, if applicable
+            emailField.text = APIServices.shared.credential.email
+            passwordField.text = APIServices.shared.credential.password
+
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + DispatchTimeInterval.milliseconds(250)) {
                 self.emailField.becomeFirstResponder()
             }
@@ -191,15 +203,8 @@ class LoginViewController: UIViewController {
 
     fileprivate func setupLayout() {
 
-        title = "Login"
-
         let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapView))
         view.addGestureRecognizer(tapGestureRecognizer)
-
-        if !APIServices.shared.isLoggedIn {
-            emailField.text = APIServices.shared.credential.email
-            passwordField.text = APIServices.shared.credential.password
-        }
 
         view.insertSubview(loginFormView, belowSubview: racesyncLogoView)
         loginFormView.snp.makeConstraints {
@@ -277,38 +282,19 @@ class LoginViewController: UIViewController {
     }
 
     @objc func didPressPasswordRecoveryButton() {
-        WebViewController.open(.passwordReset)
+        WebViewController.openUrl(AppWebConstants.passwordReset)
     }
 
     @objc func didPressCreateAccountButton() {
-        WebViewController.open(.accountRegistration)
+        WebViewController.openUrl(AppWebConstants.accountRegistration)
     }
 
     @objc func didPressLoginButton() {
-        guard let email = emailField.text else { shakeLoginButton(); return }
-        guard Validator.isEmail().apply(email) else { shakeLoginButton(); return }
-
-        guard let password = passwordField.text else { shakeLoginButton(); return }
-        guard !Validator.isEmpty().apply(password) else { shakeLoginButton(); return }
-
-        // Invalidate the form momentairly
-        freezeLoginForm()
-        loginButton.isLoading = true
-
-        // Login
-        authApi.login(email, password: password) { [weak self] (status, error) in
-            if let error = error {
-                self?.freezeLoginForm(false)
-                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
-            } else if status {
-                self?.presentHome(transition: .flipHorizontal)
-            }
-            self?.loginButton.isLoading = false
-        }
+        shouldLogin()
     }
 
     @objc func didPressLegalButton() {
-        WebViewController.open(.termsOfUse)
+        WebViewController.openUrl(AppWebConstants.termsOfUse)
     }
 
     @objc func keyboardWillShow(_ notification: Notification) {
@@ -366,6 +352,31 @@ class LoginViewController: UIViewController {
         isKeyboardVisible = false
     }
 
+    // MARK: - Events
+
+    func shouldLogin() {
+        guard let email = emailField.text else { shakeLoginButton(); return }
+        guard Validator.isEmail().apply(email) else { shakeLoginButton(); return }
+
+        guard let password = passwordField.text else { shakeLoginButton(); return }
+        guard !Validator.isEmpty().apply(password) else { shakeLoginButton(); return }
+
+        // Invalidate the form momentairly
+        freezeLoginForm()
+        loginButton.isLoading = true
+
+        // Login
+        authApi.login(email, password: password) { [weak self] (status, error) in
+            if let error = error {
+                self?.freezeLoginForm(false)
+                AlertUtil.presentAlertMessage(error.localizedDescription, title: "Error")
+            } else if status {
+                self?.presentHome(transition: .flipHorizontal)
+            }
+            self?.loginButton.isLoading = false
+        }
+    }
+
     // MARK: - Transitions
 
     func shakeLoginButton() {
@@ -420,6 +431,19 @@ extension LoginViewController: UITextFieldDelegate {
             passwordField.becomeFirstResponder()
         } else if textField == passwordField {
             didPressLoginButton()
+        }
+
+        return true
+    }
+
+    func textFieldShouldClear(_ textField: UITextField) -> Bool {
+
+        // reset value of each other text field
+        if textField == emailField, let txt = passwordField.text, txt.count > 0 {
+            passwordField.text = ""
+        }
+        if textField == passwordField, let txt = emailField.text, txt.count > 0 {
+            emailField.text = ""
         }
 
         return true

@@ -12,14 +12,14 @@ import ObjectMapper
 public class RaceEntry: Mappable, Descriptable {
 
     public var id: ObjectId = ""
-    public var pilotId: String = ""
+    public var pilotId: ObjectId = ""
     public var pilotUserName: String = ""
     public var pilotName: String = ""
     public var userName: String = ""
     public var displayName: String = ""
     public var firstName: String = ""
     public var lastName: String = ""
-    public var scannableId: String?
+    public var scannableId: ObjectId?
     public var score: String?
     public var profilePictureUrl: String?
 
@@ -35,7 +35,7 @@ public class RaceEntry: Mappable, Descriptable {
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id", "pilotId", "aircraftId"]
+    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.pilotId, ParamKey.aircraftId]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -47,26 +47,26 @@ public class RaceEntry: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
-        pilotId <- map["pilotId"]
-        pilotUserName <- map["pilotUserName"]
-        pilotName <- map["pilotName"]
-        userName <- map["userName"]
-        displayName <- map["displayName"]
-        firstName <- map["firstName"]
-        lastName <- map["lastName"]
-        scannableId <- map["scannableId"]
-        score <- map["score"]
-        profilePictureUrl <- map["profilePictureUrl"]
+        id <- map[ParamKey.id]
+        pilotId <- map[ParamKey.pilotId]
+        pilotUserName <- map[ParamKey.pilotUserName]
+        pilotName <- map[ParamKey.pilotName]
+        userName <- map[ParamKey.userName]
+        displayName <- map[ParamKey.displayName]
+        firstName <- map[ParamKey.firstName]
+        lastName <- map[ParamKey.lastName]
+        scannableId <- map[ParamKey.scannableId]
+        score <- map[ParamKey.score]
+        profilePictureUrl <- map[ParamKey.profilePictureUrl]
 
-        frequency <- map["frequency"]
-        group <- map["group"]
-        groupSlot <- map["groupSlot"]
-        band <- map["band"]
-        channel <- map["channel"]
-        videoTxType <- (map["videoTransmitter"],EnumTransform<VideoTxType>())
+        frequency <- map[ParamKey.frequency]
+        group <- map[ParamKey.group]
+        groupSlot <- map[ParamKey.groupSlot]
+        band <- map[ParamKey.band]
+        channel <- map[ParamKey.channel]
+        videoTxType <- (map[ParamKey.videoTransmitter],EnumTransform<VideoTxType>())
 
-        aircraftId <- map["aircraftId"]
-        aircraftName <- map["aircraftName"]
+        aircraftId <- map[ParamKey.aircraftId]
+        aircraftName <- map[ParamKey.aircraftName]
     }
 }

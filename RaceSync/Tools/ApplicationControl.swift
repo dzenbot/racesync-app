@@ -23,10 +23,15 @@ class ApplicationControl: NSObject {
 
     // MARK: - Public Methods
 
-    func invalidateSession() {
+    func invalidateSession(forced: Bool = false) {
         guard let window = UIApplication.shared.delegate?.window else { return }
 
-        APISessionManager.invalidateSession()
+        if forced {
+            APISessionManager.invalidateSession()
+        } else {
+            APISessionManager.invalidateSessionId() // doesn't remove email & pwd
+        }
+
         APIServices.shared.invalidate()
         CrashCatcher.invalidateUser()
         invalidateWatchSession()
@@ -36,10 +41,11 @@ class ApplicationControl: NSObject {
         rootViewController?.dismiss(animated: true)
     }
 
-    func logout(switchTo environment: APIEnvironment = .prod) {
+    // Default environment value is based on the existing environment
+    func logout(switchTo environment: APIEnvironment = APIServices.shared.settings.environment, forced: Bool = false) {
         authApi.logout { [weak self] (status, error) in
             if error == nil {
-                self?.invalidateSession()
+                self?.invalidateSession(forced: forced)
             }
 
             if status {
@@ -66,8 +72,8 @@ extension ApplicationControl {
 
     func invalidateWatchSession() {
         let userInfo: [String: Any] = [
-            WParameterKey.invalidate: true,
-            WParameterKey.forceSend : Date()
+            WParamKey.invalidate: true,
+            WParamKey.forceSend : Date()
         ]
 
         sendUserInfoToWatch(userInfo)
@@ -81,20 +87,20 @@ extension ApplicationControl {
         // If the dictionary doesn't change, subsequent calls to updateApplicationContext won't trigger
         // a corresponding call to didReceiveApplicationContext. Passing a unique Date() helps forcing an update.
         var userInfo: [String: Any] = [
-            WParameterKey.id: user.id,
-            WParameterKey.name: user.userName,
-            WParameterKey.qrData: qrImg.jpegData(compressionQuality: 0.7)!,
-            WParameterKey.forceSend: Date()
+            WParamKey.id: user.id,
+            WParamKey.name: user.userName,
+            WParamKey.qrData: qrImg.jpegData(compressionQuality: 0.7)!,
+            WParamKey.forceSend: Date()
         ]
 
         // Use emojis for countries
         if let country = user.country, !country.isEmpty {
-            userInfo[WParameterKey.name] = "\(user.userName) \(FlagEmojiGenerator.flag(country: country))"
+            userInfo[WParamKey.name] = "\(user.userName) \(FlagEmojiGenerator.flag(country: country))"
         }
 
         if let userProfileUrl = APIServices.shared.myUser?.miniProfilePictureUrl,
            let img = ImageNetworking.cachedImage(for: userProfileUrl)?.circular(with: Color.black) {
-            userInfo[WParameterKey.avatarData] = img.jpegData(compressionQuality: 0.7)!
+            userInfo[WParamKey.avatarData] = img.jpegData(compressionQuality: 0.7)!
         }
 
         sendUserInfoToWatch(userInfo)

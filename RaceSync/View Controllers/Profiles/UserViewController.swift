@@ -17,8 +17,6 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
     // MARK: - Private Variables
 
-    fileprivate let shouldShowStats: Bool = false
-
     fileprivate lazy var qrButton: UIButton = {
         let button = UIButton(type: .system)
         button.addTarget(self, action: #selector(didPressQRButton), for: .touchUpInside)
@@ -43,6 +41,20 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
         return button
     }()
+
+    fileprivate func raceViewModel(for index: Int) -> RaceViewModel? {
+        if index >= 0, index < raceViewModels.count {
+            return raceViewModels[index]
+        }
+        return nil
+    }
+
+    fileprivate func chapterViewModel(for index: Int) -> ChapterViewModel? {
+        if index >= 0, index < chapterViewModels.count {
+            return chapterViewModels[index]
+        }
+        return nil
+    }
 
     fileprivate let user: User
     fileprivate let raceApi = RaceApi()
@@ -88,12 +100,6 @@ class UserViewController: ProfileViewController, ViewJoinable {
         super.viewDidLoad()
 
         configureBarButtonItems()
-
-        // TODO: Remove once https://github.com/MultiGP/racesync-api/issues/11 is addressed
-        if !shouldShowStats {
-            headerView.hideLeftBadgeButton(true)
-            headerView.hideRightBadgeButton(true)
-        }
 
         tableView.register(cellType: UserRaceTableViewCell.self)
         tableView.register(cellType: ChapterTableViewCell.self)
@@ -166,14 +172,12 @@ class UserViewController: ProfileViewController, ViewJoinable {
     }
 
     override func didSelectRow(at indexPath: IndexPath) {
-        if selectedSegment == .left {
-            let viewModel = raceViewModels[indexPath.row]
-            let eventTVC = RaceTabBarController(with: viewModel.race.id)
-            navigationController?.pushViewController(eventTVC, animated: true)
-        } else {
-            let viewModel = chapterViewModels[indexPath.row]
-            let eventTVC = ChapterViewController(with: viewModel.chapter)
-            navigationController?.pushViewController(eventTVC, animated: true)
+        if selectedSegment == .left, let viewModel = raceViewModel(for: indexPath.row) {
+            let vc = RaceTabBarController(with: viewModel.race.id)
+            navigationController?.pushViewController(vc, animated: true)
+        } else if selectedSegment == .right, let viewModel = chapterViewModel(for: indexPath.row) {
+            let vc = ChapterViewController(with: viewModel.chapter)
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 
@@ -182,13 +186,13 @@ class UserViewController: ProfileViewController, ViewJoinable {
     }
 
     @objc func didPressAircraftButton() {
-        let aircraftVC = AircraftListViewController(with: user)
-        aircraftVC.isEditable = user.isMe
-        navigationController?.pushViewController(aircraftVC, animated: true)
+        let vc = AircraftListViewController(with: user)
+        vc.isEditable = user.isMe
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc func didPressQRButton() {
-        let QRVC = QRViewController(with: user.id)
+        let vc = QRViewController(with: user.id)
 
         let presenter = Presentr(presentationType: .fullScreen)
         presenter.blurBackground = false
@@ -200,7 +204,7 @@ class UserViewController: ProfileViewController, ViewJoinable {
         presenter.backgroundTap = .dismiss
         presenter.outsideContextTap = .passthrough
 
-        customPresentViewController(presenter, viewController: QRVC, animated: true)
+        customPresentViewController(presenter, viewController: vc, animated: true)
         self.presenter = presenter
     }
 
@@ -221,10 +225,9 @@ class UserViewController: ProfileViewController, ViewJoinable {
 
         let activities: [UIActivity] = [CopyLinkActivity(), MultiGPActivity()]
 
-        let activityVC = UIActivityViewController(activityItems:  [userURL], applicationActivities: activities)
-        activityVC.excludeAllActivityTypes(except: [.airDrop])
-
-        present(activityVC, animated: true)
+        let vc = UIActivityViewController(activityItems:  [userURL], applicationActivities: activities)
+        vc.excludeAllActivityTypes(except: [.airDrop])
+        present(vc, animated: true)
     }
 }
 
@@ -232,10 +235,10 @@ fileprivate extension UserViewController {
 
     func loadRaces() {
         if raceViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchRaces { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
             }
         } else {
             tableView.reloadData()
@@ -257,10 +260,10 @@ fileprivate extension UserViewController {
 
     func loadChapters() {
         if chapterViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchChapters { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
             }
         } else {
             tableView.reloadData()
@@ -319,9 +322,10 @@ extension UserViewController: UITableViewDataSource {
     }
 
     func userRaceTableViewCell(for indexPath: IndexPath) -> UserRaceTableViewCell {
-        let viewModel = raceViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as UserRaceTableViewCell
-        cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
+        guard let viewModel = raceViewModel(for: indexPath.row) else { return cell }
+
+        cell.dateLabel.text = viewModel.startDateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
         cell.joinButton.type = .race
         cell.joinButton.objectId = viewModel.race.id
@@ -333,8 +337,9 @@ extension UserViewController: UITableViewDataSource {
     }
 
     func chapterTableViewCell(for indexPath: IndexPath) -> ChapterTableViewCell {
-        let viewModel = chapterViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as ChapterTableViewCell
+        guard let viewModel = chapterViewModel(for: indexPath.row) else { return cell }
+
         cell.titleLabel.text = viewModel.titleLabel
         cell.subtitleLabel.text = viewModel.locationLabel
         cell.avatarImageView.imageView.setImage(with: viewModel.imageUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
@@ -369,6 +374,15 @@ extension UserViewController: EmptyDataSetSource {
     }
 
     func verticalOffset(forEmptyDataSet scrollView: UIScrollView) -> CGFloat {
+
+        let headerViewHeight = headerView.systemLayoutSizeFitting(UIView.layoutFittingCompressedSize).height
+        let segmentedControlHeight = SegmentedTableViewHeaderView.headerHeight
+        let tableViewHeaderHeight = headerViewHeight + segmentedControlHeight + Constants.padding*2
+
+        // Add a small difference to align for smaller screens
+        if scrollView.frame.height/2 < tableViewHeaderHeight {
+            return -(scrollView.frame.height/2 - tableViewHeaderHeight) * 4
+        }
         return 0
     }
 }

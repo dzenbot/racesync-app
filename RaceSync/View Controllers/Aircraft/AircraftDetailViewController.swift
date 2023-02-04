@@ -87,7 +87,7 @@ class AircraftDetailViewController: UIViewController {
         didSet { title = aircraftViewModel.displayName }
     }
     fileprivate let aircraftApi = AircraftApi()
-    fileprivate var selectedRow: AircraftRow?
+    fileprivate var selectedRow: AircraftFormRow?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -182,31 +182,30 @@ class AircraftDetailViewController: UIViewController {
 
 fileprivate extension AircraftDetailViewController {
 
-    func presentPicker(forRow row: AircraftRow) {
-        let items = row.aircraftSpecValues
-        let selectedItem = row.specValue(from: aircraftViewModel)
-        let defaultItem = row.defaultAircraftSpecValue
+    func presentPicker(forRow row: AircraftFormRow) {
+        let items = row.values
+        let selectedItem = row.value(from: aircraftViewModel) ?? row.defaultValue
 
         let presenter = Appearance.defaultPresenter()
-        let pickerVC = PickerViewController(with: items, selectedItem: selectedItem, defaultItem: defaultItem)
-        pickerVC.delegate = self
-        pickerVC.title = "Update \(row.title)"
+        let vc = TextPickerViewController(with: items, selectedItem: selectedItem)
+        vc.delegate = self
+        vc.title = "Update \(row.title)"
 
-        let formdNC = NavigationController(rootViewController: pickerVC)
-        customPresentViewController(presenter, viewController: formdNC, animated: true)
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: true)
     }
 
-    func presentTextField(forRow row: AircraftRow) {
-        let text = row.specValue(from: aircraftViewModel)
+    func presentTextField(forRow row: AircraftFormRow) {
+        let text = row.value(from: aircraftViewModel)
 
         let presenter = Appearance.defaultPresenter()
-        let textFieldVC = TextFieldViewController(with: text)
-        textFieldVC.delegate = self
-        textFieldVC.title = "Update \(row.title)"
-        textFieldVC.textField.placeholder = "Aircraft Name"
+        let vc = TextFieldViewController(with: text)
+        vc.delegate = self
+        vc.title = "Update \(row.title)"
+        vc.textField.placeholder = "Aircraft Name"
 
-        let formdNC = NavigationController(rootViewController: textFieldVC)
-        customPresentViewController(presenter, viewController: formdNC, animated: true)
+        let nc = NavigationController(rootViewController: vc)
+        customPresentViewController(presenter, viewController: nc, animated: true)
     }
 
     func deleteAircraft() {
@@ -228,7 +227,7 @@ extension AircraftDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
 
-        guard let row = AircraftRow(rawValue: indexPath.row) else { return }
+        guard let row = AircraftFormRow(rawValue: indexPath.row) else { return }
         guard isEditable else { return }
 
         if row == .name {
@@ -244,14 +243,14 @@ extension AircraftDetailViewController: UITableViewDelegate {
 extension AircraftDetailViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return isLoading ? 0 : AircraftRow.allCases.count
+        return isLoading ? 0 : AircraftFormRow.allCases.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as FormTableViewCell
-        guard let row = AircraftRow(rawValue: indexPath.row) else { return cell }
+        guard let row = AircraftFormRow(rawValue: indexPath.row) else { return cell }
 
-        if row.isAircraftSpecRequired, isEditable {
+        if row.isRowRequired, isEditable {
             cell.textLabel?.text = row.title + " *"
         } else {
             cell.textLabel?.text = row.title
@@ -281,8 +280,8 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
 
         if viewController.formType == .textfield {
             handleTextfieldVC(viewController, selection: item)
-        } else if viewController.formType == .picker {
-            handlePickerVC(viewController, selection: item)
+        } else if viewController.formType == .textPicker {
+            handleTextPickerVC(viewController, selection: item)
         }
     }
 
@@ -291,7 +290,7 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         guard item.count >= Aircraft.nameMinLength else { return false }
         guard item.count < Aircraft.nameMaxLength else { return false }
         
-        if row.isAircraftSpecRequired {
+        if row.isRowRequired {
             return !item.isEmpty
         }
 
@@ -305,15 +304,15 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
     func handleTextfieldVC(_ viewController: FormBaseViewController, selection item: String) {
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
-        let specs = AircraftSpecs()
-        specs.name = item
+        let aircraftData = AircraftData()
+        aircraftData.name = item
 
         viewController.isLoading = true
 
-        aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: specs) {  [weak self] (status, error) in
+        aircraftApi.update(aircraft: aircraftViewModel.aircraftId, with: aircraftData) {  [weak self] (status, error) in
             guard let strongSelf = self else { return }
             if status {
-                let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: AircraftRow.name)
+                let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: AircraftFormRow.name)
                 strongSelf.handleAircraftUpdate(updatedAircraft, from: viewController)
             } else if let error = error {
                 viewController.isLoading = false
@@ -322,32 +321,32 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         }
     }
 
-    func handlePickerVC(_ viewController: FormBaseViewController, selection item: String) {
+    func handleTextPickerVC(_ viewController: FormBaseViewController, selection item: String) {
         guard let row = selectedRow else { return }
         guard let aircraft = aircraftViewModel.aircraft else { return }
 
-        let specs = AircraftSpecs()
+        let aircraftData = AircraftData()
 
         switch row {
         case .type:
-            specs.type = AircraftType(title: item)?.rawValue
+            aircraftData.type = AircraftType(title: item)?.rawValue
         case .size:
-            specs.size = AircraftSize(title: item)?.rawValue
+            aircraftData.size = AircraftSize(title: item)?.rawValue
         case .battery:
-            specs.battery = BatterySize(title: item)?.rawValue
+            aircraftData.battery = BatterySize(title: item)?.rawValue
         case .propSize:
-            specs.propSize = PropellerSize(title: item)?.rawValue
+            aircraftData.propSize = PropellerSize(title: item)?.rawValue
         case .videoTx:
-            specs.videoTxType = VideoTxType(title: item)?.rawValue
+            aircraftData.videoTxType = VideoTxType(title: item)?.rawValue
         case .antenna:
-            specs.antenna = AntennaPolarization(title: item)?.rawValue
+            aircraftData.antenna = AntennaPolarization(title: item)?.rawValue
         default:
             break
         }
 
         viewController.isLoading = true
 
-        aircraftApi.update(aircraft: aircraft.id, with: specs) { [weak self] (status, error) in
+        aircraftApi.update(aircraft: aircraft.id, with: aircraftData) { [weak self] (status, error) in
             guard let strongSelf = self else { return }
             if status {
                 let updatedAircraft = strongSelf.updateAircraft(aircraft, withItem: item, forRow: row)
@@ -359,7 +358,7 @@ extension AircraftDetailViewController: FormBaseViewControllerDelegate {
         }
     }
 
-    func updateAircraft(_ aircraft: Aircraft, withItem item: String, forRow row: AircraftRow) -> Aircraft {
+    func updateAircraft(_ aircraft: Aircraft, withItem item: String, forRow row: AircraftFormRow) -> Aircraft {
         switch row {
         case .name:
             aircraft.name = item

@@ -32,7 +32,7 @@ class EventTracker {
         rater.shouldPrompAtLaunch = false
 
         // Content configs
-        rater.appId = StringConstants.ApplicationID
+        rater.appId = StringConstants.applicationID
         rater.applicationName = Bundle.main.applicationName
         rater.reviewTitle = "Rate \(Bundle.main.applicationName)"
         rater.reviewMessage = "Please take a moment to rate and review the app on the App Store.\n\nThank you for your support!"

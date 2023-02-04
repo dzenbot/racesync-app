@@ -10,6 +10,15 @@ import UIKit
 import EventKit
 import RaceSyncAPI
 
+struct CalendarEvent {
+    let title: String
+    let location: String
+    let description: String
+    let startDate: Date
+    let endDate: Date?
+    let url: URL?
+}
+
 class CalendarUtil {
 
     static func add(_ event: CalendarEvent) {
@@ -23,7 +32,7 @@ class CalendarUtil {
             ekevent.location = event.location
             ekevent.notes = event.description
             ekevent.startDate = event.startDate
-            ekevent.endDate = event.startDate
+            ekevent.endDate = event.endDate ?? event.startDate
             ekevent.isAllDay = false
             ekevent.url = event.url
 
@@ -36,28 +45,4 @@ class CalendarUtil {
             }
         }
     }
-}
-
-extension Race {
-
-    var calendarEvent: CalendarEvent? {
-        guard let startDate = startDate, let address = address, let raceUrl = URL(string: url) else {
-            return nil
-        }
-
-        guard startDate.timeIntervalSinceNow.sign == .plus else {
-            return nil
-        }
-
-        return CalendarEvent(title: name, location: address, description: description, startDate: startDate, url: raceUrl)
-
-    }
-}
-
-struct CalendarEvent {
-    let title: String
-    let location: String
-    let description: String
-    let startDate: Date
-    let url: URL?
 }

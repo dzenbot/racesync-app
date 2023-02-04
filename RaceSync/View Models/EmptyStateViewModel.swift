@@ -161,8 +161,6 @@ struct EmptyStateViewModel: EmptyStateViewModelInterface {
         switch emptyState {
         case .noJoinedRaces:
             text = "Search Nearby Races"
-        case .noNearbydRaces:
-            text = "Adjust Radius"
         case .noSeriesRaces:
             text = "View \(Date().lastYear()) GQ Races"
         case .noRaceRegisters:

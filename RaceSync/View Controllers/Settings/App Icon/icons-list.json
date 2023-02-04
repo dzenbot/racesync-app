@@ -1,18 +1,18 @@
 [
     {
-        "title": "Red (Default)",
+        "title": "White (Default)",
         "type": 1,
         "name": null,
     },
     {
-        "title": "Blue",
+        "title": "Red",
         "type": 1,
-        "name": "Blue",
+        "name": "MGP1",
     },
     {
-        "title": "White",
+        "title": "Blue",
         "type": 1,
-        "name": "White",
+        "name": "MGP2",
     },
     {
         "title": "KwadsRUs Racing Club",

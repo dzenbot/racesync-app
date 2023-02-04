@@ -122,9 +122,9 @@ class AircraftListViewController: UIViewController {
     // MARK: - Actions
 
     @objc func didPressCreateButton() {
-        let newAircraftVC = NewAircraftViewController()
-        newAircraftVC.delegate = self
-        navigationController?.pushViewController(newAircraftVC, animated: true)
+        let vc = AircraftFormViewController()
+        vc.delegate = self
+        navigationController?.pushViewController(vc, animated: true)
     }
 }
 
@@ -153,11 +153,11 @@ extension AircraftListViewController {
     }
 
     func showAircraftDetail(_ aircraftViewModel: AircraftViewModel, isNew: Bool = false, animated: Bool = true) {
-        let aircraftDetailVC = AircraftDetailViewController(with: aircraftViewModel)
-        aircraftDetailVC.delegate = self
-        aircraftDetailVC.isEditable = isEditable
-        aircraftDetailVC.isNew = isNew
-        navigationController?.pushViewController(aircraftDetailVC, animated: animated)
+        let vc = AircraftDetailViewController(with: aircraftViewModel)
+        vc.delegate = self
+        vc.isEditable = isEditable
+        vc.isNew = isNew
+        navigationController?.pushViewController(vc, animated: animated)
     }
 
     func deleteAircraft(_ viewModel: AircraftViewModel) {
@@ -261,9 +261,9 @@ extension AircraftListViewController: AircraftDetailViewControllerDelegate {
     }
 }
 
-extension AircraftListViewController: NewAircraftViewControllerDelegate {
+extension AircraftListViewController: AircraftFormViewControllerDelegate {
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
+    func aircraftFormViewController(_ viewController: AircraftFormViewController, didCreateAircraft aircraft: Aircraft) {
 
         let newViewModel = AircraftViewModel(with: aircraft)
 
@@ -273,11 +273,11 @@ extension AircraftListViewController: NewAircraftViewControllerDelegate {
         showAircraftDetail(newViewModel, isNew: true, animated: false)
     }
 
-    func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {
+    func aircraftFormViewControllerDidDismiss(_ viewController: AircraftFormViewController) {
         //
     }
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]? {
+    func aircraftFormViewController(_ viewController: AircraftFormViewController, valuesFor row: AircraftFormRow) -> [String]? {
         return nil
     }
 }
@@ -332,7 +332,7 @@ extension AircraftListViewController: EmptyDataSetDelegate {
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
 
         if emptyStateError != nil {
-            guard let url = MGPWeb.getPrefilledFeedbackFormUrl() else { return }
+            guard let url = AppWebConstants.getPrefilledFeedbackFormUrl() else { return }
             WebViewController.openUrl(url)
         } else {
             didPressCreateButton()

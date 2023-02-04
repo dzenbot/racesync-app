@@ -25,6 +25,20 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         return button
     }()
 
+    fileprivate func raceViewModel(for index: Int) -> RaceViewModel? {
+        if index >= 0, index < raceViewModels.count {
+            return raceViewModels[index]
+        }
+        return nil
+    }
+
+    fileprivate func userViewModel(for index: Int) -> UserViewModel? {
+        if index >= 0, index < userViewModels.count {
+            return userViewModels[index]
+        }
+        return nil
+    }
+
     fileprivate let chapter: Chapter
     fileprivate let raceApi = RaceApi()
     fileprivate let chapterApi = ChapterApi()
@@ -37,7 +51,10 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     fileprivate var emptyStateRaces = EmptyStateViewModel(.noRaces)
     fileprivate var emptyStateUsers = EmptyStateViewModel(.commingSoon)
 
-    fileprivate var canCreateRaces: Bool = false
+    fileprivate var canCreateRaces: Bool {
+        guard chapter.isMyChapter else { return false }
+        return true
+    }
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -77,11 +94,19 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
         tableView.emptyDataSetSource = self
         tableView.emptyDataSetDelegate = self
 
-        loadRaces()
+        if selectedSegment == .left {
+            loadRaces()
+        } else {
+            loadUsers()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+
+        if selectedSegment == .left && !raceViewModels.isEmpty {
+            fetchRaces()
+        }
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -105,7 +130,7 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
 
         var buttons = [UIButton]()
 
-        if chapter.isMyChapter && canCreateRaces {
+        if canCreateRaces {
             let addButton = CustomButton(type: .system)
             addButton.addTarget(self, action: #selector(didPressAddButton), for: .touchUpInside)
             addButton.setImage(ButtonImg.add, for: .normal)
@@ -144,30 +169,33 @@ class ChapterViewController: ProfileViewController, ViewJoinable {
     override func didPressLocationButton() {
         guard let coordinates = chapterCoordinates else { return }
 
-        let mapVC = MapViewController(with: coordinates, address: profileViewModel.locationName)
-        mapVC.title = "Chapter Location"
-        mapVC.showsDirection = false
-        let mapNC = NavigationController(rootViewController: mapVC)
+        let vc = MapViewController(with: coordinates, address: profileViewModel.locationName)
+        vc.title = "Chapter Location"
+        vc.showsDirection = false
+        let nc = NavigationController(rootViewController: vc)
 
-        present(mapNC, animated: true)
+        present(nc, animated: true)
     }
 
     override func didSelectRow(at indexPath: IndexPath) {
-        if selectedSegment == .left {
-            let viewModel = raceViewModels[indexPath.row]
-            let eventTVC = RaceTabBarController(with: viewModel.race.id) // pass the actual model object instead
-            navigationController?.pushViewController(eventTVC, animated: true)
-        } else {
-            let viewModel = userViewModels[indexPath.row]
-            if let user = viewModel.user {
-                let userVC = UserViewController(with: user)
-                navigationController?.pushViewController(userVC, animated: true)
-            }
+        if selectedSegment == .left, let viewModel = raceViewModel(for: indexPath.row) {
+            let vc = RaceTabBarController(with: viewModel.race.id) // TODO: Pass the actual model object instead
+            navigationController?.pushViewController(vc, animated: true)
+        } else if selectedSegment == .right, let viewModel = userViewModel(for: indexPath.row), let user = viewModel.user {
+            let vc = UserViewController(with: user)
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
 
     @objc func didPressAddButton() {
-        // Unimplemented
+        guard let chapters = APIServices.shared.myManagedChapters, chapters.count > 0 else { return }
+
+        let vc = RaceFormViewController(with: chapters, selectedChapterId: chapter.id, selectedChapterName: chapter.name)
+        vc.delegate = self
+        
+        let nc = NavigationController(rootViewController: vc)
+        nc.modalPresentationStyle = .fullScreen
+        present(nc, animated: true)
     }
 
     @objc func didPressCloseButton() {
@@ -179,10 +207,10 @@ fileprivate extension ChapterViewController {
 
     func loadRaces() {
         if raceViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchRaces { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
             }
         } else {
             tableView.reloadData()
@@ -210,10 +238,10 @@ fileprivate extension ChapterViewController {
 
     func loadUsers() {
         if userViewModels.isEmpty {
-            isLoading(true)
+            isLoadingList(true)
 
             fetchUsers { [weak self] in
-                self?.isLoading(false)
+                self?.isLoadingList(false)
             }
         } else {
             tableView.reloadData()
@@ -261,10 +289,10 @@ fileprivate extension ChapterViewController {
         var activities: [UIActivity] = [CopyLinkActivity(), MultiGPActivity()]
         activities += chapter.socialActivities()
 
-        let activityVC = UIActivityViewController(activityItems: [chapterURL], applicationActivities: activities)
-        activityVC.excludeAllActivityTypes(except: [.airDrop])
+        let vc = UIActivityViewController(activityItems: [chapterURL], applicationActivities: activities)
+        vc.excludeAllActivityTypes(except: [.airDrop])
 
-        present(activityVC, animated: true)
+        present(vc, animated: true)
     }
 }
 
@@ -293,9 +321,10 @@ extension ChapterViewController: UITableViewDataSource {
     }
 
     func raceTableViewCell(for indexPath: IndexPath) -> RaceTableViewCell {
-        let viewModel = raceViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as RaceTableViewCell
-        cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
+        guard let viewModel = raceViewModel(for: indexPath.row) else { return cell }
+
+        cell.dateLabel.text = viewModel.startDateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
         cell.joinButton.type = .race
         cell.joinButton.objectId = viewModel.race.id
@@ -308,12 +337,27 @@ extension ChapterViewController: UITableViewDataSource {
     }
 
     func avatarTableViewCell(for indexPath: IndexPath) -> AvatarTableViewCell {
-        let viewModel = userViewModels[indexPath.row]
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as AvatarTableViewCell
+        guard let viewModel = userViewModel(for: indexPath.row) else { return cell }
+
         cell.titleLabel.text = viewModel.pilotName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
         cell.subtitleLabel.text = viewModel.fullName
         return cell
+    }
+}
+
+extension ChapterViewController: RaceFormViewControllerDelegate {
+
+    func raceFormViewController(_ viewController: RaceFormViewController, didUpdateRace race: Race) {
+        let vc = RaceTabBarController(with: race)
+        vc.isDismissable = true
+
+        viewController.navigationController?.pushViewController(vc, animated: true)
+    }
+
+    func raceFormViewControllerDidDismiss(_ viewController: RaceFormViewController) {
+        viewController.dismiss(animated: true, completion: nil)
     }
 }
 

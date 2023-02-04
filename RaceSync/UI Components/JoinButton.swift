@@ -24,47 +24,13 @@ class JoinButton: CustomButton {
 
     var joinState: JoinState = .join {
         didSet {
-            if isCompact && joinState == .join {
-                isHidden = true
-                return
-            } else {
-                isHidden = false
-            }
-
-            let icon = joinState.icon?.image(withColor: joinState.titleColor.withAlphaComponent(isCompact ? 1 : 0.4))
-
-            setTitle(isCompact ? nil : joinState.title, for: .normal)
-            setTitleColor(joinState.titleColor, for: .normal)
-            setImage(icon, for: .normal)
-            backgroundColor = joinState.fillColor
-            titleLabel?.font = joinState.font
-            tintColor = joinState.titleColor
-            imageView?.tintColor = joinState.titleColor
-            isUserInteractionEnabled = !isCompact
-
-            if let borderColor = joinState.outlineColor {
-                layer.borderColor = borderColor.cgColor
-                layer.borderWidth = 1
-            } else {
-                layer.borderWidth = 0
-            }
+            updateLayout()
         }
     }
 
     var isLoading: Bool = false {
         didSet {
-            spinnerView.isHidden = !isLoading
-            isUserInteractionEnabled = !isLoading
-            animateSpinner(isLoading)
-
-            // Since iOS7, setting titleLabel.hidden doesn't work anymore
-            if isLoading {
-                titleLabel?.removeFromSuperview()
-                imageView?.removeFromSuperview()
-            } else {
-                if let label = titleLabel { addSubview(label) }
-                if let imageView = imageView { addSubview(imageView) }
-            }
+            updateAnimation()
         }
     }
 
@@ -108,6 +74,51 @@ class JoinButton: CustomButton {
         imageEdgeInsets = UIEdgeInsets(top: 0, left: -4, bottom: 0, right: 0)
         contentEdgeInsets = UIEdgeInsets(top: 5, left: 8, bottom: 5, right: 8)
         layer.cornerRadius = 6
+    }
+
+    fileprivate func updateLayout() {
+
+        UIView.performWithoutAnimation {
+            if isCompact && joinState == .join {
+                isHidden = true
+                return
+            } else {
+                isHidden = false
+            }
+
+            let icon = joinState.icon?.image(withColor: joinState.titleColor.withAlphaComponent(isCompact ? 1 : 0.4))
+
+            setTitle(isCompact ? nil : joinState.title, for: .normal)
+            setTitleColor(joinState.titleColor, for: .normal)
+            setImage(icon, for: .normal)
+            backgroundColor = joinState.fillColor
+            titleLabel?.font = joinState.font
+            tintColor = joinState.titleColor
+            imageView?.tintColor = joinState.titleColor
+            isUserInteractionEnabled = !isCompact
+
+            if let borderColor = joinState.outlineColor {
+                layer.borderColor = borderColor.cgColor
+                layer.borderWidth = 1
+            } else {
+                layer.borderWidth = 0
+            }
+        }
+    }
+
+    fileprivate func updateAnimation() {
+        spinnerView.isHidden = !isLoading
+        isUserInteractionEnabled = !isLoading
+        animateSpinner(isLoading)
+
+        // Since iOS7, setting titleLabel.hidden doesn't work anymore
+        if isLoading {
+            titleLabel?.removeFromSuperview()
+            imageView?.removeFromSuperview()
+        } else {
+            if let label = titleLabel { addSubview(label) }
+            if let imageView = imageView { addSubview(imageView) }
+        }
     }
 
     // MARK: - Animation

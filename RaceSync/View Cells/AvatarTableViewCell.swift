@@ -61,7 +61,7 @@ class AvatarTableViewCell: UITableViewCell {
     }()
 
     fileprivate lazy var spinnerView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .white)
+        let view = UIActivityIndicatorView(style: .medium)
         return view
     }()
 

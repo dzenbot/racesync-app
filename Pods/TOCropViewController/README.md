@@ -1,7 +1,7 @@
 # TOCropViewController
 
 <p align="center">
-<img src="https://github.com/TimOliver/TOCropViewController/raw/master/Images/screenshot.jpg" width="900" style="margin:0 auto" />
+<img src="https://github.com/TimOliver/TOCropViewController/raw/main/Images/screenshot.png" width="840" style="margin:0 auto" />
 </p>
 
 [![CI](https://github.com/TimOliver/TOCropViewController/workflows/CI/badge.svg)](https://github.com/TimOliver/TOCropViewController/actions?query=workflow%3ACI)
@@ -9,10 +9,6 @@
 [![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
 [![GitHub license](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/TimOliver/TOCropViewController/master/LICENSE)
 [![Platform](https://img.shields.io/cocoapods/p/TOCropViewController.svg?style=flat)](http://cocoadocs.org/docsets/TOCropViewController)
-[![Beerpay](https://beerpay.io/TimOliver/TOCropViewController/badge.svg?style=flat)](https://beerpay.io/TimOliver/TOCropViewController)
-[![PayPal](https://img.shields.io/badge/paypal-donate-blue.svg)](https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=M4RKULAVKV7K8)
-[![Twitch](https://img.shields.io/badge/twitch-timXD-6441a5.svg)](http://twitch.tv/timXD)
-
 
 `TOCropViewController` is an open-source `UIViewController` subclass to crop out sections of `UIImage` objects, as well as perform basic rotations. It is excellent for things like editing profile pictures, or sharing parts of a photo online. It has been designed with the iOS Photos app editor in mind, and as such, behaves in a way that should already feel familiar to users of iOS.
 
@@ -21,8 +17,10 @@ For Swift developers, `CropViewController` is a Swift wrapper that completely en
 #### Proudly powering apps by
 
 <p align="center">
-<img src="https://github.com/TimOliver/TOCropViewController/raw/master/Images/users.png" width="900" style="margin:0 auto" />
+<img src="https://github.com/TimOliver/TOCropViewController/raw/main/Images/users.png" width="840" style="margin:0 auto" />
 </p>
+
+_Looking for something more? If `TOCropViewController` doesn't meet your exact requirements, please consider [IMG.LY](https://img.ly/?via=tim) with video editing and photo filter capabilities instead! (Disclaimer: Affiliate Link)_
 
 ## Features
 * Crop images by dragging the edges of a grid overlay.
@@ -34,7 +32,7 @@ For Swift developers, `CropViewController` is a Swift wrapper that completely en
 * The choice of having the controller return the cropped image to a delegate, or immediately pass it to a `UIActivityViewController`.
 * A custom animation and layout when the device is rotated to landscape mode.
 * Custom 'opening' and 'dismissal' animations.
-* Localized in 18 languages.
+* Localized in 28 languages.
 
 ## System Requirements
 iOS 8.0 or above
@@ -247,23 +245,6 @@ While traditional cropping UI implementations will usually just have a dimming v
 
 Since there are two views that are overlaid over the image (A dimming view and a translucency view), trying to cut a hole open in both of them would be rather complex. Instead, an image view is placed in a scroll view in the background, and a copy of the image view is placed on top, inside a container view that is clipped to the designated cropping size. The size and position of the foreground image is then made to match the background view, creating the illusion that there is a hole in the dimming views, and minimising the number of views onscreen.
 
-## Supporters
-
-### Sponsors
-
-<a href="https://github.com/marcosgriselli"><img src="https://avatars0.githubusercontent.com/u/14804033?s=460&v=4" width="100" /></a>
-
-### Donations
-
-<p float="left">
-	<a href="https://apps.apple.com/us/app/mematic-the-meme-maker/id491076730">
-	<img src="https://github.com/TimOliver/TOCropViewController/raw/master/Images/Donators/Mematic.jpg" height="100" style="padding-right:20px" />
-	</a>   
-	<a href="https://apps.apple.com/us/app/credminder-credential-manager/id1438352691">
-	<img src="https://github.com/TimOliver/TOCropViewController/raw/master/Images/Donators/CredMinder.jpg" height="100" />
-	</a>
-</p>
-
 ## Credits
 `TOCropViewController` was originally created by [Tim Oliver](http://twitter.com/TimOliverAU) as a component for [iComics](http://icomics.co), a comic reader app for iOS.
 
@@ -272,4 +253,4 @@ Thanks also goes to `TOCropViewController`'s growing list of [contributors](http
 iOS Device mockups used in the screenshot created by [Pixeden](http://www.pixeden.com).
 
 ## License
-TOCropViewController is licensed under the MIT License, please see the [LICENSE](LICENSE) file. ![analytics](https://ga-beacon.appspot.com/UA-5643664-16/TOCropViewController/README.md?pixel)
+TOCropViewController is licensed under the MIT License, please see the [LICENSE](LICENSE) file.

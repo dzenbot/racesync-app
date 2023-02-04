@@ -21,9 +21,6 @@ public class Chapter: Mappable, Joinable, Descriptable {
     public var mainImageUrl: String? //mainImageFileName
     public var backgroundUrl: String? //backgroundFileName
 
-    public var raceCount: String?
-    public var memberCount: String?
-
     public var phone: String = ""
     public var websiteUrl: String = ""
     public var facebookUrl: String?
@@ -45,9 +42,12 @@ public class Chapter: Mappable, Joinable, Descriptable {
     public var ownerId: ObjectId = ""
     public var ownerUserName: String = ""
 
+    public var memberCount: Int32 = 0
+    public var raceCount: Int32 = 0
+
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id", "name"]
+    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -59,48 +59,48 @@ public class Chapter: Mappable, Joinable, Descriptable {
     }
 
     public func mapping(map: Map) {
-        id <- map["id"]
-        name <- map["name"]
-        tier <- map["tier"]
+        id <- map[ParamKey.id]
+        name <- map[ParamKey.name]
+        tier <- map[ParamKey.tier]
         url = MGPWeb.getUrl(for: .chapterView, value: name)
-        urlName <- map["urlName"]
-        description <- map["description"]
-        isJoined <- map["isJoined"]
+        urlName <- map[ParamKey.urlName]
+        description <- map[ParamKey.description]
+        isJoined <- map[ParamKey.isJoined]
 
         // special parsing due to API iconsistencies
-        if let mainImageFileName = map.JSON["mainImageFileName"] as? String, let backgroundFileName = map.JSON["backgroundFileName"] as? String {
-            mainImageUrl <- map["mainImageFileName"]
+        if let mainImageFileName = map.JSON[ParamKey.mainImageFileName] as? String, let backgroundFileName = map.JSON[ParamKey.backgroundFileName] as? String {
+            mainImageUrl <- map[ParamKey.mainImageFileName]
 
-            let array = mainImageFileName.components(separatedBy: "mainImage")
+            let array = mainImageFileName.components(separatedBy: ParamKey.mainImage)
             if let baseUrl = array.first {
                 backgroundUrl = "\(baseUrl)\(backgroundFileName)"
             }
         } else {
-            mainImageUrl <- map["mainImageUrl"]
-            backgroundUrl <- map["backgroundUrl"]
+            mainImageUrl <- map[ParamKey.mainImageUrl]
+            backgroundUrl <- map[ParamKey.backgroundUrl]
         }
 
-        raceCount <- map["raceCount"]
-        memberCount <- map["memberCount"]
+        phone <- map[ParamKey.phone]
+        websiteUrl <- map[ParamKey.url]
+        facebookUrl <- map[ParamKey.facebookUrl]
+        googleUrl <- map[ParamKey.googleUrl]
+        twitterUrl <- map[ParamKey.twitterUrl]
+        youtubeUrl <- map[ParamKey.youtubeUrl]
+        instagramUrl <- map[ParamKey.instagramUrl]
+        meetupUrl <- map[ParamKey.meetupUrl]
 
-        phone <- map["phone"]
-        websiteUrl <- map["url"]
-        facebookUrl <- map["facebookUrl"]
-        googleUrl <- map["googleUrl"]
-        twitterUrl <- map["twitterUrl"]
-        youtubeUrl <- map["youtubeUrl"]
-        instagramUrl <- map["instagramUrl"]
-        meetupUrl <- map["meetupUrl"]
+        address <- map[ParamKey.address]
+        city <- map[ParamKey.city]
+        state <- map[ParamKey.state]
+        country <- map[ParamKey.country]
+        zip <- map[ParamKey.zip]
+        latitude <- map[ParamKey.latitude]
+        longitude <- map[ParamKey.longitude]
 
-        address <- map["address"]
-        city <- map["city"]
-        state <- map["state"]
-        country <- map["country"]
-        zip <- map["zip"]
-        latitude <- map["latitude"]
-        longitude <- map["longitude"]
+        ownerId <- map[ParamKey.ownerId]
+        ownerUserName <- map[ParamKey.ownerUserName]
 
-        ownerId <- map["ownerId"]
-        ownerUserName <- map["ownerUserName"]
+        raceCount <- (map[ParamKey.raceCount], IntegerTransform())
+        memberCount <- (map[ParamKey.memberCount], IntegerTransform())
     }
 }

@@ -22,12 +22,18 @@ public class APISessionManager {
         return valet.string(forKey: sessionIdKey)
     }
 
+    public static func invalidateSessionId() {
+        setSessionId(nil)
+    }
+
     public static func invalidateSession() {
+        setSessionEmail(nil)
+        setSessionPasword(nil)
         setSessionId(nil)
     }
 
     static func handleSessionJSON(_ json: JSON) {
-        if let sessionId = json[ParameterKey.sessionId].string {
+        if let sessionId = json[ParamKey.sessionId].string {
             setSessionId(sessionId)
         }
     }
@@ -38,8 +44,26 @@ public class APISessionManager {
         return valet.string(forKey: sessionEmailKey)
     }
 
-    static func setSessionEmail(_ email: String) {
-        valet.set(string: email, forKey: sessionEmailKey)
+    static func setSessionEmail(_ email: String?) {
+        if let email = email {
+            valet.set(string: email, forKey: sessionEmailKey)
+        } else {
+            valet.removeObject(forKey: sessionEmailKey)
+        }
+    }
+
+    // MARK: - Password
+
+    public static func getSessionPasword() -> String? {
+        return valet.string(forKey: sessionPwdKey)
+    }
+
+    static func setSessionPasword(_ pwd: String?) {
+        if let pwd = pwd {
+            valet.set(string: pwd, forKey: sessionPwdKey)
+        } else {
+            valet.removeObject(forKey: sessionPwdKey)
+        }
     }
 
     // MARK: - Private
@@ -49,7 +73,6 @@ public class APISessionManager {
             valet.set(string: sessionId, forKey: sessionIdKey)
         } else {
             valet.removeObject(forKey: sessionIdKey)
-            valet.removeObject(forKey: sessionEmailKey)
         }
     }
 
@@ -57,4 +80,5 @@ public class APISessionManager {
 
     fileprivate static let sessionIdKey = "com.multigp.RaceSync.session.id"
     fileprivate static let sessionEmailKey = "com.multigp.RaceSync.session.email"
+    fileprivate static let sessionPwdKey = "com.multigp.RaceSync.session.pwd"
 }

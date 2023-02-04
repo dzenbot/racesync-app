@@ -8,7 +8,7 @@ PODS:
     - Alamofire (~> 4.7)
     - ObjectMapper (~> 3.4)
   - EmptyDataSet-Swift (5.0.0)
-  - ObjectMapper (3.5.1)
+  - ObjectMapper (3.5.3)
   - PickerView (0.4.0)
   - Presentr (1.9)
   - QRCode (2.0)
@@ -16,11 +16,11 @@ PODS:
     - Sentry/Core (= 4.4.3)
   - Sentry/Core (4.4.3)
   - ShimmerSwift (2.1.1)
-  - SnapKit (5.0.1)
-  - SwiftLint (0.39.1)
-  - SwiftValidators (9.0.2)
+  - SnapKit (5.6.0)
+  - SwiftLint (0.50.3)
+  - SwiftValidators (9.0.3)
   - SwiftyJSON (5.0.0)
-  - TOCropViewController (2.5.3)
+  - TOCropViewController (2.6.1)
   - Valet (3.2.8)
 
 DEPENDENCIES:
@@ -38,9 +38,9 @@ DEPENDENCIES:
   - SnapKit
   - SwiftLint
   - SwiftValidators
-  - SwiftyJSON
+  - SwiftyJSON (= 5.0.0)
   - TOCropViewController
-  - Valet
+  - Valet (= 3.2.8)
 
 SPEC REPOS:
   trunk:
@@ -76,19 +76,19 @@ SPEC CHECKSUMS:
   AlamofireNetworkActivityIndicator: 9acc3de3ca6645bf0efed462396b0df13dd3e7b8
   AlamofireObjectMapper: 1989f690e982b71921b9253f53a4f33a9bc00d88
   EmptyDataSet-Swift: eb382c0c87a2d9c678077385a595cec52da38171
-  ObjectMapper: 70187b8941977c62ccfb423caf6b50be405cabf0
+  ObjectMapper: 97111c97e054a6ee25917662106689f0b4127b37
   PickerView: a736ea986d992aa3ef32423f475fdf3f3a0cf7d4
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   QRCode: 282441d0cfe8c4c1766b7578361fe93f72757685
   Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
   ShimmerSwift: f7ed2daf9c246de8299dfd9e12c6ab465cba9842
-  SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
-  SwiftLint: 55e96a4a4d537d4a3156859fc1c54bd24851a046
-  SwiftValidators: 9be131cdfadb9a29d31e637c947c7306877bf1d4
+  SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
+  SwiftLint: 77f7cb2b9bb81ab4a12fcc86448ba3f11afa50c6
+  SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
-  TOCropViewController: 20a14b6a7a098308bf369e7c8d700dc983a974e6
+  TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: 224166c9d4282a7de04882cb793c47711b2892b7
+PODFILE CHECKSUM: 7280cd707873e222cf9b513db6da14403b6db5a2
 
 COCOAPODS: 1.10.1

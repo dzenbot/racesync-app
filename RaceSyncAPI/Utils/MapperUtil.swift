@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import SwiftyJSON
 import ObjectMapper
 
 public class MapperUtil {

@@ -47,6 +47,25 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
     fileprivate var isRacing: Bool { return myRaceEntry != nil }
     fileprivate var commonUserViewModels = [UserViewModel]()
     fileprivate var otherUserViewModels = [UserViewModel]()
+    fileprivate var myUserViewModel: UserViewModel?
+
+    fileprivate var raceUserViewModels: [UserViewModel] {
+        get {
+            var models = [UserViewModel]()
+
+            if commonUserViewModels.count > 0 {
+                models += commonUserViewModels
+            }
+            if otherUserViewModels.count > 0 {
+                models += otherUserViewModels
+            }
+            if let model = myUserViewModel {
+                models += [model]
+            }
+            return models
+        }
+        set { }
+    }
 
     fileprivate var emptyStateRaceRegisters = EmptyStateViewModel(.noRaceRegisters)
 
@@ -102,7 +121,7 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
         tabBarItem = UITabBarItem(title: "Roster", image: UIImage(named: "icn_tabbar_roster"), selectedImage: UIImage(named: "icn_tabbar_roster_selected"))
 
         if race.isMyChapter {
-            navigationItem.rightBarButtonItem = UIBarButtonItem(image: ButtonImg.add, style: .done, target: self, action: #selector(didPressAddButton))
+            navigationItem.rightBarButtonItem = UIBarButtonItem(image: ButtonImg.edit, style: .done, target: self, action: #selector(didPressEditButton))
         }
     }
 
@@ -125,6 +144,8 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
 
             commonUserViewModels = UserViewModel.viewModels(with: commonRaceEntries)
             otherUserViewModels = UserViewModel.viewModels(with: otherRaceEntries)
+            myUserViewModel = UserViewModel(with: myRaceEntry)
+
             headerView.viewModel = RaceEntryViewModel(with: myRaceEntry)
             tableView.tableHeaderView = headerView
 
@@ -145,9 +166,11 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     // MARK: - Actions
 
-    @objc func didPressAddButton() {
-        let vc = ForceJoinViewController(with: race)
+    @objc func didPressEditButton() {
+        let vc = RacePilotsPickerController(with: race)
+        vc.externalUserViewModels = raceUserViewModels
         vc.delegate = self
+
         let nc = NavigationController(rootViewController: vc)
         present(nc, animated: true)
     }
@@ -176,8 +199,8 @@ fileprivate extension RaceRosterViewController {
         // needs to search for a User since we don't have its id
         userApi.searchUser(with: viewModel.username) { [weak self] (user, error) in
             if let user = user {
-                let userVC = UserViewController(with: user)
-                self?.navigationController?.pushViewController(userVC, animated: true)
+                let vc = UserViewController(with: user)
+                self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
             }
@@ -264,9 +287,9 @@ extension RaceRosterViewController: UITableViewDataSource {
     }
 }
 
-extension RaceRosterViewController: ForceJoinViewControllerDelegate {
+extension RaceRosterViewController: RacePilotsPickerControllerDelegate {
 
-    func forceJoinViewControllerDidForce(_ viewController: ForceJoinViewController) {
+    func pickerControllerDidUpdate(_ viewController: RacePilotsPickerController) {
         reloadRaceView()
     }
 }
@@ -283,7 +306,7 @@ extension RaceRosterViewController: EmptyDataSetSource {
 
     func buttonTitle(forEmptyDataSet scrollView: UIScrollView, for state: UIControl.State) -> NSAttributedString? {
         guard let startDate = race.startDate else { return nil }
-        if race.status == .opened && !startDate.isPassed {
+        if race.status == .open && !startDate.isPassed {
             return emptyStateRaceRegisters.buttonTitle(state)
         } else {
             return nil

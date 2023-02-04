@@ -19,6 +19,17 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Public Variables
 
+    var isDismissable: Bool = false {
+        didSet {
+            if isDismissable {
+                navigationItem.leftBarButtonItem = UIBarButtonItem(image: ButtonImg.close, style: .done, target: self, action: #selector(didPressCloseButton))
+                navigationItem.backBarButtonItem = nil
+            } else {
+                navigationItem.leftBarButtonItem = nil
+            }
+        }
+    }
+
     var isLoading: Bool = false {
         didSet {
             if isLoading { activityIndicatorView.startAnimating() }
@@ -33,6 +44,16 @@ class RaceTabBarController: UITabBarController {
     }
 
     // MARK: - Private Variables
+
+    fileprivate lazy var titleButton: PasteboardButton = {
+        let button = PasteboardButton(type: .system)
+        button.addTarget(self, action: #selector(didPressTitleButton), for: .touchUpInside)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+        button.titleLabel?.textAlignment = .center
+        button.setTitleColor(Color.black, for: .normal)
+        button.setTitle(self.title, for: .normal)
+        return button
+    }()
 
     let isResultsTabEnabled: Bool = false
 
@@ -58,6 +79,12 @@ class RaceTabBarController: UITabBarController {
         self.raceId = raceId
         super.init(nibName: nil, bundle: nil)
     }
+
+    init(with race: Race) {
+        self.race = race
+        self.raceId = race.id
+        super.init(nibName: nil, bundle: nil)
+    }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -69,7 +96,12 @@ class RaceTabBarController: UITabBarController {
         super.viewDidLoad()
 
         setupLayout()
-        loadRaceView()
+
+        if let race = race {
+            configureViewControllers(with: race)
+        } else {
+            loadRaceView()
+        }
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -106,7 +138,9 @@ class RaceTabBarController: UITabBarController {
             vcs += [RaceResultsViewController(with: race)]
         }
 
+        for vc in vcs { vc.willMove(toParent: self) }
         viewControllers = vcs
+        for vc in vcs { vc.didMove(toParent: self) }
 
         // Dirty little trick to select the first tab bar item
         self.selectedIndex = initialSelectedIndex+1
@@ -115,6 +149,9 @@ class RaceTabBarController: UITabBarController {
         // Trick to pre-load each view controller
         preloadTabs()
         tabBar.isHidden = false
+
+        // Using a custom button title in this case, to display the id of a Race on tap
+        navigationItem.titleView = titleButton
     }
 
     // MARK: - Actions
@@ -127,7 +164,26 @@ class RaceTabBarController: UITabBarController {
         guard let vc = viewControllers?[index] else { return }
 
         title = vc.title
+        titleButton.setTitle(title, for: .normal)
+
         navigationItem.rightBarButtonItem = vc.navigationItem.rightBarButtonItem
+    }
+
+    @objc fileprivate func didPressCloseButton() {
+        dismiss(animated: true)
+    }
+
+    @objc fileprivate func didPressTitleButton() {
+        guard let race = race else { return }
+
+        let btnTitle = titleButton.title(for: .normal)
+        let id = race.id
+
+        if btnTitle == title {
+            titleButton.setTitle(id, for: .normal)
+        } else if btnTitle == id {
+            titleButton.setTitle(title, for: .normal)
+        }
     }
 
     // MARK: - Error
@@ -179,10 +235,10 @@ extension RaceTabBarController {
 
             self?.race = race
 
-            for vc in vcs {
-                guard var vcc = vc as? RaceTabbable else { continue }
-                vcc.race = race
-                vcc.reloadContent()
+            for viewcontroller in vcs {
+                guard var vc = viewcontroller as? RaceTabbable else { continue }
+                vc.race = race
+                vc.reloadContent()
             }
         }
     }
@@ -210,7 +266,7 @@ extension RaceTabBarController: EmptyDataSetDelegate {
     }
 
     func emptyDataSet(_ scrollView: UIScrollView, didTapButton button: UIButton) {
-        guard let url = MGPWeb.getPrefilledFeedbackFormUrl() else { return }
+        guard let url = AppWebConstants.getPrefilledFeedbackFormUrl() else { return }
         WebViewController.openUrl(url)
     }
 }

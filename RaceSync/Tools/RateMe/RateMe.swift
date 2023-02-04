@@ -178,6 +178,14 @@ public class RateMe: NSObject {
     public var debug: Bool = false
     public var showPreview: Bool = false
 
+    public static func appstoreUrl(with appId: String) -> String {
+        return "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=\(appId)&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software"
+    }
+
+    public static func appstoreURL(with appId: String) -> URL? {
+        return URL(string: appstoreUrl(with: appId))
+    }
+
     // MARK: - Lifecycle
 
     override private init() {
@@ -250,7 +258,7 @@ public class RateMe: NSObject {
         let itunesAction = UIAlertAction(title: self.rateButtonTitle.localized(bundle: self.bundle),
                                          style: .cancel,
                                          handler: { (action) -> Void in
-                                            guard let appId = self.appId, let url = self.appstoreURL(with: appId) else {
+                                            guard let appId = self.appId, let url = Self.appstoreURL(with: appId) else {
                                                 self.debugLog("Please provide a valid AppId")
                                                 return
                                             }
@@ -287,11 +295,6 @@ public class RateMe: NSObject {
                 self.delegate?.rateMeDidShowPrompt()
             })
         }
-    }
-
-    private func appstoreURL(with appId: String) -> URL? {
-        let url = "itms-apps://itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?id=\(appId)&onlyLatestVersion=true&pageNumber=0&sortOrdering=1&type=Purple+Software"
-        return URL(string: url)
     }
 
     // MARK: - Internal State

@@ -11,9 +11,6 @@
       location = "container:"
       name = "Config">
       <FileRef
-         location = "group:.circleci/config.yml">
-      </FileRef>
-      <FileRef
          location = "group:Podfile">
       </FileRef>
       <FileRef

@@ -8,7 +8,6 @@
 
 import Foundation
 import Alamofire
-import AlamofireObjectMapper
 import SwiftyJSON
 
 // MARK: - Interface
@@ -16,19 +15,19 @@ public protocol AircrafApiInterface {
 
     /**
      */
-    func getMyAircraft(forRaceSpecs specs: AircraftRaceSpecs?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
+    func getMyAircraft(forRaceData data: AircraftRaceData?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
 
     /**
      */
-    func getAircraft(forUser userId: String, forRaceSpecs specs: AircraftRaceSpecs?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
+    func getAircraft(forUser userId: String, forRaceData data: AircraftRaceData?, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>)
 
     /**
     */
-    func createAircraft(with specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>)
+    func createAircraft(with data: AircraftData, _ completion: @escaping ObjectCompletionBlock<Aircraft>)
 
     /**
     */
-    func update(aircraft aircraftId: ObjectId, with specs: AircraftSpecs, _ completion: @escaping StatusCompletionBlock)
+    func update(aircraft aircraftId: ObjectId, with data: AircraftData, _ completion: @escaping StatusCompletionBlock)
 
     /**
     */
@@ -44,42 +43,42 @@ public class AircraftApi: AircrafApiInterface {
     public init() {}
     fileprivate let repositoryAdapter = RepositoryAdapter()
 
-    public func getMyAircraft(forRaceSpecs specs: AircraftRaceSpecs? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
+    public func getMyAircraft(forRaceData data: AircraftRaceData? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
         guard let myUser = APIServices.shared.myUser else { return }
-        getAircraft(forUser: myUser.id, forRaceSpecs: specs, completion)
+        getAircraft(forUser: myUser.id, forRaceData: data, completion)
     }
 
-    public func getAircraft(forUser userId: String, forRaceSpecs specs: AircraftRaceSpecs? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
+    public func getAircraft(forUser userId: String, forRaceData data: AircraftRaceData? = nil, _ completion: @escaping ObjectCompletionBlock<[Aircraft]>) {
 
         let endpoint = EndPoint.aircraftList
-        var parameters: Parameters = [ParameterKey.pilotId: userId, ParameterKey.retired: false]
+        var parameters: Params = [ParamKey.pilotId: userId, ParamKey.retired: false]
 
-        if let specs = specs {
-            parameters += specs.toParameters()
+        if let data = data {
+            parameters += data.toParams()
         }
 
         repositoryAdapter.getObjects(endpoint, parameters: parameters, type: Aircraft.self, completion)
     }
 
-    public func createAircraft(with specs: AircraftSpecs, _ completion: @escaping ObjectCompletionBlock<Aircraft>) {
+    public func createAircraft(with data: AircraftData, _ completion: @escaping ObjectCompletionBlock<Aircraft>) {
 
         let endpoint = EndPoint.aircraftCreate
-        let parameters = specs.toParameters()
+        let parameters = data.toParams()
 
         repositoryAdapter.getObject(endpoint, parameters: parameters, type: Aircraft.self, completion)
     }
 
-    public func update(aircraft aircraftId: ObjectId, with specs: AircraftSpecs, _ completion: @escaping StatusCompletionBlock) {
+    public func update(aircraft aircraftId: ObjectId, with data: AircraftData, _ completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.aircraftUpdate)?\(ParameterKey.id)=\(aircraftId)"
-        let parameters = specs.toParameters()
+        let endpoint = "\(EndPoint.aircraftUpdate)?\(ParamKey.id)=\(aircraftId)"
+        let parameters = data.toParams()
 
         repositoryAdapter.performAction(endpoint, parameters: parameters, completion: completion)
     }
 
     public func retire(aircraft aircraftId: ObjectId, _ completion: @escaping StatusCompletionBlock) {
 
-        let endpoint = "\(EndPoint.aircraftRetire)?\(ParameterKey.id)=\(aircraftId)"
+        let endpoint = "\(EndPoint.aircraftRetire)?\(ParamKey.id)=\(aircraftId)"
 
         repositoryAdapter.performAction(endpoint, completion: completion)
     }
@@ -87,7 +86,7 @@ public class AircraftApi: AircrafApiInterface {
     public func uploadImage(_ image: UIImage, imageType: ImageType, forAircraft aircraftId: ObjectId, progressBlock: ProgressBlock? = nil, _ completion: @escaping ObjectCompletionBlock<String>) {
         guard let data = image.jpegData(compressionQuality: 0.7) else { return }
 
-        let url = MGPWebConstant.apiBase.rawValue + "\(imageType.endpoint)?\(ParameterKey.id)=\(aircraftId)"
+        let url = MGPWebConstant.apiBase.rawValue + "\(imageType.endpoint)?\(ParamKey.id)=\(aircraftId)"
         uploadImage(data, name: imageType.key, endpoint: url, progressBlock: progressBlock, completion)
     }
 }
@@ -115,7 +114,7 @@ fileprivate extension AircraftApi {
                         if let errors = ErrorUtil.errors(fromJSONString: value) {
                             completion(nil, errors.first)
                         } else {
-                            completion(json[ParameterKey.url].rawValue as? String, nil)
+                            completion(json[ParamKey.url].rawValue as? String, nil)
                         }
                     case .failure:
                         completion(nil, response.error as NSError?)

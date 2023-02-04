@@ -30,16 +30,37 @@ class RaceListViewController: UIViewController, ViewJoinable {
     // MARK: - Private Variables
 
     fileprivate var raceList: [RaceViewModel]
-    fileprivate var seasonId: ObjectId?
     fileprivate let raceApi = RaceApi()
+    fileprivate var seasonId: ObjectId?
+    fileprivate var raceClass: RaceClass?
 
     // MARK: - Initialization
 
+    /**
+     Displays a list of season races.
+
+     - parameter raceViewModels: The pre-fetched view model list of races
+     - parameter seasonId: The season id, to be used in case of refreshing the list (particularly needed for state updates like joining)
+     */
     init(_ raceViewModels: [RaceViewModel], seasonId: ObjectId) {
         self.raceList = raceViewModels
         self.seasonId = seasonId
 
         super.init(nibName: nil, bundle: nil)
+    }
+
+    /**
+     Displays a list of races filtered by class
+
+     - parameter raceViewModels: The pre-fetched view model list of races
+     - parameter raceClass: The season enum raw value, to be used in case of refreshing the list (particularly needed for state updates like joining)
+     */
+    init(_ raceViewModels: [RaceViewModel], raceClass: RaceClass) {
+        self.raceList = raceViewModels
+        self.raceClass = raceClass
+
+        super.init(nibName: nil, bundle: nil)
+        self.title = raceClass.title
     }
 
     required init?(coder: NSCoder) {
@@ -56,8 +77,6 @@ class RaceListViewController: UIViewController, ViewJoinable {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        // loadContent()
     }
 
     override func viewDidAppear(_ animated: Bool) {
@@ -91,9 +110,9 @@ class RaceListViewController: UIViewController, ViewJoinable {
     }
 
     fileprivate func openRaceDetail(_ viewModel: RaceViewModel) {
-        let eventTVC = RaceTabBarController(with: viewModel.race.id)
-        eventTVC.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(eventTVC, animated: true)
+        let vc = RaceTabBarController(with: viewModel.race.id)
+        vc.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(vc, animated: true)
     }
 
     @objc func reloadRaces() {
@@ -103,17 +122,19 @@ class RaceListViewController: UIViewController, ViewJoinable {
                     self?.raceList = RaceViewModel.sortedViewModels(with: races)
                     self?.tableView.reloadData()
                 } else if let _ = error {
-                    // handle error
+                    // handle error ?
+                }
+            }
+        } else if let raceClass = raceClass {
+            raceApi.getRaces(forClass: raceClass) { [weak self] (races, error) in
+                if let races = races {
+                    self?.raceList = RaceViewModel.sortedViewModels(with: races)
+                    self?.tableView.reloadData()
+                } else if let _ = error {
+                    // handle error ?
                 }
             }
         }
-    }
-}
-
-fileprivate extension RaceListViewController {
-
-    func loadContent() {
-
     }
 }
 
@@ -141,7 +162,7 @@ extension RaceListViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as RaceTableViewCell
         let viewModel = raceList[indexPath.row]
 
-        cell.dateLabel.text = viewModel.dateLabel //"Saturday Sept 14 @ 9:00 AM"
+        cell.dateLabel.text = viewModel.startDateLabel //"Saturday Sept 14 @ 9:00 AM"
         cell.titleLabel.text = viewModel.titleLabel
         cell.joinButton.type = .race
         cell.joinButton.objectId = viewModel.race.id

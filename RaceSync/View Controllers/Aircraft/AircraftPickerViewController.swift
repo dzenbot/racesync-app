@@ -158,14 +158,13 @@ class AircraftPickerViewController: UIViewController {
     }
 
     func presentNewAircraftForm() {
-        let aircraftSpecs = AircraftSpecs(with: race)
-        aircraftSpecs.name = nil
+        let data = AircraftData(with: race)
+        data.name = nil
         
-        let newAircraftVC = NewAircraftViewController(with: aircraftSpecs)
-        let newAircraftNC = UINavigationController(rootViewController: newAircraftVC)
-        newAircraftVC.delegate = self
-
-        navigationController?.present(newAircraftNC, animated: true)
+        let vc = AircraftFormViewController(with: data)
+        vc.delegate = self
+        let nc = UINavigationController(rootViewController: vc)
+        navigationController?.present(nc, animated: true)
     }
 
     func pickGenericAircraft() {
@@ -173,9 +172,9 @@ class AircraftPickerViewController: UIViewController {
         title = "Creating Generic Aircraft..."
         isLoading = true
 
-        let aircraftSpecs = AircraftSpecs(with: race)
+        let data = AircraftData(with: race)
 
-        aircraftApi.createAircraft(with: aircraftSpecs) { [weak self] (aircraft, error) in
+        aircraftApi.createAircraft(with: data) { [weak self] (aircraft, error) in
             guard let strongSelf = self else { return }
             strongSelf.isLoading = false
 
@@ -194,8 +193,9 @@ extension AircraftPickerViewController {
     func fetchMyAircraft() {
         activityIndicatorView.startAnimating()
 
-        let specs = AircraftRaceSpecs(with: race)
-        aircraftApi.getMyAircraft(forRaceSpecs: specs) { [weak self] (aircraft, error) in
+        let data = AircraftRaceData(with: race)
+
+        aircraftApi.getMyAircraft(forRaceData: data) { [weak self] (aircraft, error) in
             if let aircraft = aircraft {
                 self?.aircraftViewModels += AircraftViewModel.viewModels(with: aircraft)
                 self?.activityIndicatorView.stopAnimating()
@@ -247,21 +247,21 @@ extension AircraftPickerViewController: UICollectionViewDataSource {
     }
 }
 
-extension AircraftPickerViewController: NewAircraftViewControllerDelegate {
+extension AircraftPickerViewController: AircraftFormViewControllerDelegate {
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, didCreateAircraft aircraft: Aircraft) {
+    func aircraftFormViewController(_ viewController: AircraftFormViewController, didCreateAircraft aircraft: Aircraft) {
         viewController.dismiss(animated: true)
 
         delegate?.aircraftPickerViewController(self, didSelectAircraft: aircraft.id)
     }
 
-    func newAircraftViewControllerDidDismiss(_ viewController: NewAircraftViewController) {
+    func aircraftFormViewControllerDidDismiss(_ viewController: AircraftFormViewController) {
         viewController.dismiss(animated: true)
     }
 
-    func newAircraftViewController(_ viewController: NewAircraftViewController, aircraftSpecValuesForRow row: AircraftRow) -> [String]? {
-        let aircraftRaceSpecs = AircraftRaceSpecs(with: race)
-        return row.aircraftRaceSpecValues(for: aircraftRaceSpecs)
+    func aircraftFormViewController(_ viewController: AircraftFormViewController, valuesFor row: AircraftFormRow) -> [String]? {
+        let aircraftRaceData = AircraftRaceData(with: race)
+        return row.aircraftRaceSpecValues(for: aircraftRaceData)
     }
 }
 

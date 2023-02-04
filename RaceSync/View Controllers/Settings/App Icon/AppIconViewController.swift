@@ -134,7 +134,7 @@ extension AppIconViewController: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
         if let section = Section(rawValue: section), section == .chapters {
-            return "Do you want to include your chapter's icon?\nContact us at \(MGPWebConstant.supportEmail.rawValue)"
+            return "Do you want to include your chapter's icon?\nContact us at \(StringConstants.supportEmail)"
         } else {
             return nil
         }
@@ -145,7 +145,7 @@ extension AppIconViewController: UITableViewDataSource {
     }
 }
 
-fileprivate enum Section: Int, EnumTitle, CaseIterable {
+fileprivate enum Section: Int, EnumTitle {
     case mgp, chapters
 
     var title: String {

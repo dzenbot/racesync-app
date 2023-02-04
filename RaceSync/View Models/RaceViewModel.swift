@@ -15,15 +15,20 @@ class RaceViewModel: Descriptable {
     let race: Race
 
     let titleLabel: String
-    let dateLabel: String?
-    let fullDateLabel: String?
+    let startDateLabel: String?
+    let startDateDesc: String?
+    let endDateLabel: String?
+    let endDateDesc: String?
     let locationLabel: String
     let fullLocationLabel: String
     let distanceLabel: String
     let distance: Double
     let joinState: JoinState
     let participantCount: Int
+    let classLabel: String
     let chapterLabel: String
+    let ownerLabel: String
+    let seasonLabel: String
     let imageUrl: String?
 
     // MARK: - Initializatiom
@@ -31,15 +36,20 @@ class RaceViewModel: Descriptable {
     init(with race: Race) {
         self.race = race
         self.titleLabel = race.name
-        self.dateLabel = Self.dateLabelString(for: race) // "Sat Sept 14 @ 9:00 AM"
-        self.fullDateLabel = Self.fullDateLabelString(for: race) // "Saturday, September 14th @ 9:00 AM"
+        self.startDateLabel = Self.dateLabelString(for: race.startDate) // "Sat Sept 14 @ 9:00 AM"
+        self.startDateDesc = Self.fullDateLabelString(for: race.startDate) // "Saturday, September 14th @ 9:00 AM"
+        self.endDateLabel = Self.dateLabelString(for: race.endDate) // "Sat Sept 14 @ 5:00 PM"
+        self.endDateDesc = Self.fullDateLabelString(for: race.endDate) // "Saturday, September 14th @ 5:00 PM"
         self.locationLabel = Self.locationLabelString(for: race)
         self.fullLocationLabel = Self.fullLocationLabelString(for: race)
         self.distanceLabel = Self.distanceLabelString(for: race) // "309.4 mi" or "122 kms"
         self.distance = Self.distance(for: race)
         self.joinState = Self.joinState(for: race)
         self.participantCount = Int(race.participantCount) ?? 0
+        self.classLabel = "\(race.raceClassString) Class"
         self.chapterLabel = race.chapterName
+        self.ownerLabel = race.ownerUserName
+        self.seasonLabel = race.seasonName
         self.imageUrl = Self.imageUrl(for: race)
     }
 
@@ -61,17 +71,15 @@ class RaceViewModel: Descriptable {
             } else if sorting == .descending {
                 return date1 < date2
             } else if sorting == .distance {
-                if r1.distance < r2.distance {
-                    return true
-                }
                 if r1.distance == r2.distance {
                     guard let date1 = r1.race.startDate, let date2 = r2.race.startDate else { return true }
                     return date1 < date2
+                } else if r1.distance < r2.distance {
+                    return true
                 }
-                return false
-            } else {
-                return false
             }
+
+            return false
         })
     }
 }
@@ -83,14 +91,14 @@ enum RaceViewSorting {
 
 extension RaceViewModel {
 
-    static func dateLabelString(for race: Race) -> String? {
-        guard let date = race.startDate else { return nil }
+    static func dateLabelString(for date: Date?) -> String? {
+        guard let date = date else { return nil }
         return DateUtil.localizedString(from: date)
     }
 
-    static func fullDateLabelString(for race: Race) -> String? {
-        guard let date = race.startDate else { return nil }
-        return DateUtil.localizedString(from: date, full: true)
+    static func fullDateLabelString(for date: Date?) -> String? {
+        guard let date = date else { return nil }
+        return DateUtil.displayFullDateTime2LineFormatter.string(from: date)
     }
 
     static func locationLabelString(for race: Race) -> String {

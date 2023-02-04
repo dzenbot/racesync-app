@@ -15,7 +15,7 @@ class CrashCatcher {
     static func configure() {
         // Create a Sentry client and start crash handler
         do {
-            Client.shared = try Client(dsn: StringConstants.SentryClientDSN)
+            Client.shared = try Client(dsn: Self.SentryClientDSN)
             try Client.shared?.startCrashHandler()
         } catch let error {
             Clog.log("\(error)", andLevel: .error)
@@ -32,4 +32,7 @@ class CrashCatcher {
     static func invalidateUser() {
         Client.shared?.user = nil
     }
+
+    private static let SentryClientDSN = "https://4dbd7fdde60b4c828846d94fecc814c1@sentry.io/3036524"
 }
+

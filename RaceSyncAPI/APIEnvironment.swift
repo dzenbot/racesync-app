@@ -14,7 +14,7 @@ public enum APIEnvironment: Int {
     public var title: String {
         switch self {
         case .prod:     return "Prod"
-        case .dev:      return "Dev"
+        case .dev:      return "PPT"
         }
     }
 }

@@ -11,9 +11,14 @@ import ObjectMapper
 
 public class Season: Mappable, Descriptable {
 
+    public var id: ObjectId = ""
+    public var name: String = ""
+    public var chapterId: ObjectId = ""
+    public var description: String = ""
+
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = ["id"]
+    fileprivate static let requiredProperties = [ParamKey.id]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -25,7 +30,9 @@ public class Season: Mappable, Descriptable {
     }
 
     public func mapping(map: Map) {
-
+        id <- map[ParamKey.id]
+        name <- map[ParamKey.name]
+        chapterId <- map[ParamKey.chapterId]
+        description <- map[ParamKey.description]
     }
-
 }

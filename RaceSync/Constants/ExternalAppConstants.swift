@@ -1,5 +1,5 @@
 //
-//  ExternalAppConstants.swift
+//  ExternalAppSchemes.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2020-01-17.
@@ -8,9 +8,13 @@
 
 import Foundation
 
-public class ExternalAppConstants {
-    public static let AppleMapsUrl = "http://maps.apple.com/"
-    public static let GoogleMapsScheme = "comgooglemaps://"
-    public static let WazeScheme = "waze://"
-    public static let WalletScheme = "shoebox://" // undocumented!
+class ExternalAppSchemes {
+    static let AppleMapsUrl = "http://maps.apple.com/"
+    static let GoogleMapsScheme = "comgooglemaps://"
+    static let WazeScheme = "waze://"
+    static let WalletScheme = "shoebox://" // undocumented!
+}
+
+class ExternalAppUrls {
+
 }

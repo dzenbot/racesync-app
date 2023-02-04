@@ -27,7 +27,7 @@ class FormTableViewCell: UITableViewCell {
     // MARK: - Private Variables
 
     fileprivate lazy var spinnerView: UIActivityIndicatorView = {
-        let view = UIActivityIndicatorView(style: .white)
+        let view = UIActivityIndicatorView(style: .medium)
         return view
     }()
 

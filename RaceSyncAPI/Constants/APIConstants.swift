@@ -11,30 +11,19 @@ import Foundation
 public typealias ObjectId = String
 
 public let StandardPageSize: Int = 100
-
-public protocol EnumTitle: CaseIterable {
-    var title: String { get }
-    init?(title: String)
-}
-
-extension EnumTitle {
-    public init?(title: String) {
-        for `case` in Self.allCases {
-            if `case`.title == title {
-                self = `case`
-                return
-            }
-        }
-        return nil
-    }
-}
+public let StandardDateFormat: String = "yyyy-MM-dd"
+public let StandardDateTimeFormat: String = "yyyy-MM-dd h:mm a"
+public let ISODateTimeFormat: String = "yyyy-MM-dd'T'HH:mm:ss" //ZZZZZ"
+public let USLocale: String = "en_US_POSIX"
 
 enum EndPoint {
     static let userLogin = "user/login"
     static let userLogout = "user/logout"
     static let userProfile = "user/profile"
     static let userSearch = "user/search"
+    static let userUpdateProfile = "user/updateProfile"
 
+    static let race = "race/"
     static let raceList = "race/list"
     static let raceListForChapter = "race/listForChapter"
     static let raceFindLocal = "race/findLocal"
@@ -48,6 +37,8 @@ enum EndPoint {
     static let raceCheckIn = "race/checkIn"
     static let raceCheckOut = "race/checkOut"
     static let raceCreate = "race/create"
+    static let raceUpdate = "race/update"
+    static let raceDelete = "race/delete" // missing API
 
     static let chapterList = "chapter/list"
     static let chapterFindLocal = "chapter/findLocal"
@@ -57,6 +48,18 @@ enum EndPoint {
     static let chapterJoin = "chapter/join"
     static let chapterResign = "chapter/resign"
 
+    static let seasonList = "season/list"
+    static let seasonSearch = "season/search"
+    static let seasonCreate = "season/create"
+    static let seasonUpdate = "season/update"
+    static let seasonDelete = "season/delete"
+
+    static let courseList = "course/list"
+    static let courseSearch = "course/search"
+    static let courseCreate = "course/create"
+    static let courseUpdate = "course/update"
+    static let courseDelete = "course/delete"
+
     static let aircraftList = "aircraft/list"
     static let aircraftCreate = "aircraft/create"
     static let aircraftUpdate = "aircraft/update"
@@ -65,48 +68,150 @@ enum EndPoint {
     static let aircraftUploadBackground = "aircraft/uploadBackground"
 }
 
-enum ParameterKey {
+enum ParamKey {
+    // API keywords
     static let apiKey = "apiKey"
+    static let authType = "authType"
+
+    // ids
+    static let id = "id"
     static let sessionId = "sessionId"
+    static let pilotId = "pilotId"
+    static let chapterId = "chapterId"
+    static let aircraftId = "aircraftId"
+    static let seasonId = "seasonId"
+    static let locationId = "locationId"
+    static let ownerId = "ownerId"
+    static let courseId = "courseId"
+    static let parentCourseId = "parentCourseId"
+    static let parentRaceId = "parentRaceId"
+    static let scannableId = "scannableId"
+    static let homeChapterId = "homeChapterId"
+    static let chapterIds = "chapterIds"
+
+    // Network keywords
+    static let url = "url"
+    static let httpStatus = "httpStatus"
     static let contentType = "Content-type"
     static let authorization = "Authorization"
     static let data = "data"
     static let errors = "errors"
-    static let id = "id"
-    static let username = "username"
-    static let password = "password"
+    static let description = "description"
+    static let statusDescription = "statusDescription"
     static let currentPage = "currentPage"
     static let pageSize = "pageSize"
-    static let url = "url"
-    static let pilotId = "pilotId"
+    static let limit = "limit"
+    static let password = "password"
+
+    // Names
+    static let name = "name"
+    static let firstName = "firstName"
+    static let lastName = "lastName"
+    static let displayName = "displayName"
+    static let username = "username"
+    static let userName = "userName"
+    static let ownerUserName = "ownerUserName"
+    static let chapterName = "chapterName"
+    static let seasonName = "seasonName"
+    static let courseName = "courseName"
+    static let pilotUserName = "pilotUserName"
+    static let pilotName = "pilotName"
+    static let aircraftName = "aircraftName"
+    static let urlName = "urlName"
+
+    // Model attributes
     static let joined = "joined"
+    static let isJoined = "isJoined"
     static let upcoming = "upcoming"
     static let past = "past"
     static let status = "status"
-    static let statusDescription = "statusDescription"
-    static let httpStatus = "httpStatus"
-    static let limit = "limit"
     static let orderByDistance = "orderByDistance"
     static let nearBy = "nearBy"
     static let isQualifier = "isQualifier"
-    static let latitude = "latitude"
-    static let longitude = "longitude"
-    static let radius = "radius"
-    static let chapterId = "chapterId"
-    static let aircraftId = "aircraftId"
-    static let userName = "userName"
     static let retired = "retired"
-    static let name = "name"
     static let type = "type"
+    static let count = "count"
     static let size = "size"
+    static let battery = "battery"
+    static let propellerSize = "propellerSize"
+    static let antenna = "antenna"
+    static let managedChapters = "managedChapters"
+    static let races = "races"
+    static let entries = "entries"
+    static let raceType = "raceType"
+    static let startDate = "startDate"
+    static let endDate = "endDate"
+    static let childRaceCount = "childRaceCount"
+    static let raceEntryCount = "raceEntryCount"
+    static let participantCount = "participantCount"
+    static let officialStatus = "officialStatus"
+    static let captureTimeEnabled = "captureTimeEnabled"
+    static let scoringDisabled = "scoringDisabled"
+    static let scoringFormat = "scoringFormat"
+    static let score = "score"
+    static let cycleCount = "cycleCount"
+    static let zippyqIterator = "zippyqIterator"
+    static let maxZippyqDepth = "maxZippyqDepth"
+    static let disableSlotAutoPopulation = "disableSlotAutoPopulation"
+    static let maxBatteriesForQualifying = "maxBatteriesForQualifying"
+    static let content = "content"
+    static let itineraryContent = "itineraryContent"
+    static let typeRestriction = "typeRestriction"
+    static let sizeRestriction = "sizeRestriction"
+    static let batteryRestriction = "batteryRestriction"
+    static let propellerSizeRestriction = "propellerSizeRestriction"
     static let videoTransmitter = "videoTransmitter"
     static let videoTransmitterPower = "videoTransmitterPower"
     static let videoTransmitterChannels = "videoTransmitterChannels"
     static let videoReceiverChannels = "videoReceiverChannels"
-    static let battery = "battery"
-    static let propSize = "propellerSize"
-    static let antenna = "antenna"
-    static let managedChapters = "managedChapters"
-    static let chapterName = "chapterName"
-    static let seasonId = "seasonId"
+    static let frequency = "frequency"
+    static let group = "group"
+    static let groupSlot = "groupSlot"
+    static let band = "band"
+    static let channel = "channel"
+    static let chapterCount = "chapterCount"
+    static let raceCount = "raceCount"
+    static let memberCount = "memberCount"
+    static let title = "title"
+    static let phone = "phone"
+    static let tier = "tier"
+    static let elements = "elements"
+    static let raceClass = "raceClass"
+    static let raceClassString = "raceClassString"
+    static let sendNotification = "sendNotification"
+    static let isPublic = "isPublic"
+
+    // Geo-location
+    static let address = "address"
+    static let city = "city"
+    static let state = "state"
+    static let zip = "zip"
+    static let country = "country"
+    static let latitude = "latitude"
+    static let longitude = "longitude"
+    static let radius = "radius"
+
+    // url
+    static let liveTimeUrl = "liveTimeUrl"
+    static let liveTimeEventUrl = "liveTimeEventUrl"
+    static let facebookUrl = "facebookUrl"
+    static let googleUrl = "googleUrl"
+    static let twitterUrl = "twitterUrl"
+    static let youtubeUrl = "youtubeUrl"
+    static let instagramUrl = "instagramUrl"
+    static let meetupUrl = "meetupUrl"
+    static let videoUrl = "videoUrl"
+    static let leaderboardUrl = "leaderboardUrl"
+    static let validationFeetUrl = "validationFeetUrl"
+    static let validationMetersUrl = "validationMetersUrl"
+
+    // Images
+    static let profilePictureUrl = "profilePictureUrl"
+    static let profileBackgroundUrl = "profileBackgroundUrl"
+    static let mainImageFileName = "mainImageFileName"
+    static let mainImageUrl = "mainImageUrl"
+    static let mainImage = "mainImage"
+    static let backgroundFileName = "backgroundFileName"
+    static let backgroundUrl = "backgroundUrl"
+    static let chapterImageFileName = "chapterImageFileName"
 }

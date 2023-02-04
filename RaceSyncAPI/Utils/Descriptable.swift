@@ -12,6 +12,7 @@ public protocol Descriptable {
     var attributesDescription: NSString { get }
 }
 
+// Outputs a list of all the attributes of the object confirming to Descriptable
 extension Descriptable {
 
     public var attributesDescription: NSString {

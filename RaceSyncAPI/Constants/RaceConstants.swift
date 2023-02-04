@@ -15,20 +15,106 @@ public enum RaceType: String, EnumTitle {
 
     public var title: String {
         switch self {
-        case .qualifier:    return "Regional Qualifier"
-        case .final:        return "Regional Final"
-        default:            return "Normal"
+        case .normal:       return "Normal"
+        case .qualifier:    return "Qualifiers"
+        case .final:        return "Championship"
         }
     }
 }
 
-public enum RaceStatus: String {
-    case opened = "Opened"
-    case closed = "Closed"
+//STATUSES = array(0=>'Open', 1=>'Closed')
+public enum RaceStatus: String, EnumTitle {
+    case open = "0"
+    case closed = "1"
+
+    public var title: String {
+        switch self {
+        case .open:         return "Open"
+        case .closed:       return "Closed"
+        }
+    }
 }
 
+
+//TYPES = array(1=>'Public Event', 0=>'Private Event')
+public enum EventType: String, EnumTitle {
+    case `public` = "1"
+    case `private` = "0"
+
+    public var title: String {
+        switch self {
+        case .public:       return "Public Event"
+        case .private:      return "Private Event"
+        }
+    }
+}
+
+//OFFICIAL_STATUSES = array(0=>'Normal', 1=>'Requested', 2=>'Official')
 public enum RaceOfficialStatus: String {
     case normal = "0"
     case requested = "1"
     case approved = "2"
+
+    public var title: String {
+        switch self {
+        case .normal:       return "Normal"
+        case .requested:    return "Requested"
+        case .approved:     return "Official"
+        }
+    }
+}
+
+//SCORING_FORMATS = array(0=>'Aggregate Laps', 1=>'Fastest Lap', 6=>'Fastest 2 Consecutive Laps', 2=>'Fastest 3 Consecutive Laps')
+public enum ScoringFormat: String, EnumTitle {
+    case aggregateLap = "0"
+    case fastestLap = "1"
+    case fastest2Laps = "6"
+    case fastest3Laps = "2"
+
+    public var title: String {
+        switch self {
+        case .aggregateLap:     return "Aggregate Laps"
+        case .fastestLap:       return "Fastest Lap"
+        case .fastest2Laps:     return "Fastest 2 Consecutive Laps"
+        case .fastest3Laps:     return "Fastest 3 Consecutive Laps"
+        }
+    }
+}
+
+//RACE_CLASS = array(0 =>'Open', 1 =>'Tiny Whoop', 2 =>'Micro (Tiny Trainer)', 3 =>'Freedom Spec', 4 =>'Street League', 5 =>'Mega', 6 =>'Velocidrone')
+//See https://github.com/MultiGP/multigp-com/blob/main/public_html/mgp/protected/modules/multigp/models/Race.php#L114-L122
+// TODO: Pull these values from the server instead of hardcoding them on the app, since they may change depending on agreements
+public enum RaceClass: String, EnumTitle {
+    case open = "0"
+    case whoop = "1"
+    case micro = "2"
+    case freedom = "3"
+    case street = "4"
+    case mega = "5"
+    case velo = "6"
+
+    public var title: String {
+        switch self {
+        case .open:         return "Open"
+        case .whoop:        return "Tiny Whoop"
+        case .micro:        return "Micro (Tiny Trainer)"
+        case .freedom:      return "Freedom Spec"
+        case .street:       return "Street League"
+        case .mega:         return "Mega"
+        case .velo:         return "Velocidrone"
+        }
+    }
+}
+
+// QUALIFYING_TYPES = array(0 => "Controlled Qualifying/Practice", 1 => "Open ZippyQ/Qualifying/Practice" )
+public enum QualifyingType: String, EnumTitle {
+    case controlled = "0"
+    case open = "1"
+
+    public var title: String {
+        switch self {
+        case .controlled:   return "Controlled Qualifying"
+        case .open:         return "Open ZippyQ"
+        }
+    }
 }

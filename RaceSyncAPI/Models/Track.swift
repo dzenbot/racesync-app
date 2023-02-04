@@ -20,25 +20,25 @@ public class Track: ImmutableMappable, Descriptable {
     public let validationMetersUrl: String?
     public let startDate: Date?
     public let endDate: Date?
-    public let designer: String?
-    public let `class`: TrackClass
+    public let userName: String?
+    public let raceClass: RaceClass
     public let elements: [TrackElement]
 
     // MARK: - Initialization
 
     required public init(map: Map) throws {
-        id = try map.value("id")
-        title = try map.value("title")
-        description = try map.value("description")
-        videoUrl = try? map.value("videoUrl")
-        leaderboardUrl = try map.value("leaderboardUrl")
-        validationFeetUrl = try? map.value("validationFeetUrl")
-        validationMetersUrl = try? map.value("validationMetersUrl")
-        startDate = try? map.value("startDate", using: MapperUtil.dateTransform)
-        endDate = try? map.value("endDate", using: MapperUtil.dateTransform)
-        designer = try map.value("designer")
-        `class` = try map.value("class", using: EnumTransform<TrackClass>())
-        elements = try map.value("elements")
+        id = try map.value(ParamKey.id)
+        title = try map.value(ParamKey.title)
+        description = try map.value(ParamKey.description)
+        videoUrl = try? map.value(ParamKey.videoUrl)
+        leaderboardUrl = try map.value(ParamKey.leaderboardUrl)
+        validationFeetUrl = try? map.value(ParamKey.validationFeetUrl)
+        validationMetersUrl = try? map.value(ParamKey.validationMetersUrl)
+        startDate = try? map.value(ParamKey.startDate, using: MapperUtil.dateTransform)
+        endDate = try? map.value(ParamKey.endDate, using: MapperUtil.dateTransform)
+        userName = try map.value(ParamKey.userName)
+        raceClass = try map.value(ParamKey.raceClass, using: EnumTransform<RaceClass>())
+        elements = try map.value(ParamKey.elements)
     }
 
     public var elementsCount: Int {
@@ -69,20 +69,6 @@ public enum TrackType: String, EnumTitle {
     }
 }
 
-public enum TrackClass: String, EnumTitle {
-    case open = "0"
-    case mega = "1"
-    case tiny = "2"
-
-    public var title: String {
-        switch self {
-        case .open:     return "Open"
-        case .mega:     return "Mega"
-        case .tiny:     return "Tiny Whoop"
-        }
-    }
-}
-
 public struct TrackElement: ImmutableMappable, Descriptable {
     public let type: TrackElementType
     public let count: Int
@@ -90,11 +76,10 @@ public struct TrackElement: ImmutableMappable, Descriptable {
     // MARK: - Initialization
 
     public init(map: Map) throws {
-        type = try map.value("type")
-        count = try map.value("count")
+        type = try map.value(ParamKey.type)
+        count = try map.value(ParamKey.count)
     }
 }
-
 
 public enum TrackElementType: String, EnumTitle {
     case gate = "gate"

@@ -10,11 +10,12 @@ import Foundation
 
 public class DateUtil {
 
-    public static let standardDateFormat: String = "yyyy-MM-dd h:mm a"
     public static var standardDateFormatter: DateFormatter = {
-        let dateFormater: DateFormatter = DateFormatter()
-        dateFormater.dateFormat = standardDateFormat
-        return dateFormater
+        return DateFormatter(withFormat: StandardDateTimeFormat, locale: USLocale)
+    }()
+
+    public static var isoDateFormatter: DateFormatter = {
+        return DateFormatter(withFormat: StandardDateTimeFormat, locale: USLocale)
     }()
 
     public static func deserializeJSONDate(_ jsonDate: String) -> Date? {
@@ -40,6 +41,14 @@ public class DateUtil {
 }
 
 public extension DateUtil {
+
+    static let displayFullDateTime2LineFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "EEEE, MMMM d\n@ h:mm a"
+        formatter.amSymbol = "AM"
+        formatter.pmSymbol = "PM"
+        return formatter
+    }()
 
     static let displayFullDateTimeFormatter: DateFormatter = {
         let formatter = DateFormatter()

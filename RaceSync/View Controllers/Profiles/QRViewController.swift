@@ -202,7 +202,7 @@ class QRViewController: UIViewController {
             // Offer to open Wallet if the pass is already present
             if PKPassLibrary().containsPass(pass) {
                 AlertUtil.presentAlertMessage("This pass is already in the Wallet app. Do you wish to open wallet?", title: "Pass Already Saved", buttonTitle: "Show Pass") { (action) in
-                    guard let url = URL(string: ExternalAppConstants.WalletScheme) else { return }
+                    guard let url = URL(string: ExternalAppSchemes.WalletScheme) else { return }
                     UIApplication.shared.open(url, options: [:], completionHandler: nil)
                 }
                 return
