@@ -533,6 +533,7 @@
 		4FB06AB1296B521000F14E59 /* AppIcon-MGP2@3x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-MGP2@3x.png"; sourceTree = "<group>"; };
 		4FB06AB2296B521000F14E59 /* AppIcon-MGP1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "AppIcon-MGP1@2x.png"; sourceTree = "<group>"; };
 		4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormTableViewCell.swift; sourceTree = "<group>"; };
+		4FBA7464298EF14D007A9E90 /* RELEASE-NOTES.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = "RELEASE-NOTES.md"; sourceTree = SOURCE_ROOT; };
 		4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Extensions.swift"; sourceTree = "<group>"; };
 		4FBE760E259B387E00312B66 /* User+UIExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+UIExtensions.swift"; sourceTree = "<group>"; };
 		4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionConstants.swift; sourceTree = "<group>"; };
@@ -748,6 +749,7 @@
 				4F8175A82412F82900685F83 /* RaceSync-Bridging-Header.h */,
 				4FCAF9FF23AED59D00ACE7D3 /* preview.pkpass */,
 				4FA213F92947E1F900C8E45A /* README.md */,
+				4FBA7464298EF14D007A9E90 /* RELEASE-NOTES.md */,
 				4F1342532360B67D00A9DBDE /* Info.plist */,
 			);
 			path = RaceSync;
