@@ -1,5 +1,5 @@
 
-# [App Store Release Notes](https://apps.apple.com/us/app/racesync/id1491110680)
+# App Store Release Notes
 
 ## 1.5
 
