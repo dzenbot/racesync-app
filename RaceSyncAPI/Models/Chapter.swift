@@ -60,11 +60,11 @@ public class Chapter: Mappable, Joinable, Descriptable {
 
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
-        name <- map[ParamKey.name]
+        name <- (map[ParamKey.name], MapperUtil.stringTransform)
         tier <- map[ParamKey.tier]
         url = MGPWeb.getUrl(for: .chapterView, value: name)
         urlName <- map[ParamKey.urlName]
-        description <- map[ParamKey.description]
+        description <- (map[ParamKey.description], MapperUtil.stringTransform)
         isJoined <- map[ParamKey.isJoined]
 
         // special parsing due to API iconsistencies
@@ -98,7 +98,7 @@ public class Chapter: Mappable, Joinable, Descriptable {
         longitude <- map[ParamKey.longitude]
 
         ownerId <- map[ParamKey.ownerId]
-        ownerUserName <- map[ParamKey.ownerUserName]
+        ownerUserName <- (map[ParamKey.ownerUserName], MapperUtil.stringTransform)
 
         raceCount <- (map[ParamKey.raceCount], IntegerTransform())
         memberCount <- (map[ParamKey.memberCount], IntegerTransform())

@@ -46,9 +46,9 @@ public class Aircraft: Mappable, Descriptable {
 
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
-        name <- map[ParamKey.name]
+        name <- (map[ParamKey.name], MapperUtil.stringTransform)
         scannableId <- map[ParamKey.scannableId]
-        description <- map[ParamKey.description]
+        description <- (map[ParamKey.description], MapperUtil.stringTransform)
         mainImageUrl <- map[ParamKey.mainImageFileName]
         backgroundImageUrl <- map[ParamKey.backgroundFileName]
 

@@ -29,6 +29,6 @@ public class ManagedChapter: Mappable, Descriptable {
 
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
-        name <- map[ParamKey.name]
+        name <- (map[ParamKey.name], MapperUtil.stringTransform)
     }
 }

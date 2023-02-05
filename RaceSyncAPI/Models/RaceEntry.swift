@@ -49,12 +49,12 @@ public class RaceEntry: Mappable, Descriptable {
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
         pilotId <- map[ParamKey.pilotId]
-        pilotUserName <- map[ParamKey.pilotUserName]
-        pilotName <- map[ParamKey.pilotName]
-        userName <- map[ParamKey.userName]
-        displayName <- map[ParamKey.displayName]
-        firstName <- map[ParamKey.firstName]
-        lastName <- map[ParamKey.lastName]
+        pilotUserName <- (map[ParamKey.pilotUserName], MapperUtil.stringTransform)
+        pilotName <- (map[ParamKey.pilotName], MapperUtil.stringTransform)
+        userName <- (map[ParamKey.userName], MapperUtil.stringTransform)
+        displayName <- (map[ParamKey.displayName], MapperUtil.stringTransform)
+        firstName <- (map[ParamKey.firstName], MapperUtil.stringTransform)
+        lastName <- (map[ParamKey.lastName], MapperUtil.stringTransform)
         scannableId <- map[ParamKey.scannableId]
         score <- map[ParamKey.score]
         profilePictureUrl <- map[ParamKey.profilePictureUrl]
@@ -67,6 +67,6 @@ public class RaceEntry: Mappable, Descriptable {
         videoTxType <- (map[ParamKey.videoTransmitter],EnumTransform<VideoTxType>())
 
         aircraftId <- map[ParamKey.aircraftId]
-        aircraftName <- map[ParamKey.aircraftName]
+        aircraftName <- (map[ParamKey.aircraftName], MapperUtil.stringTransform)
     }
 }

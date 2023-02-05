@@ -17,4 +17,11 @@ public class MapperUtil {
     }) { (_: Date?) -> String? in
         return nil
     }
+
+    public static let stringTransform = TransformOf<String, String>(fromJSON: { (value: String?) -> String? in
+        guard let value = value else { return nil }
+        return value.stringByDecodingHTMLEntities
+    }) { (_: String?) -> String? in
+        return nil
+    }
 }

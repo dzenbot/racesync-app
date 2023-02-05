@@ -31,8 +31,8 @@ public class Season: Mappable, Descriptable {
 
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
-        name <- map[ParamKey.name]
+        name <- (map[ParamKey.name], MapperUtil.stringTransform)
         chapterId <- map[ParamKey.chapterId]
-        description <- map[ParamKey.description]
+        description <- (map[ParamKey.description], MapperUtil.stringTransform)
     }
 }

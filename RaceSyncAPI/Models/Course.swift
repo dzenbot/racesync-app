@@ -46,9 +46,9 @@ public class Course: Mappable, Descriptable {
 
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
-        name <- map[ParamKey.name]
+        name <- (map[ParamKey.name], MapperUtil.stringTransform)
         parentCourseId <- map[ParamKey.parentCourseId]
-        description <- map[ParamKey.description]
+        description <- (map[ParamKey.description], MapperUtil.stringTransform)
         type <- map[ParamKey.type]
 
         // special parsing due to API iconsistencies

@@ -93,7 +93,7 @@ public class Race: Mappable, Joinable, Descriptable {
 
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
-        name <- map[ParamKey.name]
+        name <- (map[ParamKey.name], MapperUtil.stringTransform)
         startDate <- (map[ParamKey.startDate], MapperUtil.dateTransform)
         endDate <- (map[ParamKey.endDate], MapperUtil.dateTransform)
         mainImageFileName <- map[ParamKey.mainImageFileName]
@@ -138,18 +138,18 @@ public class Race: Mappable, Joinable, Descriptable {
         longitude <- map[ParamKey.longitude]
 
         chapterId <- map[ParamKey.chapterId]
-        chapterName <- map[ParamKey.chapterName]
+        chapterName <- (map[ParamKey.chapterName], MapperUtil.stringTransform)
         chapterImageFileName <- map[ParamKey.chapterImageFileName]
 
         ownerId <- map[ParamKey.ownerId]
-        ownerUserName <- map[ParamKey.ownerUserName]
+        ownerUserName <- (map[ParamKey.ownerUserName], MapperUtil.stringTransform)
 
         childRaceCount <- map[ParamKey.childRaceCount]
         parentRaceId <- map[ParamKey.parentRaceId]
         seasonId <- map[ParamKey.seasonId]
-        seasonName <- map[ParamKey.seasonName]
+        seasonName <- (map[ParamKey.seasonName], MapperUtil.stringTransform)
         courseId <- map[ParamKey.courseId]
-        courseName <- map[ParamKey.courseName]
+        courseName <- (map[ParamKey.courseName], MapperUtil.stringTransform)
 
         typeRestriction <- map[ParamKey.typeRestriction]
         sizeRestriction <- map[ParamKey.sizeRestriction]
