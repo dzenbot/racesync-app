@@ -1,6 +1,19 @@
 
 # App Store Release Notes
 
+## 1.3
+
+### New Features:
+
+- 
+
+### Fixes and enhancements:
+
+- Fixed escaped strings
+
+
+---
+
 ## 1.5
 
 Race On with Version 1.5!
