@@ -39,7 +39,7 @@ class RaceViewModel: Descriptable {
         self.startDateLabel = Self.dateLabelString(for: race.startDate) // "Sat Sept 14 @ 9:00 AM"
         self.startDateDesc = Self.fullDateLabelString(for: race.startDate) // "Saturday, September 14th @ 9:00 AM"
         self.endDateLabel = Self.dateLabelString(for: race.endDate) // "Sat Sept 14 @ 5:00 PM"
-        self.endDateDesc = Self.fullDateLabelString(for: race.endDate) // "Saturday, September 14th @ 5:00 PM"
+        self.endDateDesc = Self.fullDateLabelString(for: race.startDate, and: race.endDate) // "Saturday, September 14th @ 5:00 PM" or "@ 5:00 PM"
         self.locationLabel = Self.locationLabelString(for: race)
         self.fullLocationLabel = Self.fullLocationLabelString(for: race)
         self.distanceLabel = Self.distanceLabelString(for: race) // "309.4 mi" or "122 kms"
@@ -99,6 +99,15 @@ extension RaceViewModel {
     static func fullDateLabelString(for date: Date?) -> String? {
         guard let date = date else { return nil }
         return DateUtil.displayFullDateTime2LineFormatter.string(from: date)
+    }
+
+    static func fullDateLabelString(for startDate: Date?, and endDate: Date?) -> String? {
+        guard let startDate = startDate, let endDate = endDate else { return nil }
+
+        if startDate.isInSameDay(date: endDate) {
+            return DateUtil.displayTimeFormatter.string(from: endDate)
+        }
+        return DateUtil.displayFullDateTime2LineFormatter.string(from: endDate)
     }
 
     static func locationLabelString(for race: Race) -> String {
