@@ -1,5 +1,5 @@
 //
-//  ChapterConstants.swift
+//  ChapterEnums.swift
 //  RaceSyncAPI
 //
 //  Created by Ignacio Romero Zurbuchen on 2019-12-22.

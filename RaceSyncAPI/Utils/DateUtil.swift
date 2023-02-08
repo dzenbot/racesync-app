@@ -14,12 +14,18 @@ public class DateUtil {
         return DateFormatter(withFormat: StandardDateTimeFormat, locale: USLocale)
     }()
 
-    public static var isoDateFormatter: DateFormatter = {
-        return DateFormatter(withFormat: StandardDateTimeFormat, locale: USLocale)
+    public static var oldDateFormatter: DateFormatter = {
+        return DateFormatter(withFormat: OldDateTimeFormat, locale: USLocale)
     }()
 
     public static func deserializeJSONDate(_ jsonDate: String) -> Date? {
-        return standardDateFormatter.date(from: jsonDate)
+        if let date = standardDateFormatter.date(from: jsonDate) {
+            return date
+        }
+        if let date = oldDateFormatter.date(from: jsonDate) {
+            return date
+        }
+        return nil
     }
 
     public static func localizedString(from date: Date?, full: Bool = false) -> String? {

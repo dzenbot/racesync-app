@@ -1,5 +1,5 @@
 //
-//  AircraftConstants.swift
+//  AircraftEnums.swift
 //  RaceSyncAPI
 //
 //  Created by Ignacio Romero Zurbuchen on 2019-12-22.

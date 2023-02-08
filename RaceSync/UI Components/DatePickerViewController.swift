@@ -109,7 +109,7 @@ class DatePickerViewController: FormBaseViewController {
 
     fileprivate func selectedDateString() -> String? {
         guard let date = selectedDate else { return nil }
-        return DateUtil.isoDateFormatter.string(from: date)
+        return DateUtil.standardDateFormatter.string(from: date)
     }
 
     // MARK: - Actions

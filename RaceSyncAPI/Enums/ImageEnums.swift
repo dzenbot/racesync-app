@@ -1,5 +1,5 @@
 //
-//  ImageConstants.swift
+//  ImageEnums.swift
 //  RaceSyncAPI
 //
 //  Created by Ignacio Romero Zurbuchen on 2020-06-25.

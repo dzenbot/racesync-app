@@ -52,10 +52,10 @@ public struct RaceData: Descriptable {
         self.chapterName = race.chapterName
 
         if let date = race.startDate {
-            self.startDateString = DateUtil.isoDateFormatter.string(from: date)
+            self.startDateString = DateUtil.standardDateFormatter.string(from: date)
         }
         if let date = race.endDate {
-            self.endDateString = DateUtil.isoDateFormatter.string(from: date)
+            self.endDateString = DateUtil.standardDateFormatter.string(from: date)
         }
 
         self.raceClass = race.raceClass.rawValue
@@ -129,7 +129,7 @@ extension RaceData {
     public var startDate: Date? {
         get {
             guard let str = startDateString else { return nil }
-            return DateUtil.isoDateFormatter.date(from: str)
+            return DateUtil.standardDateFormatter.date(from: str)
         }
         set { }
     }
@@ -137,7 +137,7 @@ extension RaceData {
     public var endDate: Date? {
         get {
             guard let str = endDateString else { return nil }
-            return DateUtil.isoDateFormatter.date(from: str)
+            return DateUtil.standardDateFormatter.date(from: str)
         }
         set { }
     }

@@ -15,8 +15,8 @@ extension Season {
     // https://github.com/MultiGP/multigp-com/blob/09841623ae274fa8f62a3a4df1393cf1cf986b74/public_html/MultiGP/request/class.dataHelper.php#L94
     //
     // TODO: Pull these dates from the server instead of hardcoding them on the app
-    static let GQStartDate: Date? = DateUtil.standardDateFormatter.date(from: "\(Date().thisYear())-04-01 12:00 AM")
-    static let GQEndDate: Date? = DateUtil.standardDateFormatter.date(from: "\(Date().thisYear())-07-18 11:59 PM")
+    static let GQStartDate: Date? = DateUtil.standardDateFormatter.date(from: "\(Date().thisYear())-04-01 00:00:01")
+    static let GQEndDate: Date? = DateUtil.standardDateFormatter.date(from: "\(Date().thisYear())-07-18 23:59:59")
 
     /**
      Checks if the GQ date window is valid
