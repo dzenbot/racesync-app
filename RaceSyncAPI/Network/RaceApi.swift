@@ -111,6 +111,19 @@ public protocol RaceApiInterface {
                   completion: @escaping ObjectCompletionBlock<[Race]>)
 
     /**
+    Gets the all races matching the title attribute.
+
+    - parameter name: The race name.
+    - parameter currentPage: The current page cursor position. Default is 0
+    - parameter pageSize: The amount of objects to be returned by page. Default is 25.
+    - parameter completion: The closure to be called upon completion. Returns a transcient list of Race objects.
+    */
+    func getRaces(by name: String,
+                  currentPage: Int,
+                  pageSize: Int,
+                     completion: @escaping ObjectCompletionBlock<[Race]>)
+
+    /**
     Gets a full Race object, including pilot entries and schedule
 
      - parameter raceId: The Race id.
@@ -269,6 +282,16 @@ public class RaceApi: RaceApiInterface {
         let endpoint = EndPoint.raceList
         var params = parametersForRaces(filters: filters)
         params[ParamKey.raceClass] = raceClass.rawValue
+
+        repositoryAdapter.getObjects(endpoint, parameters: params, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
+    }
+
+    public func getRaces(by name: String,
+                         currentPage: Int = 0, pageSize: Int = StandardPageSize,
+                         completion: @escaping ObjectCompletionBlock<[Race]>) {
+
+        let endpoint = EndPoint.raceList
+        let params = [ParamKey.name: name]
 
         repositoryAdapter.getObjects(endpoint, parameters: params, currentPage: currentPage, pageSize: pageSize, type: Race.self, completion)
     }

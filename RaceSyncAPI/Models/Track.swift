@@ -13,6 +13,7 @@ public class Track: ImmutableMappable, Descriptable {
 
     public let id: ObjectId
     public let title: String
+    public let query: String?
     public let description: String?
     public let videoUrl: String?
     public let leaderboardUrl: String?
@@ -29,6 +30,7 @@ public class Track: ImmutableMappable, Descriptable {
     required public init(map: Map) throws {
         id = try map.value(ParamKey.id)
         title = try map.value(ParamKey.title)
+        query = try map.value(ParamKey.query)
         description = try map.value(ParamKey.description)
         videoUrl = try? map.value(ParamKey.videoUrl)
         leaderboardUrl = try map.value(ParamKey.leaderboardUrl)
@@ -61,10 +63,10 @@ public enum TrackType: String, EnumTitle {
 
     public var title: String {
         switch self {
-        case .gq:       return "Global Qualifier (GQ)"
+        case .gq:       return "MultiGP Championship Global Qualifier (GQ)"
         case .utt:      return "Universal Time Trial (UTT)"
         case .champs:   return "MultiGP Drone Racing Championship"
-        case .canada:   return "Canadian Series"
+        case .canada:   return "Canadian MultiGP Series"
         }
     }
 }

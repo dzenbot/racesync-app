@@ -33,6 +33,7 @@ class RaceListViewController: UIViewController, ViewJoinable {
     fileprivate let raceApi = RaceApi()
     fileprivate var seasonId: ObjectId?
     fileprivate var raceClass: RaceClass?
+    fileprivate var raceName: String?
 
     // MARK: - Initialization
 
@@ -61,6 +62,14 @@ class RaceListViewController: UIViewController, ViewJoinable {
 
         super.init(nibName: nil, bundle: nil)
         self.title = raceClass.title
+    }
+
+    init(_ raceViewModels: [RaceViewModel], raceName: String) {
+        self.raceList = raceViewModels
+        self.raceName = raceName
+
+        super.init(nibName: nil, bundle: nil)
+        self.title = raceName
     }
 
     required init?(coder: NSCoder) {
@@ -129,6 +138,15 @@ class RaceListViewController: UIViewController, ViewJoinable {
             raceApi.getRaces(forClass: raceClass, filters: [.upcoming]) { [weak self] (races, error) in
                 if let races = races {
                     self?.raceList = RaceViewModel.sortedViewModels(with: races, sorting: .descending)
+                    self?.tableView.reloadData()
+                } else if let _ = error {
+                    // handle error ?
+                }
+            }
+        } else if let raceName = raceName {
+            raceApi.getRaces(by: raceName) { [weak self] (races, error) in
+                if let races = races {
+                    self?.raceList = RaceViewModel.sortedViewModels(with: races)
                     self?.tableView.reloadData()
                 } else if let _ = error {
                     // handle error ?

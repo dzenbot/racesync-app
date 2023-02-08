@@ -2,6 +2,7 @@
     "utt": [{
             "id": "1",
             "title": "UTT1",
+            "query": "UTT1",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt1/",
             "userName": "Jefte",
             "raceClass": "0",
@@ -13,6 +14,7 @@
         {
             "id": "2",
             "title": "UTT2 - Tsunami",
+            "query": "UTT2",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt2/",
             "userName": "HarmJoy",
             "raceClass": "0",
@@ -24,6 +26,7 @@
         {
             "id": "3",
             "title": "UTT3 - Bessel Run",
+            "query": "UTT3",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt3/",
             "userName": "MAD_AIR",
             "raceClass": "0",
@@ -35,6 +38,7 @@
         {
             "id": "4",
             "title": "UTT4 - High Voltage",
+            "query": "UTT4",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt4/",
             "userName": "hyper-quad",
             "raceClass": "0",
@@ -46,6 +50,7 @@
         {
             "id": "5",
             "title": "UTT5 - Nautilus",
+            "query": "UTT5",
             "leaderboardUrl": "http://www.multigp.com/leaderboards/utt5/",
             "userName": "HarmJoy",
             "raceClass": "0",
@@ -57,6 +62,7 @@
         {
             "id": "6",
             "title": "UTT6 - Fury",
+            "query": "UTT6",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-6-3-lap-leaderboard/",
             "userName": "Nytfury",
             "raceClass": "0",
@@ -73,6 +79,7 @@
         {
             "id": "7",
             "title": "UTT7 - Tiny Whutt",
+            "query": "UTT7",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-7-3-lap-leaderboard/",
             "userName": "JesseP",
             "raceClass": "1",
@@ -84,6 +91,7 @@
         {
             "id": "8",
             "title": "UTT8 - Revenge",
+            "query": "UTT8",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-8-3-lap-leaderboard/",
             "userName": "Rambozo",
             "raceClass": "0",
@@ -100,6 +108,7 @@
         {
             "id": "9",
             "title": "UTT9 - Mega",
+            "query": "UTT9",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-9-mega-utt-3-lap-leaderboard/",
             "userName": "Old_Man_FPV",
             "raceClass": "5",
@@ -116,6 +125,7 @@
         {
             "id": "10",
             "title": "UTT10 - Prairie Rage",
+            "query": "UTT10",
             "description": "Obstacles must be traversed in the direction indicated by arrows. Obstacles must be traversed in this numerical sequence: 1-12.<br />If any obstacle is entered out of sequence or direction at any time the run is invalid.<br /><strong><a href=\"https://www.multigp.com/universal-time-trial-utt/\">UTT Rules & Regulations</a></strong>",
             "leaderboardUrl": "https://www.multigp.com/leaderboards/utt-10-prairie-rage-3-lap-leaderboard/",
             "userName": "RagingCanadian",
@@ -134,6 +144,7 @@
     "gq": [{
             "id": "11",
             "title": "2019 MultiGP Series",
+            "query": "2019 MultiGP Championship Qualifier",
             "videoUrl": "https://www.youtube.com/watch?v=-4pZ-z_AQU0",
             "leaderboardUrl": "https://www.multigp.com/championships/2019-multigp-series-global-qualifier-results/",
             "startDate": "2019-03-21 12:01 AM",
@@ -157,6 +168,7 @@
         {
             "id": "12",
             "title": "2020 MultiGP Series",
+            "query": "2020 MultiGP Championship Qualifier",
             "description": "The lines are for measuring purposes only. Obstacles must be traversed in this numerical sequence: 1-10. Obstacles may only be entered in the sequence and direction specified.<br />Minimum requirements for flags: Banner/Fabric must be a minimum of 5'x1' and the top of the banner must be elevated to a minimum of 8ft off the ground.<br /><strong><a href=\"https://www.multigp.com/2020-rules-and-season-start/\">2020 Season Rules & Changes</a></strong>",
             "videoUrl": "https://www.youtube.com/watch?v=0FSZo4OxDbQ",
             "leaderboardUrl": "https://www.multigp.com/championships/2020-multigp-series-global-qualifier-results/",
@@ -183,6 +195,7 @@
         {
             "id": "15",
             "title": "2021 MultiGP Series",
+            "query": "2021 MultiGP Championship Qualifier",
             "description": "<b>Requirements:</b><br />• The minimum field size is 200x100ft (60x30m)<br />• Guy wires are NOT required for the double gates<br />• The hurdle must be a minimum of 5'x10'.<br />• A flag's fabric must be a minimum of 5'x1' and the top of the banner must be elevated to a minimum of 8' off the ground.<br /><a href=\"https://docs.google.com/document/d/1x-otorbEruq5oD6b1yzoBTHO9SwUNmb2itguUoY8x3s/\"><b>2021 MultiGP Rules and Regulations</b></a>.",
             "videoUrl": "https://www.youtube.com/watch?v=GTwCHtSElfM",
             "leaderboardUrl": "https://www.multigp.com/championships/2021-multigp-series-global-qualifier-leaderboard/",
@@ -213,6 +226,7 @@
         {
             "id": "21",
             "title": "2022 MultiGP Series",
+            "query": "2022 MultiGP Championship Qualifier",
             "description": "We are happy to announce the track diagram for the 2022 MultiGP Global Qualifier Track designed by AyyKayyy aka Anthony Knight. This track is also available on Velocidrone under pilot name TC_AyyyKayyy.",
             "videoUrl": "https://www.youtube.com/watch?v=5cCdoAna4hw",
             "leaderboardUrl": "https://www.multigp.com/2022-multigp-series-global-qualifier-leaderboard/",
@@ -243,6 +257,7 @@
         {
             "id": "23",
             "title": "2023 MultiGP Series",
+            "query": "2023 MultiGP Championship Qualifier",
             "description": "",
             "videoUrl": "",
             "leaderboardUrl": "",
@@ -342,6 +357,7 @@
     "canada": [{
             "id": "13",
             "title": "2019 Canadian MultiGP Series",
+            "query": "2019 Canadian MultiGP Series",
             "videoUrl": "https://www.youtube.com/watch?v=dPzuRZijg-0",
             "leaderboardUrl": "http://multigpcanada.ca/2019-ranking/",
             "userName": "trojanGoat",
@@ -363,6 +379,7 @@
         {
             "id": "14",
             "title": "2020 Canadian MultiGP Series",
+            "query": "2020 Canadian MultiGP Series",
             "videoUrl": "https://youtu.be/-ZnN4byq3bQ",
             "leaderboardUrl": "http://multigpcanada.ca/ranking/",
             "startDate": "2020-06-18 12:01 AM",
@@ -390,6 +407,7 @@
         {
             "id": "19",
             "title": "2021 Canadian MultiGP Series",
+            "query": "2021 Canadian MultiGP Series",
             "description": "",
             "videoUrl": "https://youtu.be/5loy8l_w830",
             "leaderboardUrl": "http://multigpcanada.ca/ranking/",
@@ -414,6 +432,7 @@
         {
             "id": "22",
             "title": "2022 Canadian MultiGP Series",
+            "query": "2022 Canadian MultiGP Series",
             "description": "It's now that time of the year where all active MultiGP chapters in Canada come together with the Canadian Series. This year's track was designed by Chris \"DCH\" Chu and it is now available on Velocidrone for you to practice!",
             "videoUrl": "https://www.youtube.com/watch?v=tDWLYzNGc3k",
             "leaderboardUrl": "https://bit.ly/3cVeRuT",
@@ -446,6 +465,7 @@
         {
             "id": "24",
             "title": "2023 Canadian MultiGP Series",
+            "query": "2023 Canadian MultiGP Series",
             "description": "",
             "videoUrl": "",
             "leaderboardUrl": "",

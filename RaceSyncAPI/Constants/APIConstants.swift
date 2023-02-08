@@ -180,6 +180,7 @@ enum ParamKey {
     static let raceClassString = "raceClassString"
     static let sendNotification = "sendNotification"
     static let isPublic = "isPublic"
+    static let query = "query"
 
     // Geo-location
     static let address = "address"

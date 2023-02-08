@@ -195,7 +195,9 @@ class TrackDetailViewController: UIViewController {
     }
 
     fileprivate let viewModel: TrackViewModel
+    fileprivate var type: TrackType
     fileprivate var userApi = UserApi()
+    fileprivate var raceApi = RaceApi()
     fileprivate var tableViewRows = [Row]()
     fileprivate var trackImages = [UIImage]()
     fileprivate var timer : DispatchSourceTimer? = nil
@@ -212,8 +214,9 @@ class TrackDetailViewController: UIViewController {
 
     // MARK: - Initialization
 
-    init(with viewModel: TrackViewModel) {
+    init(with viewModel: TrackViewModel, and type: TrackType) {
         self.viewModel = viewModel
+        self.type = type
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -388,20 +391,24 @@ fileprivate extension TrackDetailViewController {
     // MARK: - Data Source
 
     func loadRows() {
+
+        if type != .champs {
+            tableViewRows += [Row.races]
+        }
+        if viewModel.track.leaderboardUrl != nil {
+            tableViewRows += [Row.leaderboard]
+        }
+        if viewModel.track.videoUrl != nil {
+            tableViewRows += [Row.video]
+        }
+        if viewModel.track.userName != nil {
+            tableViewRows += [Row.userName]
+        }
         if viewModel.track.startDate != nil {
             tableViewRows += [Row.start]
         }
         if viewModel.track.endDate != nil {
             tableViewRows += [Row.end]
-        }
-        if viewModel.track.videoUrl != nil {
-            tableViewRows += [Row.video]
-        }
-        if viewModel.track.leaderboardUrl != nil {
-            tableViewRows += [Row.leaderboard]
-        }
-        if viewModel.track.userName != nil {
-            tableViewRows += [Row.userName]
         }
     }
 
@@ -486,6 +493,21 @@ fileprivate extension TrackDetailViewController {
         }
         return nil
     }
+
+    func showRaces(for query: String, with cell: FormTableViewCell) {
+        setLoading(cell, loading: true)
+
+        raceApi.getRaces(by: query) { [weak self] (races, error) in
+            if let races = races {
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: races, sorting: .ascending)
+                let vc = RaceListViewController(sortedViewModels, raceName: query)
+                self?.navigationController?.pushViewController(vc, animated: true)
+            } else if let _ = error {
+                // handle error
+            }
+            self?.setLoading(cell, loading: false)
+        }
+    }
 }
 
 // MARK: - UITableView Delegate
@@ -498,15 +520,13 @@ extension TrackDetailViewController: UITableViewDelegate {
         let row = tableViewRows[indexPath.row]
         let track = viewModel.track
 
-        if row == .video {
-            if let url = track.videoUrl {
-                WebViewController.openUrl(url)
-            }
-        } else if row == .leaderboard {
-            if let url = track.leaderboardUrl {
-                WebViewController.openUrl(url)
-            }
-        } else if row == .userName {
+        if row == .races, let query = track.query {
+            showRaces(for: query, with: cell)
+        } else if row == .leaderboard, let url = track.leaderboardUrl {
+            WebViewController.openUrl(url)
+        } else if row == .video, let url = track.videoUrl {
+            WebViewController.openUrl(url)
+        }  else if row == .userName {
             showUserProfile(cell)
         }
 
@@ -528,24 +548,29 @@ extension TrackDetailViewController: UITableViewDataSource {
         let row = tableViewRows[indexPath.row]
         let track = viewModel.track
         cell.textLabel?.text = row.title
+        cell.accessoryType = .disclosureIndicator
         cell.isLoading = false
 
-        if row == .start {
-            cell.detailTextLabel?.text = viewModel.startDateLabel
-            cell.accessoryType = .none
-        } else if row == .end {
-            cell.detailTextLabel?.text = viewModel.endDateLabel
-            cell.accessoryType = .none
-        } else if row == .video {
-            if let url = track.videoUrl, let URL = URL(string: url) {
-                cell.detailTextLabel?.text = URL.rootDomain
-            }
-        } else if row == .leaderboard {
+        if row == .leaderboard {
             if let url = track.leaderboardUrl, let URL = URL(string: url) {
                 cell.detailTextLabel?.text = URL.rootDomain
             }
-        } else if row == .userName {
+        }
+        if row == .video {
+            if let url = track.videoUrl, let URL = URL(string: url) {
+                cell.detailTextLabel?.text = URL.rootDomain
+            }
+        }
+        if row == .userName {
             cell.detailTextLabel?.text = track.userName
+        }
+        if row == .start {
+            cell.detailTextLabel?.text = viewModel.startDateLabel
+            cell.accessoryType = .none
+        }
+        if row == .end {
+            cell.detailTextLabel?.text = viewModel.endDateLabel
+            cell.accessoryType = .none
         }
 
         return cell
@@ -651,14 +676,15 @@ extension TrackDetailViewController: NSLayoutManagerDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle {
-    case start, end, video, leaderboard, userName
+    case races, leaderboard, video, start, end, userName
 
     var title: String {
         switch self {
+        case .races:        return "Show Races"
+        case .leaderboard:  return "Leaderboard"
+        case .video:        return "Video Preview"
         case .start:        return "Start of Season"
         case .end:          return "End of Season"
-        case .video:        return "Video Preview"
-        case .leaderboard:  return "Leaderboard"
         case .userName:     return "Designer"
         }
     }

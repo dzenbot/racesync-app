@@ -96,7 +96,7 @@ fileprivate extension TrackListViewController {
 
         func getSection(for type: TrackType) -> Section {
             let viewModels = TrackLoader.getTrackViewModels(with: type)
-            return Section(title: type.title, viewModels: viewModels)
+            return Section(title: type.title, viewModels: viewModels, type: type)
         }
         
         sections += [getSection(for: .gq)]
@@ -124,7 +124,8 @@ extension TrackListViewController: UITableViewDelegate {
         tableView.deselectRow(at: indexPath, animated: true)
 
         let viewModel = trackViewModel(at: indexPath)
-        let vc = TrackDetailViewController(with: viewModel)
+        let type = sections[indexPath.section].type
+        let vc = TrackDetailViewController(with: viewModel, and: type)
         navigationController?.pushViewController(vc, animated: true)
     }
 
@@ -239,4 +240,5 @@ extension TrackListViewController: EmptyDataSetSource {
 fileprivate struct Section {
     let title : String
     let viewModels : [TrackViewModel]
+    let type: TrackType
 }
