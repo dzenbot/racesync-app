@@ -126,9 +126,9 @@ class RaceListViewController: UIViewController, ViewJoinable {
                 }
             }
         } else if let raceClass = raceClass {
-            raceApi.getRaces(forClass: raceClass) { [weak self] (races, error) in
+            raceApi.getRaces(forClass: raceClass, filters: [.upcoming]) { [weak self] (races, error) in
                 if let races = races {
-                    self?.raceList = RaceViewModel.sortedViewModels(with: races)
+                    self?.raceList = RaceViewModel.sortedViewModels(with: races, sorting: .descending)
                     self?.tableView.reloadData()
                 } else if let _ = error {
                     // handle error ?

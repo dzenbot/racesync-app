@@ -703,25 +703,10 @@ fileprivate extension RaceDetailViewController {
 
         let raceClass = race.raceClass
 
-        raceApi.getRaces(forClass: raceClass) { [weak self] (races, error) in
+        raceApi.getRaces(forClass: raceClass, filters: [.upcoming]) { [weak self] (races, error) in
             if let races = races {
-                let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: races, sorting: .descending)
                 let vc = RaceListViewController(sortedViewModels, raceClass: raceClass)
-                self?.navigationController?.pushViewController(vc, animated: true)
-            } else if let _ = error {
-                // handle error
-            }
-            self?.setLoading(cell, loading: false)
-        }
-    }
-
-    func showChapterProfile(_ cell: FormTableViewCell) {
-        guard canInteract(with: cell) else { return }
-        setLoading(cell, loading: true)
-
-        chapterApi.getChapter(with: race.chapterId) { [weak self] (chapter, error) in
-            if let chapter = chapter {
-                let vc = ChapterViewController(with: chapter)
                 self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
@@ -739,6 +724,21 @@ fileprivate extension RaceDetailViewController {
                 let sortedViewModels = RaceViewModel.sortedViewModels(with: races)
                 let vc = RaceListViewController(sortedViewModels, seasonId: seasonId)
                 vc.title = self?.race.seasonName
+                self?.navigationController?.pushViewController(vc, animated: true)
+            } else if let _ = error {
+                // handle error
+            }
+            self?.setLoading(cell, loading: false)
+        }
+    }
+
+    func showChapterProfile(_ cell: FormTableViewCell) {
+        guard canInteract(with: cell) else { return }
+        setLoading(cell, loading: true)
+
+        chapterApi.getChapter(with: race.chapterId) { [weak self] (chapter, error) in
+            if let chapter = chapter {
+                let vc = ChapterViewController(with: chapter)
                 self?.navigationController?.pushViewController(vc, animated: true)
             } else if let _ = error {
                 // handle error
