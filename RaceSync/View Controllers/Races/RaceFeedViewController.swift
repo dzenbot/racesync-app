@@ -626,8 +626,8 @@ extension RaceFeedViewController: EmptyDataSetSource {
     func getEmptyStateViewModel() -> EmptyStateViewModel {
         switch selectedRaceFilter {
         case .joined:       return emptyStateJoinedRaces
-        case .chapters:     return emptyStateChapterRaces
         case .nearby:       return emptyStateNearbyRaces
+        case .chapters:     return emptyStateChapterRaces
         case .series:       return emptyStateSeriesRaces
         }
     }
