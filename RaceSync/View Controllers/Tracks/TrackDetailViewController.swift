@@ -88,7 +88,7 @@ class TrackDetailViewController: UIViewController {
         control.backgroundColor = Color.white
         control.pageIndicatorTintColor = Color.gray50
         control.currentPageIndicatorTintColor = Color.gray100
-        control.hidesForSinglePage = false
+        control.hidesForSinglePage = true
         control.addTarget(self, action: #selector(didTapPageControl(_:)), for: .valueChanged)
         return control
     }()

@@ -97,6 +97,8 @@ public enum TrackElementType: String, EnumTitle {
     case splits = "split_s"
     case megaGate = "mega_gate"
     case tinyGate = "tiny_gate"
+    case hGate = "h_gate"
+    case hHurdle = "h_hurdle"
 
     public var title: String {
         switch self {
@@ -113,6 +115,9 @@ public enum TrackElementType: String, EnumTitle {
         case .splits:           return "Split-S Gate"
         case .megaGate:         return "Mega Gate"
         case .tinyGate:         return "Tiny Gate"
+        case .hGate:            return "h-Gate"
+        case .hHurdle:          return "h-Hurdle"
+
         }
     }
 }
