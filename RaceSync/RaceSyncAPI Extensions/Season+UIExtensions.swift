@@ -29,7 +29,7 @@ extension Season {
 
         let today = Date()
 
-        if startDate.date(with: -daysMargin) > today && endDate.date(with: daysMargin) < today {
+        if  today > startDate.date(with: -daysMargin) && today < endDate.date(with: daysMargin) {
             return true
         }
 
