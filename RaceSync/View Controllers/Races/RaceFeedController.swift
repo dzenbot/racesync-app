@@ -28,7 +28,6 @@ class RaceFeedController {
 
     // MARK: - Public Variables
 
-    var showPastSeries: Bool = false
     var raceFilters: [RaceFilter]
 
     // MARK: - Private Variables
@@ -57,7 +56,7 @@ class RaceFeedController {
     }
 
     func shouldShowShimmer(for filter: RaceFilter) -> Bool {
-        if filter == .series, showPastSeries, raceCollection[filter]?.count == 0 {
+        if filter == .series, raceCollection[filter]?.count == 0 {
             return true
         }
         return raceCollection[filter] == nil
@@ -150,23 +149,16 @@ fileprivate extension RaceFeedController {
             completion(viewModels, nil)
         }
 
-        var filters: [RaceListFilters] = [.series]
-        if showPastSeries {
-            filters += [.past]
-        }
+        var filters: [RaceListFilters] = [.series, .upcoming]
 
         // One day, the API will support pagination
         // TODO: The race/list API should accept a year parameter, so only specific year's series races are returned
         raceApi.getRaces(filters: filters, pageSize: 150) { (races, error) in
             if let seriesRaces = races?.filter({ (race) -> Bool in
                 guard let startDate = race.startDate else { return false }
-                if self.showPastSeries {
-                    return startDate.isInLastYear
-                } else {
-                    return startDate.isInThisYear
-                }
+                return startDate.isInThisYear
             }) {
-                let sortedViewModels = RaceViewModel.sortedViewModels(with: seriesRaces)
+                let sortedViewModels = RaceViewModel.sortedViewModels(with: seriesRaces, sorting: .descending)
                 self.raceCollection[.series] = sortedViewModels
                 completion(sortedViewModels, nil)
             } else {

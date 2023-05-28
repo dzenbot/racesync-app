@@ -406,11 +406,6 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
         }
     }
 
-    @objc fileprivate func didPressShowPastSeriesButton(_ sender: Any) {
-        raceFeedController.showPastSeries = true
-        loadRaces(forceReload: true)
-    }
-
     @objc fileprivate func didPullRefreshControl() {
         loadRaces(forceReload: true)
     }
@@ -667,8 +662,6 @@ extension RaceFeedViewController: EmptyDataSetDelegate {
             //
         } else if selectedRaceFilter == .nearby {
             didPressFilterButton(button)
-        } else if selectedRaceFilter == .series {
-            didPressShowPastSeriesButton(button)
         }
     }
 }
