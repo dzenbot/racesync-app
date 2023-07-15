@@ -50,8 +50,7 @@ class RaceFeedViewController: UIViewController, ViewJoinable, Shimmable {
         let imageView = UIImageView(image: UIImage(named: "racesync_logo_header"))
         view.addSubview(imageView)
         imageView.snp.makeConstraints {
-            $0.centerX.equalToSuperview()
-            $0.top.equalTo(view.snp.top).offset(4)
+            $0.centerX.centerY.equalToSuperview()
         }
         return view
     }()
