@@ -1,53 +1,94 @@
-//
-//  SentryFileManager.h
-//  Sentry
-//
-//  Created by Daniel Griesser on 23/05/2017.
-//  Copyright © 2017 Sentry. All rights reserved.
-//
-
-#import <Foundation/Foundation.h>
-
-#if __has_include(<Sentry/Sentry.h>)
-#import <Sentry/SentryDefines.h>
-#else
+#import "SentryCurrentDateProvider.h"
+#import "SentryDataCategory.h"
 #import "SentryDefines.h"
-#endif
+#import "SentrySession.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@class SentryEvent, SentryBreadcrumb, SentryDsn;
+@protocol SentryFileManagerDelegate;
 
+@class SentryEvent, SentryOptions, SentryEnvelope, SentryFileContents, SentryAppState,
+    SentryDispatchQueueWrapper;
+
+NS_SWIFT_NAME(SentryFileManager)
 @interface SentryFileManager : NSObject
 SENTRY_NO_INIT
 
-- (_Nullable instancetype)initWithDsn:(SentryDsn *)dsn didFailWithError:(NSError **)error;
+@property (nonatomic, readonly) NSString *sentryPath;
+@property (nonatomic, readonly) NSString *breadcrumbsFilePathOne;
+@property (nonatomic, readonly) NSString *breadcrumbsFilePathTwo;
+@property (nonatomic, readonly) NSString *previousBreadcrumbsFilePathOne;
+@property (nonatomic, readonly) NSString *previousBreadcrumbsFilePathTwo;
 
-- (NSString *)storeEvent:(SentryEvent *)event;
+- (nullable instancetype)initWithOptions:(SentryOptions *)options
+                  andCurrentDateProvider:(id<SentryCurrentDateProvider>)currentDateProvider
+                                   error:(NSError **)error;
 
-- (NSString *)storeBreadcrumb:(SentryBreadcrumb *)crumb;
-- (NSString *)storeBreadcrumb:(SentryBreadcrumb *)crumb maxCount:(NSUInteger)maxCount;
+- (nullable instancetype)initWithOptions:(SentryOptions *)options
+                  andCurrentDateProvider:(id<SentryCurrentDateProvider>)currentDateProvider
+                    dispatchQueueWrapper:(SentryDispatchQueueWrapper *)dispatchQueueWrapper
+                                   error:(NSError **)error NS_DESIGNATED_INITIALIZER;
+
+- (void)setDelegate:(id<SentryFileManagerDelegate>)delegate;
+
+- (NSString *)storeEnvelope:(SentryEnvelope *)envelope;
+
+- (void)storeCurrentSession:(SentrySession *)session;
+- (void)storeCrashedSession:(SentrySession *)session;
+- (SentrySession *_Nullable)readCurrentSession;
+- (SentrySession *_Nullable)readCrashedSession;
+- (void)deleteCurrentSession;
+- (void)deleteCrashedSession;
+
+- (void)storeTimestampLastInForeground:(NSDate *)timestamp;
+- (NSDate *_Nullable)readTimestampLastInForeground;
+- (void)deleteTimestampLastInForeground;
 
 + (BOOL)createDirectoryAtPath:(NSString *)path withError:(NSError **)error;
 
-- (void)deleteAllStoredEvents;
-
-- (void)deleteAllStoredBreadcrumbs;
+/**
+ * Only used for teting.
+ */
+- (void)deleteAllEnvelopes;
 
 - (void)deleteAllFolders;
 
-- (NSArray<NSDictionary<NSString *, id> *> *)getAllStoredEvents;
+- (void)deleteOldEnvelopeItems;
 
-- (NSArray<NSDictionary<NSString *, id> *> *)getAllStoredBreadcrumbs;
+/**
+ * Get all envelopes sorted ascending by the @c timeIntervalSince1970 the envelope was stored and if
+ * two envelopes are stored at the same time sorted by the order they were stored.
+ */
+- (NSArray<SentryFileContents *> *)getAllEnvelopes;
 
-- (BOOL)removeFileAtPath:(NSString *)path;
+/**
+ * Gets the oldest stored envelope. For the order see @c getAllEnvelopes.
+ * @return @c SentryFileContents if there is an envelope and @c nil if there are no envelopes.
+ */
+- (SentryFileContents *_Nullable)getOldestEnvelope;
+
+- (void)removeFileAtPath:(NSString *)path;
 
 - (NSArray<NSString *> *)allFilesInFolder:(NSString *)path;
 
-- (NSString *)storeDictionary:(NSDictionary *)dictionary toPath:(NSString *)path;
+- (void)storeAppState:(SentryAppState *)appState;
+- (void)moveAppStateToPreviousAppState;
+- (SentryAppState *_Nullable)readAppState;
+- (SentryAppState *_Nullable)readPreviousAppState;
+- (void)deleteAppState;
 
-@property(nonatomic, assign) NSUInteger maxEvents;
-@property(nonatomic, assign) NSUInteger maxBreadcrumbs;
+- (void)moveBreadcrumbsToPreviousBreadcrumbs;
+- (NSArray *)readPreviousBreadcrumbs;
+
+- (NSNumber *_Nullable)readTimezoneOffset;
+- (void)storeTimezoneOffset:(NSInteger)offset;
+- (void)deleteTimezoneOffset;
+
+@end
+
+@protocol SentryFileManagerDelegate <NSObject>
+
+- (void)envelopeItemDeleted:(SentryDataCategory)dataCategory;
 
 @end
 

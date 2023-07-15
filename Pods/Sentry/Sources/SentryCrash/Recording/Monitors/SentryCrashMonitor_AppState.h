@@ -1,3 +1,4 @@
+// Adapted from: https://github.com/kstenerud/KSCrash
 //
 //  SentryCrashMonitor_AppState.h
 //
@@ -24,11 +25,9 @@
 // THE SOFTWARE.
 //
 
-
 /* Manages persistent state information useful for crash reporting such as
  * number of sessions, session length, etc.
  */
-
 
 #ifndef HDR_SentryCrashMonitor_AppState_h
 #define HDR_SentryCrashMonitor_AppState_h
@@ -41,9 +40,7 @@ extern "C" {
 
 #include <stdbool.h>
 
-
-typedef struct
-{
+typedef struct {
     // Saved data
 
     /** Total active time elapsed since the last crash. */
@@ -70,6 +67,10 @@ typedef struct
     /** If true, the application crashed on the previous launch. */
     bool crashedLastLaunch;
 
+    /** Total time in seconds from the crash state init to the last crash. Only contains a value
+     * bigger than zero if crashedLastLaunch is true. */
+    double durationFromCrashStateInitToLastCrash;
+
     // Live data
 
     /** If true, the application crashed on this launch. */
@@ -87,16 +88,17 @@ typedef struct
 
 } SentryCrash_AppState;
 
-
 /** Initialize the state monitor.
  *
  * @param stateFilePath Where to store on-disk representation of state.
  */
-void sentrycrashstate_initialize(const char* stateFilePath);
+void sentrycrashstate_initialize(const char *stateFilePath);
 
 /** Reset the crash state.
  */
 bool sentrycrashstate_reset(void);
+
+const char *sentrycrashstate_filePath(void);
 
 /** Notify the crash reporter of the application active state.
  *
@@ -121,12 +123,11 @@ void sentrycrashstate_notifyAppCrash(void);
 
 /** Read-only access into the current state.
  */
-const SentryCrash_AppState* const sentrycrashstate_currentState(void);
+const SentryCrash_AppState *sentrycrashstate_currentState(void);
 
 /** Access the Monitor API.
  */
-SentryCrashMonitorAPI* sentrycrashcm_appstate_getAPI(void);
-
+SentryCrashMonitorAPI *sentrycrashcm_appstate_getAPI(void);
 
 #ifdef __cplusplus
 }

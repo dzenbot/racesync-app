@@ -1,3 +1,4 @@
+// Adapted from: https://github.com/kstenerud/KSCrash
 //
 //  SentryCrashDebug.c
 //
@@ -24,10 +25,9 @@
 // THE SOFTWARE.
 //
 
-
 #include "SentryCrashDebug.h"
 
-//#define SentryCrashLogger_LocalLevel TRACE
+// #define SentryCrashLogger_LocalLevel TRACE
 #include "SentryCrashLogger.h"
 
 #include <errno.h>
@@ -35,19 +35,24 @@
 #include <sys/sysctl.h>
 #include <unistd.h>
 
-
 /** Check if the current process is being traced or not.
  *
  * @return true if we're being traced.
  */
-bool sentrycrashdebug_isBeingTraced(void)
+bool
+sentrycrashdebug_isBeingTraced(void)
 {
     struct kinfo_proc procInfo;
-    size_t structSize = sizeof(procInfo);
-    int mib[] = {CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid()};
 
-    if(sysctl(mib, sizeof(mib)/sizeof(*mib), &procInfo, &structSize, NULL, 0) != 0)
-    {
+    // Initialize the flags so that, if sysctl fails for some bizarre
+    // reason, we get a predictable result. (see
+    // https://developer.apple.com/library/archive/qa/qa1361/_index.html)
+    procInfo.kp_proc.p_flag = 0;
+
+    size_t structSize = sizeof(procInfo);
+    int mib[] = { CTL_KERN, KERN_PROC, KERN_PROC_PID, getpid() };
+
+    if (sysctl(mib, sizeof(mib) / sizeof(*mib), &procInfo, &structSize, NULL, 0) != 0) {
         SentryCrashLOG_ERROR("sysctl: %s", strerror(errno));
         return false;
     }

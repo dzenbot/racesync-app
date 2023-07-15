@@ -1,3 +1,4 @@
+// Adapted from: https://github.com/kstenerud/KSCrash
 //
 //  SentryCrashDoctor.h
 //  SentryCrash
@@ -10,8 +11,8 @@
 
 @interface SentryCrashDoctor : NSObject
 
-+ (SentryCrashDoctor*) doctor;
++ (SentryCrashDoctor *)doctor;
 
-- (NSString*) diagnoseCrash:(NSDictionary*) crashReport;
+- (NSString *)diagnoseCrash:(NSDictionary *)crashReport;
 
 @end

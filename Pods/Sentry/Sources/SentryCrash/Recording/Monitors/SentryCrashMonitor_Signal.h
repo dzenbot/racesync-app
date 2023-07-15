@@ -1,3 +1,4 @@
+// Adapted from: https://github.com/kstenerud/KSCrash
 //
 //  SentryCrashMonitor_Signal.h
 //
@@ -24,10 +25,8 @@
 // THE SOFTWARE.
 //
 
-
 /* Catches fatal unix signals.
  */
-
 
 #ifndef HDR_SentryCrashMonitor_Signal_h
 #define HDR_SentryCrashMonitor_Signal_h
@@ -36,14 +35,11 @@
 extern "C" {
 #endif
 
-
 #include "SentryCrashMonitor.h"
-
 
 /** Access the Monitor API.
  */
-SentryCrashMonitorAPI* sentrycrashcm_signal_getAPI(void);
-
+SentryCrashMonitorAPI *sentrycrashcm_signal_getAPI(void);
 
 #ifdef __cplusplus
 }

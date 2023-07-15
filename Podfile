@@ -34,7 +34,7 @@ end
 def shared_pods
   # Dev Tools
   pod 'SwiftLint'
-  pod 'Sentry', '~> 4.4.1'
+  pod 'Sentry'
 end
 
 target 'RaceSync' do

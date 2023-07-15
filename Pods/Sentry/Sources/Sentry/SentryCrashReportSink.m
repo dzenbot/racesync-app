@@ -1,73 +1,104 @@
-//
-//  SentryCrashReportSink.m
-//  Sentry
-//
-//  Created by Daniel Griesser on 10/05/2017.
-//  Copyright © 2017 Sentry. All rights reserved.
-//
-
-#if __has_include(<Sentry/Sentry.h>)
-
-#import <Sentry/SentryDefines.h>
-#import <Sentry/SentryCrashReportSink.h>
-#import <Sentry/SentryCrashReportConverter.h>
-#import <Sentry/SentryClient+Internal.h>
-#import <Sentry/SentryClient.h>
-#import <Sentry/SentryEvent.h>
-#import <Sentry/SentryException.h>
-#import <Sentry/SentryLog.h>
-#import <Sentry/SentryThread.h>
-
-#import <Sentry/SentryCrash.h>
-
-#else
-#import "SentryDefines.h"
 #import "SentryCrashReportSink.h"
-#import "SentryCrashReportConverter.h"
+#import "SentryAttachment.h"
 #import "SentryClient.h"
-#import "SentryClient+Internal.h"
+#import "SentryCrash.h"
+#include "SentryCrashMonitor_AppState.h"
+#import "SentryCrashReportConverter.h"
+#import "SentryCrashWrapper.h"
+#import "SentryDefines.h"
+#import "SentryDispatchQueueWrapper.h"
 #import "SentryEvent.h"
 #import "SentryException.h"
+#import "SentryHub.h"
 #import "SentryLog.h"
+#import "SentrySDK+Private.h"
+#import "SentrySDK.h"
+#import "SentryScope+Private.h"
 #import "SentryThread.h"
 
-#import "SentryCrash.h"
-#endif
+static const NSTimeInterval SENTRY_APP_START_CRASH_DURATION_THRESHOLD = 2.0;
+static const NSTimeInterval SENTRY_APP_START_CRASH_FLUSH_DURATION = 5.0;
 
+@interface
+SentryCrashReportSink ()
+
+@property (nonatomic, strong) SentryInAppLogic *inAppLogic;
+@property (nonatomic, strong) SentryCrashWrapper *crashWrapper;
+@property (nonatomic, strong) SentryDispatchQueueWrapper *dispatchQueue;
+
+@end
 
 @implementation SentryCrashReportSink
 
-- (void)handleConvertedEvent:(SentryEvent *)event report:(NSDictionary *)report sentReports:(NSMutableArray *)sentReports {
-    if (nil != event.exceptions.firstObject && [event.exceptions.firstObject.value isEqualToString:@"SENTRY_SNAPSHOT"]) {
-        [SentryLog logWithMessage:@"Snapshotting stacktrace" andLevel:kSentryLogLevelDebug];
-        SentryClient.sharedClient._snapshotThreads = @[event.exceptions.firstObject.thread];
-        SentryClient.sharedClient._debugMeta = event.debugMeta;
-    } else {
-        [sentReports addObject:report];
-        [SentryClient.sharedClient sendEvent:event withCompletionHandler:NULL];
+- (instancetype)initWithInAppLogic:(SentryInAppLogic *)inAppLogic
+                      crashWrapper:(SentryCrashWrapper *)crashWrapper
+                     dispatchQueue:(SentryDispatchQueueWrapper *)dispatchQueue
+{
+    if (self = [super init]) {
+        self.inAppLogic = inAppLogic;
+        self.crashWrapper = crashWrapper;
+        self.dispatchQueue = dispatchQueue;
     }
+    return self;
 }
 
 - (void)filterReports:(NSArray *)reports
-          onCompletion:(SentryCrashReportFilterCompletion)onCompletion {
-    dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
-    dispatch_async(queue, ^{
-        NSMutableArray *sentReports = [NSMutableArray new];
-        for (NSDictionary *report in reports) {
-            SentryCrashReportConverter *reportConverter = [[SentryCrashReportConverter alloc] initWithReport:report];
-            if (nil != SentryClient.sharedClient) {
-                reportConverter.userContext = SentryClient.sharedClient.lastContext;
-                SentryEvent *event = [reportConverter convertReportToEvent];
-                [self handleConvertedEvent:event report:report sentReports:sentReports];
-            } else {
-                [SentryLog logWithMessage:@"Crash reports were found but no SentryClient.sharedClient is set. Cannot send crash reports to Sentry. This is probably a misconfiguration, make sure you set SentryClient.sharedClient before calling startCrashHandlerWithError:." andLevel:kSentryLogLevelError];
-            }
-        }
-        if (onCompletion) {
-            onCompletion(sentReports, TRUE, nil);
-        }
-    });
+         onCompletion:(SentryCrashReportFilterCompletion)onCompletion
+{
+    NSTimeInterval durationFromCrashStateInitToLastCrash
+        = self.crashWrapper.durationFromCrashStateInitToLastCrash;
+    if (durationFromCrashStateInitToLastCrash > 0
+        && durationFromCrashStateInitToLastCrash <= SENTRY_APP_START_CRASH_DURATION_THRESHOLD) {
+        SENTRY_LOG_WARN(@"Startup crash: detected.");
+        [self sendReports:reports onCompletion:onCompletion];
 
+        [SentrySDK flush:SENTRY_APP_START_CRASH_FLUSH_DURATION];
+        SENTRY_LOG_DEBUG(@"Startup crash: Finished flushing.");
+
+    } else {
+        [self.dispatchQueue
+            dispatchAsyncWithBlock:^{ [self sendReports:reports onCompletion:onCompletion]; }];
+    }
+}
+
+- (void)sendReports:(NSArray *)reports onCompletion:(SentryCrashReportFilterCompletion)onCompletion
+{
+    NSMutableArray *sentReports = [NSMutableArray new];
+    for (NSDictionary *report in reports) {
+        SentryCrashReportConverter *reportConverter =
+            [[SentryCrashReportConverter alloc] initWithReport:report inAppLogic:self.inAppLogic];
+        if (nil != [SentrySDK.currentHub getClient]) {
+            SentryEvent *event = [reportConverter convertReportToEvent];
+            if (nil != event) {
+                [self handleConvertedEvent:event report:report sentReports:sentReports];
+            }
+        } else {
+            SENTRY_LOG_ERROR(
+                @"Crash reports were found but no [SentrySDK.currentHub getClient] is set. "
+                @"Cannot send crash reports to Sentry. This is probably a misconfiguration, "
+                @"make sure you set the client with [SentrySDK.currentHub bindClient] before "
+                @"calling startCrashHandlerWithError:.");
+        }
+    }
+    if (onCompletion) {
+        onCompletion(sentReports, YES, nil);
+    }
+}
+
+- (void)handleConvertedEvent:(SentryEvent *)event
+                      report:(NSDictionary *)report
+                 sentReports:(NSMutableArray *)sentReports
+{
+    [sentReports addObject:report];
+    SentryScope *scope = [[SentryScope alloc] initWithScope:SentrySDK.currentHub.scope];
+
+    if (report[SENTRYCRASH_REPORT_ATTACHMENTS_ITEM]) {
+        for (NSString *ssPath in report[SENTRYCRASH_REPORT_ATTACHMENTS_ITEM]) {
+            [scope addCrashReportAttachmentInPath:ssPath];
+        }
+    }
+
+    [SentrySDK captureCrashEvent:event withScope:scope];
 }
 
 @end

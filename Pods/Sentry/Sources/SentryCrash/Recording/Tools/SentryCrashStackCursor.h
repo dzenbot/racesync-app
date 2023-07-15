@@ -1,3 +1,4 @@
+// Adapted from: https://github.com/kstenerud/KSCrash
 //
 //  SentryCrashStackCursor.h
 //
@@ -22,14 +23,12 @@
 // THE SOFTWARE.
 //
 
-
 #ifndef SentryCrashStackCursor_h
 #define SentryCrashStackCursor_h
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-
 
 #include "SentryCrashMachineContext.h"
 
@@ -38,30 +37,36 @@ extern "C" {
 
 #define SentryCrashSC_CONTEXT_SIZE 100
 
-/** Point at which to give up walking a stack and consider it a stack overflow. */
+/** Point at which to give up walking a stack and consider it a stack overflow.
+ */
 #define SentryCrashSC_STACK_OVERFLOW_THRESHOLD 150
 
-typedef struct SentryCrashStackCursor
-{
-    struct
-    {
-        /** Current address in the stack trace. */
-        uintptr_t address;
+/** A special marker frame being yielded as `address` to denote a chained async stacktrace. */
+#define SentryCrashSC_ASYNC_MARKER (UINTPTR_MAX - 1234)
 
-        /** The name (if any) of the binary image the current address falls inside. */
-        const char* imageName;
+typedef struct {
+    /** Current address in the stack trace. */
+    uintptr_t address;
 
-        /** The starting address of the binary image the current address falls inside. */
-        uintptr_t imageAddress;
+    /** The name (if any) of the binary image the current address falls
+     * inside. */
+    const char *imageName;
 
-        /** The name (if any) of the closest symbol to the current address. */
-        const char* symbolName;
+    /** The starting address of the binary image the current address falls
+     * inside. */
+    uintptr_t imageAddress;
 
-        /** The address of the closest symbol to the current address. */
-        uintptr_t symbolAddress;
-    } stackEntry;
-    struct
-    {
+    /** The name (if any) of the closest symbol to the current address. */
+    const char *symbolName;
+
+    /** The address of the closest symbol to the current address. */
+    uintptr_t symbolAddress;
+} SentryCrashStackEntry;
+
+typedef struct SentryCrashStackCursor {
+    SentryCrashStackEntry stackEntry;
+
+    struct {
         /** Current depth as we walk the stack (1-based). */
         int currentDepth;
 
@@ -70,31 +75,32 @@ typedef struct SentryCrashStackCursor
     } state;
 
     /** Reset the cursor back to the beginning. */
-    void (*resetCursor)(struct SentryCrashStackCursor*);
+    void (*resetCursor)(struct SentryCrashStackCursor *);
 
     /** Advance the cursor to the next stack entry. */
-    bool (*advanceCursor)(struct SentryCrashStackCursor*);
+    bool (*advanceCursor)(struct SentryCrashStackCursor *);
 
-    /** Attempt to symbolicate the current address, filling in the fields in stackEntry. */
-    bool (*symbolicate)(struct SentryCrashStackCursor*);
+    /** Attempt to symbolicate the current address, filling in the fields in
+     * stackEntry. */
+    bool (*symbolicate)(struct SentryCrashStackCursor *);
 
     /** Internal context-specific information. */
-    void* context[SentryCrashSC_CONTEXT_SIZE];
+    void *context[SentryCrashSC_CONTEXT_SIZE];
 } SentryCrashStackCursor;
-
 
 /** Common initialization routine for a stack cursor.
  *  Note: This is intended primarily for other cursors to call.
  *
  * @param cursor The cursor to initialize.
  *
- * @param resetCursor Function that will reset the cursor (NULL = default: Do nothing).
+ * @param resetCursor Function that will reset the cursor (NULL = default: Do
+ * nothing).
  *
- * @param advanceCursor Function to advance the cursor (NULL = default: Do nothing and return false).
+ * @param advanceCursor Function to advance the cursor (NULL = default: Do
+ * nothing and return false).
  */
 void sentrycrashsc_initCursor(SentryCrashStackCursor *cursor,
-                     void (*resetCursor)(SentryCrashStackCursor*),
-                     bool (*advanceCursor)(SentryCrashStackCursor*));
+    void (*resetCursor)(SentryCrashStackCursor *), bool (*advanceCursor)(SentryCrashStackCursor *));
 
 /** Reset a cursor.
  *  INTERNAL METHOD. Do not call!
@@ -102,7 +108,6 @@ void sentrycrashsc_initCursor(SentryCrashStackCursor *cursor,
  * @param cursor The cursor to reset.
  */
 void sentrycrashsc_resetCursor(SentryCrashStackCursor *cursor);
-
 
 #ifdef __cplusplus
 }

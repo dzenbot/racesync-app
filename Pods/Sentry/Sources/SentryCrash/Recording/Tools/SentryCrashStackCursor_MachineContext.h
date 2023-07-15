@@ -1,3 +1,4 @@
+// Adapted from: https://github.com/kstenerud/KSCrash
 //
 //  SentryCrashStackCursor_MachineContext.h
 //
@@ -22,7 +23,6 @@
 // THE SOFTWARE.
 //
 
-
 #ifndef SentryCrashStackCursor_MachineContext_h
 #define SentryCrashStackCursor_MachineContext_h
 
@@ -30,8 +30,9 @@
 extern "C" {
 #endif
 
-
 #include "SentryCrashStackCursor.h"
+
+#define MAX_STACKTRACE_LENGTH 100
 
 /** Initialize a stack cursor for a machine context.
  *
@@ -41,8 +42,8 @@ extern "C" {
  *
  * @param machineContext The machine context whose stack to walk.
  */
-void sentrycrashsc_initWithMachineContext(SentryCrashStackCursor *cursor, int maxStackDepth, const struct SentryCrashMachineContext* machineContext);
-
+void sentrycrashsc_initWithMachineContext(SentryCrashStackCursor *cursor, int maxStackDepth,
+    const struct SentryCrashMachineContext *machineContext);
 
 #ifdef __cplusplus
 }

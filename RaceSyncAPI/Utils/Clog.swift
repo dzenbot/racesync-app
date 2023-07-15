@@ -16,7 +16,11 @@ public enum ClogLevel {
 public class Clog : NSObject {
 
     public class func log(_ message: String, andLevel level: ClogLevel = .debug) {
-        SentryLog.log(withMessage: "+ \(message)", andLevel: level.sentryLog)
+
+
+
+
+        //SentryLog.log(withMessage: "+ \(message)", andLevel: level.sentryLog)
 
         print("+ \(message)")
     }

@@ -1,45 +1,65 @@
-//
-//  SentryLog.m
-//  Sentry
-//
-//  Created by Daniel Griesser on 02/05/2017.
-//  Copyright © 2017 Sentry. All rights reserved.
-//
-
-#if __has_include(<Sentry/Sentry.h>)
-
-#import <Sentry/SentryClient.h>
-#import <Sentry/SentryLog.h>
-
-#else
-#import "SentryClient.h"
 #import "SentryLog.h"
-#endif
+#import "SentryLevelMapper.h"
+#import "SentryLogOutput.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 @implementation SentryLog
 
-+ (void)logWithMessage:(NSString *)message andLevel:(SentryLogLevel)level {
-    SentryLogLevel defaultLevel = kSentryLogLevelError;
-    if (SentryClient.logLevel > 0) {
-        defaultLevel = SentryClient.logLevel;
+/**
+ * Enable per default to log initialization errors.
+ */
+static BOOL isDebug = YES;
+static SentryLevel diagnosticLevel = kSentryLevelError;
+static SentryLogOutput *logOutput;
+
++ (void)configure:(BOOL)debug diagnosticLevel:(SentryLevel)level
+{
+    isDebug = debug;
+    diagnosticLevel = level;
+}
+
++ (void)logWithMessage:(NSString *)message andLevel:(SentryLevel)level
+{
+    if (nil == logOutput) {
+        logOutput = [[SentryLogOutput alloc] init];
     }
-    if (level <= defaultLevel && level != kSentryLogLevelNone) {
-        NSLog(@"Sentry - %@:: %@", [self.class logLevelToString:level], message);
+
+    if ([self willLogAtLevel:level]) {
+        [logOutput log:[NSString stringWithFormat:@"[Sentry] [%@] %@", nameForSentryLevel(level),
+                                 message]];
     }
 }
 
-+ (NSString *)logLevelToString:(SentryLogLevel)level {
-    switch (level) {
-        case kSentryLogLevelDebug:
-            return @"Debug";
-        case kSentryLogLevelVerbose:
-            return @"Verbose";
-        default:
-            return @"Error";
-    }
++ (BOOL)willLogAtLevel:(SentryLevel)level
+{
+    return isDebug && level != kSentryLevelNone && level >= diagnosticLevel;
 }
+
+// Internal and only needed for testing.
++ (void)setLogOutput:(SentryLogOutput *)output
+{
+    logOutput = output;
+}
+
+// Internal and only needed for testing.
++ (SentryLogOutput *)logOutput
+{
+    return logOutput;
+}
+
+// Internal and only needed for testing.
++ (BOOL)isDebug
+{
+    return isDebug;
+}
+
+// Internal and only needed for testing.
++ (SentryLevel)diagnosticLevel
+{
+    return diagnosticLevel;
+}
+
 @end
 
 NS_ASSUME_NONNULL_END

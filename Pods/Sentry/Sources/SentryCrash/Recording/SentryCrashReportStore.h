@@ -1,3 +1,4 @@
+// Adapted from: https://github.com/kstenerud/KSCrash
 //
 //  SentryCrashReportStore.h
 //
@@ -31,7 +32,6 @@
 extern "C" {
 #endif
 
-
 #include <stdint.h>
 
 #define SentryCrashCRS_MAX_PATH_LENGTH 500
@@ -39,16 +39,17 @@ extern "C" {
 /** Initialize the report store.
  *
  * @param appName The application's name.
- * @param reportsPath Full path to directory where the reports are to be stored (path will be created if needed).
+ * @param reportsPath Full path to directory where the reports are to be stored
+ * (path will be created if needed).
  */
-void sentrycrashcrs_initialize(const char* appName, const char* reportsPath);
+void sentrycrashcrs_initialize(const char *appName, const char *reportsPath);
 
 /** Get the path to the next crash report to be generated.
  * Max length for paths is SentryCrashCRS_MAX_PATH_LENGTH
  *
  * @param crashReportPathBuffer Buffer to store the crash report path.
  */
-void sentrycrashcrs_getNextCrashReportPath(char* crashReportPathBuffer);
+void sentrycrashcrs_getNextCrashReportPath(char *crashReportPathBuffer);
 
 /** Get the number of reports on disk.
  */
@@ -61,16 +62,40 @@ int sentrycrashcrs_getReportCount(void);
  *
  * @return The number of report IDs that were placed in the array.
  */
-int sentrycrashcrs_getReportIDs(int64_t* reportIDs, int count);
+int sentrycrashcrs_getReportIDs(int64_t *reportIDs, int count);
+
+/**
+ * Gets a report path for given Id.
+ *
+ * @param reportId The report's Id.
+ * @param pathBuffer A buffer to store the result. The buffer size must be equal or greater than
+ * `SentryCrashCRS_MAX_PATH_LENGTH`.
+ */
+void sentrycrashcrs_getCrashReportPathById(int64_t reportId, char *pathBuffer);
 
 /** Read a report.
  *
  * @param reportID The report's ID.
  *
  * @return The NULL terminated report, or NULL if not found.
- *         MEMORY MANAGEMENT WARNING: User is responsible for calling free() on the returned value.
+ *         MEMORY MANAGEMENT WARNING: User is responsible for calling free() on
+ * the returned value.
  */
-char* sentrycrashcrs_readReport(int64_t reportID);
+char *sentrycrashcrs_readReport(int64_t reportID);
+
+/** Gets a report attachments directory for given report id.
+ *
+ * @param reportID The report's ID.
+ * @param pathBuffer A buffer to store the path.
+ */
+void sentrycrashcrs_getAttachmentsPath_forReportId(int64_t reportID, char *pathBuffer);
+
+/** Gets a report attachments directory for given report path;
+ *
+ * @param reportPath The path of the report.
+ * @param pathBuffer A buffer to store the path.
+ */
+void sentrycrashcrs_getAttachmentsPath_forReport(const char *reportPath, char *pathBuffer);
 
 /** Add a custom report to the store.
  *
@@ -79,7 +104,7 @@ char* sentrycrashcrs_readReport(int64_t reportID);
  *
  * @return the new report's ID.
  */
-int64_t sentrycrashcrs_addUserReport(const char* report, int reportLength);
+int64_t sentrycrashcrs_addUserReport(const char *report, int reportLength);
 
 /** Delete all reports on disk.
  */
@@ -91,11 +116,12 @@ void sentrycrashcrs_deleteAllReports(void);
  */
 void sentrycrashcrs_deleteReportWithID(int64_t reportID);
 
-/** Set the maximum number of reports allowed on disk before old ones get deleted.
+/** Set the maximum number of reports allowed on disk before old ones get
+ * deleted.
  *
  * @param maxReportCount The maximum number of reports.
  */
-    void sentrycrashcrs_setMaxReportCount(int maxReportCount);
+void sentrycrashcrs_setMaxReportCount(int maxReportCount);
 
 #ifdef __cplusplus
 }

@@ -12,12 +12,15 @@ PODS:
   - PickerView (0.4.0)
   - Presentr (1.9)
   - QRCode (2.0)
-  - Sentry (4.4.3):
-    - Sentry/Core (= 4.4.3)
-  - Sentry/Core (4.4.3)
+  - Sentry (8.9.1):
+    - Sentry/Core (= 8.9.1)
+    - SentryPrivate (= 8.9.1)
+  - Sentry/Core (8.9.1):
+    - SentryPrivate (= 8.9.1)
+  - SentryPrivate (8.9.1)
   - ShimmerSwift (2.1.1)
   - SnapKit (5.6.0)
-  - SwiftLint (0.50.3)
+  - SwiftLint (0.52.4)
   - SwiftValidators (9.0.3)
   - SwiftyJSON (5.0.0)
   - TOCropViewController (2.6.1)
@@ -33,7 +36,7 @@ DEPENDENCIES:
   - PickerView
   - Presentr
   - QRCode (from `https://github.com/andrewcampoli/QRCode.git`)
-  - Sentry (~> 4.4.1)
+  - Sentry
   - ShimmerSwift
   - SnapKit
   - SwiftLint
@@ -53,6 +56,7 @@ SPEC REPOS:
     - PickerView
     - Presentr
     - Sentry
+    - SentryPrivate
     - ShimmerSwift
     - SnapKit
     - SwiftLint
@@ -80,15 +84,16 @@ SPEC CHECKSUMS:
   PickerView: a736ea986d992aa3ef32423f475fdf3f3a0cf7d4
   Presentr: 7078d7eb5d1661ebeaae60c9e42a1e534de1b993
   QRCode: 282441d0cfe8c4c1766b7578361fe93f72757685
-  Sentry: 14bdd673870e8cf64932b149fad5bbbf39a9b390
+  Sentry: e3203780941722a1fcfee99e351de14244c7f806
+  SentryPrivate: 5e3683390f66611fc7c6215e27645873adb55d13
   ShimmerSwift: f7ed2daf9c246de8299dfd9e12c6ab465cba9842
   SnapKit: e01d52ebb8ddbc333eefe2132acf85c8227d9c25
-  SwiftLint: 77f7cb2b9bb81ab4a12fcc86448ba3f11afa50c6
+  SwiftLint: 1cc5cd61ba9bacb2194e340aeb47a2a37fda00b3
   SwiftValidators: b1cb650ce02ef6ad894f1d471f970b249c794342
   SwiftyJSON: 36413e04c44ee145039d332b4f4e2d3e8d6c4db7
   TOCropViewController: edfd4f25713d56905ad1e0b9f5be3fbe0f59c863
   Valet: 16d0537d70db79d9ba953b9060b5da4fb8004e51
 
-PODFILE CHECKSUM: 7280cd707873e222cf9b513db6da14403b6db5a2
+PODFILE CHECKSUM: 111dba9587b757460e14104843098d30cdb509b6
 
 COCOAPODS: 1.10.1

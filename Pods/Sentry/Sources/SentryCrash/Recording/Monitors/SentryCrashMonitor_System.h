@@ -1,3 +1,4 @@
+// Adapted from: https://github.com/kstenerud/KSCrash
 //
 //  SentryCrashMonitor_System.h
 //
@@ -31,14 +32,17 @@
 extern "C" {
 #endif
 
-
 #include "SentryCrashMonitor.h"
-
+#import "SentryInternalCDefines.h"
 
 /** Access the Monitor API.
  */
-    SentryCrashMonitorAPI* sentrycrashcm_system_getAPI(void);
+SentryCrashMonitorAPI *sentrycrashcm_system_getAPI(void);
 
+bool sentrycrash_isSimulatorBuild(void);
+
+bytes sentrycrashcm_system_freememory_size(void);
+bytes sentrycrashcm_system_freestorage_size(void);
 
 #ifdef __cplusplus
 }
