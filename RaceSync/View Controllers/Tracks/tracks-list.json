@@ -481,17 +481,30 @@
         {
             "id": "24",
             "title": "2023 Canadian MultiGP Series",
-            "query": "2023 Canadian MultiGP Series",
+            "query": "2023 MultiGP Canadian Qualifier",
             "description": "",
             "videoUrl": "",
-            "leaderboardUrl": "",
-            "validationFeetUrl": "",
-            "validationMetersUrl": "",
-            "startDate": "2023-06-01 12:01 AM",
-            "endDate": "2023-08-31 11:59 PM",
-            "userName": "",
+            "leaderboardUrl": "https://www.multigp.com/2023-multigp-series-global-qualifier-leaderboard/",
+            "startDate": "2023-07-19 12:01 AM",
+            "endDate": "2023-02-29 11:59 PM",
+            "userName": "Solace",
             "raceClass": "0",
-            "elements": []
+            "elements": [{
+                "type": "gate",
+                "count": 7
+            },
+            {
+                "type": "flag",
+                "count": 1
+            },
+            {
+                "type": "h_gate",
+                "count": 3
+            },
+            {
+                "type": "h_hurdle",
+                "count": 1
+            }
         }
     ]
 }
