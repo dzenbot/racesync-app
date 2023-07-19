@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		00463F577FF49FF13F8A871B /* Pods_RaceSyncAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D073602CBE253F96567B3B54 /* Pods_RaceSyncAPI.framework */; };
-		460A0880363895A247C9C23A /* Pods_RaceSyncTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53D65741DB402E1BEAF04DE6 /* Pods_RaceSyncTests.framework */; };
 		4F004E9A295A2CA1009C46AA /* Course.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E99295A2CA1009C46AA /* Course.swift */; };
 		4F004E9C295A3027009C46AA /* SeasonApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9B295A3027009C46AA /* SeasonApi.swift */; };
 		4F004E9E295A3066009C46AA /* CourseApi.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F004E9D295A3066009C46AA /* CourseApi.swift */; };
@@ -185,7 +184,6 @@
 		4FB06AB6296B521000F14E59 /* AppIcon-MGP1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4FB06AB2296B521000F14E59 /* AppIcon-MGP1@2x.png */; };
 		4FB0EB6A23BB3B1F009ABAF0 /* FormTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FB0EB6923BB3B1F009ABAF0 /* FormTableViewCell.swift */; };
 		4FBADDF624D4E2DB00A7D291 /* Array+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBADDF524D4E2DB00A7D291 /* Array+Extensions.swift */; };
-		4FBE7602259B341E00312B66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F95B74D2596968100631A27 /* Assets.xcassets */; };
 		4FBE7608259B348200312B66 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F13424E2360B67D00A9DBDE /* Assets.xcassets */; };
 		4FBE760F259B387E00312B66 /* User+UIExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBE760E259B387E00312B66 /* User+UIExtensions.swift */; };
 		4FBE761E259BBA6100312B66 /* WatchSessionConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FBE761D259BBA6100312B66 /* WatchSessionConstants.swift */; };
@@ -250,7 +248,6 @@
 		4FEBB27D23A30F99007514B4 /* Date+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27C23A30F99007514B4 /* Date+Extensions.swift */; };
 		4FEBB27F23A310BB007514B4 /* User+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FEBB27E23A310BB007514B4 /* User+Extensions.swift */; };
 		4FFF07EE27A0F87100EFC30D /* TrackLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FFF07ED27A0F87100EFC30D /* TrackLoader.swift */; };
-		557B42DEFCE17185D9C5ECDB /* Pods_RaceSyncAPITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C16D844D6CFA28756F4CA02 /* Pods_RaceSyncAPITests.framework */; };
 		9545A27A3685C3F227C6CCDC /* Pods_RaceSync.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 03ADD4F5A98600BFEB5B6C6E /* Pods_RaceSync.framework */; };
 /* End PBXBuildFile section */
 
@@ -322,8 +319,6 @@
 		03ADD4F5A98600BFEB5B6C6E /* Pods_RaceSync.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSync.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0A43AF1C49328F4DFB325FDA /* Pods-RaceSync.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSync.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSync/Pods-RaceSync.release.xcconfig"; sourceTree = "<group>"; };
 		0B33D87E0F5A0D3C15F5A09A /* Pods-RaceSyncAPI.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPI.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPI/Pods-RaceSyncAPI.release.xcconfig"; sourceTree = "<group>"; };
-		1ED11B2F78DEFA910DC25E84 /* Pods-TestHost.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestHost.release.xcconfig"; path = "Pods/Target Support Files/Pods-TestHost/Pods-TestHost.release.xcconfig"; sourceTree = "<group>"; };
-		2C16D844D6CFA28756F4CA02 /* Pods_RaceSyncAPITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSyncAPITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		39172015E1CE1AD9586A8B50 /* Pods-RaceSyncAPITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPITests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPITests/Pods-RaceSyncAPITests.release.xcconfig"; sourceTree = "<group>"; };
 		40DB5CAFF0B302311BAF739B /* Pods-RaceSyncAPI.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPI.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPI/Pods-RaceSyncAPI.debug.xcconfig"; sourceTree = "<group>"; };
 		4F004E99295A2CA1009C46AA /* Course.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Course.swift; sourceTree = "<group>"; };
@@ -576,13 +571,10 @@
 		4FEBB27C23A30F99007514B4 /* Date+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extensions.swift"; sourceTree = "<group>"; };
 		4FEBB27E23A310BB007514B4 /* User+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "User+Extensions.swift"; sourceTree = "<group>"; };
 		4FFF07ED27A0F87100EFC30D /* TrackLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackLoader.swift; sourceTree = "<group>"; };
-		53D65741DB402E1BEAF04DE6 /* Pods_RaceSyncTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSyncTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		935E289DD2B5422FABA6329D /* Pods-RaceSyncTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncTests/Pods-RaceSyncTests.debug.xcconfig"; sourceTree = "<group>"; };
 		9C8FF42CD75D17C9607E692D /* Pods-RaceSyncTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncTests/Pods-RaceSyncTests.release.xcconfig"; sourceTree = "<group>"; };
 		C0AD3F0FAC42488B672FD23B /* Pods-RaceSyncAPITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaceSyncAPITests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaceSyncAPITests/Pods-RaceSyncAPITests.debug.xcconfig"; sourceTree = "<group>"; };
 		D073602CBE253F96567B3B54 /* Pods_RaceSyncAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaceSyncAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		E2CFDA2527374CB712344B11 /* Pods_TestHost.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_TestHost.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F4B3FFAD22585CE75E7AD369 /* Pods-TestHost.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TestHost.debug.xcconfig"; path = "Pods/Target Support Files/Pods-TestHost/Pods-TestHost.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -606,7 +598,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				460A0880363895A247C9C23A /* Pods_RaceSyncTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,7 +614,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F1342762360DA4C00A9DBDE /* RaceSyncAPI.framework in Frameworks */,
-				557B42DEFCE17185D9C5ECDB /* Pods_RaceSyncAPITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1261,9 +1251,6 @@
 			children = (
 				03ADD4F5A98600BFEB5B6C6E /* Pods_RaceSync.framework */,
 				D073602CBE253F96567B3B54 /* Pods_RaceSyncAPI.framework */,
-				2C16D844D6CFA28756F4CA02 /* Pods_RaceSyncAPITests.framework */,
-				53D65741DB402E1BEAF04DE6 /* Pods_RaceSyncTests.framework */,
-				E2CFDA2527374CB712344B11 /* Pods_TestHost.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -1279,8 +1266,6 @@
 				39172015E1CE1AD9586A8B50 /* Pods-RaceSyncAPITests.release.xcconfig */,
 				935E289DD2B5422FABA6329D /* Pods-RaceSyncTests.debug.xcconfig */,
 				9C8FF42CD75D17C9607E692D /* Pods-RaceSyncTests.release.xcconfig */,
-				F4B3FFAD22585CE75E7AD369 /* Pods-TestHost.debug.xcconfig */,
-				1ED11B2F78DEFA910DC25E84 /* Pods-TestHost.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -1514,7 +1499,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				4F95B74E2596968100631A27 /* Assets.xcassets in Resources */,
-				4FBE7602259B341E00312B66 /* Assets.xcassets in Resources */,
 				4F95B7622596968200631A27 /* Assets.xcassets in Resources */,
 				4F95B74C2596967E00631A27 /* Interface.storyboard in Resources */,
 			);

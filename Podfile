@@ -57,10 +57,21 @@ target 'RaceSyncAPITests' do
   shared_pods
 end
 
-post_install do |pi|
-    pi.pods_project.targets.each do |t|
-      t.build_configurations.each do |config|
+post_install do |installer|
+    installer.pods_project.targets.each do |target|
+      target.build_configurations.each do |config|
         config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
       end
+    end
+
+    installer.generated_projects.each do |project|
+        project.targets.each do |target|
+            target.build_configurations.each do |config|
+              config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = ""
+              config.build_settings['CODE_SIGNING_REQUIRED'] = "NO"
+              config.build_settings['CODE_SIGNING_ALLOWED'] = "NO"
+#              config.build_settings["DEVELOPMENT_TEAM"] = "TJ4PB66YQS"
+            end
+        end
     end
 end
