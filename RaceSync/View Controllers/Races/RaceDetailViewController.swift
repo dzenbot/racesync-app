@@ -192,11 +192,6 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         return nil
     }
 
-    fileprivate var canEditRaces: Bool {
-        guard race.isMyChapter else { return false }
-        return true
-    }
-
     fileprivate var canDisplayGQIcon: Bool {
         return race.officialStatus == .approved
     }
@@ -478,7 +473,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
 
         var buttons = [UIButton]()
 
-        if canEditRaces {
+        if race.canBeEdited {
             let editButton = CustomButton(type: .system)
             editButton.addTarget(self, action: #selector(didPressEditButton), for: .touchUpInside)
             editButton.setImage(ButtonImg.edit, for: .normal)
@@ -544,9 +539,13 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         let editAction = UIAlertAction(title: "Edit Race", style: .default) { [weak self] action in
             self?.editRace()
         }
+        alert.addAction(editAction)
 
-        let duplicateAction = UIAlertAction(title: "Duplicate Race", style: .default) { [weak self] action in
-            self?.duplicateRace()
+        if race.canBeDuplicated {
+            let duplicateAction = UIAlertAction(title: "Duplicate Race", style: .default) { [weak self] action in
+                self?.duplicateRace()
+            }
+            alert.addAction(duplicateAction)
         }
 
         let deleteAction = UIAlertAction(title: "Delete Race", style: .destructive) { action in
@@ -556,10 +555,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
                 self?.deleteRace()
             })
         }
-
-        alert.addAction(editAction)
-        alert.addAction(duplicateAction)
         alert.addAction(deleteAction)
+
         alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: nil))
         present(alert, animated: true)
     }

@@ -423,7 +423,7 @@ extension RaceFormViewController {
             if let d = data.endDate {
                 return d
             } else if let d = data.startDate {
-                return d.date(with: 30, type: .minute) // default end time, 30mins after start time
+                return d.date(with: 300, type: .minute) // default end time, 5 hours after start time
             }
         }
         return Date()

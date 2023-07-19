@@ -15,4 +15,14 @@ public extension Race {
         let chapterIds = managedChapters.compactMap { $0.id }
         return chapterIds.contains(chapterId)
     }
+
+    var canBeEdited: Bool {
+        guard isMyChapter else { return false }
+        return true
+    }
+
+    var canBeDuplicated: Bool {
+        guard raceType == .normal else { return false }
+        return true
+    }
 }
