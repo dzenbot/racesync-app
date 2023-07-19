@@ -430,8 +430,8 @@ extension RaceFormViewController {
     }
 
     func minimumDate(for row: RaceFormRow) -> Date? {
-        if row == .endDate, let date = data.startDate {
-            return date
+        if row == .endDate, let d = data.startDate {
+            return d.date(with: 30, type: .minute) // minimum end time, 30 mins after start time
         }
         return nil
     }
@@ -552,6 +552,22 @@ extension RaceFormViewController: FormBaseViewControllerDelegate {
             data.name = item
             title = item
         case .startDate:
+
+            // Incrementing the end date, when adjusting the start date
+            if let startDate = data.startDate, let endDate = data.endDate {
+
+                let newStart = DateUtil.standardDateFormatter.date(from: item)
+                let diff = endDate.timeIntervalSince(startDate)
+
+                if diff > 0 {
+                    if let newEnd = newStart?.addingTimeInterval(diff) {
+                        data.endDateString = DateUtil.standardDateFormatter.string(from: newEnd)
+                    }
+                } else if let minDate = newStart?.date(with: 30, type: .minute) {
+                    data.endDateString = DateUtil.standardDateFormatter.string(from: minDate)
+                }
+            }
+
             data.startDateString = item
         case .endDate:
             data.endDateString = item
