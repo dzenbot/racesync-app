@@ -394,8 +394,13 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             tableViewRows += [Row.season]
         }
 
+        // Only display ZippyQ link to schedule if it is configure for the race
+        if race.maxZippyqDepth > 0 {
+            tableViewRows += [Row.zippyQ]
+        }
+
         if race.liveTimeEventUrl != nil {
-            tableViewRows += [Row.liveTime]
+            tableViewRows += [Row.liveFPV]
         }
     }
 
@@ -771,7 +776,12 @@ fileprivate extension RaceDetailViewController {
         }
     }
 
-    func openLiveTime(_ cell: FormTableViewCell) {
+    func openZippyQSchedule(_ cell: FormTableViewCell) {
+        guard race.zippyqUrl.count > 0 else { return }
+        WebViewController.openUrl(race.zippyqUrl)
+    }
+
+    func openLiveFPV(_ cell: FormTableViewCell) {
         guard let url = race.liveTimeEventUrl else { return }
         WebViewController.openUrl(url)
     }
@@ -793,8 +803,10 @@ extension RaceDetailViewController: UITableViewDelegate {
             showChapterProfile(cell)
         } else if row == .season {
             showSeasonRaces(cell)
-        } else if row == .liveTime {
-            openLiveTime(cell)
+        } else if row == .zippyQ {
+            openZippyQSchedule(cell)
+        } else if row == .liveFPV {
+            openLiveFPV(cell)
         }
 
         tableView.deselectRow(at: indexPath, animated: true)
@@ -824,8 +836,10 @@ extension RaceDetailViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = raceViewModel.ownerLabel
         } else if row == .season {
             cell.detailTextLabel?.text = raceViewModel.seasonLabel
-        } else if row == .liveTime {
-            cell.detailTextLabel?.text = ""
+        } else if row == .zippyQ {
+            cell.detailTextLabel?.text = "multigp.com"
+        } else if row == .liveFPV, let url = race.liveTimeEventUrl {
+            cell.detailTextLabel?.text = URL(string: url)?.host ?? ""
         }
 
         return cell
@@ -903,7 +917,7 @@ extension RaceDetailViewController: MKMapViewDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case `class`, chapter, owner, season, liveTime
+    case `class`, chapter, owner, season, zippyQ, liveFPV
 
     var title: String {
         switch self {
@@ -911,7 +925,8 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .chapter:          return "Chapter"
         case .owner:            return "Coordinator"
         case .season:           return "Season"
-        case .liveTime:         return "Go to LiveFPV.com"
+        case .zippyQ:           return "ZippyQ Schedule"
+        case .liveFPV:          return "Race Results"
         }
     }
 }

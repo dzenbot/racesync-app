@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 53;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -1288,14 +1288,14 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F1342612360B67E00A9DBDE /* Build configuration list for PBXNativeTarget "RaceSync" */;
 			buildPhases = (
+				4F1342872360DA4C00A9DBDE /* Embed Frameworks */,
+				4F95B7682596968200631A27 /* Embed Watch Content */,
 				9096BCDFA897EAE64E1192AF /* [CP] Check Pods Manifest.lock */,
 				4F1342402360B67D00A9DBDE /* Sources */,
 				4F1342412360B67D00A9DBDE /* Frameworks */,
 				4F1342422360B67D00A9DBDE /* Resources */,
-				4F1342872360DA4C00A9DBDE /* Embed Frameworks */,
 				3B4D116BF1F8D1B8A506C31E /* [CP] Embed Pods Frameworks */,
 				4F81759D241195AD00685F83 /* Upload Symbols with sentry-cli */,
-				4F95B7682596968200631A27 /* Embed Watch Content */,
 			);
 			buildRules = (
 			);

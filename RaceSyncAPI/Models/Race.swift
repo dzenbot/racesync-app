@@ -36,6 +36,7 @@ public class Race: Mappable, Joinable, Descriptable {
 
     public var url: String = ""
     public var urlName: String = ""
+    public var zippyqUrl: String = ""
     public var liveTimeEventUrl: String?
     public var description: String = ""
     public var content: String = ""
@@ -122,6 +123,7 @@ public class Race: Mappable, Joinable, Descriptable {
 
         url = MGPWeb.getUrl(for: .raceView, value: id)
         urlName <- map[ParamKey.urlName]
+        zippyqUrl = MGPWeb.getUrl(for: .zippyqView, value: id)
         liveTimeEventUrl <- map[ParamKey.liveTimeEventUrl]
         description <- map[ParamKey.description]
         content <- map[ParamKey.content]
