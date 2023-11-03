@@ -394,7 +394,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
             tableViewRows += [Row.season]
         }
 
-        if race.liveTimeUrl != nil {
+        if race.liveTimeEventUrl != nil {
             tableViewRows += [Row.liveTime]
         }
     }
@@ -772,7 +772,7 @@ fileprivate extension RaceDetailViewController {
     }
 
     func openLiveTime(_ cell: FormTableViewCell) {
-        guard let url = race.liveTimeUrl else { return }
+        guard let url = race.liveTimeEventUrl else { return }
         WebViewController.openUrl(url)
     }
 }

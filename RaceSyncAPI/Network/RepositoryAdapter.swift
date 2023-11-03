@@ -7,6 +7,7 @@
 //
 
 import Alamofire
+import AlamofireObjectMapper
 import ObjectMapper
 import SwiftyJSON
 

@@ -38,7 +38,7 @@ enum EndPoint {
     static let raceCheckOut = "race/checkOut"
     static let raceCreate = "race/create"
     static let raceUpdate = "race/update"
-    static let raceDelete = "race/delete" // missing API
+    static let raceDelete = "race/delete"
 
     static let chapterList = "chapter/list"
     static let chapterFindLocal = "chapter/findLocal"
@@ -193,7 +193,6 @@ enum ParamKey {
     static let radius = "radius"
 
     // url
-    static let liveTimeUrl = "liveTimeUrl"
     static let liveTimeEventUrl = "liveTimeEventUrl"
     static let facebookUrl = "facebookUrl"
     static let googleUrl = "googleUrl"
