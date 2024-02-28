@@ -1,0 +1,12 @@
+node_modules
+fastlane/report.xml
+xcuserdata
+.DS_Store
+*.ipa
+*.zip
+basic/composer.lock
+
+credentials.plist
+race-track-diagrams.psd
+
+*_Icon-assets/

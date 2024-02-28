@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "racesync_logo_splash.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
