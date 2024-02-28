@@ -37,31 +37,3 @@ Find and join local drone races hosted by MultiGP chapters worldwide with a free
 * Submit GQ track measurement validation
 
 Start racing now with RaceSync!
-
-## Public beta is open
-
-[<img src="https://user-images.githubusercontent.com/43776784/125545484-11474758-6313-4ddb-b96a-4a11113b1958.png" width=25%>](https://testflight.apple.com/join/BRXIQJLb)
-
-## Community Contribution
-
-Are you familiar with MultiGP and iOS/Swift development?
-Do you have feature ideas or found bugs on the existing production app?
-Feel free to create Issues and submit Pull Requests with your feedback!
-
-### Development Setup
-
-* [Download XCode](https://apps.apple.com/ca/app/xcode/id497799835?mt=12).
-* Fork and clone this Git repository
-* Create a file called `credentials.plist` and place it under `$SRCROOT/../credentials/`. Add `API_KEY` to this file and insert your Chapter API key (note that this type of API key won't give you full access to the MGP API but it is enough to run and test the app).
-* Compile and Run!
-
-## Continuous Integration
-
-The following application targets are being privately built and tested using XCode Cloud:
-- [**[RaceSync]**](https://appstoreconnect.apple.com/teams/69a6de89-7661-47e3-e053-5b8c7c11a4d1/apps/1491110680/ci/groups)
-- [**[RaceSyncAPI]**](https://appstoreconnect.apple.com/teams/69a6de89-7661-47e3-e053-5b8c7c11a4d1/frameworks/C4E896B0-7561-452A-9008-4410D9F88776/groups)
-
-## Platform
-
-* iOS 13.0+
-* WatchOS 7.0+
