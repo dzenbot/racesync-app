@@ -132,7 +132,7 @@ class RaceTabBarController: UITabBarController {
 
         var vcs = [UIViewController]()
         vcs += [RaceDetailViewController(with: race)]
-        vcs += [RaceRosterViewController(with: race)]
+        vcs += [RacePilotsViewController(with: race)]
 
         if isResultsTabEnabled {
             vcs += [RaceResultsViewController(with: race)]

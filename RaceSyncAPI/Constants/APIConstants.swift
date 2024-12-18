@@ -146,6 +146,7 @@ enum ParamKey {
     static let participantCount = "participantCount"
     static let officialStatus = "officialStatus"
     static let captureTimeEnabled = "captureTimeEnabled"
+    static let finalized = "finalized"
     static let scoringDisabled = "scoringDisabled"
     static let scoringFormat = "scoringFormat"
     static let score = "score"

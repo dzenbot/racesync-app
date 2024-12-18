@@ -28,6 +28,7 @@ public class Race: Mappable, Joinable, Descriptable {
     public var officialStatus: RaceOfficialStatus = .normal
     public var scoringDisabled: Bool = false
     public var captureTimeEnabled: Bool = true
+    public var isFinalized: Bool = false
     public var cycleCount: Int32 = 0
     public var disableSlotAutoPopulation: QualifyingType = .controlled
     public var maxZippyqDepth: Int32 = 0
@@ -113,8 +114,9 @@ public class Race: Mappable, Joinable, Descriptable {
         raceClassString <- map[ParamKey.raceClassString]
         raceType <- (map[ParamKey.raceType], EnumTransform<RaceType>())
         officialStatus <- (map[ParamKey.officialStatus], EnumTransform<RaceOfficialStatus>())
-        captureTimeEnabled <- (map[ParamKey.captureTimeEnabled], BooleanTransform()) // returned as String from API
-        scoringDisabled <- (map[ParamKey.scoringDisabled], BooleanTransform()) // returned as String from API
+        captureTimeEnabled <- (map[ParamKey.captureTimeEnabled], BooleanTransform()) // returns as String from API
+        isFinalized <- (map[ParamKey.finalized], BooleanTransform()) // returns as String from API
+        scoringDisabled <- (map[ParamKey.scoringDisabled], BooleanTransform()) // returns as String from API
         cycleCount <- (map[ParamKey.cycleCount], IntegerTransform())
         disableSlotAutoPopulation <- (map[ParamKey.disableSlotAutoPopulation], EnumTransform<QualifyingType>())
         maxZippyqDepth <- (map[ParamKey.maxZippyqDepth], IntegerTransform())

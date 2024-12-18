@@ -1,5 +1,5 @@
 //
-//  RaceRosterViewController.swift
+//  RacePilotsViewController.swift
 //  RaceSync
 //
 //  Created by Ignacio Romero Zurbuchen on 2019-11-15.
@@ -10,7 +10,7 @@ import UIKit
 import EmptyDataSet_Swift
 import RaceSyncAPI
 
-class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
+class RacePilotsViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     // MARK: - Public Variables
 
@@ -116,7 +116,7 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func configureNavigationItems() {
-        title = "Pilots"
+        title = "Pilots" // "Results"
         tabBarItem = UITabBarItem(title: self.title, image: UIImage(named: "icn_tabbar_roster"), selectedImage: UIImage(named: "icn_tabbar_roster_selected"))
 
         if race.isMyChapter {
@@ -175,7 +175,7 @@ class RaceRosterViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 }
 
-fileprivate extension RaceRosterViewController {
+fileprivate extension RacePilotsViewController {
 
     func setLoading(_ cell: AvatarTableViewCell, loading: Bool) {
         cell.isLoading = loading
@@ -208,7 +208,7 @@ fileprivate extension RaceRosterViewController {
     }
 }
 
-extension RaceRosterViewController: UITableViewDelegate {
+extension RacePilotsViewController: UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         showUserProfile(forUserAt: indexPath)
@@ -231,7 +231,7 @@ extension RaceRosterViewController: UITableViewDelegate {
     }
 }
 
-extension RaceRosterViewController: UITableViewDataSource {
+extension RacePilotsViewController: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
         var sections = 0
@@ -286,14 +286,14 @@ extension RaceRosterViewController: UITableViewDataSource {
     }
 }
 
-extension RaceRosterViewController: RacePilotsPickerControllerDelegate {
+extension RacePilotsViewController: RacePilotsPickerControllerDelegate {
 
     func pickerControllerDidUpdate(_ viewController: RacePilotsPickerController) {
         reloadRaceView()
     }
 }
 
-extension RaceRosterViewController: EmptyDataSetSource {
+extension RacePilotsViewController: EmptyDataSetSource {
 
     func title(forEmptyDataSet scrollView: UIScrollView) -> NSAttributedString? {
         emptyStateRaceRegisters.title
@@ -317,7 +317,7 @@ extension RaceRosterViewController: EmptyDataSetSource {
     }
 }
 
-extension RaceRosterViewController: EmptyDataSetDelegate {
+extension RacePilotsViewController: EmptyDataSetDelegate {
 
     func emptyDataSetShouldDisplay(_ scrollView: UIScrollView) -> Bool {
         return !isLoading

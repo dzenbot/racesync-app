@@ -29,6 +29,9 @@ public class AppWebConstants {
     static let gqValidationMeters = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-meters/"
 
     static let betaSignup = "https://testflight.apple.com/join/BRXIQJLb"
+
+    static let livefpv = "https://livefpv.com/"
+    static let fpvscores = "https://fpvscores.com/"
 }
 
 extension AppWebConstants {
@@ -88,5 +91,29 @@ extension AppWebConstants {
 
         urlComponents.queryItems = queryItems
         return urlComponents.url?.absoluteString
+    }
+}
+
+enum AppWeb: Int {
+    case multigp, livefpv, fpvscores
+
+    init?(url: String) {
+        guard let aURL = URL(string: url) else { return nil }
+
+        let mappings: [AppWeb: String] = [
+            .multigp: AppWebConstants.homepage,
+            .livefpv: AppWebConstants.livefpv,
+            .fpvscores: AppWebConstants.fpvscores
+        ]
+
+        for (appWebCase, caseURLString) in mappings {
+            if let caseURL = URL(string: caseURLString),
+               caseURL.rootDomain == aURL.rootDomain {
+                self = appWebCase
+                return
+            }
+        }
+
+        return nil
     }
 }

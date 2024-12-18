@@ -149,7 +149,7 @@ fileprivate extension RaceFeedController {
             completion(viewModels, nil)
         }
 
-        var filters: [RaceListFilters] = [.series, .upcoming]
+        let filters: [RaceListFilters] = [.series, .upcoming]
 
         // One day, the API will support pagination
         // TODO: The race/list API should accept a year parameter, so only specific year's series races are returned

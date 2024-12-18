@@ -400,7 +400,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         }
 
         if race.liveTimeEventUrl != nil {
-            tableViewRows += [Row.viewOn]
+            tableViewRows += [Row.results]
         }
     }
 
@@ -804,7 +804,7 @@ extension RaceDetailViewController: UITableViewDelegate {
             showSeasonRaces(cell)
         } else if row == .zippyQ {
             openZippyQSchedule(cell)
-        } else if row == .viewOn {
+        } else if row == .results {
             openLiveFPV(cell)
         }
 
@@ -837,8 +837,16 @@ extension RaceDetailViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = raceViewModel.seasonLabel
         } else if row == .zippyQ {
             cell.detailTextLabel?.text = "multigp.com"
-        } else if row == .viewOn, let url = race.liveTimeEventUrl {
-            cell.detailTextLabel?.text = URL(string: url)?.host ?? ""
+        } else if row == .results, let url = race.liveTimeEventUrl {
+            if let web = AppWeb(url: url) {
+                if web == .livefpv {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "logo_livefpv"))
+                } else if web == .fpvscores {
+                    cell.accessoryView = UIImageView(image: UIImage(named: "logo_fpvscores"))
+                } else {
+                    cell.detailTextLabel?.text = URL(string: url)?.rootDomain ?? ""
+                }
+            }
         }
 
         return cell
@@ -916,7 +924,7 @@ extension RaceDetailViewController: MKMapViewDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case `class`, chapter, owner, season, zippyQ, viewOn
+    case `class`, chapter, owner, season, zippyQ, results
 
     var title: String {
         switch self {
@@ -925,7 +933,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .owner:            return "Coordinator"
         case .season:           return "Season"
         case .zippyQ:           return "ZippyQ Schedule"
-        case .viewOn:           return "View On"
+        case .results:          return "View on"
         }
     }
 }

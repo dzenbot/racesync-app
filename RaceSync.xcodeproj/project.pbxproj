@@ -210,7 +210,7 @@
 		4FD4E1C3237F960A008816B3 /* CustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C2237F960A008816B3 /* CustomButton.swift */; };
 		4FD4E1C5237F9746008816B3 /* UserViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C4237F9746008816B3 /* UserViewController.swift */; };
 		4FD4E1C7237F97AD008816B3 /* ChapterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C6237F97AD008816B3 /* ChapterViewController.swift */; };
-		4FD4E1C9237F987C008816B3 /* RaceRosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C8237F987C008816B3 /* RaceRosterViewController.swift */; };
+		4FD4E1C9237F987C008816B3 /* RacePilotsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1C8237F987C008816B3 /* RacePilotsViewController.swift */; };
 		4FD4E1CB237F98A0008816B3 /* RaceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1CA237F98A0008816B3 /* RaceDetailViewController.swift */; };
 		4FD4E1CD237F98E7008816B3 /* RaceTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1CC237F98E7008816B3 /* RaceTabBarController.swift */; };
 		4FD4E1CF237F992B008816B3 /* QRViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FD4E1CE237F992B008816B3 /* QRViewController.swift */; };
@@ -523,7 +523,7 @@
 		4FD4E1C2237F960A008816B3 /* CustomButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomButton.swift; sourceTree = "<group>"; };
 		4FD4E1C4237F9746008816B3 /* UserViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserViewController.swift; sourceTree = "<group>"; };
 		4FD4E1C6237F97AD008816B3 /* ChapterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChapterViewController.swift; sourceTree = "<group>"; };
-		4FD4E1C8237F987C008816B3 /* RaceRosterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceRosterViewController.swift; sourceTree = "<group>"; };
+		4FD4E1C8237F987C008816B3 /* RacePilotsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RacePilotsViewController.swift; sourceTree = "<group>"; };
 		4FD4E1CA237F98A0008816B3 /* RaceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceDetailViewController.swift; sourceTree = "<group>"; };
 		4FD4E1CC237F98E7008816B3 /* RaceTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceTabBarController.swift; sourceTree = "<group>"; };
 		4FD4E1CE237F992B008816B3 /* QRViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRViewController.swift; sourceTree = "<group>"; };
@@ -1110,7 +1110,7 @@
 				4F6CAD8C2983040100E80B5F /* ChapterPickerViewController.swift */,
 				4FD4E1CC237F98E7008816B3 /* RaceTabBarController.swift */,
 				4FD4E1CA237F98A0008816B3 /* RaceDetailViewController.swift */,
-				4FD4E1C8237F987C008816B3 /* RaceRosterViewController.swift */,
+				4FD4E1C8237F987C008816B3 /* RacePilotsViewController.swift */,
 				4FD4E1E02380AC37008816B3 /* RaceResultsViewController.swift */,
 				4FC50257242700DC0088320B /* RacePilotsPickerController.swift */,
 				4F004E9F295AA641009C46AA /* RaceFormViewController.swift */,
@@ -1672,7 +1672,7 @@
 				4F65D8E02574F6CF00C506C3 /* TrackListViewController.swift in Sources */,
 				4F9DB7AC23D5A1DE00570483 /* EmptyStateViewModel.swift in Sources */,
 				4F0B61452385F66300930D91 /* ProfileHeaderView.swift in Sources */,
-				4FD4E1C9237F987C008816B3 /* RaceRosterViewController.swift in Sources */,
+				4FD4E1C9237F987C008816B3 /* RacePilotsViewController.swift in Sources */,
 				4F9A888F2975E6D700B52092 /* Race+UIExtensions.swift in Sources */,
 				4FDF0062259045C5006964DB /* TrackElementHeaderView.swift in Sources */,
 				4F8668FC23870E1E005E310A /* SegmentedTableViewHeaderView.swift in Sources */,
