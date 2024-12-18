@@ -30,7 +30,6 @@
 		4F1342482360B67D00A9DBDE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1342472360B67D00A9DBDE /* AppDelegate.swift */; };
 		4F13424D2360B67D00A9DBDE /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F13424B2360B67D00A9DBDE /* Main.storyboard */; };
 		4F1342522360B67D00A9DBDE /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4F1342502360B67D00A9DBDE /* LaunchScreen.storyboard */; };
-		4F13425D2360B67E00A9DBDE /* RaceSyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13425C2360B67E00A9DBDE /* RaceSyncTests.swift */; };
 		4F1342762360DA4C00A9DBDE /* RaceSyncAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */; };
 		4F13427D2360DA4C00A9DBDE /* RaceSyncAPITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F13427C2360DA4C00A9DBDE /* RaceSyncAPITests.swift */; };
 		4F13427F2360DA4C00A9DBDE /* RaceSyncAPI.h in Headers */ = {isa = PBXBuildFile; fileRef = 4F13426F2360DA4B00A9DBDE /* RaceSyncAPI.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -252,13 +251,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		4F1342592360B67E00A9DBDE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 4F13423C2360B67D00A9DBDE /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4F1342432360B67D00A9DBDE;
-			remoteInfo = RaceSync;
-		};
 		4F1342772360DA4C00A9DBDE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4F13423C2360B67D00A9DBDE /* Project object */;
@@ -346,9 +338,6 @@
 		4F13424E2360B67D00A9DBDE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4F1342512360B67D00A9DBDE /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		4F1342532360B67D00A9DBDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		4F1342582360B67E00A9DBDE /* RaceSyncTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RaceSyncTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		4F13425C2360B67E00A9DBDE /* RaceSyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSyncTests.swift; sourceTree = "<group>"; };
-		4F13425E2360B67E00A9DBDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = RaceSyncAPI.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F13426F2360DA4B00A9DBDE /* RaceSyncAPI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RaceSyncAPI.h; sourceTree = "<group>"; };
 		4F1342702360DA4B00A9DBDE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -594,13 +583,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4F1342552360B67E00A9DBDE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4F13426A2360DA4B00A9DBDE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -668,7 +650,6 @@
 			isa = PBXGroup;
 			children = (
 				4F1342462360B67D00A9DBDE /* RaceSync */,
-				4F13425B2360B67E00A9DBDE /* RaceSyncTests */,
 				4F13426E2360DA4B00A9DBDE /* RaceSyncAPI */,
 				4F13427B2360DA4C00A9DBDE /* RaceSyncAPITests */,
 				4F95B7492596967E00631A27 /* RaceSyncWatch */,
@@ -683,7 +664,6 @@
 			isa = PBXGroup;
 			children = (
 				4F1342442360B67D00A9DBDE /* RaceSync.app */,
-				4F1342582360B67E00A9DBDE /* RaceSyncTests.xctest */,
 				4F13426D2360DA4B00A9DBDE /* RaceSyncAPI.framework */,
 				4F1342752360DA4C00A9DBDE /* RaceSyncAPITests.xctest */,
 				4F95B7482596967E00631A27 /* RaceSyncWatch.app */,
@@ -715,15 +695,6 @@
 				4F1342532360B67D00A9DBDE /* Info.plist */,
 			);
 			path = RaceSync;
-			sourceTree = "<group>";
-		};
-		4F13425B2360B67E00A9DBDE /* RaceSyncTests */ = {
-			isa = PBXGroup;
-			children = (
-				4F13425C2360B67E00A9DBDE /* RaceSyncTests.swift */,
-				4F13425E2360B67E00A9DBDE /* Info.plist */,
-			);
-			path = RaceSyncTests;
 			sourceTree = "<group>";
 		};
 		4F1342672360DA3200A9DBDE /* Login */ = {
@@ -1308,26 +1279,6 @@
 			productReference = 4F1342442360B67D00A9DBDE /* RaceSync.app */;
 			productType = "com.apple.product-type.application";
 		};
-		4F1342572360B67E00A9DBDE /* RaceSyncTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 4F1342642360B67E00A9DBDE /* Build configuration list for PBXNativeTarget "RaceSyncTests" */;
-			buildPhases = (
-				F32E12E2B725B5B905A4B552 /* [CP] Check Pods Manifest.lock */,
-				4F1342542360B67E00A9DBDE /* Sources */,
-				4F1342552360B67E00A9DBDE /* Frameworks */,
-				4F1342562360B67E00A9DBDE /* Resources */,
-				3270223B505133F0FBCDFAD8 /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				4F13425A2360B67E00A9DBDE /* PBXTargetDependency */,
-			);
-			name = RaceSyncTests;
-			productName = RaceSyncTests;
-			productReference = 4F1342582360B67E00A9DBDE /* RaceSyncTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		4F13426C2360DA4B00A9DBDE /* RaceSyncAPI */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 4F1342842360DA4C00A9DBDE /* Build configuration list for PBXNativeTarget "RaceSyncAPI" */;
@@ -1401,9 +1352,6 @@
 						CreatedOnToolsVersion = 10.3;
 						LastSwiftMigration = 1130;
 					};
-					4F1342572360B67E00A9DBDE = {
-						CreatedOnToolsVersion = 10.3;
-					};
 					4F13426C2360DA4B00A9DBDE = {
 						CreatedOnToolsVersion = 10.3;
 						LastSwiftMigration = 1030;
@@ -1430,7 +1378,6 @@
 			projectRoot = "";
 			targets = (
 				4F1342432360B67D00A9DBDE /* RaceSync */,
-				4F1342572360B67E00A9DBDE /* RaceSyncTests */,
 				4F13426C2360DA4B00A9DBDE /* RaceSyncAPI */,
 				4F1342742360DA4C00A9DBDE /* RaceSyncAPITests */,
 				4F95B7472596967E00631A27 /* RaceSyncWatch */,
@@ -1473,13 +1420,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4F1342562360B67E00A9DBDE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4F13426B2360DA4B00A9DBDE /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1507,23 +1447,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		3270223B505133F0FBCDFAD8 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RaceSyncTests/Pods-RaceSyncTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-RaceSyncTests/Pods-RaceSyncTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RaceSyncTests/Pods-RaceSyncTests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
 		3B4D116BF1F8D1B8A506C31E /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -1630,24 +1553,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RaceSyncAPITests/Pods-RaceSyncAPITests-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F32E12E2B725B5B905A4B552 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-RaceSyncTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
 		F7816CC3BA8A6D055CAAC036 /* [CP] Check Pods Manifest.lock */ = {
@@ -1810,14 +1715,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		4F1342542360B67E00A9DBDE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				4F13425D2360B67E00A9DBDE /* RaceSyncTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		4F1342692360DA4B00A9DBDE /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1914,11 +1811,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		4F13425A2360B67E00A9DBDE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 4F1342432360B67D00A9DBDE /* RaceSync */;
-			targetProxy = 4F1342592360B67E00A9DBDE /* PBXContainerItemProxy */;
-		};
 		4F1342782360DA4C00A9DBDE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4F13426C2360DA4B00A9DBDE /* RaceSyncAPI */;
@@ -2156,50 +2048,6 @@
 			};
 			name = Release;
 		};
-		4F1342652360B67E00A9DBDE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 935E289DD2B5422FABA6329D /* Pods-RaceSyncTests.debug.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = RaceSyncTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Debug;
-		};
-		4F1342662360B67E00A9DBDE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9C8FF42CD75D17C9607E692D /* Pods-RaceSyncTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				INFOPLIST_FILE = RaceSyncTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.multigp.RaceSyncTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SUPPORTS_MACCATALYST = NO;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = 1;
-			};
-			name = Release;
-		};
 		4F1342852360DA4C00A9DBDE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 40DB5CAFF0B302311BAF739B /* Pods-RaceSyncAPI.debug.xcconfig */;
@@ -2394,15 +2242,6 @@
 			buildConfigurations = (
 				4F1342622360B67E00A9DBDE /* Debug */,
 				4F1342632360B67E00A9DBDE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		4F1342642360B67E00A9DBDE /* Build configuration list for PBXNativeTarget "RaceSyncTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4F1342652360B67E00A9DBDE /* Debug */,
-				4F1342662360B67E00A9DBDE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
