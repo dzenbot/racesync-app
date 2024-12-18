@@ -1,7 +1,7 @@
 
 # App Store Release Notes
 
-## 1.3
+## 1.5.1
 
 ### New Features:
 

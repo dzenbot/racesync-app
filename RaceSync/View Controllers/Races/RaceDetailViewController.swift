@@ -400,7 +400,7 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
         }
 
         if race.liveTimeEventUrl != nil {
-            tableViewRows += [Row.liveFPV]
+            tableViewRows += [Row.viewOn]
         }
     }
 
@@ -472,9 +472,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func configureNavigationItems() {
-        title = "Race Details"
-
-        tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
+        title = "Details"
+        tabBarItem = UITabBarItem(title: self.title, image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
 
         var buttons = [UIButton]()
 
@@ -805,7 +804,7 @@ extension RaceDetailViewController: UITableViewDelegate {
             showSeasonRaces(cell)
         } else if row == .zippyQ {
             openZippyQSchedule(cell)
-        } else if row == .liveFPV {
+        } else if row == .viewOn {
             openLiveFPV(cell)
         }
 
@@ -838,7 +837,7 @@ extension RaceDetailViewController: UITableViewDataSource {
             cell.detailTextLabel?.text = raceViewModel.seasonLabel
         } else if row == .zippyQ {
             cell.detailTextLabel?.text = "multigp.com"
-        } else if row == .liveFPV, let url = race.liveTimeEventUrl {
+        } else if row == .viewOn, let url = race.liveTimeEventUrl {
             cell.detailTextLabel?.text = URL(string: url)?.host ?? ""
         }
 
@@ -917,7 +916,7 @@ extension RaceDetailViewController: MKMapViewDelegate {
 }
 
 fileprivate enum Row: Int, EnumTitle, CaseIterable {
-    case `class`, chapter, owner, season, zippyQ, liveFPV
+    case `class`, chapter, owner, season, zippyQ, viewOn
 
     var title: String {
         switch self {
@@ -926,7 +925,7 @@ fileprivate enum Row: Int, EnumTitle, CaseIterable {
         case .owner:            return "Coordinator"
         case .season:           return "Season"
         case .zippyQ:           return "ZippyQ Schedule"
-        case .liveFPV:          return "Race Results"
+        case .viewOn:           return "View On"
         }
     }
 }
