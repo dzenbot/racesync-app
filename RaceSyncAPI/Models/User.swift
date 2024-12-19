@@ -55,7 +55,7 @@ public class User: Mappable, Descriptable {
         profilePictureUrl <- map[ParamKey.profilePictureUrl]
         profileBackgroundUrl <- map[ParamKey.profileBackgroundUrl]
         authType <- map[ParamKey.authType]
-        url = "https://www.multigp.com/pilots/view/?pilot=\(userName)"
+        url = MGPWeb.getUrl(for: .userView, value: userName)
 
         city <- map[ParamKey.city]
         state <- map[ParamKey.state]
