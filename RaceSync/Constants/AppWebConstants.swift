@@ -14,24 +14,20 @@ public class AppWebConstants {
     static let passwordReset = "https://www.multigp.com/initiatepasswordreset"
     static let accountRegistration = "https://www.multigp.com/register"
     static let termsOfUse = "https://www.multigp.com/terms-of-use/"
-    static let shop = "https://www.multigp.com/shop/"
-
-    static let feedbackPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSfY9qr-5I7JYtQ5s5UsVflMyXu-iW3-InzG03qAJOwGv9P1Tg/viewform"
-    static let feedbackRepo = "https://github.com/MultiGP/community-report/issues"
+    static let shop = "https://shop.multigp.com/"
+    static let courseObstaclesDoc = "https://www.multigp.com/multigp-drone-race-course-obstacles/"
+    static let seasonRulesDoc = "https://www.multigp.com/organizer-resources/rule-book/"
 
     static let utt1LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSelYrIpRIe9fklG2Bqkqqxe_U94OelGqQZe8WkVtFFqXBP1Cw/viewform"
     static let utt3LapPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLScZCVu5TOacjjXrSWb3dof2t3amD6LA3biaNETWgyc9zK7LVA/viewform"
-
-    static let courseObstaclesDoc = "https://www.multigp.com/multigp-drone-race-course-obstacles/"
-    static let seasonRulesDoc = "https://docs.google.com/document/d/1jWVjCnoIGdW1j_bklrbg-0D24c3x6YG5m_vmF7faG-U/"
-
     static let gqValidationFeet = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-feet/"
     static let gqValidationMeters = "https://www.multigp.com/championships/2020-qualifier-track-dimension-worksheet-meters/"
 
-    static let betaSignup = "https://testflight.apple.com/join/BRXIQJLb"
-
     static let livefpv = "https://livefpv.com/"
     static let fpvscores = "https://fpvscores.com/"
+
+    static let feedbackPrefilledForm = "https://docs.google.com/forms/d/e/1FAIpQLSfY9qr-5I7JYtQ5s5UsVflMyXu-iW3-InzG03qAJOwGv9P1Tg/viewform"
+    static let betaSignup = "https://testflight.apple.com/join/BRXIQJLb"
 }
 
 extension AppWebConstants {
