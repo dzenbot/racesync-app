@@ -30,7 +30,7 @@ public class MGPWeb {
 
         var baseUrl = constant.rawValue
         if APIServices.shared.settings.isDev {
-            baseUrl = constant.rawValue.replacingOccurrences(of: "www", with: "ppt")
+            baseUrl = constant.rawValue.replacingOccurrences(of: "www", with: "dev")
         }
 
         if let value = value {

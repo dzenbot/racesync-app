@@ -137,7 +137,7 @@ class LoginViewController: UIViewController {
     }
 
     fileprivate var titleText: String? {
-        return APIServices.shared.settings.isDev ? "Login with ppt.MultiGP" : "Login with MultiGP"
+        return APIServices.shared.settings.isDev ? "Login with dev.MultiGP" : "Login with MultiGP"
     }
 
     fileprivate enum Constants {

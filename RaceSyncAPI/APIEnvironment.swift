@@ -14,12 +14,7 @@ public enum APIEnvironment: Int {
     public var title: String {
         switch self {
         case .prod:     return "Prod"
-        case .dev:      return "PPT"
+        case .dev:      return "Dev"
         }
     }
-}
-
-public enum APIReleaseStage: String {
-    case alpha = "alpha"
-    case development = "development"
 }
