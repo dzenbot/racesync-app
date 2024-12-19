@@ -475,7 +475,18 @@ fileprivate extension RaceFeedViewController {
 
     func loadMyManagedChapters() {
         chapterApi.getMyManagedChapters { (managedChapters, error) in
-            APIServices.shared.myManagedChapters = managedChapters
+
+            guard let chapters = managedChapters else {
+                APIServices.shared.myManagedChapters = []
+                return
+            }
+
+            // Remove duplicated managed chapters, if any, and sorting alphabetically
+            let uniqueChapters = Dictionary(grouping: chapters, by: \.id)
+                .compactMap { $0.value.first }
+                .sorted { $0.name.localizedCaseInsensitiveCompare($1.name) == .orderedAscending }
+
+            APIServices.shared.myManagedChapters = uniqueChapters
         }
     }
 
