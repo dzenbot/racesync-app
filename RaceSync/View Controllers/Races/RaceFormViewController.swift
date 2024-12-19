@@ -479,6 +479,7 @@ extension RaceFormViewController: UITableViewDelegate {
             showTextField(forRow: row)
         } else if row.formType == .datePicker {
             showDatePicker(forRow: row, pushed: false)
+            showDatePicker(forRow: row, pushed: false)
         } else if row.formType == .textPicker {
             if row == .season {
                 showSeasonPicker(for: row, cell: cell)

@@ -17,15 +17,16 @@ public struct RaceData: Descriptable {
     public var chapterId: String
     public var chapterName: String
 
+    // Default race values, useful for new race creation
     public var raceClass: String = RaceClass.open.rawValue
-    public var format: String = ScoringFormat.aggregateLap.rawValue
+    public var format: String = ScoringFormat.fastest3Laps.rawValue
     public var qualifying: String = QualifyingType.controlled.rawValue
     public var privacy: String = EventType.public.rawValue
-    public var status: String = RaceStatus.closed.rawValue
-
+    public var status: String = RaceStatus.open.rawValue
     public var funfly: Bool = false
     public var timing: Bool = true
     public var rounds: Int32 = 5
+
     public var seasonId: String? = nil
     public var seasonName: String? = nil
     public var courseId: String? = nil
