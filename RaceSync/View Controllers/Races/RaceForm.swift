@@ -55,7 +55,7 @@ enum RaceFormRow: Int, EnumTitle {
         case .season:       return "Season"
         case .location:     return "Location"
         case .shortDesc:    return "Short Description"
-        case .longDesc:     return "Long Description"
+        case .longDesc:     return "Description"
         case .itinerary:    return "Itinerary Content"
         case .notify:       return "Send Notification? **"
         }
