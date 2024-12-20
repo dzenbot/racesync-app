@@ -55,8 +55,6 @@ class RaceTabBarController: UITabBarController {
         return button
     }()
 
-    let isResultsTabEnabled: Bool = false
-
     fileprivate lazy var activityIndicatorView: UIActivityIndicatorView = {
         return UIActivityIndicatorView(style: .medium)
     }()
@@ -133,10 +131,6 @@ class RaceTabBarController: UITabBarController {
         var vcs = [UIViewController]()
         vcs += [RaceDetailViewController(with: race)]
         vcs += [RacePilotsViewController(with: race)]
-
-        if isResultsTabEnabled {
-            vcs += [RaceResultsViewController(with: race)]
-        }
 
         for vc in vcs { vc.willMove(toParent: self) }
         viewControllers = vcs
@@ -215,7 +209,7 @@ extension RaceTabBarController {
 
         isLoading = true
 
-        raceApi.viewSimple(race: raceId) { [weak self] (race, error) in
+        raceApi.view(race: raceId) { [weak self] (race, error) in
             self?.isLoading = false
 
             if let race = race {
@@ -230,7 +224,7 @@ extension RaceTabBarController {
     func reloadRaceView() {
         guard !isLoading else { return }
 
-        raceApi.viewSimple(race: raceId) { [weak self] (race, error) in
+        raceApi.view(race: raceId) { [weak self] (race, error) in
             guard let race = race, let vcs = self?.viewControllers else { return }
 
             self?.race = race

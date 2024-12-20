@@ -25,4 +25,13 @@ public extension Race {
         guard raceType == .normal else { return false }
         return true
     }
+
+    var isGQ: Bool {
+        guard raceType == .qualifier else { return false }
+        return true
+    }
+
+    var trueScoringFormat: ScoringFormat {
+        return isGQ ? .fastest3Laps : scoringFormat
+    }
 }

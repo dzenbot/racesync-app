@@ -472,8 +472,8 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func configureNavigationItems() {
-        title = "Details"
-        tabBarItem = UITabBarItem(title: self.title, image: UIImage(named: "icn_tabbar_details"), selectedImage: UIImage(named: "icn_tabbar_details_selected"))
+        title = "Race Details"
+        tabBarItem = UITabBarItem(title: "Details", image: UIImage(named: "icn_tabbar_details"), selectedImage: nil)
 
         var buttons = [UIButton]()
 

@@ -14,21 +14,21 @@ class UserViewModel: Descriptable {
 
     let user: User?
     let raceEntry: RaceEntry?
+    let resultEntry: ResultEntry?
 
     let username: String
-    let pilotName: String
     let displayName: String
     let fullName: String
     let pictureUrl: String?
 
     init(with user: User) {
         self.userId = user.id
-        self.raceEntry = nil
         self.user = user
+        self.raceEntry = nil
+        self.resultEntry = nil
 
         self.username = user.userName
-        self.pilotName = ViewModelHelper.titleLabel(for: user.userName, country: user.country)
-        self.displayName = user.displayName
+        self.displayName = ViewModelHelper.titleLabel(for: user.userName, country: user.country)
         self.fullName = "\(user.firstName.capitalized) \(user.lastName.capitalized)"
         self.pictureUrl = user.profilePictureUrl
     }
@@ -41,21 +41,41 @@ class UserViewModel: Descriptable {
         return viewModels
     }
 
-    init(with raceEntry: RaceEntry) {
-        self.userId = raceEntry.pilotId
-        self.raceEntry = raceEntry
+    init(with entry: RaceEntry) {
+        self.userId = entry.pilotId
         self.user = nil
+        self.raceEntry = entry
+        self.resultEntry = nil
 
-        self.username = raceEntry.userName
-        self.pilotName = ViewModelHelper.titleLabel(for: raceEntry.userName)
-        self.displayName = raceEntry.displayName
-        self.fullName = "\(raceEntry.firstName.capitalized) \(raceEntry.lastName.capitalized)"
-        self.pictureUrl = raceEntry.profilePictureUrl
+        self.username = entry.userName
+        self.displayName = entry.displayName
+        self.fullName = "\(entry.firstName.capitalized) \(entry.lastName.capitalized)"
+        self.pictureUrl = entry.profilePictureUrl
     }
 
-    static func viewModels(with objects:[RaceEntry]) -> [UserViewModel] {
+    init(with entry: ResultEntry) {
+        self.userId = entry.pilotId
+        self.user = nil
+        self.raceEntry = nil
+        self.resultEntry = entry
+
+        self.username = entry.userName
+        self.displayName = entry.displayName
+        self.fullName = "\(entry.firstName.capitalized) \(entry.lastName.capitalized)"
+        self.pictureUrl = entry.profilePictureUrl
+    }
+
+    static func viewModelsFromEntries(_ entries: [RaceEntry]) -> [UserViewModel] {
         var viewModels = [UserViewModel]()
-        for object in objects {
+        for object in entries {
+            viewModels.append(UserViewModel(with: object))
+        }
+        return viewModels
+    }
+
+    static func viewModelsFromResults(_ results: [ResultEntry]) -> [UserViewModel] {
+        var viewModels = [UserViewModel]()
+        for object in results {
             viewModels.append(UserViewModel(with: object))
         }
         return viewModels

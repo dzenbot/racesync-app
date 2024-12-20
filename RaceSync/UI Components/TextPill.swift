@@ -8,7 +8,7 @@
 
 import UIKit
 
-class TextBadge: UIView {
+class TextPill: UIView {
 
     // MARK: - Public Variables
 

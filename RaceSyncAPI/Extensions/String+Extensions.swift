@@ -40,6 +40,26 @@ public extension String {
         }
         return newString
     }
+
+    func extractNumber() -> String? {
+        // Regular expression to match a number (integer or decimal)
+        let pattern = "\\d+(\\.\\d+)?"
+
+        do {
+            let regex = try NSRegularExpression(pattern: pattern)
+            let range = NSRange(location: 0, length: self.utf16.count)
+
+            if let match = regex.firstMatch(in: self, range: range) {
+                if let range = Range(match.range, in: self) {
+                    return String(self[range])
+                }
+            }
+        } catch {
+            print("Invalid regex pattern: \(error.localizedDescription)")
+        }
+
+        return nil
+    }
 }
 
 public extension String {

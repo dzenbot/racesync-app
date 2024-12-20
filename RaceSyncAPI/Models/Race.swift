@@ -21,9 +21,9 @@ public class Race: Mappable, Joinable, Descriptable {
     public var status: RaceStatus = .open
     public var isJoined: Bool = false
     public var type: EventType = .public
-    public var scoringFormat: ScoringFormat = .aggregateLap
+    public var scoringFormat: ScoringFormat = .fastest3Laps
     public var raceClass: RaceClass = .open
-    public var raceClassString: String = "Open"
+    public var raceClassString: String = RaceClass.open.title
     public var raceType: RaceType = .normal
     public var officialStatus: RaceOfficialStatus = .normal
     public var scoringDisabled: Bool = false
@@ -72,15 +72,16 @@ public class Race: Mappable, Joinable, Descriptable {
     public var batteryRestriction: String = ""
     public var propSizeRestriction: String = ""
 
-    public var races: [RaceLite]? = nil
     public var entries: [RaceEntry]? = nil
+    public var schedule: RaceSchedule? = nil
+    public var results: [ResultEntry]? = nil
 
     public static let nameMinLength: Int = 3
     public static let nameMaxLength: Int = 50
 
     // MARK: - Initialization
 
-    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name, ParamKey.chapterId, ParamKey.ownerId]
+    fileprivate static let requiredProperties = [/*ParamKey.id, */ParamKey.name, ParamKey.chapterId, ParamKey.ownerId]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -160,31 +161,8 @@ public class Race: Mappable, Joinable, Descriptable {
         batteryRestriction <- map[ParamKey.batteryRestriction]
         propSizeRestriction <- map[ParamKey.propellerSizeRestriction]
 
-        races <- map[ParamKey.races]
         entries <- map[ParamKey.entries]
-    }
-}
-
-public class RaceLite: Mappable, Descriptable {
-
-    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.name]
-
-    public var id: String = ""
-    public var name: String = ""
-
-    // MARK: - Initialization
-
-    public required convenience init?(map: Map) {
-        for requiredProperty in RaceLite.requiredProperties {
-            if map.JSON[requiredProperty] == nil { return nil }
-        }
-
-        self.init()
-        self.mapping(map: map)
-    }
-
-    public func mapping(map: Map) {
-        id <- map[ParamKey.id]
-        name <- map[ParamKey.name]
+        schedule <- map[ParamKey.schedule]
+        results = ResultEntry.resultEntries(from: schedule)
     }
 }

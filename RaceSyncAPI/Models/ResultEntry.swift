@@ -1,40 +1,38 @@
 //
-//  RaceEntry.swift
+//  ResultEntry.swift
 //  RaceSyncAPI
 //
-//  Created by Ignacio Romero Zurbuchen on 2019-12-11.
-//  Copyright © 2019 MultiGP Inc. All rights reserved.
+//  Created by Ignacio Romero Zurbuchen on 2024-12-18.
+//  Copyright © 2024 MultiGP Inc. All rights reserved.
 //
 
 import Foundation
 import ObjectMapper
 
-public class RaceEntry: Mappable, Descriptable {
+public class ResultEntry: Mappable, Descriptable {
 
     public var id: ObjectId = ""
+    public var raceEntryId: ObjectId = ""
     public var pilotId: ObjectId = ""
+
     public var pilotUserName: String = ""
     public var pilotName: String = ""
     public var userName: String = ""
     public var displayName: String = ""
     public var firstName: String = ""
     public var lastName: String = ""
-    public var score: String?
     public var profilePictureUrl: String?
 
-    public var frequency: String = ""
-    public var group: String = ""
-    public var groupSlot: String = ""
-    public var band: String = ""
-    public var channel: String = ""
-    public var videoTxType: VideoTxType = .´5800mhz´ // Analog 5.8GHz default
+    public var score: String? // Make number
+    public var totalLaps: String? // Make number
+    public var totalTime: String?
+    public var fastest3Laps: String?
+    public var fastest2Laps: String?
+    public var fastestLap: String?
 
-    public var aircraftId: String = ""
-    public var aircraftName: String = ""
+    public var roundName: String?
 
-    // MARK: - Initialization
-
-    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.pilotId, ParamKey.aircraftId]
+    fileprivate static let requiredProperties = [ParamKey.id, ParamKey.raceEntryId, ParamKey.pilotId]
 
     public required convenience init?(map: Map) {
         for requiredProperty in Self.requiredProperties {
@@ -47,24 +45,31 @@ public class RaceEntry: Mappable, Descriptable {
 
     public func mapping(map: Map) {
         id <- map[ParamKey.id]
+        raceEntryId <- map[ParamKey.raceEntryId]
         pilotId <- map[ParamKey.pilotId]
+
         pilotUserName <- (map[ParamKey.pilotUserName], MapperUtil.stringTransform)
         pilotName <- (map[ParamKey.pilotName], MapperUtil.stringTransform)
         userName <- (map[ParamKey.userName], MapperUtil.stringTransform)
         displayName <- (map[ParamKey.displayName], MapperUtil.stringTransform)
         firstName <- (map[ParamKey.firstName], MapperUtil.stringTransform)
         lastName <- (map[ParamKey.lastName], MapperUtil.stringTransform)
-        score <- map[ParamKey.score]
         profilePictureUrl <- map[ParamKey.profilePictureUrl]
 
-        frequency <- map[ParamKey.frequency]
-        group <- map[ParamKey.group]
-        groupSlot <- map[ParamKey.groupSlot]
-        band <- map[ParamKey.band]
-        channel <- map[ParamKey.channel]
-        videoTxType <- (map[ParamKey.videoTransmitter],EnumTransform<VideoTxType>())
+        score <- map[ParamKey.score]
+        totalLaps <- map[ParamKey.totalLaps]
+        totalTime <- map[ParamKey.totalTime]
+        fastest3Laps <- map[ParamKey.fastest3Laps]
+        fastest2Laps <- map[ParamKey.fastest2Laps]
+        fastestLap <- map[ParamKey.fastestLap]
+    }
+}
 
-        aircraftId <- map[ParamKey.aircraftId]
-        aircraftName <- (map[ParamKey.aircraftName], MapperUtil.stringTransform)
+extension ResultEntry {
+
+    static func resultEntries(from schedule: RaceSchedule?) -> [ResultEntry] {
+        return schedule?.rounds
+            .flatMap { $0.heats }
+            .flatMap { $0.entries } ?? []
     }
 }

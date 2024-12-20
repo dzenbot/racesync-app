@@ -340,7 +340,7 @@ extension ChapterViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(forIndexPath: indexPath) as AvatarTableViewCell
         guard let viewModel = userViewModel(for: indexPath.row) else { return cell }
 
-        cell.titleLabel.text = viewModel.pilotName
+        cell.titleLabel.text = viewModel.displayName
         cell.avatarImageView.imageView.setImage(with: viewModel.pictureUrl, placeholderImage: PlaceholderImg.medium, size: Constants.avatarImageSize)
         cell.subtitleLabel.text = viewModel.fullName
         return cell
