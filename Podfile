@@ -1,4 +1,4 @@
-platform :ios, '13.0'
+platform :ios, '14.0'
 use_frameworks!
 
 # ignore all warnings from all pods
@@ -60,7 +60,7 @@ end
 post_install do |installer|
     installer.pods_project.targets.each do |target|
       target.build_configurations.each do |config|
-        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '13.0'
+        config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '14.0'
       end
     end
 
@@ -70,7 +70,6 @@ post_install do |installer|
               config.build_settings['EXPANDED_CODE_SIGN_IDENTITY'] = ""
               config.build_settings['CODE_SIGNING_REQUIRED'] = "NO"
               config.build_settings['CODE_SIGNING_ALLOWED'] = "NO"
-#              config.build_settings["DEVELOPMENT_TEAM"] = "TJ4PB66YQS"
             end
         end
     end
