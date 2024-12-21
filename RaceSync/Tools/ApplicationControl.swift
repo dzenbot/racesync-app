@@ -33,7 +33,6 @@ class ApplicationControl: NSObject {
         }
 
         APIServices.shared.invalidate()
-        CrashCatcher.invalidateUser()
         invalidateWatchSession()
 
         // dismisses the presented view and displays the login screen view instead

@@ -34,15 +34,9 @@ end
 def shared_pods
   # Dev Tools
   pod 'SwiftLint'
-  pod 'Sentry'
 end
 
 target 'RaceSync' do
-  app_pods
-  shared_pods
-end
-
-target 'RaceSyncTests' do
   app_pods
   shared_pods
 end

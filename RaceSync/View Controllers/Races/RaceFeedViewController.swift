@@ -455,8 +455,6 @@ fileprivate extension RaceFeedViewController {
                 self?.loadMyHomeChapter(user.homeChapterId)
                 self?.loadMyManagedChapters()
                 self?.updateUserProfileImage()
-
-                CrashCatcher.setupUser(user.id, username: user.userName)
             } else if error != nil {
                 // This is somewhat the best way to detect an invalid session
                 ApplicationControl.shared.invalidateSession(forced: false)

@@ -3,8 +3,6 @@ ${BUILT_PRODUCTS_DIR}/EmptyDataSet-Swift/EmptyDataSet_Swift.framework
 ${BUILT_PRODUCTS_DIR}/PickerView/PickerView.framework
 ${BUILT_PRODUCTS_DIR}/Presentr/Presentr.framework
 ${BUILT_PRODUCTS_DIR}/QRCode/QRCode.framework
-${BUILT_PRODUCTS_DIR}/Sentry/Sentry.framework
-${BUILT_PRODUCTS_DIR}/SentryPrivate/SentryPrivate.framework
 ${BUILT_PRODUCTS_DIR}/ShimmerSwift/ShimmerSwift.framework
 ${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework
 ${BUILT_PRODUCTS_DIR}/SwiftValidators/SwiftValidators.framework
