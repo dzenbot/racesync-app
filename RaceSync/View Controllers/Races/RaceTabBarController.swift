@@ -19,6 +19,10 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Public Variables
 
+    var raceId: ObjectId
+    var race: Race?
+    var raceOwnerName: String?
+
     var isDismissable: Bool = false {
         didSet {
             if isDismissable {
@@ -60,12 +64,9 @@ class RaceTabBarController: UITabBarController {
     }()
 
     fileprivate var initialSelectedIndex: Int = RaceTabs.event.rawValue
+    fileprivate var emptyStateError: EmptyStateViewModel?
 
     fileprivate let raceApi = RaceApi()
-    fileprivate var raceId: ObjectId
-    fileprivate var race: Race?
-
-    fileprivate var emptyStateError: EmptyStateViewModel?
 
     fileprivate enum Constants {
         static let padding: CGFloat = UniversalConstants.padding
@@ -73,14 +74,16 @@ class RaceTabBarController: UITabBarController {
 
     // MARK: - Initialization
 
-    init(with raceId: ObjectId) {
+    init(with raceId: ObjectId, ownerName: String? = nil) {
         self.raceId = raceId
+        self.raceOwnerName = ownerName
         super.init(nibName: nil, bundle: nil)
     }
 
     init(with race: Race) {
         self.race = race
         self.raceId = race.id
+        self.raceOwnerName = race.ownerUserName
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -171,11 +174,10 @@ class RaceTabBarController: UITabBarController {
         guard let race = race else { return }
 
         let btnTitle = titleButton.title(for: .normal)
-        let id = race.id
 
         if btnTitle == title {
-            titleButton.setTitle(id, for: .normal)
-        } else if btnTitle == id {
+            titleButton.setTitle(raceId, for: .normal)
+        } else if btnTitle == raceId {
             titleButton.setTitle(title, for: .normal)
         }
     }

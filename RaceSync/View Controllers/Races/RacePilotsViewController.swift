@@ -99,8 +99,9 @@ class RacePilotsViewController: UIViewController, ViewJoinable, RaceTabbable {
 
     fileprivate func configureNavigationItems() {
 
-        title = shouldShowResults ? "Results" : "Racing"
-        tabBarItem = UITabBarItem(title: title, image: UIImage(named: "icn_tabbar_roster"), selectedImage: nil)
+        title = shouldShowResults ? "Results" : "Pilots"
+        let itemTitle = shouldShowResults ? "Race Results" : "Racing Pilots"
+        tabBarItem = UITabBarItem(title: itemTitle, image: UIImage(named: "icn_tabbar_roster"), selectedImage: nil)
 
         if race.isMyChapter {
             navigationItem.rightBarButtonItem = UIBarButtonItem(image: ButtonImg.edit, style: .done, target: self, action: #selector(didPressEditButton))
@@ -186,7 +187,7 @@ extension RacePilotsViewController: UITableViewDelegate {
                 return race.scoringFormat.title
             }
         } else {
-            return "Registered Pilots"
+            return nil
         }
     }
 

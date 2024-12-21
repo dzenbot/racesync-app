@@ -84,8 +84,6 @@ fileprivate extension ResultEntryViewModel {
         var resultLabel: String = ""
 
         // Needs at least 1 lap
-        print("lap count \(String(describing: Int(entry.totalLaps ?? "-1")))")
-        
         guard let laps = Int(entry.totalLaps ?? "-1"), laps > 0 else {
             return placeholder
         }
