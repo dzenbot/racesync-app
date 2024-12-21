@@ -31,11 +31,12 @@ class RacePilotsViewController: UIViewController, ViewJoinable, RaceTabbable {
     }()
 
     fileprivate var isLoading: Bool {
-        get {
-            guard let tabBarController = tabBarController as? RaceTabBarController else { return false }
-            return tabBarController.isLoading
-        }
+        get { return tabBarController.isLoading }
         set { }
+    }
+
+    override var tabBarController: RaceTabBarController {
+        return super.tabBarController as! RaceTabBarController
     }
 
     fileprivate var raceApi = RaceApi()
@@ -123,14 +124,13 @@ class RacePilotsViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     fileprivate func reloadRaceView() {
-        guard let tabBarController = tabBarController as? RaceTabBarController else { return }
         tabBarController.reloadRaceView()
     }
 
     // MARK: - Actions
 
     @objc func didPressEditButton() {
-        let vc = RacePilotsPickerController(with: race)
+        let vc = RacePilotsPickerController(with: race, raceId: tabBarController.raceId)
         vc.externalUserViewModels = userViewModels
         vc.delegate = self
 

@@ -39,4 +39,9 @@ public class MGPWeb {
             return baseUrl
         }
     }
+
+    public static func getURL(for constant: MGPWebConstant, value: String? = nil) -> URL? {
+        let url = Self.getUrl(for: constant, value: value)
+        return URL(string: url)
+    }
 }

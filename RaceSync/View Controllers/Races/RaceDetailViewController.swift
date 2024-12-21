@@ -573,7 +573,11 @@ class RaceDetailViewController: UIViewController, ViewJoinable, RaceTabbable {
     }
 
     @objc fileprivate func didPressShareButton() {
-        guard let raceURL = URL(string: race.url) else { return }
+
+        //TODO: hacking the race url, since race.id is missing from Race/View API
+//        guard let raceURL = URL(string: race.url) else { return }
+
+        guard  let raceURL = MGPWeb.getURL(for: .raceView, value: raceId) else { return }
 
         var items: [Any] = [raceURL]
         var activities: [UIActivity] = [CopyLinkActivity()]

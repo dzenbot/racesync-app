@@ -58,6 +58,7 @@ class RacePilotsPickerController: UIViewController, Shimmable {
     }()
 
     fileprivate var race: Race
+    fileprivate var raceId: ObjectId
     fileprivate let raceApi = RaceApi()
     fileprivate var chapterApi = ChapterApi()
     fileprivate var userApi = UserApi()
@@ -85,9 +86,9 @@ class RacePilotsPickerController: UIViewController, Shimmable {
 
     // MARK: - Initialization
 
-    init(with race: Race) {
+    init(with race: Race, raceId: ObjectId) {
         self.race = race
-
+        self.raceId = raceId
         super.init(nibName: nil, bundle: nil)
     }
 
@@ -196,13 +197,13 @@ class RacePilotsPickerController: UIViewController, Shimmable {
 
     fileprivate func forceJoinUser(with id: ObjectId, completion: @escaping JoinStateCompletionBlock) {
 
-        raceApi.forceJoin(race: race.id, pilotId: id) { [weak self] (status, error) in
+        raceApi.forceJoin(race: raceId, pilotId: id) { [weak self] (status, error) in
             guard let strongSelf = self else { return }
 
             if status == true {
                 completion(.joined)
 
-                strongSelf.raceApi.checkIn(race: strongSelf.race.id, pilotId: id) { (raceEntry, error) in
+                strongSelf.raceApi.checkIn(race: strongSelf.raceId, pilotId: id) { (raceEntry, error) in
                     // when joining a race, we checkin to get a frequency assigned
                 }
             } else if let error = error {
@@ -216,7 +217,7 @@ class RacePilotsPickerController: UIViewController, Shimmable {
 
     fileprivate func resignUser(with id: ObjectId, completion: @escaping JoinStateCompletionBlock) {
 
-        raceApi.forceResign(race: race.id, pilotId: id) { (status, error) in
+        raceApi.forceResign(race: raceId, pilotId: id) { (status, error) in
             if status == true {
                 completion(.join)
             } else if let error = error {
